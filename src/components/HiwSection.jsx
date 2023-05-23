@@ -5,7 +5,7 @@ const HiwSection = () => {
     <div className='flex flex-col items-center bg-b8 space-y-8 py-10' >
        <h4 className='font-bold text-3xl' >How it Works</h4>
        
-    <div className='grid grid-cols-12 grid-rows-2 gap-y-10 pl-10 ' >
+    <div className='lg:grid grid-cols-12 grid-rows-2 flex flex-col items-center gap-y-10 lg:pl-10 ' >
      
      {/* Card 1 Start */}
      <div className='col-start-1 col-end-4  flex flex-col space-y-5 items-center rounded-xl justify-center w-[350px] h-[320px] bg-white' >

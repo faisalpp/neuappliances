@@ -13,7 +13,7 @@ const ProductSlider = () => {
     totalSlides={6}
     visibleSlides={1}
     >
-    <ButtonNext className='absolute top-28 left-8 z-40'><div className='hidden lg:flex bg-black/30 hover:bg-cyan-400 px-2 py-2 rounded-full text-white'><BsArrowLeftShort className='text-lg'/></div></ButtonNext>
+    <ButtonNext className='absolute top-28 left-8 z-40'><div className='flex bg-black/30 hover:bg-cyan-400 px-2 py-2 rounded-full text-white'><BsArrowLeftShort className='text-lg'/></div></ButtonNext>
     <Slider>
       <Slide index={0}>
         <img src="p1.png" className='w-full h-full' />
@@ -34,7 +34,7 @@ const ProductSlider = () => {
         <img src="p1.png" className='w-full h-full' />
       </Slide>
     </Slider>
-   <ButtonBack className='absolute top-28 right-8 z-40'><div className='hidden lg:flex bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group'><BsArrowRightShort className='text-xl'/></div></ButtonBack>
+   <ButtonBack className='absolute top-28 right-8 z-40'><div className='flex bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group'><BsArrowRightShort className='text-xl'/></div></ButtonBack>
   </CarouselProvider>    
     </>
   )

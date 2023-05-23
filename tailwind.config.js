@@ -17,6 +17,7 @@ module.exports = {
         'b9':'#016FD0',
         'b10':'#2FB956',
         'b11':'#F5F5F5',
+        'b12':'#2BD35A',
         't1':'#22A6AB',
       },
       fontFamily:{
