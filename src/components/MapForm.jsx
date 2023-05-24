@@ -14,7 +14,7 @@ const MapForm = () => {
        </div>
         <div className='flex justify-center' ><a className='flex items-center cursor-pointer bg-b3 w-full justify-center px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Get Our Best Deals</span><BsArrowRightShort className='text-2xl' /></a></div>
         <div className='hidden justify-center' ><a className='flex items-center cursor-pointer bg-b12 w-full px-4 py-2 justify-center space-x-2 rounded-2xl text-white font-semibold' ><AiOutlineCheckCircle className='text-sm' /><span className='text-xs' >Delivery Available</span></a></div>
-        <div className='flex justify-center' ><a className='flex items-center cursor-pointer bg-red-500 w-max px-4 py-2 justify-center space-x-2 rounded-2xl text-white font-semibold' ><AiOutlineCheckCircle className='text-sm' /><span className='text-xs' >Delivery Not Available - Pickup Only</span></a></div>
+        <div className='hidden justify-center' ><a className='flex items-center cursor-pointer bg-red-500 w-max px-4 py-2 justify-center space-x-2 rounded-2xl text-white font-semibold' ><AiOutlineCheckCircle className='text-sm' /><span className='text-xs' >Delivery Not Available - Pickup Only</span></a></div>
       </div>
 	</div>      
   )
