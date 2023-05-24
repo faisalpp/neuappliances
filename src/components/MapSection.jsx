@@ -117,7 +117,7 @@ const MapSection = () => {
       redirect: "follow",
     };
       try {
-        const response = await fetch(`http://localhost:3030/${zip}`,requestOptions);
+        const response = await fetch(`http://localhost:8000/${zip}`,requestOptions);
         if (response.status === 200) {
           const data = await response.json();
           loadMap(data); // Call the loadMap function with the received data
