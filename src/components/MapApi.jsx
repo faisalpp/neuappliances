@@ -1,10 +1,24 @@
-import React,{useEffect} from 'react'
+import React,{useContext, useEffect} from 'react'
 import { Loader } from "@googlemaps/js-api-loader"
 import {cords} from '../components/cords';
+import MapForm from './MapForm';
+import MobMapForm from './MobMapForm';
 
 const MapApi = () => {
+  const states = useContext(AppContext)
+  const Submit = () => {
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
 
-  const loadMap = async () => {
+    fetch(`http://localhost:3030/${states.input}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {loadMap(result);states.setSuccess(true);states.setError(false)})
+      .catch((error) => {states.setError(true);states.setSuccess(false)});
+  };
+
+  const loadMap = async (input) => {
     const loader = new Loader({
       apiKey: 'AIzaSyBJa7rXLIRQKJPLS6awxh2gG529tDmccMs', // Replace with your own API key
       version: 'weekly', // or specify a specific version (e.g., 'weekly', 'weekly.next', 'beta')
@@ -13,7 +27,7 @@ const MapApi = () => {
     await loader.load();
 
     // Mid of cords
-    var dataArray = cords[78602];
+    var dataArray = cords;
     var midIndex = Math.floor(dataArray.length / 2);
     var midObject = dataArray[midIndex];
     
@@ -44,7 +58,7 @@ const MapApi = () => {
     });
   
     // Define the polygon coordinates
-    const polygonCoordinates = cords[78602];
+    const polygonCoordinates = [input];
   
     // Create the polygon
     const polygon = new window.google.maps.Polygon({
@@ -56,20 +70,22 @@ const MapApi = () => {
       fillOpacity: 0.35,
     });
     var geocoder = new window.google.maps.Geocoder();
-    const keys = Object.keys(cords);
+    const keys = Object.keys(states.input);
     const key = keys[0];
     geocodeAddress(geocoder, map,key);
     // Set the polygon on the map
     polygon.setMap(map);
   };
       
-    useEffect(() => {
-     loadMap();              
-    }, [])
-      
+  useEffect(() => {
+    Submit();
+  }, [])
+  
     
   return (
+    <>
     <div id="map" className='w-11/12 h-[490px] rounded-2xl' ></div>
+    </>
   )
 }
 
