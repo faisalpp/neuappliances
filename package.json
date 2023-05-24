@@ -2,6 +2,7 @@
   "name": "neuappliances",
   "version": "0.1.0",
   "private": true,
+  "main":"server.js",
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.15.2",
     "@headlessui/react": "^1.7.14",
@@ -22,7 +23,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "strat":"node server.js",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
