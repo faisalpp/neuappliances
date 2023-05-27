@@ -6,6 +6,7 @@ import {RiArrowDropDownLine} from 'react-icons/ri';
 import {FiPhone} from 'react-icons/fi';
 import {TfiHeadphoneAlt} from 'react-icons/tfi';
 import NavDropDown from '../Navbar/NavDropDown';
+import { NavLink } from 'react-router-dom';
 
 
 
@@ -77,9 +78,10 @@ const Navbar = ({sCart,setSCart}) => {
          
          
          <div className='col-start-1 col-end-5 flex items-center space-x-10' >
+           <NavLink to='/' ><div className='flex items-center font-reg text-xs cursor-pointer hover:text-b6' ><span className='w-max' >Home</span></div></NavLink> 
            <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Deals" links={[{'name':'Recent Arrival','url':'/recent-arrivals'},{'name':'5 Star Products','url':'/five-star-products'},{'name':'4 Star Products','url':'/four-star-products'},{'name':'3 Star Products','url':'/three-star-products'}]} />
            <div className='flex items-center font-reg text-xs cursor-pointer hover:text-b6' ><span className='w-max' >Shop Now</span></div>
-           <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Products" links={[{'name':'Refrigerators','url':'/referigerators'},{'name':'Washer & Dryers','url':'/washer-and-dryers'},{'name':'Rangers','url':'/rangers'},{'name':'Dishwasher','url':'/dishwashers'},{'name':'Microwaves','url':'/microwaves'},{'name':'View All Categories','url':'/categories'}]} bold={600} />
+           <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Products" links={[{'name':'Refrigerators','url':'/products'},{'name':'Washer & Dryers','url':'/products'},{'name':'Rangers','url':'/products'},{'name':'Dishwasher','url':'/products'},{'name':'Microwaves','url':'/products'},{'name':'View All Categories','url':'/products'}]} bold={600} />
            <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Popular Brands" links={[{'name':'Amana','url':'/brands/amana'},{'name':'Maytag','url':'/brand/maytag'},{'name':'Frigdaire','url':'/brand/frigdaire'},{'name':'Haier','url':'/brand/haier'},{'name':'Hisense','url':'/brand/hisense'},{'name':'Kenmore','url':'/Kenmore'},{'name':'LG','url':'/lg'},{'name':'KitchenAid','url':'/kitchen-aid'},{'name':'Samsung','url':'/samsung'},{'name':'Whirlpool','url':'/whirlpool'},{'name':'Midea','url':'/midea'}]} bold={600} />
          </div>
          <div className='col-start-10 col-end-13 flex items-center justify-center space-x-10' >
