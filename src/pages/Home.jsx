@@ -18,6 +18,7 @@ import TourSection from '../components/TourSection';
 import GallerySection from '../components/GallerySection';
 import SatisfiedSection from '../components/SatisfiedSection';
 import NewsLetterSection from '../components/NewsLetterSection';
+import ProductCard3 from '../components/ProductCard3';
 
 const Home = () => {
   return (

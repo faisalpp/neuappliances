@@ -4,9 +4,9 @@ import {BsArrowRightShort} from 'react-icons/bs'
 
 const ApplianceSection = () => {
   return (
-     <div className='flex flex-col py-10 bg-b8' >
+     <div className='flex flex-col items-center py-10 bg-b8' >
      <h4 className='text-xl font-bold text-center' >Shop By Appliance Type</h4>
-     <div className='lg:grid grid-cols-3 grid-rows-2 flex flex-col gap-x-5 gap-y-5 px-5 mt-8' >
+     <div className='lg:grid grid-cols-3 grid-rows-2 flex flex-col gap-x-20 gap-y-10 mt-8' >
       <SProductCard cat="Refrigerators" />
       <SProductCard cat="Washer & Dryers" />
       <SProductCard cat="Ranges" />

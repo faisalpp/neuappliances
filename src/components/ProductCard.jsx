@@ -12,7 +12,7 @@ const ProductCard = () => {
            <div className='flex space-x-3 mt-2' ><AiFillStar className='text-b4 text-xl' /><AiFillStar className='text-b4 text-xl' /><AiFillStar className='text-b4 text-xl' /></div>
            <h4 className='text-b9 font-semibold text-sm mt-3' >Moderate Cosmetic Damage</h4>
            <div className='flex items-center mt-2 space-x-1 bg-b10 rounded-xl px-2 py-1 text-white' ><AiOutlineCheckCircle/><span className='text-xs' >100% Functional</span></div>
-           <div className='relative w-full' >
+           <div className='relative py-5 w-full' >
             <ProductSlider/>
            </div>
            

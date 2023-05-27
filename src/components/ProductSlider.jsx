@@ -16,22 +16,22 @@ const ProductSlider = () => {
     <ButtonNext className='absolute top-28 left-8 z-40'><div className='flex bg-black/30 hover:bg-cyan-400 px-2 py-2 rounded-full text-white'><BsArrowLeftShort className='text-lg'/></div></ButtonNext>
     <Slider>
       <Slide index={0}>
-        <img src="p1.png" className='w-full h-full' />
+        <div className='flex w-full justify-center' ><img src="p1.png" className='w-3/2 h-full' /></div>
       </Slide>
       <Slide index={1}>
-        <img src="p1.png" className='w-full h-full' />
+      <div className='flex w-full justify-center' ><img src="p1.png" className='w-3/2 h-full' /></div>
       </Slide>
       <Slide index={2}>
-        <img src="p1.png" className='w-full h-full' />
+      <div className='flex w-full justify-center' ><img src="p1.png" className='w-3/2 h-full' /></div>
       </Slide>
       <Slide index={3}>
-        <img src="p1.png" className='w-full h-full' />
+      <div className='flex w-full justify-center' > <img src="p1.png" className='w-3/2 h-full' /></div>
       </Slide>
       <Slide index={4}>
-        <img src="p1.png" className='w-full h-full' />
+      <div className='flex w-full justify-center' ><img src="p1.png" className='w-3/2 h-full' /></div>
       </Slide>
       <Slide index={5}>
-        <img src="p1.png" className='w-full h-full' />
+      <div className='flex w-full justify-center' ><img src="p1.png" className='w-3/2 h-full' /></div>
       </Slide>
     </Slider>
    <ButtonBack className='absolute top-28 right-8 z-40'><div className='flex bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group'><BsArrowRightShort className='text-xl'/></div></ButtonBack>
