@@ -8,7 +8,6 @@ import {BsGrid} from 'react-icons/bs';
 import TypeFilter from '../components/DeskComp/Filter/TypeFilter'
 import RatingFilter from '../components/DeskComp/Filter/RatingFilter'
 import HeaderFilter from '../components/DeskComp/Filter/HeaderFilter';
-import RangeFilter from '../components/DeskComp/Filter/RangeFilter';
 import SaleFilter from '../components/DeskComp/Filter/SaleFilter';
 
 const Products = () => {

@@ -51,12 +51,12 @@ const Navbar = ({setSCart}) => {
      {productMenu ? <div onClick={()=>setProductMenu(false)} className='flex items-center bg-b2 rounded-md py-2 px-3 space-x-10 text-white' ><div className='flex items-center space-x-5' ><CgSmartHomeWashMachine className='text-2xl' /><h4>Products</h4></div><RiArrowDropUpLine className='text-2xl' /></div>:<div onClick={()=>setProductMenu(true)} className='flex items-center bg-b2 rounded-md py-2 px-3 space-x-10 text-white' ><div className='flex items-center space-x-5' ><CgSmartHomeWashMachine className='text-2xl' /><h4>Products</h4></div><RiArrowDropDownLine className='text-2xl' /></div>}
      {/* Deals Menu Drop Down */}
      <div className={`${productMenu ? 'flex':'hidden'} flex-col mt-5 space-y-2`}>
-      <div className='border-l-2 border-white rounded-lg px-5 bg-b2 py-2 text-white'><h3>Refrigerators</h3></div>
-      <div className='border-l-2 border-white rounded-lg px-5 bg-b2 py-2 text-white'><h3>Washer & Dryers</h3></div>
-      <div className='border-l-2 border-white rounded-lg px-5 bg-b2 py-2 text-white'><h3>Ranges</h3></div>
-      <div className='border-l-2 border-white rounded-lg px-5 bg-b2 py-2 text-white'><h3>Dishwasher</h3></div>
-      <div className='border-l-2 border-white rounded-lg px-5 bg-b2 py-2 text-white'><h3>Microwaves</h3></div>
-      <div className='border-l-2 border-white rounded-lg px-5 bg-b2 py-2 text-white'><h3>All Categories</h3></div>
+      <NavLink to="/products" ><div className='border-l-2 border-white rounded-lg px-5 bg-b2 py-2 text-white'><h3>Refrigerators</h3></div></NavLink>
+      <NavLink to="/products" ><div className='border-l-2 border-white rounded-lg px-5 bg-b2 py-2 text-white'><h3>Washer & Dryers</h3></div></NavLink>
+      <NavLink to="/products" ><div className='border-l-2 border-white rounded-lg px-5 bg-b2 py-2 text-white'><h3>Ranges</h3></div></NavLink>
+      <NavLink to="/products" ><div className='border-l-2 border-white rounded-lg px-5 bg-b2 py-2 text-white'><h3>Dishwasher</h3></div></NavLink>
+      <NavLink to="/products" ><div className='border-l-2 border-white rounded-lg px-5 bg-b2 py-2 text-white'><h3>Microwaves</h3></div></NavLink>
+      <NavLink to="/products" ><div className='border-l-2 border-white rounded-lg px-5 bg-b2 py-2 text-white'><h3>All Categories</h3></div></NavLink>
      </div>     
     </div>
      {/* Brands Menu */}
