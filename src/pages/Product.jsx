@@ -49,7 +49,7 @@ useEffect(() => {
       <div className='flex items-center' ><h5 className='text-xs text-blue-400' >Home</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-blue-400' >Product</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-gray-500' >Washer</h5></div>
     </div>
      {/* Bread Crumbs End */}
-    <div className='lg:grid grid-cols-12 flex flex-col items-center my-10 lg:mx-10 mx-2' >
+    <div className='lg:grid grid-cols-12 flex flex-col lg:items-start items-center my-10 lg:mx-10 mx-2' >
      <div className='col-start-1 col-end-6' >
        <div className='flex space-x-5' >
         <div className='flex flex-col space-y-2' >
