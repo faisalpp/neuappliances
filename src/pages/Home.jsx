@@ -41,7 +41,7 @@ const Home = () => {
      <RatingProductSection/>
      <TourSection/>
      <GallerySection/>
-     <SatisfiedSection/>
+     <SatisfiedSection title="Saving Austinites Money on Appliances Since 2015" />
      <NewsLetterSection/>
      <Footer/>
     </>

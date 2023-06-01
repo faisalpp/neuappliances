@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import ProductCard3 from '../components/ProductCard3'
 import { useState } from 'react'
 import MainLayout from '../layout/MainLayout';
@@ -12,6 +12,7 @@ import SaleFilter from '../components/DeskComp/Filter/SaleFilter';
 
 const Products = () => {
   const [isGrid,setIsGrid] = useState(false);
+  
   return (
     <>
     <MainLayout>
@@ -36,9 +37,6 @@ const Products = () => {
 
      <div className={`grid ${ isGrid ? 'lg:grid-cols-3 grid-cols-1 lg:gap-x-2' : 'grid-cols-1'} gap-y-5 mb-10 w-full`} >
 
-      <ProductCard3 isGrid={isGrid} />
-      <ProductCard3 isGrid={isGrid} />
-      <ProductCard3 isGrid={isGrid} />
       <ProductCard3 isGrid={isGrid} />
       <ProductCard3 isGrid={isGrid} />
       <ProductCard3 isGrid={isGrid} />

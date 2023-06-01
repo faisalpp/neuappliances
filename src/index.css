@@ -18,3 +18,20 @@
   -webkit-backdrop-filter: blur(2.6px);
   border: 1px solid rgba(255, 255, 255, 0.21);
 }
+
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+#product_viewer {
+	max-width: 50%;
+	margin: 200px auto;
+}
+
+#product_viewer img {
+	display: block;
+	width: 100%;
+}

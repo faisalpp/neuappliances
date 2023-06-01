@@ -12,6 +12,12 @@ import { NavLink } from 'react-router-dom';
 
 const Navbar = ({sCart,setSCart}) => {
   const [megMenu,setMegMenu] = useState(false);
+  
+
+  const handleLogout = async () => {
+    // 
+  }
+
   return (
     <div className='relative' >
          {/* Navbar Start */}
@@ -20,8 +26,9 @@ const Navbar = ({sCart,setSCart}) => {
           <div className='col-start-4 col-end-8 flex items-center bg-white h-10 px-2 rounded-lg space-x-2 w-full ' ><AiOutlineSearch className='text-black' /><input type="text" placeholder='Search for appliances' className="w-full text-xs outline-none" /></div>
           <div className='col-start-9 col-end-13 flex justify-center space-x-2 w-full' >
            <div onClick={()=>{sCart ? setSCart(false) : setSCart(true)}} className='flex items-center cursor-pointer px-2 bg-b2 h-10 w-24 rounded-md text-white' ><AiOutlineShoppingCart /><span className='ml-2 font-reg font-normal text-sm' >Cart</span><span className='ml-2 bg-b3 rounded-full text-xs h-4 w-4 text-center' >2</span></div>  
-           <div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div>  
+           <NavLink to="/useraccount" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink>  
            <div onClick={()=>{megMenu ? setMegMenu(false) : setMegMenu(true)}} className='flex items-center cursor-pointer px-2 bg-b2 h-10 w-24 rounded-md text-white' ><IoMenu /><span className='ml-2 font-reg font-normal text-sm' >Menu</span></div>  
+           <div onClick={()=>handleLogout()} className='flex items-center cursor-pointer px-2 bg-b2 h-10 w-24 rounded-md text-white' ><span className=' font-reg font-normal text-sm' >Logout</span></div>  
           </div>
        </div>
       {/* Navbar End */}

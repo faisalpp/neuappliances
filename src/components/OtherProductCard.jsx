@@ -6,7 +6,7 @@ import ToolTip from './ToolTip'
 
 const OtherProductCard = () => {
   return (
-    <div className='flex flex-col border-[1px] rounded-lg border-gray-200 px-1 py-4 w-full' >
+    <div className='flex flex-col border-[1px] rounded-lg border-gray-200 px-2 py-4 w-full ' >
      <div className='flex items-center space-x-1' ><h6 className='text-[10px] w-max' >Cosmetic&nbsp;Rating</h6><ToolTip/><div className='flex justify-end w-full' ><span className='flex items-center w-fit bg-b10 text-white text-[8px] px-3 rounded-xl py-1' ><IoBagCheckOutline className='text-[10px] mr-1' />In Stock</span></div></div>   
      <div className='flex items-center text-b7 bg-white shadow-xl rounded-xl text-xs w-fit px-2 py-1' ><AiFillStar/><AiFillStar/><AiFillStar/><AiFillStar/><AiFillStar/></div>
      <div className='flex w-full justify-center items-center' >
