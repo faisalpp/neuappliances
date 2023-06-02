@@ -1,24 +1,59 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import MainLayout from '../layout/MainLayout'
 import {BsArrowRightShort} from 'react-icons/bs'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { AppContext } from '../context/GlobalContext'
 
 
 const Login = () => {
 
+  const navigate = useNavigate();
 
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
 
+  const globel = useContext(AppContext);
+
   const Login = async (e) => {
     e.preventDefault();
+    const data = {email,password}
 
-    const data = {
-      email: email,
-      password: password
-    }
+    const response = await fetch('http://localhost:5000/api/login',{
+      method: "POST",
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(data),
+     });
 
+     const res = await response.json();
+      if(res.status === 200){
+       toast.success(res.msg, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+        navigate('/useraccount');
+     }else{
+      toast.error(res.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+     }
 
   }
 
@@ -26,6 +61,7 @@ const Login = () => {
     <>
     
     <MainLayout>
+    <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
 
       <div className='flex flex-col space-y-10 items-center pt-20 py-32 w-full' >
         <div><img src="login_logo.png" /></div>
@@ -43,7 +79,7 @@ const Login = () => {
           <div className='flex w-full justify-center' ><h5 className='text-sm' >New customer? <NavLink to="/register" ><span className='text-b3 hover:underline cursor-pointer' >Create an Account</span></NavLink></h5></div>
         </form>
       </div>
-
+      <ToastContainer/>
     </MainLayout>
     
     </>

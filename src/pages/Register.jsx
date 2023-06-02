@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
 
+  const navigate = useNavigate();
+
  const [firstName,setFirstName] = useState('faisal');
  const [lastName,setLastName] = useState('qayyum');
  const [email,setEmail] = useState('muhammadfaisal522@gmai;.com');
@@ -19,7 +21,7 @@ const Register = () => {
  const Submit = async (e) => {
    const data = {firstName,lastName,email,country,phone,password,confirmPassword}
     e.preventDefault();
-     const res = await fetch('http://localhost:5000/api/register',{
+     const response = await fetch('http://localhost:5000/api/register',{
       method: "POST",
       headers: {
         'Content-Type':'application/json'
@@ -27,8 +29,31 @@ const Register = () => {
       body: JSON.stringify(data),
      });
 
-     const d = await res.json();
-     console.log(d)
+     const res = await response.json();
+     if(res.status === 200){
+      toast.success('Signup Successfull!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+        navigate('/')
+     }else{
+      toast.error(res.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+     }
 
  }
 
@@ -37,8 +62,6 @@ const Register = () => {
     
     <MainLayout>
     <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
-
-
       <div className='flex flex-col space-y-10 items-center pt-20 py-32 w-full' >
         <div><img src="login_logo.png" /></div>
         <form onSubmit={Submit} className='flex flex-col space-y-5 w-5/12 px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >
