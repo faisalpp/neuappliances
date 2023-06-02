@@ -6,21 +6,63 @@ import {RiArrowDropDownLine} from 'react-icons/ri';
 import {FiPhone} from 'react-icons/fi';
 import {TfiHeadphoneAlt} from 'react-icons/tfi';
 import NavDropDown from '../Navbar/NavDropDown';
-import { NavLink } from 'react-router-dom';
-import { useContext } from 'react';
-import { AppContext } from '../../../context/GlobalContext';
-
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {resetUser} from '../../../store/userSlice'
 
 
 const Navbar = ({sCart,setSCart}) => {
   const [megMenu,setMegMenu] = useState(false);
-  const globel = useContext(AppContext);
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state)=>state.user.auth);
+  const navigate = useNavigate();
+  
 
-  const handleLogout = async () => {
-    // 
+  const handleLogout = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch('http://localhost:5000/api/logout',{
+      method: "POST",
+      credentials: 'include',
+      headers: {
+        'Content-Type':'application/json'
+      },
+     });
+
+     const res = await response.json();
+      if(res.status === 200){
+        toast.success(res.msg, {
+          position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+        dispatch(resetUser());
+        navigate('/');
+     }else{
+      toast.error(res.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+     }
   }
 
   return (
+    <>
+    <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
     <div className='relative' >
          {/* Navbar Start */}
          <div className="lg:grid hidden grid-cols-12 items-center bg-b1 px-10 py-5" >
@@ -28,9 +70,9 @@ const Navbar = ({sCart,setSCart}) => {
           <div className='col-start-4 col-end-8 flex items-center bg-white h-10 px-2 rounded-lg space-x-2 w-full ' ><AiOutlineSearch className='text-black' /><input type="text" placeholder='Search for appliances' className="w-full text-xs outline-none" /></div>
           <div className='col-start-9 col-end-13 flex justify-center space-x-2 w-full' >
            <div onClick={()=>{sCart ? setSCart(false) : setSCart(true)}} className='flex items-center cursor-pointer px-2 bg-b2 h-10 w-24 rounded-md text-white' ><AiOutlineShoppingCart /><span className='ml-2 font-reg font-normal text-sm' >Cart</span><span className='ml-2 bg-b3 rounded-full text-xs h-4 w-4 text-center' >2</span></div>  
-           <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink> 
+           {isAuth ? <NavLink to="/useraccount" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink>:<NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink>} 
            <div onClick={()=>{megMenu ? setMegMenu(false) : setMegMenu(true)}} className='flex items-center cursor-pointer px-2 bg-b2 h-10 w-24 rounded-md text-white' ><IoMenu /><span className='ml-2 font-reg font-normal text-sm' >Menu</span></div>  
-           <div onClick={()=>handleLogout()} className='flex items-center cursor-pointer px-2 bg-b2 h-10 w-24 rounded-md text-white' ><span className=' font-reg font-normal text-sm' >Logout</span></div>  
+           <div onClick={handleLogout} className='flex items-center cursor-pointer px-2 bg-b2 h-10 w-24 rounded-md text-white' ><span className=' font-reg font-normal text-sm' >Logout</span></div>  
           </div>
        </div>
       {/* Navbar End */}
@@ -102,6 +144,7 @@ const Navbar = ({sCart,setSCart}) => {
       {/* Sub Navbar End */}
 
     </div>
+    </>
   )
 }
 

@@ -7,18 +7,19 @@ import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import UserAccount from './pages/UserAccount';
 import NotFound from "./pages/NotFound";
-import { useContext } from "react";
-import { AppContext } from "./context/GlobalContext";
+import { useSelector } from "react-redux";
 
 function App() {
-  const globel = useContext(AppContext)
+
+  const auth = useSelector((state)=>state.user.auth);
+
   return (
     <Routes>
      <Route path="/" element={<Home/>}/>
      <Route path="/login" element= {<Login/>} />
      <Route path="/register" element={<Register/>}/>
      <Route path="/forgot-password" element= {<ForgotPassword/>}/>
-     <Route path= "/useraccount" element={globel.token ? <UserAccount/> : <NavLink to="/login" />}/>
+     <Route path= "/useraccount" element={auth ? <UserAccount/> : <NavLink to="/login" />}/>
      <Route path="/products" element={<Products/>}/>
      <Route path= "/product" element= {<Product/>}/>
      <Route path= "*" element= {<NotFound/>}/>

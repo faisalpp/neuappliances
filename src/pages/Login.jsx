@@ -1,12 +1,12 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import MainLayout from '../layout/MainLayout'
 import {BsArrowRightShort} from 'react-icons/bs'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AppContext } from '../context/GlobalContext'
-
+import { useDispatch } from 'react-redux'
+import {setUser} from '../store/userSlice'
 
 const Login = () => {
 
@@ -15,7 +15,8 @@ const Login = () => {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
 
-  const globel = useContext(AppContext);
+  const dispatch = useDispatch();
+
 
   const Login = async (e) => {
     e.preventDefault();
@@ -31,6 +32,15 @@ const Login = () => {
 
      const res = await response.json();
       if(res.status === 200){
+       const user = {
+         _id: res.user._id,
+         email: res.user.email,
+         firstName: res.user.firstName,
+         lastName: res.user.lastName,
+         auth: res.auth,
+       }
+       dispatch(setUser(user));
+
        toast.success(res.msg, {
         position: "top-right",
         autoClose: 5000,

@@ -1,7 +1,9 @@
 const Joi = require("joi");
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
-const JwtService = require('../services/JwtService')
+const RefreshToken = require('../models/token');
+const JWTService = require("../services/JwtService");
+const UserDTO = require('../dto/user')
 
 const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,25}$/;
 
@@ -102,10 +104,47 @@ const authController = {
     }catch(error){
       return next(error);
     }
+    const refreshToken = JWTService.signRefreshToken({_id:user._id},'30m');
+    const accessToken = JWTService.signAccessToken({_id:user._id},'30m');
 
-    // Generate new Token
-    const accessToken = JwtService.signAccessToken({_id:user._id},"30m");
-    return res.status(200).json({status:200,token:accessToken,msg:'Login Successful!'});
+    // update refresh token in database
+    try {
+      await RefreshToken.updateOne(
+        {
+          _id: user._id,
+        },
+        { token: refreshToken },
+        { upsert: true }
+      );
+    } catch (error) {
+      return next(error);
+    }
+
+    
+
+    res.cookie('accessTokne',accessToken,{httpOnly:true,maxAge: 24 * 60 * 60 * 1000});
+    res.cookie('refreshTokne',refreshToken,{httpOnly:true,maxAge: 24 * 60 * 60 * 1000});
+
+    const userDto = new UserDTO(user);
+
+    return res.status(200).json({status:200,user: userDto,msg:'Login Successful!',auth:true});
+
+  },
+
+  async logout(req,res,next){
+    const {refreshToken} = req.cookies;
+
+    try{
+      await RefreshToken.deleteOne({token:refreshToken});
+    }catch(error){
+      next(error);
+    }
+
+    // delete cookies
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshTokeb");
+
+    res.status(200).json({user: null, auth: false});
 
   }
 

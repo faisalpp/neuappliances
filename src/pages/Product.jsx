@@ -4,7 +4,7 @@ import {RiStackLine} from 'react-icons/ri'
 import {GiThermometerHot} from 'react-icons/gi'
 import {GiFlame} from 'react-icons/gi'
 import {RiArrowDropRightLine} from 'react-icons/ri';
-import {AiFillStar,AiOutlineQuestionCircle,AiOutlineSearch,AiFillCloseCircle,AiOutlineShoppingCart} from 'react-icons/ai';
+import {AiFillStar,AiOutlineQuestionCircle,AiOutlineSearch,AiFillCloseCircle,AiOutlineShoppingCart, AiFillCheckCircle, AiOutlineCheckCircle} from 'react-icons/ai';
 import {IoBagCheckOutline} from 'react-icons/io5';
 import {BsArrowRightShort, BsShopWindow, BsStarHalf} from 'react-icons/bs';
 import {GoPrimitiveDot} from 'react-icons/go';
@@ -16,6 +16,11 @@ import FaqAccordion from '../components/FaqAccordion'
 import HiwSection from '../components/HiwSection'
 import PaymentOptions from '../components/PaymentOptions'
 import SatisfiedSection from '../components/SatisfiedSection'
+import ProductFeatures from '../components/ProductFeatures'
+import LaunderySet from '../components/LaunderySet'
+import MapSection from '../components/MapSection'
+import InspectionScoreSection from '../components/InspectionScoreSection'
+import ModelBuyingOptionsSection from '../components/ModelBuyingOptionsSection'
 
 const Product = () => {
   const [deliveryType,setDeliverType] = useState('pickup');
@@ -83,10 +88,10 @@ useEffect(() => {
         <div className='flex items-center space-x-5' ><h4 className='font-bold lg:text-3xl text-xl text-b3 ' >$1,020.00</h4><strike className="text-lg" >$1,249.00</strike><span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >$229.00 Savings</span></div>
         <img src="acima.png" className='w-60 mt-3' />
         <ul className='flex flex-col mt-5 space-y-2 text-sm' >
-         <li>Lorem ipsum dolor alter miler amigos</li>
-         <li>Lorem ipsum dolor alter miler amigos</li>
-         <li>Lorem ipsum dolor alter miler amigos</li>
-         <li>Lorem ipsum dolor alter miler amigos</li>
+         <li>. Lorem ipsum dolor alter miler amigos</li>
+         <li>. Lorem ipsum dolor alter miler amigos</li>
+         <li>. Lorem ipsum dolor alter miler amigos</li>
+         <li>. Lorem ipsum dolor alter miler amigos</li>
         </ul>
         <h6 className='text-xs font-bold hover:underline cursor-pointer' >+ View more</h6>
         <div className='flex items-center lg:space-x-16 space-x-5 lg:mt-4 mt-2' ><div className='flex items-center' ><h4 className='lg:text-sm text-xs font-semibold w-max' >Cosmetic Rating</h4><AiOutlineQuestionCircle/></div><div className='flex mt-2 items-center' ><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /></div></div>
@@ -206,6 +211,22 @@ useEffect(() => {
 
       {/* Reviews Section */}
       <SatisfiedSection title="Our Customers LOVE our Scratch and Dent Discounts!" />
+
+      {/* Prodcut Features */}
+      <ProductFeatures/>
+
+      {/* Complete Your Laundery Set */}
+      <LaunderySet/>
+
+      {/* Map Section */}
+      <MapSection/>
+
+      {/* Inspection Score */}
+      <InspectionScoreSection/>
+
+      {/* Model Buying Options */}
+      <ModelBuyingOptionsSection/>
+
     </MainLayout>
     </>
   )
