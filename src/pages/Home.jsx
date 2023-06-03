@@ -19,11 +19,13 @@ import GallerySection from '../components/GallerySection';
 import SatisfiedSection from '../components/SatisfiedSection';
 import NewsLetterSection from '../components/NewsLetterSection';
 import ProductCard3 from '../components/ProductCard3';
+import MainLayout from '../layout/MainLayout';
 
 const Home = () => {
   return (
     <>
-     <NavBar/>
+     <MainLayout>
+
      <HeroSection/>
      <BrandsSlider/>
      <WwslSection/>
@@ -43,7 +45,7 @@ const Home = () => {
      <GallerySection/>
      <SatisfiedSection title="Saving Austinites Money on Appliances Since 2015" />
      <NewsLetterSection/>
-     <Footer/>
+     </MainLayout>
     </>
   )
 }
