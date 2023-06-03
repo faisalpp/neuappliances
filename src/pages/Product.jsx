@@ -4,9 +4,9 @@ import {RiStackLine} from 'react-icons/ri'
 import {GiThermometerHot} from 'react-icons/gi'
 import {GiFlame} from 'react-icons/gi'
 import {RiArrowDropRightLine} from 'react-icons/ri';
-import {AiFillStar,AiOutlineQuestionCircle,AiOutlineSearch,AiFillCloseCircle,AiOutlineShoppingCart, AiFillCheckCircle, AiOutlineCheckCircle} from 'react-icons/ai';
+import {AiFillStar,AiOutlineQuestionCircle,AiOutlineSearch,AiFillCloseCircle,AiOutlineShoppingCart, AiFillCheckCircle, AiOutlineCheckCircle, AiOutlineHeart} from 'react-icons/ai';
 import {IoBagCheckOutline} from 'react-icons/io5';
-import {BsArrowRightShort, BsShopWindow, BsStarHalf} from 'react-icons/bs';
+import {BsArrowRightShort, BsShieldLock, BsShopWindow, BsStarHalf} from 'react-icons/bs';
 import {GoPrimitiveDot} from 'react-icons/go';
 import {BsTruck} from 'react-icons/bs';
 import { useState } from 'react'
@@ -21,6 +21,11 @@ import LaunderySet from '../components/LaunderySet'
 import MapSection from '../components/MapSection'
 import InspectionScoreSection from '../components/InspectionScoreSection'
 import ModelBuyingOptionsSection from '../components/ModelBuyingOptionsSection'
+import ProductFaqSection from '../components/ProductFaqSection'
+import CosmaticSlider from '../components/CosmaticSlider'
+import ToolTip from '../components/ToolTip'
+import MoreImagesModal from '../components/MoreImagesModal'
+import StickyNavbar from '../components/DeskComp/Navbar/StickyNavbar'
 
 const Product = () => {
   const [deliveryType,setDeliverType] = useState('pickup');
@@ -46,9 +51,30 @@ useEffect(() => {
   }
 }, [zip])
 
+const [showNavbar, setShowNavbar] = useState(false);
+
+  const handleScroll = () => {
+    setShowNavbar(window.pageYOffset > 100);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+const [imgModal,setImgModal] = useState(false)
+
   return (
     <>
     <MainLayout>
+    {/* StickyNavabr */}
+    <StickyNavbar state={showNavbar} />
+
+
+    <MoreImagesModal state={imgModal} setState={setImgModal}/>
+
              {/* Bread Crumbs Start */}
     <div className='flex items-center mt-5 px-10 py-5' >
       <div className='flex items-center' ><h5 className='text-xs text-blue-400' >Home</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-blue-400' >Product</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-gray-500' >Washer</h5></div>
@@ -62,7 +88,7 @@ useEffect(() => {
           <div className='border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12' /></div>
           <div className='border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12' /></div>
           <div className='border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12' /></div>
-          <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit' ><div className='absolute flex justify-center items-center left-0 top-0 rounded-lg w-full h-full bg-blue-400/50 font-semibold text-white' >+10</div><img src="p1.png" className='w-12' /></div>
+          <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={()=>setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-blue-400/50 font-semibold text-white' >+10</div><img src="p1.png" className='w-12' /></div>
         </div>
         <div className='flex justify-center items-center border-[1px] border-gray-300 rounded-lg lg:h-96 lg:w-3/4' >
          <img src="p1.png" />
@@ -84,8 +110,8 @@ useEffect(() => {
 
      <div className='col-start-6 col-end-13 flex flex-col lg:px-0 px-1 space-y-5 lg:mt-0 mt-4' >
         <h5 className='lg:text-xl text-sm font-bold lg:w-full w-80' >Champagne ENERGY STAR Samsung 4.5 cu. ft. Front Load Washer with Wi-Fi Connectivity and 7.5 cu. ft. Front Load Gas Dryer with Steam</h5>
-        <div className='flex items-center' ><h5 className='lg:text-sm text-xs lg:w-80 underline text-b3 font-semibold cursor-pointer' >View&nbsp;More&nbsp;Buying&nbsp;Options</h5><div className='flex justify-end w-full' ><span className='flex items-center bg-b10 text-white text-xs px-3 rounded-xl py-2' ><IoBagCheckOutline className='text-sm mr-1' />In Stock</span></div></div>
-        <div className='flex items-center space-x-5' ><h4 className='font-bold lg:text-3xl text-xl text-b3 ' >$1,020.00</h4><strike className="text-lg" >$1,249.00</strike><span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >$229.00 Savings</span></div>
+        <div className='flex items-center' ><h5 className='lg:text-sm text-xs lg:w-80 underline text-b3 font-semibold cursor-pointer' >View More Buying Options</h5><div className='flex justify-end w-full' ><span className='flex items-center bg-b10 text-white text-xs px-3 rounded-xl py-2' ><IoBagCheckOutline className='text-sm mr-1' />In Stock</span></div></div>
+        <div className='flex items-center space-x-5' ><h4 className='font-bold lg:text-3xl text-xl text-b3 ' >$1,020.00</h4><strike className="text-lg" >$1,249.00</strike><span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >$229.00 Savings</span><a className="flex justify-end items-center hover:underline cursor-pointer text-b3" ><AiOutlineHeart/><h6>Add to favorites</h6></a></div>
         <img src="acima.png" className='w-60 mt-3' />
         <ul className='flex flex-col mt-5 space-y-2 text-sm' >
          <li>. Lorem ipsum dolor alter miler amigos</li>
@@ -96,7 +122,7 @@ useEffect(() => {
         <h6 className='text-xs font-bold hover:underline cursor-pointer' >+ View more</h6>
         <div className='flex items-center lg:space-x-16 space-x-5 lg:mt-4 mt-2' ><div className='flex items-center' ><h4 className='lg:text-sm text-xs font-semibold w-max' >Cosmetic Rating</h4><AiOutlineQuestionCircle/></div><div className='flex mt-2 items-center' ><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /></div></div>
         <div className='lg:flex hidden items-center space-x-14 mt-2' >
-         <div className='flex font-semibold text-sm' ><h4>Discount</h4>&nbsp;%</div>
+         <div className='flex font-semibold text-sm' ><h4>Discount</h4> %</div>
          <div className='w-52 bg-gray-100 rounded-lg' ><span className='flex rounded-lg bg-gradient-to-r from-b4 to-b7 w-32 h-2' ></span></div>
        </div>
        
@@ -117,7 +143,7 @@ useEffect(() => {
         </div>
 
         <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-[1px] ${deliveryType === 'home' ? 'border-b10' : 'border-gray-300'} `} >
-          <div className='flex items-center space-x-2' ><BsTruck className='text-3xl' /><h6 className='font-bold text-sm' >Delivery</h6><h6 onClick={()=>setChangeZip(true)} className='text-xs w-max text-blue-400 hover:underline cursor-pointer' >Change&nbsp;ZIP</h6><div className='flex items-center justify-end w-full' ><span onClick={()=>setDeliverType('home')} className={`px-1 py-1 rounded-full cursor-pointer ${deliveryType === 'home' ? 'bg-b10/20' : 'bg-gray-100'  } `} ><GoPrimitiveDot className={` ${deliveryType === 'home' ?'text-b10' : 'text-gray-200'} `} /></span></div></div>  
+          <div className='flex items-center space-x-2' ><BsTruck className='text-3xl' /><h6 className='font-bold text-sm' >Delivery</h6><h6 onClick={()=>setChangeZip(true)} className='text-xs w-max text-blue-400 hover:underline cursor-pointer' >Change ZIP</h6><div className='flex items-center justify-end w-full' ><span onClick={()=>setDeliverType('home')} className={`px-1 py-1 rounded-full cursor-pointer ${deliveryType === 'home' ? 'bg-b10/20' : 'bg-gray-100'  } `} ><GoPrimitiveDot className={` ${deliveryType === 'home' ?'text-b10' : 'text-gray-200'} `} /></span></div></div>  
           
           <div className={` ${changeZip ? 'flex' : 'hidden'} flex-col items-center justify-center h-full space-y-2 mt-2 text-sm`} >
            <div className='flex items-center bg-white border-[1px] h-10 px-2 rounded-lg space-x-2 w-10/12 ' ><AiOutlineSearch className='text-blue-400 text-lg' /><input type="search" value={zip} onChange={e=>setZip(e.target.value)} placeholder='Enter ZIP Code' className="w-full text-xs outline-none" /></div>
@@ -170,7 +196,7 @@ useEffect(() => {
 
        {/* Other Product Section */}
         <div>
-          <div class="flex" ><h6 className="font-bold" >Other&nbsp;Product&nbsp;Options</h6><div className="flex items-center w-full justify-end" ><h6 className="flex items-center hover:underline text-sm text-b3" >View All <BsArrowRightShort/></h6></div></div>
+          <div class="flex" ><h6 className="font-bold" >Other Product Options</h6><div className="flex items-center w-full justify-end" ><h6 className="flex items-center hover:underline text-sm text-b3" >View All <BsArrowRightShort/></h6></div></div>
          <div className='lg:grid grid-cols-3 flex flex-col items-center lg:mt-0 mt-4 lg:space-y-0 space-y-4 lg:gap-x-5' >
           <OtherProductCard/>
           <OtherProductCard/>
@@ -184,10 +210,29 @@ useEffect(() => {
 
     {/* Faq Accrodions */}
       <div className='flex flex-col items-center mb-5 justify-center w-full space-y-3' >
-        <FaqAccordion title="Product&nbsp;Description" parent='w-10/12 px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni pariatur assumenda, incidunt possimus alias illo nesciunt nemo at accusantium ad rem ipsum, rerum saepe a! Itaque qui officia quis totam?' />
+        <FaqAccordion title="Product Description" parent='w-10/12 px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni pariatur assumenda, incidunt possimus alias illo nesciunt nemo at accusantium ad rem ipsum, rerum saepe a! Itaque qui officia quis totam?' />
         <FaqAccordion title="Specifications" parent='w-10/12 px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni pariatur assumenda, incidunt possimus alias illo nesciunt nemo at accusantium ad rem ipsum, rerum saepe a! Itaque qui officia quis totam?' />
-        <FaqAccordion title="Delivery&nbsp;Info" parent='w-10/12 px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni pariatur assumenda, incidunt possimus alias illo nesciunt nemo at accusantium ad rem ipsum, rerum saepe a! Itaque qui officia quis totam?' />
+        <FaqAccordion title="Delivery Info" parent='w-10/12 px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni pariatur assumenda, incidunt possimus alias illo nesciunt nemo at accusantium ad rem ipsum, rerum saepe a! Itaque qui officia quis totam?' />
       </div> 
+
+      {/* 360 Degree Product Section */}
+      <div className='flex flex-col space-y-5 items-center py-20' >
+        <h4 className='text-2xl font-bold' >360° View of This Appliance</h4>
+        <div className='mt-5' ><img src="p1.png" /></div>
+        <p className="font-normal" >Rotate 360° to see the product from all angles</p>
+        <div className='flex border-[1px] border-gray-200 rounded-md w-1/2' >
+          <div className='flex flex-col items-center border-r-[1px] border-gray-200 w-full' >
+            <h5 className='text-center border-b-[1px] border-gray-200 py-4 w-full font-semibold' >#ID</h5>
+            <h5 className='flex items-center justify-center text-center border-b-[1px] border-gray-200 py-4 w-full' ><span className='font-semibold' >Cosmetic Rating </span><ToolTip/></h5>
+            <h5 className='flex items-center justify-center text-center  py-4 w-full font-semibold' >Warranty</h5>
+          </div>
+         <div className='flex flex-col items-center border-l-[1px] border-white w-full' >
+            <h5 className='text-center border-b-[1px] border-gray-200 py-4 w-full font-normal' >#12354567876</h5>
+            <div className='flex items-center justify-center py-[18px] w-full' ><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /></div>
+            <div className='flex items-center space-x-2 justify-center border-t-[1px] border-gray-200 py-3 w-full' ><div className='flex items-center rounded-md justify-center border-[1px] border-gray-200 pl-5 py-1 space-x-1' ><BsShieldLock/><span className='w-52 text-xs font-bold' >NeuShield 1 Year Applicance Warranty</span></div></div>
+          </div>
+        </div>
+      </div>
 
 
       {/* PAyment Options */}
@@ -226,6 +271,17 @@ useEffect(() => {
 
       {/* Model Buying Options */}
       <ModelBuyingOptionsSection/>
+
+      {/* Faq Section */}
+      <ProductFaqSection/>
+
+      {/* Rlated Products */}
+      <div className='flex flex-col lg:mx-10 mx-5 py-10' >
+    <div className='flex flex-col items-center' >
+     <h4 className='lg:text-2xl text-xl font-bold' >Related Products</h4>
+   </div>
+    <CosmaticSlider />
+   </div>
 
     </MainLayout>
     </>
