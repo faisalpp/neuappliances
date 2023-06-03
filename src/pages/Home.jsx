@@ -1,7 +1,5 @@
 import React from 'react';
-import NavBar from '../components/Navbar'
 import HeroSection from '../components/HeroSection'
-import Footer from '../components/DeskComp/Footer'
 import BrandsSlider from '../components/BrandsSlider';
 import WwslSection from '../components/WwslSection';
 import HomeImagesSection from '../components/HomeImagesSection';
@@ -18,14 +16,13 @@ import TourSection from '../components/TourSection';
 import GallerySection from '../components/GallerySection';
 import SatisfiedSection from '../components/SatisfiedSection';
 import NewsLetterSection from '../components/NewsLetterSection';
-import ProductCard3 from '../components/ProductCard3';
 import MainLayout from '../layout/MainLayout';
 
 const Home = () => {
+  
   return (
     <>
      <MainLayout>
-
      <HeroSection/>
      <BrandsSlider/>
      <WwslSection/>
@@ -38,12 +35,12 @@ const Home = () => {
      <LoopSection/>
      <ApplianceSection/>
      <MapSection/>
-     <RatingProductSection/>
-     <RatingProductSection/>
-     <RatingProductSection/>
+     <RatingProductSection stars={5} />
+     <RatingProductSection stars={4} />
+     <RatingProductSection stars={3} />
      <TourSection/>
      <GallerySection/>
-     <SatisfiedSection title="Saving Austinites Money on Appliances Since 2015" />
+     <SatisfiedSection title="Join Thousands of our Satisfied Customers." />
      <NewsLetterSection/>
      </MainLayout>
     </>

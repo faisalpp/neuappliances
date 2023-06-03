@@ -5,7 +5,7 @@ import { FaTrashAlt ,FaDotCircle} from 'react-icons/fa'
 
 const SideCart = ({sCart,setSCart}) => {
   return (
-    <div className={` ${ sCart ? 'absolute' : 'hidden'} top-0 bg-black/60 w-full h-screen`} >
+    <div className={` ${ sCart ? 'fixed' : 'hidden'} top-0 z-40 bg-black/60 w-full h-screen`} >
 
       <div className={` ${ sCart ? 'flex' : 'hidden'} flex-col float-right bg-white lg:w-1/3 w-full h-screen py-5 px-5`} >
         <div className='flex items-center' ><div className='flex items-center space-x-3 lg:w-36 w-52' ><h4>My Cart</h4><span className='bg-b3 text-white rounded-full text-xs px-2 py-[4px]' >4</span></div><div className='flex items-center w-full justify-end' ><AiOutlineClose onClick={()=>setSCart(false)} className='cursor-pointer' /></div></div>

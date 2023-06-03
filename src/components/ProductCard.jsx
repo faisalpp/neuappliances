@@ -1,19 +1,29 @@
 import React from 'react'
 import {AiOutlineDollar,AiFillStar,AiOutlineCheckCircle} from 'react-icons/ai'
 import {IoIosArrowForward} from 'react-icons/io'
+import {BsFire} from 'react-icons/bs'
 import ProductSlider from './ProductSlider'
 
-const ProductCard = () => {
+const ProductCard = ({type,stars}) => {
+  const StarIconPrinter = ({ numberOfTimes }) => {
+    const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
+      <AiFillStar className='text-b7 text-lg' /> // Render the star icon component for each iteration
+    ));
+  
+    return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
+  };
   return (
-    <div className='flex flex-col bg-white w-[360px] h-auto rounded-md pb-10 shadow-md' >
-        <div className='flex items-center bg-b9 w-5/12 rounded-b-2xl ml-3 justify-center h-6 space-x-2 text-white' ><AiOutlineDollar/><span className='text-xs' >Best Value</span></div>
+    <div className='flex flex-col bg-white xl:w-[473px] w-[360px] h-auto rounded-md pb-10 shadow-md' >
+        {type == 1 ?<div className='flex items-center bg-b9 w-fit px-3 rounded-b-2xl ml-3 justify-center h-6 space-x-2 text-white' ><AiOutlineDollar/><span className='text-xs' >Best Value</span></div>:null}
+        {type == 2 ?<div className='flex items-center bg-b3 w-fit px-3 rounded-b-2xl ml-3 justify-center h-7 space-x-2 text-white' ><BsFire/> <span className='text-xs' >Most Popular</span></div>:null}
+        {type == 3 ?<div className='flex items-center bg-b7 w-fit rounded-b-2xl ml-3 justify-center px-3 h-7 space-x-2 text-white' ><BsFire/> <span className='text-xs' >Premium Condition</span></div>:null}
         <div className='flex flex-col items-center justify-center mt-4' >
-           <div className='flex justify-center items-center text-center space-x-1 text-lg' ><h4 className='font-bold' >Cosmetic Rating:</h4><span className='font-semibold' >3 Stars</span></div> 
-           <div className='flex space-x-3 mt-2' ><AiFillStar className='text-b4 text-xl' /><AiFillStar className='text-b4 text-xl' /><AiFillStar className='text-b4 text-xl' /></div>
+           <div className='flex justify-center items-center text-center space-x-1 text-lg' ><h4 className='font-bold' >Cosmetic Rating:</h4><span className='font-semibold' >{stars} Stars</span></div> 
+           <div className='flex space-x-3 mt-2' ><StarIconPrinter numberOfTimes={stars} /></div>
            <h4 className='text-b9 font-semibold text-sm mt-3' >Moderate Cosmetic Damage</h4>
            <div className='flex items-center mt-2 space-x-1 bg-b10 rounded-xl px-2 py-1 text-white' ><AiOutlineCheckCircle/><span className='text-xs' >100% Functional</span></div>
-           <div className='relative py-5 w-full' >
-            <ProductSlider/>
+           <div className='relative pt-5 w-full' >
+            <ProductSlider />
            </div>
            
            <div className='flex flex-col space-y-3' >

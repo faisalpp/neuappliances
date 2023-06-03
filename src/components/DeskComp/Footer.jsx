@@ -9,7 +9,7 @@ const Footer = () => {
           <div className="lg:grid flex flex-col lg:items-center  grid-cols-12 bg-b1 py-10 lg:px-5 px-10 " >
 
           {/* Logo Section Start */}
-           <div className='col-start-1 col-end-2 space-y-10' >
+           <div className='col-start-1 col-end-3 space-y-10 xl:mx-10' >
             
              {/* Nav Logos */}
              <div className='flex flex-col space-y-10  text-white' >
