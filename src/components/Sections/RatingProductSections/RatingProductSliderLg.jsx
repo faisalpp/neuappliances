@@ -5,17 +5,17 @@ import 'pure-react-carousel/dist/react-carousel.es.css';
 import { BsArrowLeftShort,BsArrowRightShort } from 'react-icons/bs';
 
 
-const RatingProductSliderXl = ({stars}) => {
+const RatingProductSliderLg = ({stars}) => {
   return (
     <>
     <CarouselProvider
     naturalSlideWidth={300}
-    naturalSlideHeight={480}
+    naturalSlideHeight={470}
     totalSlides={6}
-    visibleSlides={4}
+    visibleSlides={3}
     >
-    <ButtonNext className='absolute xl:top-56 xl:-left-16 lg:top-52 lg:-left-10 z-40'><div className='flex bg-black/30 hover:bg-cyan-400 px-2 py-2 rounded-full text-white'><BsArrowLeftShort className='text-lg'/></div></ButtonNext>
-    <Slider className='-mx-10' >
+    <ButtonNext className='absolute xl:top-56 xl:-left-10 lg:top-52 lg:-left-16 z-40'><div className='flex bg-black/30 hover:bg-cyan-400 px-2 py-2 rounded-full text-white'><BsArrowLeftShort className='text-lg'/></div></ButtonNext>
+    <Slider className='lg:-mx-10' >
       <Slide index={0}>
         <ProductCard2 stars={stars} />
       </Slide>
@@ -35,10 +35,10 @@ const RatingProductSliderXl = ({stars}) => {
         <ProductCard2 stars={stars} />
       </Slide>
     </Slider>
-   <ButtonBack className='absolute xl:top-56 xl:-right-14 lg:top-52 lg:-right-10 right-10 z-40'><div className='flex bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group'><BsArrowRightShort className='text-xl'/></div></ButtonBack>
+   <ButtonBack className='absolute xl:top-56 xl:-right-6 lg:top-52 lg:-right-8 right-10 z-40'><div className='flex bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group'><BsArrowRightShort className='text-xl'/></div></ButtonBack>
   </CarouselProvider>    
   </>
   )
 }
 
-export default RatingProductSliderXl
+export default RatingProductSliderLg
