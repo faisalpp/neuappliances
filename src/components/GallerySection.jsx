@@ -5,7 +5,7 @@ import { BsArrowRightShort } from 'react-icons/bs'
 const GallerySection = () => {
   const [img,setImg] = useState('sitl.png');
   return (
-    <div className='flex flex-col bg-b3 py-12 xl:px-[120px]' >
+    <div className='flex flex-col bg-b3 py-12 xl:px-[120px] lg:px-[75px]' >
     <div className=' lg:mt-10 xl:mt-10 mt-5' >
       <img src={img} className='xl:h-[565px] lg:h-[400px] h-52 w-full' />
       <div>

@@ -40,8 +40,8 @@ const Home = () => {
      <RatingProductSection/>
      <TourSection/>
      <GallerySection/>
-     {/* <SatisfiedSection title="Join Thousands of our Satisfied Customers." /> */}
-     {/* <NewsLetterSection/> */}
+     <SatisfiedSection title="Join Thousands of our Satisfied Customers." />
+     <NewsLetterSection/>
      </MainLayout>
     </>
   )
