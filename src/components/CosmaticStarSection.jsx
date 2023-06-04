@@ -3,7 +3,7 @@ import ProductCard from '../components/ProductCard'
 
 const CosmaticStarSection = () => {
   return (
-    <div className='flex flex-col bg-b8 px-12 py-14' >
+    <div className='flex flex-col bg-b8 py-14' >
     {/* Heading Start  */}
     <div className='flex flex-col items-center' >
       <h4 className='font-bold xl:text-[32px] lg:text-2xl lg:text-start text-xl text-center' >Our Cosmetic Star Rating System</h4>
@@ -12,7 +12,7 @@ const CosmaticStarSection = () => {
    {/* Heading End */}
 
    {/* Products Card Start */}
-    <div className="lg:grid grid-flow-col-dense lg:justify-center flex flex-col items-center lg:space-x-10 lg:space-y-0 space-y-5 mt-8 h-auto" >
+    <div className="xl:grid lg:grid grid-flow-col xl:justify-center flex flex-col items-center lg:space-x-5 lg:space-y-0 space-y-5 mt-8 h-auto lg:px-[60px]" >
      <ProductCard stars={3} type={1} />
      <ProductCard stars={4} type={2} />
      <ProductCard stars={5} type={3} />

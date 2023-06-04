@@ -65,7 +65,7 @@ const Navbar = ({sCart,setSCart}) => {
     <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
     <div className='relative' >
          {/* Navbar Start */}
-         <div className="lg:grid hidden grid-cols-12 items-center bg-b1 px-10 py-5" >
+         <div className="lg:grid hidden grid-cols-12 items-center bg-b1 xl:px-[120px] px-[60px] py-5" >
          <img className='col-start-1 col-end-3' src="neu.png" alt="logo" />
           <div className='col-start-4 col-end-8 flex items-center bg-white h-10 px-2 rounded-lg space-x-2 w-full ' ><AiOutlineSearch className='text-black' /><input type="text" placeholder='Search for appliances' className="w-full text-xs outline-none" /></div>
           <div className='col-start-9 col-end-13 flex justify-center space-x-2 w-full' >
@@ -77,7 +77,7 @@ const Navbar = ({sCart,setSCart}) => {
        </div>
       {/* Navbar End */}
       {/* Sub Navbar Start */}
-      <div className="relative lg:grid hidden grid-cols-12 text-white items-center bg-b2 px-10 py-5" >
+      <div className="relative lg:grid hidden grid-cols-12 text-white items-center bg-b2 xl:px-[120px] px-[60px] py-5" >
          
        {/* Mega Menu Start */}
       <div className={`absolute ${ megMenu ? 'grid':'hidden'} grid-cols-12 justify-center top-0 bg-b2 w-full py-5 z-30 px-16`} >

@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react'
 import { BsArrowLeftShort,BsArrowRightShort } from 'react-icons/bs';
 
 
-const GallerySlider = () => {
+const GallerySlider = ({setState,state}) => {
  useEffect(() => {
    let box = document.getElementById('id6');
    setBox(box);
@@ -23,18 +23,18 @@ const GallerySlider = () => {
     <div className='relative my-8 mx-5' >
      <button onClick={btnprev} className='absolute top-0 -right-5 z-40 h-full'><div className='hidden lg:flex bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group'><BsArrowRightShort className='text-xl'/></div></button>
      <button onClick={btnnext} className='absolute top-0 -left-5 z-40 h-full'><div className='hidden lg:flex bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group'><BsArrowLeftShort className='text-xl'/></div></button>
-     <div id="id6" className='flex lg:overflow-x-hidden overflow-x-scroll space-x-5 scroll-smooth' >
-      <img src="g2.png" className='h-[142px] w-[171px]' />
-      <img src="g3.png" className='h-[142px] w-[171px]' />
-      <img src="g4.png" className='h-[142px] w-[171px]' />
-      <img src="g5.png" className='h-[142px] w-[171px]' />
-      <img src="g6.png" className='h-[142px] w-[171px]' />
-      <img src="g7.png" className='h-[142px] w-[171px]' />
-      <img src="g8.png" className='h-[142px] w-[171px]' />
-      <img src="g8.png" className='h-[142px] w-[171px]' />
-      <img src="g8.png" className='h-[142px] w-[171px]' />
-      <img src="g8.png" className='h-[142px] w-[171px]' />
-      <img src="g8.png" className='h-[142px] w-[171px]' />
+     <div id="id6" className='flex lg:overflow-x-hidden overflow-x-scroll xl:space-x-[9px] scroll-smooth' >
+      <img onClick={()=>setState('g2.png')} src="g2.png" className={`xl:h-[142px] xl:w-[171px] cursor-pointer ${state === 'g2.png' ? 'border-4 border-blue-500 rounded-xl' : 'border-none'}  `} />
+      <img onClick={()=>setState('g3.png')} src="g3.png" className={`xl:h-[142px] xl:w-[171px] cursor-pointer ${state === 'g3.png' ? 'border-4 border-blue-500 rounded-xl' : 'border-none'}  `} />
+      <img onClick={()=>setState('g4.png')} src="g4.png" className={`xl:h-[142px] xl:w-[171px] cursor-pointer ${state === 'g4.png' ? 'border-4 border-blue-500 rounded-xl' : 'border-none'}  `} />
+      <img onClick={()=>setState('g5.png')} src="g5.png" className={`xl:h-[142px] xl:w-[171px] cursor-pointer ${state === 'g5.png' ? 'border-4 border-blue-500 rounded-xl' : 'border-none'}  `} />
+      <img onClick={()=>setState('g6.png')} src="g6.png" className={`xl:h-[142px] xl:w-[171px] cursor-pointer ${state === 'g6.png' ? 'border-4 border-blue-500 rounded-xl' : 'border-none'}  `} />
+      <img onClick={()=>setState('g7.png')} src="g7.png" className={`xl:h-[142px] xl:w-[171px] cursor-pointer ${state === 'g7.png' ? 'border-4 border-blue-500 rounded-xl' : 'border-none'}  `} />
+      <img onClick={()=>setState('g8.png')} src="g8.png" className={`xl:h-[142px] xl:w-[171px] cursor-pointer ${state === 'g8.png' ? 'border-4 border-blue-500 rounded-xl' : 'border-none'}  `} />
+      <img onClick={()=>setState('g8.png')} src="g8.png" className={`xl:h-[142px] xl:w-[171px] cursor-pointer ${state === 'g8.png' ? 'border-4 border-blue-500 rounded-xl' : 'border-none'}  `} />
+      <img onClick={()=>setState('g8.png')} src="g8.png" className={`xl:h-[142px] xl:w-[171px] cursor-pointer ${state === 'g8.png' ? 'border-4 border-blue-500 rounded-xl' : 'border-none'}  `} />
+      <img onClick={()=>setState('g8.png')} src="g8.png" className={`xl:h-[142px] xl:w-[171px] cursor-pointer ${state === 'g8.png' ? 'border-4 border-blue-500 rounded-xl' : 'border-none'}  `} />
+      <img onClick={()=>setState('g8.png')} src="g8.png" className={`xl:h-[142px] xl:w-[171px] cursor-pointer ${state === 'g8.png' ? 'border-4 border-blue-500 rounded-xl' : 'border-none'}  `} />
      </div>
     </div>
 
