@@ -13,7 +13,7 @@ const RatingProductSectionXl = ({stars,title}) => {
       };
   return (
     <>
-    <div className='xl:flex lg:hidden flex-col lg:mx-10 mx-5 py-10' >
+    <div className='xl:flex lg:hidden hidden flex-col lg:mx-10 mx-5 py-10' >
     <div className='flex flex-col items-center' >
      {title?<h4 className='xl:text-4xl lg:text-2xl text-xl font-bold mb-10' >Shop By Cosmetic Rating</h4>:null}
      <h4 className='xl:text-[22px] lg:text-lg text-md font-bold' >Cosmetic Rating: <span className='font-normal' >{stars} Stars</span> </h4>

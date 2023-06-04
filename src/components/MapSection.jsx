@@ -133,9 +133,9 @@ const MapSection = () => {
     <>
           <h4 className='font-bold text-center xl:text-3xl lg:text-2xl mt-10' >Neu Local Delivery Area</h4>
           <div className='relative flex flex-col justify-end items-end py-20 w-full h-full xl:pr-[130px] lg:pr-14' >
-           <img src="free.png" className='absolute z-40 xl:top-0 xl:w-52 xl:right-10 lg:w-36 lg:top-5 lg:right-8' />
+           <img src="free.png" className='absolute z-40 xl:top-0 xl:w-52 xl:right-10 lg:w-36 w-10 lg:top-5 top-0 lg:right-8' />
           
-          <div className={`absolute bottom-20 left-24 ${success? 'flex' : 'hidden'} items-center z-20 bg-transparent h-52 justify-center w-11/12`} >
+          <div className={`absolute bottom-20 lg:left-24 ${success? 'flex' : 'hidden'} items-center z-20 bg-transparent h-52 justify-center w-11/12`} >
            <div className='absolute flex items-center z-20 bottom-20 space-x-2 bg-white shadow-xl px-5 py-2 rounded-lg' >
             <AiFillCheckCircle className='text-b12' />
             <p className='font-semibold' >Delivery Available {zip}</p>
@@ -154,7 +154,7 @@ const MapSection = () => {
            <MapForm zip={zip} setZip={setZip} error={error} success={success} Submit={Submit} />
             
              {/* Map Section Start */}
-             <div id="map" className='xl:h-[686px] xl:w-[1000px] lg:h-[490px] lg:w-[850px] rounded-2xl' ></div>
+             <div id="map" className='xl:h-[686px] xl:w-[1000px] lg:h-[490px] lg:w-[850px] w-11/12 h-52 rounded-2xl' ></div>
              {/* Map Section End */}
           
             {/* <div className='bg-red-500 w-11/12 h-[490px] rounded-2xl' ></div> */}

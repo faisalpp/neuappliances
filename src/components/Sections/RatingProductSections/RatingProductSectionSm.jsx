@@ -3,7 +3,7 @@ import RatingProductSliderLg from './RatingProductSliderLg'
 import {AiFillStar} from 'react-icons/ai'
 import {BsArrowRightShort} from 'react-icons/bs'
 
-const RatingProductSectionLg = ({stars,title}) => {
+const RatingProductSectionSm = ({stars,title}) => {
     const StarIconPrinter = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
           <AiFillStar className='text-b7 text-lg xl:text-2xl' /> // Render the star icon component for each iteration
@@ -13,9 +13,9 @@ const RatingProductSectionLg = ({stars,title}) => {
       };
   return (
     <>
-    <div className='xl:hidden lg:flex hidden flex-col lg:mx-20 py-10' >
+    <div className='xl:hidden lg:hidden flex flex-col lg:mx-20 py-10' >
     <div className='flex flex-col items-center' >
-     {title?<h4 className='xl:text-4xl lg:text-2xl text-xl font-bold mb-10' >Shop By Cosmetic Ratingg</h4>:null}
+     {title?<h4 className='xl:text-4xl lg:text-2xl text-xl font-bold mb-10' >Shop By Cosmetic Rating</h4>:null}
      <h4 className='xl:text-[22px] lg:text-lg text-md font-bold' >Cosmetic Rating: <span className='font-normal' >{stars} Stars</span> </h4>
      <div className='flex mt-2 items-center' ><StarIconPrinter numberOfTimes={stars} /> </div>
    </div>
@@ -28,4 +28,4 @@ const RatingProductSectionLg = ({stars,title}) => {
   )
 }
 
-export default RatingProductSectionLg
+export default RatingProductSectionSm

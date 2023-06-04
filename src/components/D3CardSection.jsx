@@ -14,9 +14,9 @@ const D3CardSection = () => {
       <div className='flex lg:justify-start justify-center' ><a className='flex items-center border-[1px] border-b3 w-fit px-4 py-1 rounded-md text-b3 font-semibold' ><span className='text-sm' >Get Our Best Deals</span><BsArrowRightShort className='text-2xl' /></a></div>
     </div>
     <div className='col-start-7 col-end-13 lg:mt-0 mt-10 relative flex justify-center items-center w-full' >
-     <img src="3d1.png" className='w-56 h-96' />
-     <img src="3d2.png" className='absolute -top-5 w-72 h-96' />
-     <img src="3d3.png" className='w-56 h-96' />
+     <img src="3d1.png" className='lg:w-56 lg:h-96 w-10 h-10' />
+     <img src="3d2.png" className='absolute -top-5 lg:w-72 lg:h-96 w-10 h-10' />
+     <img src="3d3.png" className='lg:w-56 lg:h-96 w-10 h-10' />
      {/* <D3Slider/> */}
     </div>
    </div>
