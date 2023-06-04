@@ -13,7 +13,7 @@ const ProductCard = ({type,stars}) => {
     return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
   };
   return (
-    <div className='flex flex-col bg-white xl:w-[460px] w-[360px] h-auto rounded-md pb-10 shadow-md' >
+    <div className='flex flex-col bg-white xl:w-[460px] lg:w-[360px] w-11/12 h-auto rounded-md pb-10 shadow-md' >
         {type == 1 ?<div className='flex items-center bg-b9 w-fit px-3 rounded-b-2xl ml-3 justify-center h-6 space-x-2 text-white' ><AiOutlineDollar/><span className='text-xs' >Best Value</span></div>:null}
         {type == 2 ?<div className='flex items-center bg-b3 w-fit px-3 rounded-b-2xl ml-3 justify-center h-7 space-x-2 text-white' ><BsFire/> <span className='text-xs' >Most Popular</span></div>:null}
         {type == 3 ?<div className='flex items-center bg-b7 w-fit rounded-b-2xl ml-3 justify-center px-3 h-7 space-x-2 text-white' ><BsFire/> <span className='text-xs' >Premium Condition</span></div>:null}

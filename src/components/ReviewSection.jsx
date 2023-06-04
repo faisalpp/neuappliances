@@ -5,7 +5,7 @@ import {BsArrowRightShort} from 'react-icons/bs'
 
 const ReviewSection = () => {
   return (
-    <div className='flex flex-col justify-center xl:px-32 lg:px-14 py-16' >
+    <div className='flex flex-col justify-center xl:px-32 lg:px-14 px-5 py-16' >
     <h4 className='text-2xl font-bold' >Saving Austinites Money on Appliances Since 2015</h4>
      <ReviewSlider  color="#F5F5F5" />
      <ReviewSlider2  color="#ff9b3e14" />
