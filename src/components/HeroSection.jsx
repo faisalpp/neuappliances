@@ -4,7 +4,7 @@ import {AiOutlineShoppingCart} from 'react-icons/ai'
 const HeroSection = () => {
   return (
     <>
-          <div className='lg:grid xl:grid flex flex-col lg:space-y-0 space-y-10 grid-cols-12 items-center py-20 xl:px-[120px] lg:space-x-16 lg:px-[60px] bg-b5 auto' >
+          <div className='lg:grid xl:grid flex flex-col lg:space-y-0 space-y-10 grid-cols-12 items-center py-20 px-[8.33%] bg-b5 auto' >
           <div className='col-start-1 col-end-7 flex flex-col space-y-10' >
            <h4 className='xl:text-6xl lg:text-5xl text-3xl lg:text-start text-center font-extrabold' >Austin's Best Deals For Scratch & Dent Appliances</h4>
            <div className='flex lg:justify-start justify-center' ><a href="#" className='flex text-white rounded-md space-x-2 font-semibold items-center justify-center bg-b7 w-56 h-[56px] text-sm' ><AiOutlineShoppingCart className='text-xl' /><span>Discover The Savings</span></a></div>

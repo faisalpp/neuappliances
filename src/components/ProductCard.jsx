@@ -4,7 +4,7 @@ import {IoIosArrowForward} from 'react-icons/io'
 import {BsFire} from 'react-icons/bs'
 import ProductSlider from './ProductSlider'
 
-const ProductCard = ({type,stars}) => {
+const ProductCard = ({type,stars,discount}) => {
   const StarIconPrinter = ({ numberOfTimes }) => {
     const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
       <AiFillStar className='text-b7 text-lg' /> // Render the star icon component for each iteration
@@ -20,7 +20,9 @@ const ProductCard = ({type,stars}) => {
         <div className='flex flex-col items-center justify-center mt-4' >
            <div className='flex justify-center items-center text-center space-x-1 text-lg' ><h4 className='font-bold' >Cosmetic Rating:</h4><span className='font-semibold' >{stars} Stars</span></div> 
            <div className='flex space-x-3 mt-2' ><StarIconPrinter numberOfTimes={stars} /></div>
-           <h4 className='text-b9 font-semibold text-sm mt-3' >Moderate Cosmetic Damage</h4>
+           {type == 1 ? <h4 className='text-b9 font-semibold text-sm mt-3' >Moderate Cosmetic Damage</h4>:null}
+           {type == 2 ?<h4 className='text-b9 font-semibold text-sm mt-3' >Minor Cosmetic Damage</h4>:null}
+           {type == 3 ?<h4 className='text-b9 font-semibold text-sm mt-3' >very Minor To No Cosmetic Damage</h4>:null}
            <div className='flex items-center mt-2 space-x-1 bg-b10 rounded-xl px-2 py-1 text-white' ><AiOutlineCheckCircle/><span className='text-xs' >100% Functional</span></div>
            <div className='relative pt-5 w-full' >
             <ProductSlider />
@@ -32,9 +34,9 @@ const ProductCard = ({type,stars}) => {
               <span className='font-semibold text-[16px]' >Discount</span>
               <div className='flex space-x-4 h-5' >
                 <div className='flex space-x-1' >
-                 <span className='flex bg-b4 w-2 mt-2' ></span>
-                 <span className='flex bg-b4 w-2 mt-1' ></span>
-                 <span className='flex bg-b4 w-2 h-5' ></span>
+                {discount === 1 ? <><span className='flex bg-b7 w-2 mt-2' ></span><span className='flex bg-b4 w-2 mt-1' ></span><span className='flex bg-b4 w-2 h-5' ></span></>:null}
+                {discount === 2 ? <><span className='flex bg-b4 w-2 mt-2' ></span><span className='flex bg-b7 w-2 mt-1' ></span><span className='flex bg-b4 w-2 h-5' ></span></>:null}
+                {discount === 3 ? <><span className='flex bg-b4 w-2 mt-2' ></span><span className='flex bg-b4 w-2 mt-1' ></span><span className='flex bg-b7 w-2 h-5' ></span></>:null}
                 </div>
                 <span className='font-semibold text-sm' >Massive</span>
               </div>
@@ -53,7 +55,7 @@ const ProductCard = ({type,stars}) => {
               <div className='flex space-x-1 items-center' ><span>Open Box / Scratch & Dent</span></div>
              </div>
             </div>
-            <a className='flex items-center justify-center space-x-2 cursor-pointer text-white text-[16px] bg-b7 h-10 rounded-md hover:underline' ><span>Shop 3 Star Products</span><IoIosArrowForward className='text-xl' /></a>
+            <a className='flex items-center justify-center space-x-2 cursor-pointer text-white text-[16px] bg-b7 h-10 rounded-md hover:underline' ><span>Shop {stars} Star Products</span><IoIosArrowForward className='text-xl' /></a>
            </div>
         </div>
     </div>

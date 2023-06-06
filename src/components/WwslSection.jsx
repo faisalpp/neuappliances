@@ -5,9 +5,9 @@ const WwslSection = () => {
   return (
     <>
           {/* What We Sell Section Start */}
-          <div className='flex flex-col py-16 bg-b8 w-full lg:px-[60px] px-8' >
-          <h4 className='text-center font-bold text-4xl' >What We Sell</h4>
-          <div className='lg:grid grid-flow-col xl:space-x-12 w-full lg:space-x-8 lg:space-y-0 space-y-5 xl:pl-[50px] xl:pr-[60px] mt-14' >
+          <div className='flex flex-col py-16 bg-b8 w-full' >
+          <h4 className='text-center font-bold text-4xl mt-16' >What We Sell</h4>
+          <div className='lg:grid grid-flow-col w-full space-x-2 lg:space-y-0 space-y-5 px-[8.33%] mt-16' >
             <Wwsl img="wwsl1.png" title="Scratch and Dent Appliances" />
             <Wwsl img="wwsl2.png" title="Floor Model & Display Appliances" />
             <Wwsl txtStyle="w-32" img="wwsl3.png" title="Open Box Appliances" />

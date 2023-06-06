@@ -65,7 +65,7 @@ const Navbar = ({sCart,setSCart}) => {
     <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
     <div className='relative' >
          {/* Navbar Start */}
-         <div className="lg:grid hidden grid-cols-12 items-center bg-b1 xl:px-[120px] px-[60px] py-5" >
+         <div className="lg:grid hidden grid-cols-12 items-center bg-b1 py-5 px-[8.33%]" >
          <img className='col-start-1 col-end-3' src="neu.png" alt="logo" />
           <div className='col-start-4 col-end-8 flex items-center bg-white h-10 px-2 rounded-lg space-x-2 w-full ' ><AiOutlineSearch className='text-black' /><input type="text" placeholder='Search for appliances' className="w-full text-xs outline-none" /></div>
           <div className='col-start-9 col-end-13 flex justify-center space-x-2 w-full' >
@@ -77,14 +77,14 @@ const Navbar = ({sCart,setSCart}) => {
        </div>
       {/* Navbar End */}
       {/* Sub Navbar Start */}
-      <div className="relative lg:grid hidden grid-cols-12 text-white items-center bg-b2 xl:px-[120px] px-[60px] py-5" >
+      <div className="relative lg:grid hidden grid-cols-12 text-white items-center bg-b1 py-5 px-[8.33%]" >
          
        {/* Mega Menu Start */}
-      <div className={`absolute ${ megMenu ? 'grid':'hidden'} grid-cols-12 justify-center top-0 bg-b2 w-full py-5 z-30 px-16`} >
+      <div className={`absolute ${ megMenu ? 'grid':'hidden'} grid-cols-12 justify-center top-0 bg-b1 w-full pt-5 pb-20 px-[8.33%] z-30`} >
 
-         <div className='col-start-1 col-end-3' >
+         <div className='col-start-1 col-end-2 flex flex-col items-center' >
           <h4 className='font-semibold' >How It Works</h4>
-          <div className='flex flex-col space-y-3 text-xs font-medium mt-2 text-white/80' >
+          <div className='flex flex-col space-y-4 text-xs font-medium mt-4 text-white/80' >
             <a>What We Sell</a>
             <a>Rating System</a>
             <a>Testing Process</a>
@@ -94,9 +94,9 @@ const Navbar = ({sCart,setSCart}) => {
           </div>
          </div>
 
-         <div className='col-start-4 col-end-6' >
+         <div className='col-start-3 col-end-5 ml-8' >
           <h4 className='font-semibold' >Resources</h4>
-          <div className='flex flex-col space-y-3 text-xs font-medium mt-2 text-white/80' >
+          <div className='flex flex-col space-y-4 text-xs font-medium mt-4 text-white/80' >
             <a>Appliance Repair</a>
             <a>Product Reviews</a>
             <a>Measuring Guide</a>
@@ -105,9 +105,9 @@ const Navbar = ({sCart,setSCart}) => {
           </div>
          </div>
 
-         <div className='col-start-7 col-end-10' >
+         <div className='col-start-6 col-end-6 flex flex-col' >
           <h4 className='font-semibold' >About Us</h4>
-          <div className='flex flex-col space-y-3 text-xs mt-2 font-medium text-white/80' >
+          <div className='flex flex-col space-y-4 text-xs mt-4 font-medium text-white/80' >
             <a>Our Story</a>
             <a>Our Outlet</a>
             <a>Our Companies</a>
@@ -115,12 +115,19 @@ const Navbar = ({sCart,setSCart}) => {
           </div>
          </div>
 
-         <div className='col-start-10 col-end-13' >
+         <div className='col-start-8 col-end-11' >
           <h4 className='font-semibold' >Help & Support</h4>
-          <div className='flex flex-col space-y-3 text-xs mt-2 font-medium text-white/80' >
+          <div className='flex flex-col space-y-4 text-xs mt-4 font-medium text-white/80' >
             <a>Help Placing an Order Us</a>
             <a>Return and Exchange</a>
             <a>Contact Us</a>
+          </div>
+         </div>
+
+         <div className='col-start-11 col-end-13' >
+          <h4 className='font-semibold' >Delivery</h4>
+          <div className='flex flex-col space-y-4 text-xs mt-4 font-medium text-white/80' >
+            <a>Important Information</a>
           </div>
          </div>
 
@@ -128,16 +135,19 @@ const Navbar = ({sCart,setSCart}) => {
       {/* Mega Menu End */}
          
          
-         <div className='col-start-1 col-end-5 flex items-center space-x-10' >
-           <NavLink to='/' ><div className='flex items-center font-reg text-xs cursor-pointer text-white/80 hover:text-b6' ><span className='w-max' >Home</span></div></NavLink> 
+         <div className='col-start-1 col-end-5 flex items-center xl:space-x-14 space-x-8' >
+           {/* <NavLink to='/' ><div className='flex items-center font-reg text-xs cursor-pointer text-white/80 hover:text-b6' ><span className='w-max' >Home</span></div></NavLink>  */}
            <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Deals" links={[{'name':'Recent Arrival','url':'/recent-arrivals'},{'name':'5 Star Products','url':'/five-star-products'},{'name':'4 Star Products','url':'/four-star-products'},{'name':'3 Star Products','url':'/three-star-products'}]} />
            <div className='flex items-center font-normal text-white/80 text-xs cursor-pointer hover:text-b6' ><span className='w-max' >Shop Now</span></div>
            <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Products" links={[{'name':'Refrigerators','url':'/products'},{'name':'Washer & Dryers','url':'/products'},{'name':'Rangers','url':'/products'},{'name':'Dishwasher','url':'/products'},{'name':'Microwaves','url':'/products'},{'name':'View All Categories','url':'/products'}]} bold={600} />
            <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Popular Brands" links={[{'name':'Amana','url':'/brands/amana'},{'name':'Maytag','url':'/brand/maytag'},{'name':'Frigdaire','url':'/brand/frigdaire'},{'name':'Haier','url':'/brand/haier'},{'name':'Hisense','url':'/brand/hisense'},{'name':'Kenmore','url':'/Kenmore'},{'name':'LG','url':'/lg'},{'name':'KitchenAid','url':'/kitchen-aid'},{'name':'Samsung','url':'/samsung'},{'name':'Whirlpool','url':'/whirlpool'},{'name':'Midea','url':'/midea'}]} bold={600} />
+           <div className='flex items-center font-normal text-white/80 text-xs cursor-pointer hover:text-b6' ><span className='w-max' >Financing</span></div>
+           <div className='flex items-center font-normal text-white/80 text-xs cursor-pointer hover:text-b6' ><span className='w-max' >Testimonials</span></div>
+           <div className='flex items-center font-normal text-white/80 text-xs cursor-pointer hover:text-b6' ><span className='w-max' >Pricing</span></div>
          </div>
          <div className='col-start-10 col-end-13 flex items-center justify-center space-x-10' >
            <div className='flex items-center space-x-1 text-b4 cursor-pointer hover:text-white' ><FiPhone/><span className='text-xs font-medium w-max' >(512) 992-2714</span></div>  
-           <div className='flex items-center space-x-1 text-white cursor-pointer' ><TfiHeadphoneAlt/><span className='text-xs font-medium w-max' >Need Help?</span></div>  
+           <div className='flex items-center space-x-1 text-white cursor-pointer' ><TfiHeadphoneAlt/><span className='text-xs font-medium w-max text-white/80' >Need Help?</span></div>  
          </div>
 
        </div>

@@ -3,7 +3,7 @@ import GallerySlider from '../components/GallerySlider'
 import { BsArrowRightShort } from 'react-icons/bs'
 
 const GallerySection = () => {
-  const [img,setImg] = useState('sitl.png');
+  const [img,setImg] = useState('g8.png');
   return (
     <div className='flex flex-col bg-b3 py-12 xl:px-[120px] lg:px-[50px] px-' >
     <div className=' lg:mt-10 xl:mt-10 mt-5' >

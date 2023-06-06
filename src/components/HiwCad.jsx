@@ -3,7 +3,7 @@ import React from 'react'
 const HiwCad = ({icon,title,txt}) => {
   return (
     <>
-    <div className='col-start-1 col-end-4  flex flex-col space-y-5 items-center rounded-xl shadow-lg py-10  xl:w-[440px] lg:w-[350px] lg:mt-0 mt-5 lg:px-5 xl:px-10 px-2 bg-white' >
+    <div className='col-start-1 col-end-4  flex flex-col space-y-5 items-center rounded-2xl shadow-lg py-10  xl:w-[440px] lg:w-[350px] lg:mt-0 mt-5 lg:px-5 xl:px-10 px-2 bg-white' >
       <img src={icon} className='w-16' />
       {/* <div className='flex flex-col space-y-5 xl:px-8 lg:px-5' > */}
        <h5 className='font-bold text-xl xl:text-2xl text-center ' >{title}</h5>
