@@ -13,7 +13,7 @@ const D3CardSection = () => {
       <div className='flex space-x-2' ><IoLocationOutline className='text-5xl' /><p className='text-sm' >Discover why our Austin neighbors trust us to provide great appliances at better savings. Lets find the perfect appliance for your needs at an unbeatable price by clicking below.</p></div>
       <div className='flex lg:justify-start justify-center' ><a className='flex items-center border-[1px] border-b3 w-fit px-4 py-1 rounded-md text-b3 font-semibold' ><span className='text-sm' >Get Our Best Deals</span><BsArrowRightShort className='text-2xl' /></a></div>
     </div>
-    <div className='col-start-7 col-end-13 lg:mt-0 mt-10 relative flex justify-center items-center w-fit' >
+    <div className='col-start-8 col-end-13 lg:mt-0 mt-10 relative flex justify-center items-center w-fit' >
      <img src="3d1.png" className='lg:w-56 lg:h-96 w-46 h-36' />
      <img src="3d2.png" className='absolute xl:-top-16 lg:-top-5 xl:h-[530px]  xl:w-72 lg:w-72 lg:h-96 w-46 h-36' />
      <img src="3d3.png" className='lg:w-56 lg:h-96 w-46 h-36' />

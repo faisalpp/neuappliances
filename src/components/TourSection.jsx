@@ -3,7 +3,7 @@ import { BsArrowRightShort } from 'react-icons/bs'
 
 const TourSection = () => {
   return (
-    <div id="tour" className='xl:grid lg:grid grid-cols-12 xl:gap-x-10 lg:space-x-16 flex flex-col items-center justify-center xl:px-[120px] lg:px-[80px] px-4 lg:py-16 py-10' >
+    <div id="tour" className='xl:grid lg:grid grid-cols-12 xl:gap-x-10 lg:space-x-16 flex flex-col items-center justify-center xl:px-[120px] lg:px-[80px] px-4 py-24' >
      <iframe className='col-start-1 col-end-6 w-11/12 rounded-2xl xl:h-[651px] xl:w-[640px] lg:w-[400px] h-72 lg:h-96' src="https://www.youtube.com/embed/OzCAGd4YVbI" title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
      {/* <img src="tour.png" className='col-start-1 col-end-6 w-full xl:h-[470px] h-72 lg:h-96' /> */}
     {/* <div className=' flex flex-col items-center lg:mt-0 mt-5 h-full' > */}

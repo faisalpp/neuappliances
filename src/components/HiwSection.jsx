@@ -3,7 +3,7 @@ import HiwCad from './HiwCad'
 
 const HiwSection = () => {
   return (
-    <div className='flex flex-col items-center bg-b8 space-y-10 pt-5 pb-10 w-full' >
+    <div className='flex flex-col items-center bg-b8 space-y-10 pb-10 w-full' >
        <h4 className='font-bold xl:text-[36px] text-3xl py-5' >How it Works</h4>
        
     <div className='flex lg:flex-row flex-col px-[8.33%] justify-between w-full' >
