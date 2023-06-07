@@ -12,7 +12,7 @@ const CosmaticStarSection = () => {
    {/* Heading End */}
 
    {/* Products Card Start */}
-    <div className="xl:grid lg:grid grid-flow-col xl:justify-center flex flex-col items-center px-[8.33%] space-x-3 lg:space-y-0 space-y-5 mt-14 h-auto" >
+    <div className="xl:grid lg:grid grid-flow-col xl:justify-center flex flex-col items-center px-[8.33%] xl:space-x-3 lg:space-y-0 space-y-5 mt-14 h-auto" >
      <ProductCard stars={3} type={1} discount={1} />
      <ProductCard stars={4} type={2} discount={2} />
      <ProductCard stars={5} type={3} discount={3} />

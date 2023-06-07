@@ -3,3 +3,8 @@
 .body{
     font-family: 'Montserrat';
 }
+  
+.parent-container > div > div > div {
+      /* Set opacity to 1 for child <div> elements */
+      opacity: 1;
+    }
