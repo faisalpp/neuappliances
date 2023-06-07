@@ -73,10 +73,10 @@ const Footer = () => {
             {/* Email Address */}
             <div>
              <h4 className='font-bold text-lg' >Get Latest Discount Offers</h4>
-             <div className='col-start-4 col-end-8 mt-3 flex items-center bg-b2 h-10 px-2 rounded-lg space-x-2 w-full ' ><input type="text" placeholder='Email Address' className="bg-b2 w-full text-xs text-white/90 outline-none" /><IoSendSharp className='text-white' /></div>
+             <div className='col-start-4 col-end-8 mt-3 flex items-center bg-b2 h-10 px-3 rounded-lg space-x-2 w-full ' ><input type="text" placeholder='Email Address' className="bg-b2 w-full text-xs text-white/90 outline-none" /><IoSendSharp className='text-white' /></div>
             </div>
             {/* Follow Us */}
-            <div className='flex flex-col lg:items-start items-center space-y-3 mt-5' >
+            <div className='flex flex-col py-4 lg:items-start items-center space-y-3 mt-5' >
              <h4 className='font-bold text-lg' >Follow Us</h4>
              <div className='flex space-x-2' >
               <span className='flex items-center justify-center w-10 h-10 rounded-full bg-b2' ><FaFacebookF/></span>
