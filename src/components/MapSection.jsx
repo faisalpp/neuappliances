@@ -131,7 +131,7 @@ const MapSection = () => {
 
   return (
     <>
-          <h4 className='font-bold text-center xl:text-3xl lg:text-2xl mt-10' >Neu Local Delivery Area</h4>
+          <h4 className='font-bold text-center xl:text-3xl lg:text-2xl mt-20' >Neu Local Delivery Area</h4>
           <div className='relative flex flex-col justify-end items-end py-20 w-full h-full xl:pr-[130px] lg:pr-14 px-5' >
            <img src="free.png" className='absolute z-40 xl:top-0 xl:w-52 xl:right-10 lg:w-36 w-20 lg:top-5 top-10 right-0 lg:right-8' />
           

@@ -5,7 +5,7 @@ import {BsArrowRightShort} from 'react-icons/bs'
 const MapForm = ({zip,setZip,Submit,success,error}) => {
 
   return (
-      <div className='absolute xl:top-[150px] xl:left-32 lg:top-28 lg:left-20 lg:flex hidden xl:h-[543px] xl:w-[512px] lg:h-[420px] lg:w-[350px] h-fit py-10  w-[380px] rounded-2xl bg-white bg-opacity-30 backdrop-blur-lg  shadow-2xl z-30 ' >
+      <div className='absolute xl:top-[150px] xl:left-32 lg:top-28 lg:left-20 lg:flex hidden xl:h-[543px] xl:w-[512px] lg:h-[420px] lg:w-[350px] h-fit py-10  w-[380px] rounded-2xl bg-white bg-opacity-30 backdrop-blur-md  shadow-2xl z-30 ' >
       <div className='flex flex-col  justify-center xl:px-20 lg:px-10 xl:space-y-5 space-y-2' >
        <h4 className='font-extrabold xl:text-2xl text-xl' >Delivery & Installation</h4>
        <p className='lg:text-sm xl:text-[16px] font-medium' >We make getting your appliance delivered and installed easy! We offer delivery and installation services to the greater Austin and surrounding areas! Input your Zipcode to see if we offer delivery and installation services in your area! </p>

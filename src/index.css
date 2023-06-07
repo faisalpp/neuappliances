@@ -4,10 +4,17 @@
 
 #tour{
     background-image: url('../public/map.png');
+    backdrop-filter: blur(2.6px);
+  -webkit-backdrop-filter: blur(2.6px);
 }
 
 #news{
     background-image: url('../public/new.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#news-grid{
+    background-image: url('../public/grid.png');
     background-repeat: no-repeat;
     background-size: cover;
 }

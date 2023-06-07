@@ -6,7 +6,7 @@ import {FaFacebookF,FaInstagram,FaTwitter} from 'react-icons/fa';
 
 const Footer = () => {
   return (
-          <div className="lg:grid flex flex-col lg:items-center  grid-cols-12 bg-b1 py-10 xl:px-[118px] px-5" >
+          <div className="lg:grid flex flex-col xl:items-center lg:items-center  grid-cols-12 bg-b1 py-10 xl:px-[118px] px-5" >
 
           {/* Logo Section Start */}
            <div className='col-start-1 col-end-3 space-y-10' >
@@ -36,7 +36,7 @@ const Footer = () => {
           {/* Logo Section End */}
           
            {/* Quick Links Section Start */}
-            <div className='col-start-4 lg:mt-0 mt-5' >
+            <div className='col-start-4' >
             <h4 className='w-max text-white text-lg font-bold font-reg' >Quick Links</h4>
              <div className='flex flex-col text-white/60 text-sm space-y-5 w-max mt-3 hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
               <a>Shop Now</a>
@@ -54,7 +54,7 @@ const Footer = () => {
            {/* Quick Links Section End */}
     
            {/* Quick Links Section 2 Start */}
-           <div className='col-start-7 lg:mt-0 flex flex-col text-white/60 text-sm space-y-5 w-max mt-10 hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
+           <div className='col-start-7 lg:mt-0 flex flex-col text-white/60 text-sm space-y-5 w-max pt-12 hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
               <a>Our Brands</a>
               <a>Delivery</a>
               <a>Appliance Measuring Guide</a>
@@ -69,7 +69,7 @@ const Footer = () => {
            {/* Quick Links Section 2 End */}
     
            {/* Quick Links Section 2 Start */}
-           <div className='col-start-10 lg:mt-0 mt-10 flex flex-col text-white text-sm w-max' >
+           <div className='col-start-10 lg:mt-0 pt-20 flex flex-col text-white text-sm w-max' >
             {/* Email Address */}
             <div>
              <h4 className='font-bold text-lg' >Get Latest Discount Offers</h4>
