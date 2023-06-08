@@ -7,14 +7,14 @@ const LoopSection = () => {
   const [video,setVideo] = useState('https://www.youtube.com/embed/OzCAGd4YVbI');
 
   return (
-    <div className='flex flex-col mt-12 xl:px-[120px] lg:px-[60px] px-5' >
+    <div className='flex flex-col mt-12 px-[8.33%]' >
     <div className='flex flex-col justify-center space-y-3 items-center w-full' >
      <h4 className='lg:text-4xl xl:text-4xl text-2xl font-bold text-center' >Stay In The Loop</h4>
      <p className='xl:text-xl lg:text-xl text-sm font-medium text-center lg:w-7/12 xl:w-[990px] w-11/12' >Keep up with our videos about appliances we sell, New stock at our outlet store, product reviews,  sales and much more!</p>
     </div>
     
     <div className=' py-16 lg:mb-0 mb-10' >
-    <iframe className='col-start-1 col-end-6 w-full rounded-2xl xl:h-[651px] xl:w-[1440px] lg:w-[1100px] h-72 lg:h-[430px]' src={video} title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <iframe className='col-start-1 col-end-6 w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]' src={video} title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       <div>
         <StayLoopSlider state={video} setState={setVideo} />
       </div>

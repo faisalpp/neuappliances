@@ -13,13 +13,13 @@ const RatingProductSectionXl = ({stars,title}) => {
       };
   return (
     <>
-    <div className='xl:flex lg:hidden hidden flex-col lg:mx-10 mx-5 pt-5 pb-5' >
+    <div className='2xl:flex hidden flex-col px-[8.33%] pt-5 pb-5' >
     <div className='flex flex-col items-center' >
      {title?<h4 className='xl:text-4xl lg:text-2xl text-xl font-bold mb-10' >Shop By Cosmetic Rating</h4>:null}
      <h4 className='xl:text-[22px] lg:text-lg text-md font-bold' >Cosmetic Rating: <span className='font-normal' >{stars} Stars</span> </h4>
      <div className='flex items-center' ><StarIconPrinter numberOfTimes={stars} /> </div>
    </div>
-   <div className=' relative xl:mx-[120px] lg:mx-[60px] mt-14' >
+   <div className=' relative mt-14' >
      <RatingProductSliderXl stars={stars} />
    </div>
     <div className='flex justify-center mt-5' ><a className='flex items-center border-[1px] border-b3 w-fit px-4 py-2 xl:py-2 rounded-md text-b3 font-semibold' ><span className='lg:text-sm xl:text-[16px] text-xs' >Shop All {stars} Star Cosmetic Rating Appliances</span><BsArrowRightShort className='text-2xl' /></a></div>

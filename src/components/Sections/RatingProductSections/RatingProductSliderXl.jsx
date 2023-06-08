@@ -15,7 +15,7 @@ const RatingProductSliderXl = ({stars}) => {
     visibleSlides={4}
     >
     <ButtonNext className='absolute xl:top-56 xl:-left-16 lg:top-52 lg:-left-10 z-40'><div className='flex bg-black/30 hover:bg-cyan-400 px-2 py-2 rounded-full text-white'><BsArrowLeftShort className='text-lg'/></div></ButtonNext>
-    <Slider className='-mx-10' >
+    <Slider className='' >
       <Slide index={0}>
         <ProductCard2 stars={stars} />
       </Slide>

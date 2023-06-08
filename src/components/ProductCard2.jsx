@@ -10,7 +10,7 @@ const ProductCard2 = ({stars}) => {
   }
   return (
     <>
-    <div className='relative flex flex-col border-2 border-gray-100 rounded-lg bg-white py-10 xl:px-5 xl:w-[340px] xl:h-[540px] lg:w-[340px] w-11/12 lg:px-5 px-3' >
+    <div className='relative flex flex-col border-2 border-gray-100 rounded-lg bg-white py-10 xl:px-5 xl:w-[340px] xl:h-[540px] lg:w-[340px] md:w-[300px] w-full lg:px-5 px-3' >
       <span className='absolute top-0 right-0 bg-b4 rounded-2xl mt-2 mr-1 px-4 py-2 text-xs font-bold ' >50% Off</span>
       <div className='flex w-full justify-center' ><img src="p1.png" className=' xl:w-54 lg:w-52 w-[160px] h-full' /></div>
       <div className='flex flex-col space-y-3 xl:mt-6 mt-3' >

@@ -6,7 +6,7 @@ const ApplianceSection = () => {
   return (
      <div className='flex flex-col items-center py-28 bg-b8' >
      <h4 className='xl:text-4xl text-xl font-bold text-center mb-4' >Shop By Appliance Type</h4>
-     <div className='lg:grid grid-cols-3 grid-rows-2 flex flex-col gap-x-10 gap-y-14 mt-10 xl:pr-[90px] lg:px-[60px] ' >
+     <div className='lg:grid grid-cols-3 grid-rows-2 flex flex-col gap-x-10 gap-y-14 mt-10 px-[8.33%] ' >
       <SProductCard cat="Refrigerators" />
       <SProductCard cat="Washer & Dryers" />
       <SProductCard cat="Ranges" />

@@ -15,7 +15,7 @@ const RatingProductSliderSm = ({stars}) => {
     visibleSlides={1}
     >
     {/* <ButtonNext className='absolute xl:top-56 xl:-left-10 lg:top-52 lg:-left-16 z-40'><div className='flex bg-black/30 hover:bg-cyan-400 px-2 py-2 rounded-full text-white'><BsArrowLeftShort className='text-lg'/></div></ButtonNext> */}
-    <Slider className='lg:-mx-10 ml-8' >
+    <Slider className='mrx-20' >
       <Slide index={0}>
         <ProductCard2 stars={stars} />
       </Slide>

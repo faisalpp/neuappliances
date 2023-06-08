@@ -14,7 +14,7 @@ const NewsLetterSection = () => {
       <h4 className='font-bold text-sm' >Email</h4>
       <div className='flex lg:flex-row flex-col lg:space-y-0 space-y-2 space-x-5 items-center' ><input type="email" className='text-xs lg:py-3 xl:py-3 py-2 px-2 rounded-md w-72' placeholder='Enter Your Email!' /><a className='bg-b3 px-7 py-3 text-xs font-bold rounded-md w-max text-white' >Get Updates</a></div>
       <div className='flex items-center space-x-3 py-2' ><Checkbox color='deep-orange'  checked ripple={false} /><span className='text-sm' >Yes, sign me up!</span></div>
-      <p className='text-xs w-[350px]' >Sign up above to get updates delivered directly to your inbox. See our <b>Privacy Policy.</b></p>
+      <p className='text-xs xl:w-[350px] w-[280px]' >Sign up above to get updates delivered directly to your inbox. See our <b>Privacy Policy.</b></p>
      </div> 
     </div>
    </div>
