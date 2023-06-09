@@ -1,63 +1,63 @@
 import React from 'react'
-import {AiOutlineDollar,AiFillStar,AiOutlineCheckCircle} from 'react-icons/ai'
-import {IoIosArrowForward} from 'react-icons/io'
-import {BsFire} from 'react-icons/bs'
+import { AiOutlineDollar, AiFillStar, AiOutlineCheckCircle } from 'react-icons/ai'
+import { IoIosArrowForward } from 'react-icons/io'
+import { BsFire } from 'react-icons/bs'
 import ProductSlider from './ProductSlider'
 
-const ProductCard = ({type,stars,discount}) => {
+const ProductCard = ({ title, dicount, type, stars, discount, codmetics }) => {
   const StarIconPrinter = ({ numberOfTimes }) => {
     const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
       <AiFillStar className='text-b7 text-lg' /> // Render the star icon component for each iteration
     ));
-  
+
     return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
   };
   return (
-    <div className='flex flex-col bg-white 2xl:w-[450px] xl:w-[394px] lg:w-[350px] md:w-[400px] w-full h-auto rounded-md pb-10 shadow-md' >
-        {type == 1 ?<div className='flex items-center bg-b9 w-fit px-3 rounded-b-2xl ml-3 justify-center h-6 space-x-2 text-white' ><AiOutlineDollar/><span className='text-xs' >Best Value</span></div>:null}
-        {type == 2 ?<div className='flex items-center bg-b3 w-fit px-3 rounded-b-2xl ml-3 justify-center h-7 space-x-2 text-white' ><BsFire/> <span className='text-xs' >Most Popular</span></div>:null}
-        {type == 3 ?<div className='flex items-center bg-b7 w-fit rounded-b-2xl ml-3 justify-center px-3 h-7 space-x-2 text-white' ><BsFire/> <span className='text-xs' >Premium Condition</span></div>:null}
-        <div className='flex flex-col items-center justify-center mt-4' >
-           <div className='flex justify-center items-center text-center space-x-1 text-lg' ><h4 className='font-bold' >Cosmetic Rating:</h4><span className='font-semibold' >{stars} Stars</span></div> 
-           <div className='flex space-x-3 mt-2' ><StarIconPrinter numberOfTimes={stars} /></div>
-           {type == 1 ? <h4 className='text-b9 font-semibold text-sm mt-3' >Moderate Cosmetic Damage</h4>:null}
-           {type == 2 ?<h4 className='text-b9 font-semibold text-sm mt-3' >Minor Cosmetic Damage</h4>:null}
-           {type == 3 ?<h4 className='text-b9 font-semibold text-sm mt-3' >very Minor To No Cosmetic Damage</h4>:null}
-           <div className='flex items-center mt-2 space-x-1 bg-b10 rounded-xl px-2 py-1 text-white' ><AiOutlineCheckCircle/><span className='text-xs' >100% Functional</span></div>
-           <div className='relative pt-5 w-full' >
-            <ProductSlider />
-           </div>
-           
-           <div className='flex flex-col space-y-3' >
-            <div className='flex space-x-3' ><span className='font-semibold text-[16px]' >Cosmetic Damage</span><span>Moderate</span></div>
-            <div className='flex space-x-20' >
-              <span className='font-semibold text-[16px]' >Discount</span>
-              <div className='flex space-x-4 h-5' >
-                <div className='flex space-x-1' >
-                {discount === 1 ? <><span className='flex bg-b7 w-2 mt-2' ></span><span className='flex bg-b4 w-2 mt-1' ></span><span className='flex bg-b4 w-2 h-5' ></span></>:null}
-                {discount === 2 ? <><span className='flex bg-b4 w-2 mt-2' ></span><span className='flex bg-b7 w-2 mt-1' ></span><span className='flex bg-b4 w-2 h-5' ></span></>:null}
-                {discount === 3 ? <><span className='flex bg-b4 w-2 mt-2' ></span><span className='flex bg-b4 w-2 mt-1' ></span><span className='flex bg-b7 w-2 h-5' ></span></>:null}
-                </div>
-                <span className='font-semibold text-sm' >Massive</span>
+    <div className='flex flex-col maxmd:max-w-[330px] relative maxmd:mx-auto bg-white w-full h-auto rounded-md p-4 sm:p-6 md:p-8 lg:p-12 shadow-md' >
+      {type == 1 ? <div className='absolute top-0 left-2 flex items-center bg-b9 w-fit px-3 rounded-b-2xl ml-2 justify-center h-6 gap-x-2 text-white' ><AiOutlineDollar /><span className='text-xs' >Best Value</span></div> : null}
+      {type == 2 ? <div className='absolute top-0 left-2  flex items-center bg-b3 w-fit px-3 rounded-b-2xl ml-2 justify-center h-7 gap-x-2 text-white' ><BsFire /> <span className='text-xs' >Most Popular</span></div> : null}
+      {type == 3 ? <div className='absolute top-0 left-2  flex items-center bg-b7 w-fit rounded-b-2xl ml-2 justify-center px-3 h-7 gap-x-2 text-white' ><BsFire /> <span className='text-xs' >Premium Condition</span></div> : null}
+      <div className='flex flex-col items-center justify-center mt-4 w-full' >
+        <div className='flex justify-center items-center text-center gap-x-1 text-sm sm:text-base xl:text-lg' ><h4 className='font-bold' >{title}:</h4><span className='font-semibold' >{stars} Stars</span></div>
+        <div className='flex gap-x-3 mt-2' ><StarIconPrinter numberOfTimes={stars} /></div>
+        {type == 1 ? <h4 className='text-b9 font-semibold text-sm mt-3' >Moderate Cosmetic Damage</h4> : null}
+        {type == 2 ? <h4 className='text-b9 font-semibold text-sm mt-3' >Minor Cosmetic Damage</h4> : null}
+        {type == 3 ? <h4 className='text-b9 font-semibold text-sm mt-3' >very Minor To No Cosmetic Damage</h4> : null}
+        <div className='flex items-center mt-2 gap-x-1 bg-b10 rounded-xl px-2 py-1 text-white' ><AiOutlineCheckCircle /><span className='text-xs' >100% Functional</span></div>
+        <div className='relative pt-5 w-full' >
+          <ProductSlider />
+        </div>
+
+        <div className='flex flex-col gap-y-3 w-full mt-10' >
+          <div className='flex gap-4 sm:gap-x-10 md:gap-x-14 lg:gap-x-20 items-center' >
+            <span className='font-semibold text-[16px]' >Discount</span>
+            <div className='flex items-center px-5 border border-[#FF9B3E] rounded-full bg-[#FFFAF5] gap-x-4 py-3' >
+              <div className='flex gap-x-1' >
+                {discount === 1 ? <><span className='flex bg-b7 w-2 mt-2' ></span><span className='flex bg-b4 w-2 mt-1' ></span><span className='flex bg-b4 w-2 h-5' ></span></> : null}
+                {discount === 2 ? <><span className='flex bg-b4 w-2 mt-2' ></span><span className='flex bg-b7 w-2 mt-1' ></span><span className='flex bg-b4 w-2 h-5' ></span></> : null}
+                {discount === 3 ? <><span className='flex bg-b4 w-2 mt-2' ></span><span className='flex bg-b4 w-2 mt-1' ></span><span className='flex bg-b7 w-2 h-5' ></span></> : null}
               </div>
+              <span className='font-semibold text-xs md:text-sm' >{dicount}</span>
             </div>
-            <div className='flex space-x-5' >
-             <div className='text-sm space-y-2' >
+          </div>
+          <div className='flex items-center gap-x-3' ><span className='font-semibold text-[16px]' >Cosmetic Damage</span><span className='grow text-center text-[rgba(17,16,16,0.64)] justify-center flex items-center px-3 py-2 border border-[#22A6AB] rounded-full bg-[#F2FFFF] text-xs md:text-'>{codmetics}</span></div>
+          <div className='flex gap-x-5' >
+            <div className='text-sm flex flex-col gap-y-2' >
               <div className='flex' ><span>Mechanical Test</span></div>
               <div className='flex' ><span>Inspection</span></div>
               <div className='flex' ><span>Warranty</span></div>
               <div className='flex' ><span>Class</span></div>
-             </div>
-             <div className='text-sm space-y-2' >
-              <div className='flex space-x-1 items-center' ><AiOutlineCheckCircle className='text-b6' /><h4>100%</h4></div>
-              <div className='flex space-x-1 items-center' ><AiOutlineCheckCircle className='text-b6' /><h4>Passed</h4></div>
-              <div className='flex space-x-1 items-center' ><span>1 Year Warranty</span></div>
-              <div className='flex space-x-1 items-center' ><span>Open Box / Scratch & Dent</span></div>
-             </div>
             </div>
-            <a className='flex items-center justify-center space-x-2 cursor-pointer text-white text-[16px] bg-b7 h-10 rounded-md hover:underline' ><span>Shop {stars} Star Products</span><IoIosArrowForward className='text-xl' /></a>
-           </div>
+            <div className='text-sm flex flex-col gap-y-2' >
+              <div className='flex gap-x-1 items-center' ><AiOutlineCheckCircle className='text-b6' /><h4>100%</h4></div>
+              <div className='flex gap-x-1 items-center' ><AiOutlineCheckCircle className='text-b6' /><h4>Passed</h4></div>
+              <div className='flex gap-x-1 items-center' ><span>1 Year Warranty</span></div>
+              <div className='flex gap-x-1 items-center' ><span>Open Box / Scratch & Dent</span></div>
+            </div>
+          </div>
+          <a className='flex items-center justify-center gap-x-2 cursor-pointer text-white text-[16px] bg-b7 h-10 rounded-md hover:underline' ><span>Shop {stars} Star Products</span><IoIosArrowForward className='text-xl' /></a>
         </div>
+      </div>
     </div>
   )
 }

@@ -2,24 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-#tour{
-    background-image: url('../public/map.png');
-    backdrop-filter: blur(2.6px);
+#tour {
+  background-image: url('../public/map.png');
+  backdrop-filter: blur(2.6px);
   -webkit-backdrop-filter: blur(2.6px);
 }
 
-#news{
-    background-image: url('../public/new.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-#news-grid{
-    background-image: url('../public/grid.png');
-    background-repeat: no-repeat;
-    background-size: cover;
+#news {
+  background-image: url('../public/new.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-#map{
+#news-grid {
+  background-image: url('../public/grid.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#map {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(2.6px);
   -webkit-backdrop-filter: blur(2.6px);
@@ -28,24 +29,28 @@
 
 
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 #product_viewer {
-	max-width: 50%;
-	margin: 200px auto;
+  max-width: 50%;
+  margin: 200px auto;
 }
 
 #product_viewer img {
-	display: block;
-	width: 100%;
+  display: block;
+  width: 100%;
 }
 
-.parent-container > div > div > div {
+.parent-container>div>div>div {
   /* Set opacity to 1 for child <div> elements */
   opacity: 1 !important;
   height: 250px !important;
   /* background-color: red; */
+}
+
+.ratingproductslider .slideInner___2mfX9 {
+  padding-right: 10px;
 }
