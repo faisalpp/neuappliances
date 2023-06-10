@@ -14,7 +14,7 @@ const ApplianceSection = () => {
         <SProductCard cat="Microwaves" />
         <SProductCard cat="All Appliances" />
       </div>
-      <div className='flex justify-center mt-16' ><a className='flex items-center border-[1px] border-b3 w-fit px-4 py-3 rounded-md text-b3 font-semibold' ><span className='xl:text-[16px] lg:text-sm' >View All Categories</span><BsArrowRightShort className='text-2xl' /></a></div>
+      <div className='flex justify-center mt-16' ><a href='' className='flex items-center border-[1px] border-b3 w-fit px-4 py-3 rounded-md text-b3 font-semibold' ><span className='xl:text-[16px] lg:text-sm' >View All Categories</span><BsArrowRightShort className='text-2xl' /></a></div>
     </div>
   )
 }

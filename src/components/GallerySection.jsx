@@ -12,7 +12,7 @@ const GallerySection = () => {
           <GallerySlider setState={setImg} state={img} />
         </div>
       </div>
-      <div className='flex justify-center py-5' ><a className='flex items-center border-[1px] border-white w-fit px-4 xl:py-2 py-1 rounded-md font-semibold text-white' ><span className='text-sm xl:text-[16px]' >Shop Now</span><BsArrowRightShort className='text-2xl xl:text-3xl' /></a></div>
+      <div className='flex justify-center py-5' ><a href='' className='flex items-center border-[1px] border-white w-fit px-4 xl:py-2 py-1 rounded-md font-semibold text-white' ><span className='text-sm xl:text-[16px]' >Shop Now</span><BsArrowRightShort className='text-2xl xl:text-3xl' /></a></div>
     </div>
   )
 }

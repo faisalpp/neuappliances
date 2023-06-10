@@ -1,11 +1,7 @@
 import React from 'react'
-import { BsPiggyBank, BsArrowRightShort } from 'react-icons/bs'
-import { AiOutlineCheckCircle } from 'react-icons/ai'
-import { IoLocationOutline } from 'react-icons/io5';
-import Carousel from './Carousel/Carousel';
-import Card from './Carousel/Card';
+import {  BsArrowRightShort } from 'react-icons/bs'
+import D3Cards from './Carousel/D3Cards';
 import { v4 as uuidv4 } from 'uuid'
-import ProductCard from '../components/ProductCard'
 import PproductCard from './PproductCard';
 
 const D3CardSection = () => {
@@ -42,16 +38,38 @@ const D3CardSection = () => {
         <div className='flex space-x-2' ><img src="pin.png" className='h-5' /><p className='text-[16px]'>Discover why our Austin neighbors trust us to provide great appliances at better savings. Lets find the perfect appliance for your needs at an unbeatable price by clicking below.</p></div>
         <div className='flex lg:justify-start' ><a className='flex items-center border-[1px] border-b3 w-fit px-4 py-2 rounded-md text-b3 font-semibold' ><span className='text-sm' >Get Our Best Deals</span><BsArrowRightShort className='text-2xl' /></a></div>
       </div>
-      <div className='w-full xl:mt-0 mt-14 parent-container' >
-        <Carousel
+      
+      <div className='xl:flex hidden w-full xl:mt-0 mt-14 parent-container' >
+        <D3Cards
           cards={cards}
           height="400px"
           width="70%"
           margin="0 auto"
-          offset={5}
+          offset={1}
           showArrows={false}
         />
       </div>
+      <div className='xl:hidden lg:hidden md:hidden sm:hidden w-full xl:mt-0 mt-14 parent-container' >
+        <D3Cards
+          cards={cards}
+          height="400px"
+          width="95%"
+          margin="0 auto"
+          offset={1}
+          showArrows={false}
+        />
+      </div>
+      <div className='xl:hidden lg:block w-full xl:mt-0 mt-14 parent-container' >
+        <D3Cards
+          cards={cards}
+          height="400px"
+          width="50%"
+          margin="0 auto"
+          offset={1}
+          showArrows={false}
+        />
+      </div>
+
     </div>
   )
 }

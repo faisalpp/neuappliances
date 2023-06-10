@@ -39,32 +39,32 @@ const Footer = () => {
       <div className='col-start-4 col-end-6 maxxl:!col-span-4' >
         <h4 className='w-max text-white text-lg font-bold font-reg' >Quick Links</h4>
         <div className='flex flex-col text-white/60 text-sm gap-y-5 w-max mt-3 hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
-          <a>Shop Now</a>
-          <a>Shop On Sale</a>
-          <a>Live Inventory</a>
-          <a>Virtual Showroom</a>
-          <a>Financing</a>
-          <a>Discount Appliances in Stock</a>
-          <a>Austin Appliance Liquidation</a>
-          <a>Used Appliances</a>
-          <a>Appliance Repair</a>
-          <a>Helpful Appliance Tips</a>
+          <a href=''>Shop Now</a>
+          <a href=''>Shop On Sale</a>
+          <a href=''>Live Inventory</a>
+          <a href=''>Virtual Showroom</a>
+          <a href=''>Financing</a>
+          <a href=''>Discount Appliances in Stock</a>
+          <a href=''>Austin Appliance Liquidation</a>
+          <a href=''>Used Appliances</a>
+          <a href=''>Appliance Repair</a>
+          <a href=''>Helpful Appliance Tips</a>
         </div>
       </div>
       {/* Quick Links Section End */}
 
       {/* Quick Links Section 2 Start */}
       <div className='col-start-7 maxxl:!col-span-4 lg:mt-0 flex flex-col text-white/60 text-sm gap-y-5 w-max pt-12 hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
-        <a>Our Brands</a>
-        <a>Delivery</a>
-        <a>Appliance Measuring Guide</a>
-        <a>Do i have Electric or Gas?</a>
-        <a>Our Products</a>
-        <a>FAQ</a>
-        <a>Contact</a>
-        <a>Terms</a>
-        <a>Refund</a>
-        <a>Privacy Policy</a>
+        <a href=''>Our Brands</a>
+        <a href=''>Delivery</a>
+        <a href=''>Appliance Measuring Guide</a>
+        <a href=''>Do i have Electric or Gas?</a>
+        <a href=''>Our Products</a>
+        <a href=''>FAQ</a>
+        <a href=''>Contact</a>
+        <a href=''>Terms</a>
+        <a href=''>Refund</a>
+        <a href=''>Privacy Policy</a>
       </div>
       {/* Quick Links Section 2 End */}
 
