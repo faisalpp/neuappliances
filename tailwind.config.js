@@ -22,6 +22,7 @@ module.exports = {
 
       '3xl': '1680px',
 
+      'maxxs': { 'max': '374.5px' },
       'maxcosm': { 'max': '424.5px' },
       'maxsm': { 'max': '575.5px' },
       'maxmd': { 'max': '767.5px' },
@@ -53,6 +54,7 @@ module.exports = {
       },
       spacing: {
         '120px': '120px',
+        '60px': '60px',
       },
       maxWidth: {
         '1680px': '1680px',

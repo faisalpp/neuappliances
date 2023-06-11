@@ -67,7 +67,9 @@ const Navbar = ({ sCart, setSCart }) => {
         {/* Navbar Start */}
         <div className="hidden lg:block bg-b1 py-5">
           <div className='lg:grid grid-cols-12 items-center max-w-1680px px-16 xl:px-20 2xl:px-120px mx-auto w-full'>
-            <img className='col-start-1 col-end-3' src="neu.png" alt="logo" />
+            <NavLink to="/">
+              <img className='col-start-1 col-end-3' src="neu.png" alt="logo" />
+            </NavLink>
             <div className='col-start-4 col-end-8 flex items-center bg-white h-10 px-2 rounded-lg space-x-2 w-full ' ><AiOutlineSearch className='text-black' /><input type="text" placeholder='Search for appliances' className="w-full text-xs outline-none" /></div>
             <div className='col-start-9 col-end-13 flex justify-end space-x-2 w-full' >
               <div onClick={() => { sCart ? setSCart(false) : setSCart(true) }} className='flex items-center cursor-pointer px-2 bg-b2 h-10 w-24 rounded-md text-white' ><AiOutlineShoppingCart /><span className='ml-2 font-reg font-normal text-sm' >Cart</span><span className='ml-2 bg-b3 rounded-full text-xs h-4 w-4 text-center' >2</span></div>
