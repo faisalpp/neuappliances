@@ -31,7 +31,7 @@ module.exports = {
 
       // min and max width breakpoints
 
-      'sm-to-lg': { 'min': '576px', 'max': '992px' },
+      'lg-to-xl': { 'min': '992px', 'max': '1060px' },
     },
     extend: {
       colors: {

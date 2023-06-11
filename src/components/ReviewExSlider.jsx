@@ -1,39 +1,62 @@
-import React, { useState,useEffect } from 'react'
-import { BsArrowLeftShort,BsArrowRightShort } from 'react-icons/bs';
+import React from 'react';
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs';
 import ReviewExCard from './ReviewExCard';
 
-const ReviewExSlider = ({color}) => {
- useEffect(() => {
-   let box = document.getElementById('id10');
-   setBox(box);
-}, []);
-  
-  const [Box,setBox] = useState();
-  const btnprev = () => {
-    let width = Box.clientWidth;
-    Box.scrollLeft = Box.scrollLeft - width;
-  }
-  const btnnext = () => {
-    let width = Box.clientWidth;
-    Box.scrollLeft = Box.scrollLeft + width;
-  }
+const ReviewEXSlider = ({ clientreviews, icon }) => {
+  const settings = {
+    dots: false,
+    infinite: false,
+    arrows: true,
+    speed: 300,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 767,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+      {
+        breakpoint: 1439,
+        settings: {
+          slidesToShow: 2,
+        },
+      }
+    ],
+  };
 
+  const PrevButton = ({ onClick }) => (
+    <button onClick={onClick} className='hidden sm:block prev-button absolute top-0 -left-3 z-40 h-full pointer-events-none'>
+      <div className='flex bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group pointer-events-auto'>
+        <BsArrowLeftShort className='text-xl' />
+      </div>
+    </button>
+  );
+
+  const NextButton = ({ onClick }) => (
+    <button onClick={onClick} className='hidden sm:block next-button absolute top-0 -right-3 z-40 h-full pointer-events-none'>
+      <div className='flex bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group pointer-events-auto'>
+        <BsArrowRightShort className='text-xl' />
+      </div>
+    </button>
+  );
+  // console.log(color)
   return (
-    <>
-    <div className='relative my-8' >
-     <button onClick={btnprev} className='absolute top-0 -right-8 z-40 h-full'><div className='hidden lg:flex bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group'><BsArrowRightShort className='text-xl'/></div></button>
-     <button onClick={btnnext} className='absolute top-0 -left-10 z-40 h-full'><div className='hidden lg:flex bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group'><BsArrowLeftShort className='text-xl'/></div></button>
-     <div id="id10" className='flex lg:overflow-x-hidden overflow-x-scroll space-x-5 scroll-smooth' >
-        <ReviewExCard color={color} />
-        <ReviewExCard color={color} />
-        <ReviewExCard color={color} />
-        <ReviewExCard color={color} />
-        <ReviewExCard color={color} />
-     </div>
-    </div>
+    <div>
+      <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
+        {clientreviews.map((clientreview, index) => (
+          <div key={index}>
+            <ReviewExCard description={clientreview.description} author={clientreview.author} review={clientreview.review} />
+          </div>
+        ))}
+      </Slider>
+    </div >
+  );
+};
 
-    </>
-  )
-}
-
-export default ReviewExSlider
+export default ReviewEXSlider;

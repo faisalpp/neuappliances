@@ -4,40 +4,52 @@ import Slider from 'react-slick';
 const Test = () => {
     const settings = {
         dots: true,
-        infinite: true,
+        infinite: false,
         speed: 500,
-        slidesToShow: 1,
+        slidesToShow: 3,
         slidesToScroll: 1,
-        // responsive: [
-        //     {
-        //         breakpoint: 600,
-        //         settings: {
-        //             slidesToShow: 3,
-        //             slidesToScroll: 1,
-        //         },
-        //     },
-        //     {
-        //         breakpoint: 1000,
-        //         settings: {
-        //             slidesToShow: 3,
-        //             slidesToScroll: 1,
-        //             dots: true,
-        //             arrows: true,
-        //             infinite: false,
-        //         },
-        //     },
-        // ],
+        responsive: [
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                },
+            },
+            {
+                breakpoint: 1000,
+                settings: {
+                    slidesToShow: 2,
+                    dots: true,
+                    arrows: true,
+                    infinite: false,
+                },
+            },
+        ],
     };
 
     return (
-        <Slider {...settings}>
-            <div>
-                <img src="p1.png" alt="dummy 1" />
-            </div>
-            <div>
-                <img src="p1.png" alt="dummy 2" />
-            </div>
-        </Slider>
+        <div className='p-20'>
+            <Slider {...settings}>
+                <div>
+                    <img className='w-full' src="http://placekitten.com/g/400/200" alt='' />
+                </div>
+                <div>
+                    <img className='w-full' src="http://placekitten.com/g/400/200" alt='' />
+                </div>
+                <div>
+                    <img className='w-full' src="http://placekitten.com/g/400/200" alt='' />
+                </div>
+                <div>
+                    <img className='w-full' src="http://placekitten.com/g/400/200" alt='' />
+                </div>
+                <div>
+                    <img className='w-full' src="http://placekitten.com/g/400/200" alt='' />
+                </div>
+                <div>
+                    <img className='w-full' src="http://placekitten.com/g/400/200" alt='' />
+                </div>
+            </Slider>
+        </div>
     );
 };
 

@@ -258,13 +258,13 @@ const Product = () => {
 
 
         {/* PAyment Options */}
-        <div className='flex flex-col py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto bg-b8' >
-          <h4 className='text-center' >Payment Options</h4>
+        <div className='flex flex-col py-10 md:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto bg-b8' >
+          <h4 className='font-bold xl:text-[36px] text-3xl text-center mb-10 md:mb-14 xl:mb-20' >Payment Options</h4>
           <PaymentOptions />
         </div>
 
         {/* Review */}
-        <div className='flex flex-col bg-white lg:px-10 px-5 py-10' >
+        <div className='flex flex-col bg-white py-10 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
           <div className='flex flex-col space-y-3 rounded-md items-center py-8 justify-center bg-b8' >
             <div className='flex mt-2 items-center' ><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /></div>
             <h6 className='font-bold' >Cosmetic Rating: 3 Stars </h6>
@@ -298,7 +298,7 @@ const Product = () => {
         <ProductFaqSection />
 
         {/* Rlated Products */}
-        <div className='flex flex-col lg:mx-10 mx-5 py-10' >
+        <div className='flex flex-col py-10 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
           <div className='flex flex-col items-center' >
             <h4 className='lg:text-2xl text-xl font-bold' >Related Products</h4>
           </div>
