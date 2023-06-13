@@ -1,56 +1,47 @@
-import React from 'react';
-import Slider from 'react-slick';
+// import React from 'react';
+// import Slider from 'rc-slider';
+// import 'rc-slider/assets/index.css';
 
-const Test = () => {
-    const settings = {
-        dots: true,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1,
-                },
-            },
-            {
-                breakpoint: 1000,
-                settings: {
-                    slidesToShow: 2,
-                    dots: true,
-                    arrows: true,
-                    infinite: false,
-                },
-            },
-        ],
-    };
+// const Test = () => {
+//     const marks = {
+//         9: '9',
+//         99: '99',
+//         999: '999',
+//         9999: '9999',
+//         99999: '99999',
+//     };
 
-    return (
-        <div className='p-20'>
-            <Slider {...settings}>
-                <div>
-                    <img className='w-full' src="http://placekitten.com/g/400/200" alt='' />
-                </div>
-                <div>
-                    <img className='w-full' src="http://placekitten.com/g/400/200" alt='' />
-                </div>
-                <div>
-                    <img className='w-full' src="http://placekitten.com/g/400/200" alt='' />
-                </div>
-                <div>
-                    <img className='w-full' src="http://placekitten.com/g/400/200" alt='' />
-                </div>
-                <div>
-                    <img className='w-full' src="http://placekitten.com/g/400/200" alt='' />
-                </div>
-                <div>
-                    <img className='w-full' src="http://placekitten.com/g/400/200" alt='' />
-                </div>
-            </Slider>
-        </div>
-    );
-};
+//     const step = 1;
+//     const defaultValue = 99;
 
-export default Test;
+//     const handleChange = (value) => {
+        
+//         console.log(value);
+//     };
+
+//     const handleBeforeChange = (value) => {
+        
+//         const marksKeys = Object.keys(marks).map(Number);
+//         const roundedValue = marksKeys.reduce((acc, cur) => (
+//             Math.abs(cur - value) < Math.abs(acc - value) ? cur : acc
+//         ));
+
+//         return roundedValue;
+//     };
+
+//     return (
+//         <div className='p-20'>
+//             <Slider
+//                 min={9}
+//                 max={99999}
+//                 step={step}
+//                 marks={marks}
+//                 defaultValue={defaultValue}
+//                 onChange={handleChange}
+//                 onBeforeChange={handleBeforeChange}
+//             />
+//         </div>
+//     );
+// };
+
+// export default Test;

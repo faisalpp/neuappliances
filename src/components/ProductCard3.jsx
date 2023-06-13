@@ -56,7 +56,7 @@ const ProductCard3 = ({ isGrid, product }) => {
             <div className='flex maxxs:flex-col flex-wrap coxs:items-center gap-x-6 lg:mt-4 mt-1 coxs:mt-2' >
               <div className='flex items-center gap-1 sm:gap-2' >
                 <h4 className='text-xs lg:text-sm font-semibold w-max' >
-                  Cosmetic Rating</h4>
+                  Cosmetic <br /> Rating</h4>
                 <AiOutlineQuestionCircle />
               </div>
               <div className='flex items-center' ><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /></div></div>

@@ -5,7 +5,7 @@ import { GiThermometerHot } from 'react-icons/gi'
 import { GiFlame } from 'react-icons/gi'
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { MdElectricBolt, MdOutlinePropane } from 'react-icons/md';
-import { AiFillStar, AiOutlineQuestionCircle, AiOutlineSearch, AiFillCloseCircle, AiOutlineShoppingCart, AiFillCheckCircle, AiOutlineCheckCircle, AiOutlineHeart } from 'react-icons/ai';
+import { AiOutlineDollarCircle, AiFillStar, AiOutlineQuestionCircle, AiOutlineSearch, AiFillCloseCircle, AiOutlineShoppingCart, AiFillCheckCircle, AiOutlineCheckCircle, AiOutlineHeart } from 'react-icons/ai';
 import { IoBagCheckOutline } from 'react-icons/io5';
 import { BsArrowRightShort, BsShieldLock, BsShopWindow, BsStarHalf } from 'react-icons/bs';
 import { GoPrimitiveDot } from 'react-icons/go';
@@ -91,8 +91,9 @@ const Product = () => {
                 <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12' alt='product' /></div>
                 <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+10</div><img src="p1.png" className='w-12' alt='product' /></div>
               </div>
-              <div className='flex justify-center items-center border-[1px] border-gray-300 rounded-lg lg:h-96 w-full' >
+              <div className='flex relative justify-center items-center border-[1px] border-gray-300 rounded-lg lg:h-96 w-full' >
                 <img src="p1.png" alt='product' />
+                <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><AiOutlineDollarCircle />Best Value</div></div>
               </div>
             </div>
             <div className='flex flex-col space-y-5 mt-10' >
@@ -213,12 +214,12 @@ const Product = () => {
             {/* Quicl FAQs */}
 
             {/* Other Product Section */}
-            <div>
-              <div class="flex" ><h6 className="font-bold" >Other Product Options</h6><div className="flex items-center w-full justify-end" ><h6 className="flex items-center hover:underline text-sm text-b3" >View All <BsArrowRightShort /></h6></div></div>
+            <div className=' rounded-lg bg-[#F8F8F8] p-5'>
+              <div class="flex justify-between items-center mb-3" ><h6 className="font-bold" >Other Product Options</h6><h6 className="flex items-center hover:underline text-sm text-b3" >View All <BsArrowRightShort /></h6></div>
               <div className='lg:grid grid-cols-3 flex flex-col items-center lg:mt-0 mt-4 lg:space-y-0 space-y-4 lg:gap-x-5' >
-                <OtherProductCard />
-                <OtherProductCard />
-                <OtherProductCard />
+                <OtherProductCard rating={3} />
+                <OtherProductCard rating={4} />
+                <OtherProductCard rating={5} />
               </div>
             </div>
 
@@ -234,22 +235,29 @@ const Product = () => {
         </div>
 
         {/* 360 Degree Product Section */}
-        <div className='flex flex-col space-y-5 items-center py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+        <div className='flex flex-col gap-5 items-center py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
           <h4 className='text-2xl font-bold' >360° View of This Appliance</h4>
-          <div className='mt-5' ><img src="p1.png" alt='' /></div>
+          <div className='mt-5 relative w-full mb-5' >
+            <img src="360appliance.png" alt='product' className='w-[17rem] mx-auto' />
+            <div className='absolute -bottom-5 left-0 right-0'>
+              <img src="360angle.png" alt='product' className='w-72 mx-auto' />
+            </div>
+          </div>
           <p className="font-normal" >Rotate 360° to see the product from all angles</p>
           <div className='flex border-[1px] border-gray-200 rounded-md w-full md:w-2/3 xl:w-1/2' >
             <div className='flex flex-col items-center border-r-[1px] border-gray-200 w-full' >
               <h5 className='text-center border-b-[1px] border-gray-200 text-sm sm:text-base py-4 w-full font-semibold' >#ID</h5>
               <h5 className='flex items-center gap-1 justify-center text-center border-b-[1px] border-gray-200 text-sm sm:text-base py-4 w-full' ><span className='font-semibold' >Cosmetic Rating </span><ToolTip /></h5>
+              <h5 className='flex items-center justify-center text-center border-b-[1px] text-sm sm:text-base py-4 w-full font-semibold' >Model Number</h5>
               <h5 className='flex items-center justify-center text-center  text-sm sm:text-base py-4 w-full font-semibold' >Warranty</h5>
             </div>
             <div className='flex flex-col items-center border-l-[1px] border-white w-full' >
               <h5 className='text-center border-b-[1px] border-gray-200 py-4 w-full font-normal' >#12354567876</h5>
               <div className='flex items-center justify-center py-[18px] w-full' ><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /></div>
+              <div className='text-center border-b-[1px] border-gray-200 py-4 w-full font-normal' >WF45B6300AC</div>
               <div className='flex items-center space-x-2 justify-center border-t-[1px] border-gray-200 py-3 w-full' >
-                <div className='flex items-center rounded-md w-full justify-center border-[1px] border-gray-200 pl-5 py-1 space-x-1' ><BsShieldLock />
-                  <span className='w-full text-xs font-medium break-words' >NeuShield <br /> 1 Year Applicance Warranty</span>
+                <div className='flex items-center rounded-md justify-center px-2 py-1 space-x-1 border-[1px] border-gray-200' ><BsShieldLock />
+                  <span className='w-full text-xs font-medium break-words ' >NeuShield <br /> 1 Year Warranty</span>
                 </div>
               </div>
             </div>

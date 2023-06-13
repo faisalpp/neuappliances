@@ -5,6 +5,29 @@ import { BsFire } from 'react-icons/bs'
 import ProductSlider from './ProductSlider'
 
 const ProductCard = ({ title, dicount, type, stars, discount, codmetics }) => {
+  const products = [
+    {
+      image: 'p1.png',
+    },
+    {
+      image: 'p1.png',
+    },
+    {
+      image: 'p1.png',
+    },
+    {
+      image: 'p1.png',
+    },
+    {
+      image: 'p1.png',
+    },
+    {
+      image: 'p1.png',
+    },
+    {
+      image: 'p1.png',
+    },
+  ];
   const StarIconPrinter = ({ numberOfTimes }) => {
     const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
       <AiFillStar className='text-b7 text-lg' /> // Render the star icon component for each iteration
@@ -25,7 +48,7 @@ const ProductCard = ({ title, dicount, type, stars, discount, codmetics }) => {
         {type == 3 ? <h4 className='text-b9 font-semibold text-sm mt-3' >very Minor To No Cosmetic Damage</h4> : null}
         <div className='flex items-center mt-2 gap-x-1 bg-b10 rounded-xl px-2 py-1 text-white' ><AiOutlineCheckCircle /><span className='text-xs' >100% Functional</span></div>
         <div className='relative pt-5 w-full' >
-          <ProductSlider />
+          <ProductSlider products={products} />
         </div>
 
         <div className='flex flex-col gap-y-3 w-full mt-10' >

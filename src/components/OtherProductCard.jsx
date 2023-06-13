@@ -4,9 +4,16 @@ import { IoBagCheckOutline } from 'react-icons/io5'
 import ToolTip from './ToolTip'
 
 
-const OtherProductCard = () => {
+const OtherProductCard = ({ rating }) => {
+  const StarIconPrinter = ({ numberOfTimes }) => {
+    const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
+      <AiFillStar className='text-base' /> // Render the star icon component for each iteration
+    ));
+
+    return starIcons; // Render the array of star icons
+  };
   return (
-    <div className='flex flex-col border-[1px] rounded-lg border-gray-200 px-2 py-4 w-full ' >
+    <div className={`flex flex-col rounded-lg px-2 py-4 bg-white w-full ${rating === 5 ? 'border-2 border-b3 shadow-[0px_4px_30px_rgba(0,0,0,0.25)]' : 'border border-gray-300'}`} >
       <div className='flex items-center justify-between' >
         <div className='flex items-center gap-1'>
           <h6 className='text-[10px] w-max' >Cosmetic&nbsp;Rating</h6><ToolTip />
@@ -15,7 +22,9 @@ const OtherProductCard = () => {
           <span className='flex items-center w-fit bg-b10 text-white text-[8px] px-3 rounded-xl py-1' ><IoBagCheckOutline className='text-[10px] mr-1' />In Stock</span>
         </div>
       </div>
-      <div className='flex items-center text-b7 bg-white shadow-xl rounded-xl text-xs w-fit px-2 py-1' ><AiFillStar /><AiFillStar /><AiFillStar /><AiFillStar /><AiFillStar /></div>
+      <div className={`flex items-center text-b7 bg-white rounded-xl text-xs w-fit px-2 py-1 ${rating === 5 ? 'bg-gray-300' : ''}`} >
+        <StarIconPrinter numberOfTimes={rating} />
+      </div>
       <div className='flex w-full justify-center my-3 items-center' >
         <img src="p1.png" className='w-28' alt='product' />
       </div>

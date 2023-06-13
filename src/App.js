@@ -1,5 +1,6 @@
 import { Routes, Route, NavLink } from "react-router-dom";
 import Home from './pages/Home';
+import Appliances from './pages/Appliances';
 import Register from './pages/Register';
 import Products from './pages/Products';
 import Product from './pages/Product';
@@ -23,6 +24,7 @@ function App() {
       <Route path="/useraccount" element={auth ? <UserAccount /> : <NavLink to="/login" />} />
       <Route path="/products" element={<Products />} />
       <Route path="/product" element={<Product />} />
+      <Route path="/appliances" element={<Appliances />} />
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
