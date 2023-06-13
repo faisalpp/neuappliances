@@ -17,17 +17,17 @@ const ProductSlider = ({ products }) => {
     initialSlide: 0,
   };
   const PrevButton = ({ onClick }) => (
-    <button onClick={onClick} className='absolute top-0 bottom-0 flex items-center xl:left-16 lg:left-5 left-10 z-40 pointer-events-none'>
-      <div className='flex bg-black/30 hover:bg-cyan-400 px-2 py-2 rounded-full text-white pointer-events-auto'>
-        <BsArrowLeftShort className='text-xl' />
+    <button onClick={onClick} className='absolute top-0 bottom-0 flex items-center xl:left-10 lg:left-5 left-10 z-40 pointer-events-none'>
+      <div className='flex items-center justify-center bg-black/30 hover:bg-cyan-400 w-8 h-8 rounded-full text-white pointer-events-auto'>
+        <BsArrowLeftShort className='text-2xl' />
       </div>
     </button>
   );
 
   const NextButton = ({ onClick }) => (
-    <button onClick={onClick} className='absolute top-0 bottom-0 flex items-center xl:right-16 lg:right-5 right-10 z-40 pointer-events-none'>
-      <div className='flex bg-black/30 hover:bg-cyan-400 px-2 py-2 rounded-full text-white pointer-events-auto'>
-        <BsArrowRightShort className='text-xl' />
+    <button onClick={onClick} className='absolute top-0 bottom-0 flex items-center xl:right-10 lg:right-5 right-10 z-40 pointer-events-none'>
+      <div className='flex items-center justify-center bg-black/30 hover:bg-cyan-400 w-8 h-8 rounded-full text-white pointer-events-auto'>
+        <BsArrowRightShort className='text-2xl' />
       </div>
     </button>
   );

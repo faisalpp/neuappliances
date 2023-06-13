@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductCard from '../../components/Appliances/ProductCard'
+import ProductSliderCard from '../../components/Appliances/ProductSliderCard'
 
 const CosmaticStarSection = () => {
     return (
@@ -16,9 +16,9 @@ const CosmaticStarSection = () => {
 
                 {/* Products Card Start */}
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 xl:gap-[10px] xl:mt-14" >
-                    <ProductCard title='Moderate Cosmetic Damage' codmetics='Moderate' dicount='Massive' stars={3} type={1} discount={1} />
-                    <ProductCard title='Moderate Cosmetic Damage' codmetics='Minor' dicount='Huge' stars={4} type={2} discount={2} />
-                    <ProductCard title='Moderate Cosmetic Damage' codmetics='Very Minor-None' dicount='Great' stars={5} type={3} discount={3} />
+                    <ProductSliderCard title='Moderate Cosmetic Damage' codmetics='Moderate' dicount='Massive' stars={3} type={1} discount={1} />
+                    <ProductSliderCard title='Moderate Cosmetic Damage' codmetics='Minor' dicount='Huge' stars={4} type={2} discount={2} />
+                    <ProductSliderCard title='Moderate Cosmetic Damage' codmetics='Very Minor-None' dicount='Great' stars={5} type={3} discount={3} />
                 </div>
             </div>
             {/* Products Card End */}

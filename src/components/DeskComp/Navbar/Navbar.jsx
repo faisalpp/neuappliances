@@ -87,7 +87,7 @@ const Navbar = ({ sCart, setSCart }) => {
           <div className={`absolute ${megMenu ? '' : 'hidden'} top-0 bg-b1 w-full pt-5 pb-20 z-30`} >
 
             <div className='grid grid-cols-12 justify-center max-w-1680px px-16 xl:px-20 2xl:px-120px mx-auto'>
-              <div className='col-start-1 col-end-3 flex flex-col items-center' >
+              <div className='col-start-1 col-end-2 flex flex-col items-center' >
                 <h4 className='font-semibold' >How It Works</h4>
                 <div className='flex flex-col space-y-4 text-xs font-medium mt-4 text-white/80' >
                   <a>What We Sell</a>
@@ -145,7 +145,7 @@ const Navbar = ({ sCart, setSCart }) => {
               {/* <NavLink to='/' ><div className='flex items-center font-reg text-xs cursor-pointer text-white/80 hover:text-b6' ><span className='w-max' >Home</span></div></NavLink>  */}
               <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Deals" links={[{ 'name': 'Recent Arrival', 'url': '/recent-arrivals' }, { 'name': '5 Star Products', 'url': '/five-star-products' }, { 'name': '4 Star Products', 'url': '/four-star-products' }, { 'name': '3 Star Products', 'url': '/three-star-products' }]} />
               <div className='flex items-center font-normal text-white/80 text-xs cursor-pointer hover:text-b6' ><span className='w-max' >Shop Now</span></div>
-              <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Products" links={[{ 'name': 'Refrigerators', 'url': '/products' }, { 'name': 'Washer & Dryers', 'url': '/appliances' }, { 'name': 'Rangers', 'url': '/products' }, { 'name': 'Dishwasher', 'url': '/products' }, { 'name': 'Microwaves', 'url': '/products' }, { 'name': 'View All Categories', 'url': '/products' }]} bold={600} />
+              <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Products" links={[{ 'name': 'Refrigerators', 'url': '/products' }, { 'name': 'Washer & Dryers', 'url': '/appliances' }, { 'name': 'Rangers', 'url': '/appliancetypes' }, { 'name': 'Dishwasher', 'url': '/products' }, { 'name': 'Microwaves', 'url': '/products' }, { 'name': 'View All Categories', 'url': '/products' }]} bold={600} />
               <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Popular Brands" links={[{ 'name': 'Amana', 'url': '/brands/amana' }, { 'name': 'Maytag', 'url': '/brand/maytag' }, { 'name': 'Frigdaire', 'url': '/brand/frigdaire' }, { 'name': 'Haier', 'url': '/brand/haier' }, { 'name': 'Hisense', 'url': '/brand/hisense' }, { 'name': 'Kenmore', 'url': '/Kenmore' }, { 'name': 'LG', 'url': '/lg' }, { 'name': 'KitchenAid', 'url': '/kitchen-aid' }, { 'name': 'Samsung', 'url': '/samsung' }, { 'name': 'Whirlpool', 'url': '/whirlpool' }, { 'name': 'Midea', 'url': '/midea' }]} bold={600} />
               <div className='flex items-center font-normal text-white/80 text-xs cursor-pointer hover:text-b6' ><span className='w-max' >Financing</span></div>
               <div className='flex items-center font-normal text-white/80 text-xs cursor-pointer hover:text-b6' ><span className='w-max' >Testimonials</span></div>

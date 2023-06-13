@@ -1,23 +1,36 @@
 import React from 'react'
 import DropDown from './DropDown/DropDown'
+import { Link } from 'react-router-dom';
 
-const ProductSection = ({ productstype }) => {
+const ProductSection = ({ productstype, onClose, isFilter }) => {
+    const handleFilterClick = (event) => {
+        event.stopPropagation();
+    };
+    const modalClass = isFilter ? 'maxlg:flex top-0 bottom-0' : '-bottom-[420px] maxlg:opacity-0 maxlg:pointer-events-none';
+
     const CosRatingMenu = ({ menu }) => (
         <ul className='flex flex-col gap-3'>
             {menu.map((item, index) => (
                 <li key={index}>
-                    <a href={item.link} className='text-sm'>{item.title}</a>
+                    <Link to={item.link} className='text-sm'>{item.title}</Link>
                 </li>
             ))}
         </ul>
     );
     return (
-        <div className='lg:w-[320px] border border-gray-300 rounded-2xl px-6 pb-6 pt-2'>
-            {productstype.map((product, index) => (
-                <DropDown title={product.title} key={index}>
-                    <CosRatingMenu menu={product.menu} />
-                </DropDown>
-            ))}
+        <div className={`maxlg:fixed maxlg:bg-black/20 items-end left-0 right-0 z-50 duration-300 lg:w-[320px] ${modalClass}`} onClick={onClose}>
+            <div className='[&>div]:maxlg:px-10 maxlg:max-h-[398px] maxlg:pb-10 maxlg:rounded-tl-2xl maxlg:rounded-tr-2xl maxlg:bg-white maxlg:overflow-y-auto lg:h-auto border border-gray-300 rounded-2xl lg:px-6 lg:pb-6 lg:pt-2 w-full' onClick={handleFilterClick}>
+                <div className='lg:hidden maxlg:sticky top-0 flex maxlg:py-4 justify-end lg:pb-4 items-center border-b maxlg:bg-white z-50 maxlg:shadow-md'>
+                    <button onClick={onClose} className='text-sm font-semibold lg:hidden px-2 py-1 hover:bg-black/5 rounded duration-300'>
+                        Close
+                    </button>
+                </div>
+                {productstype.map((product, index) => (
+                    <DropDown title={product.title} key={index}>
+                        <CosRatingMenu menu={product.menu} />
+                    </DropDown>
+                ))}
+            </div>
         </div>
     )
 }

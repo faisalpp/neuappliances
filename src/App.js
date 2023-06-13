@@ -1,12 +1,13 @@
 import { Routes, Route, NavLink } from "react-router-dom";
 import Home from './pages/Home';
-import Appliances from './pages/Appliances';
 import Register from './pages/Register';
 import Products from './pages/Products';
 import Product from './pages/Product';
 import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import UserAccount from './pages/UserAccount';
+import Appliances from './pages/Appliances';
+import ApplianceTypes from './pages/ApplianceTypes';
 import Test from './pages/Test';
 import NotFound from "./pages/NotFound";
 import { useSelector } from "react-redux";
@@ -25,6 +26,7 @@ function App() {
       <Route path="/products" element={<Products />} />
       <Route path="/product" element={<Product />} />
       <Route path="/appliances" element={<Appliances />} />
+      <Route path="/appliancetypes" element={<ApplianceTypes />} />
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
