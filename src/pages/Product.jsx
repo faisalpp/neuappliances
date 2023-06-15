@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import MainLayout from '../layout/MainLayout'
 import { RiStackLine } from 'react-icons/ri'
 import { GiThermometerHot } from 'react-icons/gi'
@@ -120,7 +121,12 @@ const Product = () => {
 
           <div className='lg:col-span-7 flex flex-col lg:px-0 px-1 space-y-5 lg:mt-0 mt-4' >
             <h5 className='lg:text-xl text-sm font-bold lg:w-full sm:w-96' >Champagne ENERGY STAR Samsung 4.5 cu. ft. Front Load Washer with Wi-Fi Connectivity and 7.5 cu. ft. Front Load Gas Dryer with Steam</h5>
-            <div className='flex items-center' ><h5 className='lg:text-sm text-xs lg:w-80 underline text-b3 font-semibold cursor-pointer' >View More Buying Options</h5><div className='flex justify-end w-full' ><span className='flex items-center bg-b10 text-white text-xs px-3 rounded-xl py-2' ><IoBagCheckOutline className='text-sm mr-1' />In Stock</span></div></div>
+            <div className='flex items-center' >
+              <h5 className='lg:text-sm text-xs lg:w-80 underline text-b3 font-bold cursor-pointer' >View More Buying Options</h5><div className='flex justify-end w-full' >
+                <span className='flex items-center bg-b13 text-white text-xs px-3 rounded-full py-2' >
+                  <IoBagCheckOutline className='text-sm mr-1' />In Stock</span>
+              </div>
+            </div>
             <div className='flex maxsm:flex-col sm:items-center gap-5 whitespace-nowrap' >
               <div className='flex items-center gap-5'>
                 <h4 className='font-bold lg:text-3xl text-xl text-b3 ' >$1,020.00</h4>
@@ -131,18 +137,37 @@ const Product = () => {
                 <button className="flex justify-end items-center hover:underline text-b3" ><AiOutlineHeart /><span>Add to favorites</span></button>
               </div>
             </div>
-            <img src="acima.png" className='w-60 mt-3' alt='' />
+            <div className='flex border justify-between px-3 py-1 w-[250px] rounded-lg'>
+              <div className='flex flex-col gap-1'>
+                <span className='font-bold text-sm'>
+                  No credit Financing
+                </span>
+                <span className='font-semibold text-[10px]'>
+                  Powered by
+                </span>
+              </div>
+              <img src="affirm.png" alt="affirm" className='w-[70px]' />
+            </div>
             <ul className='flex flex-col mt-5 space-y-2 text-sm' >
               <li>. Lorem ipsum dolor alter miler amigos</li>
               <li>. Lorem ipsum dolor alter miler amigos</li>
               <li>. Lorem ipsum dolor alter miler amigos</li>
               <li>. Lorem ipsum dolor alter miler amigos</li>
             </ul>
-            <h6 className='text-xs font-bold hover:underline cursor-pointer' >+ View more</h6>
-            <div className='flex items-center lg:space-x-16 space-x-5 lg:mt-4 mt-2' ><div className='flex items-center' ><h4 className='lg:text-sm text-xs font-semibold w-max' >Cosmetic Rating</h4><AiOutlineQuestionCircle /></div><div className='flex mt-2 items-center' ><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /></div></div>
-            <div className='lg:flex hidden items-center space-x-14 mt-2' >
-              <div className='flex font-semibold text-sm' ><h4>Discount</h4> %</div>
-              <div className='w-52 bg-gray-100 rounded-lg' ><span className='flex rounded-lg bg-gradient-to-r from-b4 to-b7 w-32 h-2' ></span></div>
+            <Link to='' className='text-xs font-bold hover:underline cursor-pointer underline' >+ View more</Link>
+            <div className='flex items-center lg:space-x-5 space-x-5 lg:mt-4 mt-2' >
+              <div className='flex items-center gap-1' >
+                <h4 className='lg:text-sm text-xs font-semibold w-max text-black/50' >Cosmetic Rating</h4><ToolTip color="text-black/50" />
+              </div>
+              <div className='flex items-center' ><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' />
+              </div>
+            </div>
+            <div className='lg:flex hidden items-center gap-4 mt-2' >
+              <div className='flex font-semibold text-sm text-black/50' ><h4>Discount</h4></div>
+              <div className='w-52 bg-gray-200 rounded-lg' ><span className='flex rounded-lg bg-gradient-to-r from-b4 to-b7 w-40 h-3' ></span></div>
+              <div className='px-4 py-2 bg-b7 text-white rounded-full'>
+                70 %
+              </div>
             </div>
 
             <div className='flex space-x-3 items-center px-3 py-2 border-[1px] border-b3 rounded-lg w-fit' >
@@ -152,7 +177,7 @@ const Product = () => {
             {/* Delivery Card */}
             <div className='flex lg:flex-row flex-col lg:space-x-5 lg:space-y-0 space-y-3 w-full' >
 
-              <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-[1px] ${deliveryType === 'pickup' ? 'border-b10' : 'border-gray-300'} `} >
+              <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${deliveryType === 'pickup' ? 'border-b10' : 'border-gray-300'} `} >
                 <div className='flex items-center space-x-3' ><BsShopWindow className='text-xl' /><h6 className='font-bold text-sm' >Pickup</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setDeliverType('pickup')} className={`px-1 py-1 rounded-full cursor-pointer ${deliveryType === 'pickup' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoPrimitiveDot className={` ${deliveryType === 'pickup' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
                 <div className='flex flex-col space-y-2 mt-2 text-sm' >
                   <h6 className='text-b10' >Ready Fri, April 26th (EST).</h6>
@@ -161,7 +186,7 @@ const Product = () => {
                 </div>
               </div>
 
-              <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-[1px] ${deliveryType === 'home' ? 'border-b10' : 'border-gray-300'} `} >
+              <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${deliveryType === 'home' ? 'border-b10' : 'border-gray-300'} `} >
                 <div className='flex items-center space-x-2' ><BsTruck className='text-3xl' /><h6 className='font-bold text-sm' >Delivery</h6><h6 onClick={() => setChangeZip(true)} className='text-xs w-max text-blue-400 hover:underline cursor-pointer' >Change ZIP</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setDeliverType('home')} className={`px-1 py-1 rounded-full cursor-pointer ${deliveryType === 'home' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoPrimitiveDot className={` ${deliveryType === 'home' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
 
                 <div className={` ${changeZip ? 'flex' : 'hidden'} flex-col items-center justify-center h-full space-y-2 mt-2 text-sm`} >
@@ -198,7 +223,7 @@ const Product = () => {
                 <BsStarHalf className='text-2xl' />
                 <div className='flex flex-col' >
                   <h6 className="font-bold ml-2" >Cosmetic Rating: What does it mean?</h6>
-                  <h6 className="ml-2" >All Items work like new. Their Cosmetic Rating refers to their cosmetic appearance (how they look) <a href='' className='text-b3 hover:underline cursor-pointer font-medium' >Learn More</a></h6>
+                  <h6 className="ml-2" >All Items work like new. Their Cosmetic Rating refers to their cosmetic appearance (how they look) <Link to='' className='text-b3 hover:underline cursor-pointer font-medium' >Learn More</Link></h6>
                 </div>
               </div>
               {/* 3rd FAQ */}
@@ -235,7 +260,7 @@ const Product = () => {
         </div>
 
         {/* 360 Degree Product Section */}
-        <div className='flex flex-col gap-5 items-center py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+        <div className='flex flex-col gap-5 items-center py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto border border-b14 rounded-3xl' >
           <h4 className='text-2xl font-bold' >360° View of This Appliance</h4>
           <div className='mt-5 relative w-full mb-5' >
             <img src="360appliance.png" alt='product' className='w-[17rem] mx-auto' />
@@ -247,32 +272,31 @@ const Product = () => {
           <div className='flex border-[1px] border-gray-200 rounded-md w-full md:w-2/3 xl:w-1/2' >
             <div className='flex flex-col items-center border-r-[1px] border-gray-200 w-full' >
               <h5 className='text-center border-b-[1px] border-gray-200 text-sm sm:text-base py-4 w-full font-semibold' >#ID</h5>
-              <h5 className='flex items-center gap-1 justify-center text-center border-b-[1px] border-gray-200 text-sm sm:text-base py-4 w-full' ><span className='font-semibold' >Cosmetic Rating </span><ToolTip /></h5>
+              <h5 className='flex items-center gap-1 justify-center text-center border-b-[1px] border-gray-200 text-sm sm:text-base py-4 w-full' ><span className='font-semibold' >Cosmetic Rating </span><ToolTip color="text-black/50" /></h5>
               <h5 className='flex items-center justify-center text-center border-b-[1px] text-sm sm:text-base py-4 w-full font-semibold' >Model Number</h5>
-              <h5 className='flex items-center justify-center text-center  text-sm sm:text-base py-4 w-full font-semibold' >Warranty</h5>
+              <h5 className='flex items-center gap-1 justify-center text-center  text-sm sm:text-base py-4 w-full font-semibold' ><span>Warranty</span> <ToolTip color="text-black/50" /></h5>
             </div>
             <div className='flex flex-col items-center border-l-[1px] border-white w-full' >
               <h5 className='text-center border-b-[1px] border-gray-200 py-4 w-full font-normal' >#12354567876</h5>
-              <div className='flex items-center justify-center py-[18px] w-full' ><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /></div>
+              <div className='flex items-center border-b border-gray-200 justify-center py-[18px] w-full' ><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /></div>
               <div className='text-center border-b-[1px] border-gray-200 py-4 w-full font-normal' >WF45B6300AC</div>
               <div className='flex items-center space-x-2 justify-center border-t-[1px] border-gray-200 py-3 w-full' >
-                <div className='flex items-center rounded-md justify-center px-2 py-1 space-x-1 border-[1px] border-gray-200' ><BsShieldLock />
+                <div className='flex items-center rounded-md justify-center pl-2 pr-5 py-1 space-x-1 border-[1px] border-gray-200' ><BsShieldLock />
                   <span className='w-full text-xs font-medium break-words ' >NeuShield <br /> 1 Year Warranty</span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-
-        {/* PAyment Options */}
-        <div className='flex flex-col py-10 md:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto bg-b8' >
-          <h4 className='font-bold xl:text-[36px] text-3xl text-center mb-10 md:mb-14 xl:mb-20' >Payment Options</h4>
-          <PaymentOptions />
+          {/* Shop With Confidnce */}
+          <div className='max-w-[930px] mt-6 lg:mt-10 mx-auto bg-b11 border-2 border-b14 rounded-3xl p-5 sm:p-8 flex flex-col gap-4'>
+            <h3 className='text-xl sm:text-2xl font-medium'>Shop With Confidence.</h3>
+            <p>The item in the pictures above is the item you will receive.  Scratch and dent appliances are all unique, so we include 360° pictures and videos for every item we stock. Rotate the picture to Inspect the appliance's cosmetic condition.</p>
+          </div>
         </div>
 
         {/* Review */}
-        <div className='flex flex-col bg-white py-10 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+        <div className='flex flex-col bg-white py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
           <div className='flex flex-col space-y-3 rounded-md items-center py-8 justify-center bg-b8' >
             <div className='flex mt-2 items-center' ><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /></div>
             <h6 className='font-bold' >Cosmetic Rating: 3 Stars </h6>
@@ -284,8 +308,14 @@ const Product = () => {
         {/* How it Works */}
         <HiwSection />
 
+        {/* PAyment Options */}
+        <div className='flex flex-col py-10 md:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto bg-b8' >
+          <h4 className='font-bold xl:text-[36px] text-3xl text-center mb-10 md:mb-14 xl:mb-20' >Payment Options</h4>
+          <PaymentOptions />
+        </div>
+
         {/* Reviews Section */}
-        <SatisfiedSection title="Our Customers LOVE our Scratch and Dent Discounts!" />
+        <SatisfiedSection title="Our Customers LOVE our Scratch and Dent Discounts!" dots={true} />
 
         {/* Prodcut Features */}
         <ProductFeatures />
@@ -306,7 +336,7 @@ const Product = () => {
         <ProductFaqSection />
 
         {/* Rlated Products */}
-        <div className='flex flex-col py-10 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+        <div className='flex flex-col py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
           <div className='flex flex-col items-center' >
             <h4 className='lg:text-2xl text-xl font-bold' >Related Products</h4>
           </div>

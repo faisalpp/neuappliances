@@ -6,7 +6,6 @@ import { AiFillStar } from 'react-icons/ai'
 import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs';
 
 const ReviewSlider = ({ color, clientreviews, icon }) => {
-    console.log(clientreviews);
     const settings = {
         dots: false,
         infinite: false,

@@ -1,10 +1,10 @@
 import React from 'react'
 import { AiFillStar, AiOutlineCheckCircle } from 'react-icons/ai'
 
-const ModelBuyingOptionCard = ({ bestValue }) => {
+const ModelBuyingOptionCard = ({ active, bestValue }) => {
   return (
     <>
-      <div className='flex flex-col items-center space-y-5 py-4 w-full' >
+      <div className={`flex flex-col items-center space-y-5 py-4 w-full ${active} border border-gray-200`} >
         <div className='flex w-full text-white justify-center' >{bestValue}</div>
         <img src="p1.png" className='w-52' />
         <div className='flex flex-col items-center justify-center space-y-5 text-center' >

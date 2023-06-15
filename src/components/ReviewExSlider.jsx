@@ -5,9 +5,9 @@ import "slick-carousel/slick/slick-theme.css";
 import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs';
 import ReviewExCard from './ReviewExCard';
 
-const ReviewEXSlider = ({ clientreviews, icon }) => {
+const ReviewEXSlider = ({ clientreviews, icon, dots }) => {
   const settings = {
-    dots: false,
+    dots: dots,
     infinite: false,
     arrows: true,
     speed: 300,
@@ -17,6 +17,7 @@ const ReviewEXSlider = ({ clientreviews, icon }) => {
     responsive: [
       {
         breakpoint: 767,
+        dots: false,
         settings: {
           slidesToShow: 1,
         },
@@ -47,7 +48,7 @@ const ReviewEXSlider = ({ clientreviews, icon }) => {
   );
   // console.log(color)
   return (
-    <div>
+    <div className='reviewslider-wrapper'>
       <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
         {clientreviews.map((clientreview, index) => (
           <div key={index}>

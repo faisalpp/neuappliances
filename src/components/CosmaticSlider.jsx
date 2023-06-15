@@ -1,40 +1,71 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs';
 import ProductCard2 from './ProductCard2';
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-const CosmaticSlider = ({ stars }) => {
+const CosmaticSlider = () => {
 
-  useEffect(() => {
-    let box = document.getElementById('id4');
-    setBox(box);
-  }, []);
+  const settings = {
+    dots: false,
+    infinite: false,
+    arrows: true,
+    speed: 300,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 575,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+      {
+        breakpoint: 991,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 1440,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+    ],
+  };
 
-  const [Box, setBox] = useState();
-  const btnprev = () => {
-    let width = Box.clientWidth;
-    Box.scrollLeft = Box.scrollLeft - width;
-  }
-  const btnnext = () => {
-    let width = Box.clientWidth;
-    Box.scrollLeft = Box.scrollLeft + width;
-  }
+  const PrevButton = ({ onClick }) => (
+    <button onClick={onClick} className='hidden sm:block prev-button absolute top-0 -left-3 md:-left-8 z-40 h-full pointer-events-none'>
+      <div className='flex bg-black/30 hover:bg-black cursor-pointer px-2 py-2 rounded-full text-white group pointer-events-auto'>
+        <BsArrowLeftShort className='text-xl' />
+      </div>
+    </button>
+  );
+
+  const NextButton = ({ onClick }) => (
+    <button onClick={onClick} className='hidden sm:block next-button absolute top-0 -right-3 md:-right-8 z-40 h-full pointer-events-none'>
+      <div className='flex bg-black/30 hover:bg-black cursor-pointer px-2 py-2 rounded-full text-white group pointer-events-auto'>
+        <BsArrowRightShort className='text-xl' />
+      </div>
+    </button>
+  );
 
   return (
     <>
-      <div className='relative my-8' >
-        <button onClick={btnprev} className='absolute top-0 -right-5 z-40 h-full'><div className='lg:flex hidden bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group'><BsArrowRightShort className='text-xl' /></div></button>
-        <button onClick={btnnext} className='absolute top-0 -left-8  z-40 h-full'><div className='lg:flex hidden bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group'><BsArrowLeftShort className='text-xl' /></div></button>
-        <div id="id4" className='flex lg:overflow-x-hidden overflow-x-scroll space-x-5 scroll-smooth' >
-          <ProductCard2 stars={stars} />
-          <ProductCard2 stars={stars} />
-          <ProductCard2 stars={stars} />
-          <ProductCard2 stars={stars} />
-          <ProductCard2 stars={stars} />
-          <ProductCard2 stars={stars} />
-          <ProductCard2 stars={stars} />
-        </div>
+      <div className='mt-8'>
+        <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
+          <ProductCard2 stars={4} />
+          <ProductCard2 stars={5} />
+          <ProductCard2 stars={4} />
+          <ProductCard2 stars={5} />
+          <ProductCard2 stars={4} />
+          <ProductCard2 stars={5} />
+          <ProductCard2 stars={4} />
+        </Slider>
       </div>
-
     </>
   )
 }

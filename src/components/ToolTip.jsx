@@ -2,7 +2,7 @@ import React from 'react'
 import { Tooltip, Typography } from "@material-tailwind/react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
-const ToolTip = () => {
+const ToolTip = ({ color }) => {
   return (
     <Tooltip placement="top" className="bg-white shadow-xl" content={
       <div className="w-80 px-2 py-3">
@@ -12,7 +12,7 @@ const ToolTip = () => {
     }>
       <InformationCircleIcon
         strokeWidth={2}
-        className="text-b3 w-5 h-5 cursor-pointer"
+        className={`w-5 h-5 cursor-pointer ${color || 'text-b3'}`}
       />
     </Tooltip>
 

@@ -35,7 +35,7 @@ const authController = {
       if (emailInUse) {
         const error = {
           status: 409,
-          message: "Email already registered, use another email!",
+          message: "Email Already Exits!",
         };
 
         return next(error);
@@ -61,7 +61,7 @@ const authController = {
       return next(error);
     }
 
-    return res.status(200).json({ msg:"Signup Successfull!" });
+    return res.status(200).json({ status: 200,msg:"Signup Successfull!" });
   },
 
   async login(req,res,next){
@@ -122,8 +122,8 @@ const authController = {
 
     
 
-    res.cookie('accessTokne',accessToken,{httpOnly:true,maxAge: 24 * 60 * 60 * 1000});
-    res.cookie('refreshTokne',refreshToken,{httpOnly:true,maxAge: 24 * 60 * 60 * 1000});
+    res.cookie('accessToken',accessToken,{httpOnly:true,maxAge: 24 * 60 * 60 * 1000});
+    res.cookie('refreshToken',refreshToken,{httpOnly:true,maxAge: 24 * 60 * 60 * 1000});
 
     const userDto = new UserDTO(user);
 

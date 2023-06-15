@@ -36,12 +36,12 @@ const ModelBuyingOptionsSection = () => {
 
               <div className='flex flex-col border-[1px] border-t-0 border-r-0 border-b-0 w-full border-gray-200' >
 
-                <div className='py-3' >
+                <div className='py-3'>
                   <div className='flex justify-center text-sm w-full font-semibold' ><h5>White GE 1.7 cu. ft. Over the Range Microwave with Convenience Cooking Controls for long text</h5></div>
                 </div>
 
-                <div className='flex justify-center border-t-[1px] border-b-0 border-gray-200' >
-                  <ModelBuyingOptionCard bestValue={<span className='flex items-center bg-b9 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><AiOutlineDollarCircle className='mr-1' /> Best Value</span>} />
+                <div className='flex justify-center border-t-[1px]' >
+                  <ModelBuyingOptionCard active="bg-b3/20" bestValue={<span className='flex items-center bg-b9 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><AiOutlineDollarCircle className='mr-1' /> Best Value</span>} />
                   <ModelBuyingOptionCard bestValue={<span className='flex items-center bg-b3 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><FaFire className='mr-1' />Most Popular</span>} />
                   <ModelBuyingOptionCard bestValue={<span className='flex items-center bg-b7 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><AiFillStar className='mr-1 text-white' />Premium Condition</span>} />
                 </div>

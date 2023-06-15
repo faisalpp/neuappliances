@@ -6,7 +6,7 @@ import FaqAccordion from './FaqAccordion';
 const InspectionScoreSection = () => {
   return (
     <>
-      <div className='flex items-center flex-col bg-b8 py-16 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+      <div className='flex items-center flex-col bg-b8 py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
 
         <div className='flex flex-col w-full' >
           <div className='flex flex-col space-y-4 w-full items-center' >
@@ -31,7 +31,6 @@ const InspectionScoreSection = () => {
                 <div className='flex items-center px-5 py-4 rounded-md bg-b8' >
                   <div className='flex items-center justify-between w-full text-sm font-bold' ><h4 className='' >Final QC Checks</h4><div className='flex items-center justify-end' ><div className='flex items-center space-x-3' ><AiOutlineCheckCircle className='text-b12 text-xl' /><h6 className='font-medium font-sm' >Passed</h6></div></div></div>
                 </div>
-
 
               </div>
 

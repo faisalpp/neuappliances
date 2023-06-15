@@ -4,7 +4,7 @@ const PaymentOptions = () => {
   return (
     <div className='grid grid-cols-1 lg:grid-cols-2 items-center gap-5 justify-center w-full' >
       <div className='h-full flex justify-center lg:justify-end'>
-        <div className='flex flex-col gap-5 px-12 py-9 bg-white rounded-md w-full max-w-[400px] lg:w-[400px]' >
+        <div className='flex flex-col gap-5 px-12 py-9 bg-white rounded-2xl w-full max-w-[400px] lg:w-[400px]' >
           <div className='flex flex-col gap-y-3 items-center justify-center w-full' >
             <h6 className='text-lg font-bold' >Pay Once</h6>
             <h6 className='text-xl lg:text-2xl 2xl:text-3xl font-bold text-b3' >$399.99</h6>
@@ -21,7 +21,7 @@ const PaymentOptions = () => {
       </div>
 
       <div className='h-full flex justify-center lg:justify-start'>
-        <div className='flex flex-col gap-5 px-12 py-9 rounded-md bg-white w-full max-w-[400px] lg:w-[400px]' >
+        <div className='flex flex-col gap-5 px-12 py-9 rounded-2xl bg-white w-full max-w-[400px] lg:w-[400px]' >
           <div className='flex flex-col gap-y-3 items-center justify-center w-full' >
             <h6 className='text-lg font-bold' >Pay Monthly</h6>
             <h6 className='text-xl lg:text-2xl 2xl:text-3xl font-bold text-b3' >$25 -$15</h6>
@@ -45,8 +45,6 @@ const PaymentOptions = () => {
           </div>
         </div>
       </div>
-
-
 
     </div>
   )

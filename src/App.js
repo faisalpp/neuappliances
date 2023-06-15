@@ -8,6 +8,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import UserAccount from './pages/UserAccount';
 import Appliances from './pages/Appliances';
 import ApplianceTypes from './pages/ApplianceTypes';
+import GeneralFaqs from './pages/GeneralFaqs';
 import Test from './pages/Test';
 import NotFound from "./pages/NotFound";
 import { useSelector } from "react-redux";
@@ -27,6 +28,7 @@ function App() {
       <Route path="/product" element={<Product />} />
       <Route path="/appliances" element={<Appliances />} />
       <Route path="/appliancetypes" element={<ApplianceTypes />} />
+      <Route path="/faqs" element={<GeneralFaqs />} />
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
