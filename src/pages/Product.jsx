@@ -158,7 +158,7 @@ const Product = () => {
             <Link to='' className='text-xs font-bold hover:underline cursor-pointer underline' >+ View more</Link>
             <div className='flex items-center lg:space-x-5 space-x-5 lg:mt-4 mt-2' >
               <div className='flex items-center gap-1' >
-                <h4 className='lg:text-sm text-xs font-semibold w-max text-black/50' >Cosmetic Rating</h4><ToolTip color="text-black/50" />
+                <h4 className='lg:text-sm text-xs font-semibold w-max text-black/50' >Cosmetic Rating</h4><ToolTip color="text-b3" />
               </div>
               <div className='flex items-center' ><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' />
               </div>
