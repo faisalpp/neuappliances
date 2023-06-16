@@ -268,7 +268,7 @@ const Product = () => {
 
         {/* 360 Degree Product Section */}
         <div className='flex flex-col gap-5 items-center py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto border border-b14 rounded-3xl' >
-          <h4 className='xl:text-3xl 3xl:text-4xl font-bold' >360° View of This Appliance</h4>
+          <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' >360° View of This Appliance</h4>
           <div className='mt-5 relative w-full mb-5' >
             <img src="360appliance.png" alt='product' className='w-[17rem] mx-auto' />
             <div className='absolute -bottom-5 left-0 right-0'>
@@ -304,7 +304,7 @@ const Product = () => {
 
         {/* PAyment Options */}
         <div className='flex flex-col py-10 md:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto bg-b8' >
-          <h4 className='font-bold xl:text-[36px] text-3xl text-center mb-10 md:mb-14 xl:mb-20' >Payment Options</h4>
+          <h4 className='font-bold text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-center mb-10 md:mb-14 xl:mb-20' >Payment Options</h4>
           <PaymentOptions />
         </div>
 
@@ -345,7 +345,7 @@ const Product = () => {
         {/* Rlated Products */}
         <div className='flex flex-col py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
           <div className='flex flex-col items-center' >
-            <h4 className='lg:text-2xl text-xl font-bold' >Related Products</h4>
+            <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' >Related Products</h4>
           </div>
           <CosmaticSlider />
         </div>

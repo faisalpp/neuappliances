@@ -9,7 +9,7 @@ const LaunderySet = () => {
   return (
     <>
       <div className='flex flex-col bg-b8 py-10 lg:py-14 xl:py-20  w-full lg:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
-        <div className='flex w-full justify-center text-2xl 2xl:text-3xl font-bold' ><h4>Complete Your Laundry Set</h4></div>
+        <div className='flex w-full justify-center text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' ><h4>Complete Your Laundry Set</h4></div>
         {/* Continer */}
         <div className='flex justify-center w-full mt-10' >
           {/* Inner Contaienr */}
