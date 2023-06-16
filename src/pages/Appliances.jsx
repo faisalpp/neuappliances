@@ -32,7 +32,7 @@ const Appliances = () => {
         {/* End */}
         {/* Reviews Section */}
         <SatisfiedSection title="Join Thousands of our Satisfied Customers." />
-        <NewsLetterSection />
+        <NewsLetterSection backimage="Newsletter.png" />
       </MainLayout>
     </>
   )

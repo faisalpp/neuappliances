@@ -128,7 +128,7 @@ const ProductSection = () => {
     ]
     return (
         <div>
-            <div className='flex maxlg:flex-col justify-center gap-4 lg:gap-8 py-10 w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+            <div className='flex maxlg:flex-col justify-center gap-4 lg:gap-8 py-10 w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px 3xl:pr-120px 3xl:pl-[88px] mx-auto' >
                 {/* FFIlter Button For MoBile Screen */}
                 <button className='ml-auto shadow-md px-3 py-2 text-sm font-semibold rounded-lg flex gap-2 items-center lg:hidden' onClick={() => setIsFilter(true)}>
                     Filters <BsChevronDown className='text-xs stroke-1' />
@@ -160,10 +160,10 @@ const ProductSection = () => {
                     <div>
                         <RelatedProducts title="Refrigerators By Features" />
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 mt-8'>
-                            <ProductCard title="Ice Makers" image="refrigstyle1.png" />
-                            <ProductCard title="Energy Star" image="refrigstyle2.png" />
-                            <ProductCard title="Counter Depth" image="refrigstyle3.png" />
-                            <ProductCard title="Counter Depth" image="refrigstyle4.png" />
+                            <ProductCard title="Ice Makers" image="rffeature1.png" />
+                            <ProductCard title="Energy Star" image="rffeature2.png" />
+                            <ProductCard title="Counter Depth" image="rffeature3.png" />
+                            <ProductCard title="Counter Depth" image="rffeature4.png" />
                         </div>
                     </div>
                     <div>

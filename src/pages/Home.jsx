@@ -21,28 +21,28 @@ import RatingProductSectionXl from '../components/Sections/RatingProductSections
 import RatingProductSection from '../components/RatingProductSection';
 
 const Home = () => {
-  
+
   return (
     <>
-     <MainLayout>
-     <HeroSection/>
-     <BrandsSlider/>
-     <WwslSection/>
-     <HomeImagesSection/>
-     <CosmaticStarSection/>
-     <HiwSection/>
-     <AustinLoveSection/>
-     <D3CardSection/>
-     <ReviewSection/>
-     <LoopSection/>
-     <ApplianceSection/>
-     <MapSection/>
-     <RatingProductSection/>
-     <TourSection/>
-     <GallerySection/>
-     <SatisfiedSection title="Join Thousands of our Satisfied Customers." />
-     <NewsLetterSection/>
-     </MainLayout>
+      <MainLayout>
+        <HeroSection />
+        <BrandsSlider />
+        <WwslSection />
+        <HomeImagesSection />
+        <CosmaticStarSection />
+        <HiwSection />
+        <AustinLoveSection />
+        <D3CardSection />
+        <ReviewSection />
+        <LoopSection />
+        <ApplianceSection />
+        <MapSection />
+        <RatingProductSection />
+        <TourSection />
+        <GallerySection />
+        <SatisfiedSection title="Join Thousands of our Satisfied Customers." />
+        <NewsLetterSection backimage="new.png" />
+      </MainLayout>
     </>
   )
 }

@@ -85,7 +85,7 @@ const ApplianceTypes = () => {
                 {/* Shop Austin Section */}
                 <ShopAustinSection />
 
-                <NewsLetterSection />
+                <NewsLetterSection backimage="Newsletter.png" />
             </MainLayout>
         </>
     )
