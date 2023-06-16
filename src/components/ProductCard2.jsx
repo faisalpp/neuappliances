@@ -1,6 +1,7 @@
 import React from 'react'
-import { AiOutlineQuestionCircle, AiFillStar } from 'react-icons/ai'
+import { AiFillStar } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
+import ToolTip from './ToolTip'
 
 const ProductCard2 = ({ stars }) => {
   const StarIconPrinter = ({ numberOfTimes }) => {
@@ -21,10 +22,15 @@ const ProductCard2 = ({ stars }) => {
         </div>
         <div className='flex flex-col space-y-3 xl:mt-6 mt-3 xl:px-5 lg:px-5 px-3 pb-10' >
           <p className='font-semibold font-reg xl:text-[16px] text-sm' >White GE 1.7 cu. ft. Over the Range Microwave with Convenience Cooking Controls for long text</p>
-          <div className='flex' ><h4 className='text-b3 font-semibold' >$279.00</h4><div className='flex justify-end w-full space-x-2 items-center' ><strike>$279.00</strike><span className='bg-b4 rounded-xl font-semibold px-2 py-1 text-xs' >- 27%</span></div></div>
-          <div className='flex items-center space-x-2' ><div className='flex items-center gap-1' ><h4 className='text-sm font-semibold' >Cosmetic Rating</h4><AiOutlineQuestionCircle /></div><div className='flex mt-2 items-center' ><StarIconPrinter numberOfTimes={stars} /> </div></div>
+          <div className='flex' ><h4 className='text-b3 font-semibold' >$279.00</h4>
+            <div className='flex justify-end w-full space-x-2 items-center' >
+              <strike className="text-[rgba(17,16,16,0.64)]">$279.00</strike>
+              <span className='bg-b4 rounded-xl font-semibold px-2 py-1 text-xs' >- 27%</span>
+            </div>
+          </div>
+          <div className='flex items-center space-x-2' ><div className='flex items-center gap-1' ><h4 className='text-sm font-semibold text-b15' >Cosmetic Rating</h4><ToolTip color="text-b15" /></div><div className='flex mt-2 items-center' ><StarIconPrinter numberOfTimes={stars} /> </div></div>
           <div className='flex items-center space-x-10' >
-            <div className='flex font-semibold text-sm' ><h4>Discount</h4>&nbsp;%</div>
+            <div className='flex font-semibold text-sm text-b15' ><h4>Discount</h4>&nbsp;%</div>
             <div className='w-[100px] bg-gray-100 rounded-lg' ><span className='flex rounded-lg bg-gradient-to-r from-b4 to-b7 w-20 h-2' ></span></div>
           </div>
         </div>

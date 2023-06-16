@@ -2,6 +2,7 @@ import React from 'react'
 import ModelBuyingOptionCard from './ModelBuyingOptionCard'
 import { AiFillStar, AiOutlineDollarCircle, AiOutlineStar } from 'react-icons/ai'
 import { FaFire } from 'react-icons/fa'
+import { FiLink2 } from 'react-icons/fi'
 
 const ModelBuyingOptionsSection = () => {
   return (
@@ -52,7 +53,7 @@ const ModelBuyingOptionsSection = () => {
             </div>
           </div>
         </div>
-        <div className='py-5 text-center' ><button type='button' className='text-b7 font-semibold mt-5' >GO View More Buying Options</button></div>
+        <div className='py-5 text-center' ><button type='button' className='text-b7 font-semibold mt-5 flex items-center justify-center mx-auto gap-1'><FiLink2 stroke-width="3" /> View More Buying Options</button></div>
       </div>
     </>
   )
