@@ -28,6 +28,7 @@ import CosmaticSlider from '../components/CosmaticSlider'
 import ToolTip from '../components/ToolTip'
 import MoreImagesModal from '../components/MoreImagesModal'
 import StickyNavbar from '../components/DeskComp/Navbar/StickyNavbar'
+import TruckSvg from '../svgs/TruckSvg'
 
 const Product = () => {
   const [deliveryType, setDeliverType] = useState('pickup');
@@ -211,7 +212,9 @@ const Product = () => {
             <div className='flex flex-col space-y-3' >
               {/* First FAQ */}
               <div className='flex items-center space-x-3 border-[1px] px-5 border-gray-200 text-sm text-black py-3 rounded-lg' >
-                <BsTruck className='text-2xl' />
+                <span>
+                  <TruckSvg />
+                </span>
                 <div className='flex flex-col' >
                   <h6 className="font-bold ml-2" >Need to Schedule your appliance delivery?</h6>
                   <h6 className="ml-2" >Select your delivery date and time during checkout</h6>
@@ -220,18 +223,22 @@ const Product = () => {
 
               {/* Second FAQ */}
               <div className='flex items-center space-x-3 border-[1px] px-5 border-gray-200 text-sm text-black py-3 rounded-lg' >
-                <BsStarHalf className='text-2xl' />
+                <span>
+                  <BsStarHalf className='w-6 h-6' />
+                </span>
                 <div className='flex flex-col' >
                   <h6 className="font-bold ml-2" >Cosmetic Rating: What does it mean?</h6>
-                  <h6 className="ml-2" >All Items work like new. Their Cosmetic Rating refers to their cosmetic appearance (how they look) <Link to='' className='text-b3 hover:underline cursor-pointer font-medium' >Learn More</Link></h6>
+                  <h6 className="ml-2" >All Items work like new. Their Cosmetic Rating refers to their cosmetic appearance (how they look) <Link to='' className='text-b3 hover:underline cursor-pointer font-semibold' >Learn More</Link></h6>
                 </div>
               </div>
               {/* 3rd FAQ */}
               <div className='flex items-center space-x-3 border-[1px] px-5 border-gray-200 text-sm text-black py-3 rounded-lg' >
-                <BsStarHalf className='text-2xl' />
+                <span>
+                  <img src="assignment_return.png" alt="assignment_return" className='w-6 h-6' />
+                </span>
                 <div className='flex flex-col' >
                   <h6 className="font-bold ml-2" >Free Curbside Returns</h6>
-                  <h6 className="ml-2" >Cancel your order curbside upon delivery free of charge! <a className='text-b3 font-medium hover:underline cursor-pointer' >Learn More</a></h6>
+                  <h6 className="ml-2" >Cancel your order curbside upon delivery free of charge! <Link to="" className='text-b3 font-semibold hover:underline cursor-pointer' >Learn More</Link></h6>
                 </div>
               </div>
 
@@ -240,7 +247,7 @@ const Product = () => {
 
             {/* Other Product Section */}
             <div className=' rounded-lg bg-[#F8F8F8] p-5'>
-              <div class="flex justify-between items-center mb-3" ><h6 className="font-bold" >Other Product Options</h6><h6 className="flex items-center hover:underline text-sm text-b3" >View All <BsArrowRightShort /></h6></div>
+              <div class="flex justify-between items-center mb-3" ><h6 className="font-bold" >Other Product Options</h6><Link to="" className="flex items-center hover:underline text-sm text-b3" >View All <BsArrowRightShort /></Link></div>
               <div className='lg:grid grid-cols-3 flex flex-col items-center lg:mt-0 mt-4 lg:space-y-0 space-y-4 lg:gap-x-5' >
                 <OtherProductCard rating={3} />
                 <OtherProductCard rating={4} />
@@ -254,34 +261,34 @@ const Product = () => {
 
         {/* Faq Accrodions */}
         <div className='flex flex-col items-center mb-5 justify-center pt-14 xl:pt-10 gap-y-3 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
-          <FaqAccordion title="Product Description" parent='w-full px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni pariatur assumenda, incidunt possimus alias illo nesciunt nemo at accusantium ad rem ipsum, rerum saepe a! Itaque qui officia quis totam?' />
+          <FaqAccordion title="Appliance Description" parent='w-full px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni pariatur assumenda, incidunt possimus alias illo nesciunt nemo at accusantium ad rem ipsum, rerum saepe a! Itaque qui officia quis totam?' />
           <FaqAccordion title="Specifications" parent='w-full px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni pariatur assumenda, incidunt possimus alias illo nesciunt nemo at accusantium ad rem ipsum, rerum saepe a! Itaque qui officia quis totam?' />
           <FaqAccordion title="Delivery Info" parent='w-full px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni pariatur assumenda, incidunt possimus alias illo nesciunt nemo at accusantium ad rem ipsum, rerum saepe a! Itaque qui officia quis totam?' />
         </div>
 
         {/* 360 Degree Product Section */}
         <div className='flex flex-col gap-5 items-center py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto border border-b14 rounded-3xl' >
-          <h4 className='text-2xl font-bold' >360° View of This Appliance</h4>
+          <h4 className='xl:text-3xl 3xl:text-4xl font-bold' >360° View of This Appliance</h4>
           <div className='mt-5 relative w-full mb-5' >
             <img src="360appliance.png" alt='product' className='w-[17rem] mx-auto' />
             <div className='absolute -bottom-5 left-0 right-0'>
               <img src="360angle.png" alt='product' className='w-72 mx-auto' />
             </div>
           </div>
-          <p className="font-normal" >Rotate 360° to see the product from all angles</p>
-          <div className='flex border-[1px] border-gray-200 rounded-md w-full md:w-2/3 xl:w-1/2' >
-            <div className='flex flex-col items-center border-r-[1px] border-gray-200 w-full' >
-              <h5 className='text-center border-b-[1px] border-gray-200 text-sm sm:text-base py-4 w-full font-semibold' >#ID</h5>
-              <h5 className='flex items-center gap-1 justify-center text-center border-b-[1px] border-gray-200 text-sm sm:text-base py-4 w-full' ><span className='font-semibold' >Cosmetic Rating </span><ToolTip color="text-black/50" /></h5>
-              <h5 className='flex items-center justify-center text-center border-b-[1px] text-sm sm:text-base py-4 w-full font-semibold' >Model Number</h5>
-              <h5 className='flex items-center gap-1 justify-center text-center  text-sm sm:text-base py-4 w-full font-semibold' ><span>Warranty</span> <ToolTip color="text-black/50" /></h5>
+          <p className="font-normal" >Rotate <b>360°</b> to see the product from all angles</p>
+          <div className='flex border-2 border-gray-[rgba(0,0,0,0.08)] rounded-2xl w-full md:w-2/3 xl:w-1/2' >
+            <div className='flex flex-col items-center border-r-[1px] border-gray-300 w-full' >
+              <h5 className='text-center border-b-[1px] border-gray-300 text-sm sm:text-base py-4 w-full font-semibold' >#ID</h5>
+              <h5 className='flex items-center gap-1 justify-center text-center border-b border-gray-300 text-sm sm:text-base py-4 w-full' ><span className='font-semibold' >Cosmetic Rating </span><ToolTip color="text-black/50" /></h5>
+              <h5 className='flex items-center justify-center text-center border-b border-gray-300 text-sm sm:text-base py-4 w-full font-semibold' >Model Number</h5>
+              <h5 className='flex items-center gap-1 justify-center text-center text-sm sm:text-base py-4 w-full font-semibold' ><span>Warranty</span> <ToolTip color="text-black/50" /></h5>
             </div>
             <div className='flex flex-col items-center border-l-[1px] border-white w-full' >
-              <h5 className='text-center border-b-[1px] border-gray-200 py-4 w-full font-normal' >#12354567876</h5>
-              <div className='flex items-center border-b border-gray-200 justify-center py-[18px] w-full' ><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /></div>
-              <div className='text-center border-b-[1px] border-gray-200 py-4 w-full font-normal' >WF45B6300AC</div>
-              <div className='flex items-center space-x-2 justify-center border-t-[1px] border-gray-200 py-3 w-full' >
-                <div className='flex items-center rounded-md justify-center pl-2 pr-5 py-1 space-x-1 border-[1px] border-gray-200' ><BsShieldLock />
+              <h5 className='text-center border-b-[1px] border-gray-300 py-4 w-full font-normal' >#12354567876</h5>
+              <div className='flex items-center border-b border-gray-300 justify-center py-[18px] w-full' ><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /></div>
+              <div className='text-center border-b-[1px] border-gray-300 py-4 w-full font-normal' >WF45B6300AC</div>
+              <div className='flex items-center space-x-2 justify-center border-gray-300 py-3 w-full' >
+                <div className='flex items-center rounded-md justify-center pl-2 pr-2 sm:pr-8 py-1 space-x-1 border border-gray-300' ><img src="nueshield.png" alt="nueshield" />
                   <span className='w-full text-xs font-medium break-words ' >NeuShield <br /> 1 Year Warranty</span>
                 </div>
               </div>
@@ -291,28 +298,28 @@ const Product = () => {
           {/* Shop With Confidnce */}
           <div className='max-w-[930px] mt-6 lg:mt-10 mx-auto bg-b11 border-2 border-b14 rounded-3xl p-5 sm:p-8 flex flex-col gap-4'>
             <h3 className='text-xl sm:text-2xl font-medium'>Shop With Confidence.</h3>
-            <p>The item in the pictures above is the item you will receive.  Scratch and dent appliances are all unique, so we include 360° pictures and videos for every item we stock. Rotate the picture to Inspect the appliance's cosmetic condition.</p>
+            <p className=''>The item in the pictures above is the item you will receive.  Scratch and dent appliances are all unique, so we include 360° pictures and videos for every item we stock. Rotate the picture to Inspect the appliance's cosmetic condition.</p>
           </div>
         </div>
-
-        {/* Review */}
-        <div className='flex flex-col bg-white py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
-          <div className='flex flex-col space-y-3 rounded-md items-center py-8 justify-center bg-b8' >
-            <div className='flex mt-2 items-center' ><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /></div>
-            <h6 className='font-bold' >Cosmetic Rating: 3 Stars </h6>
-            <h6 className='font-medium' >What To Expect</h6>
-            <p className='text-sm text-center px-10' >If you are shopping for bargains you are in the right place! 3-star rated appliances get you an open box appliance that works perfectly, with moderate cosmetic damage like scratches or dents at the largest discounted price we offer. Customers purchasing 3 star appliances capitalize on our deepest discounts in exchange for larger cosmetic blemishes while still obtaining a 100% functional appliance.</p>
-          </div>
-        </div>
-
-        {/* How it Works */}
-        <HiwSection />
 
         {/* PAyment Options */}
         <div className='flex flex-col py-10 md:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto bg-b8' >
           <h4 className='font-bold xl:text-[36px] text-3xl text-center mb-10 md:mb-14 xl:mb-20' >Payment Options</h4>
           <PaymentOptions />
         </div>
+
+        {/* Review */}
+        <div className='flex flex-col bg-white py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+          <div className='flex flex-col gap-3 rounded-md items-center py-8 justify-center bg-b8' >
+            <div className='flex mt-2 items-center' ><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /></div>
+            <h3 className='text-[22px]'><span className='font-bold'>Cosmetic Rating:</span> <span className='font-medium'>3 Stars</span> </h3>
+            <p className='font-medium text-[22px]' >What To Expect</p>
+            <p className='text-sm text-center px-10' >If you are shopping for bargains you are in the right place! 3-star rated appliances get you an open box appliance that works perfectly, with moderate cosmetic damage like scratches or dents at the largest discounted price we offer. Customers purchasing 3 star appliances capitalize on our deepest discounts in exchange for larger cosmetic blemishes while still obtaining a 100% functional appliance.</p>
+          </div>
+        </div>
+
+        {/* How it Works */}
+        <HiwSection />
 
         {/* Reviews Section */}
         <SatisfiedSection title="Our Customers LOVE our Scratch and Dent Discounts!" dots={true} />

@@ -2,6 +2,9 @@ import React from 'react';
 import MainLayout from '../layout/MainLayout';
 import ApplianceDetail from '../components/Appliances/ApplianceDetail';
 import Faqs from '../components/GeneralFaqs/Faqs';
+import ShopAustinSection from '../components/Appliances/ShopAustinSection';
+import NewsLetterSection from '../components/NewsLetterSection';
+import SatisfiedSection from '../components/SatisfiedSection'
 import { RiArrowDropRightLine } from 'react-icons/ri';
 
 const GeneralFaqs = () => {
@@ -23,6 +26,13 @@ const GeneralFaqs = () => {
 
         {/* Faqs Tabs */}
         <Faqs />
+        {/* Shop Austin Section */}
+        <ShopAustinSection />
+
+        {/* Reviews Section */}
+        <SatisfiedSection title="Our Customers LOVE our Scratch and Dent Discounts!" dots={true} />
+        {/* End  */}
+        <NewsLetterSection />
         {/* End Tabs*/}
       </MainLayout>
     </>
