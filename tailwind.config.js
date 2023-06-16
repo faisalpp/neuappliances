@@ -53,6 +53,8 @@ module.exports = {
         'b16': '#111010',
         'b17': '#5E5E5E',
         'b18': '#242424',
+        'b19': '#C3C2C2',
+        'b20': '#ECECEC',
         't1': '#22A6AB',
         't2': '#333333',
       },
@@ -60,8 +62,12 @@ module.exports = {
         'reg': 'Montserrat'
       },
       spacing: {
+        '100px': '100px',
         '120px': '120px',
         '60px': '60px',
+      },
+      boxShadow: {
+        's1': '0px 10px 20px rgba(0,0,0,0.05)'
       },
       maxWidth: {
         '1680px': '1680px',

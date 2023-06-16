@@ -89,7 +89,7 @@ const Faqs = () => {
                     {tabsData.map((tab) => (
                         activeTab === tab.id && <div key={tab.id} className='flex flex-col gap-3 sm:gap-4'>
                             {tab.content.map((content, index) => (
-                                <FaqAccordion title={content.title} parent='gap-3 bg-b8/60 [&>div>h6]:maxmd:text-sm text-white p-4 md:px-8 md:py-6 rounded-xl border-none text-b18 h-auto' icon='text-xl text-black' textStyle='font-bold text-md text-b18' child='[&>p]:text-sm text-b18 font-normal' answer={content.answer} />
+                                <FaqAccordion title={content.title} parent='gap-3 bg-[#F8FBFB] [&>div>h6]:maxmd:text-sm text-white p-4 md:px-8 md:py-6 rounded-xl border-none text-b18 h-auto' icon='text-xl text-black' textStyle='font-bold text-md text-b18' child='[&>p]:text-sm text-b18 font-normal' answer={content.answer} />
                             ))}
                             {/* {tab.content} */}
                         </div>

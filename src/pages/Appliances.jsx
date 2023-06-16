@@ -30,8 +30,10 @@ const Appliances = () => {
         {/* Recentky Added Section */}
         <RecentlyAddedSection />
         {/* End */}
+
         {/* Reviews Section */}
         <SatisfiedSection title="Join Thousands of our Satisfied Customers." />
+
         <NewsLetterSection backimage="Newsletter.png" />
       </MainLayout>
     </>

@@ -76,3 +76,11 @@
 .reviewslider-wrapper .slick-dots li.slick-active button:before {
   color: #22A6AB;
 }
+
+.text-line-camp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

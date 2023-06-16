@@ -5,7 +5,7 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const CosmaticSlider = () => {
+const CosmaticSlider = ({ sliderstyle }) => {
 
   const settings = {
     dots: false,
@@ -57,13 +57,13 @@ const CosmaticSlider = () => {
     <>
       <div className='mt-8'>
         <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
-          <ProductCard2 stars={4} />
-          <ProductCard2 stars={5} />
-          <ProductCard2 stars={4} />
-          <ProductCard2 stars={5} />
-          <ProductCard2 stars={4} />
-          <ProductCard2 stars={5} />
-          <ProductCard2 stars={4} />
+          <ProductCard2 sliderstyle={sliderstyle} stars={4} />
+          <ProductCard2 sliderstyle={sliderstyle} stars={5} />
+          <ProductCard2 sliderstyle={sliderstyle} stars={4} />
+          <ProductCard2 sliderstyle={sliderstyle} stars={5} />
+          <ProductCard2 sliderstyle={sliderstyle} stars={4} />
+          <ProductCard2 sliderstyle={sliderstyle} stars={5} />
+          <ProductCard2 sliderstyle={sliderstyle} stars={4} />
         </Slider>
       </div>
     </>
