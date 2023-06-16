@@ -7,7 +7,7 @@ const HiwCad = ({ icon, title, txt }) => {
         <img src={icon} className='w-16' alt={title} />
         {/* <div className='flex flex-col space-y-5 xl:px-8 lg:px-5' > */}
         <h5 className='font-bold text-xl xl:text-2xl text-center' >{title}</h5>
-        <p className='lg:text-sm text-xs xl:text-base font-medium text-center text-black' >{txt}</p>
+        <p className='lg:text-sm text-xs xl:text-base font-medium text-center text-black/70' >{txt}</p>
         {/* </div> */}
       </div>
     </>

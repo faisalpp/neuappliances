@@ -8,7 +8,7 @@ const ModelBuyingOptionsSection = () => {
     <>
 
       <div className='py-14 xl:py-20 items-center w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-[180px] mx-auto' >
-        <h4 className='text-2xl 2xl:text-3xl font-bold text-center' >Buying Options for Model Number WF45B6300AC</h4>
+        <h4 className='text-xl lg:text-2xl 2xl:text-4xl font-bold text-center' >Buying Options for Model Number WF45B6300AC</h4>
 
 
         <div className='overflow-x-auto'>
@@ -37,7 +37,7 @@ const ModelBuyingOptionsSection = () => {
               <div className='flex flex-col border border-t-0 border-r-0 border-b-0 w-full border-gray-200' >
 
                 <div className='py-3'>
-                  <div className='flex justify-center text-sm w-full font-semibold' ><h5>White GE 1.7 cu. ft. Over the Range Microwave with Convenience Cooking Controls for long text</h5></div>
+                  <div className='flex justify-center text-[#111010] text-sm w-full font-semibold' ><h5>White GE 1.7 cu. ft. Over the Range Microwave with Convenience Cooking Controls for long text</h5></div>
                 </div>
 
                 <div className='flex justify-center border-t' >
