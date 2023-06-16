@@ -51,6 +51,7 @@ module.exports = {
         'b14': 'rgba(17,16,16,0.08)',
         'b15': 'rgba(17, 16, 16, 0.8)',
         't1': '#22A6AB',
+        't2': '#333333',
       },
       fontFamily: {
         'reg': 'Montserrat'
