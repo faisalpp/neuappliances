@@ -11,7 +11,7 @@ const HiwSection = () => {
         <HiwCad icon="hiw2.png" title="Tested" txt='Our Open Box and Scratch and Dent appliances are thoroughly tested and must pass our 100 point inspection. This ensures every appliance performs 100% to manufacturer specifications, even if they are "Scratch and Dent."' />
         <HiwCad icon="hiw3.png" title="Shop With Confidence" txt='Every scratch and dent appliance we offer receives their own 360° photos and video. This allows you to shop from home while seeing exactly where the cosmetic blemishes are (if any!)' />
         <HiwCad icon="hiw4.png" title="Fast Local Delivery&Installation" txt='Our Austin local appliance delivery Pros are fast and efficient. We offer delivery and installation services to Austin, Tx and surrounding areas.' />
-        <HiwCad icon="hiw5.png" title="Neu Shield 1 Year Warranty" txt='Our customer preferred Neu Shield 1 year warranty was designed by the industries best services. Including onsite repair service, replacement options and storing customer info so you never have to save a receipt!' />
+        <HiwCad icon="hiw5.png" title="Neu Shield 1 Year Warranty" txt='Our customer preferred Neu Shield 1 year warranty was designed by the industries best services. Including onsite repair service, replacement options and storing customer info so you never have to save a receipt!' link="/" />
         <HiwCad icon="hiw6.png" title="Free Curbside Returns" txt="Shop with confidence. Upon delivery, if you decide the appliance isn't for you, we will return it free of charge!" />
       </div>
       {/* <div className='flex xl:flex-row lg:flex-row md:flex-col lg:items-stretch md:items-center flex-col 2xl:space-x-10 xl:space-x-10 lg:space-x-7 px-[8.33%] justify-evenly pb-10 w-full' >
