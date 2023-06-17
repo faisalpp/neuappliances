@@ -86,15 +86,15 @@ const Product = () => {
         <div className='grid grid-cols-1 lg:grid-cols-12 gap-10 lg:items-start items-center mb-10 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
           <div className='lg:col-span-5' >
             <div className='flex gap-2 md:gap-5' >
-              <div className='flex flex-col space-y-2 min-w-[70px]' >
-                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12' alt='product' /></div>
-                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12' alt='product' /></div>
-                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12' alt='product' /></div>
-                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12' alt='product' /></div>
-                <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+10</div><img src="p1.png" className='w-12' alt='product' /></div>
+              <div className='flex flex-col space-y-2 min-w-[70px] 2xl:min-w-[100px] h-full' >
+                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
+                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
+                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
+                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
+                <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+10</div><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
               </div>
-              <div className='flex relative justify-center items-center border-[1px] border-gray-300 rounded-lg lg:h-96 w-full' >
-                <img src="p1.png" alt='product' />
+              <div className='flex relative justify-center items-center border-[1px] border-gray-300 rounded-lg lg:h-96 2xl:h-auto 2xl:py-14 w-full' >
+                <img src="p1.png" alt='product' className='2xl:h-[378px]' />
                 <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><AiOutlineDollarCircle />Best Value</div></div>
               </div>
             </div>
