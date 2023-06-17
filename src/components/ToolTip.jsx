@@ -12,7 +12,7 @@ const ToolTip = ({ color }) => {
     }>
       <InformationCircleIcon
         strokeWidth={2}
-        className={`w-5 h-5 cursor-pointer ${color || 'text-b3'}`}
+        className={`w-5 h-5 cursor-pointer hover:text-b3 ${color || 'text-b3'}`}
       />
     </Tooltip>
 
