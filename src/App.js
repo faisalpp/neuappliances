@@ -14,7 +14,13 @@ import OurShowroom from './pages/OurShowroom';
 import OurCompanies from './pages/OurCompanies';
 import ApplianceRepair from './pages/ApplianceRepair';
 import MeasuringGuide from './pages/MeasuringGuide';
-import Profile from './pages/Profile';
+import Profile from './pages/MyAccount/Profile';
+import OtherHistory from './pages/MyAccount/OtherHistory';
+import MyFavourite from './pages/MyAccount/MyFavourite';
+import SavedAddress from './pages/MyAccount/SavedAddress';
+import BillingInformation from './pages/MyAccount/BillingInformation';
+import ChangePassword from './pages/MyAccount/ChangePassword';
+import EmailPreferences from './pages/MyAccount/EmailPreferences';
 import Test from './pages/Test';
 import NotFound from "./pages/NotFound";
 import { useSelector } from "react-redux";
@@ -41,6 +47,12 @@ function App() {
       <Route path="/appliance-repair" element={<ApplianceRepair />} />
       <Route path="/measuring-guide" element={<MeasuringGuide />} />
       <Route path="/my-account/profile" element={<Profile />} />
+      <Route path="/my-account/other-history" element={<OtherHistory />} />
+      <Route path="/my-account/my-favourites" element={<MyFavourite />} />
+      <Route path="/my-account/saved-addresses" element={<SavedAddress />} />
+      <Route path="/my-account/billing-information" element={<BillingInformation />} />
+      <Route path="/my-account/change-password" element={<ChangePassword />} />
+      <Route path="/my-account/email-preferences" element={<EmailPreferences />} />
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
