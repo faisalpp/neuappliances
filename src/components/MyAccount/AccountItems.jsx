@@ -1,5 +1,5 @@
 import React from 'react'
-import { FiChevronRight } from 'react-icons/fi';
+import { FiChevronRight, FiLogOut } from 'react-icons/fi';
 import { Link, useLocation } from 'react-router-dom';
 
 const AccountItems = ({ onClose, isItems }) => {
@@ -46,7 +46,13 @@ const AccountItems = ({ onClose, isItems }) => {
         <>
             <div className={`maxlg:fixed maxlg:bg-black/20 maxlg:items-end left-0 right-0 z-50 duration-300 lg:min-w-[240px] maxlg:flex ${modalClass}`} onClick={onClose}>
                 <div className='[&>div]:maxlg:px-10 maxlg:max-h-[398px] w-full maxlg:pb-10 maxlg:rounded-tl-2xl maxlg:rounded-tr-2xl maxlg:bg-white maxlg:overflow-y-auto lg:h-auto' onClick={handleFilterClick}>
-                    <div className='lg:hidden maxlg:sticky top-0 flex maxlg:py-4 justify-end lg:pb-4 items-center border-b maxlg:bg-white z-50 maxlg:shadow-md'>
+                    <div className='lg:hidden maxlg:sticky top-0 flex maxlg:py-4 justify-between lg:pb-4 items-center border-b maxlg:bg-white z-50 maxlg:shadow-md'>
+                        <button type='button' className='border border-[rgba(0,0,0,0.15)] text-[#B20B0B] flex gap-4 items-center font-semibold lg:hidden px-2 py-1 hover:bg-black/5 rounded duration-300'>
+                            <span>
+                                Logout
+                            </span>
+                            <FiLogOut stroke-width="3" />
+                        </button>
                         <button type='button' onClick={onClose} className='text-sm font-semibold lg:hidden px-2 py-1 hover:bg-black/5 rounded duration-300'>
                             Close
                         </button>

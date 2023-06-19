@@ -3,6 +3,7 @@ import MainLayout from './MainLayout';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { BsChevronDown } from 'react-icons/bs';
 import AccountItems from '../components/MyAccount/AccountItems';
+import { FiLogOut } from 'react-icons/fi';
 
 const MyAccount = ({ children }) => {
     const [isItems, setIsItems] = useState(false);
@@ -21,7 +22,17 @@ const MyAccount = ({ children }) => {
                 <div className='flex items-center justify-between pt-5 pb-11 max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
                     <h1 className='font-bold text-2xl md:text-3xl xl:text-4xl 2xl:text-[40px]'>My Account</h1>
 
-                    <button className='ml-auto shadow-md px-3 py-2 text-sm font-semibold rounded-lg flex gap-2 items-center bg-b3 text-white' onClick={() => setIsItems(true)}>
+                    {/* 992px Up Screen Logout */}
+                    <button className='hidden lg:flex gap-4 items-center py-4 px-6 rounded-lg font-bold border border-[rgba(0,0,0,0.15)] text-[#B20B0B]'>
+                        <span>
+                            Logout
+                        </span>
+                        <FiLogOut stroke-width="3" />
+                    </button>
+                    {/* End Logout Button */}
+
+
+                    <button className='ml-auto shadow-md px-3 py-2 text-sm font-semibold rounded-lg flex gap-2 items-center bg-b3 text-white lg:hidden' onClick={() => setIsItems(true)}>
                         My Account <BsChevronDown className='text-xs stroke-1' />
                     </button>
                 </div>
