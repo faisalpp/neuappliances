@@ -14,6 +14,7 @@ import OurShowroom from './pages/OurShowroom';
 import OurCompanies from './pages/OurCompanies';
 import ApplianceRepair from './pages/ApplianceRepair';
 import MeasuringGuide from './pages/MeasuringGuide';
+import Profile from './pages/Profile';
 import Test from './pages/Test';
 import NotFound from "./pages/NotFound";
 import { useSelector } from "react-redux";
@@ -39,6 +40,7 @@ function App() {
       <Route path="/our-companies" element={<OurCompanies />} />
       <Route path="/appliance-repair" element={<ApplianceRepair />} />
       <Route path="/measuring-guide" element={<MeasuringGuide />} />
+      <Route path="/my-account/profile" element={<Profile />} />
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

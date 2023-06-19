@@ -12,7 +12,7 @@ const ProductSection = ({ productstype, onClose, isFilter }) => {
         <ul className='flex flex-col gap-3'>
             {menu.map((item, index) => (
                 <li key={index}>
-                    <Link to={item.link} className='text-sm'>{item.title}</Link>
+                    <Link to={item.link} className='text-sm text-b22'>{item.title}</Link>
                 </li>
             ))}
         </ul>
@@ -26,7 +26,7 @@ const ProductSection = ({ productstype, onClose, isFilter }) => {
                     </button>
                 </div>
                 {productstype.map((product, index) => (
-                    <DropDown title={product.title} key={index}>
+                    <DropDown title={product.title} color="text-b22" key={index}>
                         <CosRatingMenu menu={product.menu} />
                     </DropDown>
                 ))}

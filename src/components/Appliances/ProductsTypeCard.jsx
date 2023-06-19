@@ -11,7 +11,7 @@ const ProductsTypeCard = ({ productstype }) => {
                         <div className='absolute top-0 left-0 right-0 bottom-0 bg-b3/50 flex items-center justify-center scale-0 opacity-0 pointer-events-none group-hover:scale-100 group-hover:opacity-100 group-hover:pointer-events-auto duration-300'>
                             <Link to={product.applianceslink} className='duration-300 inline-flex items-center gap-2 hover:gap-3 px-5 py-2 rounded-lg bg-b7 text-white'>View All Appliances<AiOutlineArrowRight className="text-base" /></Link>
                         </div>
-                        <div className='h-80 xl:h-96 2xl:h-[404px] w-full inline-flex justify-center items-center'>
+                        <div className='h-80 xl:h-96 2xl:h-[393px] w-full inline-flex justify-center items-center'>
                             <img src={product.productimage} className='object-contain' alt={product.productname} />
                         </div>
                         <div className='flex flex-col mt-6 gap-[10px] items-center text-center'>
