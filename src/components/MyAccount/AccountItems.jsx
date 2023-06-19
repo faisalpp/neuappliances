@@ -61,7 +61,11 @@ const AccountItems = ({ onClose, isItems }) => {
                         {myaccountItems.map((item) => (
                             <Link to={item.link} key={item.id} className={`duration-300 w-full px-6 py-4 font-semibold flex justify-between items-center text-left border rounded-lg ${location.pathname === item.link ? 'active border-b3 bg-b3 text-white' : 'border-b14 text-[rgba(17,16,16,0.64)]'}`}>
                                 <span>{item.title}</span>
-                                <FiChevronRight />
+                                {
+                                    location.pathname === item.link ?
+                                        <FiChevronRight />
+                                        : null
+                                }
                             </Link>
                         ))}
                     </div>
