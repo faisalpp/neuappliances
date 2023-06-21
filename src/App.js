@@ -14,6 +14,8 @@ import OurShowroom from './pages/OurShowroom';
 import OurCompanies from './pages/OurCompanies';
 import ApplianceRepair from './pages/ApplianceRepair';
 import MeasuringGuide from './pages/MeasuringGuide';
+import HelpfulApliancesTips from './pages/HelpfulApliancesTips';
+import AppliancesTipsDetail from './pages/AppliancesTipsDetail';
 import Profile from './pages/MyAccount/Profile';
 import OtherHistory from './pages/MyAccount/OtherHistory';
 import MyFavourite from './pages/MyAccount/MyFavourite';
@@ -46,6 +48,8 @@ function App() {
       <Route path="/our-companies" element={<OurCompanies />} />
       <Route path="/appliance-repair" element={<ApplianceRepair />} />
       <Route path="/measuring-guide" element={<MeasuringGuide />} />
+      <Route path="/helpful-appliances-tips" element={<HelpfulApliancesTips />} />
+      <Route path="/tips-forregerators-and-freezers" element={<AppliancesTipsDetail />} />
       <Route path="/my-account/profile" element={<Profile />} />
       <Route path="/my-account/other-history" element={<OtherHistory />} />
       <Route path="/my-account/my-favourites" element={<MyFavourite />} />

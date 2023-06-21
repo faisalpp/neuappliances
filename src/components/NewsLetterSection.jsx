@@ -8,7 +8,7 @@ const NewsLetterSection = ({ backimage }) => {
       <img src={backimage} className='absolute top-0 left-0 right-0 bottom-0 -z-10 w-full h-full' alt="new" />
       <div id="news-grid" className='lg:grid grid-cols-12 flex flex-col justify-center items-center py-5 bg-b4 w-full lg:h-72 xl:h-96 md:h-80 rounded-lg maxmd:px-5' >
         <div className='col-start-2 col-end-6 flex flex-col items-center lg:space-y-5 xl:space-y-5 space-y-2 justify-center [&>*]:text-b16' >
-          <a href='' className='bg-b3 px-7 py-2 text-xs xl:text-sm w-fit rounded-3xl !text-white' >STAY UPDATED</a>
+          <a href='' className='bg-b3 px-7 py-2 text-xs xl:text-sm w-fit rounded-3xl !text-white font-bold' >STAY UPDATED</a>
           <h4 className='lg:text-4xl text-xl xl:text-[56px] font-bold' >Subscribe!</h4>
           <p className='xl:text-base lg:text-sm text-xs text-center lg:w-72' >Get updates on exclusive discounts, experiences and more.</p>
         </div>
@@ -18,8 +18,8 @@ const NewsLetterSection = ({ backimage }) => {
           <div className='flex items-center space-x-3 py-2' >
             <InputCheckbox />
             {/* <Checkbox color='black' checked ripple={true} /> */}
-            <span className='text-sm' >Yes, sign me up!</span></div>
-          <p className='text-xs xl:w-[350px] w-[280px]' >Sign up above to get updates delivered directly to your inbox. See our <b>Privacy Policy.</b></p>
+            <span className='text-sm font-semibold' >Yes, sign me up!</span></div>
+          <p className='text-xs xl:w-[350px] w-[280px]' >Sign up above to get updates delivered directly to your inbox. See our <span className='font-semibold'>Privacy Policy.</span></p>
         </div>
       </div>
     </div>

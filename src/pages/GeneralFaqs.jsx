@@ -18,10 +18,10 @@ const GeneralFaqs = () => {
             <h5 className='text-xs text-b3' >Home</h5><RiArrowDropRightLine className='text-xl text-[#C3C2C2]' /><h5 className='text-xs text-b17' >FAQs</h5>
           </div>
           {/* Bread Crumbs End */}
-          <ApplianceDetail title="Frequently Asked Questions" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum metus vel urna tempor auctor. Pellentesque varius lacus at nisl tincidunt fringilla. Phasellus non felis eu lectus pellentesque tincidunt. Sed eget facilisis tortor. Nulla eget imperdiet ex, consectetur pharetra ligula." />
+          <ApplianceDetail descStyle="3xl:w-[817px]" title="Frequently Asked Questions" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum metus vel urna tempor auctor. Pellentesque varius lacus at nisl tincidunt fringilla. Phasellus non felis eu lectus pellentesque tincidunt. Sed eget facilisis tortor. Nulla eget imperdiet ex, consectetur pharetra ligula." />
         </div>
         <div className='w-full max-w-1680px mx-auto'>
-          <iframe className='w-full h-[700px]' src="https://www.youtube.com/embed/OzCAGd4YVbI" title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          <iframe className='w-full h-[700px] 2xl:h-[920px]' src="https://www.youtube.com/embed/OzCAGd4YVbI" title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
 
         {/* Faqs Tabs */}
@@ -30,7 +30,7 @@ const GeneralFaqs = () => {
         <ShopAustinSection />
 
         {/* Reviews Section */}
-        <SatisfiedSection title="Our Customers LOVE our Scratch and Dent Discounts!" dots={true} />
+        <SatisfiedSection title="Our Customers Are RAVING About Our Appliance Outlet" dots={true} />
         {/* End  */}
         <NewsLetterSection backimage="Newsletter.png" />
         {/* End Tabs*/}

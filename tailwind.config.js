@@ -60,6 +60,9 @@ module.exports = {
         't1': '#22A6AB',
         't2': '#333333',
       },
+      fontSize: {
+        '32px': '32px'
+      },
       fontFamily: {
         'reg': 'Montserrat'
       },

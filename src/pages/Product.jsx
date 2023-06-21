@@ -14,6 +14,7 @@ import { BsTruck } from 'react-icons/bs';
 import { useState } from 'react'
 import { getCords } from '../api'
 import OtherProductCard from '../components/OtherProductCard'
+import CompleteLaundary from '../components/CompleteLaundary'
 import FaqAccordion from '../components/FaqAccordion'
 import HiwSection from '../components/HiwSection'
 import PaymentOptions from '../components/PaymentOptions'
@@ -205,8 +206,12 @@ const Product = () => {
 
             </div>
             {/* Buttons */}
-            <div className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><h6 className="font-bold ml-2" >Add To Cart</h6></div>
-            <div className='flex justify-center items-center bg-b3 text-sm text-white py-3 rounded-lg' ><h6 className="font-bold ml-2" >Complete Your Laundry Set</h6></div>
+            <Link to="" className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><span className="font-bold ml-2" >Add To Cart</span></Link>
+            <Link to="" className='flex justify-center items-center bg-b3 text-sm text-white py-3 rounded-lg' ><span className="font-bold ml-2" >Complete Your Laundry Set</span></Link>
+
+            {/* Complete Lauundary */}
+            {/* <CompleteLaundary /> */}
+            {/* End Lauundary */}
 
             {/* Quicl FAQs */}
             <div className='flex flex-col space-y-3' >
@@ -350,7 +355,7 @@ const Product = () => {
           <CosmaticSlider />
         </div>
 
-      </MainLayout>
+      </MainLayout >
     </>
   )
 }

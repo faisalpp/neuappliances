@@ -40,7 +40,7 @@ const ProductSliderCard = ({ title, dicount, type, stars, discount, codmetics })
       {type === 2 ? <div className='absolute top-0 left-2  flex items-center bg-b3 w-fit px-3 rounded-b-2xl ml-2 justify-center h-7 gap-x-2 text-white' ><BsFire /> <span className='text-xs' >Most Popular</span></div> : null}
       {type === 3 ? <div className='absolute top-0 left-2  flex items-center bg-b7 w-fit rounded-b-2xl ml-2 justify-center px-3 h-7 gap-x-2 text-white' ><BsFire /> <span className='text-xs' >Premium Condition</span></div> : null}
       <div className='flex flex-col items-center justify-center mt-4 w-full' >
-        <div className='flex justify-center items-center text-center gap-x-1 text-[#242424] text-sm sm:text-base 2xl:text-[22px]' ><h4 className='font-bold' >{title}:</h4><span className='font-semibold' >{stars} Stars</span></div>
+        <div className='flex justify-center items-center text-center gap-x-1 text-[#242424] text-sm sm:text-base 2xl:text-[22px]' ><h4 className='font-bold' >{title}:</h4><span className='font-medium' >{stars} Stars</span></div>
         <div className='flex gap-x-3 mb-4' ><StarIconPrinter numberOfTimes={stars} /></div>
         {type === 1 ? <h4 className='text-b3 font-semibold text-sm 2xl:text-base' >Moderate Cosmetic Damage</h4> : null}
         {type === 2 ? <h4 className='text-b3 font-semibold text-sm 2xl:text-base' >Minor Cosmetic Damage</h4> : null}
