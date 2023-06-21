@@ -2,7 +2,7 @@ import React from 'react';
 import MyAccount from '../../layout/MyAccount';
 
 
-const OtherHistory = () => {
+const OrderHistory = () => {
 
     return (
         <>
@@ -13,4 +13,4 @@ const OtherHistory = () => {
     )
 }
 
-export default OtherHistory
+export default OrderHistory

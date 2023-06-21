@@ -54,7 +54,7 @@ const Login = () => {
         progress: undefined,
         theme: "light",
         });
-        navigate('/useraccount');
+        navigate('/my-account/profile');
      }else{
       toast.error(res.message, {
         position: "top-right",
@@ -93,7 +93,7 @@ const Login = () => {
         </form>
       </div>
       <ToastContainer/>
-    </MainLayout>:<Navigate to="/useraccount" />}
+    </MainLayout>:<Navigate to="/my-account/profile" />}
     
     </>
   )

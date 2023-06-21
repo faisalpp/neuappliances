@@ -12,7 +12,7 @@ const AccountItems = ({ onClose, isItems }) => {
         },
         {
             title: 'Order History',
-            link: '/my-account/other-history',
+            link: '/my-account/order-history',
         },
         {
             title: 'My Favourites',

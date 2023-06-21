@@ -15,7 +15,7 @@ import OurCompanies from './pages/OurCompanies';
 import ApplianceRepair from './pages/ApplianceRepair';
 import MeasuringGuide from './pages/MeasuringGuide';
 import Profile from './pages/MyAccount/Profile';
-import OtherHistory from './pages/MyAccount/OtherHistory';
+import OrderHistory from './pages/MyAccount/OrderHistory';
 import MyFavourite from './pages/MyAccount/MyFavourite';
 import SavedAddress from './pages/MyAccount/SavedAddress';
 import BillingInformation from './pages/MyAccount/BillingInformation';
@@ -43,7 +43,7 @@ function App() {
       <Route path="/appliance-repair" element={<ApplianceRepair />} />
       <Route path="/measuring-guide" element={<MeasuringGuide />} />
       <Route path="/my-account/profile" element={<Profile />} />
-      <Route path="/my-account/other-history" element={<OtherHistory />} />
+      <Route path="/my-account/order-history" element={<OrderHistory />} />
       <Route path="/my-account/my-favourites" element={<MyFavourite />} />
       <Route path="/my-account/saved-addresses" element={<SavedAddress />} />
       <Route path="/my-account/billing-information" element={<BillingInformation />} />
