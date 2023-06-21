@@ -6,7 +6,6 @@ import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs';
 
 
 const ProductSlider = ({ products }) => {
-  console.log(products);
   const settings = {
     dots: false,
     infinite: false,

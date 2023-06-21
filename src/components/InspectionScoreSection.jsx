@@ -10,7 +10,7 @@ const InspectionScoreSection = () => {
 
         <div className='flex flex-col w-full' >
           <div className='flex flex-col gap-5 2xl:gap-10 w-full items-center' >
-            <h4 className='text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center' >Our 100-Point Quality Inspections Score</h4>
+            <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center' >Our 100-Point Quality Inspections Score</h4>
             <p className='text-center w-full font-normal xl:text-xl 2xl:text-2xl' >Quality matters. That’s why every product we sell is run through our extensive 100-point checklist. <br /> Every product you see meets perfect scores for Cosmetic Rating, quality, performance, and more</p>
 
             {/* CArd */}
@@ -43,7 +43,7 @@ const InspectionScoreSection = () => {
         </div>
 
         {/* Inspection Guide */}
-        <FaqAccordion title="See our Inspection Checklists" parent='w-full md:w-2/3 mt-2 bg-b3 text-white bg- p-6 rounded-xl h-auto' icon='text-xl' textStyle='font-medium text-sm' child='[&>p]:text-sm mt-6' answer={<ul className='flex flex-col gap-2'><li className='flex gap-3 items-center'><img src="tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li><li className='flex gap-3 items-center'><img src="tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li><li className='flex gap-3 items-center'><img src="tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li><li className='flex gap-3 items-center'><img src="tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li></ul>} isExpand={false} />
+        <FaqAccordion title="See our Inspection Checklists" parent='w-full md:w-2/3 mt-2 bg-b3 text-white bg- p-6 rounded-xl h-auto' icon='text-xl' textStyle='font-medium text-sm' child='[&>p]:text-sm mt-6' answer={<ul className='flex flex-col gap-2'><li className='flex gap-3 items-center'><img src="tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li><li className='flex gap-3 items-center'><img src="tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li><li className='flex gap-3 items-center'><img src="tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li><li className='flex gap-3 items-center'><img src="tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li></ul>} isExpand={true} />
 
       </div>
     </>

@@ -3,8 +3,8 @@ import React from 'react'
 const ApplianceDetail = ({ title, description }) => {
     return (
         <div className='mt-2'>
-            <h2 className='text-3xl xl:text-5xl font-bold mb-6'>{title}</h2>
-            <p className='w-full md:w-2/3'>{description}</p>
+            <h1 className='text-2xl lg:text-3xl xl:text-[40px] font-bold mb-6 text-b16'>{title}</h1>
+            <p className='w-full md:w-2/3 3xl:w-[1135px] text-b16'>{description}</p>
         </div>
     )
 }

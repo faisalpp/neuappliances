@@ -86,15 +86,15 @@ const Product = () => {
         <div className='grid grid-cols-1 lg:grid-cols-12 gap-10 lg:items-start items-center mb-10 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
           <div className='lg:col-span-5' >
             <div className='flex gap-2 md:gap-5' >
-              <div className='flex flex-col space-y-2 min-w-[70px]' >
-                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12' alt='product' /></div>
-                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12' alt='product' /></div>
-                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12' alt='product' /></div>
-                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12' alt='product' /></div>
-                <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+10</div><img src="p1.png" className='w-12' alt='product' /></div>
+              <div className='flex flex-col space-y-2 min-w-[70px] 2xl:min-w-[100px] h-full' >
+                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
+                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
+                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
+                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
+                <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+10</div><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
               </div>
-              <div className='flex relative justify-center items-center border-[1px] border-gray-300 rounded-lg lg:h-96 w-full' >
-                <img src="p1.png" alt='product' />
+              <div className='flex relative justify-center items-center border-[1px] border-gray-300 rounded-lg lg:h-96 2xl:h-auto 2xl:py-14 w-full' >
+                <img src="p1.png" alt='product' className='2xl:h-[378px]' />
                 <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><AiOutlineDollarCircle />Best Value</div></div>
               </div>
             </div>
@@ -158,7 +158,7 @@ const Product = () => {
             <Link to='' className='text-xs font-bold hover:underline cursor-pointer underline' >+ View more</Link>
             <div className='flex items-center lg:space-x-5 space-x-5 lg:mt-4 mt-2' >
               <div className='flex items-center gap-1' >
-                <h4 className='lg:text-sm text-xs font-semibold w-max text-black/50' >Cosmetic Rating</h4><ToolTip color="text-black/50" />
+                <h4 className='lg:text-sm text-xs font-semibold w-max text-black/50' >Cosmetic Rating</h4><ToolTip color="text-b3" />
               </div>
               <div className='flex items-center' ><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' />
               </div>
@@ -268,7 +268,7 @@ const Product = () => {
 
         {/* 360 Degree Product Section */}
         <div className='flex flex-col gap-5 items-center py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto border border-b14 rounded-3xl' >
-          <h4 className='xl:text-3xl 3xl:text-4xl font-bold' >360° View of This Appliance</h4>
+          <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' >360° View of This Appliance</h4>
           <div className='mt-5 relative w-full mb-5' >
             <img src="360appliance.png" alt='product' className='w-[17rem] mx-auto' />
             <div className='absolute -bottom-5 left-0 right-0'>
@@ -304,7 +304,7 @@ const Product = () => {
 
         {/* PAyment Options */}
         <div className='flex flex-col py-10 md:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto bg-b8' >
-          <h4 className='font-bold xl:text-[36px] text-3xl text-center mb-10 md:mb-14 xl:mb-20' >Payment Options</h4>
+          <h4 className='font-bold text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-center mb-10 md:mb-14 xl:mb-20' >Payment Options</h4>
           <PaymentOptions />
         </div>
 
@@ -345,7 +345,7 @@ const Product = () => {
         {/* Rlated Products */}
         <div className='flex flex-col py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
           <div className='flex flex-col items-center' >
-            <h4 className='lg:text-2xl text-xl font-bold' >Related Products</h4>
+            <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' >Related Products</h4>
           </div>
           <CosmaticSlider />
         </div>

@@ -14,11 +14,11 @@
   -webkit-backdrop-filter: blur(2.6px);
 }
 
-#news {
+/* #news {
   background-image: url('../public/new.png');
   background-repeat: no-repeat;
   background-size: cover;
-}
+} */
 
 #news-grid {
   background-image: url('../public/grid.png');
@@ -75,4 +75,12 @@
 
 .reviewslider-wrapper .slick-dots li.slick-active button:before {
   color: #22A6AB;
+}
+
+.text-line-camp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }

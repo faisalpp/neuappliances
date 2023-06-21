@@ -10,7 +10,7 @@ const PaymentOptions = () => {
             <h6 className='text-xl lg:text-2xl 2xl:text-[32px] font-bold text-b3' >$399.99</h6>
             <h6 className='text-xs font-medium text-gray-500' >One time payment</h6>
           </div>
-          <div className='flex flex-col gap-y-4' >
+          <div className='flex flex-col gap-y-4 text-b15' >
             <div className='flex text-sm justify-between' ><span>Eu sagittis ameta</span><span>$399.99</span></div>
             <div className='flex text-sm  justify-between' ><span>Eu sagittis ameta</span><span>$29.99</span></div>
             <div className='flex text-sm  justify-between' ><span>Eu sagittis amet a</span><span>Free</span></div>
@@ -39,9 +39,9 @@ const PaymentOptions = () => {
             <img src="affirm.png" alt="affirm" className='w-[70px]' />
           </div>
           <div className='flex flex-col gap-5' >
-            <p className='text-xs text-center font-medium' >Vestibulum habitant hac sollicitudin convallis hendrerit. In pretium eget amet nibh vulputate felis vitae neque aliquam. Nibh nam varius ut.</p>
-            <p className='text-xs text-center' >Interdum posuere tempor ante eu porta. </p>
-            <button className='flex items-center justify-center text-white py-4 rounded-md bg-b7 text-sm' >Start your purchase</button>
+            <p className='text-xs text-center text-b15 font-medium' >Vestibulum habitant hac sollicitudin convallis hendrerit. In pretium eget amet nibh vulputate felis vitae neque aliquam. Nibh nam varius ut.</p>
+            <p className='text-xs text-center text-b15' >Interdum posuere tempor ante eu porta. </p>
+            <button className='flex items-center justify-center text-white py-4 rounded-md bg-b7 text-sm' >Get Your Terms</button>
           </div>
         </div>
       </div>
