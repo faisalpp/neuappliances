@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { resetUser } from '../../../store/userSlice'
+import { Menu } from '@headlessui/react'
 
 
 const Navbar = ({ sCart, setSCart }) => {
@@ -19,6 +20,7 @@ const Navbar = ({ sCart, setSCart }) => {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user.auth);
   const navigate = useNavigate();
+  const firstName = useSelector((state) => state.user.firstName);
 
 
   const handleLogout = async (e) => {
@@ -72,9 +74,21 @@ const Navbar = ({ sCart, setSCart }) => {
             </NavLink>
             <div className='col-start-4 col-end-8 flex items-center bg-white h-10 px-2 rounded-lg space-x-2 w-full ' ><AiOutlineSearch className='text-black' /><input type="text" placeholder='Search for appliances' className="w-full text-xs outline-none" /></div>
             <div className='col-start-9 col-end-13 flex justify-end space-x-2 w-full' >
-              <div onClick={() => { sCart ? setSCart(false) : setSCart(true) }} className='flex items-center cursor-pointer px-2 bg-b2 h-10 w-24 rounded-md text-white' ><AiOutlineShoppingCart /><span className='ml-2 font-reg font-normal text-sm' >Cart</span><span className='ml-2 bg-b3 rounded-full text-xs h-4 w-4 text-center' >2</span></div>
-              {isAuth ? <NavLink to="/useraccount" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink> : <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink>}
-              <div onClick={() => { megMenu ? setMegMenu(false) : setMegMenu(true) }} className='flex items-center cursor-pointer px-2 bg-b2 h-10 w-24 rounded-md text-white' ><IoMenu /><span className='ml-2 font-reg font-normal text-sm' >Menu</span></div>
+              <div onClick={() => { sCart ? setSCart(false) : setSCart(true) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><AiOutlineShoppingCart /><span className='ml-2 font-medium text-xs' >Cart</span><span className='ml-2 bg-b3 rounded-full text-xs h-4 w-4 text-center' >2</span></div>
+              
+              {isAuth ? <Menu as="div" className="relative" >
+               <Menu.Button className='flex items-center px-4 bg-b2 py-[10px] w-max cursor-pointer rounded-md text-white' ><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs' >Hello {firstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>
+               {/* Mark this component as `static` */}
+               <Menu.Items as="div" className="absolute z-[100] top-12 -right-24 shadow-lg rounded-sm py-5 bg-white w-56 h-auto text-black">
+                <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/profile" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >My Account</NavLink></Menu.Item>
+                <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/order-history" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Order History</NavLink></Menu.Item>
+                <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/my-favourites" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Favourites</NavLink></Menu.Item>
+                <Menu.Item as="div" className="px-4" ><NavLink to="/logout" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Logout</NavLink></Menu.Item>
+               </Menu.Items>
+              </Menu>:<NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-1 font-medium xs' >My Account</span></div></NavLink>}
+
+              {/* {isAuth ? <NavLink to="/my-account/profile" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink> : <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink>} */}
+              <div onClick={() => { megMenu ? setMegMenu(false) : setMegMenu(true) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><IoMenu /><span className='ml-2 font-medium text-xs' >Menu</span></div>
               {/* <div onClick={handleLogout} className='flex items-center cursor-pointer text-center px-2 bg-b2 h-10 w-24 rounded-md text-white' ><span className='text-center font-medium text-xs px-5' >Logout</span></div>   */}
             </div>
           </div>

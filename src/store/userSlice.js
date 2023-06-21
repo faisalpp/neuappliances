@@ -21,6 +21,9 @@ export const userSlice = createSlice({
       state.lastName = lastName;
       state.auth = auth;
     },
+    setUserAuth: (state, action) => {
+      state.auth = action.payload.auth;
+    },
     resetUser: (state) => {
       state._id = "";
       state.email = "";
@@ -31,6 +34,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUser, resetUser } = userSlice.actions;
+export const { setUser, resetUser,setUserAuth } = userSlice.actions;
 
 export default userSlice.reducer;

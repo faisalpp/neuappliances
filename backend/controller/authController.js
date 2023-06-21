@@ -142,7 +142,7 @@ const authController = {
 
     // delete cookies
     res.clearCookie("accessToken");
-    res.clearCookie("refreshTokeb");
+    res.clearCookie("refreshToken");
 
     res.status(200).json({user: null, auth: false});
 
