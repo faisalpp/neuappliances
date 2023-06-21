@@ -11,7 +11,7 @@ const Register = () => {
 
  const [firstName,setFirstName] = useState('faisal');
  const [lastName,setLastName] = useState('qayyum');
- const [email,setEmail] = useState('muhammadfaisal522@gmai;.com');
+ const [email,setEmail] = useState('muhammadfaisal522@gmail.com');
  const [country,setCountry] = useState('usa');
  const [phone,setPhone] = useState('03036542828');
  const [password,setPassword] = useState('Tenda522');
@@ -41,7 +41,7 @@ const Register = () => {
         progress: undefined,
         theme: "light",
         });
-        navigate('/')
+        navigate('/login')
      }else{
       toast.error(res.message, {
         position: "top-right",

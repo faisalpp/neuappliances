@@ -1,16 +1,18 @@
 import React from 'react'
 import MainLayout from '../layout/MainLayout'
 import {BsArrowRightShort} from 'react-icons/bs'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, Navigate, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import {setUser} from '../store/userSlice'
+import { useSelector } from "react-redux";
 
 const Login = () => {
 
   const navigate = useNavigate();
+  const auth = useSelector((state) => state.user.auth);
 
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
@@ -28,6 +30,7 @@ const Login = () => {
         'Content-Type':'application/json'
       },
       body: JSON.stringify(data),
+      credentials: 'include',
      });
 
      const res = await response.json();
@@ -69,7 +72,7 @@ const Login = () => {
 
   return (
     <>
-    
+    {!auth ?
     <MainLayout>
     <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
 
@@ -90,7 +93,7 @@ const Login = () => {
         </form>
       </div>
       <ToastContainer/>
-    </MainLayout>
+    </MainLayout>:<Navigate to="/useraccount" />}
     
     </>
   )

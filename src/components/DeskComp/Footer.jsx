@@ -90,7 +90,7 @@ const Footer = () => {
           <div className='flex flex-col gap-y-5' >
             <div className='flex items-center space-x-2' ><span className='flex items-center justify-center w-9 h-9 rounded-full bg-b2' ><FiPhone /></span><span className='text-sm' >(512) 992-2714</span></div>
             <div className='flex items-center space-x-2' ><span className='flex items-center justify-center w-9 h-9 rounded-full bg-b2' ><IoLocationOutline /></span><span className='text-sm' >123 N Loop Blvd E, Austin, TX 78751</span></div>
-            <div class="mapouter"><div class="gmap_canvas"><iframe title="map" className='rounded-xl maxmd:w-full maxmd:h-[150px]' width="300" height="150" id="gmap_canvas" src="https://maps.google.com/maps?q=Austin&t=&z=10&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br /></div></div>
+            <div className="mapouter"><div className="gmap_canvas"><iframe title="map" className='rounded-xl maxmd:w-full maxmd:h-[150px]' width="300" height="150" id="gmap_canvas" src="https://maps.google.com/maps?q=Austin&t=&z=10&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br /></div></div>
           </div>
         </div>
 
