@@ -1,10 +1,90 @@
 import React from 'react'
+import { AiFillStar, AiOutlineQuestionCircle } from 'react-icons/ai'
+import { BsArrowRightShort } from 'react-icons/bs'
+import { FaPlus, FaQuestion } from 'react-icons/fa'
+import StackableSvg from '../svgs/StackableSvg'
+import SteamSvg from '../svgs/SteamSvg'
+import GasSvg from '../svgs/GasSvg'
+import ToolTip from './ToolTip'
+import { Link } from 'react-router-dom'
+import { IoCloseOutline } from 'react-icons/io5'
 
-const CompleteLaundary = () => {
+const CompleteLaundary = ({ closeModal }) => {
     return (
-        <div className='fixed top-0 left-0 right-0 bottom-0 flex overflow-auto h-screen items-center justify-center bg-black/40 z-50 m-0'>
-            <div className='w-[90%] mx-auto h-auto bg-white mt-10'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium numquam aspernatur pariatur nulla molestiae voluptatem quo quasi necessitatibus, soluta fugiat ipsam obcaecati asperiores commodi, provident quas amet omnis fugit veniam iusto. Facere non molestiae temporibus sunt vitae accusantium assumenda vero amet quasi laborum, illo officia at dolore pariatur ipsa reprehenderit deserunt error perferendis minus, nihil reiciendis eaque labore officiis! Maiores dolorem aliquam repudiandae eligendi inventore itaque numquam nihil cupiditate, quia officia modi vel magni corrupti enim tenetur optio perspiciatis iusto labore suscipit dolor quis. Illo deleniti repellat reprehenderit doloribus obcaecati cupiditate eum omnis a delectus? Rem reprehenderit sint minima facilis ullam ipsa impedit sequi quis distinctio possimus vel, iste placeat quibusdam omnis. Voluptatum labore ad, illo, blanditiis maiores cum incidunt nemo nam, neque asperiores saepe quasi dicta dolorum ex perspiciatis ullam ipsam maxime facilis eius mollitia fugit voluptates nesciunt. Eius in corrupti, nobis vel debitis esse. Iste nesciunt beatae quia nemo libero corporis magnam, non architecto ex nisi enim ipsum vitae fuga a, suscipit unde. Veniam ad facilis maxime odio, totam veritatis assumenda delectus saepe a consequatur, aliquid laboriosam obcaecati quis labore esse suscipit voluptatibus vel sapiente illum iure. Enim, deleniti facilis quos voluptates consequuntur ab dignissimos aliquid obcaecati, at saepe dolores minima assumenda aliquam unde natus adipisci. Eum, molestias quas dolor officiis suscipit ullam voluptas provident quae praesentium magni beatae eveniet, placeat dolore obcaecati deleniti recusandae. Ab illum magnam quos deserunt. Illum consequuntur sed similique ex aliquid unde consequatur veniam officia! Aut saepe aliquid nobis blanditiis reiciendis tempore, aperiam iure minus alias quia numquam delectus eveniet, sint voluptas soluta at quasi voluptate est libero rerum iste sapiente! Id possimus assumenda perspiciatis! Eveniet molestiae quos animi fugit at dolores expedita officia deleniti, laboriosam nesciunt, vel id necessitatibus? Aliquid assumenda repellat consequuntur, impedit fuga modi incidunt rem corporis repellendus nisi eos est nam dolores velit a voluptatum architecto distinctio cumque ducimus. A rerum asperiores illum ea eaque atque aperiam, harum necessitatibus odit velit corporis neque. Eos soluta placeat officiis aut at rem, optio nisi? Perferendis illo commodi officiis magni neque ipsam doloribus consequuntur explicabo perspiciatis quis harum facere, excepturi accusantium veniam consequatur aliquam rem quia aspernatur recusandae earum deleniti assumenda enim nulla tempora? Impedit doloribus animi facere culpa quas distinctio placeat possimus optio? Aliquam asperiores nobis dolore officiis magnam illum debitis ducimus aspernatur reprehenderit, exercitationem laboriosam, illo ipsam quos. Odio, nam vero temporibus enim id atque. Repellendus repellat fugiat recusandae nihil quam consequuntur aut cum. Eligendi necessitatibus sequi, voluptates incidunt sit commodi ut at eaque inventore, deserunt nisi facere! Cumque, iste aperiam. Quidem veniam ratione ipsa recusandae ad tempore, maiores, commodi delectus molestiae officia doloribus, inventore perferendis adipisci sapiente earum amet fugiat? Quasi temporibus, debitis aliquam in aperiam iure asperiores, ab libero, veritatis vero adipisci error necessitatibus nesciunt ex eos. Autem, eaque neque, iure veniam quod quidem vero fugit veritatis explicabo dolorem saepe officia ratione dolore at omnis quo repudiandae? Corporis atque earum explicabo quas quisquam accusamus excepturi, nulla obcaecati. Est quidem praesentium ab consectetur voluptatibus ullam voluptates, modi repellendus, rerum, fugiat laboriosam laborum commodi! Sit, pariatur nihil expedita soluta eius, voluptatibus vitae dicta suscipit mollitia quis ex earum? Ullam sit ad dolor quam sapiente similique numquam ea labore repellat cum, corrupti, nulla nihil, esse exercitationem quos autem vel. Ipsa quos dicta optio harum maxime voluptas rerum at unde quam quisquam earum doloribus corrupti, adipisci eum necessitatibus ex voluptatum est aperiam molestias sequi incidunt qui odio! Natus fuga iure ea repellat ab neque labore ratione non porro, quibusdam minima saepe incidunt eligendi unde atque eos enim doloribus magnam quis nostrum ex reiciendis maiores. Pariatur consequuntur expedita dignissimos laborum adipisci repellat, aut amet fugiat explicabo ratione incidunt at iure voluptas. Quos inventore eaque corrupti debitis rerum, vel quisquam pariatur exercitationem eveniet sequi voluptates. Delectus autem harum incidunt veniam nam assumenda, tempora error ullam natus. Totam soluta similique, blanditiis exercitationem ad commodi molestiae aliquam vitae ipsum laborum beatae adipisci itaque at. Maiores veniam corporis fugit vitae numquam quaerat excepturi neque laboriosam ea repudiandae voluptas hic sit reprehenderit architecto similique, non quos! At numquam magnam cupiditate id sunt est fuga repellendus rem assumenda, harum molestiae libero, ullam odio nam esse soluta eos ad. Vitae quaerat maxime consectetur earum sint ducimus dolores tenetur, nihil officia provident excepturi, modi tempora ipsum voluptatem nulla veritatis. Ipsam explicabo odio fugiat, reiciendis architecto cumque cupiditate, illo debitis suscipit maiores expedita magnam! Iusto sit magnam quos consequatur exercitationem porro hic quaerat velit accusantium ipsum? Minus adipisci inventore vel harum accusantium laboriosam corporis magni repudiandae. Ullam maiores suscipit obcaecati voluptates eligendi ad perferendis exercitationem culpa, repudiandae voluptatibus temporibus ut laudantium nam corporis labore sed minus repellendus odit fugit sit ratione dolore iusto! Ipsa accusantium accusamus, ipsam atque explicabo praesentium delectus minima id sint vel consequuntur. Eligendi vitae numquam porro neque est nostrum fugiat, eveniet optio quasi amet. Provident eius, quod magnam fugit veritatis dolores maiores pariatur libero molestiae expedita ducimus commodi corporis laboriosam rem. Eum fuga facilis quaerat quam pariatur, delectus voluptatem animi harum, culpa dolore et dicta, perferendis sint aspernatur porro magni est. Enim ipsam ullam, aliquam cupiditate quo beatae aliquid sapiente quibusdam ducimus quae, voluptatum cumque est illo molestiae officiis a? Cupiditate facere voluptatibus in molestias enim rem similique! Perferendis eum ullam debitis esse nostrum, pariatur autem commodi unde, asperiores minus rerum facere expedita. Sunt saepe ipsum quae consequatur iusto? Porro illo ea ab sint obcaecati? Temporibus et qui vero sunt perferendis cumque laudantium! Natus cupiditate expedita voluptas excepturi, odit ipsa perferendis reiciendis dolorem quaerat voluptatibus architecto consequuntur illo optio necessitatibus quas quam, repudiandae eos facilis maxime magni? Vel, suscipit quod molestias expedita quam rerum dolorem ipsam facere doloremque soluta assumenda alias unde repellat perferendis eius, dolor explicabo voluptate odit non placeat eaque iusto incidunt itaque? Architecto impedit dolorum repellendus obcaecati atque eligendi, voluptate error nihil labore facilis distinctio iste aspernatur maiores nobis voluptatum dignissimos sint neque expedita asperiores sequi at? Odit ratione cum perferendis animi quidem ullam temporibus, dolorum ipsam, voluptate, tempora reiciendis natus aspernatur inventore soluta molestias vero fugit doloribus ex. Architecto similique possimus consectetur accusantium obcaecati?
+        <div className='fixed top-0 left-0 right-0 bottom-0 w-full overflow-y-auto h-screen bg-black/40 z-50 !m-0'>
+            <div className='relative max-w-[1440px] grid grid-cols-1 gap-60px mx-auto h-auto bg-white my-10 p-60px rounded-3xl'>
+                <button type='button' onClick={closeModal} className='absolute -right-10 top-0 bg-b3 text-white flex p-1 justify-center items-center w-8 h-8 rounded-full'>
+                    <IoCloseOutline className='text-3xl' />
+                </button>
+                <div className='grid grid-cols-[1fr_auto_1fr] gap-[46px] lg:gap-10 w-full justify-center items-center'>
+                    <div className='flex flex-col gap-4 items-center w-full' >
+                        <h4 className='text-xl font-semibold' >Washer</h4>
+                        <div className='py-6 pr-12 bg-white border-[1px] border-b3 rounded-xl w-full' >
+                            <div className='flex gap-4 items-start w-full'>
+                                <div className='max-w-[195px] w-full h-[209px]'>
+                                    <img src='p1.png' className='w-full h-full object-contain' alt='' />
+                                </div>
+                                <div className='grid grid-cols-1 gap-4 w-full' >
+                                    <p className='font-semibold line-clamp-1 leading-5 mb-2' >White GE 1.7 cu. ft. Over the Range Microwave with Convenience Cooking Controls for long text</p>
+                                    <div className='flex items-center gap-x-5' >
+                                        <span className='font-semibold text-xl text-b3' >$279.00</span>
+                                        <strike className="text-b23" >$279.00</strike>
+                                        <span className='flex bg-b4 text-xs text-b16 px-2 py-1 font-semibold rounded-full' >-27%</span>
+                                    </div>
+                                    <div className='flex items-center gap-5 2xl:gap-[10px]' >
+                                        <div className='flex items-center gap-1' >
+                                            <h4 className='lg:text-sm text-xs font-semibold w-max text-b15' >Cosmetic Rating</h4>
+                                            <ToolTip color="text-b15/80" />
+                                        </div>
+                                        <div className='flex items-center'>
+                                            <AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' />
+                                        </div>
+                                    </div>
+                                    <div className='flex items-center gap-5 2xl:gap-10' >
+                                        <h4 className='lg:text-sm text-xs font-semibold text-b15' >Appliance Brand</h4>
+                                        <h4 className='lg:text-sm text-xs font-medium w-max text-black' >Whirlpool</h4>
+                                    </div>
+                                    <div className='lg:flex hidden items-center gap-x-14' >
+                                        <div className='flex font-semibold text-sm text-b15' ><h4>Discount</h4>&nbsp;%</div>
+                                        <div className='w-full bg-gray-100 rounded-lg' ><span className='flex rounded-lg bg-gradient-to-r from-b4 to-b7 w-32 h-2' ></span></div>
+                                    </div>
+                                    <ul className='flex flex-col gap-y-3 ml-1 text-black' >
+                                        <li>. Lorem ipsum dolor alter miler amigos</li>
+                                        <li>. Lorem ipsum dolor alter miler amigos</li>
+                                        <li>. Lorem ipsum dolor alter miler amigos</li>
+                                        <li>. Lorem ipsum dolor alter miler amigos</li>
+                                    </ul>
+                                    <div className='flex flex-col'>
+                                        <h5 className='text-sm font-semibold' >Dryer Options</h5>
+                                        <div className='flex flex-wrap gap-2 mt-2' >
+                                            <div className='flex items-center gap-x-2 border border-b14 w-fit rounded-lg px-3 py-2' ><StackableSvg /><h5 className='text-xs font-medium' >STACKABLE</h5></div>
+                                            <div className='flex items-center gap-x-2 border border-b14 w-fit rounded-lg px-3 py-2' ><SteamSvg /><h5 className='text-xs font-medium' >STEAM</h5></div>
+                                            <div className='flex items-center gap-x-2 border border-b14 w-fit rounded-lg px-3 py-2' ><GasSvg /><h5 className='text-xs font-medium' >GAS</h5></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div><FaPlus className='text-b3' /></div>
+                    <div className='flex flex-col gap-4 items-center w-full h-full' >
+                        <h4 className='text-xl font-semibold' >Dryer</h4>
+                        <div className='flex flex-col items-center justify-center py-10 border-dashed border-2 border-b3 rounded-xl h-full w-full' >
+                            <div className='flex flex-col items-center space-y-3' >
+                                <FaQuestion className='text-4xl mb-4' />
+                                <div className='flex justify-center' ><Link to="" className='flex items-center bg-b7 text-xs px-4 py-3 rounded-md text-white font-bold' ><span className='' >Choose A Dryer</span><BsArrowRightShort className='text-2xl' /></Link></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='grid grid-cols-2 rounded-xl overflow-hidden'>
+                    <button type='button' className='bg-b3 p-4 w-full font-bold text-white'>
+                        Washer
+                    </button>
+                    <button type='button' className='bg-b11 p-4 w-full font-medium'>
+                        Dryers
+                    </button>
+                </div>
             </div>
         </div>
     )

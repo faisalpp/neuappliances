@@ -14,7 +14,6 @@ import { BsTruck } from 'react-icons/bs';
 import { useState } from 'react'
 import { getCords } from '../api'
 import OtherProductCard from '../components/OtherProductCard'
-import CompleteLaundary from '../components/CompleteLaundary'
 import FaqAccordion from '../components/FaqAccordion'
 import HiwSection from '../components/HiwSection'
 import PaymentOptions from '../components/PaymentOptions'
@@ -29,6 +28,7 @@ import CosmaticSlider from '../components/CosmaticSlider'
 import ToolTip from '../components/ToolTip'
 import MoreImagesModal from '../components/MoreImagesModal'
 import StickyNavbar from '../components/DeskComp/Navbar/StickyNavbar'
+import CustomModal from '../components/Modal/CustomModal'
 import TruckSvg from '../svgs/TruckSvg'
 
 const Product = () => {
@@ -70,6 +70,18 @@ const Product = () => {
 
   const [imgModal, setImgModal] = useState(false)
 
+  // All Modal
+
+  const [openModal, setOpenModal] = useState("");
+
+  const handleOpenModal = (modal) => {
+    setOpenModal(modal);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal("");
+  };
+
   return (
     <>
       <MainLayout>
@@ -79,6 +91,9 @@ const Product = () => {
 
         <MoreImagesModal state={imgModal} setState={setImgModal} />
 
+        {/* All Modal */}
+        <CustomModal openmodal={openModal} closeModal={handleCloseModal} />
+        {/* End */}
         {/* Bread Crumbs Start */}
         <div className='flex items-center py-10 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
           <div className='flex items-center' ><h5 className='text-xs text-blue-400' >Home</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-blue-400' >Product</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-gray-500' >Washer</h5></div>
@@ -172,10 +187,10 @@ const Product = () => {
               </div>
             </div>
 
-            <div className='flex space-x-3 items-center px-3 py-2 border-[1px] border-b3 rounded-lg w-fit' >
+            <button onClick={() => handleOpenModal("1")} className='flex space-x-3 items-center px-3 py-2 border-[1px] border-b3 rounded-lg w-fit' >
               <img src="shield.png" alt='' />
               <h6 className='text-sm font-bold w-40' >NeuShield 1 Year Applicance Warranty</h6>
-            </div>
+            </button>
             {/* Delivery Card */}
             <div className='flex lg:flex-row flex-col lg:space-x-5 lg:space-y-0 space-y-3 w-full' >
 
@@ -207,11 +222,7 @@ const Product = () => {
             </div>
             {/* Buttons */}
             <Link to="" className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><span className="font-bold ml-2" >Add To Cart</span></Link>
-            <Link to="" className='flex justify-center items-center bg-b3 text-sm text-white py-3 rounded-lg' ><span className="font-bold ml-2" >Complete Your Laundry Set</span></Link>
-
-            {/* Complete Lauundary */}
-            {/* <CompleteLaundary /> */}
-            {/* End Lauundary */}
+            <button type='button' onClick={() => handleOpenModal("2")} className='flex justify-center items-center bg-b3 text-sm text-white py-3 rounded-lg' ><span className="font-bold ml-2" >Complete Your Laundry Set</span></button>
 
             {/* Quicl FAQs */}
             <div className='flex flex-col space-y-3' >
@@ -241,10 +252,10 @@ const Product = () => {
                 <span>
                   <img src="assignment_return.png" alt="assignment_return" className='w-6 h-6' />
                 </span>
-                <div className='flex flex-col' >
+                <button type='button' onClick={() => handleOpenModal("3")} className='flex flex-col' >
                   <h6 className="font-bold ml-2" >Free Curbside Returns</h6>
                   <h6 className="ml-2" >Cancel your order curbside upon delivery free of charge! <Link to="" className='text-b3 font-semibold hover:underline cursor-pointer' >Learn More</Link></h6>
-                </div>
+                </button>
               </div>
 
             </div>
