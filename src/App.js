@@ -26,6 +26,7 @@ import ChangePassword from './pages/MyAccount/ChangePassword';
 import EmailPreferences from './pages/MyAccount/EmailPreferences';
 import Blogs from './pages/Blogs/Index';
 import BlogArticle from './pages/Blogs/BlogArticle';
+import Financing from './pages/Financing';
 import Test from './pages/Test'
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/AdminAccount/Dashboard";
@@ -64,6 +65,8 @@ function App() {
       {/* Blogs */}
       <Route path="/blogs" element={<Blogs />} />
       <Route path="/blog-article" element={<BlogArticle />} />
+
+      <Route path="/financing" element={<Financing />} />
 
       {/* Admin Related Routes */}
       <Route path="/nu-admin" element={<AdminLogin />} />
