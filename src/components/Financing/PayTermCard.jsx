@@ -9,7 +9,6 @@ const PayTermCard = ({ image, title, description }) => {
             <h3 className='text-xl text-b3 text-center font-bold leading-6 mt-6 mb-4'>{title}</h3>
             <p className='text-b18 text-center leading-6'>
                 {description}
-                You only pay: Initial Payment + $25 + Total
             </p>
         </div>
     )
