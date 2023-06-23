@@ -4,6 +4,8 @@ import {BsArrowRightShort} from 'react-icons/bs'
 import { NavLink, useNavigate} from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import countries from '../services/countries';
+import { FiChevronDown } from 'react-icons/fi';
 
 const Register = () => {
 
@@ -12,10 +14,11 @@ const Register = () => {
  const [firstName,setFirstName] = useState('faisal');
  const [lastName,setLastName] = useState('qayyum');
  const [email,setEmail] = useState('muhammadfaisal522@gmail.com');
- const [country,setCountry] = useState('usa');
+ const [country,setCountry] = useState('USA');
  const [phone,setPhone] = useState('03036542828');
  const [password,setPassword] = useState('Tenda522');
  const [confirmPassword,setConfirmPassword] = useState('Tenda522');
+ const [countryList,setCountryList] = useState(countries);
  
  
  const Submit = async (e) => {
@@ -79,8 +82,15 @@ const Register = () => {
            <input type="text" value={email} onChange={e=>setEmail(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='youremail@mail.com' />
           </div>
           <div className='flex flex-col space-y-1' >
-           <h5 className='text-xs font-semibold' >Country</h5>
-           <input type="text" value={country} onChange={e=>setCountry(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Austin' />
+           <div>
+            <label className='text-b16 font-semibold text-xs block mb-2'>Country</label>
+            <div className='relative'>
+              <select value={country} onChange={e=> setCountry(e.target.value)} className='border border-[rgba(0,0,0,0.16)] rounded-lg h-10 text-sm px-4 w-full outline-none appearance-none'>
+                {countryList.map((country)=><option>{country}</option>)}
+                </select>
+                <FiChevronDown className='absolute right-4 top-3' />
+            </div>
+           </div>
           </div>
           <div className='flex flex-col space-y-1' >
            <h5 className='text-xs font-semibold' >Phone</h5>

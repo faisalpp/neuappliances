@@ -4,6 +4,7 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import Product from './pages/Product';
 import Login from './pages/Login';
+import AdminLogin from './pages/Admin/login';
 import ForgotPassword from './pages/ForgotPassword';
 import UserAccount from './pages/UserAccount';
 import Appliances from './pages/Appliances';
@@ -23,8 +24,13 @@ import SavedAddress from './pages/MyAccount/SavedAddress';
 import BillingInformation from './pages/MyAccount/BillingInformation';
 import ChangePassword from './pages/MyAccount/ChangePassword';
 import EmailPreferences from './pages/MyAccount/EmailPreferences';
-import Test from './pages/Test';
+import Test from './pages/Test'
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/AdminAccount/Dashboard";
+import ManageProducts from "./pages/AdminAccount/ManageProducts";
+import ManageBrands from "./pages/AdminAccount/ManageBrands";
+import ManageCategories from "./pages/AdminAccount/ManageCategories";
+import CreateBrand from "./pages/AdminAccount/CreateBrand";
 
 function App() {
   return (
@@ -53,6 +59,18 @@ function App() {
       <Route path="/my-account/billing-information" element={<BillingInformation />} />
       <Route path="/my-account/change-password" element={<ChangePassword />} />
       <Route path="/my-account/email-preferences" element={<EmailPreferences />} />
+      
+      {/* Admin Related Routes */}
+      <Route path="/nu-admin" element={<AdminLogin />} />
+      <Route path="/admin/dashboard" element={<Dashboard />} />
+      <Route path="/admin/manage-products" element={<ManageProducts />} />
+      {/* Brand Management */}
+      <Route path="/admin/manage-brands" element={<ManageBrands />} />
+      <Route path="/admin/manage-brands/create" element={<CreateBrand />} />
+      
+
+      <Route path="/admin/manage-categories" element={<ManageCategories />} />
+
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

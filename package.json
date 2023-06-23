@@ -21,6 +21,7 @@
     "react-360-product-viewer": "^0.1.0",
     "react-dom": "^18.2.0",
     "react-fast-marquee": "^1.5.2",
+    "react-hook-form": "^7.45.0",
     "react-icons": "^4.8.0",
     "react-redux": "^8.0.7",
     "react-responsive-carousel": "^3.2.23",

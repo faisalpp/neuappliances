@@ -105,7 +105,7 @@ const authController = {
       return next(error);
     }
     const refreshToken = JWTService.signRefreshToken({_id:user._id},'30m');
-    const accessToken = JWTService.signAccessToken({_id:user._id},'30m');
+    const accessToken = JWTService.signAccessToken({_id:user._id},'60m');
 
     // update refresh token in database
     try {
@@ -133,7 +133,6 @@ const authController = {
 
   async logout(req,res,next){
     const {refreshToken} = req.cookies;
-
     try{
       await RefreshToken.deleteOne({token:refreshToken});
     }catch(error){
@@ -144,7 +143,7 @@ const authController = {
     res.clearCookie("accessToken");
     res.clearCookie("refreshToken");
 
-    res.status(200).json({user: null, auth: false});
+    res.status(200).json({status: 200, msg: 'Logout Successfull!'});
 
   }
 
