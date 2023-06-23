@@ -10,6 +10,7 @@ import NewsLetterSection from '../../components/NewsLetterSection';
 import SatisfiedSection from '../../components/SatisfiedSection';
 import { Link } from 'react-router-dom';
 import RecentStories from '../../components/Blogs/RecentStories';
+import { AiOutlineArrowDown } from 'react-icons/ai';
 
 const Index = () => {
 
@@ -24,7 +25,7 @@ const Index = () => {
                     {/* Bread Crumbs End */}
                     <ApplianceDetail title="Appliance Industry Blog" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum metus vel urna tempor auctor. Pellentesque varius lacus at nisl tincidunt fringilla. Phasellus non felis eu lectus pellentesque tincidunt. Sed eget facilisis tortor. Nulla eget imperdiet ex, consectetur pharetra ligula." />
 
-                    <Link to="" className='inline-flex maxsm:text-sm font-medium items-center gap-1 text-b3 border border-b3 px-4 py-3 rounded-lg mt-6'>See All Stories <span></span></Link>
+                    <Link to="" className='inline-flex maxsm:text-sm font-medium items-center gap-1 text-b3 border border-b3 px-4 py-3 rounded-lg mt-6'>See All Stories <span><AiOutlineArrowDown /></span></Link>
                 </div>
 
                 {/* Recent Stories */}

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const ShopAustinSection = () => {
     return (
-        <div className='py-10 lg:py-16 xl:py-20 2xl:py-120px max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-28  2xl:gap-[157px] bg-b3'>
+        <div className='py-10 lg:py-16 xl:py-20 2xl:py-120px max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto grid grid-cols-1 lg:grid-cols-2 3xl:grid-cols-[1fr_686px] items-center gap-8 lg:gap-28  2xl:gap-[157px] bg-b3'>
             <div>
                 <h2 className='font-extrabold text-3xl xl:text-4xl 2xl:text-[56px] 2xl:leading-[64px] text-white'>
                     Shop Austin's Best Scratch and Dent Appliances
