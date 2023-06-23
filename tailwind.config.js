@@ -57,6 +57,7 @@ module.exports = {
         'b20': '#ECECEC',
         'b21': 'rgba(34,166,171,0.08)',
         'b22': '#383838',
+        'b23': 'rgba(17,16,16,0.64)',
         't1': '#22A6AB',
         't2': '#333333',
       },
@@ -70,6 +71,9 @@ module.exports = {
         '100px': '100px',
         '120px': '120px',
         '60px': '60px',
+      },
+      borderRadius: {
+        '24px': '24px 24px 0px 24px',
       },
       boxShadow: {
         's1': '0px 10px 20px rgba(0,0,0,0.05)'
