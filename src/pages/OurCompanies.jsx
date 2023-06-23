@@ -8,6 +8,8 @@ import NewsLetterSection from '../components/NewsLetterSection';
 import ApplianceParts from '../components/OurCompanies/ApplianceParts';
 import ApplianceOutlet from '../components/OurCompanies/ApplianceOutlet';
 import ApplianceWholeSale from '../components/OurCompanies/ApplianceWholeSale';
+import { Link } from 'react-router-dom';
+import { AiOutlineArrowDown } from 'react-icons/ai';
 
 const OurCompanies = () => {
 
@@ -25,15 +27,19 @@ const OurCompanies = () => {
                     <p className='w-full md:w-2/3 3xl:w-[1135px] text-b16 mt-5'>
                         Our Appliance Outlets, Appliance Parts Store, and Appliance Wholesale Program each offer revolutionary solutions to problems within the Appliance Industry.
                     </p>
+
+
+                    <Link to="" className='inline-flex text-xs font-medium items-center gap-1 text-b3 border border-b3 px-4 py-3 rounded-lg mt-6'>Learn More <span><AiOutlineArrowDown className='text-base' /></span></Link>
+
                 </div>
 
 
                 {/* Cards */}
                 <div className='grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 3xl:gap-6 py-10 lg:py-16 xl:py-20 2xl:py-120px w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
 
-                    <ApplianceParts />
-
                     <ApplianceOutlet />
+
+                    <ApplianceParts />
 
                     <ApplianceWholeSale />
 

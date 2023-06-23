@@ -25,7 +25,7 @@ const Index = () => {
                     {/* Bread Crumbs End */}
                     <ApplianceDetail title="Appliance Industry Blog" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum metus vel urna tempor auctor. Pellentesque varius lacus at nisl tincidunt fringilla. Phasellus non felis eu lectus pellentesque tincidunt. Sed eget facilisis tortor. Nulla eget imperdiet ex, consectetur pharetra ligula." />
 
-                    <Link to="" className='inline-flex maxsm:text-sm font-medium items-center gap-1 text-b3 border border-b3 px-4 py-3 rounded-lg mt-6'>See All Stories <span><AiOutlineArrowDown /></span></Link>
+                    <Link to="" className='inline-flex maxsm:text-sm font-medium items-center gap-1 text-b3 border border-b3 px-4 py-3 rounded-lg mt-6'>See All Stories <span><AiOutlineArrowDown className='text-base' /></span></Link>
                 </div>
 
                 {/* Recent Stories */}

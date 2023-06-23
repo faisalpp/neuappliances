@@ -3,8 +3,8 @@ import React from 'react'
 const RepairWork = () => {
     return (
         <div className='bg-b8'>
-            <div className='py-10 lg:py-16 xl:py-20 3xl:py-[144px] w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
-                <div className='bg-b3 rounded-3xl px-4 py-16 md:p-16 flex maxlg:flex-col gap-10 3xl:gap-16'>
+            <div className='py-10 lg:py-16 xl:py-20 2xl:py-[144px] w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+                <div className='bg-b3 rounded-3xl px-4 py-16 md:p-16 flex maxlg:flex-col gap-10 2xl:gap-16'>
                     <div className='lg:min-w-[320px] lg:h-[320px] xl:min-w-[352px] xl:h-[352px]'>
                         <img src="appliance/appliancework.png" alt="" />
                     </div>
