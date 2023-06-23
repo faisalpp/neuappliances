@@ -1,4 +1,4 @@
-import { Routes, Route} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Products from './pages/Products';
@@ -24,6 +24,8 @@ import SavedAddress from './pages/MyAccount/SavedAddress';
 import BillingInformation from './pages/MyAccount/BillingInformation';
 import ChangePassword from './pages/MyAccount/ChangePassword';
 import EmailPreferences from './pages/MyAccount/EmailPreferences';
+import Blogs from './pages/Blogs/Index';
+import BlogArticle from './pages/Blogs/BlogArticle';
 import Test from './pages/Test'
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/AdminAccount/Dashboard";
@@ -59,7 +61,10 @@ function App() {
       <Route path="/my-account/billing-information" element={<BillingInformation />} />
       <Route path="/my-account/change-password" element={<ChangePassword />} />
       <Route path="/my-account/email-preferences" element={<EmailPreferences />} />
-      
+      {/* Blogs */}
+      <Route path="/blogs" element={<Blogs />} />
+      <Route path="/blog-article" element={<BlogArticle />} />
+
       {/* Admin Related Routes */}
       <Route path="/nu-admin" element={<AdminLogin />} />
       <Route path="/admin/dashboard" element={<Dashboard />} />
@@ -67,7 +72,7 @@ function App() {
       {/* Brand Management */}
       <Route path="/admin/manage-brands" element={<ManageBrands />} />
       <Route path="/admin/manage-brands/create" element={<CreateBrand />} />
-      
+
 
       <Route path="/admin/manage-categories" element={<ManageCategories />} />
 

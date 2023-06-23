@@ -11,7 +11,7 @@ const GetScoop = () => {
                     <CdSvg />
                 </div>
                 <div className='flex flex-col gap-10 md:gap-16 xl:gap-20 w-full'>
-                    <h1 className='font-bold text-b18 coxs:leading-[48px] text-[28px] coxs:text-3xl sm:text-4xl lg:text-[40px]'>
+                    <h1 className='font-bold text-b18 coxs:leading-[48px] text-28px coxs:text-3xl sm:text-4xl lg:text-40px'>
                         Tips for Refrigerators & Freezers
                     </h1>
                     <div className='flex flex-col gap-4 sm:gap-6 w-full'>
