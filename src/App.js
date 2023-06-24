@@ -27,6 +27,7 @@ import EmailPreferences from './pages/MyAccount/EmailPreferences';
 import Blogs from './pages/Blogs/Index';
 import BlogArticle from './pages/Blogs/BlogArticle';
 import Financing from './pages/Financing';
+import MyCart from './pages/Cart/MyCart';
 import Test from './pages/Test'
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/AdminAccount/Dashboard";
@@ -67,6 +68,8 @@ function App() {
       <Route path="/blog-article" element={<BlogArticle />} />
 
       <Route path="/financing" element={<Financing />} />
+
+      <Route path="/mycart" element={<MyCart />} />
 
       {/* Admin Related Routes */}
       <Route path="/nu-admin" element={<AdminLogin />} />
