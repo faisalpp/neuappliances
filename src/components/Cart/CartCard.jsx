@@ -57,7 +57,7 @@ const CartCard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex maxcosm:flex-col justify-between sm:gap-10">
+                    <div className="flex maxcosm:flex-col maxxs:justify-between sm:gap-10">
                         <Radio id="delivery" icon={<RadioSvg className="w-[18px] h-[18px]" />} className='border border-[#D9D9D9] bg-white p-0 w-[18px] h-[18px]' ripple={false} name="type" label={
                             <Typography className="font-medium text-sm text-b16 flex gap-4">
                                 <ShipmentSvg />
