@@ -6,15 +6,15 @@ import { RiArrowDropDownLine } from 'react-icons/ri';
 import { FiPhone } from 'react-icons/fi';
 import { TfiHeadphoneAlt } from 'react-icons/tfi';
 import NavDropDown from '../Navbar/NavDropDown';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import { resetUser } from '../../../store/userSlice'
 import { Menu } from '@headlessui/react'
-import { AdminSignout } from '../../../api/admin'; 
-import { Signout } from '../../../api/user'; 
+import { AdminSignout } from '../../../api/admin';
+import { Signout } from '../../../api/user';
 
 const Navbar = ({ sCart, setSCart }) => {
   const [megMenu, setMegMenu] = useState(false);
@@ -103,25 +103,25 @@ const Navbar = ({ sCart, setSCart }) => {
               <div onClick={() => { sCart ? setSCart(false) : setSCart(true) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><AiOutlineShoppingCart /><span className='ml-2 font-medium text-xs' >Cart</span><span className='ml-2 bg-b3 rounded-full text-xs h-4 w-4 text-center' >2</span></div>
 
               {isAuth ? (isAdmin ? <Menu as="div" className="relative" >
-              <Menu.Button className='flex items-center px-4 bg-b2 py-[10px] w-max cursor-pointer rounded-md text-white' ><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs' >Hello {firstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>
-              {/* Mark this component as `static` */}
-              <Menu.Items as="div" className="absolute z-[100] top-12 -right-24 shadow-lg rounded-sm py-5 bg-white w-56 h-auto text-black">
-               <Menu.Item as="div" className="px-4" ><NavLink to="/admin/dashboard" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Dashboard</NavLink></Menu.Item>
-               <Menu.Item as="div" className="px-4" ><NavLink to="" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Order History</NavLink></Menu.Item>
-               <Menu.Item as="div" className="px-4" ><NavLink to="" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Favourites</NavLink></Menu.Item>
-               <Menu.Item as="div" className="px-4" ><div onClick={handleAdminLogout} className='flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-white font-normal' >Logout</div></Menu.Item>
-              </Menu.Items>
-             </Menu>
-              :<Menu as="div" className="relative" >
-              <Menu.Button className='flex items-center px-4 bg-b2 py-[10px] w-max cursor-pointer rounded-md text-white' ><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs' >Hello {firstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>
-              {/* Mark this component as `static` */}
-              <Menu.Items as="div" className="absolute z-[100] top-12 -right-24 shadow-lg rounded-sm py-5 bg-white w-56 h-auto text-black">
-               <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/profile" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >My Account</NavLink></Menu.Item>
-               <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/order-history" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Order History</NavLink></Menu.Item>
-               <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/my-favourites" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Favourites</NavLink></Menu.Item>
-               <Menu.Item as="div" className="px-4" ><div onClick={handleLogout} className='flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-white font-normal' >Logout</div></Menu.Item>
-              </Menu.Items>
-             </Menu>):(isAdmin === null ? <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-1 font-medium text-xs' >My Account</span></div></NavLink>:null)}
+                <Menu.Button className='flex items-center px-4 bg-b2 py-[10px] w-max cursor-pointer rounded-md text-white' ><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs' >Hello {firstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>
+                {/* Mark this component as `static` */}
+                <Menu.Items as="div" className="absolute z-[100] top-12 -right-24 shadow-lg rounded-sm py-5 bg-white w-56 h-auto text-black">
+                  <Menu.Item as="div" className="px-4" ><NavLink to="/admin/dashboard" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Dashboard</NavLink></Menu.Item>
+                  <Menu.Item as="div" className="px-4" ><NavLink to="" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Order History</NavLink></Menu.Item>
+                  <Menu.Item as="div" className="px-4" ><NavLink to="" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Favourites</NavLink></Menu.Item>
+                  <Menu.Item as="div" className="px-4" ><div onClick={handleAdminLogout} className='flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-white font-normal' >Logout</div></Menu.Item>
+                </Menu.Items>
+              </Menu>
+                : <Menu as="div" className="relative" >
+                  <Menu.Button className='flex items-center px-4 bg-b2 py-[10px] w-max cursor-pointer rounded-md text-white' ><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs' >Hello {firstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>
+                  {/* Mark this component as `static` */}
+                  <Menu.Items as="div" className="absolute z-[100] top-12 -right-24 shadow-lg rounded-sm py-5 bg-white w-56 h-auto text-black">
+                    <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/profile" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >My Account</NavLink></Menu.Item>
+                    <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/order-history" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Order History</NavLink></Menu.Item>
+                    <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/my-favourites" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Favourites</NavLink></Menu.Item>
+                    <Menu.Item as="div" className="px-4" ><div onClick={handleLogout} className='flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-white font-normal' >Logout</div></Menu.Item>
+                  </Menu.Items>
+                </Menu>) : (isAdmin === null ? <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-1 font-medium text-xs' >My Account</span></div></NavLink> : null)}
 
               {/* {isAuth ? <NavLink to="/my-account/profile" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink> : <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink>} */}
               <div onClick={() => { megMenu ? setMegMenu(false) : setMegMenu(true) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><IoMenu /><span className='ml-2 font-medium text-xs' >Menu</span></div>
@@ -138,51 +138,51 @@ const Navbar = ({ sCart, setSCart }) => {
 
             <div className='grid grid-cols-12 justify-center max-w-1680px px-16 xl:px-20 2xl:px-120px mx-auto'>
               <div className='col-start-1 col-end-2 flex flex-col items-center' >
-                <h4 className='font-semibold' >How It Works</h4>
+                <h4 className='font-semibold xl:whitespace-nowrap' >How It Works</h4>
                 <div className='flex flex-col space-y-4 text-xs font-medium mt-4 text-white/80' >
-                  <a>What We Sell</a>
-                  <a>Rating System</a>
-                  <a>Testing Process</a>
-                  <a>Product Photos</a>
-                  <a>Delivery</a>
-                  <a>Warranty & Return</a>
+                  <Link to="/how-it-works">What We Sell</Link>
+                  <Link to="/how-it-works">Rating System</Link>
+                  <Link to="/how-it-works">Testing Process</Link>
+                  <Link to="/how-it-works">Product Photos</Link>
+                  <Link to="/how-it-works">Delivery</Link>
+                  <Link to="/how-it-works">Warranty & Return</Link>
                 </div>
               </div>
 
               <div className='col-start-3 col-end-5 ml-8' >
                 <h4 className='font-semibold' >Resources</h4>
                 <div className='flex flex-col space-y-4 text-xs font-medium mt-4 text-white/80' >
-                  <a>Appliance Repair</a>
-                  <a>Product Reviews</a>
-                  <a>Measuring Guide</a>
-                  <a>Appliance Tips</a>
-                  <a>Appliance Blog</a>
+                  <Link to="/appliance-repair">Appliance Repair</Link>
+                  <Link to="">Product Reviews</Link>
+                  <Link to="/measuring-guide">Measuring Guide</Link>
+                  <Link to="/helpful-appliances-tips">Appliance Tips</Link>
+                  <Link to="/blogs">Appliance Blog</Link>
                 </div>
               </div>
 
               <div className='col-start-6 col-end-6 flex flex-col' >
                 <h4 className='font-semibold' >About Us</h4>
                 <div className='flex flex-col space-y-4 text-xs mt-4 font-medium text-white/80' >
-                  <a>Our Story</a>
-                  <a>Our Outlet</a>
-                  <a>Our Companies</a>
-                  <a>FAQ</a>
+                  <Link to="/our-story">Our Story</Link>
+                  <Link to="/our-showroom">Our Outlet</Link>
+                  <Link to="/our-companies">Our Companies</Link>
+                  <Link to="/faqs">FAQ</Link>
                 </div>
               </div>
 
               <div className='col-start-8 col-end-11' >
                 <h4 className='font-semibold' >Help & Support</h4>
                 <div className='flex flex-col space-y-4 text-xs mt-4 font-medium text-white/80' >
-                  <a>Help Placing an Order Us</a>
-                  <a>Return and Exchange</a>
-                  <a>Contact Us</a>
+                  <Link to="">Help Placing an Order Us</Link>
+                  <Link to="">Return and Exchange</Link>
+                  <Link to="">Contact Us</Link>
                 </div>
               </div>
 
               <div className='col-start-11 col-end-13' >
                 <h4 className='font-semibold' >Delivery</h4>
                 <div className='flex flex-col space-y-4 text-xs mt-4 font-medium text-white/80' >
-                  <a>Important Information</a>
+                  <Link to="">Important Information</Link>
                 </div>
               </div>
             </div>
