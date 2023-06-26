@@ -33,7 +33,10 @@ import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/AdminAccount/Dashboard";
 import ManageProducts from "./pages/AdminAccount/ManageProducts";
 import ManageCategories from "./pages/AdminAccount/ManageCategories";
-import useAutoLogin from './hooks/useAutoLogin'
+import useAutoLoginAdmin from './hooks/useAutoLoginAdmin'
+import useAutoLoginUser from './hooks/useAutoLoginUser'
+import StayInLoop from "./pages/StayInLoop";
+import HowItWorks from "./pages/HowItWorks";
 import Loader from './components/Loader/Loader'
 import CreateCategory from "./pages/AdminAccount/CreateCategory";
 import CreateProduct from "./pages/AdminAccount/CreateProduct";
@@ -45,9 +48,24 @@ import { useSelector } from "react-redux";
 
 function App() {
 
-  const loading = useAutoLogin();
+  
+  const ProtectedAdmin = ({ children }) => {
+    const loading = useAutoLoginAdmin();
+    return loading ? <Loader/> : <>{children}</>;
+  }
+  const ProtectedUser = ({ children }) => {
+    const loading = useAutoLoginUser();
+    return loading ? <Loader/> : <>{children}</>;
+  }
 
-  return loading ? (<Loader/>) : (
+  const AuthRoute = ({ children }) => {
+    const isAuth = useSelector((state)=>state.user.isAuth)
+    const navigate = useNavigate()
+    return isAuth ? navigate(-1) : <>{children}</> ;
+  }
+  
+
+  return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
