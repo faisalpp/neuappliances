@@ -1,9 +1,9 @@
 import React from 'react'
 import ProductSliderCard from '../../components/Appliances/ProductSliderCard'
 import { useState } from 'react'
+import ProductCardSlider from '../ProductCardSlider'
 
-const CosmaticStarSection = ({section}) => {
-
+const CosmaticRating = () => {
     return (
         <div className='bg-b8 py-10 lg:py-14 xl:py-20' >
             {/* Heading Start  */}
@@ -21,6 +21,7 @@ const CosmaticStarSection = ({section}) => {
                     {section.sectionItemsId.map((item,index)=><ProductSliderCard key={index} title='Cosmetic Rating' product={item} />)}
                     {/* {categorySection.sectionItemsId[0]}  */}
                 </div>
+                <ProductCardSlider />
             </div>
             {/* Products Card End */}
 
@@ -28,4 +29,4 @@ const CosmaticStarSection = ({section}) => {
     )
 }
 
-export default CosmaticStarSection
+export default CosmaticRating

@@ -27,13 +27,13 @@ import Blogs from './pages/Blogs/Index';
 import BlogArticle from './pages/Blogs/BlogArticle';
 import Financing from './pages/Financing';
 import MyCart from './pages/Cart/MyCart';
+import HelpAndSupport from './pages/HelpAndSupport';
 import Test from './pages/Test'
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/AdminAccount/Dashboard";
 import ManageProducts from "./pages/AdminAccount/ManageProducts";
 import ManageCategories from "./pages/AdminAccount/ManageCategories";
-import useAutoLoginAdmin from './hooks/useAutoLoginAdmin'
-import useAutoLoginUser from './hooks/useAutoLoginUser'
+import useAutoLogin from './hooks/useAutoLogin'
 import Loader from './components/Loader/Loader'
 import CreateCategory from "./pages/AdminAccount/CreateCategory";
 import CreateProduct from "./pages/AdminAccount/CreateProduct";
@@ -45,24 +45,9 @@ import { useSelector } from "react-redux";
 
 function App() {
 
-  
-  const ProtectedAdmin = ({ children }) => {
-    const loading = useAutoLoginAdmin();
-    return loading ? <Loader/> : <>{children}</>;
-  }
-  const ProtectedUser = ({ children }) => {
-    const loading = useAutoLoginUser();
-    return loading ? <Loader/> : <>{children}</>;
-  }
+  const loading = useAutoLogin();
 
-  const AuthRoute = ({ children }) => {
-    const isAuth = useSelector((state)=>state.user.isAuth)
-    const navigate = useNavigate()
-    return isAuth ? navigate(-1) : <>{children}</> ;
-  }
-  
-
-  return (
+  return loading ? (<Loader/>) : (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
@@ -94,6 +79,12 @@ function App() {
       <Route path="/my-account/email-preferences" element={<ProtectedUser><EmailPreferences /></ProtectedUser>} />
 
       <Route path="/mycart" element={<MyCart />} />
+
+      <Route path="/stay-in-loop" element={<StayInLoop />} />
+
+      <Route path="/how-it-works" element={<HowItWorks />} />
+
+      <Route path="/help-and-support" element={<HelpAndSupport />} />
 
       {/* Admin Related Routes */}
       <Route path="/nu-admin" element={<AuthRoute><AdminLogin /></AuthRoute>} />

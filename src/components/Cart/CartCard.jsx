@@ -4,7 +4,7 @@ import { Radio, Typography } from "@material-tailwind/react";
 import RadioSvg from '../../svgs/RadioSvg';
 import ShipmentSvg from '../../svgs/ShipmentSvg';
 import PickUpSvg from '../../svgs/PickUpSvg';
-import ToolTip from '../../components/ToolTip'
+import ToolTip from '../ToolTip'
 import { AiFillStar } from 'react-icons/ai';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 
