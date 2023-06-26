@@ -16,6 +16,7 @@ module.exports = {
       'lg': '992px',
 
       'xl': '1200px',
+      'coxxl': '1280px',
       'coxl': '1340px',
 
       '2xl': '1440px',
@@ -58,11 +59,19 @@ module.exports = {
         'b21': 'rgba(34,166,171,0.08)',
         'b22': '#383838',
         'b23': 'rgba(17,16,16,0.64)',
+        'b24': '#858585',
+        'b25': '#737373',
+        'b26': '#EAE9E9',
         't1': '#22A6AB',
         't2': '#333333',
       },
       fontSize: {
-        '32px': '32px'
+        '28px': '28px',
+        '32px': '32px',
+        '40px': '40px'
+      },
+      letterSpacing: {
+        '032': '-0.32px'
       },
       fontFamily: {
         'reg': 'Montserrat'

@@ -84,3 +84,32 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+.rdp {
+  margin: 0 !important;
+}
+
+.rdp-month.rdp-caption_start.rdp-caption_end {
+  background-color: #E8F5F5;
+  width: 100%;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.rdp .rdp-table .rdp-cell .rdp-button_reset.rdp-button.rdp-day {
+  font-size: 16px;
+  color: #212121;
+}
+
+.rdp .rdp-table {
+  max-width: 100% !important;
+  width: 100%;
+}
+
+.rdp .rdp-table .rdp-cell .rdp-button_reset.rdp-button.rdp-day.rdp-day_selected {
+  color: white;
+  background-color: #22A6AB;
+  font-weight: 400;
+  width: 32px;
+  height: 32px;
+}

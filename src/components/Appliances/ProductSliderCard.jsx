@@ -36,10 +36,14 @@ const ProductSliderCard = ({ title, dicount, type, stars, discount, codmetics })
   };
   return (
     <div className='flex flex-col maxmd:max-w-[330px] relative maxmd:mx-auto bg-white w-full h-auto rounded-md p-4 sm:p-6 md:p-8 lg:p-6 shadow-md' >
-      {type === 1 ? <div className='absolute top-0 left-2 flex items-center bg-b9 w-fit px-3 rounded-b-2xl ml-2 justify-center h-6 gap-x-2 text-white' ><AiOutlineDollar /><span className='text-xs' >Best Value</span></div> : null}
-      {type === 2 ? <div className='absolute top-0 left-2  flex items-center bg-b3 w-fit px-3 rounded-b-2xl ml-2 justify-center h-7 gap-x-2 text-white' ><BsFire /> <span className='text-xs' >Most Popular</span></div> : null}
-      {type === 3 ? <div className='absolute top-0 left-2  flex items-center bg-b7 w-fit rounded-b-2xl ml-2 justify-center px-3 h-7 gap-x-2 text-white' ><BsFire /> <span className='text-xs' >Premium Condition</span></div> : null}
-      <div className='flex flex-col items-center justify-center mt-4 w-full' >
+      {type === 1 ? <div className='absolute top-0 left-2 flex items-center bg-b9 w-fit px-3 rounded-b-2xl ml-2 justify-center h-9 gap-x-2 text-white' >
+        <img src="/svgs/monetization_on.png" className='w-6 h-6 object-contain p-[1px]' alt="monetization_on" /><span className='text-xs 2xl:text-base font-bold' >Best Value</span></div> : null}
+      {type === 2 ? <div className='absolute top-0 left-2  flex items-center bg-b3 w-fit px-3 rounded-b-2xl ml-2 justify-center h-9 gap-x-2 text-white' >
+        <img src="/svgs/local_fire_department.png" className='w-6 h-6 object-contain p-[1px]' alt="local_fire_department" /> <span className='text-xs 2xl:text-base font-bold' >Most Popular</span></div> : null}
+      {type === 3 ? <div className='absolute top-0 left-2  flex items-center bg-b7 w-fit rounded-b-2xl ml-2 justify-center px-3 h-9 gap-x-2 text-white' >
+        <img src="/svgs/star_rate_half.png" className='w-6 h-6 object-contain p-[1px]' alt="star_rate_half" />
+        <span className='text-xs 2xl:text-base font-bold' >Premium Condition</span></div> : null}
+      <div className='flex flex-col items-center justify-center mt-6 w-full' >
         <div className='flex justify-center items-center text-center gap-x-1 text-[#242424] text-sm sm:text-base 2xl:text-[22px]' ><h4 className='font-bold' >{title}:</h4><span className='font-medium' >{stars} Stars</span></div>
         <div className='flex gap-x-3 mb-4' ><StarIconPrinter numberOfTimes={stars} /></div>
         {type === 1 ? <h4 className='text-b3 font-semibold text-sm 2xl:text-base' >Moderate Cosmetic Damage</h4> : null}

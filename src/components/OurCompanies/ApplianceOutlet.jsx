@@ -24,19 +24,19 @@ const ApplianceParts = () => {
                     Neu Appliance Outlet provides the solutions you have been looking for:
                 </p>
                 <div className='grid grid-cols-2 lg:grid-cols-3 gap-2'>
-                    <div className='p-2 bg-white flex flex-col items-center gap-2 rounded-lg'>
+                    <div className='p-2 bg-[#F7FBFD] flex flex-col items-center gap-2 rounded-lg'>
                         <ShieldSvg className="w-10 h-10 mx-auto" />
                         <p className='text-b18 font-bold text-xs text-center'>
                             Certified Refurbished Appliances
                         </p>
                     </div>
-                    <div className='p-2 bg-white flex flex-col items-center gap-2 rounded-lg'>
+                    <div className='p-2 bg-[#F7FBFD] flex flex-col items-center gap-2 rounded-lg'>
                         <ScratchSvg className="w-10 h-10 mx-auto" />
                         <p className='text-b18 font-bold text-xs text-center'>
                             Scratch & Dent Appliances
                         </p>
                     </div>
-                    <div className='p-2 bg-white flex flex-col items-center gap-2 rounded-lg'>
+                    <div className='p-2 bg-[#F7FBFD] flex flex-col items-center gap-2 rounded-lg'>
                         <BoxSvg className="w-10 h-10 mx-auto" />
                         <p className='text-b18 font-bold text-xs text-center'>
                             Open Box Appliances
