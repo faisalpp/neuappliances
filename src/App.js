@@ -28,11 +28,14 @@ import Blogs from './pages/Blogs/Index';
 import BlogArticle from './pages/Blogs/BlogArticle';
 import Financing from './pages/Financing';
 import MyCart from './pages/Cart/MyCart';
+import HelpAndSupport from './pages/HelpAndSupport';
 import Test from './pages/Test'
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/AdminAccount/Dashboard";
 import ManageProducts from "./pages/AdminAccount/ManageProducts";
 import ManageCategories from "./pages/AdminAccount/ManageCategories";
+import StayInLoop from "./pages/StayInLoop";
+import HowItWorks from "./pages/HowItWorks";
 import useAutoLogin from './hooks/useAutoLogin'
 import Loader from './components/Loader/Loader'
 import CreateCategory from "./pages/AdminAccount/CreateCategory";
@@ -46,7 +49,7 @@ function App() {
 
   const loading = useAutoLogin();
 
-  return loading ? (<Loader/>) : (
+  return loading ? (<Loader />) : (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
@@ -79,6 +82,12 @@ function App() {
       <Route path="/financing" element={<Financing />} />
 
       <Route path="/mycart" element={<MyCart />} />
+
+      <Route path="/stay-in-loop" element={<StayInLoop />} />
+
+      <Route path="/how-it-works" element={<HowItWorks />} />
+
+      <Route path="/help-and-support" element={<HelpAndSupport />} />
 
       {/* Admin Related Routes */}
       <Route path="/nu-admin" element={<AdminLogin />} />

@@ -113,3 +113,30 @@
   width: 32px;
   height: 32px;
 }
+
+/* Pagination */
+
+.pagination-container {
+  @apply flex gap-6 items-center justify-center
+}
+
+.pagination-container .pagination-item {
+  @apply text-b25 text-sm
+}
+
+.pagination-container .pagination-item.selected {
+  @apply text-b3 font-bold
+}
+
+.pagination-container .pagination-item.disabled {
+  pointer-events: none;
+}
+
+.content {
+  /* Your existing styles for content */
+  transition: opacity 0.2s ease-out;
+}
+
+.fade-out {
+  opacity: 0;
+}

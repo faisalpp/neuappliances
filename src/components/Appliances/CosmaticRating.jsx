@@ -1,7 +1,7 @@
 import React from 'react'
-import ProductSliderCard from '../../components/Appliances/ProductSliderCard'
+import ProductCardSlider from '../ProductCardSlider'
 
-const CosmaticStarSection = () => {
+const CosmaticRating = () => {
     return (
         <div className='bg-b8 py-10 lg:py-14 xl:py-20' >
             {/* Heading Start  */}
@@ -15,11 +15,7 @@ const CosmaticStarSection = () => {
                 {/* Heading End */}
 
                 {/* Products Card Start */}
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 xl:gap-[10px] xl:mt-14" >
-                    <ProductSliderCard title='Cosmetic Rating' codmetics='Moderate' dicount='Massive' stars={3} type={1} discount={1} />
-                    <ProductSliderCard title='Cosmetic Rating' codmetics='Minor' dicount='Huge' stars={4} type={2} discount={2} />
-                    <ProductSliderCard title='Cosmetic Rating' codmetics='Very Minor-None' dicount='Great' stars={5} type={3} discount={3} />
-                </div>
+                <ProductCardSlider />
             </div>
             {/* Products Card End */}
 
@@ -27,4 +23,4 @@ const CosmaticStarSection = () => {
     )
 }
 
-export default CosmaticStarSection
+export default CosmaticRating
