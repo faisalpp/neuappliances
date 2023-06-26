@@ -15,7 +15,6 @@ const ApplianceTypes = () => {
             const res = await GetAppliances();
             if(res.status === 200){
                 setApplianceTypes(res.data.categories);
-                console.log(res.data.categories)
             }
         }
         getAppliances();

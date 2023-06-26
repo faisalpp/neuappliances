@@ -7,34 +7,37 @@ const AdminItems = ({ onClose, isItems }) => {
 
     const myaccountItems = [
         {
+            id:1,
             title: 'Dashboard',
             link: '/admin/dashboard',
         },
         {
+            id:2,
             title: 'Orders',
             link: '/admin/orders',
         },
         {
+            id:3,
             title: 'Products',
             link: '/admin/products',
         },
         {
+            id:4,
             title: 'Categories',
             link: '/admin/categories',
         },
         {
-            title: 'Category Sections',
-            link: '/admin/manage-sections',
-        },
-        {
+            id:5,
             title: 'Shipping',
             link: '/admin/shipping',
         },
         {
+            id:6,
             title: 'Change Password ',
             link: '/admin/change-password',
         },
         {
+            id:7,
             title: 'Site Settings',
             link: '/admin/settings',
         },

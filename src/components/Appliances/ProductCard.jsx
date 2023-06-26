@@ -1,14 +1,20 @@
 import React from 'react'
 import { AiFillStar } from 'react-icons/ai'
+import { useParams } from 'react-router-dom';
 
 const ProductCard = ({ title, image, rating, brandimage, brandname, colorimage, colorname }) => {
+    const {categorySlug} = useParams()
     const StarIconPrinter = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
-            <AiFillStar className='text-b7' /> // Render the star icon component for each iteration
+            <AiFillStar key={index} className='text-b7' /> // Render the star icon component for each iteration
         ));
 
         return <div className='flex items-center' >{starIcons}</div>; // Render the array of star icons
     };
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
     return (
         <div>
@@ -16,13 +22,13 @@ const ProductCard = ({ title, image, rating, brandimage, brandname, colorimage, 
                 <div className='rounded-2xl maxmd:mx-auto maxmd:max-w-[330px] border border-gray-300 p-3'>
                     <img src={image} className='xl:w-auto h-80 mx-auto' alt={title} />
                     <div className='flex flex-col w-full mt-2 items-center gap-2'>
-                        <h3 className='font-semibold'>{title}</h3>
+                     {rating ? <h3 className='font-semibold'>{capitalizeFirstLetter(categorySlug)}</h3>:<h3 className='font-semibold'>{title}</h3>}
                         {rating ?
                             <div className='flex gap-3 items-center'>
                                 <span className='font-semibold text-sm'>
                                     Cosmetic Rating:
                                 </span>
-                                <StarIconPrinter numberOfTimes={rating} />
+                                <StarIconPrinter numberOfTimes={parseInt(rating)} />
                             </div>
                             : null
                         }

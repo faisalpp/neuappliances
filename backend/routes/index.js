@@ -17,7 +17,7 @@ router.get('/api/logout', auth ,authController.logout);
 // User Related Routes
 router.post('/api/register', authController.register);
 router.post('/api/login', authController.login);
-router.get('/api/refresh', authController.refresh);
+router.get('/api/user/refresh', authController.refresh);
 router.post('/api/user/profile',auth,userProfileController.getUserProfile);
 router.post('/api/user/update-profile',auth,userProfileController.UpdateProfile);
 
@@ -26,15 +26,16 @@ router.get('/api/admin/register', adminController.register);
 router.post('/api/admin/login', adminController.login);
 router.get('/api/admin/refresh', adminController.refresh);
 // Categories Related Routes
-router.get('/api/admin/get-categories',categoryController.GetCategories);
+router.get('/api/admin/get-categories',adminAuth,categoryController.GetCategories);
 router.post('/api/admin/create-category',adminAuth,categoryController.CreateCategory);
 // Sections Related Routes
 router.post('/api/admin/create-section',adminAuth,categorySection.CreateSection);
-router.get('/api/admin/sections',categorySection.GetCategorySections);
+router.post('/api/admin/sections',adminAuth,categorySection.GetCategorySections);
 // Section Item Related Routes
 router.post('/api/admin/create-section-item',adminAuth,categorySection.CreateSectionItem);
 router.post('/api/admin/section-items',adminAuth,categorySection.GetSectionItems);
  
- router.get('/api/get-appliances',applianceController.GetAppliance);
+ router.get('/api/get-appliances',applianceController.GetAppliances);
+ router.post('/api/appliance-sections',applianceController.GetApplianceSections);
 
 module.exports = router;

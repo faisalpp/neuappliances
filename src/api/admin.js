@@ -17,7 +17,6 @@ const AdminRegApi = axios.create({
 });
 
 
-
 export const Signin = async (data) => {
     let response;
 
@@ -74,11 +73,11 @@ export const createSection = async (data) => {
     return response;
 }
 
-export const getSection = async () => {
+export const getSection = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.get('/sections');
+        response = await AdminApi.post('/sections',data);
     }catch (error){
         return error;
     }

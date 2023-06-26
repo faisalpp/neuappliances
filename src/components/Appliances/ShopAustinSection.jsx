@@ -15,7 +15,7 @@ const ShopAustinSection = () => {
                 <Link to="" className='inline-flex items-center p-4 rounded-lg gap-2 bg-b4 text-sm font-semibold'><HiOutlineShoppingCart /> <span>Shop Now</span></Link>
             </div>
             <div>
-                <img src="shopaustin.png" className='w-full h-auto 2xl:h-[560px] rounded-3xl' alt="shopaustin" />
+                <img src="/shopaustin.png" className='w-full h-auto 2xl:h-[560px] rounded-3xl' alt="shopaustin" />
             </div>
         </div >
     )

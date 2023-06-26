@@ -17,3 +17,14 @@ export const GetAppliances = async () => {
     }
     return response;
 }
+
+export const GetApplianceSections = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/appliance-sections',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}

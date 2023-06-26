@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import MainLayout from '../layout/MainLayout';
 import ApplianceDetail from '../components/Appliances/ApplianceDetail';
 import CosmaticRating from '../components/Appliances/CosmaticRating';
@@ -8,8 +8,24 @@ import RecentlyAddedSection from '../components/Appliances/RecentlyAddedSection'
 import SatisfiedSection from '../components/SatisfiedSection';
 import NewsLetterSection from '../components/NewsLetterSection';
 import { RiArrowDropRightLine } from 'react-icons/ri';
+import {GetApplianceSections} from '../api/frontEnd';
+import { useParams } from 'react-router-dom';
 
 const Appliances = () => {
+
+  const [sections,setSections] = useState([]);
+  const {categorySlug,categoryId} = useParams();
+
+  const data = {categoryId};
+  useEffect(() => {
+      const getAppliances = async () => {
+          const res = await GetApplianceSections(data);
+          if(res.status === 200){
+              setSections(res.data.categorySections);
+          }
+      }
+      getAppliances();
+  }, [])
 
   return (
     <>
@@ -22,9 +38,8 @@ const Appliances = () => {
           {/* Bread Crumbs End */}
           <ApplianceDetail title="Refrigerators" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum metus vel urna tempor auctor. Pellentesque varius lacus at nisl tincidunt fringilla. Phasellus non felis eu lectus pellentesque tincidunt. Sed eget facilisis tortor. Nulla eget imperdiet ex, consectetur pharetra ligula." />
         </div>
-        <CosmaticRating />
-        {/* Product Section */}
-        <ProductSection />
+        {sections.map((section)=> (section.slug === "cosmatic-rating-head" ? <CosmaticRating section={section} />:null))}
+        <ProductSection data={sections} />
         {/* Shop Austin Section */}
         <ShopAustinSection />
         {/* Recentky Added Section */}
@@ -34,7 +49,7 @@ const Appliances = () => {
         {/* Reviews Section */}
         <SatisfiedSection title="Join Thousands of our Satisfied Customers." />
 
-        <NewsLetterSection backimage="Newsletter.png" />
+        <NewsLetterSection backimage="/Newsletter.png" />
       </MainLayout>
     </>
   )

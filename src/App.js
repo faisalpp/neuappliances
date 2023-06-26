@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Products from './pages/Products';
@@ -6,7 +6,6 @@ import Product from './pages/Product';
 import Login from './pages/Login';
 import AdminLogin from './pages/Admin/login';
 import ForgotPassword from './pages/ForgotPassword';
-import UserAccount from './pages/UserAccount';
 import Appliances from './pages/Appliances';
 import ApplianceTypes from './pages/ApplianceTypes';
 import GeneralFaqs from './pages/GeneralFaqs';
@@ -33,29 +32,45 @@ import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/AdminAccount/Dashboard";
 import ManageProducts from "./pages/AdminAccount/ManageProducts";
 import ManageCategories from "./pages/AdminAccount/ManageCategories";
-import useAutoLogin from './hooks/useAutoLogin'
+import useAutoLoginAdmin from './hooks/useAutoLoginAdmin'
+import useAutoLoginUser from './hooks/useAutoLoginUser'
 import Loader from './components/Loader/Loader'
 import CreateCategory from "./pages/AdminAccount/CreateCategory";
 import CreateProduct from "./pages/AdminAccount/CreateProduct";
-import ManageSections from "./pages/AdminAccount/ManageSection";
+import ViewSections from "./pages/AdminAccount/ViewSections";
 import CreateSection from "./pages/AdminAccount/CreateSection";
 import CreateSectionItem from "./pages/AdminAccount/CreateSectionItem";
 import ViewSectionItems from "./pages/AdminAccount/ViewSectionItems";
+import { useSelector } from "react-redux";
 
 function App() {
 
-  const loading = useAutoLogin();
+  
+  const ProtectedAdmin = ({ children }) => {
+    const loading = useAutoLoginAdmin();
+    return loading ? <Loader/> : <>{children}</>;
+  }
+  const ProtectedUser = ({ children }) => {
+    const loading = useAutoLoginUser();
+    return loading ? <Loader/> : <>{children}</>;
+  }
 
-  return loading ? (<Loader/>) : (
+  const AuthRoute = ({ children }) => {
+    const isAuth = useSelector((state)=>state.user.isAuth)
+    const navigate = useNavigate()
+    return isAuth ? navigate(-1) : <>{children}</> ;
+  }
+  
+
+  return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/useraccount" element={<UserAccount />} />
+      <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
+      <Route path="/register" element={<AuthRoute><Register /></AuthRoute>} />
+      <Route path="/forgot-password" element={<AuthRoute><ForgotPassword /></AuthRoute>} />
       <Route path="/products" element={<Products />} />
       <Route path="/product" element={<Product />} />
-      <Route path="/appliances" element={<Appliances />} />
+      <Route path="/appliances/:categorySlug/:categoryId" element={<Appliances />} />
       <Route path="/appliancetypes" element={<ApplianceTypes />} />
       <Route path="/faqs" element={<GeneralFaqs />} />
       <Route path="/our-story" element={<OurStory />} />
@@ -65,37 +80,36 @@ function App() {
       <Route path="/measuring-guide" element={<MeasuringGuide />} />
       <Route path="/helpful-appliances-tips" element={<HelpfulApliancesTips />} />
       <Route path="/tips-forregerators-and-freezers" element={<AppliancesTipsDetail />} />
-      <Route path="/my-account/profile" element={<Profile />} />
-      <Route path="/my-account/order-history" element={<OrderHistory />} />
-      <Route path="/my-account/my-favourites" element={<MyFavourite />} />
-      <Route path="/my-account/saved-addresses" element={<SavedAddress />} />
-      <Route path="/my-account/billing-information" element={<BillingInformation />} />
-      <Route path="/my-account/change-password" element={<ChangePassword />} />
-      <Route path="/my-account/email-preferences" element={<EmailPreferences />} />
+      <Route path="/financing" element={<Financing />} />
       {/* Blogs */}
       <Route path="/blogs" element={<Blogs />} />
       <Route path="/blog-article" element={<BlogArticle />} />
-
-      <Route path="/financing" element={<Financing />} />
+      
+      <Route path="/my-account/profile" element={<ProtectedUser><Profile /></ProtectedUser>} />
+      <Route path="/my-account/order-history" element={<ProtectedUser><OrderHistory /></ProtectedUser>} />
+      <Route path="/my-account/my-favourites" element={<ProtectedUser><MyFavourite /></ProtectedUser>} />
+      <Route path="/my-account/saved-addresses" element={<ProtectedUser><SavedAddress /></ProtectedUser>} />
+      <Route path="/my-account/billing-information" element={<ProtectedUser><BillingInformation /></ProtectedUser>} />
+      <Route path="/my-account/change-password" element={<ProtectedUser><ChangePassword /></ProtectedUser>} />
+      <Route path="/my-account/email-preferences" element={<ProtectedUser><EmailPreferences /></ProtectedUser>} />
 
       <Route path="/mycart" element={<MyCart />} />
 
       {/* Admin Related Routes */}
-      <Route path="/nu-admin" element={<AdminLogin />} />
-      <Route path="/admin/dashboard" element={<Dashboard />} />
+      <Route path="/nu-admin" element={<AuthRoute><AdminLogin /></AuthRoute>} />
+      <Route path="/admin/dashboard" element={<ProtectedAdmin><Dashboard /></ProtectedAdmin>} />
       {/* Categories Related Routes */}
-      <Route path="/admin/manage-products" element={<ManageProducts />} />
-      <Route path="/admin/manage-products/create" element={<CreateProduct />} />
+      <Route path="/admin/manage-products" element={<ProtectedAdmin><ManageProducts /></ProtectedAdmin>} />
+      <Route path="/admin/manage-products/create" element={<ProtectedAdmin><CreateProduct /></ProtectedAdmin>} />
       {/* Category Section Related Routes */}
-      <Route path="/admin/manage-sections" element={<ManageSections />} />
-      <Route path="/admin/create-section" element={<CreateSection />} />
+      <Route path="/admin/create-section/:title/:id" element={<ProtectedAdmin><CreateSection /></ProtectedAdmin>} />
       {/* Category Section Item Related Routes */}
-      <Route path="/admin/manage-sections" element={<ManageSections />} />
-      <Route path="/admin/create-section-item/:style/:id" element={<CreateSectionItem />} />
-      <Route path="/admin/view-section-items/:sectionId" element={<ViewSectionItems />} />
+      <Route path="/admin/create-section-item/:style/:id" element={<ProtectedAdmin><CreateSectionItem /></ProtectedAdmin>} />
       {/* Categories Related Routes */}
-      <Route path="/admin/categories" element={<ManageCategories />} />
-      <Route path="/admin/create-categories" element={<CreateCategory />} />
+      <Route path="/admin/categories" element={<ProtectedAdmin><ManageCategories /></ProtectedAdmin>} />
+      <Route path="/admin/create-category" element={<ProtectedAdmin><CreateCategory /></ProtectedAdmin>} />
+      <Route path="/admin/view-category-sections/:title/:categoryId" element={<ProtectedAdmin><ViewSections /></ProtectedAdmin>} />
+      <Route path="/admin/view-section-items/:sectionId" element={<ProtectedAdmin><ViewSectionItems /></ProtectedAdmin>} />
 
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />

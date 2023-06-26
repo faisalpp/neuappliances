@@ -24,9 +24,6 @@ const ViewSectionItem = () => {
         <>
         <AdminAccount>
          {/* Products Operations */}
-         <div className='flex mb-5 bg-b5 py-3 rounded-3xl px-10 shadow-md w-full' >
-            <div className='flex items-center border-[1px] rounded-xl border-gray-200' ><AiOutlineSearch className='text-gray-400 ml-3' /><input placeholder='Search Brand' className='text-sm px-2 outline-none' /></div>
-         </div>
          {sectionItems.length > 0 ?
          <div className='grid grid-cols-1 md:grid-cols-4 2xl:grid-cols-3 gap-7 xl:gap-10'>
           {sectionItems.map((sectionItem,index)=><BrandCard key={index} brandname={sectionItem.title} brandimage={`http://localhost:5000/storage/sectionItems/${sectionItem.image}`} rating={sectionItem.rating} />)}

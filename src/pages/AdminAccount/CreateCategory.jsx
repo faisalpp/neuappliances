@@ -47,22 +47,11 @@ const CreateBrand = () => {
           });
           navigate('/admin/manage-categories');
        }
-       if(res.code === 'ERR_BAD_REQUEST'){
-         dispatch(resetUser());
-         navigate('/nu-admin')
-       }
-       if(res.code === 'ERR_FAILED '){
-        toast.error('Somthing Went Wrong!', {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          });
-       }
+      
+      if(res.code === 'ERR_BAD_REQUEST'){
+        dispatch(resetUser());
+        navigate('/nu-admin')
+      }
   
     }
 

@@ -5,9 +5,9 @@ import RelatedProducts from './RelatedProducts';
 import { useState } from 'react'
 import { BsChevronDown } from 'react-icons/bs';
 
-const ProductSection = () => {
+const ProductSection = ({data}) => {
     const [isFilter, setIsFilter] = useState(false);
-
+    console.log(data[0])
     const handleCloseFilter = () => {
         setIsFilter(false);
     };
@@ -138,54 +138,39 @@ const ProductSection = () => {
 
                 <div className='w-full flex flex-col gap-60px'>
                     {/* Cosmatic Rating */}
-                    <div>
-                        <h3 className='font-semibold text-b18'>Refrigerators By Cosmetic Ratings</h3>
+
+                  {data.map((section)=><>
+                    {section.cardStyle === 'rating-card' ?<div>
+                        <h3 className='font-semibold text-b18'>{section.title}</h3>
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-8'>
-                            <ProductCard title="Refrigerator" image="refrigrator.png" rating={5} />
-                            <ProductCard title="Refrigerator" image="refrigrator.png" rating={4} />
-                            <ProductCard title="Refrigerator" image="refrigrator.png" rating={3} />
+                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} title={product.title} image={`http://localhost:5000/storage/sectionItems/${product.image}`} rating={product.rating} />)}
                         </div>
-                    </div>
+                    </div>:null}
+
                     {/* Product Styles */}
-                    <div>
-                        <RelatedProducts title="Refrigerators By Styles" />
+                     {section.cardStyle === 'general-card' ? <div>
+                        <RelatedProducts title={section.title} />
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-8'>
-                            <ProductCard title="French Door Refrigerator" image="refrigstyle1.png" />
-                            <ProductCard title="Side by Side Refrigerator" image="refrigstyle2.png" />
-                            <ProductCard title="Top Freezer Refrigerator" image="refrigstyle3.png" />
-                            <ProductCard title="Upright Freezer Refrigerators" image="refrigstyle4.png" />
-                            <ProductCard title="Mini Fridges Refrigerators" image="refrigstyle5.png" />
+                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} title={product.title} image={`http://localhost:5000/storage/sectionItems/${product.image}`} />)}
                         </div>
-                    </div>
-                    <div>
-                        <RelatedProducts title="Refrigerators By Features" />
-                        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 mt-8'>
-                            <ProductCard title="Ice Makers" image="rffeature1.png" />
-                            <ProductCard title="Energy Star" image="rffeature2.png" />
-                            <ProductCard title="Counter Depth" image="rffeature3.png" />
-                            <ProductCard title="Counter Depth" image="rffeature4.png" />
-                        </div>
-                    </div>
-                    <div>
-                        <RelatedProducts title="Refrigerators By Popular Brands" />
+                    </div>:null}
+
+
+                    {section.cardStyle === 'brand-card' ?<div>
+                        <RelatedProducts title={section.title} />
                         <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mt-8'>
-                            <ProductCard brandname="General Electronics" brandimage="generalelectronics.png" />
-                            <ProductCard brandname="LG Electronics" brandimage="samsungelectronics.png" />
-                            <ProductCard brandname="Samsung Electronics" brandimage="lgelectronics.png" />
-                            <ProductCard brandname="FRIGIDAIRE" brandimage="frigidaire.png" />
-                            <ProductCard brandname="Whirlpool" brandimage="whirlpool2.png" />
+                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} brandname={product.title} brandimage={`http://localhost:5000/storage/sectionItems/${product.image}`} />)}
                         </div>
-                    </div>
-                    <div>
-                        <RelatedProducts title="Refrigerators By Finishes & Colors" />
+                    </div>:null}
+
+                    {section.cardStyle === 'color-card' ?<div>
+                        <RelatedProducts title={section.title} />
                         <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mt-8'>
-                            <ProductCard colorname="White" colorimage="whiteproduct.png" />
-                            <ProductCard colorname="Black" colorimage="blackproduct.png" />
-                            <ProductCard colorname="Stainless Steel" colorimage="stainlessproduct.png" />
-                            <ProductCard colorname="Black Stainless Steel" colorimage="bstainlessproduct.png" />
-                            <ProductCard colorname="Slate" colorimage="slateproduct.png" />
+                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} colorname={product.title} colorimage={`http://localhost:5000/storage/sectionItems/${product.image}`} />)}
                         </div>
-                    </div>
+                    </div>:null}
+                    </>
+                  )}
                 </div>
             </div>
         </div>

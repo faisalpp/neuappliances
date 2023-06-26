@@ -199,7 +199,7 @@ const adminController = {
     }
 
     const user = await Admin.findOne({ _id: id });
-
+    
     const AdminDto = new AdminDTO(user);
 
     return res.status(200).json({ user: AdminDto, auth: true });

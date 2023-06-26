@@ -2,10 +2,10 @@ import React from 'react'
 import { AiFillStar } from 'react-icons/ai'
 import { NavLink } from 'react-router-dom';
 
-const BrandCard = ({ title, image, rating, brandimage, brandname, colorimage, colorname}) => {
+const BrandCard = ({ title, image, rating, brandimage, brandname, colorimage, colorname,updateUrl,viewUrl}) => {
     const StarIconPrinter = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
-            <AiFillStar className='text-b7' /> // Render the star icon component for each iteration
+            <AiFillStar key={index} className='text-b7' /> // Render the star icon component for each iteration
         ));
 
         return <div className='flex items-center' >{starIcons}</div>; // Render the array of star icons
@@ -48,7 +48,10 @@ const BrandCard = ({ title, image, rating, brandimage, brandname, colorimage, co
                         <img src={brandimage} className='max-w-full h-[133px] object-contain' alt={brandname} />
                         <h3 className='font-semibold px-3 text-center text-xs'>{hyphenToCamelCase(brandname)}</h3> 
                         <h3 className='font-semibold px-3 text-center text-xs'><StarIconPrinter numberOfTimes={rating} /></h3>
-                        <NavLink to={`/admin/view-section-items/`} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-2/3 mt-1 text-center' >Update</NavLink> 
+                        <div className='flex space-x-2' >
+                         {updateUrl ? <NavLink to={updateUrl} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-fit px-2 mt-1 text-center' >Update</NavLink>:null} 
+                         {viewUrl ? <NavLink to={viewUrl} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-fit px-2 mt-1 text-center' >View</NavLink>:null} 
+                        </div>
                     </div>
                 </div>
                 // End Popular Brands

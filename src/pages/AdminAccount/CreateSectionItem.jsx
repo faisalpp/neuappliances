@@ -14,12 +14,12 @@ const CreateSectionItem = () => {
     const { style,id } = useParams();
     const [imagePrev,setImagePrev] = useState('https://placehold.co/600x400')
     
-    const [title,setTitle] = useState(style);
+    const [cardStyle,setCardStyle] = useState(style);
+    const [title,setTitle] = useState(cardStyle === 'head-rating-card' || cardStyle === 'rating-card' ? style : '');
     const [image,setImage] = useState('');
     const [sectionId,setSectionId] = useState(id);
     const [rating,setRating] = useState('');
     
-    const [cardStyle,setCardStyle] = useState(style);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -49,7 +49,7 @@ const CreateSectionItem = () => {
           progress: undefined,
           theme: "light",
           });
-          navigate('/admin/manage-sections');
+          navigate(`/admin/view-section-items/${id}`);
        }
        if(res.code === 'ERR_BAD_REQUEST'){
          dispatch(resetUser());
@@ -75,17 +75,18 @@ const CreateSectionItem = () => {
         <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
          <div className='flex justify-center w-full'>
          <form onSubmit={CreateSectionItem} encType='multipart/form-data' className='flex flex-col space-y-5 w-8/12 px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >
-         <div className='rounded-2xl border border-gray-300 p-3 h-[225px] w-fit flex justify-center items-center self-center'>
+         <div className='rounded-2xl border border-gray-300 p-3 h-fit w-[200px] flex justify-center items-center self-center'>
            {/* <img src='/generalelectronics.png' className='max-w-full h-[115px] object-contain' alt="example" /> */}
-           <img src={imagePrev} className='max-w-fit h-[225px] object-contain' alt="example" />
+           <img src={imagePrev} className='object-contain' alt="example" />
           </div>
-          <div className={`  ${cardStyle === 'head-rating-card' || cardStyle === 'rating-card' ? 'hidden' :'flex'} flex-col space-y-1`}>
+          {cardStyle === 'head-rating-card' || cardStyle === 'rating-card' ? null : <div className='flex flex-col space-y-1'>
            <h5 className='text-xs font-semibold' >Section Item Title</h5>
-           <input type="text" value={title} onChange={e=>setTitle(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refrigerator' />
+           <input type="text" value={title} onChange={e=>setTitle(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='French Door Refrigerator' />
           </div>
+          }
           
           <div className='flex flex-col space-y-1' >
-           <h5 className='text-xs font-semibold' >Category Image</h5>
+           <h5 className='text-xs font-semibold' >Section Item Image</h5>
            <input type="file" accept="image/jpg, image/jpeg, image/png" onChange={onImageChange} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' />
           </div>
           {cardStyle === 'head-rating-card' || cardStyle === 'rating-card' ? <div className='flex flex-col space-y-1'>

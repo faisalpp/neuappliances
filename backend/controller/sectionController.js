@@ -59,7 +59,7 @@ const sectionController = {
       const sectionItemRegisterSchema = Joi.object({
           title: Joi.string(),
           image: Joi.string().required(),
-          rating: Joi.string(),
+          rating: Joi.string().allow('').allow(null),
           sectionId: Joi.string().required(),
         });
         const { error } = sectionItemRegisterSchema.validate(req.body);
@@ -95,9 +95,22 @@ const sectionController = {
             });
   
       
-           await sectionItemToRegister.save();
+           await sectionItemToRegister.save()
+           .then(savedSectionItem => {
+            // Step 3: Update the CategorySection's sectionItems array with the new SectionItem's ID
+            return categorySection.updateOne(
+              { _id: sectionId },
+              { $push: { sectionItemsId: savedSectionItem._id } }
+            );
+          })
+          .then(() => {
+            // Step 4: SectionItem created and associated with CategorySection successfully
+            return res.status(200).json({status:200,msg:'Section Item Created Successfully!'});
+          })
+          .catch(err => {
+            return res.status(500).json({status:500,msg:'Internal Server Error!'});
+          });
   
-          return res.status(200).json({status:200,msg:'Section Item Created Successfully!'});
       
           } catch (error) {
             return next(error);
@@ -115,35 +128,15 @@ const sectionController = {
       },
 
     async GetCategorySections(req,res,next){
-      
+      const {categoryId} = req.body;
+  
       try{
-        categorySection.aggregate([
-          {
-            $lookup: {
-              from: 'categories', // Name of the categories collection
-              localField: 'categoryId',
-              foreignField: '_id',
-              as: 'categoryData'
-            }
-          },
-          {
-            $addFields: {
-              categoryData: { $arrayElemAt: ['$categoryData', 0] }
-            }
-          }
-        ])
-          .then(categorySections => {
-            // `sections` will contain an array of sections with their corresponding category data
-            // console.log(sections);
-            return res.status(200).json({status:200,categorySections});
-          })
-          .catch(err => {
-            // Handle error
-            console.error(err);
-          });
-      }catch(error){
-        return next(error)
-      }
+        const categorySections = await categorySection.find({categoryId: categoryId});
+
+          return res.status(200).json({status:200,categorySections:categorySections});
+        }catch(error){
+          return next(error)
+        }
     }
 
 }
