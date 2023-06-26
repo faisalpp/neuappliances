@@ -1,7 +1,8 @@
 import React from 'react'
 import { AiFillStar } from 'react-icons/ai'
+import { NavLink } from 'react-router-dom';
 
-const BrandCard = ({ title, image, rating, brandimage, brandname, colorimage, colorname }) => {
+const BrandCard = ({ title, image, rating, brandimage, brandname, colorimage, colorname}) => {
     const StarIconPrinter = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
             <AiFillStar className='text-b7' /> // Render the star icon component for each iteration
@@ -9,6 +10,16 @@ const BrandCard = ({ title, image, rating, brandimage, brandname, colorimage, co
 
         return <div className='flex items-center' >{starIcons}</div>; // Render the array of star icons
     };
+
+    function hyphenToCamelCase(str) {
+        var words = str.split('-');
+        var capitalizedWords = words.map(function(word) {
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        });
+        var spaceSeparatedString = capitalizedWords.join(' ');
+        return spaceSeparatedString;
+      }
+      
 
     return (
         <div>
@@ -33,10 +44,12 @@ const BrandCard = ({ title, image, rating, brandimage, brandname, colorimage, co
             {brandimage ?
                 // Popular Brands
                 <div className='populerbrands'>
-                    <div className='rounded-2xl border border-gray-300 p-3 h-[133px] flex justify-center items-center'>
-                        <img src={brandimage} className='max-w-full h-auto object-contain' alt={brandname} />
+                    <div className='rounded-2xl border border-gray-300 p-3 h-fit w-fit flex flex-col justify-center items-center'>
+                        <img src={brandimage} className='max-w-full h-[133px] object-contain' alt={brandname} />
+                        <h3 className='font-semibold px-3 text-center text-xs'>{hyphenToCamelCase(brandname)}</h3> 
+                        <h3 className='font-semibold px-3 text-center text-xs'><StarIconPrinter numberOfTimes={rating} /></h3>
+                        <NavLink to={`/admin/view-section-items/`} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-2/3 mt-1 text-center' >Update</NavLink> 
                     </div>
-                    <h3 className='font-semibold px-3 text-center mt-3'>{brandname}</h3>
                 </div>
                 // End Popular Brands
                 : null}

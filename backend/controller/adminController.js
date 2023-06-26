@@ -1,36 +1,36 @@
 const Joi = require("joi");
-const User = require("../models/user");
+const Admin = require("../models/admin");
 const bcrypt = require("bcryptjs");
 const RefreshToken = require('../models/token');
 const JWTService = require("../services/JwtService");
-const UserDTO = require('../dto/user')
+const AdminDTO = require('../dto/admin')
 
-const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,25}$/;
+const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{7,25}$/;
 
-const authController = {
+const adminController = {
   async register(req, res, next) {
     // 1. validate user input
-    const userRegisterSchema = Joi.object({
-      firstName: Joi.string().min(5).max(30).required(),
-      lastName: Joi.string().max(30).required(),
-      email: Joi.string().email().required(),
-      phone: Joi.string().required(),
-      country: Joi.string().required(),
-      password: Joi.string().pattern(passwordPattern).required(),
-      confirmPassword: Joi.ref("password"),
-    });
-    const { error } = userRegisterSchema.validate(req.body);
+    // const userRegisterSchema = Joi.object({
+    //   firstName: Joi.string().min(5).max(30).required(),
+    //   lastName: Joi.string().max(30).required(),
+    //   email: Joi.string().email().required(),
+    //   phone: Joi.string().required(),
+    //   country: Joi.string().required(),
+    //   password: Joi.string().pattern(passwordPattern).required(),
+    //   confirmPassword: Joi.ref("password"),
+    // });
+    // const { error } = userRegisterSchema.validate(req.body);
 
     // 2. if error in validation -> return error via middleware
-    if (error) {
-      return next(error)
-    }
+    // if (error) {
+    //   return next(error)
+    // }
 
     // 3. if email or username is already registered -> return an error
-    const {firstName, lastName, email, phone,country,password } = req.body;
+    // const {firstName, lastName, email, phone,country,password } = req.body;
 
     try {
-      const emailInUse = await User.exists({ email });
+      const emailInUse = await Admin.exists({ email:'muhammadfaisal522@gmail.com' });
 
       if (emailInUse) {
         const error = {
@@ -42,20 +42,16 @@ const authController = {
       }
 
     // 4. password hash
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash('Admin12', 10);
 
-    let user;
-
-      const userToRegister = new User({
-        firstName,
-        lastName,
-        email,
-        phone,
-        country,
+      const adminToRegister = new Admin({
+        firstName:'admin',
+        lastName:'nup',
+        email:'muhammadfaisal522@gmail.com',
         password: hashedPassword,
       });
 
-      user = await userToRegister.save();
+      const admin = await adminToRegister.save();
 
     } catch (error) {
       return next(error);
@@ -66,12 +62,12 @@ const authController = {
 
   async login(req,res,next){
     // 1. validate user input
-    const userLoginSchema = Joi.object({
+    const adminLoginSchema = Joi.object({
       email: Joi.string().email().required(),
       password: Joi.string().pattern(passwordPattern).required(),
     });
 
-    const { error } = userLoginSchema.validate(req.body);
+    const { error } = adminLoginSchema.validate(req.body);
     
     // 2. if error in validation -> return error via middleware
     if (error) {
@@ -79,12 +75,10 @@ const authController = {
     }
     
     const { email, password } = req.body;
-    
-    let user;
-    
+    let admin;
     try{
-      user = await User.findOne({email});
-      if(!user){
+      admin = await Admin.findOne({email});
+      if(!admin){
          const error = {
           status: 401,
           message: "Invalid Credentials!"
@@ -92,7 +86,7 @@ const authController = {
          return next(error);
         }
 
-         const match = await bcrypt.compare(password,user.password);
+         const match = await bcrypt.compare(password,admin.password);
          if(!match){
           const error = {
             status: 401,
@@ -104,14 +98,14 @@ const authController = {
     }catch(error){
       return next(error);
     }
-    const refreshToken = JWTService.signRefreshToken({_id:user._id},'30m');
-    const accessToken = JWTService.signAccessToken({_id:user._id},'60m');
+    const refreshToken = JWTService.signRefreshToken({_id:admin._id},'30m');
+    const accessToken = JWTService.signAccessToken({_id:admin._id},'60m');
 
     // update refresh token in database
     try {
       await RefreshToken.updateOne(
         {
-          _id: user._id,
+          _id: admin._id,
         },
         { token: refreshToken },
         { upsert: true }
@@ -120,14 +114,12 @@ const authController = {
       return next(error);
     }
 
-    
-
     res.cookie('accessToken',accessToken,{httpOnly:true,maxAge: 24 * 60 * 60 * 1000});
     res.cookie('refreshToken',refreshToken,{httpOnly:true,maxAge: 24 * 60 * 60 * 1000});
 
-    const userDto = new UserDTO(user);
+    const adminDto = new AdminDTO(admin);
 
-    return res.status(200).json({status:200,user: userDto,msg:'Login Successful!',auth:true});
+    return res.status(200).json({status:200,user: adminDto,msg:'Login Successful!',auth:true});
 
   },
 
@@ -206,13 +198,13 @@ const authController = {
       return next(e);
     }
 
-    const user = await User.findOne({ _id: id });
+    const user = await Admin.findOne({ _id: id });
 
-    const UserDto = new UserDTO(user);
+    const AdminDto = new AdminDTO(user);
 
-    return res.status(200).json({ user: UserDto, auth: true });
+    return res.status(200).json({ user: AdminDto, auth: true });
   },
 
 };
 
-module.exports = authController;
+module.exports = adminController;

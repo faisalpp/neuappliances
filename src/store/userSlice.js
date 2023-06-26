@@ -6,6 +6,7 @@ const initialState = {
   firstName: "",
   lastName: "",
   auth: false,
+  isAdmin: null,
 };
 
 export const userSlice = createSlice({
@@ -13,13 +14,14 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      const { _id, email, firstName, lastName,auth } = action.payload;
+      const { _id, email, firstName, lastName,auth,isAdmin } = action.payload;
 
       state._id = _id;
       state.email = email;
       state.firstName = firstName;
       state.lastName = lastName;
       state.auth = auth;
+      state.isAdmin = isAdmin;
     },
     setUserAuth: (state, action) => {
       state.auth = action.payload.auth;
@@ -30,6 +32,7 @@ export const userSlice = createSlice({
       state.firstName = "";
       state.lastName = "";
       state.auth = false;
+      state.isAdmin = null;
     },
   },
 });

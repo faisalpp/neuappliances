@@ -11,28 +11,28 @@ const AdminItems = ({ onClose, isItems }) => {
             link: '/admin/dashboard',
         },
         {
-            title: 'Manage Orders',
+            title: 'Orders',
             link: '/admin/orders',
         },
         {
-            title: 'Manage Products',
-            link: '/admin/manage-products',
+            title: 'Products',
+            link: '/admin/products',
         },
         {
-            title: 'Manage Brands',
-            link: '/admin/manage-brands',
+            title: 'Categories',
+            link: '/admin/categories',
         },
         {
-            title: 'Manage Categories',
-            link: '/admin/manage-categories',
+            title: 'Category Sections',
+            link: '/admin/manage-sections',
         },
         {
-            title: 'Manage Shipping',
+            title: 'Shipping',
             link: '/admin/shipping',
         },
         {
             title: 'Change Password ',
-            link: '/my-account/change-password',
+            link: '/admin/change-password',
         },
         {
             title: 'Site Settings',

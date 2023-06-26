@@ -1,4 +1,4 @@
-class UserDTO{
+class AdminDTO{
     constructor(user){
         this._id = user._id;
         this.firstName = user.firstName;
@@ -8,4 +8,4 @@ class UserDTO{
     }
 }
 
-module.exports = UserDTO;
+module.exports = AdminDTO;

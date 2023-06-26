@@ -8,11 +8,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import {setUser} from '../store/userSlice'
 import { useSelector } from "react-redux";
+import {Signin} from '../api/user'
 
 const Login = () => {
 
   const navigate = useNavigate();
-  const auth = useSelector((state) => state.user.auth);
+  const isAuth = useSelector((state) => state.user.auth);
+  const isAdmin = useSelector((state) => state.user.isAdmin);
 
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
@@ -24,16 +26,7 @@ const Login = () => {
     e.preventDefault();
     const data = {email,password}
 
-    const response = await fetch('http://localhost:5000/api/login',{
-      method: "POST",
-      headers: {
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify(data),
-      credentials: 'include',
-     });
-
-     const res = await response.json();
+     const res = await Signin(data);
       if(res.status === 200){
        const user = {
          _id: res.user._id,
@@ -72,8 +65,8 @@ const Login = () => {
 
   return (
     <>
-    {!auth ?
-    <MainLayout>
+    {isAuth ? (isAdmin ? <Navigate to="/admin/dashboard" /> : <Navigate to="/my-account/profile" /> ):
+    (isAdmin === null ? <MainLayout>
     <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
 
       <div className='flex flex-col space-y-10 items-center pt-20 py-32 w-full' >
@@ -93,7 +86,7 @@ const Login = () => {
         </form>
       </div>
       <ToastContainer/>
-    </MainLayout>:<Navigate to="/my-account/profile" />}
+    </MainLayout>:null)}
     
     </>
   )

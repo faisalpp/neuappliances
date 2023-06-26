@@ -28,12 +28,21 @@ import Test from './pages/Test'
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/AdminAccount/Dashboard";
 import ManageProducts from "./pages/AdminAccount/ManageProducts";
-import ManageBrands from "./pages/AdminAccount/ManageBrands";
 import ManageCategories from "./pages/AdminAccount/ManageCategories";
-import CreateBrand from "./pages/AdminAccount/CreateBrand";
+import useAutoLogin from './hooks/useAutoLogin'
+import Loader from './components/Loader/Loader'
+import CreateCategory from "./pages/AdminAccount/CreateCategory";
+import CreateProduct from "./pages/AdminAccount/CreateProduct";
+import ManageSections from "./pages/AdminAccount/ManageSection";
+import CreateSection from "./pages/AdminAccount/CreateSection";
+import CreateSectionItem from "./pages/AdminAccount/CreateSectionItem";
+import ViewSectionItems from "./pages/AdminAccount/ViewSectionItems";
 
 function App() {
-  return (
+
+  const loading = useAutoLogin();
+
+  return loading ? (<Loader/>) : (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
@@ -63,13 +72,19 @@ function App() {
       {/* Admin Related Routes */}
       <Route path="/nu-admin" element={<AdminLogin />} />
       <Route path="/admin/dashboard" element={<Dashboard />} />
+      {/* Categories Related Routes */}
       <Route path="/admin/manage-products" element={<ManageProducts />} />
-      {/* Brand Management */}
-      <Route path="/admin/manage-brands" element={<ManageBrands />} />
-      <Route path="/admin/manage-brands/create" element={<CreateBrand />} />
-      
-
-      <Route path="/admin/manage-categories" element={<ManageCategories />} />
+      <Route path="/admin/manage-products/create" element={<CreateProduct />} />
+      {/* Category Section Related Routes */}
+      <Route path="/admin/manage-sections" element={<ManageSections />} />
+      <Route path="/admin/create-section" element={<CreateSection />} />
+      {/* Category Section Item Related Routes */}
+      <Route path="/admin/manage-sections" element={<ManageSections />} />
+      <Route path="/admin/create-section-item/:style/:id" element={<CreateSectionItem />} />
+      <Route path="/admin/view-section-items/:sectionId" element={<ViewSectionItems />} />
+      {/* Categories Related Routes */}
+      <Route path="/admin/categories" element={<ManageCategories />} />
+      <Route path="/admin/create-categories" element={<CreateCategory />} />
 
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />

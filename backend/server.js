@@ -20,7 +20,7 @@ app.use(express.json())
 app.use(cors(corsOptions));
 app.use(router);
 dbconnect();
-
+app.use("/storage", express.static("storage"));
 app.use(errorHandler);
 
 app.listen(PORT,()=>{

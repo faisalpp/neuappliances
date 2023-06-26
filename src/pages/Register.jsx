@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import countries from '../services/countries';
 import { FiChevronDown } from 'react-icons/fi';
+import {Signup} from '../api/user';
 
 const Register = () => {
 
@@ -24,15 +25,8 @@ const Register = () => {
  const Submit = async (e) => {
    const data = {firstName,lastName,email,country,phone,password,confirmPassword}
     e.preventDefault();
-     const response = await fetch('http://localhost:5000/api/register',{
-      method: "POST",
-      headers: {
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify(data),
-     });
 
-     const res = await response.json();
+     const res = await Signup(data);
      if(res.status === 200){
       toast.success('Signup Successfull!', {
         position: "top-right",

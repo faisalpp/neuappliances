@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import {setUser} from '../../store/userSlice'
 import { useSelector } from "react-redux";
+import { Signin } from '../../api/admin'
 
 const Login = () => {
 
@@ -24,23 +25,16 @@ const Login = () => {
     e.preventDefault();
     const data = {email,password}
 
-    const response = await fetch('http://localhost:5000/api/login',{
-      method: "POST",
-      headers: {
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify(data),
-      credentials: 'include',
-     });
-
-     const res = await response.json();
-      if(res.status === 200){
+     const res = await Signin(data);
+  
+     if(res.status === 200){
        const user = {
-         _id: res.user._id,
-         email: res.user.email,
-         firstName: res.user.firstName,
-         lastName: res.user.lastName,
-         auth: res.auth,
+         _id: res.data.user._id,
+         email: res.data.user.email,
+         firstName: res.data.user.firstName,
+         lastName: res.data.user.lastName,
+         auth: res.data.auth,
+         isAdmin: res.data.user.isAdmin,
        }
        dispatch(setUser(user));
 
@@ -54,7 +48,7 @@ const Login = () => {
         progress: undefined,
         theme: "light",
         });
-        navigate('/my-account/profile');
+        navigate('/admin/dashboard');
      }else{
       toast.error(res.message, {
         position: "top-right",
@@ -93,7 +87,7 @@ const Login = () => {
         </form>
       </div>
       <ToastContainer/>
-    </MainLayout>:<Navigate to="/my-account/profile" />}
+    </MainLayout>:<Navigate to="/admin/dashboard" />}
     
     </>
   )
