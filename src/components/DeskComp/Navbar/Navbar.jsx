@@ -141,12 +141,12 @@ const Navbar = ({ sCart, setSCart }) => {
               <div className='col-start-1 col-end-2 flex flex-col items-center' >
                 <h4 className='font-semibold xl:whitespace-nowrap' >How It Works</h4>
                 <div className='flex flex-col space-y-4 text-xs font-medium mt-4 text-white/80' >
-                  <Link to="/how-it-works">What We Sell</Link>
-                  <Link to="/how-it-works">Rating System</Link>
-                  <Link to="/how-it-works">Testing Process</Link>
-                  <Link to="/how-it-works">Product Photos</Link>
-                  <Link to="/how-it-works">Delivery</Link>
-                  <Link to="/how-it-works">Warranty & Return</Link>
+                  <Link to="/how-it-works/what-we-sell">What We Sell</Link>
+                  <Link to="/how-it-works/rating-system">Rating System</Link>
+                  <Link to="/how-it-works/testing-process">Testing Process</Link>
+                  <Link to="/how-it-works/product-photos">Product Photos</Link>
+                  <Link to="/how-it-works/delivery">Delivery</Link>
+                  <Link to="/how-it-works/hassle-free">Warranty & Return</Link>
                 </div>
               </div>
 
@@ -174,7 +174,7 @@ const Navbar = ({ sCart, setSCart }) => {
               <div className='col-start-8 col-end-11' >
                 <h4 className='font-semibold' >Help & Support</h4>
                 <div className='flex flex-col space-y-4 text-xs mt-4 font-medium text-white/80' >
-                  <Link to="">Help Placing an Order Us</Link>
+                  <Link to="/help-and-support">Help Placing an Order Us</Link>
                   <Link to="">Return and Exchange</Link>
                   <Link to="">Contact Us</Link>
                 </div>
