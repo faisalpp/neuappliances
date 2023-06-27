@@ -3,6 +3,7 @@ import MainLayout from '../../layout/MainLayout';
 import ShopAustinSection from '../../components/Appliances/ShopAustinSection';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
+import { FiChevronRight } from 'react-icons/fi';
 
 const HowItWorks = ({ children }) => {
     const location = useLocation();
@@ -12,31 +13,37 @@ const HowItWorks = ({ children }) => {
             id: 1,
             title: 'What We Sell',
             link: '/how-it-works/what-we-sell',
+            icon: 'sell.png',
         },
         {
             id: 2,
             title: 'Ratings',
             link: '/how-it-works/rating-system',
+            icon: 'hotel_class.png',
         },
         {
             id: 3,
             title: 'Tested',
             link: '/how-it-works/testing-process',
+            icon: 'build.png',
         },
         {
             id: 4,
             title: 'Photos',
             link: '/how-it-works/product-photos',
+            icon: 'magic_exchange.png',
         },
         {
             id: 5,
             title: 'Delivered',
             link: '/how-it-works/delivery',
+            icon: 'local_shipping.png',
         },
         {
             id: 6,
             title: 'Hassle-Free',
             link: '/how-it-works/hassle-free',
+            icon: 'gpp_maybe.png',
         }
     ];
 
@@ -59,13 +66,13 @@ const HowItWorks = ({ children }) => {
                     {/* tabs */}
                     <div className='flex maxxl:flex-wrap maxxl:justify-center xl:columns-6 gap-4'>
                         {TABS.map((tab) => (
-                            <Link to={tab.link} key={tab.id} className={`xl:w-full py-4 px-8 rounded-2xl flex justify-center gap-[10px] ${location.pathname === tab.link ? 'active bg-b3 font-bold text-white' : 'bg-b11 text-black'}`} >
+                            <Link to={tab.link} key={tab.id} className={`xl:w-full items-center py-4 px-8 rounded-2xl flex justify-center gap-2 xl:whitespace-nowrap ${location.pathname === tab.link ? 'active bg-b3 font-bold text-white' : 'bg-b11 text-black'}`} >
+                                {
+                                    location.pathname === tab.link ?
+                                        <img src={`/svgs/` + tab.icon} className='w-8 h-8' alt={tab.title} />
+                                        : null
+                                }
                                 {tab.title}
-                                {/* {
-                                        location.pathname === item.link ?
-                                            <FiChevronRight />
-                                            : null
-                                    } */}
                             </Link>
                         ))}
                     </div>
