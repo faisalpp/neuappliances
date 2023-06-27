@@ -15,14 +15,25 @@ const corsOptions = {
 const app = express();
 
 app.use(cookieParser())
-app.use(express.json())
 // Increase payload size limit for JSON requests
 app.use(express.json({ limit: '10mb' }));
 
 // Increase payload size limit for URL-encoded requests
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
+app.use(express.json())
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      return callback(null, true);
+    },
+    optionsSuccessStatus: 200,
+    credentials: true,
+  })
+);
+
 app.use(router);
 dbconnect();
 app.use("/storage", express.static("storage"));

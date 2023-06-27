@@ -15,7 +15,7 @@ const ManageProducts = () => {
          <div className='flex mb-5 bg-b5 py-3 rounded-3xl px-10 shadow-md w-full' >
             <div className='flex items-center border-[1px] rounded-xl border-gray-200' ><AiOutlineSearch className='text-gray-400 ml-3' /><input placeholder='Search Products' className='text-sm px-2 outline-none' /></div>
             <div className='flex w-full justify-end space-x-3' >
-             <NavLink to="/admin/manage-products/create" className='bg-b3 text-white text-sm px-2 rounded-md cursor-pointer py-1' >Create Product</NavLink>
+             <NavLink to="/admin/create-product" className='bg-b3 text-white text-sm px-2 rounded-md cursor-pointer py-1' >Create Product</NavLink>
             </div>
          </div>
          

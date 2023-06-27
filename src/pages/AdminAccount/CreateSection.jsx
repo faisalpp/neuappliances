@@ -16,7 +16,7 @@ const CreateSection = () => {
     const [categoryId,setCategoryId] = useState(id);
     const [title,setTitle] = useState('');
     const [slug,setSlug] = useState('');
-    const [type,setType] = useState('');
+    const [type,setType] = useState('cosmatic-rating');
     const [cardStyle,setCardStyle] = useState('head-rating-card');
 
     const navigate = useNavigate();
@@ -84,9 +84,20 @@ const CreateSection = () => {
            </div>
           </div>
           {/* Select Category  End*/}
-          <div className='flex flex-col space-y-1'>
-           <h5 className='text-xs font-semibold' >Section Type</h5>
-           <input type="text" value={type} onChange={e=>setType(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Rating ,Features, Types, Colors, Brands, Fuel Type' />
+          
+          <div>
+           <label className='text-b16 font-semibold text-xs block mb-2'>Section Type<i className='text-red-500' >*</i></label>
+           <div className='relative'>
+            <select onChange={e=>setType(e.target.value)} className='border border-[rgba(0,0,0,0.16)] rounded-lg h-10 text-sm px-4 w-full outline-none appearance-none'>
+             <option value='cosmatic-rating' >Cosmatic Rating</option>
+             <option value='features' >Product Features</option>
+             <option value='types' >Product Types</option>
+             <option value='colors' >Product Finishes & Colors</option>
+             <option value='brands' >Product Brands</option>
+             <option value='fuel-type' >Product Fuel Types</option>
+            </select>
+            <FiChevronDown className='absolute right-4 top-3' />
+           </div>
           </div>
           <div className='flex flex-col space-y-1'>
            <h5 className='text-xs font-semibold' >Category Title</h5>

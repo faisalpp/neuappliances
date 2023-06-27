@@ -139,6 +139,28 @@ export const createSectionItem = async (data) => {
     return response;
 }
 
+export const updateSectionItem = async (data) => {
+    let response;
+
+    try{
+        response = await AdminApi.post('/update-section-item',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const getSectionItemById = async (data) => {
+    let response;
+
+    try{
+        response = await AdminApi.post('/section-item-by-id',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
 export const getSectionItems = async (data) => {
     let response;
     
