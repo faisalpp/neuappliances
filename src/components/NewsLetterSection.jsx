@@ -14,7 +14,7 @@ const NewsLetterSection = ({ backimage }) => {
         </div>
         <div className='col-start-7 col-end-12 flex flex-col space-y-2 [&>*]:text-b16' >
           <h4 className='font-bold text-sm' >Email</h4>
-          <div className='flex lg:flex-row flex-col lg:space-y-0 space-y-2 space-x-5 items-center' ><input type="email" className='text-xs lg:py-3 xl:py-3 py-2 px-2 rounded-md w-72 placeholder:text-[#777E90]' placeholder='Type here' /><a href='' className='bg-b3 px-7 py-3 text-xs font-bold rounded-md w-max text-white whitespace-nowrap' >Get Updates</a></div>
+          <div className='flex lg:flex-row flex-col lg:space-y-0 space-y-2 space-x-5 items-center' ><input type="email" className='text-xs lg:py-3 xl:py-3 py-2 px-2 rounded-md w-72 placeholder:text-[#777E90] placeholder:font-normal' placeholder='Type here' /><a href='' className='bg-b3 px-7 py-3 text-xs font-bold rounded-md w-max text-white whitespace-nowrap' >Get Updates</a></div>
           <div className='flex items-center space-x-3 py-2' >
             <InputCheckbox />
             {/* <Checkbox color='black' checked ripple={true} /> */}

@@ -39,38 +39,6 @@ const HowItWorks = () => {
     return (
         <>
             <MainLayout>
-                <div className='py-10 lg:py-16 xl:py-20 w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
-                    {/* Bread Crumbs Start */}
-                    <div className='flex items-center' >
-                        <h5 className='text-xs text-b3' >Home</h5><RiArrowDropRightLine className='text-xl text-b19' /><h5 className='text-xs text-black' >Scratch and  Dent</h5>
-                    </div>
-                    {/* Bread Crumbs End */}
-                </div>
-
-
-                <div className='w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
-                    <h1 className='text-4xl font-bold text-center mb-60px'>
-                        How it Works
-                    </h1>
-                    {/* tabs */}
-                    <div className='flex maxxl:flex-wrap maxxl:justify-center xl:columns-5 gap-4'>
-                        {TABS.map((tab) => (
-                            <button key={tab.id}
-                                className={`xl:w-full py-4 px-8 rounded-2xl flex justify-center gap-[10px] ${activeTab === tab.id ? 'active bg-b3 font-bold text-white' : 'bg-b11 text-black'}`}
-                                onClick={() => handleTabClick(tab.id)}>
-                                {tab.title}
-                            </button>
-                        ))}
-                    </div>
-
-                    <div className={`content ${fadeOut ? 'fade-out' : ''}`}>
-                        {ActiveTabContent && <ActiveTabContent />}
-                    </div>
-                </div>
-
-                <ShopAustinSection />
-
-                {/* Reviews Section */}
 
             </MainLayout>
         </>

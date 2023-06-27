@@ -47,26 +47,25 @@ import ViewSectionItems from "./pages/AdminAccount/ViewSectionItems";
 import { useSelector } from "react-redux";
 import UpdateSection from "./pages/AdminAccount/UpdateSection";
 import UpdateCategory from "./pages/AdminAccount/UpdateCategory";
-import UpdateSectionItem from "./pages/AdminAccount/UpdateSectionItem";
 
 function App() {
 
-  
+
   const ProtectedAdmin = ({ children }) => {
     const loading = useAutoLoginAdmin();
-    return loading ? <Loader/> : <>{children}</>;
+    return loading ? <Loader /> : <>{children}</>;
   }
   const ProtectedUser = ({ children }) => {
     const loading = useAutoLoginUser();
-    return loading ? <Loader/> : <>{children}</>;
+    return loading ? <Loader /> : <>{children}</>;
   }
 
   const AuthRoute = ({ children }) => {
-    const isAuth = useSelector((state)=>state.user.isAuth)
+    const isAuth = useSelector((state) => state.user.isAuth)
     const navigate = useNavigate()
-    return isAuth ? navigate(-1) : <>{children}</> ;
+    return isAuth ? navigate(-1) : <>{children}</>;
   }
-  
+
 
   return (
     <Routes>
@@ -90,7 +89,7 @@ function App() {
       {/* Blogs */}
       <Route path="/blogs" element={<Blogs />} />
       <Route path="/blog-article" element={<BlogArticle />} />
-      
+
       <Route path="/my-account/profile" element={<ProtectedUser><Profile /></ProtectedUser>} />
       <Route path="/my-account/order-history" element={<ProtectedUser><OrderHistory /></ProtectedUser>} />
       <Route path="/my-account/my-favourites" element={<ProtectedUser><MyFavourite /></ProtectedUser>} />
@@ -103,7 +102,13 @@ function App() {
 
       <Route path="/stay-in-loop" element={<StayInLoop />} />
 
-      <Route path="/how-it-works" element={<HowItWorks />} />
+      {/* <Route path="/how-it-works" element={<HowItWorks />} /> */}
+      <Route path="/how-it-works/what-we-sell" element={<WhatWeSell />} />
+      <Route path="/how-it-works/rating-system" element={<Ratings />} />
+      <Route path="/how-it-works/testing-process" element={<Tested />} />
+      <Route path="/how-it-works/product-photos" element={<Photos />} />
+      <Route path="/how-it-works/delivery" element={<Delivered />} />
+      <Route path="/how-it-works/hassle-free" element={<HassleFree />} />
 
       <Route path="/help-and-support" element={<HelpAndSupport />} />
 

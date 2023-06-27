@@ -37,15 +37,15 @@ const ProductCard = ({ title, dicount, type, stars, discount, codmetics }) => {
   };
   return (
     <div className='flex flex-col maxmd:max-w-[330px] relative maxmd:mx-auto bg-white w-full h-auto rounded-md p-4 sm:p-6 md:p-8 lg:p-6 shadow-md' >
-      {type == 1 ? <div className='absolute top-0 left-2 flex items-center bg-b9 w-fit px-3 rounded-b-2xl ml-2 justify-center h-6 gap-x-2 text-white' ><AiOutlineDollar /><span className='text-xs' >Best Value</span></div> : null}
-      {type == 2 ? <div className='absolute top-0 left-2  flex items-center bg-b3 w-fit px-3 rounded-b-2xl ml-2 justify-center h-7 gap-x-2 text-white' ><BsFire /> <span className='text-xs' >Most Popular</span></div> : null}
-      {type == 3 ? <div className='absolute top-0 left-2  flex items-center bg-b7 w-fit rounded-b-2xl ml-2 justify-center px-3 h-7 gap-x-2 text-white' ><BsFire /> <span className='text-xs' >Premium Condition</span></div> : null}
+      {type === 1 ? <div className='absolute top-0 left-2 flex items-center bg-b9 w-fit px-3 rounded-b-2xl ml-2 justify-center h-6 gap-x-2 text-white' ><AiOutlineDollar /><span className='text-xs' >Best Value</span></div> : null}
+      {type === 2 ? <div className='absolute top-0 left-2  flex items-center bg-b3 w-fit px-3 rounded-b-2xl ml-2 justify-center h-7 gap-x-2 text-white' ><img src="/svgs/local_fire_department.png" alt="" /> <span className='text-xs' >Most Popular</span></div> : null}
+      {type === 3 ? <div className='absolute top-0 left-2  flex items-center bg-b7 w-fit rounded-b-2xl ml-2 justify-center px-3 h-7 gap-x-2 text-white' ><img src="/svgs/star_rate_half.png" alt="star_rate_half" /> <span className='text-xs' >Premium Condition</span></div> : null}
       <div className='flex flex-col items-center justify-center mt-4 w-full' >
         <div className='flex justify-center items-center text-center gap-x-1 text-sm sm:text-base xl:text-[0.98rem]' ><h4 className='font-bold' >{title}:</h4><span className='font-semibold' >{stars} Stars</span></div>
         <div className='flex gap-x-3 mt-2' ><StarIconPrinter numberOfTimes={stars} /></div>
-        {type == 1 ? <h4 className='text-b9 font-semibold text-sm mt-3' >Moderate Cosmetic Damage</h4> : null}
-        {type == 2 ? <h4 className='text-b9 font-semibold text-sm mt-3' >Minor Cosmetic Damage</h4> : null}
-        {type == 3 ? <h4 className='text-b9 font-semibold text-sm mt-3' >very Minor To No Cosmetic Damage</h4> : null}
+        {type === 1 ? <h4 className='text-b9 font-semibold text-sm mt-3' >Moderate Cosmetic Damage</h4> : null}
+        {type === 2 ? <h4 className='text-b9 font-semibold text-sm mt-3' >Minor Cosmetic Damage</h4> : null}
+        {type === 3 ? <h4 className='text-b9 font-semibold text-sm mt-3' >very Minor To No Cosmetic Damage</h4> : null}
         <div className='flex items-center mt-2 gap-x-1 bg-b10 rounded-xl px-2 py-1 text-white' ><AiOutlineCheckCircle /><span className='text-xs' >100% Functional</span></div>
         <div className='relative pt-5 w-full' >
           <ProductSlider products={products} />

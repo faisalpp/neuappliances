@@ -9,7 +9,7 @@ const MassiveAppliance = ({ sliderstyle }) => {
     return (
         <>
             <div className='py-10 lg:py-16 xl:py-20 2xl:py-120px w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-100px mx-auto bg-b8'>
-                <h2 className='font-semibold text-xl lg:text-2xl text-center mb-5 lg:mb-10 xl:mb-[60px]'>Shop Massive Discount Appliances</h2>
+                <h2 className='font-bold text-xl lg:text-2xl xl:text-32px text-center mb-5 lg:mb-10 xl:mb-[60px]'>Shop Massive Discount Appliances</h2>
 
                 <CosmaticSlider sliderstyle={sliderstyle} />
 
