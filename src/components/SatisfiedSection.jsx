@@ -31,7 +31,11 @@ const SatisfiedSection = ({ title, dots, SectionStyle }) => {
   ];
   return (
     <div className={`flex flex-col justify-center max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-[112px] mx-auto py-10 lg:py-16 xl:py-20 2xl:py-120px ${SectionStyle} ${dots ? 'mb-7' : ''}`} >
-      <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-[32px] font-bold text-center pb-7 xl:pb-20' >{title}</h4>
+      {
+        title ?
+          <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-[32px] font-bold text-center pb-7 xl:pb-20' >{title}</h4>
+          : null
+      }
       <div className="relative" >
         <ReviewExSlider clientreviews={clientreviews} dots={dots} />
       </div>
