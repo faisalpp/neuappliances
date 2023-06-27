@@ -9,21 +9,33 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from "react-redux";
 import {createCategory} from '../../api/admin'
 import { resetUser } from '../../store/userSlice';
-
+import { Listbox } from '@headlessui/react'
 const CreateProduct = () => {
+   
+   const [title,setTitle] = useState('');
+   const [slug,setSlug] = useState('');
+   const [category,setCategory] = useState('');
+   const [salePrice,setSalePrice] = useState('');
+   const [regularPrice,setRegularPrice] = useState('');
+   const [key1,setKey1] = useState('');
+   const [key2,setKey2] = useState('');
+   const [key3,setKey3] = useState('');
+   const [key4,setKey4] = useState('');
+   const [stock,setStock] = useState('');
+   const [rating,setRating] = useState('');
+   const [images,setImages] = useState([]);
+   const [featuresVideo,setFeaturesVideo] = useState('');
+   const [threeSixty,setThreeSixty] = useState('');
+   const [modelNo,setModelNo] = useState('');
+   const [itemId,setItemId] = useState('');
+   const [brand,setBrand] = useState('');
+   const [fuelTypes,setFuelTypes] = useState('');
+   const [dryerOptions,setDryerOptions] = useState('');
+   const [description,setDescription] = useState('');
+   const [specification,setSpecification] = useState('');
+   const [deliveryInfo,setDeliveryInfo] = useState('');
+   const [installmentLow,setIntallmentLow] = useState('');
 
-    const [images,setImages] = useState([])
-    const [featuresVideo,setFeaturesVideo] = useState('');
-    const [title,setTitle] = useState('');
-    const [slug,setSlug] = useState('');
-    const [brand,setBrand] = useState('');
-    const [modelNo,setModelNo] = useState('');
-    const [itemId,setItemId] = useState('');
-    const [stock,setStock] = useState('');
-    const [category,setCategory] = useState('');
-    const [rating,setRating] = useState('');
-    const [salePrice,setSalePrice] = useState('');
-    const [regularPrice,setRegularPrice] = useState('');
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -138,6 +150,46 @@ const CreateProduct = () => {
 
           </div>
           {/* Input Group End*/}
+
+          {/* Input Group */}
+          <div className='flex space-x-2 items-center' >
+           <div className='flex flex-col space-y-1 w-1/2'>
+            <h5 className='text-xs font-semibold' >Bullet Description 1 <i className='text-red-500' >*</i></h5>
+            <input type="text" value={key1} onChange={e=>setKey1(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refregerator' />
+           </div>
+
+           <div className='flex flex-col space-y-1 w-1/2'>
+            <h5 className='text-xs font-semibold' >Bullet Description 2 <i className='text-red-500' >*</i></h5>
+            <input type="text" value={key2} onChange={e=>setKey2(e.target.value)}  readOnly className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refregerator' />
+           </div>
+          </div>
+          {/* Input Group End*/}
+          {/* Input Group */}
+          <div className='flex space-x-2 items-center' >
+           <div className='flex flex-col space-y-1 w-1/2'>
+            <h5 className='text-xs font-semibold' >Bullet Description 3 <i className='text-red-500' >*</i></h5>
+            <input type="text" value={key3} onChange={e=>setKey3(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refregerator' />
+           </div>
+
+           <div className='flex flex-col space-y-1 w-1/2'>
+            <h5 className='text-xs font-semibold' >Bullet Description 4<i className='text-red-500' >*</i></h5>
+            <input type="text" value={key4} onChange={e=>setKey4(e.target.value)}  readOnly className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refregerator' />
+           </div>
+          </div>
+          {/* Input Group End*/}
+          {/* Input Group */}
+          <div className='flex space-x-2 items-center' >
+           <div className='flex flex-col space-y-1 w-1/2'>
+            <h5 className='text-xs font-semibold' >Product Sale Price</h5>
+            <input type="text" value={salePrice} onChange={e=>setSalePrice(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refregerator' />
+           </div>
+
+           <div className='flex flex-col space-y-1 w-1/2'>
+            <h5 className='text-xs font-semibold' >Product Regular Price <i className='text-red-500' >*</i></h5>
+            <input type="text" value={regularPrice} onChange={e=>setRegularPrice(e.target.value)}  readOnly className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refregerator' />
+           </div>
+          </div>
+          {/* Input Group End*/}
           
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
@@ -151,6 +203,10 @@ const CreateProduct = () => {
            </div>
           </div>
           {/* Input Group End*/}
+           <div className='flex flex-col space-y-1 w-full' >
+            <h5 className='text-xs font-semibold' >Three Sixty Product Images <i className='text-red-500' >* (Zip Format)</i></h5>
+            <input type="file" accept="file" onChange={e=>setThreeSixty(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' />
+           </div>
 
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
@@ -193,7 +249,32 @@ const CreateProduct = () => {
            </div>
           </div>
           {/* Input Group End*/}
+          {/* Input Group */}
+          <div className='flex space-x-2 items-center' >
+           <div className='flex flex-col space-y-1 w-1/2'>
+            <h5 className='text-xs font-semibold' >Lower Instalment Amount <i className='text-red-500' >*</i></h5>
+            <input type="text" value={salePrice} onChange={e=>setSalePrice(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refregerator' />
+           </div>
+           <div className='flex flex-col space-y-1 w-1/2'>
+            <h5 className='text-xs font-semibold' >High Instalment Amount <i className='text-red-500' >*</i></h5>
+            <input type="text" value={regularPrice} onChange={e=>setRegularPrice(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refregerator' />
+           </div>
 
+          </div>
+          {/* Input Group End*/}
+
+          <div className='flex flex-col space-y-1 w-full'>
+            <h5 className='text-xs font-semibold' >Product Description <i className='text-red-500' >*</i></h5>
+            <textarea type="text" value={description} onChange={e=>setDescription(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md'  placeholder='Product Description'></textarea>
+          </div>
+          <div className='flex flex-col space-y-1 w-full'>
+            <h5 className='text-xs font-semibold' >Product Specification <i className='text-red-500' >*</i></h5>
+            <textarea type="text" value={specification} onChange={e=>setSpecification(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md'  placeholder='Product Specification'></textarea>
+          </div>
+          <div className='flex flex-col space-y-1 w-full'>
+            <h5 className='text-xs font-semibold' >Product Delivery Info <i className='text-red-500' >*</i></h5>
+            <textarea type="text" value={deliveryInfo} onChange={e=>setDeliveryInfo(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md'  placeholder='Product Delviery Info'></textarea>
+          </div>
           <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a></button>
           </form>
          </div>
