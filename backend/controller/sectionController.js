@@ -10,6 +10,7 @@ const sectionController = {
     const sectionRegisterSchema = Joi.object({
         title: Joi.string().required(),
         cardStyle: Joi.string().required(),
+        type: Joi.string().required(),
         slug: Joi.string().required(),
         categoryId: Joi.string().required(),
       });
@@ -20,7 +21,7 @@ const sectionController = {
         return next(error)
       }
 
-      const {cardStyle,title,slug,categoryId} = req.body;
+      const {cardStyle,title,slug,categoryId,type} = req.body;
       
       try {
         
@@ -39,6 +40,7 @@ const sectionController = {
     
           const categorySectionToRegister = new categorySection({
             cardStyle,
+            type,
             title,
             slug: slug,
             categoryId
@@ -53,6 +55,51 @@ const sectionController = {
           return next(error);
         }
     },
+    async UpdateSection(req,res,next){
+    
+      // 1. validate user input
+      const sectionRegisterSchema = Joi.object({
+          title: Joi.string().required(),
+          cardStyle: Joi.string().required(),
+          slug: Joi.string().required(),
+          sectionId: Joi.string().required(),
+        });
+        const { error } = sectionRegisterSchema.validate(req.body);
+    
+        // 2. if error in validation -> return error via middleware
+        if (error) {
+          return next(error)
+        }
+  
+        const {cardStyle,title,slug,sectionId} = req.body;
+
+        
+        try {
+          
+  
+        const findSection = await categorySection.find({ _id:sectionId });
+    
+          if (!findSection) {
+            const error = {
+              status: 404,
+              message: "Category Section Not Found!",
+            };
+    
+            return next(error);
+          }
+      
+          const updatedSection = await categorySection.findByIdAndUpdate(
+            sectionId,
+            {cardStyle:cardStyle,title:title,slug:slug},
+            { new: true }
+          );
+  
+          return res.status(200).json({status:200,msg:'Category Section Updated Successfully!'});
+      
+          } catch (error) {
+            return next(error);
+          }
+      },
     async CreateSectionItem(req,res,next){
     
       // 1. validate user input
@@ -134,6 +181,17 @@ const sectionController = {
         const categorySections = await categorySection.find({categoryId: categoryId});
 
           return res.status(200).json({status:200,categorySections:categorySections});
+        }catch(error){
+          return next(error)
+        }
+    },
+    async GetCategorySectionById(req,res,next){
+      const {sectionId} = req.body;
+  
+      try{
+        const section = await categorySection.find({_id:sectionId});
+
+          return res.status(200).json({status:200,section:section});
         }catch(error){
           return next(error)
         }

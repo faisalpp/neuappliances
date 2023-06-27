@@ -20,8 +20,8 @@ const applianceController = {
       .exec()
       .then(categorySections => {
         // categorySections will contain an array of CategorySection documents
-        console.log(categorySections)
-        return res.status(200).json({status:200,categorySections:categorySections,categoryDescription:category.description});
+        console.log(category)
+        return res.status(200).json({status:200,categorySections:categorySections,categoryDescription:category.description,categoryTitle:category.title});
       })
       .catch(err => {
         return res.status(500).json({status:500,msg:"Internal Server Error!"});

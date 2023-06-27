@@ -27,9 +27,13 @@ router.post('/api/admin/login', adminController.login);
 router.get('/api/admin/refresh', adminController.refresh);
 // Categories Related Routes
 router.get('/api/admin/get-categories',adminAuth,categoryController.GetCategories);
+router.post('/api/admin/category-by-id',adminAuth,categoryController.GetCategoryById);
 router.post('/api/admin/create-category',adminAuth,categoryController.CreateCategory);
+router.post('/api/admin/update-category',adminAuth,categoryController.UpdateCategory);
 // Sections Related Routes
 router.post('/api/admin/create-section',adminAuth,categorySection.CreateSection);
+router.post('/api/admin/update-section',adminAuth,categorySection.UpdateSection);
+router.post('/api/admin/section-by-id',adminAuth,categorySection.GetCategorySectionById);
 router.post('/api/admin/sections',adminAuth,categorySection.GetCategorySections);
 // Section Item Related Routes
 router.post('/api/admin/create-section-item',adminAuth,categorySection.CreateSectionItem);

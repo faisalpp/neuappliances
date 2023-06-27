@@ -2,29 +2,53 @@ import React from 'react';
 import AdminAccount from '../../layout/AdminAccount';
 import {BsArrowRightShort} from 'react-icons/bs'
 import {FiChevronDown} from 'react-icons/fi'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {createSection} from '../../api/admin'
+import {updateSection,getSectionById} from '../../api/admin'
 import {useParams} from 'react-router-dom'
 
-const CreateSection = () => {
+const UpdateSection = () => {
 
   const {id,categoryTitle} = useParams()
 
-    const [categoryId,setCategoryId] = useState(id);
+    const [sectionId,setSectionId] = useState(id);
     const [title,setTitle] = useState('');
+    const [destIndex,setDestIndex] = useState();
     const [slug,setSlug] = useState('');
-    const [type,setType] = useState('');
-    const [cardStyle,setCardStyle] = useState('head-rating-card');
+    const [cardStyle,setCardStyle] = useState('');
 
     const navigate = useNavigate();
+
+    useEffect(() => {      
+        const GetSectionById = async () => {
+        const data = {sectionId};
+        const res = await getSectionById(data);
+        if(res.status === 200){
+            setTitle(res.data.section[0].title);
+            setSlug(res.data.section[0].slug);
+            setCardStyle(res.data.section[0].cardStyle);
+        }else{
+            toast.error(res.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+      }
+    }
+    GetSectionById()
+  },[]);
   
-    const CreateBrand = async (e) => {
+    const UpdateSection = async (e) => {
       e.preventDefault();
-      const data = {title,slug,cardStyle,categoryId,type}
-      const res = await createSection(data);
+      const data = {title,slug,cardStyle,sectionId}
+      const res = await updateSection(data);
       if(res.status === 200){
          toast.success(res.msg, {
           position: "top-right",
@@ -63,7 +87,7 @@ const CreateSection = () => {
         <AdminAccount>
         <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
          <div className='flex justify-center w-full'>
-         <form onSubmit={CreateBrand} encType='multipart/form-data' className='flex flex-col space-y-5 w-8/12 px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >
+         <form onSubmit={UpdateSection} encType='multipart/form-data' className='flex flex-col space-y-5 w-8/12 px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >
           <div className='flex flex-col space-y-1'>
            <h5 className='text-xs font-semibold' >Section Title</h5>
            <input type="text" value={title} onChange={handleTitle} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refrigerators By Styles' />
@@ -85,14 +109,6 @@ const CreateSection = () => {
           </div>
           {/* Select Category  End*/}
           <div className='flex flex-col space-y-1'>
-           <h5 className='text-xs font-semibold' >Section Type</h5>
-           <input type="text" value={type} onChange={e=>setType(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Rating ,Features, Types, Colors, Brands, Fuel Type' />
-          </div>
-          <div className='flex flex-col space-y-1'>
-           <h5 className='text-xs font-semibold' >Category Title</h5>
-           <input type="text" value={categoryTitle} readOnly className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refrigerators-by-styles' />
-          </div>
-          <div className='flex flex-col space-y-1'>
            <h5 className='text-xs font-semibold' >Url Slug</h5>
            <input type="text" value={slug} readOnly className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refrigerators-by-styles' />
           </div>
@@ -105,4 +121,4 @@ const CreateSection = () => {
     )
 }
 
-export default CreateSection
+export default UpdateSection

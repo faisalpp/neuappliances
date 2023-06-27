@@ -7,6 +7,8 @@ const AdminApi = axios.create({
     headers: {
         "Content-Type":"application/json",
     },
+    maxContentLength: 10 * 1024 * 1024, // 10 megabytes (10MB)
+    maxBodyLength: 10 * 1024 * 1024, // 10 megabytes (10MB)
 });
 
 const AdminRegApi = axios.create({
@@ -62,6 +64,27 @@ export const createCategory = async (data) => {
     return response;
 }
 
+export const updateCategory = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/update-category',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const getCategoryById = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/category-by-id',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
 export const createSection = async (data) => {
     let response;
 
@@ -73,11 +96,32 @@ export const createSection = async (data) => {
     return response;
 }
 
+export const updateSection = async (data) => {
+    let response;
+
+    try{
+        response = await AdminApi.post('/update-section',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
 export const getSection = async (data) => {
     let response;
     
     try{
         response = await AdminApi.post('/sections',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const getSectionById = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/section-by-id',data);
     }catch (error){
         return error;
     }

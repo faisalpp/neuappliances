@@ -154,6 +154,12 @@ const ProductSection = ({data}) => {
                             {section.sectionItemsId.map((product)=><ProductCard key={product.title} title={product.title} image={`http://localhost:5000/storage/sectionItems/${product.image}`} />)}
                         </div>
                     </div>:null}
+                     {section.cardStyle === '2xn-card' ? <div>
+                        <RelatedProducts title={section.title} />
+                        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6 mt-8'>
+                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} title={product.title} image={`http://localhost:5000/storage/sectionItems/${product.image}`} />)}
+                        </div>
+                    </div>:null}
 
 
                     {section.cardStyle === 'brand-card' ?<div>

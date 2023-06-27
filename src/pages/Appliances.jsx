@@ -15,6 +15,7 @@ const Appliances = () => {
 
   const [sections,setSections] = useState([]);
   const [description,setDescription] = useState('');
+  const [catTitle,setCatTitle] = useState('');
   const {categorySlug,categoryId} = useParams();
 
   const data = {categoryId};
@@ -24,6 +25,8 @@ const Appliances = () => {
           if(res.status === 200){
               setSections(res.data.categorySections);
               setDescription(res.data.categoryDescription);
+              setCatTitle(res.data.categoryTitle);
+              console.log(res)
           }
       }
       getAppliances();
@@ -38,9 +41,9 @@ const Appliances = () => {
             <h5 className='text-xs text-b3' >Home</h5><RiArrowDropRightLine className='text-xl text-b3' /><h5 className='text-xs text-black' >Appliances</h5><RiArrowDropRightLine className='text-xl text-gray-300' /><h5 className='text-xs text-gray-500' >{categorySlug}</h5>
           </div>
           {/* Bread Crumbs End */}
-          <ApplianceDetail title="Refrigerators" description={description} />
+          <ApplianceDetail title={catTitle} description={description} />
         </div>
-        {sections.map((section)=> (section.slug === "cosmatic-rating-head" ? <CosmaticRating section={section} />:null))}
+        {sections.map((section)=> (section.cardStyle === "head-rating-card" ? <CosmaticRating section={section} />:null))}
         <ProductSection data={sections} />
         {/* Shop Austin Section */}
         <ShopAustinSection />
