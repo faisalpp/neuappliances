@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser')
 
 const corsOptions = {
   credentials: true,
-  origin: ["http://localhost:3000"],
+  origin: ["http://localhost:3000","https://neuappliances.vercel.app"],
 };
 
 const app = express();
