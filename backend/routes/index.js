@@ -24,6 +24,7 @@ router.post('/api/user/update-profile',auth,userProfileController.UpdateProfile)
 // Admin Related Routes
 router.get('/api/admin/register', adminController.register);
 router.post('/api/admin/login', adminController.login);
+router.get('/api/admin/logout', adminController.logout);
 router.get('/api/admin/refresh', adminController.refresh);
 // Categories Related Routes
 router.get('/api/admin/get-categories',adminAuth,categoryController.GetCategories);

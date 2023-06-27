@@ -34,7 +34,7 @@ export const AdminSignout = async () => {
     let response;
 
     try{
-        response = await AdminApi.post('/login');
+        response = await AdminApi.get('/logout');
     }catch (error){
         return error;
     }
