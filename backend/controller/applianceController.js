@@ -13,7 +13,7 @@ const applianceController = {
     },
     async GetApplianceSections(req,res,next){
       const {categoryId} = req.body;
-      console.log(categoryId)
+      const category = await Category.findOne({_id:categoryId})
       
       categorySection.find({ categoryId: categoryId })
       .populate('sectionItemsId')
@@ -21,7 +21,7 @@ const applianceController = {
       .then(categorySections => {
         // categorySections will contain an array of CategorySection documents
         console.log(categorySections)
-        return res.status(200).json({status:200,categorySections:categorySections});
+        return res.status(200).json({status:200,categorySections:categorySections,categoryDescription:category.description});
       })
       .catch(err => {
         return res.status(500).json({status:500,msg:"Internal Server Error!"});

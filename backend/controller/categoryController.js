@@ -9,6 +9,7 @@ const categoryController = {
     const categoryRegisterSchema = Joi.object({
         title: Joi.string().max(30).required(),
         image: Joi.string().required(),
+        description: Joi.string().required(),
         slug: Joi.string().required(),
       });
       const { error } = categoryRegisterSchema.validate(req.body);
@@ -18,7 +19,7 @@ const categoryController = {
         return next(error)
       }
 
-      const {title,image,slug} = req.body;
+      const {title,image,slug,description} = req.body;
       
       try {
         
@@ -53,6 +54,7 @@ const categoryController = {
           const categoryToRegister = new Category({
             title,
             image: imagePath,
+            description,
             slug: slug
           });
 

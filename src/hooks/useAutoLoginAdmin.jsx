@@ -20,7 +20,7 @@ function useAutoLoginAdmin() {
          const user = {
           _id: response.data.user._id,
           email: response.data.user.email,
-          username: response.data.user.username,
+          firstName: response.data.user.firstName,
           auth: response.data.auth,
           isAdmin: response.data.user.isAdmin
         };

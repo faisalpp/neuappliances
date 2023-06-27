@@ -3,7 +3,7 @@ import ProductSliderCard from '../../components/Appliances/ProductSliderCard'
 import { useState } from 'react'
 import ProductCardSlider from '../ProductCardSlider'
 
-const CosmaticRating = () => {
+const CosmaticRating = ({section}) => {
     return (
         <div className='bg-b8 py-10 lg:py-14 xl:py-20' >
             {/* Heading Start  */}
@@ -17,11 +17,7 @@ const CosmaticRating = () => {
                 {/* Heading End */}
 
                 {/* Products Card Start */}
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 xl:gap-[10px] xl:mt-14" >
-                    {section.sectionItemsId.map((item,index)=><ProductSliderCard key={index} title='Cosmetic Rating' product={item} />)}
-                    {/* {categorySection.sectionItemsId[0]}  */}
-                </div>
-                <ProductCardSlider />
+                <ProductCardSlider section={section} />
             </div>
             {/* Products Card End */}
 

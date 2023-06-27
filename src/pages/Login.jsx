@@ -65,8 +65,7 @@ const Login = () => {
 
   return (
     <>
-    {isAuth ? (isAdmin ? <Navigate to="/admin/dashboard" /> : <Navigate to="/my-account/profile" /> ):
-    (isAdmin === null ? <MainLayout>
+    <MainLayout>
     <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
 
       <div className='flex flex-col space-y-10 items-center pt-20 py-32 w-full' >
@@ -86,8 +85,7 @@ const Login = () => {
         </form>
       </div>
       <ToastContainer/>
-    </MainLayout>:null)}
-    
+    </MainLayout>
     </>
   )
 }

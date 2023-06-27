@@ -15,6 +15,7 @@ const CreateBrand = () => {
     const [image,setImage] = useState('/')
     const [title,setTitle] = useState('');
     const [slug,setSlug] = useState('');
+    const [description,setDescription] = useState('');
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const CreateBrand = () => {
   
     const CreateCategory = async (e) => {
       e.preventDefault();
-      const data = {title,image,slug}
+      const data = {title,image,slug,description}
       const res = await createCategory(data);
 
       if(res.status === 200){
@@ -73,6 +74,11 @@ const CreateBrand = () => {
           </div>
           <div className='flex flex-col space-y-1'>
            <h5 className='text-xs font-semibold' >Category Title</h5>
+           <input type="text" value={title} onChange={handleTitle} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refregerator' />
+          </div>
+          <div className='flex flex-col space-y-1'>
+           <h5 className='text-xs font-semibold' >Category Title</h5>
+           <textarea placeholder='Enter Category Description' value={description} onChange={e=>setDescription(e.target.value)} ></textarea>
            <input type="text" value={title} onChange={handleTitle} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refregerator' />
           </div>
           <div className='flex flex-col space-y-1'>
