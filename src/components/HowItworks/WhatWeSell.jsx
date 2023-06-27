@@ -18,14 +18,14 @@ const WhatWeShall = () => {
                         <WhatWeShallCard image="image2.png" title="Floor Models and Display Appliances" description1="Our Appliance Outlet sells floor model and display model appliances that have been displayed in a showroom or retail store for customers to view and test. They are often used as demonstration models to showcase the features and functions of the appliance to potential buyers." description2="Floor model appliances are typically brand new and unused, although they may have been used for demonstration purposes only. We liquidate these appliances at deep discounts  to make room for newer models or to clear out inventory." />
                     </div>
 
-                    <SatisfiedSection title="We Stock A Wide Variety Of Discount Appliances" SectionStyle="!p-0 !max-w-full" />
+                    <SatisfiedSection title="We Stock A Wide Variety Of Discount Appliances" SectionStyle="[&>h4]:2xl:!text-4xl [&>h4]:2xl:!leading-[44px] !p-0 !max-w-full" />
 
                     <div className='[&>*:nth-child(even)>div:first-child]:order-2 grid grid-cols-1 gap-60px'>
                         <WhatWeShallCard image="image3.png" title="Open Box Appliances" description1="Open box appliances are a great way to save money. Open box appliances have had their packaging opened for any reason but typically include appliances that were purchased and returned by a customer. These appliances are often in like-new Cosmetic Rating, with little to no signs of wear and tear, and may even still be in their original packaging. Neu Appliance Outlet liquidates open box appliances at deep discounts compared to their original price." />
                         <WhatWeShallCard image="image4.png" title="Overstock Appliance" description1="Overstock appliances are brand new appliances that were purchased by a retailer or distributor in excess of their anticipated demand or were not sold during a specific period of time. Neu Appliance Outlet liquidates overstock appliances at huge discounts compared to their original price. This can be a good option for bargain hunters looking to save money on a brand new appliance." />
                     </div>
 
-                    <SatisfiedSection title="Our Customers Love Our Discounted Appliances" SectionStyle="!p-0 !max-w-full" />
+                    <SatisfiedSection title="Our Customers Love Our Discounted Appliances" SectionStyle="[&>h4]:2xl:!text-4xl [&>h4]:2xl:!leading-[44px] !p-0 !max-w-full" />
 
                     <div className='flex justify-center'>
                         <button className='flex gap-2 items-center border border-b3 rounded-lg px-6 py-3 text-b3 font-semibold'>Shop our Best Deals <AiOutlineArrowRight className='text-b3' /></button>

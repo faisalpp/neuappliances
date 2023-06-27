@@ -75,7 +75,7 @@ const Faqs = () => {
                     {tabsData.map((tab) => (
                         <button
                             key={tab.id}
-                            className={`p-5 xl:p-6 xl:text-lg font-semibold flex justify-between items-center text-left border border-[rgba(0,0,0,0.15)] rounded-2xl ${activeTab === tab.id ? 'active text-white bg-b7' : 'text-[rgba(17,16,16,0.64)]'}`}
+                            className={`p-5 xl:p-6 xl:text-lg font-semibold flex justify-between items-center text-left border border-[rgba(0,0,0,0.15)] rounded-2xl ${activeTab === tab.id ? 'active text-white bg-b7' : 'text-b23'}`}
                             onClick={() => handleTabClick(tab.id)}
                         >
                             <span>

@@ -1,10 +1,9 @@
 import React from 'react'
 import SatisfiedSection from '../SatisfiedSection'
 import { AiOutlineArrowRight } from 'react-icons/ai'
-import ProductCardSlider from '../ProductCardSlider'
 import HowItWorks from '../../pages/HowItWorks/HowItWorks'
-import CosmaticStarSection from '../CosmaticStarSection'
-import ProductCard from '../ProductCard'
+import CosmaticCard from '../CosmaticCard'
+import CosmaticRatingHowItwork from './CosmaticRatingHowItwork'
 
 const Ratings = () => {
     return (
@@ -16,13 +15,12 @@ const Ratings = () => {
                         We rate our scratch and dent appliances by their cosmetic appearance (How they look). Appliances with lower cosmetic ratings get Deeper Discounts! You pick your level of savings!
                     </p>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 xl:gap-[10px] xl:mt-14 w-full mt-14 h-auto" >
-                        <ProductCard title='Moderate Cosmetic Damage' codmetics='Moderate' dicount='Massive' stars={3} type={1} discount={1} />
-                        <ProductCard title='Moderate Cosmetic Damage' codmetics='Minor' dicount='Huge' stars={4} type={2} discount={2} />
-                        <ProductCard title='Moderate Cosmetic Damage' codmetics='Very Minor-None' dicount='Great' stars={5} type={3} discount={3} />
-                    </div>
+                    <CosmaticCard customStyle="!p-0" />
 
-                    <SatisfiedSection title="We Stock A Wide Variety Of Discount Appliances" SectionStyle="!p-0 !max-w-full" />
+                    {/* Cosmatic Rating How it Work */}
+                    <CosmaticRatingHowItwork />
+
+                    <SatisfiedSection title="We Stock A Wide Variety Of Discount Appliances" SectionStyle="[&>h4]:2xl:!text-4xl [&>h4]:2xl:!leading-[44px] !p-0 !max-w-full" />
 
                     <div className='flex justify-center'>
                         <button className='flex gap-2 items-center border border-b3 rounded-lg px-6 py-3 text-b3 font-semibold'>Shop our Best Deals <AiOutlineArrowRight className='text-b3' /></button>

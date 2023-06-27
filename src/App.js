@@ -27,7 +27,8 @@ import Blogs from './pages/Blogs/Index';
 import BlogArticle from './pages/Blogs/BlogArticle';
 import Financing from './pages/Financing';
 import MyCart from './pages/Cart/MyCart';
-import HelpAndSupport from './pages/HelpAndSupport';
+import HelpAndSupport from './pages/HelpAndSupport/HelpAndSupport';
+import HelpCardPage from './pages/HelpAndSupport/HelpCardPage';
 import Test from './pages/Test'
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/AdminAccount/Dashboard";
@@ -36,7 +37,6 @@ import ManageCategories from "./pages/AdminAccount/ManageCategories";
 import useAutoLoginAdmin from './hooks/useAutoLoginAdmin'
 import useAutoLoginUser from './hooks/useAutoLoginUser'
 import StayInLoop from "./pages/StayInLoop";
-import HowItWorks from "./pages/HowItWorks";
 import Loader from './components/Loader/Loader'
 import CreateCategory from "./pages/AdminAccount/CreateCategory";
 import CreateProduct from "./pages/AdminAccount/CreateProduct";
@@ -108,7 +108,6 @@ function App() {
 
       <Route path="/stay-in-loop" element={<StayInLoop />} />
 
-      {/* <Route path="/how-it-works" element={<HowItWorks />} /> */}
       <Route path="/how-it-works/what-we-sell" element={<WhatWeSell />} />
       <Route path="/how-it-works/rating-system" element={<Ratings />} />
       <Route path="/how-it-works/testing-process" element={<Tested />} />
@@ -117,6 +116,7 @@ function App() {
       <Route path="/how-it-works/hassle-free" element={<HassleFree />} />
 
       <Route path="/help-and-support" element={<HelpAndSupport />} />
+      <Route path="/help-card-page" element={<HelpCardPage />} />
 
       {/* Admin Related Routes */}
       <Route path="/nu-admin" element={<AuthRoute><AdminLogin /></AuthRoute>} />
