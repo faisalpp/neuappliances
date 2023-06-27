@@ -174,7 +174,7 @@ const Navbar = ({ sCart, setSCart }) => {
               <div className='col-start-8 col-end-11' >
                 <h4 className='font-semibold' >Help & Support</h4>
                 <div className='flex flex-col space-y-4 text-xs mt-4 font-medium text-white/80' >
-                  <Link to="">Help Placing an Order Us</Link>
+                  <Link to="/help-and-support">Help Placing an Order Us</Link>
                   <Link to="">Return and Exchange</Link>
                   <Link to="">Contact Us</Link>
                 </div>
