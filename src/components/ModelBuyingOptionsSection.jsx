@@ -42,9 +42,9 @@ const ModelBuyingOptionsSection = () => {
                 </div>
 
                 <div className='flex justify-center border-t' >
-                  <ModelBuyingOptionCard active="bg-b8" cosmaticcondition="Moderate Cosmetic Damage" bestValue={<span className='flex items-center bg-b9 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><AiOutlineDollarCircle className='mr-1' /> Best Value</span>} />
-                  <ModelBuyingOptionCard cosmaticcondition="Minor Cosmetic Damage" bestValue={<span className='flex items-center bg-b3 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><FaFire className='mr-1' />Most Popular</span>} />
-                  <ModelBuyingOptionCard cosmaticcondition="Very Minor- No Cosmetic" bestValue={<span className='flex items-center bg-b7 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><AiFillStar className='mr-1 text-white' />Premium Condition</span>} />
+                  <ModelBuyingOptionCard rating={3} active="bg-b8" cosmaticcondition="Moderate Cosmetic Damage" bestValue={<span className='flex items-center bg-b9 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><AiOutlineDollarCircle className='mr-1' /> Best Value</span>} />
+                  <ModelBuyingOptionCard rating={4} cosmaticcondition="Minor Cosmetic Damage" bestValue={<span className='flex items-center bg-b3 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><FaFire className='mr-1' />Most Popular</span>} />
+                  <ModelBuyingOptionCard rating={5} cosmaticcondition="Very Minor- No Cosmetic" bestValue={<span className='flex items-center bg-b7 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><AiFillStar className='mr-1 text-white' />Premium Condition</span>} />
                 </div>
 
 
