@@ -13,9 +13,17 @@ import { resetUser } from '../../store/userSlice';
 const CreateProduct = () => {
 
     const [images,setImages] = useState([])
+    const [featuresVideo,setFeaturesVideo] = useState('');
     const [title,setTitle] = useState('');
     const [slug,setSlug] = useState('');
-    const [featuresVideo,setFeaturesVideo] = useState('');
+    const [brand,setBrand] = useState('');
+    const [modelNo,setModelNo] = useState('');
+    const [itemId,setItemId] = useState('');
+    const [stock,setStock] = useState('');
+    const [category,setCategory] = useState('');
+    const [rating,setRating] = useState('');
+    const [salePrice,setSalePrice] = useState('');
+    const [regularPrice,setRegularPrice] = useState('');
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -28,7 +36,7 @@ const CreateProduct = () => {
   
     const CreateCategory = async (e) => {
       e.preventDefault();
-      const data = {title,images,slug}
+      const data = {title,images,slug,featuresVideo,salePrice,regularPrice,category,brand,stock,rating,images}
       const res = await createCategory(data);
       if(res.status === 200){
          toast.success(res.msg, {
@@ -89,7 +97,7 @@ const CreateProduct = () => {
 
            <div className='flex flex-col space-y-1 w-1/2'>
             <h5 className='text-xs font-semibold' >Product Slug <i className='text-red-500' >*</i></h5>
-            <input type="text" value={slug} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refregerator' />
+            <input type="text" value={slug} readOnly className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refregerator' />
            </div>
           </div>
           {/* Input Group End*/}
@@ -100,8 +108,12 @@ const CreateProduct = () => {
           <div className='w-1/2' >
            <label className='text-b16 font-semibold text-xs block mb-2'>Product Brand <i className='text-red-500' >*</i></label>
            <div className='relative'>
-            <select className='border border-[rgba(0,0,0,0.16)] rounded-lg h-10 text-sm px-4 w-full outline-none appearance-none'>
-            <option value='samsung' >Samsung</option>
+            <select onChange={e=>setBrand(e.target.value)} className='border border-[rgba(0,0,0,0.16)] rounded-lg h-10 text-sm px-4 w-full outline-none appearance-none'>
+             <option value='general' >General Electronics</option>
+             <option value='samsung' >Samsung Electronics</option>
+             <option value='lg' >LG Electronics</option>
+             <option value='frigidaire' >FRIGIDAIRE</option>
+             <option value='whirlpool' >Whirlpool</option>
             </select>
             <FiChevronDown className='absolute right-4 top-3' />
            </div>
@@ -111,8 +123,13 @@ const CreateProduct = () => {
           <div className='w-1/2' >
            <label className='text-b16 font-semibold text-xs block mb-2'>Product Category <i className='text-red-500' >*</i></label>
            <div className='relative'>
-            <select className='border border-[rgba(0,0,0,0.16)] rounded-lg h-10 text-sm px-4 w-full outline-none appearance-none'>
-            <option value='refrigerator' >Refrigerator</option>
+            <select onChange={e=>setCategory(e.target.value)} className='border border-[rgba(0,0,0,0.16)] rounded-lg h-10 text-sm px-4 w-full outline-none appearance-none'>
+            <option value='refrigerator' >Refrigerators</option>
+            <option value='refrigerator' >Ranges</option>
+            <option value='refrigerator' >Washer & Dryer</option>
+            <option value='refrigerator' >Wall Ovens</option>
+            <option value='refrigerator' >Dishwashers</option>
+            <option value='refrigerator' >Microwaves</option>
             </select>
             <FiChevronDown className='absolute right-4 top-3' />
            </div>
@@ -130,7 +147,7 @@ const CreateProduct = () => {
            </div>
            <div className='flex flex-col space-y-1 w-1/2' >
             <h5 className='text-xs font-semibold' >Features Video <i className='text-red-500' >*</i></h5>
-            <input type="file" accept="image/*" onChange={onImageChange} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' />
+            <input type="file" accept="image/*" onChange={e=>setFeaturesVideo(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' />
            </div>
           </div>
           {/* Input Group End*/}
@@ -139,12 +156,12 @@ const CreateProduct = () => {
           <div className='flex space-x-2 items-center' >
            <div className='flex flex-col space-y-1 w-1/2'>
             <h5 className='text-xs font-semibold' >Model No <i className='text-red-500' >*</i></h5>
-            <input type="text" value={title} onChange={handleTitle} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refregerator' />
+            <input type="text" value={modelNo} onChange={e=>setModelNo(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refregerator' />
            </div>
 
            <div className='flex flex-col space-y-1 w-1/2'>
             <h5 className='text-xs font-semibold' >Item Id <i className='text-red-500' >*</i></h5>
-            <input type="text" value={slug} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refregerator' />
+            <input type="text" value={itemId} onChange={e=>setItemId(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refregerator' />
            </div>
           </div>
           {/* Input Group End*/}
@@ -153,12 +170,12 @@ const CreateProduct = () => {
           <div className='flex space-x-2 items-center' >
            <div className='flex flex-col space-y-1 w-1/2'>
             <h5 className='text-xs font-semibold' >Total Stock <i className='text-red-500' >*</i></h5>
-            <input type="text" value={title} onChange={handleTitle} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refregerator' />
+            <input type="text" value={stock} onChange={e=>setStock(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refregerator' />
            </div>
 
            <div className='flex flex-col space-y-1 w-1/2'>
-            <h5 className='text-xs font-semibold' >Product Rating (1 to 5) <i className='text-red-500' >*</i></h5>
-            <input type="text" value={slug} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refregerator' />
+            <h5 className='text-xs font-semibold' >Product Rating (3 to 5) <i className='text-red-500' >*</i></h5>
+            <input type="text" value={rating} onChange={e=>setRating(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refregerator' />
            </div>
           </div>
           {/* Input Group End*/}
@@ -167,12 +184,12 @@ const CreateProduct = () => {
           <div className='flex space-x-2 items-center' >
            <div className='flex flex-col space-y-1 w-1/2'>
             <h5 className='text-xs font-semibold' >Regular Price <i className='text-red-500' >*</i></h5>
-            <input type="text" value={title} onChange={handleTitle} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refregerator' />
+            <input type="text" value={regularPrice} onChange={e=>setRegularPrice(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refregerator' />
            </div>
 
            <div className='flex flex-col space-y-1 w-1/2'>
             <h5 className='text-xs font-semibold' >Sale Price</h5>
-            <input type="text" value={slug} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refregerator' />
+            <input type="text" value={salePrice} onChange={e=>setSalePrice(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refregerator' />
            </div>
           </div>
           {/* Input Group End*/}

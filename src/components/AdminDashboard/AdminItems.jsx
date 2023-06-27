@@ -19,7 +19,7 @@ const AdminItems = ({ onClose, isItems }) => {
         {
             id:3,
             title: 'Products',
-            link: '/admin/products',
+            link: '/admin/manage-products',
         },
         {
             id:4,

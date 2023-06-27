@@ -50,7 +50,7 @@ const BrandCard = ({ title, image, rating, brandimage, brandname, colorimage, co
                         <h3 className='font-semibold px-3 text-center text-xs'><StarIconPrinter numberOfTimes={rating} /></h3>
                         <div className='flex space-x-2' >
                          {updateUrl ? <NavLink to={updateUrl} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-fit px-2 mt-1 text-center' >Update</NavLink>:null} 
-                         {viewUrl ? <NavLink to={viewUrl} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-fit px-2 mt-1 text-center' >View</NavLink>:null} 
+                         {viewUrl ? <NavLink to={viewUrl} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-fit px-2 mt-1 text-center' >Edit</NavLink>:null} 
                         </div>
                     </div>
                 </div>

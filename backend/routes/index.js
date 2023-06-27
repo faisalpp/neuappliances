@@ -24,6 +24,7 @@ router.post('/api/user/update-profile',auth,userProfileController.UpdateProfile)
 // Admin Related Routes
 router.get('/api/admin/register', adminController.register);
 router.post('/api/admin/login', adminController.login);
+router.get('/api/admin/logout', adminController.logout);
 router.get('/api/admin/refresh', adminController.refresh);
 // Categories Related Routes
 router.get('/api/admin/get-categories',adminAuth,categoryController.GetCategories);
@@ -37,6 +38,8 @@ router.post('/api/admin/section-by-id',adminAuth,categorySection.GetCategorySect
 router.post('/api/admin/sections',adminAuth,categorySection.GetCategorySections);
 // Section Item Related Routes
 router.post('/api/admin/create-section-item',adminAuth,categorySection.CreateSectionItem);
+router.post('/api/admin/update-section-item',adminAuth,categorySection.UpdateSectionItem);
+router.post('/api/admin/section-item-by-id',adminAuth,categorySection.GetSectionItemById);
 router.post('/api/admin/section-items',adminAuth,categorySection.GetSectionItems);
  
  router.get('/api/get-appliances',applianceController.GetAppliances);

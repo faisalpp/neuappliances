@@ -62,6 +62,7 @@ const sectionController = {
           title: Joi.string().required(),
           cardStyle: Joi.string().required(),
           slug: Joi.string().required(),
+          type: Joi.string().required(),
           sectionId: Joi.string().required(),
         });
         const { error } = sectionRegisterSchema.validate(req.body);
@@ -71,7 +72,7 @@ const sectionController = {
           return next(error)
         }
   
-        const {cardStyle,title,slug,sectionId} = req.body;
+        const {cardStyle,title,slug,sectionId,type} = req.body;
 
         
         try {
@@ -90,7 +91,7 @@ const sectionController = {
       
           const updatedSection = await categorySection.findByIdAndUpdate(
             sectionId,
-            {cardStyle:cardStyle,title:title,slug:slug},
+            {cardStyle:cardStyle,title:title,slug:slug,type:type},
             { new: true }
           );
   
@@ -163,6 +164,60 @@ const sectionController = {
             return next(error);
           }
       },
+      async UpdateSectionItem(req,res,next){
+    
+        // 1. validate user input
+        const sectionRegisterSchema = Joi.object({
+          title: Joi.string(),
+          image: Joi.string().allow('').allow(null),
+          rating: Joi.string().allow('').allow(null),
+          sectionItemId: Joi.string().required(),
+          });
+          const { error } = sectionRegisterSchema.validate(req.body);
+          
+          // 2. if error in validation -> return error via middleware
+          if (error) {
+            return next(error)
+          }
+          
+          const {image,title,rating,sectionItemId} = req.body;
+          console.log(sectionItemId)
+  
+          
+          try {
+            
+    
+          const findSection = await sectionItem.find({ _id:sectionItemId });
+      
+            if (!findSection) {
+              const error = {
+                status: 404,
+                message: "Section Item Not Found!",
+              };
+      
+              return next(error);
+            }
+            if(!image === ''){
+        
+            const updatedSectionItem = await sectionItem.findByIdAndUpdate(
+              sectionItemId,
+              {image:image,title:title,rating:rating},
+              { new: true }
+            );
+            }else{
+              const updatedSectionItem = await sectionItem.findByIdAndUpdate(
+                sectionItemId,
+                {title:title,rating:rating},
+                { new: true }
+              );
+            }
+    
+            return res.status(200).json({status:200,msg:'Section Item Updated Successfully!'});
+        
+            } catch (error) {
+              return next(error);
+            }
+        },
 
       async GetSectionItems(req,res,next){
         const {sectionId} = req.body;
@@ -192,6 +247,17 @@ const sectionController = {
         const section = await categorySection.find({_id:sectionId});
 
           return res.status(200).json({status:200,section:section});
+        }catch(error){
+          return next(error)
+        }
+    },
+    async GetSectionItemById(req,res,next){
+      const {sectionItemId} = req.body;
+      
+      try{
+        const item = await sectionItem.find({_id:sectionItemId});
+
+          return res.status(200).json({status:200,sectionItem:item});
         }catch(error){
           return next(error)
         }

@@ -34,7 +34,7 @@ export const AdminSignout = async () => {
     let response;
 
     try{
-        response = await AdminApi.post('/login');
+        response = await AdminApi.get('/logout');
     }catch (error){
         return error;
     }
@@ -133,6 +133,28 @@ export const createSectionItem = async (data) => {
 
     try{
         response = await AdminApi.post('/create-section-item',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const updateSectionItem = async (data) => {
+    let response;
+
+    try{
+        response = await AdminApi.post('/update-section-item',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const getSectionItemById = async (data) => {
+    let response;
+
+    try{
+        response = await AdminApi.post('/section-item-by-id',data);
     }catch (error){
         return error;
     }

@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { resetUser } from '../../store/userSlice';
 import {createSectionItem} from '../../api/admin'
 import { useParams } from 'react-router-dom';
+import {BsFillArrowLeftCircleFill} from 'react-icons/bs'
 
 const CreateSectionItem = () => {
     const { style,id } = useParams();
@@ -73,6 +74,8 @@ const CreateSectionItem = () => {
         <>
         <AdminAccount>
         <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
+        <div className='mb-3' ><BsFillArrowLeftCircleFill className='text-2xl text-b3 cursor-pointer' onClick={()=>navigate(-1)} /></div>
+         
          <div className='flex justify-center w-full'>
          <form onSubmit={CreateSectionItem} encType='multipart/form-data' className='flex flex-col space-y-5 w-8/12 px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >
          <div className='rounded-2xl border border-gray-300 p-3 h-fit w-[200px] flex justify-center items-center self-center'>

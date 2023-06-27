@@ -15,7 +15,7 @@ const UpdateSection = () => {
 
     const [sectionId,setSectionId] = useState(id);
     const [title,setTitle] = useState('');
-    const [destIndex,setDestIndex] = useState();
+    const [type,setType] = useState('');
     const [slug,setSlug] = useState('');
     const [cardStyle,setCardStyle] = useState('');
 
@@ -29,6 +29,7 @@ const UpdateSection = () => {
             setTitle(res.data.section[0].title);
             setSlug(res.data.section[0].slug);
             setCardStyle(res.data.section[0].cardStyle);
+            setType(res.data.section[0].type);
         }else{
             toast.error(res.message, {
             position: "top-right",
@@ -47,7 +48,7 @@ const UpdateSection = () => {
   
     const UpdateSection = async (e) => {
       e.preventDefault();
-      const data = {title,slug,cardStyle,sectionId}
+      const data = {title,slug,cardStyle,sectionId,type}
       const res = await updateSection(data);
       if(res.status === 200){
          toast.success(res.msg, {
@@ -92,6 +93,10 @@ const UpdateSection = () => {
            <h5 className='text-xs font-semibold' >Section Title</h5>
            <input type="text" value={title} onChange={handleTitle} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refrigerators By Styles' />
           </div>
+          <div className='flex flex-col space-y-1'>
+           <h5 className='text-xs font-semibold' >Section Type</h5>
+           <input type="text" value={type} onChange={e=>setType(e.target.value)} readOnly className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refrigerators By Styles' />
+          </div>
           {/* Select Category */}
           <div>
            <label className='text-b16 font-semibold text-xs block mb-2'>Section Card Style<i className='text-red-500' >*</i></label>
@@ -112,7 +117,7 @@ const UpdateSection = () => {
            <h5 className='text-xs font-semibold' >Url Slug</h5>
            <input type="text" value={slug} readOnly className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refrigerators-by-styles' />
           </div>
-          <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a></button>
+          <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Update</span><BsArrowRightShort className='text-2xl' /></a></button>
           </form>
          </div>
          <ToastContainer/>
