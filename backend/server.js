@@ -26,11 +26,11 @@ app.use(cors(corsOptions));
 
 
 // Serve static files from the React app
-app.use(express.static('./build'));
+app.use(express.static('../build'));
 
 // All other requests should serve the React app
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
 
