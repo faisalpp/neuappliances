@@ -5,16 +5,22 @@ import ShopAustinSection from '../components/Appliances/ShopAustinSection';
 import NewsLetterSection from '../components/NewsLetterSection';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import {GetAppliances} from '../api/frontEnd'
+import Loader from '../components/Loader/Loader'
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const ApplianceTypes = () => {
 
     const [applianceTypes,setApplianceTypes] = useState([]);
-
+    const [loading,setLoading] = useState(true);
+    const navigate = useNavigate()
     useEffect(() => {
         const getAppliances = async () => {
             const res = await GetAppliances();
             if(res.status === 200){
                 setApplianceTypes(res.data.categories);
+                setLoading(false)
+            }else{
+              navigate('/isr')
             }
         }
         getAppliances();
@@ -22,6 +28,7 @@ const ApplianceTypes = () => {
 
     return (
         <>
+         {loading ? <Loader/>: (
             <MainLayout>
                 {/* Bread Crumbs Start */}
                 <div className='flex items-center pt-10 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
@@ -43,7 +50,7 @@ const ApplianceTypes = () => {
                 <ShopAustinSection />
 
                 <NewsLetterSection backimage="Newsletter.png" />
-            </MainLayout>
+            </MainLayout>)}
         </>
     )
 }

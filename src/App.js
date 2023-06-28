@@ -54,6 +54,7 @@ import Tested from './components/HowItworks/Tested';
 import Photos from './components/HowItworks/Photos';
 import Delivered from './components/HowItworks/Delivered';
 import HassleFree from './components/HowItworks/HassleFree';
+import Isr from "./pages/InternalError";
 
 function App() {
 
@@ -141,6 +142,7 @@ function App() {
 
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />
+      <Route path="/isr" element={<Isr />} />
     </Routes>
   );
 }
