@@ -35,6 +35,7 @@ const CreateProduct = () => {
    const [specification,setSpecification] = useState('');
    const [deliveryInfo,setDeliveryInfo] = useState('');
    const [installmentLow,setIntallmentLow] = useState('');
+   const [installmentHigh,setIntallmenHigh] = useState('');
 
 
     const navigate = useNavigate();
@@ -253,11 +254,11 @@ const CreateProduct = () => {
           <div className='flex space-x-2 items-center' >
            <div className='flex flex-col space-y-1 w-1/2'>
             <h5 className='text-xs font-semibold' >Lower Instalment Amount <i className='text-red-500' >*</i></h5>
-            <input type="text" value={salePrice} onChange={e=>setSalePrice(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refregerator' />
+            <input type="text" value={installmentLow} onChange={e=>setIntallmentLow(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refregerator' />
            </div>
            <div className='flex flex-col space-y-1 w-1/2'>
             <h5 className='text-xs font-semibold' >High Instalment Amount <i className='text-red-500' >*</i></h5>
-            <input type="text" value={regularPrice} onChange={e=>setRegularPrice(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refregerator' />
+            <input type="text" value={installmentHigh} onChange={e=>setIntallmenHigh(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Refregerator' />
            </div>
 
           </div>
