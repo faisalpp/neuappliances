@@ -49,7 +49,7 @@ import UpdateSection from "./pages/AdminAccount/UpdateSection";
 import UpdateCategory from "./pages/AdminAccount/UpdateCategory";
 import UpdateSectionItem from "./pages/AdminAccount/UpdateSectionItem";
 import WhatWeSell from './components/HowItworks/WhatWeSell';
-import Ratings from './components/HowItworks/Ratings';
+import Ratings from './components/HowItworks/Ratings'
 import Tested from './components/HowItworks/Tested';
 import Photos from './components/HowItworks/Photos';
 import Delivered from './components/HowItworks/Delivered';
