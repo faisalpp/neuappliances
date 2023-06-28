@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const {MONGODB_CONNECTION_STRING} = require('../config/index');
+require('dotenv').config()
 
 const dbConnect = async () => {
     try {
