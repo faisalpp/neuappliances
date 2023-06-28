@@ -39,9 +39,9 @@ const ProductSlider = ({ image }) => {
             <div className='flex w-full justify-center' ><img src={product.image} className='xl:w-1/2 lg:w-44 w-40 h-full mx-auto' alt='refrigrator' /></div>
           </div>
         ))} */}
-        <div className='flex w-full justify-center' ><img src={`http://localhost:5000/storage/sectionItems/${image}`} className='xl:w-1/2 lg:w-44 w-40 h-full mx-auto' alt='refrigrator' /></div>
-        <div className='flex w-full justify-center' ><img src={`http://localhost:5000/storage/sectionItems/${image}`} className='xl:w-1/2 lg:w-44 w-40 h-full mx-auto' alt='refrigrator' /></div>
-        <div className='flex w-full justify-center' ><img src={`http://localhost:5000/storage/sectionItems/${image}`} className='xl:w-1/2 lg:w-44 w-40 h-full mx-auto' alt='refrigrator' /></div>
+        <div className='flex w-full justify-center' ><img src={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${image}`} className='xl:w-1/2 lg:w-44 w-40 h-full mx-auto' alt='refrigrator' /></div>
+        <div className='flex w-full justify-center' ><img src={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${image}`} className='xl:w-1/2 lg:w-44 w-40 h-full mx-auto' alt='refrigrator' /></div>
+        <div className='flex w-full justify-center' ><img src={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${image}`} className='xl:w-1/2 lg:w-44 w-40 h-full mx-auto' alt='refrigrator' /></div>
       </Slider >
     </>
   )

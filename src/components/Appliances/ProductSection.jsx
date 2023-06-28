@@ -143,7 +143,7 @@ const ProductSection = ({data}) => {
                     {section.cardStyle === 'rating-card' ?<div>
                         <h3 className='font-semibold text-b18'>{section.title}</h3>
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-8'>
-                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} title={product.title} image={`http://localhost:5000/storage/sectionItems/${product.image}`} rating={product.rating} />)}
+                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} title={product.title} image={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} rating={product.rating} />)}
                         </div>
                     </div>:null}
 
@@ -151,13 +151,13 @@ const ProductSection = ({data}) => {
                      {section.cardStyle === 'general-card' ? <div>
                         <RelatedProducts title={section.title} />
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-8'>
-                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} title={product.title} image={`http://localhost:5000/storage/sectionItems/${product.image}`} />)}
+                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} title={product.title} image={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} />)}
                         </div>
                     </div>:null}
                      {section.cardStyle === '2xn-card' ? <div>
                         <RelatedProducts title={section.title} />
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6 mt-8'>
-                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} title={product.title} image={`http://localhost:5000/storage/sectionItems/${product.image}`} />)}
+                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} title={product.title} image={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} />)}
                         </div>
                     </div>:null}
 
@@ -165,14 +165,14 @@ const ProductSection = ({data}) => {
                     {section.cardStyle === 'brand-card' ?<div>
                         <RelatedProducts title={section.title} />
                         <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mt-8'>
-                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} brandname={product.title} brandimage={`http://localhost:5000/storage/sectionItems/${product.image}`} />)}
+                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} brandname={product.title} brandimage={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} />)}
                         </div>
                     </div>:null}
 
                     {section.cardStyle === 'color-card' ?<div>
                         <RelatedProducts title={section.title} />
                         <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mt-8'>
-                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} colorname={product.title} colorimage={`http://localhost:5000/storage/sectionItems/${product.image}`} />)}
+                            {section.sectionItemsId.map((product)=><ProductCard key={product.title} colorname={product.title} colorimage={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} />)}
                         </div>
                     </div>:null}
                     </>
