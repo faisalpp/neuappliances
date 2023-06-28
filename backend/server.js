@@ -7,10 +7,11 @@ const errorHandler = require('./middleware/errorHandler')
 const dbconnect = require('./databse/index')
 const cookieParser = require('cookie-parser')
 
-const corsOptions = {
-  credentials: true,
-  origin: ["http://localhost:3000","http://localhost:5000","https://neuappliances.vercel.app"],
-};
+// const corsOptions = {
+//   credentials: true,
+//   origin: ["http://localhost:3000","http://localhost:5000","https://neuappliances.vercel.app"],
+//   methods: ['POST','GET']
+// };
 
 const app = express();
 
@@ -22,17 +23,17 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.json())
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
-// app.use(
-//   cors({
-//     origin: function (origin, callback) {
-//       return callback(null, true);
-//     },
-//     optionsSuccessStatus: 200,
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      return callback(null, true);
+    },
+    optionsSuccessStatus: 200,
+    credentials: true,
+  })
+);
 
 app.use(router);
 dbconnect();
