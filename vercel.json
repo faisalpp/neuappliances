@@ -1,0 +1,11 @@
+{
+    "buildCommand": "npm install && npm run build",
+    "outputDirectory": "client/dist",
+    "framework": "cra",
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/backend/server.js"
+        }
+    ]
+}
