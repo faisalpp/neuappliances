@@ -1,3 +1,6 @@
 {
-  "rewrites": [{ "source": "/backend/(.*)", "destination": "/backend" }]
+  "routes": [
+    { "src": "/api/(.*)", "dest": "backend/$1" },
+    { "src": "/(.*)", "dest": "/build/$1" }
+  ]
 }
