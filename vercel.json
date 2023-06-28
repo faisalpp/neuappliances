@@ -10,7 +10,7 @@
     ],
     "builds": [
       {
-        "src": "./api/",
+        "src": "./build",
         "use": "@vercel/node"
       }
     ],
