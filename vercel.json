@@ -1,23 +1,11 @@
 {
-    "version": 2,
-    "buildCommand": "npm install && npm run build",
-    "outputDirectory": "build",
-    "rewrites": [
-        {
-            "source": "/api/(.*)",
-            "destination": "/backend/server.js"
-        }
-    ],
-    "builds": [
-      {
-        "src": "./build",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/"
-      }
-    ]
-  }
+  "version": 2,
+  "builds": [
+    { "src": "fpackage.json", "use": "@vercel/static-build" },
+    { "src": "backend/server.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "backend/server.js" },
+    { "src": "/(.*)", "dest": "index.html" }
+  ]
+}
