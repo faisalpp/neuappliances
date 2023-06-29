@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const regApi = axios.create({
-    baseUrl: process.env.REACT_APP_INTERNAL_API_PATH,
+    baseUrl: process.env.REACT_DEV === 'dev' ? process.env.REACT_APP_INTERNAL_API_PATH_DEV : process.env.REACT_APP_INTERNAL_API_PATH,
     headers: {
         "Content-Type":"application/json",
     },

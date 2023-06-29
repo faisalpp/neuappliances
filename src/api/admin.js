@@ -2,7 +2,7 @@ import axios from 'axios'
 
 
 const AdminApi = axios.create({
-    baseURL: process.env.REACT_APP_INTERNAL_API_PATH_ADMIN,
+    baseURL: process.env.REACT_DEV === 'dev' ? process.env.REACT_APP_INTERNAL_API_PATH_ADMIN_DEV : process.env.REACT_APP_INTERNAL_API_PATH_ADMIN,
     withCredentials: true,
     headers: {
         "Content-Type":"application/json",
