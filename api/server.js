@@ -37,13 +37,10 @@ app.use(router);
 
 app.use('/storage', express.static(path.join(__dirname + '/storage')));
 
-// Serve static files from the React build folder
-app.use(express.static(path.join(__dirname, '../build')));
-
-// Catch-all route to serve the React app
-app.get('/(.*)', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
-});
+app.get('/',(req,res)=>{
+    app.use(express.static(path.resolve(__dirname,'../build')))
+    res.sendFile(path.resolve(__dirname,'client','../build','index.html'))
+})
 
 app.use(errorHandler);
 
