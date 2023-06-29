@@ -50,6 +50,7 @@
   "scripts": {
     "dev": "cd api && nodemon server.js",
     "start": "cd api && node server.js",
+    "client": "react-scripts start",
     "build": "react-scripts build && mv build dist",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
