@@ -37,6 +37,14 @@ app.use(router);
 
 app.use('/storage', express.static(path.join(__dirname + '/storage')));
 
+// Serve static files from the React build folder
+app.use(express.static(path.join(__dirname, '../build')));
+
+// Catch-all route to serve the React app
+app.get('/(.*)', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
+
 app.use(errorHandler);
 
 app.listen(PORT,()=>{
