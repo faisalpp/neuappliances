@@ -48,6 +48,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "now-build": "react-scripts build && mv build dist",
     "dev": "cd api && nodemon server.js",
     "start": "cd api && node server.js",
     "build": "vercel --prod",
