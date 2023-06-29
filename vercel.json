@@ -2,7 +2,7 @@
     "version": 2,
     "public": false,
     "builds": [
-      { "src": "package.json", "use": "@now/static-build" },
+      { "src": "package.json", "use": "@vercel/static-build" },
       { "src": "/api/server.js", "use": "@now/node-server" }
     ],
     "routes": [
