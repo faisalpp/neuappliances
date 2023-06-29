@@ -17,16 +17,10 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.json());
 
-app.use(cors({
-  credentials: true,
-  origin: ['http://localhost:3000','https://neuappliances.vercel.app'],
-}));
-
-app.get('/', (req, res) => {
-  res.send('Hey this is my API running 🥳')
-})
-
-
+// app.use(cors({
+//   credentials: true,
+//   origin: ['http://localhost:3000','https://neuappliances.vercel.app'],
+// }));
 
 // app.use(
 //   cors({
@@ -37,10 +31,24 @@ app.get('/', (req, res) => {
 //     credentials: true,
 //   })
 // );
+dbconnect();
 
 app.use(router);
-dbconnect();
+
 app.use('/storage', express.static(path.join(__dirname + '/storage')));
+
+if(process.env.DEV === 'production'){
+    app.use(express.static(path.resolve(__dirname,'../dist')));
+    
+app.get("/*", (req, res) => {
+res.sendFile(path.resolve(__dirname, '../dist', 'index.html'),function (err) {
+        if(err) {
+            res.status(500).send(err)
+        }
+    });
+})
+}
+
 app.use(errorHandler);
 
 app.listen(PORT,()=>{
