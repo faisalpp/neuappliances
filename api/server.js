@@ -37,18 +37,6 @@ app.use(router);
 
 app.use('/storage', express.static(path.join(__dirname + '/storage')));
 
-if(process.env.DEV === 'production'){
-    app.use(express.static(path.resolve(__dirname,'../dist')));
-    
-app.get("/*", (req, res) => {
-res.sendFile(path.resolve(__dirname, '../dist', 'index.html'),function (err) {
-        if(err) {
-            res.status(500).send(err)
-        }
-    });
-})
-}
-
 app.use(errorHandler);
 
 app.listen(PORT,()=>{
