@@ -48,14 +48,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "dev": "cd api && nodemon server.js",
-    "start": "cd api && node server.js",
-    "client": "react-scripts start",
-    "build": "react-scripts build && mv build dist",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:5000/",
   "eslintConfig": {
     "extends": [
       "react-app",

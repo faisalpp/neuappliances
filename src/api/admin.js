@@ -1,8 +1,13 @@
 import axios from 'axios'
 
+let baseURL = REACT_APP_INTERNAL_API_PATH_ADMIN; // Default production URL
+
+if (process.env.DEV === 'true') {
+  baseURL = REACT_APP_INTERNAL_API_PATH_ADMIN_DEV; // Development URL
+}
 
 const AdminApi = axios.create({
-    baseURL: process.env.REACT_DEV === 'dev' ? process.env.REACT_APP_INTERNAL_API_PATH_ADMIN_DEV : process.env.REACT_APP_INTERNAL_API_PATH_ADMIN,
+    baseURL: process.env.REACT_APP_INTERNAL_API_PATH_ADMIN,
     withCredentials: true,
     headers: {
         "Content-Type":"application/json",
@@ -21,9 +26,9 @@ const AdminRegApi = axios.create({
 
 export const Signin = async (data) => {
     let response;
-
+    console.log(data)
     try{
-        response = await AdminApi.post('/login',data);
+        response = await AdminRegApi.post('/login',data);
     }catch (error){
         return error;
     }

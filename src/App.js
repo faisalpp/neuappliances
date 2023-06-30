@@ -121,8 +121,8 @@ function App() {
       <Route path="/help-card-page" element={<HelpCardPage />} />
 
       {/* Admin Related Routes */}
-      <Route path="/nu-admin" element={<AuthRoute><AdminLogin /></AuthRoute>} />
-      <Route path="/admin/dashboard" element={<ProtectedAdmin><Dashboard /></ProtectedAdmin>} />
+      <Route path="/nu-admin" element={<AdminLogin />} />
+      <Route path="/admin/dashboard" element={<Dashboard />} />
       {/* Categories Related Routes */}
       <Route path="/admin/manage-products" element={<ProtectedAdmin><ManageProducts /></ProtectedAdmin>} />
       <Route path="/admin/create-product" element={<ProtectedAdmin><CreateProduct /></ProtectedAdmin>} />
