@@ -23,7 +23,7 @@ export const Signin = async (data) => {
     let response;
     console.log(data)
     try{
-        response = await AdminRegApi.post('/login',data);
+        response = await AdminApi.post('/login',data);
     }catch (error){
         return error;
     }
