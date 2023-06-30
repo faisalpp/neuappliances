@@ -20,7 +20,7 @@ const ApplianceTypes = () => {
                 setApplianceTypes(res.data.categories);
                 setLoading(false)
             }else{
-              navigate('/isr')
+              console.log(res)
             }
         }
         getAppliances();
