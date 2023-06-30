@@ -1,13 +1,7 @@
 import axios from 'axios'
 
-let baseURL = process.env.REACT_APP_INTERNAL_API_PATH; // Default production URL
-
-if (process.env.DEV === 'true') {
-  baseURL = process.env.REACT_APP_INTERNAL_API_PATH; // Development URL
-}
-
 const api = axios.create({
-    baseURL:  baseURL,
+    baseURL: process.env.REACT_APP_INTERNAL_API_PATH,
     headers: {
         "Content-Type":"application/json",
     },

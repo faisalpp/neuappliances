@@ -33,7 +33,7 @@ function useAutoLoginAdmin() {
           if (error.response && error.response.status === 401) {
             // Unauthorized, redirect the user to the login page
             dispatch(resetUser());
-            navigate('/login')
+            navigate('/nu-admin')
           } else {
             // Handle other error scenarios
             console.error(error);
