@@ -122,7 +122,7 @@ function App() {
 
       {/* Admin Related Routes */}
       <Route path="/nu-admin" element={<AuthRoute><AdminLogin /></AuthRoute>} />
-      <Route path="/admin/dashboard" element={<ProtectedAdmin><Dashboard /></ProtectedAdmin>} />
+      <Route path="/admin/dashboard" element={<Dashboard />} />
       {/* Categories Related Routes */}
       <Route path="/admin/manage-products" element={<ProtectedAdmin><ManageProducts /></ProtectedAdmin>} />
       <Route path="/admin/create-product" element={<ProtectedAdmin><CreateProduct /></ProtectedAdmin>} />
