@@ -143,7 +143,7 @@ const ProductSection = ({data,category}) => {
                     {section.cardStyle === 'rating-card' ?<div>
                         <h3 className='font-semibold text-b18'>{section.title}</h3>
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-8'>
-                         {section.sectionItemsId.map((product)=><NavLink to={`${process.env.REACT_APP_INTERNAL_PATH}/${category.toLowerCase()}/${section.type}/${product.rating}`} ><ProductCard key={product.title} title={product.title} image={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} rating={product.rating} /></NavLink>)}
+                         {section.sectionItemsId.map((product)=><NavLink to={`/appliances/${category.toLowerCase()}/${section.type}/${product.rating}`} ><ProductCard key={product.title} title={product.title} image={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} rating={product.rating} /></NavLink>)}
                         </div>
                     </div>:null}
 
@@ -151,13 +151,13 @@ const ProductSection = ({data,category}) => {
                      {section.cardStyle === 'general-card' ? <div>
                         <RelatedProducts title={section.title} />
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-8'>
-                            {section.sectionItemsId.map((product)=><NavLink to={`${process.env.REACT_APP_INTERNAL_PATH}/${category.toLowerCase()}/${section.type}/${product.title.toLowerCase().replace(/\s/g, "-")}`} ><ProductCard key={product.title} title={product.title} image={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} /></NavLink>)}
+                            {section.sectionItemsId.map((product)=><NavLink to={`/appliances/${category.toLowerCase()}/${section.type}/${product.title.toLowerCase().replace(/\s/g, "-")}`} ><ProductCard key={product.title} title={product.title} image={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} /></NavLink>)}
                         </div>
                     </div>:null}
                      {section.cardStyle === '2xn-card' ? <div>
                         <RelatedProducts title={section.title} />
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6 mt-8'>
-                            {section.sectionItemsId.map((product)=><NavLink to={`${process.env.REACT_APP_INTERNAL_PATH}/${category.toLowerCase()}/${section.type}/${product.title.toLowerCase().replace(/\s/g, "-")}`} ><ProductCard key={product.title} title={product.title} image={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} /></NavLink>)}
+                            {section.sectionItemsId.map((product)=><NavLink to={`/appliances/${category.toLowerCase()}/${section.type}/${product.title.toLowerCase().replace(/\s/g, "-")}`} ><ProductCard key={product.title} title={product.title} image={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} /></NavLink>)}
                         </div>
                     </div>:null}
 
@@ -165,14 +165,14 @@ const ProductSection = ({data,category}) => {
                     {section.cardStyle === 'brand-card' ?<div>
                         <RelatedProducts title={section.title} />
                         <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mt-8'>
-                            {section.sectionItemsId.map((product)=><NavLink to={`${process.env.REACT_APP_INTERNAL_PATH}/${category.toLowerCase()}/${section.type}/${product.title.toLowerCase().replace(/\s/g, "-")}`} ><ProductCard key={product.title} brandname={product.title} brandimage={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} /></NavLink>)}
+                            {section.sectionItemsId.map((product)=><NavLink to={`/appliances/${category.toLowerCase()}/${section.type}/${product.title.toLowerCase().replace(/\s/g, "-")}`} ><ProductCard key={product.title} brandname={product.title} brandimage={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} /></NavLink>)}
                         </div>
                     </div>:null}
 
                     {section.cardStyle === 'color-card' ?<div>
                         <RelatedProducts title={section.title} />
                         <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mt-8'>
-                            {section.sectionItemsId.map((product)=><NavLink to={`${process.env.REACT_APP_INTERNAL_PATH}/${category.toLowerCase()}/${section.type}/${product.title.toLowerCase().replace(/\s/g, "-")}`} ><ProductCard key={product.title} colorname={product.title} colorimage={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} /></NavLink>)}
+                            {section.sectionItemsId.map((product)=><NavLink to={`/appliances/${category.toLowerCase()}/${section.type}/${product.title.toLowerCase().replace(/\s/g, "-")}`} ><ProductCard key={product.title} colorname={product.title} colorimage={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${product.image}`} /></NavLink>)}
                         </div>
                     </div>:null}
                     </>
