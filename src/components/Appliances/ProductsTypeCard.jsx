@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { AiOutlineArrowRight } from "react-icons/ai"
 
 const ProductsTypeCard = ({ productstype }) => {
+    console.log(`${process.env.REACT_APP_INTERNAL_PATH}/storage/categories/1687645353244-Refrigerators.png`)
     return (
         <>
         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8'>
@@ -13,7 +14,7 @@ const ProductsTypeCard = ({ productstype }) => {
                             <Link to={`/appliances/${product.slug}/${product._id}`} className='duration-300 inline-flex items-center gap-2 hover:gap-3 px-5 py-2 rounded-lg bg-b7 text-white'>View All Appliances<AiOutlineArrowRight className="text-base" /></Link>
                         </div>
                         <div className='h-80 xl:h-96 2xl:h-[393px] w-full inline-flex justify-center items-center'>
-                            <img src={`http://localhost:5000/storage/categories/${product.image}`} className='object-contain' alt={product.title} />
+                            <img src={`${process.env.REACT_APP_INTERNAL_PATH}/storage/categories/${product.image}`} className='object-contain' alt={product.title} />
                         </div>
                         <div className='flex flex-col mt-6 gap-[10px] items-center text-center'>
                             <h3 className='font-bold text-lg 3xl:text-[20px]'>{product.title}</h3>

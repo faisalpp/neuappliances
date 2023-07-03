@@ -21,7 +21,7 @@ const AdminRegApi = axios.create({
 
 export const Signin = async (data) => {
     let response;
-
+    console.log(data)
     try{
         response = await AdminApi.post('/login',data);
     }catch (error){

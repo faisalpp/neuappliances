@@ -10,6 +10,7 @@ import NewsLetterSection from '../components/NewsLetterSection';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import {GetApplianceSections} from '../api/frontEnd';
 import { useParams } from 'react-router-dom';
+import Loader from '../components/Loader/Loader'
 
 const Appliances = () => {
 
@@ -17,6 +18,8 @@ const Appliances = () => {
   const [description,setDescription] = useState('');
   const [catTitle,setCatTitle] = useState('');
   const {categorySlug,categoryId} = useParams();
+
+  const [loading,isLoading] = useState(true);
 
   const data = {categoryId};
   useEffect(() => {
@@ -26,7 +29,7 @@ const Appliances = () => {
               setSections(res.data.categorySections);
               setDescription(res.data.categoryDescription);
               setCatTitle(res.data.categoryTitle);
-              console.log(res)
+              isLoading(false)
           }
       }
       getAppliances();
@@ -34,6 +37,7 @@ const Appliances = () => {
 
   return (
     <>
+      {loading ? <Loader/> : (
       <MainLayout>
         <div className='py-10 lg:py-16 xl:py-20 w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
           {/* Bread Crumbs Start */}
@@ -55,7 +59,7 @@ const Appliances = () => {
         <SatisfiedSection title="Join Thousands of our Satisfied Customers." />
 
         <NewsLetterSection backimage="/Newsletter.png" />
-      </MainLayout>
+      </MainLayout>)}
     </>
   )
 }

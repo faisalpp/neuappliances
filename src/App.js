@@ -50,11 +50,12 @@ import UpdateSection from "./pages/AdminAccount/UpdateSection";
 import UpdateCategory from "./pages/AdminAccount/UpdateCategory";
 import UpdateSectionItem from "./pages/AdminAccount/UpdateSectionItem";
 import WhatWeSell from './components/HowItworks/WhatWeSell';
-import Ratings from './components/HowItworks/Ratings';
+import Ratings from './components/HowItworks/Ratings'
 import Tested from './components/HowItworks/Tested';
 import Photos from './components/HowItworks/Photos';
 import Delivered from './components/HowItworks/Delivered';
 import HassleFree from './components/HowItworks/HassleFree';
+import Isr from "./pages/InternalError";
 
 function App() {
 
@@ -124,7 +125,7 @@ function App() {
 
       {/* Admin Related Routes */}
       <Route path="/nu-admin" element={<AuthRoute><AdminLogin /></AuthRoute>} />
-      <Route path="/admin/dashboard" element={<ProtectedAdmin><Dashboard /></ProtectedAdmin>} />
+      <Route path="/admin/dashboard" element={<Dashboard />} />
       {/* Categories Related Routes */}
       <Route path="/admin/manage-products" element={<ProtectedAdmin><ManageProducts /></ProtectedAdmin>} />
       <Route path="/admin/create-product" element={<ProtectedAdmin><CreateProduct /></ProtectedAdmin>} />
@@ -144,6 +145,7 @@ function App() {
 
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />
+      <Route path="/isr" element={<Isr />} />
     </Routes>
   );
 }

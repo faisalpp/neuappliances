@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+
 const regApi = axios.create({
     baseUrl: process.env.REACT_APP_INTERNAL_API_PATH,
     headers: {
