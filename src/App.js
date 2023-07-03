@@ -43,6 +43,7 @@ import CreateProduct from "./pages/AdminAccount/CreateProduct";
 import ViewSections from "./pages/AdminAccount/ViewSections";
 import CreateSection from "./pages/AdminAccount/CreateSection";
 import CreateSectionItem from "./pages/AdminAccount/CreateSectionItem";
+import Checkout from "./pages/Checkout/Checkout";
 import ViewSectionItems from "./pages/AdminAccount/ViewSectionItems";
 import { useSelector } from "react-redux";
 import UpdateSection from "./pages/AdminAccount/UpdateSection";
@@ -119,6 +120,8 @@ function App() {
       <Route path="/help-and-support" element={<HelpAndSupport />} />
       <Route path="/help-card-page" element={<HelpCardPage />} />
 
+      <Route path="/checkout" element={<Checkout />} />
+
       {/* Admin Related Routes */}
       <Route path="/nu-admin" element={<AuthRoute><AdminLogin /></AuthRoute>} />
       <Route path="/admin/dashboard" element={<ProtectedAdmin><Dashboard /></ProtectedAdmin>} />
@@ -135,7 +138,7 @@ function App() {
       <Route path="/admin/create-category" element={<ProtectedAdmin><CreateCategory /></ProtectedAdmin>} />
       <Route path="/admin/update-category/:id" element={<ProtectedAdmin><UpdateCategory /></ProtectedAdmin>} />
       <Route path="/admin/view-category-sections/:title/:categoryId" element={<ProtectedAdmin><ViewSections /></ProtectedAdmin>} />
-      
+
       <Route path="/admin/view-section-items/:sectionId" element={<ProtectedAdmin><ViewSectionItems /></ProtectedAdmin>} />
       <Route path="/admin/update-section-item/:id" element={<ProtectedAdmin><UpdateSectionItem /></ProtectedAdmin>} />
 

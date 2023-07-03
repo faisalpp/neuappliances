@@ -4,7 +4,6 @@ import { HiOutlineTruck } from 'react-icons/hi'
 import { FaDotCircle } from 'react-icons/fa'
 import SideCartCard from './Cart/SideCartCard'
 
-
 const SideCart = ({ sCart, setSCart }) => {
   return (
     <div className={` ${sCart ? 'fixed' : 'hidden'} top-0 z-[999] bg-black/60 w-full h-screen`} >
