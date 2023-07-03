@@ -1,5 +1,6 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from './pages/Home';
+import Landing from './pages/Landing';
 import Register from './pages/Register';
 import Products from './pages/Products';
 import Product from './pages/Product';
@@ -81,6 +82,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      {/* landing Page */}
+      <Route path="/landing-page" element={<Landing />} />
+      {/* ===== */}
       <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
       <Route path="/register" element={<AuthRoute><Register /></AuthRoute>} />
       <Route path="/forgot-password" element={<AuthRoute><ForgotPassword /></AuthRoute>} />
