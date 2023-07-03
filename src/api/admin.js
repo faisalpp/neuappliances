@@ -6,6 +6,17 @@ const AdminApi = axios.create({
     withCredentials: true,
     headers: {
         "Content-Type":"application/json",
+        // 'Content-Type': 'multipart/form-data'
+    },
+    maxContentLength: 10 * 1024 * 1024, // 10 megabytes (10MB)
+    maxBodyLength: 10 * 1024 * 1024, // 10 megabytes (10MB)
+});
+const AdminMultiApi = axios.create({
+    baseURL: process.env.REACT_APP_INTERNAL_API_PATH_ADMIN,
+    withCredentials: true,
+    headers: {
+        // "Content-Type":"application/json",
+        'Content-Type': 'multipart/form-data'
     },
     maxContentLength: 10 * 1024 * 1024, // 10 megabytes (10MB)
     maxBodyLength: 10 * 1024 * 1024, // 10 megabytes (10MB)
@@ -172,6 +183,75 @@ export const getSectionItems = async (data) => {
     return response;
 }
 
+// Proudct Related Rotues
+export const createProduct = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminMultiApi.post('/create-product',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const getProducts = async () => {
+    let response;
+    
+    try{
+        response = await AdminApi.get('/get-products');
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+// Get Product Types List
+export const getProductTypes = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/get-product-types',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+// Get Product Types List
+export const getProductFeatures = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/get-product-features',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const getCategoryBrands = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/get-category-brands',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const getCategoryColors = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/get-category-colors',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+
+
+
 AdminApi.interceptors.response.use(
     (config) => config,
     async (error) => {
@@ -190,6 +270,31 @@ AdminApi.interceptors.response.use(
           });
   
           return AdminApi.request(originalReq);
+        } catch (error) {
+          return error;
+        }
+      }
+    }
+  );
+
+  AdminMultiApi.interceptors.response.use(
+    (config) => config,
+    async (error) => {
+      const originalReq = error.config;
+  
+      if (
+        (error.response.status === 401 || error.response.status === 500) &&
+        originalReq &&
+        !originalReq._isRetry
+      ) {
+        originalReq._isRetry = true;
+  
+        try {
+          await axios.get(`${process.env.REACT_APP_INTERNAL_API_PATH_ADMIN}/refresh`, {
+            withCredentials: true,
+          });
+  
+          return AdminMultiApi.request(originalReq);
         } catch (error) {
           return error;
         }

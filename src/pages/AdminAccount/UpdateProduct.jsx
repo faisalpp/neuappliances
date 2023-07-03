@@ -13,7 +13,7 @@ import createProductSchema from '../../schemas/createProductSchema';
 import Loader2 from '../../components/Loader/Loader2'
 import ToolTip from '../../components/ToolTip'
 
-const CreateProduct = () => {
+const UpdateProduct = () => {
   const initialValues = {title: '',color:'',slug: '',category: '',brand: '',fuelType: '',type: '',dryerOption: '',feature: '',bullet1: '',bullet2: '',bullet3: '',bullet4: '',salePrice: '',regularPrice: '',images: [],featuresVideo: '',threeSixty: '',modelNo: '',itemId: '',stock: '',rating: '',lowerInstallment: '',highInstallment: '',description: '',specification: '',deliveryInfo: ''};
   
   const [values, setValues] = useState(initialValues);
@@ -322,4 +322,4 @@ const CreateProduct = () => {
     )
 }
 
-export default CreateProduct
+export default UpdateProduct

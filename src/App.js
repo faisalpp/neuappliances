@@ -55,6 +55,7 @@ import Photos from './components/HowItworks/Photos';
 import Delivered from './components/HowItworks/Delivered';
 import HassleFree from './components/HowItworks/HassleFree';
 import Isr from "./pages/InternalError";
+import UpdateProduct from "./pages/AdminAccount/UpdateProduct";
 
 function App() {
 
@@ -84,6 +85,9 @@ function App() {
       <Route path="/products" element={<Products />} />
       <Route path="/product" element={<Product />} />
       <Route path="/appliances/:categorySlug/:categoryId" element={<Appliances />} />
+      {/* Appliances Filters */}
+      <Route path="/appliances/:categorySlug/:type/:rating" element={<Appliances />} />
+
       <Route path="/appliancetypes" element={<ApplianceTypes />} />
       <Route path="/faqs" element={<GeneralFaqs />} />
       <Route path="/our-story" element={<OurStory />} />
@@ -122,10 +126,8 @@ function App() {
 
       {/* Admin Related Routes */}
       <Route path="/nu-admin" element={<AuthRoute><AdminLogin /></AuthRoute>} />
-      <Route path="/admin/dashboard" element={<Dashboard />} />
+      <Route path="/admin/dashboard" element={<ProtectedAdmin><Dashboard /></ProtectedAdmin>} />
       {/* Categories Related Routes */}
-      <Route path="/admin/manage-products" element={<ProtectedAdmin><ManageProducts /></ProtectedAdmin>} />
-      <Route path="/admin/create-product" element={<ProtectedAdmin><CreateProduct /></ProtectedAdmin>} />
       {/* Category Section Related Routes */}
       <Route path="/admin/create-section/:categoryTitle/:id" element={<ProtectedAdmin><CreateSection /></ProtectedAdmin>} />
       <Route path="/admin/update-section/:slug/:id" element={<ProtectedAdmin><UpdateSection /></ProtectedAdmin>} />
@@ -136,9 +138,13 @@ function App() {
       <Route path="/admin/create-category" element={<ProtectedAdmin><CreateCategory /></ProtectedAdmin>} />
       <Route path="/admin/update-category/:id" element={<ProtectedAdmin><UpdateCategory /></ProtectedAdmin>} />
       <Route path="/admin/view-category-sections/:title/:categoryId" element={<ProtectedAdmin><ViewSections /></ProtectedAdmin>} />
-      
+      {/* Section Items */}
       <Route path="/admin/view-section-items/:sectionId" element={<ProtectedAdmin><ViewSectionItems /></ProtectedAdmin>} />
       <Route path="/admin/update-section-item/:id" element={<ProtectedAdmin><UpdateSectionItem /></ProtectedAdmin>} />
+      {/* Product Update */}
+      <Route path="/admin/create-product" element={<ProtectedAdmin><CreateProduct /></ProtectedAdmin>} />
+      <Route path="/admin/manage-products" element={<ProtectedAdmin><ManageProducts /></ProtectedAdmin>} />
+      <Route path="/admin/update-product/:id" element={<ProtectedAdmin><UpdateProduct /></ProtectedAdmin>} />
 
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />
