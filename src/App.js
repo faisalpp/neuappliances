@@ -1,5 +1,6 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from './pages/Home';
+import Landing from './pages/Landing';
 import Register from './pages/Register';
 import Products from './pages/Products';
 import Product from './pages/Product';
@@ -43,6 +44,9 @@ import CreateProduct from "./pages/AdminAccount/CreateProduct";
 import ViewSections from "./pages/AdminAccount/ViewSections";
 import CreateSection from "./pages/AdminAccount/CreateSection";
 import CreateSectionItem from "./pages/AdminAccount/CreateSectionItem";
+import CheckoutInformation from "./pages/Checkout/Information";
+import CheckoutShipping from "./pages/Checkout/Shipping";
+import CheckoutPayment from "./pages/Checkout/Payment";
 import ViewSectionItems from "./pages/AdminAccount/ViewSectionItems";
 import { useSelector } from "react-redux";
 import UpdateSection from "./pages/AdminAccount/UpdateSection";
@@ -79,6 +83,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      {/* landing Page */}
+      <Route path="/landing-page" element={<Landing />} />
+      {/* ===== */}
       <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
       <Route path="/register" element={<AuthRoute><Register /></AuthRoute>} />
       <Route path="/forgot-password" element={<AuthRoute><ForgotPassword /></AuthRoute>} />
@@ -111,6 +118,9 @@ function App() {
       <Route path="/my-account/email-preferences" element={<ProtectedUser><EmailPreferences /></ProtectedUser>} />
 
       <Route path="/mycart" element={<MyCart />} />
+      <Route path="/mycart/information" element={<CheckoutInformation />} />
+      <Route path="/mycart/shipping" element={<CheckoutShipping />} />
+      <Route path="/mycart/payment" element={<CheckoutPayment />} />
 
       <Route path="/stay-in-loop" element={<StayInLoop />} />
 
@@ -139,6 +149,7 @@ function App() {
       <Route path="/admin/update-category/:id" element={<ProtectedAdmin><UpdateCategory /></ProtectedAdmin>} />
       <Route path="/admin/view-category-sections/:title/:categoryId" element={<ProtectedAdmin><ViewSections /></ProtectedAdmin>} />
       {/* Section Items */}
+
       <Route path="/admin/view-section-items/:sectionId" element={<ProtectedAdmin><ViewSectionItems /></ProtectedAdmin>} />
       <Route path="/admin/update-section-item/:id" element={<ProtectedAdmin><UpdateSectionItem /></ProtectedAdmin>} />
       {/* Product Update */}
