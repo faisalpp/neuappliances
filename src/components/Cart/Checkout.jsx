@@ -11,7 +11,7 @@ const Checkout = () => {
             <div className='flex justify-between'><span>Delivery Fee</span><span>$80</span></div>
             <hr className='border-[rgba(0,0,0,0.08)]' />
             <div className='flex justify-between p-2'><span>Order Total</span><span className='text-2xl'>-</span></div>
-            <Link to="/checkout" className='px-4 py-3 flex gap-2 justify-center text-xs rounded-lg bg-b3 text-white font-semibold'>
+            <Link to="/mycart/information" className='px-4 py-3 flex gap-2 justify-center text-xs rounded-lg bg-b3 text-white font-semibold'>
                 <span>
                     Proceed to Checkout
                 </span>

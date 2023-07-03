@@ -43,7 +43,9 @@ import CreateProduct from "./pages/AdminAccount/CreateProduct";
 import ViewSections from "./pages/AdminAccount/ViewSections";
 import CreateSection from "./pages/AdminAccount/CreateSection";
 import CreateSectionItem from "./pages/AdminAccount/CreateSectionItem";
-import Checkout from "./pages/Checkout/Checkout";
+import CheckoutInformation from "./pages/Checkout/Information";
+import CheckoutShipping from "./pages/Checkout/Shipping";
+import CheckoutPayment from "./pages/Checkout/Payment";
 import ViewSectionItems from "./pages/AdminAccount/ViewSectionItems";
 import { useSelector } from "react-redux";
 import UpdateSection from "./pages/AdminAccount/UpdateSection";
@@ -108,6 +110,9 @@ function App() {
       <Route path="/my-account/email-preferences" element={<ProtectedUser><EmailPreferences /></ProtectedUser>} />
 
       <Route path="/mycart" element={<MyCart />} />
+      <Route path="/mycart/information" element={<CheckoutInformation />} />
+      <Route path="/mycart/shipping" element={<CheckoutShipping />} />
+      <Route path="/mycart/payment" element={<CheckoutPayment />} />
 
       <Route path="/stay-in-loop" element={<StayInLoop />} />
 
@@ -120,8 +125,6 @@ function App() {
 
       <Route path="/help-and-support" element={<HelpAndSupport />} />
       <Route path="/help-card-page" element={<HelpCardPage />} />
-
-      <Route path="/checkout" element={<Checkout />} />
 
       {/* Admin Related Routes */}
       <Route path="/nu-admin" element={<AuthRoute><AdminLogin /></AuthRoute>} />
