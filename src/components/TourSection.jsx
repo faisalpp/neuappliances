@@ -5,7 +5,8 @@ const TourSection = () => {
   return (
     <div id="tour" className='grid grid-cols-1 xl:grid-cols-2 gap-7 max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px w-full mx-auto py-10 lg:py-14 xl:py-24' >
       {/* w-11/12 rounded-2xl xl:h-[651px] xl:w-[640px] lg:w-[400px] h-72 lg:h-96' */}
-      <iframe className='w-full h-72 lg:h-96 xl:h-full rounded-[20px]' src="https://www.youtube.com/embed/OzCAGd4YVbI" title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      {/* <iframe className='w-full h-72 lg:h-96 xl:h-full rounded-[20px]' src="/videos/sample.mp4" title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
+      <video controls src="/videos/sample.mp4" className='w-full object-cover h-72 lg:h-96 xl:h-full rounded-[20px]' />
       {/* <img src="tour.png" className='col-start-1 col-end-6 w-full xl:h-[470px] h-72 lg:h-96' /> */}
       {/* <div className=' flex flex-col items-center lg:mt-0 mt-5 h-full' > */}
       {/* xl:w-[760px]  lg:w-11/12*/}
