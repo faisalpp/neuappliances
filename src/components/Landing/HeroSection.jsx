@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AiOutlineArrowRight, AiOutlineShoppingCart } from 'react-icons/ai'
+import { IoCloseOutline, IoMenu } from 'react-icons/io5'
 import { MdOutlinePhone } from 'react-icons/md'
+import { TfiHeadphoneAlt } from 'react-icons/tfi'
 import { Link } from 'react-router-dom'
 
 const HeroSection = () => {
+    const [mobMenu, setMobMenu] = useState(false);
+    const [dealMenu, setDealMenu] = useState(false);
+    const [productMenu, setProductMenu] = useState(false);
+    const [brandMenu, setBrandMenu] = useState(false);
     return (
         <>
             <header className='relative'>
@@ -13,18 +19,35 @@ const HeroSection = () => {
                     <Link to="/">
                         <img src="/neu.png" alt="neuappliances" className='h-10' />
                     </Link>
-                    <div className='flex gap-6'>
+                    <div className='flex gap-6 items-center'>
+                        <button type='button' className='md:hidden text-white inline-flex items-center justify-center font-medium text-xs px-4 py-3 bg-[rgba(255,255,255,0.08)] rounded-lg relative'>
+                            <AiOutlineShoppingCart className='text-base' />
+                            <span className='bg-b3 text-white py-1 px-[6px] font-bold text-sm absolute rounded-full -right-2 -top-2'>
+                                0
+                            </span>
+                        </button>
+                        {mobMenu ? <button type='button' onClick={() => setMobMenu(false)} className='md:hidden flex items-center justify-center bg-b2 w-12 h-12 rounded-full text-white' ><IoCloseOutline className='text-white text-2xl' /></button> : <button type='button' onClick={() => setMobMenu(true)} className='md:hidden flex justify-center items-center bg-b2 w-12 h-12 rounded-full text-white' ><IoMenu className='text-2xl' /></button>}
+                    </div>
+                    <div className={`${mobMenu ? 'maxmd:fixed' : 'maxmd:hidden'} flex maxmd:flex-col maxmd:p-10 rounded-md gap-4 md:gap-6 maxmd:h-auto right-0 top-16 maxmd:bg-b1 maxmd:w-2/3 maxmd:overflow-y-scroll py-5 z-50`}>
                         <Link to="" className='text-white inline-flex gap-1 items-center justify-center font-medium text-xs px-4 py-3 bg-[rgba(255,255,255,0.08)] rounded-lg'>
                             <AiOutlineShoppingCart className='text-base' />
                             <span>
                                 Go to Store
                             </span>
                         </Link>
-                        <button type='button' className='text-white inline-flex items-center justify-center font-medium text-xs px-4 py-3 bg-[rgba(255,255,255,0.08)] rounded-lg'>
+                        <button type='button' className='maxmd:hidden relative text-white inline-flex items-center justify-center font-medium text-xs px-4 py-3 bg-[rgba(255,255,255,0.08)] rounded-lg'>
                             <AiOutlineShoppingCart className='text-base' />
+                            <span className='bg-b3 text-white py-1 px-[6px] font-bold text-sm absolute rounded-full -right-2 -top-2'>
+                                0
+                            </span>
                         </button>
-                        <Link to="" className='text-white'>
+                        <Link to="tel:(512) 992-2714" className='text-white text-xs font-medium flex gap-1 items-center'>
                             <MdOutlinePhone className='text-base' />
+                            <span>(512) 992-2714</span>
+                        </Link>
+                        <Link to="tel:(512) 992-2714" className='text-white text-xs font-medium flex gap-1 items-center'>
+                            <TfiHeadphoneAlt className='text-base' />
+                            <span>Need Help?</span>
                         </Link>
                     </div>
                 </nav>
