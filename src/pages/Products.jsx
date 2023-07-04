@@ -64,10 +64,9 @@ const Products = () => {
           <ProductFilter onClose={handleCloseFilter} isFilter={isFilter} />
           {/* Filters End */}
 
-
           <div className={`grid ${isGrid ? 'lg:grid-cols-3 grid-cols-1 lg:gap-x-2' : 'grid-cols-1'} gap-y-5 mb-10 w-full`} >
 
-           {products ? products.map((product)=> <ProductCard3 product={product} isGrid={isGrid} />):
+           {products.length > 0 ? products.map((product)=> <ProductCard3 product={product} isGrid={isGrid} />):
            <h1>No Product Founds!</h1>
            }
 

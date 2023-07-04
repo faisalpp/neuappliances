@@ -18,7 +18,7 @@ const ProductCard3 = ({ isGrid, product }) => {
 
       {isGrid ? <NavLink to="/product" ><div className='flex flex-col items-center border-[1px] border-gray-200 rounded-2xl w-12/12 py-5 cursor-pointer' >
         <div className='relative' >
-          <img src="p1.png" />
+          <img src={`${process.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}`} />
           <span className='absolute -top-2 -right-7 bg-b7 rounded-2xl font-semibold px-5 py-2 text-xs' >27% OFF</span>
         </div>
         <p className='font-semibold text-sm px-5' >White GE 1.7 cu. ft. Over the Range Microwave with Convenience Cooking Controls for long text</p>

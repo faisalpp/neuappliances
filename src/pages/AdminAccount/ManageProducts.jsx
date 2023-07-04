@@ -43,7 +43,7 @@ const ManageProducts = () => {
          </div>
          
          <div className='grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-7 xl:gap-10'>
-          {products ? products.map((product)=><ProductCard key={product._id} id={product._id} title={product.title} regularPrice={product.regularPrice} salePrice={product.salePrice} stars={product.rating} image={product.images[0]}  />)
+          {products.length > 0 ? products.map((product)=><ProductCard key={product._id} id={product._id} title={product.title} regularPrice={product.regularPrice} salePrice={product.salePrice} stars={product.rating} image={product.images[0]}  />)
           :
           <h2>No Product Found!</h2>
           }
