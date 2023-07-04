@@ -128,7 +128,7 @@ const CreateProduct = () => {
     };
     
     const handleTitleChange = (event) => {
-      const slug = event.target.value.toLowerCase().replace(' ','-')
+      const slug = event.target.value.toLowerCase().replace(/\s/g,'-')
       setValues((prevValues) => ({ ...prevValues, title: event.target.value }));
       setValues((prevValues) => ({ ...prevValues, slug: slug }));
     };
