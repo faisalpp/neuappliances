@@ -28,3 +28,13 @@ export const GetApplianceSections = async (data) => {
     }
     return response;
 }
+export const GetAppliancesByFilter = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/get-product-by-filter',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}

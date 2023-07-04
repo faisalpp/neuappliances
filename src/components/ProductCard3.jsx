@@ -32,7 +32,7 @@ const ProductCard3 = ({ isGrid, product }) => {
 
         <NavLink to="/product" ><div className='flex lg:space-x-10 space-x-2 border-[1px] border-gray-200 rounded-2xl w-full lg:py-10 py-5 lg:px-8 px-2 cursor-pointer' >
           <div className='relative w-44 coxs:w-52' >
-            <img src="p1.png" class="w-48 coxs:w-52" />
+            <img src="/p1.png" class="w-48 coxs:w-52" />
             <span className='absolute flex lg:-top-5 -top-4 right-0 lg:-right-6 bg-b4 rounded-2xl font-semibold px-3 py-1 lg:py-2 sm:text-xs text-[8px] coxs:text-[11px]' >50% OFF</span>
           </div>
 

@@ -81,11 +81,11 @@ const CreateProduct = () => {
            }
          }
          let catName = categories.find(obj => obj._id === values.category);
-         console.log(catName)
-         formData.set('category',catName.title)
+      
+         formData.set('category',catName.title.toLowerCase().replace(/\s/g,'-'))
 
         const res = await createProduct(formData);
-        console.log(res)
+        
         if(res.status === 201){
           setLoading(false)
           setValues(initialValues)

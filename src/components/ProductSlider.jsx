@@ -33,20 +33,18 @@ const ProductSlider = ({ image,products }) => {
   );
   return (
     <>
-      <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
-        {products ? products.map((product, index) => ( 
-         <div key={index}>
+      {products ?<Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
+        {products.map((product, index) => ( 
+          <div key={index}>
           <div className='flex w-full justify-center' ><img src={product.image} className='xl:w-1/2 lg:w-44 w-40 h-full mx-auto' alt='refrigrator' /></div>
          </div>
-         ))
-          :
-          <>
+         ))}
+      </Slider >:
+      <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
         <div className='flex w-full justify-center' ><img src={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${image}`} className='xl:w-1/2 lg:w-44 w-40 h-full mx-auto' alt='refrigrator' /></div>
         <div className='flex w-full justify-center' ><img src={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${image}`} className='xl:w-1/2 lg:w-44 w-40 h-full mx-auto' alt='refrigrator' /></div>
-        <div className='flex w-full justify-center' ><img src={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${image}`} className='xl:w-1/2 lg:w-44 w-40 h-full mx-auto' alt='refrigrator' /></div>    
-        </>
-        }
-      </Slider >
+        <div className='flex w-full justify-center' ><img src={`${process.env.REACT_APP_INTERNAL_PATH}/storage/sectionItems/${image}`} className='xl:w-1/2 lg:w-44 w-40 h-full mx-auto' alt='refrigrator' /></div>   
+      </Slider >}
     </>
   )
 }
