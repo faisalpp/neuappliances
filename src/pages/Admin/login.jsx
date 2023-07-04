@@ -26,7 +26,7 @@ const Login = () => {
     const data = {email,password}
 
      const res = await Signin(data);
-     console.log(res)
+     
      if(res.status === 200){
        const user = {
          _id: res.data.user._id,

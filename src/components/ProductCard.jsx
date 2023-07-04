@@ -8,25 +8,25 @@ import { Link } from 'react-router-dom'
 const ProductCard = ({ title, dicount, type, stars, discount, codmetics }) => {
   const products = [
     {
-      image: 'p1.png',
+      image: '/p1.png',
     },
     {
-      image: 'p1.png',
+      image: '/p1.png',
     },
     {
-      image: 'p1.png',
+      image: '/p1.png',
     },
     {
-      image: 'p1.png',
+      image: '/p1.png',
     },
     {
-      image: 'p1.png',
+      image: '/p1.png',
     },
     {
-      image: 'p1.png',
+      image: '/p1.png',
     },
     {
-      image: 'p1.png',
+      image: '/p1.png',
     },
   ];
   const StarIconPrinter = ({ numberOfTimes }) => {

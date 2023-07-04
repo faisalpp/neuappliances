@@ -4,7 +4,7 @@ import { BsArrowRightShort } from 'react-icons/bs'
 
 const LoopSection = () => {
 
-  const [video, setVideo] = useState('https://www.youtube.com/embed/OzCAGd4YVbI');
+  const [video, setVideo] = useState('/videos/sample.mp4');
 
   return (
     // <div className='flex flex-col mt-12 max-w-1680px px-120px mx-auto' >
@@ -15,7 +15,8 @@ const LoopSection = () => {
       </div>
 
       <div className='py-10 lg:py-16 lg:mb-0' >
-        <iframe className='col-start-1 col-end-6 w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]' src={video} title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        {/* <iframe className='col-start-1 col-end-6 w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]'  title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
+        <video controls className='col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]' src={video} />
         <div>
           <StayLoopSlider state={video} setState={setVideo} />
         </div>

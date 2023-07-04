@@ -14,7 +14,8 @@ const HeroSection = () => {
             <div className='relative w-full' >
               <img src="45.png" className='absolute xl:-top-14 xl:-left-10 lg:-top-10 lg:-left-10 2xl:w-[152px] 2xl:h-[152px] xl:w-[135px] xl:h-[135] lg:w-[125px] lg:h-[125px] h-20 -top-8 -left-5' />
               {/* <img src="hero-img.png" className='xl:w-[640] lg:h-96 xl:h-[504px] h-72 ' /> */}
-              <iframe className='2xl:h-[504px] lg:h-96 lg:w-full h-52 w-80 rounded-2xl ' src="https://www.youtube.com/embed/OzCAGd4YVbI" title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+              {/* <iframe className='2xl:h-[504px] lg:h-96 lg:w-full h-52 w-80 rounded-2xl ' src="https://www.youtube.com/embed/OzCAGd4YVbI" title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
+              <video controls className='2xl:h-[504px] object-cover lg:h-96 lg:w-full h-52 w-80 rounded-2xl ' src="/videos/sample.mp4" />
             </div>
           </div>
         </div>
