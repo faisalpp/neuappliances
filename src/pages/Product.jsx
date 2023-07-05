@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import MainLayout from '../layout/MainLayout'
 import { RiStackLine } from 'react-icons/ri'
 import { GiThermometerHot } from 'react-icons/gi'
@@ -7,7 +7,7 @@ import { GiFlame } from 'react-icons/gi'
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { MdElectricBolt, MdOutlinePropane } from 'react-icons/md';
 import { AiOutlineDollarCircle, AiFillStar, AiOutlineQuestionCircle, AiOutlineSearch, AiFillCloseCircle, AiOutlineShoppingCart, AiFillCheckCircle, AiOutlineCheckCircle, AiOutlineHeart } from 'react-icons/ai';
-import { IoBagCheckOutline } from 'react-icons/io5';
+import { IoBagCheckOutline, IoCloseOutline } from 'react-icons/io5';
 import { BsArrowRightShort, BsShieldLock, BsShopWindow, BsStarHalf } from 'react-icons/bs';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { BsTruck } from 'react-icons/bs';
@@ -30,12 +30,42 @@ import MoreImagesModal from '../components/MoreImagesModal'
 import StickyNavbar from '../components/DeskComp/Navbar/StickyNavbar'
 import CustomModal from '../components/Modal/CustomModal'
 import TruckSvg from '../svgs/TruckSvg'
+import { GetAppliancesBySlug } from '../api/frontEnd'
+import Loader from '../components/Loader/Loader'
 
 const Product = () => {
+  // Get slug form url
+  const {slug} = useParams()
+  const navigate = useNavigate()
+
   const [deliveryType, setDeliverType] = useState('pickup');
   const [zip, setZip] = useState('');
   const [changeZip, setChangeZip] = useState(true);
   const [error, setError] = useState(false);
+  const [loading,setLoading] = useState(false)
+  
+  const [product,setProduct] = useState([])
+
+  useEffect(() => {
+    GetProduct()
+  }, [])
+  
+
+  const GetProduct = async () => {
+    const data = {slug}
+    setLoading(true)
+    const res = await GetAppliancesBySlug(data);
+    console.log(res)
+    if(res.status === 200){
+      setProduct(res.data.product)
+      setLoading(false)
+    }else{
+      // setLoading(false)
+      navigate('/isr')
+    }
+  }
+
+
 
   const Submit = async () => {
     const response = await getCords(zip);
@@ -82,11 +112,20 @@ const Product = () => {
     setOpenModal("");
   };
 
+  const StarIconPrinter = ({ numberOfTimes }) => {
+    const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
+      <AiFillStar className='text-b7 text-lg' /> // Render the star icon component for each iteration
+    ));
+
+    return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
+  };
+
   return (
     <>
+      {loading ? <Loader/> :
       <MainLayout>
         {/* StickyNavabr */}
-        <StickyNavbar state={showNavbar} />
+        {/* <StickyNavbar image={product.images[0]} title={product.title} salePrice={product.salePrice} regularPrice={product.regularPrice} id={product._id} state={showNavbar} /> */}
 
 
         <MoreImagesModal state={imgModal} setState={setImgModal} />
@@ -96,27 +135,28 @@ const Product = () => {
         {/* End */}
         {/* Bread Crumbs Start */}
         <div className='flex items-center py-10 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
-          <div className='flex items-center' ><h5 className='text-xs text-blue-400' >Home</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-blue-400' >Product</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-gray-500' >Washer</h5></div>
+          <div className='flex items-center' ><h5 className='text-xs text-blue-400' >Home</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-blue-400' >Product</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-gray-500' >{product.title}</h5></div>
         </div>
         {/* Bread Crumbs End */}
         <div className='grid grid-cols-1 lg:grid-cols-12 gap-10 lg:items-start items-center mb-10 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
           <div className='lg:col-span-5' >
             <div className='flex gap-2 md:gap-5' >
               <div className='flex flex-col space-y-2 min-w-[70px] 2xl:min-w-[100px] h-full' >
-                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
-                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
-                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
-                <div className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
-                <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+10</div><img src="p1.png" className='w-12 2xl:w-20' alt='product' /></div>
+                {product.images ? product.images..slice(0,4).map((image,index)=>
+                 <div key={index} className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src={`${process.env.REACT_APP_INTERNAL_PATH}/${image}`} className='w-10 2xl:w-20' alt='product' /></div>
+                ):null}
+                <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+10</div><img src="/p1.png" className='w-12 2xl:w-20' alt='product' /></div>
               </div>
               <div className='flex relative justify-center items-center border-[1px] border-gray-300 rounded-lg lg:h-96 2xl:h-auto 2xl:py-14 w-full' >
-                <img src="p1.png" alt='product' className='2xl:h-[378px]' />
-                <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><AiOutlineDollarCircle />Best Value</div></div>
+                {/* <img src={`${process.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}`} alt='product' className='2xl:h-[378px]' /> */}
+                {product.rating === '3'?<div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><AiOutlineDollarCircle />Best Value</div></div>:null}
+                {product.rating === '4'?<div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/local_fire_department.png" alt="" />Most Popular</div></div>:null}
+                {product.rating === '5'?<div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/star_rate_half.png.png" alt="" /> Premium Condition </div></div>:null}
               </div>
             </div>
             <div className='flex flex-col space-y-5 mt-10' >
-              <div className='flex items-center space-x-10' ><h5 className='text-sm font-semibold' >Model Number</h5><h5 className='text-sm' >WF45B6300AC</h5></div>
-              <div className='flex items-center space-x-24' ><h5 className='text-sm font-semibold' >Item ID</h5><h5 className='text-sm' >#12354567876</h5></div>
+              <div className='flex items-center space-x-10' ><h5 className='text-sm font-semibold' >Model Number</h5><h5 className='text-sm' >{product.modelNo}</h5></div>
+              <div className='flex items-center space-x-24' ><h5 className='text-sm font-semibold' >Item ID</h5><h5 className='text-sm' >{product.itemId}</h5></div>
               <div className='flex flex-col' >
                 <h5 className='text-sm font-semibold' >Fuel Type</h5>
                 <div className='flex flex-wrap gap-2 whitespace-nowrap mt-2' >
@@ -137,20 +177,23 @@ const Product = () => {
           </div>
 
           <div className='lg:col-span-7 flex flex-col lg:px-0 px-1 space-y-5 lg:mt-0 mt-4' >
-            <h5 className='lg:text-xl text-sm font-bold lg:w-full sm:w-96' >Champagne ENERGY STAR Samsung 4.5 cu. ft. Front Load Washer with Wi-Fi Connectivity and 7.5 cu. ft. Front Load Gas Dryer with Steam</h5>
+            <h5 className='lg:text-xl text-sm font-bold lg:w-full sm:w-96' >{product.title}</h5>
             <div className='flex items-center' >
               <h5 className='lg:text-sm text-xs lg:w-80 underline text-b3 font-bold cursor-pointer' >View More Buying Options</h5><div className='flex justify-end w-full' >
-                <span className='flex items-center bg-b13 text-white text-xs px-3 rounded-full py-2' >
-                  <IoBagCheckOutline className='text-sm mr-1' />In Stock</span>
+                {product.stock > 0 ? <span className='flex items-center bg-b13 text-white text-xs px-3 rounded-full py-2' >
+                  <IoBagCheckOutline className='text-sm mr-1' />In Stock</span>:
+                  <span className='flex items-center bg-red-500 text-white text-xs px-3 rounded-full py-2' >
+                  <IoCloseOutline className='text-sm mr-1' />Out of Stock</span>
+                  }
               </div>
             </div>
             <div className='flex maxsm:flex-col sm:items-center gap-5 whitespace-nowrap' >
               <div className='flex items-center gap-5'>
-                <h4 className='font-bold lg:text-3xl text-xl text-b3 ' >$1,020.00</h4>
-                <strike className="text-lg" >$1,249.00</strike>
+                <h4 className='font-bold lg:text-3xl text-xl text-b3 ' >${product.salePrice ? product.salePrice : product.regularPrice}</h4>
+                {product.salePrice ? <strike className="text-lg" >${product.salePrice}</strike>:null}
               </div>
               <div className='flex items-center gap-5 lg:flex-wrap'>
-                <span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >$229.00 Savings</span>
+                {product.salePrice ? <span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >${product.regularPrice - product.salePrice} Savings</span>:null}
                 <button className="flex justify-end items-center hover:underline text-b3" ><AiOutlineHeart /><span>Add to favorites</span></button>
               </div>
             </div>
@@ -163,21 +206,20 @@ const Product = () => {
                   Powered by
                 </span>
               </div>
-              <img src="affirm.png" alt="affirm" className='w-[70px]' />
+              <img src="/affirm.png" alt="affirm" className='w-[70px]' />
             </div>
             <ul className='flex flex-col mt-5 space-y-2 text-sm' >
-              <li>. Lorem ipsum dolor alter miler amigos</li>
-              <li>. Lorem ipsum dolor alter miler amigos</li>
-              <li>. Lorem ipsum dolor alter miler amigos</li>
-              <li>. Lorem ipsum dolor alter miler amigos</li>
+              <li>. {product.bullet1}</li>
+              <li>. {product.bullet2}</li>
+              <li>. {product.bullet3}</li>
+              <li>. {product.bullet4}</li>
             </ul>
             <Link to='' className='text-xs font-bold hover:underline cursor-pointer underline' >+ View more</Link>
             <div className='flex items-center lg:space-x-5 space-x-5 lg:mt-4 mt-2' >
               <div className='flex items-center gap-1' >
                 <h4 className='lg:text-sm text-xs font-semibold w-max text-black/50' >Cosmetic Rating</h4><ToolTip color="text-b3" />
               </div>
-              <div className='flex items-center' ><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' />
-              </div>
+              <div className='flex items-center' ><StarIconPrinter numberOfTimes={parseInt(product.rating)} /> </div>
             </div>
             <div className='lg:flex hidden items-center gap-4 mt-2' >
               <div className='flex font-semibold text-sm text-black/50' ><h4>Discount</h4></div>
@@ -188,7 +230,7 @@ const Product = () => {
             </div>
 
             <button onClick={() => handleOpenModal("1")} className='flex space-x-3 items-center px-3 py-2 border-[1px] border-b3 rounded-lg w-fit' >
-              <img src="shield.png" alt='' />
+              <img src="/shield.png" alt='' />
               <h6 className='text-sm font-bold w-40' >NeuShield 1 Year Applicance Warranty</h6>
             </button>
             {/* Delivery Card */}
@@ -250,7 +292,7 @@ const Product = () => {
               {/* 3rd FAQ */}
               <div className='flex items-center space-x-3 border-[1px] px-5 border-gray-200 text-sm text-black py-3 rounded-lg' >
                 <span>
-                  <img src="assignment_return.png" alt="assignment_return" className='w-6 h-6' />
+                  <img src="/assignment_return.png" alt="assignment_return" className='w-6 h-6' />
                 </span>
                 <button type='button' onClick={() => handleOpenModal("3")} className='flex flex-col' >
                   <h6 className="font-bold ml-2" >Free Curbside Returns</h6>
@@ -286,9 +328,9 @@ const Product = () => {
         <div className='flex flex-col gap-5 items-center py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto border border-b14 rounded-3xl' >
           <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' >360° View of This Appliance</h4>
           <div className='mt-5 relative w-full mb-5' >
-            <img src="360appliance.png" alt='product' className='w-[17rem] mx-auto' />
+            <img src="/360appliance.png" alt='product' className='w-[17rem] mx-auto' />
             <div className='absolute -bottom-5 left-0 right-0'>
-              <img src="360angle.png" alt='product' className='w-72 mx-auto' />
+              <img src="/360angle.png" alt='product' className='w-72 mx-auto' />
             </div>
           </div>
           <p className="font-normal" >Rotate <b>360°</b> to see the product from all angles</p>
@@ -304,7 +346,7 @@ const Product = () => {
               <div className='flex items-center border-b border-gray-300 justify-center py-[18px] w-full' ><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /></div>
               <div className='text-center border-b-[1px] border-gray-300 py-4 w-full font-normal' >WF45B6300AC</div>
               <div className='flex items-center space-x-2 justify-center border-gray-300 py-3 w-full' >
-                <div className='flex items-center rounded-md justify-center pl-2 pr-2 sm:pr-8 py-1 space-x-1 border border-gray-300' ><img src="nueshield.png" alt="nueshield" />
+                <div className='flex items-center rounded-md justify-center pl-2 pr-2 sm:pr-8 py-1 space-x-1 border border-gray-300' ><img src="/nueshield.png" alt="nueshield" />
                   <span className='w-full text-xs font-medium break-words ' >NeuShield <br /> 1 Year Warranty</span>
                 </div>
               </div>
@@ -366,7 +408,7 @@ const Product = () => {
           <CosmaticSlider />
         </div>
 
-      </MainLayout >
+      </MainLayout >}
     </>
   )
 }
