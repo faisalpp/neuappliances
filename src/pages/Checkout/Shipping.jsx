@@ -29,7 +29,7 @@ const Shipping = () => {
 
 
                 {/* Next Step */}
-                <UpdateButton prevTitle="information" nextTitle="payment" prevLink="/mycart/information" nextLink="/mycart/shipping" />
+                <UpdateButton prevTitle="information" nextTitle="payment" prevLink="/mycart/information" nextLink="/mycart/payment" />
             </Checkout>
         </>
     )

@@ -1,26 +1,26 @@
 import React from 'react'
 import { AiFillStar, AiOutlineCheckCircle, AiOutlineArrowRight } from 'react-icons/ai'
 
-const ModelBuyingOptionCard = ({ active, bestValue, cosmaticcondition,rating }) => {
- 
+const ModelBuyingOptionCard = ({ active, bestValue, cosmaticcondition, rating }) => {
+
   const StarIconPrinter = ({ numberOfTimes }) => {
     const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
-        <AiFillStar key={index} className='text-b7 text-2xl' /> // Render the star icon component for each iteration
+      <AiFillStar key={index} className='text-b7 text-2xl' /> // Render the star icon component for each iteration
     ));
 
     return <div className='flex items-center' >{starIcons}</div>; // Render the array of star icons
-   };
+  };
 
   return (
     <>
       <div className={`flex flex-col items-center space-y-5 px-6 pt-12 pb-4 w-full ${active} border  border-b8`} >
         <div className='flex w-full text-white justify-center' >{bestValue}</div>
         <div className='bg-white w-full flex justify-center py-8'>
-          <img src="p1.png" className='w-52' alt='p1' />
+          <img src="/p1.png" className='w-52' alt='p1' />
         </div>
         <div className='flex flex-col items-center justify-center pt-8 gap-7 text-center' >
           <div className='flex items-center' >
-          <StarIconPrinter numberOfTimes={rating} />
+            <StarIconPrinter numberOfTimes={rating} />
           </div>
           <h5 className='font-semibold text-sm xl:text-base text-[#111010]' >$10202</h5>
           <h5 className='font-normal text-sm xl:text-base text-[#111010]' >WF45B6300AC</h5>

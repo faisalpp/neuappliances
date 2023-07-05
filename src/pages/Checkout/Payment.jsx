@@ -3,6 +3,9 @@ import Checkout from './Checkout';
 import UpdateButton from '../../components/Checkout/UpdateButton';
 import BreadCrumb from '../../components/Checkout/BreadCrumb';
 import ReviewDetail from '../../components/Checkout/Shipping/ReviewDetail';
+import PaymentMethod from '../../components/Checkout/Payment/PaymentMethod';
+import LeftArrowSvg from '../../svgs/LeftArrowSvg';
+import { Link } from 'react-router-dom';
 
 const Payment = () => {
 
@@ -25,11 +28,23 @@ const Payment = () => {
                     <ReviewDetail title="Method" detail="Canada Post Expedited Parcel · $10.00" subtitle="1 to 7 business days" textStyle="font-medium" />
                 </div>
 
-                {/* Shipping Method */}
+                {/* Payment Method */}
+
+                <PaymentMethod />
 
 
-                {/* Next Step */}
-                <UpdateButton prevTitle="information" nextTitle="payment" prevLink="/mycart/shipping" nextLink="/mycart/shipping" />
+                {/* Payment Step */}
+                <div className='flex justify-between items-center w-full mt-5'>
+                    <Link to="/mycart/shipping" className='flex gap-1 items-center'>
+                        <LeftArrowSvg />
+                        <span className='text-sm font-medium text-b3'>
+                            Return to shipping
+                        </span>
+                    </Link>
+                    <Link to="" className='py-3 px-6 text-xs rounded-lg bg-b3 text-white' type='button'>
+                        Pay Now
+                    </Link>
+                </div>
             </Checkout>
         </>
     )
