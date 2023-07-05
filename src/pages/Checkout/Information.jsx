@@ -1,12 +1,25 @@
 import React from 'react';
-import { RiArrowDropRightLine, RiQuestionFill } from 'react-icons/ri';
+import { RiQuestionFill } from 'react-icons/ri';
 import CustomInput from '../../components/Reusable/CustomInput';
 import { Checkbox } from "@material-tailwind/react";
 import Checkout from './Checkout';
 import UpdateButton from '../../components/Checkout/UpdateButton';
 import BreadCrumb from '../../components/Checkout/BreadCrumb';
+import CustomSelect from '../../components/Reusable/CustomSelect';
 
 const Information = () => {
+    const Countrys = [
+        { name: 'Canada', value: 'canada' },
+        { name: 'China', value: 'china' },
+        { name: 'Japan', value: 'japan' },
+        { name: 'Pakistan', value: 'pakistan' }
+    ]
+    const Province = [
+        { name: 'Alberta', value: 'alberta' },
+        { name: 'Alberta', value: 'alberta' },
+        { name: 'Alberta', value: 'alberta' },
+        { name: 'Alberta', value: 'alberta' }
+    ]
 
     return (
         <>
@@ -49,6 +62,13 @@ const Information = () => {
                             <CustomInput colorStyle="border-b31 placeholder:text-b25" placeholder="Address" />
                             <CustomInput colorStyle="border-b31 placeholder:text-b25" placeholder="Apartment, suite, etc. (optional)" />
                             <CustomInput colorStyle="border-b31 placeholder:text-b25" placeholder="City" />
+                            <div className='grid grid-cols-2 md:grid-cols-3 gap-14px'>
+                                <CustomSelect id="country_region" label="Country / region" Options={Countrys} />
+                                <CustomSelect id="province" label="Province" Options={Province} />
+                                <div className='col-span-2 md:col-span-1 [&>*]:h-full'>
+                                    <CustomInput colorStyle="border-b31 placeholder:text-b25  md:h-full" placeholder="Postal Code" type="number" />
+                                </div>
+                            </div>
                             <div className='relative'>
                                 <CustomInput colorStyle="border-b31 placeholder:text-b25" placeholder="Phone" />
                                 <div className='absolute right-3 top-2'>

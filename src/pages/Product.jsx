@@ -145,7 +145,7 @@ const Product = () => {
             <div className='flex gap-2 md:gap-5' >
               <div className='flex flex-col space-y-2 min-w-[70px] 2xl:min-w-[100px] h-full' >
                 {product.images ? product.images.slice(0,4).map((image,index)=>
-                 <div key={index} className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src={`${process.env.REACT_APP_INTERNAL_PATH}/${image}`} className='w-10 h-16 2xl:w-20' alt='product' /></div>
+                 <div key={index} className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src={`${process.env.REACT_APP_INTERNAL_PATH}/${image}`} className='w-10 2xl:w-20' alt='product' /></div>
                 ):null}
                 <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+4</div><img src={product.images ? `${process.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}`:''} className='w-10 h-16 2xl:w-20' alt='product' /></div>
               </div>

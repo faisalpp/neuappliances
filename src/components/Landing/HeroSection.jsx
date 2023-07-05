@@ -7,9 +7,6 @@ import { Link } from 'react-router-dom'
 
 const HeroSection = () => {
     const [mobMenu, setMobMenu] = useState(false);
-    const [dealMenu, setDealMenu] = useState(false);
-    const [productMenu, setProductMenu] = useState(false);
-    const [brandMenu, setBrandMenu] = useState(false);
     return (
         <>
             <header className='relative'>

@@ -14,8 +14,8 @@ const MoreImagesModal = ({state,setState,images}) => {
         <div className='flex justify-center mt-8 items-center space-x-5 w-full' >
           {images && images.map((img)=><div className='border-[1px] border-b3 rounded-md px-1 py-1 cursor-pointer' ><img onClick={()=>setImage(`${process.env.REACT_APP_INTERNAL_PATH}/${img}`)} src={`${process.env.REACT_APP_INTERNAL_PATH}/${img}`} className='w-12' /></div>)}
         </div>
-      </div>  
-     </div> 
+      </div>
+    </div>
     </div>
   )
 }
