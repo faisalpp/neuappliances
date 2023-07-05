@@ -3,6 +3,7 @@ import { FiChevronRight, FiLogOut } from 'react-icons/fi';
 import { Link, useLocation } from 'react-router-dom';
 
 const AdminItems = ({ onClose, isItems }) => {
+
     const location = useLocation();
 
     const myaccountItems = [
@@ -28,16 +29,21 @@ const AdminItems = ({ onClose, isItems }) => {
         },
         {
             id:5,
+            title: "FAQ's",
+            link: '/admin/faq',
+        },
+        {
+            id:6,
             title: 'Shipping',
             link: '/admin/shipping',
         },
         {
-            id:6,
+            id:7,
             title: 'Change Password ',
             link: '/admin/change-password',
         },
         {
-            id:7,
+            id:8,
             title: 'Site Settings',
             link: '/admin/settings',
         },

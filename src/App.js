@@ -48,6 +48,7 @@ import CheckoutInformation from "./pages/Checkout/Information";
 import CheckoutShipping from "./pages/Checkout/Shipping";
 import CheckoutPayment from "./pages/Checkout/Payment";
 import ViewSectionItems from "./pages/AdminAccount/ViewSectionItems";
+import ManageFaq from "./pages/AdminAccount/ManageFaq"
 import { useSelector } from "react-redux";
 import UpdateSection from "./pages/AdminAccount/UpdateSection";
 import UpdateCategory from "./pages/AdminAccount/UpdateCategory";
@@ -60,6 +61,7 @@ import Delivered from './components/HowItworks/Delivered';
 import HassleFree from './components/HowItworks/HassleFree';
 import Isr from "./pages/InternalError";
 import UpdateProduct from "./pages/AdminAccount/UpdateProduct";
+import CreateFaq from "./pages/AdminAccount/CreateFaq";
 
 function App() {
 
@@ -160,6 +162,9 @@ function App() {
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />
       <Route path="/isr" element={<Isr />} />
+      {/* {FAQ Routes} */}
+      <Route path="/admin/faq" element={<ProtectedAdmin><ManageFaq/></ProtectedAdmin>} />
+      <Route path="/admin/create-faq/:slug" element={<ProtectedAdmin><CreateFaq/></ProtectedAdmin>} />
     </Routes>
   );
 }
