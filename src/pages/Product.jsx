@@ -32,6 +32,7 @@ import CustomModal from '../components/Modal/CustomModal'
 import TruckSvg from '../svgs/TruckSvg'
 import { GetAppliancesBySlug } from '../api/frontEnd'
 import Loader from '../components/Loader/Loader'
+import { React360Viewer } from 'react-360-product-viewer'
 
 const Product = () => {
   // Get slug form url
@@ -55,10 +56,10 @@ const Product = () => {
     const data = {slug}
     setLoading(true)
     const res = await GetAppliancesBySlug(data);
-    console.log(res)
     if(res.status === 200){
       setProduct(res.data.product)
       setLoading(false)
+      console.log(product)
     }else{
       // setLoading(false)
       navigate('/isr')
@@ -120,15 +121,16 @@ const Product = () => {
     return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
   };
 
+
   return (
     <>
       {loading ? <Loader/> :
       <MainLayout>
         {/* StickyNavabr */}
-        {/* <StickyNavbar image={product.images[0]} title={product.title} salePrice={product.salePrice} regularPrice={product.regularPrice} id={product._id} state={showNavbar} /> */}
+        <StickyNavbar product={product}  state={showNavbar} />
 
 
-        <MoreImagesModal state={imgModal} setState={setImgModal} />
+        <MoreImagesModal images={product.images} state={imgModal} setState={setImgModal} />
 
         {/* All Modal */}
         <CustomModal openmodal={openModal} closeModal={handleCloseModal} />
@@ -142,13 +144,21 @@ const Product = () => {
           <div className='lg:col-span-5' >
             <div className='flex gap-2 md:gap-5' >
               <div className='flex flex-col space-y-2 min-w-[70px] 2xl:min-w-[100px] h-full' >
-                {product.images ? product.images..slice(0,4).map((image,index)=>
-                 <div key={index} className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src={`${process.env.REACT_APP_INTERNAL_PATH}/${image}`} className='w-10 2xl:w-20' alt='product' /></div>
+                {product.images ? product.images.slice(0,4).map((image,index)=>
+                 <div key={index} className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src={`${process.env.REACT_APP_INTERNAL_PATH}/${image}`} className='w-10 h-16 2xl:w-20' alt='product' /></div>
                 ):null}
-                <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+10</div><img src="/p1.png" className='w-12 2xl:w-20' alt='product' /></div>
+                <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+4</div><img src={product.images ? `${process.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}`:''} className='w-10 h-16 2xl:w-20' alt='product' /></div>
               </div>
               <div className='flex relative justify-center items-center border-[1px] border-gray-300 rounded-lg lg:h-96 2xl:h-auto 2xl:py-14 w-full' >
                 {/* <img src={`${process.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}`} alt='product' className='2xl:h-[378px]' /> */}
+                <React360Viewer
+             imagesBaseUrl={`${process.env.REACT_APP_INTERNAL_PATH}/${product.threeSixty}`}
+             imagesCount={36}
+             imagesFiletype="jpg"
+             mouseDragSpeed={5}
+             width={350}
+             height={350}
+           />
                 {product.rating === '3'?<div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><AiOutlineDollarCircle />Best Value</div></div>:null}
                 {product.rating === '4'?<div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/local_fire_department.png" alt="" />Most Popular</div></div>:null}
                 {product.rating === '5'?<div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/star_rate_half.png.png" alt="" /> Premium Condition </div></div>:null}
@@ -160,19 +170,22 @@ const Product = () => {
               <div className='flex flex-col' >
                 <h5 className='text-sm font-semibold' >Fuel Type</h5>
                 <div className='flex flex-wrap gap-2 whitespace-nowrap mt-2' >
-                  <div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><MdElectricBolt /><h5 className='text-xs' >240v Electric</h5><AiOutlineQuestionCircle /></div>
-                  <div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><GiFlame /><h5 className='text-xs' >Gas</h5><AiOutlineQuestionCircle /></div>
+                  {product.fuelType === 'electric' && product ? <div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><MdElectricBolt /><h5 className='text-xs' >240v Electric</h5><AiOutlineQuestionCircle /></div>:null}
+                  {product.fuelType === 'gas' ?<div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><GiFlame /><h5 className='text-xs' >Gas</h5><AiOutlineQuestionCircle /></div>:null}
                   <div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><MdOutlinePropane /><h5 className='text-xs' >Propane</h5><AiOutlineQuestionCircle /></div>
                   <div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><MdOutlinePropane /><h5 className='text-xs' >Dual Fuel</h5><AiOutlineQuestionCircle /></div>
                 </div>
               </div>
-              <div className='flex flex-col' >
+              
+              {product.dryerOption ? <div className='flex flex-col' >
                 <h5 className='text-sm font-semibold' >Dryer Options</h5>
                 <div className='flex space-x-2 mt-2' >
-                  <div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><RiStackLine /><h5 className='text-xs' >STACKABLE</h5></div>
-                  <div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><GiThermometerHot /><h5 className='text-xs' >STEAM</h5></div>
+                  {product.dryerOption === 'STACKABLE' ? <div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><RiStackLine /><h5 className='text-xs' >STACKABLE</h5></div>:null}
+                  {product.dryerOption === 'STEAM' ?<div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><GiThermometerHot /><h5 className='text-xs' >STEAM</h5></div>:null}
+                  {product.dryerOption === 'BOTH' ? <><div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><RiStackLine /><h5 className='text-xs' >STACKABLE</h5></div><div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><GiThermometerHot /><h5 className='text-xs' >STEAM</h5></div></>:null}
                 </div>
-              </div>
+              </div>:null}
+
             </div>
           </div>
 
@@ -221,13 +234,14 @@ const Product = () => {
               </div>
               <div className='flex items-center' ><StarIconPrinter numberOfTimes={parseInt(product.rating)} /> </div>
             </div>
+            {product.salePrice ? 
             <div className='lg:flex hidden items-center gap-4 mt-2' >
               <div className='flex font-semibold text-sm text-black/50' ><h4>Discount</h4></div>
               <div className='w-52 bg-gray-200 rounded-lg' ><span className='flex rounded-lg bg-gradient-to-r from-b4 to-b7 w-40 h-3' ></span></div>
               <div className='px-4 py-2 bg-b7 text-white rounded-full'>
                 70 %
               </div>
-            </div>
+            </div>:null}
 
             <button onClick={() => handleOpenModal("1")} className='flex space-x-3 items-center px-3 py-2 border-[1px] border-b3 rounded-lg w-fit' >
               <img src="/shield.png" alt='' />
@@ -319,16 +333,24 @@ const Product = () => {
 
         {/* Faq Accrodions */}
         <div className='flex flex-col items-center mb-5 justify-center pt-14 xl:pt-10 gap-y-3 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
-          <FaqAccordion title="Appliance Description" parent='w-full px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni pariatur assumenda, incidunt possimus alias illo nesciunt nemo at accusantium ad rem ipsum, rerum saepe a! Itaque qui officia quis totam?' />
-          <FaqAccordion title="Specifications" parent='w-full px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni pariatur assumenda, incidunt possimus alias illo nesciunt nemo at accusantium ad rem ipsum, rerum saepe a! Itaque qui officia quis totam?' />
-          <FaqAccordion title="Delivery Info" parent='w-full px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni pariatur assumenda, incidunt possimus alias illo nesciunt nemo at accusantium ad rem ipsum, rerum saepe a! Itaque qui officia quis totam?' />
+          <FaqAccordion title="Appliance Description" parent='w-full px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer={product.description} />
+          <FaqAccordion title="Specifications" parent='w-full px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer={product.specification} />
+          <FaqAccordion title="Delivery Info" parent='w-full px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer={product.deliveryInfo} />
         </div>
 
         {/* 360 Degree Product Section */}
         <div className='flex flex-col gap-5 items-center py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto border border-b14 rounded-3xl' >
           <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' >360° View of This Appliance</h4>
-          <div className='mt-5 relative w-full mb-5' >
-            <img src="/360appliance.png" alt='product' className='w-[17rem] mx-auto' />
+          <div className='mt-5 relative flex justify-center w-full mb-5' >
+            {/* <img src="/360appliance.png" alt='product' className='w-[17rem] mx-auto' /> */}
+            <React360Viewer
+             imagesBaseUrl={`${process.env.REACT_APP_INTERNAL_PATH}/${product.threeSixty}`}
+             imagesCount={36}
+             imagesFiletype="jpg"
+             mouseDragSpeed={5}
+             width={350}
+             height={350}
+           />
             <div className='absolute -bottom-5 left-0 right-0'>
               <img src="/360angle.png" alt='product' className='w-72 mx-auto' />
             </div>
@@ -342,9 +364,9 @@ const Product = () => {
               <h5 className='flex items-center gap-1 justify-center text-center text-sm sm:text-base py-4 w-full font-semibold' ><span>Warranty</span> <ToolTip color="text-black/50" /></h5>
             </div>
             <div className='flex flex-col items-center border-l-[1px] border-white w-full' >
-              <h5 className='text-center border-b-[1px] border-gray-300 py-4 w-full font-normal' >#12354567876</h5>
-              <div className='flex items-center border-b border-gray-300 justify-center py-[18px] w-full' ><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /><AiFillStar className='text-b7 text-xl' /></div>
-              <div className='text-center border-b-[1px] border-gray-300 py-4 w-full font-normal' >WF45B6300AC</div>
+              <h5 className='text-center border-b-[1px] border-gray-300 py-4 w-full font-normal' >#{product.itemId}</h5>
+              <div className='flex items-center border-b border-gray-300 justify-center py-[15px] w-full' ><StarIconPrinter numberOfTimes={parseInt(product.rating)} /></div>
+              <div className='text-center border-b-[1px] border-gray-300 py-4 w-full font-normal' >{product.modelNo}</div>
               <div className='flex items-center space-x-2 justify-center border-gray-300 py-3 w-full' >
                 <div className='flex items-center rounded-md justify-center pl-2 pr-2 sm:pr-8 py-1 space-x-1 border border-gray-300' ><img src="/nueshield.png" alt="nueshield" />
                   <span className='w-full text-xs font-medium break-words ' >NeuShield <br /> 1 Year Warranty</span>
@@ -363,16 +385,18 @@ const Product = () => {
         {/* PAyment Options */}
         <div className='flex flex-col py-10 md:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto bg-b8' >
           <h4 className='font-bold text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-center mb-10 md:mb-14 xl:mb-20' >Payment Options</h4>
-          <PaymentOptions />
+          <PaymentOptions item={product} />
         </div>
 
         {/* Review */}
         <div className='flex flex-col bg-white py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
           <div className='flex flex-col gap-3 rounded-md items-center py-8 justify-center bg-b8' >
-            <div className='flex mt-2 items-center' ><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /><AiFillStar className='text-b7 lg:text-lg text-xs' /></div>
-            <h3 className='text-[22px]'><span className='font-bold'>Cosmetic Rating:</span> <span className='font-medium'>3 Stars</span> </h3>
+            <div className='flex mt-2 items-center' >{<StarIconPrinter numberOfTimes={parseInt(product.rating)} />} </div>
+            <h3 className='text-[22px]'><span className='font-bold'>Cosmetic Rating:</span> <span className='font-medium'>{product.rating} Stars</span> </h3>
             <p className='font-medium text-[22px]' >What To Expect</p>
-            <p className='text-sm text-center px-10' >If you are shopping for bargains you are in the right place! 3-star rated appliances get you an open box appliance that works perfectly, with moderate cosmetic damage like scratches or dents at the largest discounted price we offer. Customers purchasing 3 star appliances capitalize on our deepest discounts in exchange for larger cosmetic blemishes while still obtaining a 100% functional appliance.</p>
+            {product.rating === '3' ? <p className='text-sm text-center px-10' >If you are shopping for bargains you are in the right place! 3-star rated appliances get you an open box appliance that works perfectly, with moderate cosmetic damage like scratches or dents at the largest discounted price we offer. Customers purchasing 3 star appliances capitalize on our deepest discounts in exchange for larger cosmetic blemishes while still obtaining a 100% functional appliance.</p>:null}
+            {product.rating === '4' ?<p className='text-sm text-center px-10' >Our 4 Star line is for Austin's savviest shoppers! 4-star rated appliances get you an open box appliance that works perfectly, with minor to moderate cosmetic damage like scratches or dents at a great discount. Customers purchasing 4 star cosmetic Cosmetic Rating appliances are generally more accepting of more minor cosmetic blemishes for a deeper discount on the item while still obtaining a 100% functional appliance.</p>:null}
+            {product.rating === '5' ?<p className='text-sm text-center px-10' >If your shopping our 5 star appliances then you understand the value of a good deal! 5-star rated appliances get you an open box appliance that works perfectly, with very minor to no cosmetic damage like scratches or dents at a great discount. Our customers purchasing 5 star Cosmetic Cosmetic Rating appliances are generally looking for like new or new appliances while capitalizing on an open box discount vs a "Scratch or Dent" discounted appliance while still obtaining a 100% functional appliance.</p>:null}
           </div>
         </div>
 
@@ -383,10 +407,10 @@ const Product = () => {
         <SatisfiedSection title="Our Customers LOVE our Scratch and Dent Discounts!" dots={true} />
 
         {/* Prodcut Features */}
-        <ProductFeatures />
+        <ProductFeatures video={product.featuresVideo} />
 
         {/* Complete Your Laundery Set */}
-        <LaunderySet />
+        {product.category === 'washer-&-dryer'?<LaunderySet />:null}
 
         {/* Map Section */}
         <MapSection />

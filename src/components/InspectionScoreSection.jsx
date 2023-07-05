@@ -43,7 +43,7 @@ const InspectionScoreSection = () => {
         </div>
 
         {/* Inspection Guide */}
-        <FaqAccordion title="See our Inspection Checklists" parent='w-full md:w-2/3 mt-2 bg-b3 text-white bg- p-6 rounded-xl h-auto' icon='text-xl' textStyle='font-medium text-sm' child='[&>p]:text-sm mt-6' answer={<ul className='flex flex-col gap-2'><li className='flex gap-3 items-center'><img src="tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li><li className='flex gap-3 items-center'><img src="tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li><li className='flex gap-3 items-center'><img src="tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li><li className='flex gap-3 items-center'><img src="tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li></ul>} isExpand={true} />
+        <FaqAccordion title="See our Inspection Checklists" parent='w-full md:w-2/3 mt-2 bg-b3 text-white bg- p-6 rounded-xl h-auto' icon='text-xl' textStyle='font-medium text-sm' child='[&>p]:text-sm mt-6' answer={<ul className='flex flex-col gap-2'><li className='flex gap-3 items-center'><img src="/tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li><li className='flex gap-3 items-center'><img src="/tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li><li className='flex gap-3 items-center'><img src="/tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li><li className='flex gap-3 items-center'><img src="/tick.png" className='w-4 h-4' alt="tick" /><p>Lorem ipsum dolor sit amet</p></li></ul>} isExpand={true} />
 
       </div>
     </>

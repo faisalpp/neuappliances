@@ -1,7 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
 import { AiOutlineArrowDown } from 'react-icons/ai'
-import { RiArrowDownSLine } from 'react-icons/ri'
 
 const FaqAccordion = ({ activeBg, activeText, title, textStyle, answer, parent, child, icon, isExpand }) => {
   const [drp, setDrp] = useState(isExpand ? true : false);

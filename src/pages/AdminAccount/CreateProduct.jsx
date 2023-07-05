@@ -52,10 +52,12 @@ const CreateProduct = () => {
       event.preventDefault();
       console.log(values)
       try {
-        await createProductSchema.validate(values, { abortEarly: false });
-        
-        const formData = new FormData();
-        
+        const err = await createProductSchema.validate(values, { abortEarly: false });
+        console.log(err)
+        if(!err){
+
+          const formData = new FormData();
+          
         formData.append("threeSixty",values.threeSixty)
         formData.append("featuresVideo",values.featuresVideo)
         // Assuming you have an array of image files called 'imageFiles'
@@ -63,8 +65,8 @@ const CreateProduct = () => {
           formData.append(`images_${index}`, imageFile);
         });
 
-          // Loop over the `nameValues` array
-
+        // Loop over the `nameValues` array
+        
          // Iterate over the properties of the `values` object
          for (const key in values) {
            if (Object.hasOwnProperty.call(values, key)) {
@@ -85,7 +87,7 @@ const CreateProduct = () => {
          formData.set('category',catName.title.toLowerCase().replace(/\s/g,'-'))
 
         const res = await createProduct(formData);
-        
+        console.log(res)
         if(res.status === 201){
           setLoading(false)
           setValues(initialValues)
@@ -112,10 +114,12 @@ const CreateProduct = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
-          });
-       }
+        });
+        }
+      }
       } catch (validationErrors) {
-        console.log(validationErrors)
+          console.log(validationErrors); 
+        setLoading(false)
       }
     }
     
