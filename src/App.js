@@ -59,6 +59,7 @@ import Tested from './components/HowItworks/Tested';
 import Photos from './components/HowItworks/Photos';
 import Delivered from './components/HowItworks/Delivered';
 import HassleFree from './components/HowItworks/HassleFree';
+import Email from './pages/Email/Email';
 import Isr from "./pages/InternalError";
 import UpdateProduct from "./pages/AdminAccount/UpdateProduct";
 import CreateFaq from "./pages/AdminAccount/CreateFaq";
@@ -135,6 +136,7 @@ function App() {
 
       <Route path="/help-and-support" element={<HelpAndSupport />} />
       <Route path="/help-card-page" element={<HelpCardPage />} />
+      <Route path="/email" element={<Email />} />
 
       {/* Admin Related Routes */}
       <Route path="/nu-admin" element={<AuthRoute><AdminLogin /></AuthRoute>} />
@@ -163,8 +165,8 @@ function App() {
       <Route path="*" element={<NotFound />} />
       <Route path="/isr" element={<Isr />} />
       {/* {FAQ Routes} */}
-      <Route path="/admin/faq" element={<ProtectedAdmin><ManageFaq/></ProtectedAdmin>} />
-      <Route path="/admin/create-faq/:slug" element={<ProtectedAdmin><CreateFaq/></ProtectedAdmin>} />
+      <Route path="/admin/faq" element={<ProtectedAdmin><ManageFaq /></ProtectedAdmin>} />
+      <Route path="/admin/create-faq/:slug" element={<ProtectedAdmin><CreateFaq /></ProtectedAdmin>} />
     </Routes>
   );
 }
