@@ -29,7 +29,7 @@ const Faqs = () => {
         },
     ]
     return (
-        <div className='w-full max-w-1680px py-10 lg:py-16 xl:py-20 2xl:py-120px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+        <div className='w-full 3xl:max-w-1680px py-10 lg:py-16 xl:py-20 2xl:py-120px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
             <div className='max-w-[880px] mx-auto w-full flex flex-col gap-10 md:gap-14'>
                 <h2 className='text-xl lg:text-2xl xl:text-[32px] font-bold text-b18 text-center'>Common FAQs with Appliance Repair</h2>
                 <div className='flex flex-col gap-3 sm:gap-4 w-full'>

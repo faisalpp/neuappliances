@@ -50,7 +50,7 @@ const HowItWorks = ({ children }) => {
     return (
         <>
             <MainLayout>
-                <div className='py-10 lg:py-16 xl:py-20 w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+                <div className='py-10 lg:py-16 xl:py-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
                     {/* Bread Crumbs Start */}
                     <div className='flex items-center' >
                         <h5 className='text-xs text-b3' >Home</h5><RiArrowDropRightLine className='text-xl text-b19' /><h5 className='text-xs text-black' >Scratch and  Dent</h5>
@@ -59,7 +59,7 @@ const HowItWorks = ({ children }) => {
                 </div>
 
 
-                <div className='w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+                <div className='w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
                     <h1 className='text-4xl font-bold text-center mb-60px'>
                         How it Works
                     </h1>

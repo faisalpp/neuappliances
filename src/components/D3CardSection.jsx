@@ -30,7 +30,7 @@ const D3CardSection = () => {
 
   return (
 
-    <div className='grid xl:grid-cols-2 gap-14 2xl:gap-20 3xl:gap-32 max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto py-14 lg:py-20'>
+    <div className='grid xl:grid-cols-2 gap-14 2xl:gap-20 3xl:gap-32 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto py-14 lg:py-20'>
       <div className='flex flex-col space-y-5 w-full' >
         <div className='flex space-x-2' ><img src="starss.png" className='h-5' /><p className='text-[16px]'>We rate our scratch and dent appliances by their cosmetic appearance (How they look). Appliances with lower cosmetic grades get Deeper Discounts! You pick your level of savings!</p></div>
         <div className='flex space-x-2' ><img src="pig.png" className='h-5' /><p className='text-[16px]'>We provide our Austin neighbors the best savings on  floor models , returns and scratch and dent appliances. </p></div>

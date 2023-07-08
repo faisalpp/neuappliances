@@ -4,7 +4,7 @@ const AboutCeo = () => {
 
     return (
         <>
-            <div className='py-10 lg:py-16 xl:py-20 2xl:py-100px w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto bg-b5'>
+            <div className='py-10 lg:py-16 xl:py-20 2xl:py-100px w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto bg-b5'>
                 <div className="w-full max-w-[844px] mx-auto flex flex-col items-center text-center gap-5">
                     <div>
                         <img src="quotes.png" alt="quotes" className='2xl:w-24 2xl:h-[67px]' />

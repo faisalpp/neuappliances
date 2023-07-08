@@ -47,7 +47,7 @@ const AboutCeo = () => {
 
     return (
         <>
-            <div className='py-10 lg:py-16 xl:py-20 2xl:py-120px w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+            <div className='py-10 lg:py-16 xl:py-20 2xl:py-120px w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
                 <h2 className='text-xl lg:text-2xl xl:text-[32px] mb-10 lg:mb-16 xl:mb-20 2xl:mb-120px font-bold text-center'>Meet The Team</h2>
 
                 <div className='3xl:px-[60px] flex flex-wrap justify-center 3xl:justify-start gap-10 3xl:gap-20'>

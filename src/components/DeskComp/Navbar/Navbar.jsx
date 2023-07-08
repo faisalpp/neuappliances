@@ -95,7 +95,7 @@ const Navbar = ({ sCart, setSCart }) => {
       <div className='relative bg-b1' >
         {/* Navbar Start */}
         <div className="hidden lg:block py-5">
-          <div className='lg:grid grid-cols-12 items-center max-w-1680px px-16 xl:px-20 2xl:px-120px mx-auto w-full'>
+          <div className='lg:grid grid-cols-12 items-center 3xl:max-w-1680px px-16 xl:px-20 2xl:px-120px mx-auto w-full'>
             <NavLink to="/">
               <img className='col-start-1 col-end-3' src="/neu.png" alt="logo" />
             </NavLink>
@@ -137,7 +137,7 @@ const Navbar = ({ sCart, setSCart }) => {
           {/* Mega Menu Start */}
           <div className={`absolute ${megMenu ? '' : 'hidden'} top-0 bg-b1 w-full pt-5 pb-20 z-30`} >
 
-            <div className='grid grid-cols-12 justify-center max-w-1680px px-16 xl:px-20 2xl:px-120px mx-auto'>
+            <div className='grid grid-cols-12 justify-center 3xl:max-w-1680px px-16 xl:px-20 2xl:px-120px mx-auto'>
               <div className='col-start-1 col-end-2 flex flex-col items-center' >
                 <h4 className='font-semibold xl:whitespace-nowrap' >How It Works</h4>
                 <div className='flex flex-col space-y-4 text-xs font-medium mt-4 text-white/80' >
@@ -191,7 +191,7 @@ const Navbar = ({ sCart, setSCart }) => {
           </div>
           {/* Mega Menu End */}
 
-          <div className='grid grid-cols-12 items-center max-w-1680px px-16 xl:px-20 2xl:px-120px mx-auto'>
+          <div className='grid grid-cols-12 items-center 3xl:max-w-1680px px-16 xl:px-20 2xl:px-120px mx-auto'>
             <div className='col-start-1 col-end-5 flex items-center space-x-4 xl:space-x-8 2xl:space-x-14' >
               {/* <NavLink to='/' ><div className='flex items-center font-reg text-xs cursor-pointer text-white/80 hover:text-b6' ><span className='w-max' >Home</span></div></NavLink>  */}
               <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Deals" links={[{ 'name': 'Recent Arrival', 'url': '/recent-arrivals' }, { 'name': '5 Star Products', 'url': '/five-star-products' }, { 'name': '4 Star Products', 'url': '/four-star-products' }, { 'name': '3 Star Products', 'url': '/three-star-products' }]} />

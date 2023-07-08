@@ -80,10 +80,12 @@ const CompleteLaundary = ({ closeModal }) => {
                                 $2,279.00
                             </p>
                         </div>
-                        <Link to="" className='text-white py-4 px-8 flex gap-2 items-center justify-center text-center w-full bg-b7 rounded-lg'>
-                            <AiOutlineShoppingCart className='text-2xl' />
-                            Add Selected Items To Cart
-                        </Link>
+                        <div>
+                            <Link to="" className='text-white py-4 px-8 flex gap-2 items-center justify-center text-center w-full bg-b7 rounded-lg'>
+                                <AiOutlineShoppingCart className='text-2xl' />
+                                Add Selected Items To Cart
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

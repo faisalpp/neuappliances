@@ -32,7 +32,7 @@ const ReviewSection = () => {
   ];
 
   return (
-    <div className='flex flex-col justify-center w-full max-w-1680px mx-auto xl:px-20 2xl:px-32 lg:px-14 px-4 md:px-10 pb-10 lg:pb-16' >
+    <div className='flex flex-col justify-center w-full 3xl:max-w-1680px mx-auto xl:px-20 2xl:px-32 lg:px-14 px-4 md:px-10 pb-10 lg:pb-16' >
       <h4 className='text-2xl font-extrabold mb-12' >Saving Austinites Money on Appliances Since 2015</h4>
       <div className='space-y-8'>
         <ReviewSlider color="#F5F5F5" clientreviews={clientreviews} icon="google.png" />

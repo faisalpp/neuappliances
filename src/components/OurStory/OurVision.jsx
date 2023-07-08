@@ -4,7 +4,7 @@ const OurVison = ({ order, image, about, title, description, BoxStyle }) => {
 
     return (
         <>
-            <div className='grid grid-cols-1 lg:grid-cols-2 2xl:flex gap-10 xl:gap-24 2xl:gap-[140px] 3xl:gap-[168px] py-10 lg:py-16 xl:py-20 2xl:py-100px w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 2xl:flex gap-10 xl:gap-24 2xl:gap-[140px] 3xl:gap-[168px] py-10 lg:py-16 xl:py-20 2xl:py-100px w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
                 <div className={`2xl:h-[500px] 2xl:min-w-[700px] ${order}`}>
                     <img src={image} alt="" className='maxlg:object-contain lg:h-[420px] 2xl:h-[470px] 3xl:h-[500px]' />
                 </div>
