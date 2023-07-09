@@ -43,10 +43,10 @@ const Home = () => {
     <>
       <HeroSection />
       <ScrollToTop />
-      <div className='py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+      <div className='py-10 lg:py-14 xl:py-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
         <ReviewSlider color="#F5F5F5" clientreviews={clientreviews} icon="google.png" />
       </div>
-      <div className='py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+      <div className='py-10 lg:py-14 xl:py-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
         <h2 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-32px font-bold text-center mb-10 md:mb-60px'>Discover Our 3  Stars  Condition Appliances</h2>
         <CosmaticSlider />
         <div className='text-center mt-10 md:mt-60px'>
@@ -55,11 +55,11 @@ const Home = () => {
       </div>
       <CosmaticStarSection />
       <ApplianceSection />
-      <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 py-10 lg:py-14 xl:py-20 2xl:py-120px w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+      <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 py-10 lg:py-14 xl:py-20 2xl:py-120px w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
         <FeatureCard customStyle="bg-[rgba(255,155,62,0.08)]" iconColor="bg-b7" icon="shield.png" title="Neu Shield Warranty" description="Facilisis sodales sollicitudin mi porttitor tellus non ornare pellentesque in nam sem. Elementum porttitor nunc bibendum laoreet sodales sollicitudin mi porttitor tellus. Nunc volutpat non ornare pellentesque in nam sem. Elementum porttitor nunc bibendum laoreet. " />
         <FeatureCard icon="empty-wallet-tick.png" title="Financing Option Available" description="Facilisis sodales sollicitudin mi porttitor tellus non ornare pellentesque in nam sem. Elementum porttitor nunc bibendum laoreet sodales sollicitudin mi porttitor tellus. Nunc volutpat non ornare pellentesque in nam sem. Elementum porttitor nunc bibendum laoreet. " />
       </div>
-      <div className='py-10 lg:py-14 xl:py-20 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+      <div className='py-10 lg:py-14 xl:py-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
         <h2 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-32px font-bold text-center mb-10 md:mb-60px'>Discover Our 4 & 5 Stars  Condition Appliances</h2>
         <CosmaticSlider />
         <div className='text-center mt-10 md:mt-60px'>

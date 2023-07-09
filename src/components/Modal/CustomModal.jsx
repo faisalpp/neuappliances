@@ -2,6 +2,7 @@ import React from 'react'
 import NeuShieldPopup from '../NeuShieldPopup'
 import FreeCurbsideReturn from '../FreeCurbsideReturn'
 import CompleteLaundary from '../CompleteLaundary'
+import CosmaticRating from '../CosmaticRating'
 
 const CustomModal = ({ openmodal, closeModal }) => {
     return (
@@ -14,6 +15,9 @@ const CustomModal = ({ openmodal, closeModal }) => {
             )}
             {openmodal === "3" && (
                 <FreeCurbsideReturn closeModal={closeModal} />
+            )}
+            {openmodal === "4" && (
+                <CosmaticRating closeModal={closeModal} />
             )}
         </div>
     )

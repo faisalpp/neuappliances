@@ -7,8 +7,8 @@ const LoopSection = () => {
   const [video, setVideo] = useState('/videos/sample.mp4');
 
   return (
-    // <div className='flex flex-col mt-12 max-w-1680px px-120px mx-auto' >
-    <div className='flex flex-col mt-10 lg:mt-12 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+    // <div className='flex flex-col mt-12 3xl:max-w-1680px px-120px mx-auto' >
+    <div className='flex flex-col mt-10 lg:mt-12 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
       <div className='flex flex-col justify-center space-y-3 items-center w-full' >
         <h4 className='lg:text-4xl xl:text-4xl text-2xl font-bold text-center' >Stay In The Loop</h4>
         <p className='xl:text-xl lg:text-xl text-sm font-medium text-center lg:w-7/12 xl:w-[990px] w-11/12' >Keep up with our videos about appliances we sell, New stock at our outlet store, product reviews,  sales and much more!</p>

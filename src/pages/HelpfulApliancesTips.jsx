@@ -11,7 +11,7 @@ const HelpfulApliancesTips = () => {
     return (
         <>
             <MainLayout>
-                <div className='py-10 lg:py-16 xl:py-20 w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+                <div className='py-10 lg:py-16 xl:py-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
                     {/* Bread Crumbs Start */}
                     <div className='flex items-center' >
                         <h5 className='text-xs text-b3' >Home</h5><RiArrowDropRightLine className='text-xl text-[#C3C2C2]' /><h5 className='text-xs text-b17' >Helpful Appliance Tips</h5>

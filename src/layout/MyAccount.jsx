@@ -15,11 +15,11 @@ const MyAccount = ({ children }) => {
     return (
         <>
             <MainLayout>
-                <div className='flex items-center pt-10 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+                <div className='flex items-center pt-10 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
                     <div className='flex items-center' ><h5 className='text-xs text-b3' >Home</h5><RiArrowDropRightLine className='text-xl text-b19' /><h5 className='text-xs text-[#5E5E5E]' >My Account</h5></div>
                 </div>
 
-                <div className='flex items-center justify-between pt-5 pb-11 max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+                <div className='flex items-center justify-between pt-5 pb-11 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
                     <h1 className='font-bold text-2xl md:text-3xl xl:text-4xl 2xl:text-[40px]'>My Account</h1>
 
                     {/* 992px Up Screen Logout */}
@@ -37,7 +37,7 @@ const MyAccount = ({ children }) => {
                     </button>
                 </div>
 
-                <div className='flex maxlg:flex-col justify-center gap-6 py-10 w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+                <div className='flex maxlg:flex-col justify-center gap-6 py-10 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
 
                     <AccountItems onClose={handleCloseItems} isItems={isItems} />
 

@@ -3,7 +3,7 @@ import ProductSliderCard from '../../components/Appliances/ProductSliderCard'
 import { useState } from 'react'
 import ProductCardSlider from '../ProductCardSlider'
 
-const CosmaticRating = ({section}) => {
+const CosmaticRating = ({ section }) => {
     return (
         <div className='bg-b8 py-10 lg:py-14 xl:py-20' >
             {/* Heading Start  */}

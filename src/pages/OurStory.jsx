@@ -15,7 +15,7 @@ const OurStory = () => {
     return (
         <>
             <MainLayout>
-                <div className='pt-10 lg:pt-16 xl:pt-20 w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+                <div className='pt-10 lg:pt-16 xl:pt-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
                     {/* Bread Crumbs Start */}
                     <div className='flex items-center' >
                         <h5 className='text-xs text-b3' >Home</h5><RiArrowDropRightLine className='text-xl text-b19' /><h5 className='text-xs text-black' >FAQs</h5>
@@ -32,7 +32,7 @@ const OurStory = () => {
 
                 <OurStorySection />
                 {/* Video Section */}
-                <div className='w-full max-w-1680px mx-auto'>
+                <div className='w-full 3xl:max-w-1680px mx-auto'>
                     <iframe className='w-full h-[700px] 3xl:h-[920px]' src="https://www.youtube.com/embed/OzCAGd4YVbI" title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 </div>
 

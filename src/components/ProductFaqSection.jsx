@@ -3,7 +3,7 @@ import FaqAccordion from './FaqAccordion'
 
 const ProductFaqSection = () => {
   return (
-    <div className='flex flex-col items-center pb-7 w-full max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+    <div className='flex flex-col items-center pb-7 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
       <h5 className="text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold mb-5 text-center" >FREQUENTLY ASKED QUESTIONS</h5>
       <FaqAccordion title="What should I expect from a 3 star appliance?" parent='w-full md:w-2/3 mt-2 bg-b8 text-white px-4 py-3 lg:px-7 lg:py-6 rounded-xl border-none text-black h-auto' icon='text-xl text-black' textStyle='font-bold text-md text-black' child='[&>p]:text-sm text-black font-normal' answer='Great question! 3-star rated appliance get you an open box appliance that works perfectly, with moderate cosmetic damage like scratches or dents at the largest discounted price we offer. Customers purchasing 3 star appliances capitlize on our deepest discounts in exchange for larger cosmetic blemishes while still obtaining a 100% functional appliance.' />
       <FaqAccordion title="Does the appliance work?" parent='w-full md:w-2/3 mt-2 bg-b8 text-white px-4 py-3 lg:px-7 lg:py-6 rounded-xl border-none text-black h-auto' icon='text-xl text-black' textStyle='w-full font-bold text-md text-black' child='[&>p]:text-sm text-black font-normal' answer='Absolutely! We ensure any scratches or dents do not effect the functionality of the appliance by  thoroughly testing each product. Each appliance must pass our 100 point inspection before we will sell it. We also back all of our appliances with our Neu Shield 1-Year parts and labor warranty.' />

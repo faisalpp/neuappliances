@@ -50,7 +50,7 @@ const HeroSection = () => {
                 </nav>
                 {/* End Navigation*/}
                 <div className='pt-60px pb-120px'>
-                    <div className='md:grid gap-10 flex flex-col grid-cols-2 items-center max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+                    <div className='md:grid gap-10 flex flex-col grid-cols-2 items-center 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
                         <div className='flex flex-col gap-1 lg:gap-2' >
                             <div>
                                 <span className='text-sm text-b16 font-semibold py-2 px-3 rounded-full bg-b4 inline-flex items-center justify-center'>

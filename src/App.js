@@ -59,6 +59,8 @@ import Tested from './components/HowItworks/Tested';
 import Photos from './components/HowItworks/Photos';
 import Delivered from './components/HowItworks/Delivered';
 import HassleFree from './components/HowItworks/HassleFree';
+import DoIHaveElectricGas from './pages/DoIHaveElectricGas';
+import Email from './pages/Email/Email';
 import Isr from "./pages/InternalError";
 import UpdateProduct from "./pages/AdminAccount/UpdateProduct";
 import CreateFaq from "./pages/AdminAccount/CreateFaq";
@@ -135,6 +137,8 @@ function App() {
 
       <Route path="/help-and-support" element={<HelpAndSupport />} />
       <Route path="/help-card-page" element={<HelpCardPage />} />
+      <Route path="/email" element={<Email />} />
+      <Route path="/do-i-have-electric-or-gas" element={<DoIHaveElectricGas />} />
 
       {/* Admin Related Routes */}
       <Route path="/nu-admin" element={<AuthRoute><AdminLogin /></AuthRoute>} />

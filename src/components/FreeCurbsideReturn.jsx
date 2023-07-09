@@ -10,7 +10,7 @@ const FreeCurbsideReturn = ({ closeModal }) => {
                     <IoCloseOutline className='text-3xl' />
                 </button>
                 <div>
-                    <img src="curbside.png" className='w-16 h-16 mx-auto' alt="neushield" />
+                    <img src="/curbside.png" className='w-16 h-16 mx-auto' alt="neushield" />
                 </div>
                 <h2 className='text-2xl font-bold text-center'>Free Curbside Returns</h2>
                 <p className='text-center'>

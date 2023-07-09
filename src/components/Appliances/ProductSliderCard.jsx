@@ -3,7 +3,7 @@ import { AiOutlineDollar, AiFillStar } from 'react-icons/ai'
 import { BsFire } from 'react-icons/bs'
 import ProductSlider from '../ProductSlider'
 
-const ProductSliderCard = ({ title,product }) => {
+const ProductSliderCard = ({ title, product }) => {
   const products = [
     {
       image: 'refrigrator.png',
@@ -56,9 +56,9 @@ const ProductSliderCard = ({ title,product }) => {
         <div className='flex flex-col gap-y-3 w-full mt-10' >
           <div className='flex items-center justify-between gap-x-3' >
             <span className='font-semibold text-base text-b15' >Cosmetic Damage</span>
-            {product.rating === '3' ? <span className='text-[rgba(17,16,16,0.64)] text-base'>Moderate</span>:null}
-            {product.rating === '4' ? <span className='text-[rgba(17,16,16,0.64)] text-base'>Minor</span>:null}
-            {product.rating === '5' ? <span className='text-[rgba(17,16,16,0.64)] text-base'>Very Minor-None</span>:null}
+            {product.rating === '3' ? <span className='text-[rgba(17,16,16,0.64)] text-base'>Moderate</span> : null}
+            {product.rating === '4' ? <span className='text-[rgba(17,16,16,0.64)] text-base'>Minor</span> : null}
+            {product.rating === '5' ? <span className='text-[rgba(17,16,16,0.64)] text-base'>Very Minor-None</span> : null}
           </div>
           <div className='flex justify-between items-center mb-4' >
             <span className='font-semibold text-base text-b15' >Discount</span>
@@ -68,9 +68,9 @@ const ProductSliderCard = ({ title,product }) => {
                 {product.rating === '4' ? <><span className='flex bg-b4 w-2 mt-2' ></span><span className='flex bg-b7 w-2 mt-1' ></span><span className='flex bg-b4 w-2 h-5' ></span></> : null}
                 {product.rating === '5' ? <><span className='flex bg-b4 w-2 mt-2' ></span><span className='flex bg-b4 w-2 mt-1' ></span><span className='flex bg-b7 w-2 h-5' ></span></> : null}
               </div>
-              {product.rating === '3' ?<span className='font-semibold text-xs md:text-sm' >Massive</span>:null}
-              {product.rating === '4' ?<span className='font-semibold text-xs md:text-sm' >Huge</span>:null}
-              {product.rating === '5' ?<span className='font-semibold text-xs md:text-sm' >Greate</span>:null}
+              {product.rating === '3' ? <span className='font-semibold text-xs md:text-sm' >Massive</span> : null}
+              {product.rating === '4' ? <span className='font-semibold text-xs md:text-sm' >Huge</span> : null}
+              {product.rating === '5' ? <span className='font-semibold text-xs md:text-sm' >Greate</span> : null}
             </div>
           </div>
         </div>
