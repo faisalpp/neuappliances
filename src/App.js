@@ -158,13 +158,13 @@ function App() {
       <Route path="/admin/create-product" element={<ProtectedAdmin><CreateProduct /></ProtectedAdmin>} />
       <Route path="/admin/manage-products" element={<ProtectedAdmin><ManageProducts /></ProtectedAdmin>} />
       <Route path="/admin/update-product/:id" element={<ProtectedAdmin><UpdateProduct /></ProtectedAdmin>} />
+      {/* {FAQ Routes} */}
+      <Route path="/admin/faq" element={<ProtectedAdmin><ManageFaq/></ProtectedAdmin>} />
+      <Route path="/admin/create-faq/:slug" element={<ProtectedAdmin><CreateFaq/></ProtectedAdmin>} />
 
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />
       <Route path="/isr" element={<Isr />} />
-      {/* {FAQ Routes} */}
-      <Route path="/admin/faq" element={<ProtectedAdmin><ManageFaq/></ProtectedAdmin>} />
-      <Route path="/admin/create-faq/:slug" element={<ProtectedAdmin><CreateFaq/></ProtectedAdmin>} />
     </Routes>
   );
 }

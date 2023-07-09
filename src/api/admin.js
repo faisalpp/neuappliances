@@ -248,6 +248,66 @@ export const getCategoryColors = async (data) => {
     }
     return response;
 }
+export const createFaqTab = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/create-faq-tab',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const getFaqTab = async () => {
+    let response;
+    
+    try{
+        response = await AdminApi.get('/get-faq-tab');
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const updateFaqTab = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/update-faq-tab',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const createFaq = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/create-faq',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const getFaqs = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/get-faqs',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const updateFaq = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/update-faq',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 
 
 

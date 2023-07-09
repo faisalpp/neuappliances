@@ -34,16 +34,21 @@ const AdminItems = ({ onClose, isItems }) => {
         },
         {
             id:6,
+            title: "Help & Support",
+            link: '/admin/help-&-support',
+        },
+        {
+            id:7,
             title: 'Shipping',
             link: '/admin/shipping',
         },
         {
-            id:7,
+            id:8,
             title: 'Change Password ',
             link: '/admin/change-password',
         },
         {
-            id:8,
+            id:9,
             title: 'Site Settings',
             link: '/admin/settings',
         },
