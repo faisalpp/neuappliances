@@ -38,6 +38,7 @@ const Faqs = () => {
                     setFaqs(res.data.faqs)
                 }
             }catch(error){
+                setFaqs([])
                 console.log(error)
             } 
             }
@@ -57,14 +58,11 @@ const Faqs = () => {
                 </button>))}
                 </div>
                 <div className="tab-content w-full">
-                    {faqs.length > 0 ? faqs.map((tab) => (
-                        <div key={tab._id} className='flex flex-col gap-3 sm:gap-4'>
-                            {faqs.map((content, index) => (
-                                <FaqAccordion title={content.question} parent='gap-3 bg-[#F8FBFB] [&>div>h6]:maxmd:text-sm text-white p-4 md:px-8 md:py-6 rounded-xl border-none text-b18 h-auto' icon='text-xl text-black' textStyle='font-bold text-md text-b18' child='[&>p]:text-sm text-b18 font-normal' answer={content.answer} />
-                            ))}
-                            {/* {tab.content} */}
-                        </div>
-                    )):<h1 className='text-center' >No FAQ's Found!</h1>}
+                 <div className='flex flex-col gap-3 sm:gap-4'>
+                  {faqs.length > 0 ? faqs.map((faq, index) => (
+                      <FaqAccordion key={faq._id} title={faq.question} parent='gap-3 bg-[#F8FBFB] [&>div>h6]:maxmd:text-sm text-white p-4 md:px-8 md:py-6 rounded-xl border-none text-b18 h-auto' icon='text-xl text-black' textStyle='font-bold text-md text-b18' child='[&>p]:text-sm text-b18 font-normal' answer={faq.answer} />
+                  )):<h1 className='text-center' >No FAQ's Found!</h1>}
+                 </div>
                 </div>
             </div>
         </>
