@@ -1,6 +1,6 @@
 import React from 'react';
 import Cart from './Cart';
-import UpdateButton from '../../components/Checkout/UpdateButton';
+
 
 const Checkout = ({ children }) => {
 

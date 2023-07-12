@@ -6,13 +6,12 @@ import NewsLetterSection from '../components/NewsLetterSection';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { GetAppliances } from '../api/frontEnd'
 import Loader from '../components/Loader/Loader'
-import { Navigate, useNavigate } from 'react-router-dom';
 
 const ApplianceTypes = () => {
 
     const [applianceTypes, setApplianceTypes] = useState([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate()
+    
     useEffect(() => {
         const getAppliances = async () => {
             const res = await GetAppliances();

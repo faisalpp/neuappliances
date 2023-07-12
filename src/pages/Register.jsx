@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import MainLayout from '../layout/MainLayout'
 import {BsArrowRightShort} from 'react-icons/bs'
 import { NavLink, useNavigate} from 'react-router-dom'
@@ -19,7 +19,12 @@ const Register = () => {
  const [phone,setPhone] = useState('03036542828');
  const [password,setPassword] = useState('Tenda522');
  const [confirmPassword,setConfirmPassword] = useState('Tenda522');
- const [countryList,setCountryList] = useState(countries);
+ const [countryList,setCountryList] = useState();
+
+ useEffect(() => {
+   setCountryList(countries)
+ },[])
+ 
  
  
  const Submit = async (e) => {
@@ -60,7 +65,7 @@ const Register = () => {
     <MainLayout>
     <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
       <div className='flex flex-col space-y-10 items-center pt-20 py-32 w-full' >
-        <div><img src="login_logo.png" /></div>
+        <div><img src="login_logo.png" alt="login_logo" /></div>
         <form onSubmit={Submit} className='flex flex-col space-y-5 w-5/12 px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >
           <h4 className='text-xl font-bold' >Register</h4>
           <div className='flex flex-col space-y-1' >
@@ -98,7 +103,7 @@ const Register = () => {
            <h5 className='text-xs font-semibold' >Confirm Password</h5>
            <input type="password" value={confirmPassword} onChange={e=>setConfirmPassword(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Password' />
           </div>
-          <button type='submit' className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create Account</span><BsArrowRightShort className='text-2xl' /></a></button>
+          <button type='submit' className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><span className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create Account</span><BsArrowRightShort className='text-2xl' /></span></button>
           <div className='flex w-full justify-center' ><h5 className='text-sm' >Have an Account? <NavLink to="/login" ><span className='text-b3 hover:underline cursor-pointer' >Login</span></NavLink></h5></div>
         </form>
       </div>

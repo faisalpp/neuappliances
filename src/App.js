@@ -64,6 +64,10 @@ import Email from './pages/Email/Email';
 import Isr from "./pages/InternalError";
 import UpdateProduct from "./pages/AdminAccount/UpdateProduct";
 import CreateFaq from "./pages/AdminAccount/CreateFaq";
+import ManageBlogs from "./pages/AdminAccount/ManageBlogs";
+import CreateBlog from "./pages/AdminAccount/CreateBlog";
+import Media from "./pages/AdminAccount/Media";
+import CreateBlog2 from "./pages/AdminAccount/CreateBlog2";
 
 function App() {
 
@@ -165,7 +169,13 @@ function App() {
       {/* {FAQ Routes} */}
       <Route path="/admin/faq" element={<ProtectedAdmin><ManageFaq/></ProtectedAdmin>} />
       <Route path="/admin/create-faq/:slug" element={<ProtectedAdmin><CreateFaq/></ProtectedAdmin>} />
-
+      {/* Admin Blog Routes */}
+      <Route path="/admin/manage-blogs" element={<ProtectedAdmin><ManageBlogs/></ProtectedAdmin>} />
+      <Route path="/admin/create-blog" element={<ProtectedAdmin><CreateBlog/></ProtectedAdmin>} />
+      {/* Admin Media */}
+      <Route path="/admin/media" element={<ProtectedAdmin><Media/></ProtectedAdmin>} />
+      <Route path="/ckeditor" element={<CreateBlog2/>} />
+      
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />
       <Route path="/isr" element={<Isr />} />

@@ -22,12 +22,12 @@ const AdminMultiApi = axios.create({
     maxBodyLength: 10 * 1024 * 1024, // 10 megabytes (10MB)
 });
 
-const AdminRegApi = axios.create({
-  baseURL: process.env.REACT_APP_INTERNAL_API_PATH_ADMIN,
-  headers: {
-      "Content-Type":"application/json",
-  },
-});
+// const AdminRegApi = axios.create({
+//   baseURL: process.env.REACT_APP_INTERNAL_API_PATH_ADMIN,
+//   headers: {
+//       "Content-Type":"application/json",
+//   },
+// });
 
 
 export const Signin = async (data) => {
@@ -303,6 +303,60 @@ export const updateFaq = async (data) => {
     
     try{
         response = await AdminApi.post('/update-faq',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const deleteFaq = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/delete-faq',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const uploadImage = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminMultiApi.post('/image-upload',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const getMedia = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/get-uploaded-media',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const deleteMedia = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/delete-media',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+// BLOG
+export const createBlog = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/create-blog',data);
     }catch (error){
         return error;
     }

@@ -1,7 +1,6 @@
 import React from 'react'
 import { AiOutlineDollar, AiFillStar, AiOutlineCheckCircle } from 'react-icons/ai'
 import { IoIosArrowForward } from 'react-icons/io'
-import { BsFire } from 'react-icons/bs'
 import ProductSlider from './ProductSlider'
 import { Link } from 'react-router-dom'
 

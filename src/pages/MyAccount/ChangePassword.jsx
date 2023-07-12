@@ -1,7 +1,6 @@
 import React from 'react';
 import MyAccount from '../../layout/MyAccount';
 import CustomInput from '../../components/Reusable/CustomInput';
-import { FiChevronDown } from 'react-icons/fi';
 import CustomButton from '../../components/Reusable/CustomButton';
 
 const ChangePassword = () => {

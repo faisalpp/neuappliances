@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import MainLayout from '../../layout/MainLayout';
 import ShopAustinSection from '../../components/Appliances/ShopAustinSection';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
-import { FiChevronRight } from 'react-icons/fi';
 
 const HowItWorks = ({ children }) => {
     const location = useLocation();

@@ -19,10 +19,10 @@ const ProductCard3 = ({ isGrid, product }) => {
       {isGrid ? <NavLink to={`/product/${product.slug}`} ><div className='flex flex-col items-center border-[1px] border-gray-200 rounded-2xl w-12/12 py-5 cursor-pointer' >
         <div className='relative' >
           <img src={`${process.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}`} alt={product.title} className={`h-[330px] w-[355px] object-contain`} />
-          {product.salePrice != '' ? <span className='absolute -top-2 -right-7 bg-b7 rounded-2xl font-semibold px-5 py-2 text-xs' >{(100 - (product.salePrice / product.regularPrice) * 100)}% OFF</span> : null}
+          {product.salePrice !== '' ? <span className='absolute -top-2 -right-7 bg-b7 rounded-2xl font-semibold px-5 py-2 text-xs' >{(100 - (product.salePrice / product.regularPrice) * 100)}% OFF</span> : null}
         </div>
         <p className='font-semibold text-sm px-5 line-clamp-3' >{product.title}</p>
-        {product.salePrice != '' ?
+        {product.salePrice !== '' ?
           <div className='flex space-x-20 mt-5' ><h4 className='text-b3 font-semibold' >${product.salePrice}</h4><div className='flex justify-end w-full space-x-2 items-center' ><strike>${product.regularPrice}</strike><span className='bg-b4 rounded-xl font-semibold px-2 py-1 text-xs' >-{(100 - (product.salePrice / product.regularPrice) * 100)}%</span></div></div>
           :
           <div className='flex space-x-20 mt-5' ><h4 className='text-b3 font-semibold' >${product.regularPrice}</h4></div>
@@ -37,7 +37,7 @@ const ProductCard3 = ({ isGrid, product }) => {
         <NavLink to={`/product/${product.slug}`} ><div className='flex lg:space-x-10 space-x-2 border-[1px] border-gray-200 rounded-2xl w-full lg:py-10 py-5 lg:px-8 px-2 cursor-pointer' >
           <div className='relative w-44 coxs:w-52' >
             <img src={`${process.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}`} class="w-60 h-60 object-contain" />
-            {product.salePrice != '' ? <span className='absolute flex lg:-top-5 -top-4 right-0 lg:-right-6 bg-b4 rounded-2xl font-semibold px-3 py-1 lg:py-2 sm:text-xs text-[8px] coxs:text-[11px]' >{(100 - (product.salePrice / product.regularPrice) * 100)}% OFF</span> : null}
+            {product.salePrice !== '' ? <span className='absolute flex lg:-top-5 -top-4 right-0 lg:-right-6 bg-b4 rounded-2xl font-semibold px-3 py-1 lg:py-2 sm:text-xs text-[8px] coxs:text-[11px]' >{(100 - (product.salePrice / product.regularPrice) * 100)}% OFF</span> : null}
           </div>
 
           <div className='flex flex-col lg:px-5 px-1 w-[60%] 3xl:w-[55%]' >
@@ -49,12 +49,12 @@ const ProductCard3 = ({ isGrid, product }) => {
             <div className='flex maxcosm:flex-col sm:items-center gap-1 coxs:gap-2 lg:mt-5 mt-1 xs:mt-2'  >
               <div className='flex items-center gap-6 sm:gap-10'>
                 <h4 className='text-b3 font-semibold lg:text-[16px] text-xs' >${product.salePrice != '' ? product.salePrice : product.regularPrice}</h4>
-                {product.salePrice != '' ? <span className='lg:text-[16px] text-xs'>
+                {product.salePrice !== '' ? <span className='lg:text-[16px] text-xs'>
                   <strike>${product.regularPrice}</strike>
                 </span> : null}
               </div>
               <div>
-                {product.salePrice != '' ? <span className='bg-b4 rounded-xl font-semibold px-2 py-1 text-xs' >- {(100 - (product.salePrice / product.regularPrice) * 100)}%</span> : null}
+                {product.salePrice !== '' ? <span className='bg-b4 rounded-xl font-semibold px-2 py-1 text-xs' >- {(100 - (product.salePrice / product.regularPrice) * 100)}%</span> : null}
               </div>
             </div>
             <div className='flex maxxs:flex-col flex-wrap coxs:items-center gap-x-6 lg:mt-4 mt-1 coxs:mt-2' >

@@ -6,9 +6,9 @@ import { GiThermometerHot } from 'react-icons/gi'
 import { GiFlame } from 'react-icons/gi'
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { MdElectricBolt, MdOutlinePropane } from 'react-icons/md';
-import { AiOutlineDollarCircle, AiFillStar, AiOutlineQuestionCircle, AiOutlineSearch, AiFillCloseCircle, AiOutlineShoppingCart, AiFillCheckCircle, AiOutlineCheckCircle, AiOutlineHeart } from 'react-icons/ai';
+import { AiOutlineDollarCircle, AiFillStar, AiOutlineQuestionCircle, AiOutlineSearch, AiFillCloseCircle, AiOutlineShoppingCart, AiOutlineHeart } from 'react-icons/ai';
 import { IoBagCheckOutline, IoCloseOutline } from 'react-icons/io5';
-import { BsArrowRightShort, BsShieldLock, BsShopWindow, BsStarHalf } from 'react-icons/bs';
+import { BsArrowRightShort, BsShopWindow, BsStarHalf } from 'react-icons/bs';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { BsTruck } from 'react-icons/bs';
 import { useState } from 'react'

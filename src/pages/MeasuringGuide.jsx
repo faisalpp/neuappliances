@@ -2,7 +2,6 @@ import React from 'react';
 import MainLayout from '../layout/MainLayout';
 import ApplianceDetail from '../components/Appliances/ApplianceDetail';
 import { RiArrowDropRightLine } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
 import ShopAustinSection from '../components/Appliances/ShopAustinSection';
 import NewsLetterSection from '../components/NewsLetterSection';
 import SatisfiedSection from '../components/SatisfiedSection';

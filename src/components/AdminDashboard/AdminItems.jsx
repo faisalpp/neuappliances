@@ -29,26 +29,36 @@ const AdminItems = ({ onClose, isItems }) => {
         },
         {
             id:5,
+            title: 'Blog',
+            link: '/admin/manage-blogs',
+        },
+        {
+            id:6,
             title: "FAQ's",
             link: '/admin/faq',
         },
         {
-            id:6,
+            id:7,
             title: "Help & Support",
             link: '/admin/help-&-support',
         },
         {
-            id:7,
-            title: 'Shipping',
-            link: '/admin/shipping',
+            id:8,
+            title: 'Stay In Loop',
+            link: '/admin/stay-in-loop',
         },
         {
-            id:8,
+            id:9,
+            title: 'Media',
+            link: '/admin/media',
+        },
+        {
+            id:10,
             title: 'Change Password ',
             link: '/admin/change-password',
         },
         {
-            id:9,
+            id:11,
             title: 'Site Settings',
             link: '/admin/settings',
         },

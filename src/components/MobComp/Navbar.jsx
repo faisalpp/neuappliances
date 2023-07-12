@@ -1,8 +1,8 @@
-import { AiOutlineShoppingCart, AiOutlineSearch, AiOutlineLogin, AiOutlineLogout, AiFillHome, AiFillGift } from 'react-icons/ai';
+import { AiOutlineShoppingCart, AiOutlineLogin, AiOutlineLogout, AiFillHome, AiFillGift } from 'react-icons/ai';
 import { IoMenu, IoCloseOutline } from 'react-icons/io5';
 import { CgSmartHomeWashMachine } from 'react-icons/cg';
 import { FaBandcamp } from 'react-icons/fa'
-import { RiArrowDropDownLine, RiArrowDropUpLine, RiHome3Line } from 'react-icons/ri'
+import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri'
 import { GiReceiveMoney } from 'react-icons/gi'
 import { BsFillChatSquareHeartFill } from 'react-icons/bs'
 import { BiUserCircle } from 'react-icons/bi';

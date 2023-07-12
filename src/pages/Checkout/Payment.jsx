@@ -1,6 +1,5 @@
 import React from 'react';
 import Checkout from './Checkout';
-import UpdateButton from '../../components/Checkout/UpdateButton';
 import BreadCrumb from '../../components/Checkout/BreadCrumb';
 import ReviewDetail from '../../components/Checkout/Shipping/ReviewDetail';
 import PaymentMethod from '../../components/Checkout/Payment/PaymentMethod';

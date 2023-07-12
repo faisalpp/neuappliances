@@ -1,7 +1,6 @@
 import React,{useEffect,useState} from 'react';
 import AdminAccount from '../../layout/AdminAccount';
 import BrandCard from '../../components/AdminDashboard/BrandCard'
-import { AiOutlineSearch } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { getSectionItems } from '../../api/admin';
 import { useParams } from 'react-router-dom';

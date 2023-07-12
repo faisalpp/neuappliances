@@ -16,8 +16,6 @@ import GallerySection from '../components/GallerySection';
 import SatisfiedSection from '../components/SatisfiedSection';
 import NewsLetterSection from '../components/NewsLetterSection';
 import MainLayout from '../layout/MainLayout';
-import ProductSlider from '../components/ProductSlider';
-import RatingProductSectionXl from '../components/Sections/RatingProductSections/RatingProductSectionXl'
 import RatingProductSection from '../components/RatingProductSection';
 
 const Home = () => {

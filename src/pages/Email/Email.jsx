@@ -68,7 +68,7 @@ const Email = () => {
             <div style={{ backgroundColor: '#071822', padding: '20px', color: 'white', fontSize: '12px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '40px', flexWrap: 'wrap' }}>
                 <span>&#169; 2022 Neu Appliances</span>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <a href=''>Terms of Use</a>   •   <a href=''>Privacy Policy</a>   •   <a href=''>Help Center</a>
+                    <a href='/'>Terms of Use</a>   •   <a href='/'>Privacy Policy</a>   •   <a href='/'>Help Center</a>
                 </div>
             </div>
         </div>

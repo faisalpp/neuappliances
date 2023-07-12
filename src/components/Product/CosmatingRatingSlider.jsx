@@ -1,8 +1,6 @@
 import React from 'react'
 import { AiOutlineDollar, AiFillStar, AiOutlineCheckCircle } from 'react-icons/ai'
-import { IoIosArrowForward } from 'react-icons/io'
 import ProductSlider from '../ProductSlider'
-import { Link } from 'react-router-dom'
 
 const CosmatingRatingSlider = ({ title, dicount, type, stars, discount, codmetics }) => {
     const products = [

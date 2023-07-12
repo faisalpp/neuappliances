@@ -248,7 +248,7 @@ const CreateProduct = () => {
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
           <SelectInput name="brand" title="Product Brand" iscompulsory="true" value={values.brand} change={handleChange} options={categoryBrands} error={errors.brand} errormessage={errors.brand ? errors.brand : undefined} />
-           <SelectInput name="fuelType" title="Fuel Type" iscompulsory="true" value={values.fuelType} change={handleChange} options={['Electric','Gas','Propane','Electric & Gas','Electric, Gas & Propane']} error={errors.fuelType} errormessage={errors.fuelType ? errors.fuelType : undefined}  />
+          <SelectInput name="fuelType" title="Fuel Type" iscompulsory="true" value={values.fuelType} change={handleChange} options={['Electric','Gas','Propane','Electric & Gas','Electric, Gas & Propane']} error={errors.fuelType} errormessage={errors.fuelType ? errors.fuelType : undefined}  />
           </div>
           {/* Input Group End*/}
 
@@ -307,7 +307,7 @@ const CreateProduct = () => {
           {/* Input Group End*/}
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
-           <TextInput name="lowerInstallment" title="Product Lower Installment Price" iscompulsory="true" type="text" value={values.lowerInstallment} change={handleChange} error={errors.lowerInstallment} errormessage={errors.lowerInstallment ? errors.lowerInstallment : undefined} placeholder="Enter Product Lower Installment Price" />
+          <TextInput name="lowerInstallment" title="Product Lower Installment Price" iscompulsory="true" type="text" value={values.lowerInstallment} change={handleChange} error={errors.lowerInstallment} errormessage={errors.lowerInstallment ? errors.lowerInstallment : undefined} placeholder="Enter Product Lower Installment Price" />
            <TextInput name="highInstallment" title="Product Higher Installment Price" iscompulsory="true" type="text" value={values.highInstallment} change={handleChange} error={errors.highInstallment} errormessage={errors.highInstallment ? errors.highInstallment : undefined} placeholder="Enter Product Higher Installment Price" />
           </div>
           {/* Input Group End*/}

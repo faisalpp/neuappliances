@@ -11,7 +11,7 @@ import {useParams} from 'react-router-dom'
 
 const UpdateSection = () => {
 
-  const {id,categoryTitle} = useParams()
+  const {id} = useParams()
 
     const [sectionId,setSectionId] = useState(id);
     const [title,setTitle] = useState('');

@@ -8,7 +8,6 @@ import ReviewSlider from '../components/ReviewSlider';
 import CosmaticSlider from '../components/CosmaticSlider';
 import HeroSection from '../components/Landing/HeroSection';
 import { AiOutlineArrowRight } from 'react-icons/ai';
-import MapCards from '../components/HowItworks/MapCards';
 import FeatureCard from '../components/Landing/FeatureCard';
 
 const Home = () => {

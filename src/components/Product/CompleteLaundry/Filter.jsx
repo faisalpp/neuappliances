@@ -1,9 +1,5 @@
 import React from 'react'
 import { FiChevronDown } from 'react-icons/fi'
-import ToolTip from '../../ToolTip'
-import { AiFillStar } from 'react-icons/ai'
-import { Link } from 'react-router-dom'
-import { FaArrowRight } from 'react-icons/fa'
 import LaundryCard from './LaundryCard'
 
 const Filter = () => {

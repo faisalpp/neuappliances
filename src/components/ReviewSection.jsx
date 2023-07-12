@@ -38,7 +38,7 @@ const ReviewSection = () => {
         <ReviewSlider color="#F5F5F5" clientreviews={clientreviews} icon="google.png" />
         <ReviewSlider color="#ff9b3e14" clientreviews={clientreviews} icon="yelp.png" />
       </div>
-      <div className='flex justify-center mt-5' ><a href='' className='flex items-center border-[1px] border-b3 w-fit px-4 py-3 rounded-md text-b3 font-semibold' ><span className='text-sm' >Shop Austin's Best Appliance Deals</span><BsArrowRightShort className='text-2xl' /></a></div>
+      <div className='flex justify-center mt-5' ><a href='/' className='flex items-center border-[1px] border-b3 w-fit px-4 py-3 rounded-md text-b3 font-semibold' ><span className='text-sm' >Shop Austin's Best Appliance Deals</span><BsArrowRightShort className='text-2xl' /></a></div>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import ModelBuyingOptionCard from './ModelBuyingOptionCard'
-import { AiFillStar, AiOutlineDollarCircle, AiOutlineStar } from 'react-icons/ai'
+import { AiFillStar, AiOutlineDollarCircle } from 'react-icons/ai'
 import { FaFire } from 'react-icons/fa'
 import { FiLink2 } from 'react-icons/fi'
 
