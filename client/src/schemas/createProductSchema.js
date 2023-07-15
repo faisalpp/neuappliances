@@ -9,7 +9,7 @@ const createProductSchema = yup.object().shape({
   fuelType: yup.string().required("Product Fuel Type is Required!"),
   type: yup.string().required("Product Type is Required!"),
   dryerOption: yup.string().required("Product Dryer Options is Required!"),
-  feature: yup.string().required("Product Dryer Options is Required!"),
+  feature: yup.string().required("Product Feature is Required!"),
   bullet1: yup.string().required("Product Bullet Description 1 is Required!"),
   bullet2: yup.string().required("Product Bullet Description 2 is Required!"),
   bullet3: yup.string().required("Product Bullet Description 3 is Required!"),

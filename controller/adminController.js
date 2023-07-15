@@ -4,8 +4,9 @@ const bcrypt = require("bcryptjs");
 const RefreshToken = require('../models/token');
 const JWTService = require("../services/JwtService");
 const AdminDTO = require('../dto/admin')
+const mongoose = require('mongoose')
 
-const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{7,25}$/;
+const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$/;
 
 const adminController = {
   async register(req, res, next) {
@@ -205,6 +206,95 @@ const adminController = {
 
     return res.status(200).json({ user: AdminDto, auth: true });
   },
+
+  async changePassword(req, res, next) {
+
+    // 1. validate user input
+    const userRegisterSchema = Joi.object({
+      newPass: Joi.string().pattern(passwordPattern).required(),
+      currentPass: Joi.string().pattern(passwordPattern).required(),
+      confNewPass: Joi.ref("newPass"),
+    });
+    const { error } = userRegisterSchema.validate(req.body);
+
+    // 2. if error in validation -> return error via middleware
+    if (error) {
+      return next(error)
+    }
+
+    const originalRefreshToken = req.cookies.refreshToken;
+
+    let id;
+
+    try {
+      id = JWTService.verifyRefreshToken(originalRefreshToken)._id;
+    } catch (e) {
+      const error = {
+        status: 401,
+        message: "Unauthorized",
+      };
+
+      return next(error);
+    }
+
+    try {
+      const match = RefreshToken.findOne({
+        _id: id,
+        token: originalRefreshToken,
+      });
+
+      if (!match) {
+        const error = {
+          status: 401,
+          message: "Unauthorized",
+        };
+
+        return next(error);
+
+      }
+    } catch (e) {
+      return next(e);
+    }
+
+    try {
+
+      const findAdmin = await Admin.findOne({_id:id});
+      if(!findAdmin){
+        const error = {
+          status: 401,
+          message: "Unauthorized",
+        };
+        return next(error);
+      } 
+      
+      const {currentPass,newPass} = req.body;
+
+      const match = await bcrypt.compare(currentPass,findAdmin.password);
+      console.log(match)
+       if(!match){
+        const error = {
+          status: 401,
+          message: "Invalid Credentials!"
+         } 
+         return next(error);
+       }
+
+       const newHashedPassword = await bcrypt.hash(newPass, 10);
+       const objectId = new mongoose.Types.ObjectId(id);
+       const upadtePass = await Admin.findOneAndUpdate(
+        objectId,
+        {password:newHashedPassword},
+        { new: true }
+       )
+
+       return res.status(200).json({ status: 200, msg: 'Password Changed Successfully!' });
+
+    } catch (e) {
+      return next(e);
+    }
+    
+  },
+
 
 };
 

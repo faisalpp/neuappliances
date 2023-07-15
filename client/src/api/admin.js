@@ -45,6 +45,17 @@ export const AdminSignout = async () => {
     return response;
 }
 
+export const ChangePassword = async (data) => {
+    let response;
+
+    try{
+        response = await AdminApi.post('/api/admin/change-password',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
 
 export const GetCategories = async () => {
     let response;
@@ -356,8 +367,32 @@ export const createBlog = async (data) => {
     return response;
 }
 
+// UPLOAD LOOP MEDIA
+export const uploadLoopMedia = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/upload-loop-media',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+// GET LOOP MEDIA
+export const getLoopMedia = async (params) => {
+    let response;
+    
+    try{
+        response = await AdminApi.get(`/api/admin/get-loop-media/?page=${params.page}&limit=${params.limit}`);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 
 
+
+const refreshUrl = isDev ? `${process.env.REACT_APP_INTERNAL_PATH}/api/admin/refresh` : "/api/admin/refresh";
 
 AdminApi.interceptors.response.use(
     (config) => config,
@@ -372,7 +407,7 @@ AdminApi.interceptors.response.use(
         originalReq._isRetry = true;
   
         try {
-          await axios.get(`${process.env.REACT_APP_INTERNAL_API_PATH_ADMIN}/refresh`, {
+          await axios.get(refreshUrl, {
             withCredentials: true,
           });
   
@@ -385,7 +420,6 @@ AdminApi.interceptors.response.use(
   );
 
 
-  const refreshUrl = isDev ? `${process.env.REACT_APP_INTERNAL_PATH}/api/admin/refresh` : "/api/admin/refresh";
 
   AdminMultiApi.interceptors.response.use(
     (config) => config,

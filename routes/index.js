@@ -11,6 +11,7 @@ const categorySection = require('../controller/sectionController');
 const faqController = require('../controller/faqController');
 const uploadController = require('../controller/uploadController');
 const blogController = require('../controller/blogController');
+const loopController = require('../controller/loopController');
 const uploader = require('express-fileupload');
 
 const app = express();
@@ -32,6 +33,7 @@ router.get('/api/admin/register', adminController.register);
 router.post('/api/admin/login', adminController.login);
 router.get('/api/admin/logout', adminController.logout);
 router.get('/api/admin/refresh', adminController.refresh);
+router.post('/api/admin/change-password', adminAuth,adminController.changePassword);
 // Categories Related Routes
 router.get('/api/admin/get-categories',adminAuth,categoryController.GetCategories);
 router.post('/api/admin/category-by-id',adminAuth,categoryController.GetCategoryById);
@@ -70,6 +72,10 @@ router.post('/api/admin/get-uploaded-media',adminAuth,uploadController.getMedia)
 router.post('/api/admin/delete-media',adminAuth,uploadController.deleteMedia);
 // Blog Api's
 router.post('/api/admin/create-blog',adminAuth,blogController.createBlog);
+// Loop Media Api's
+router.post('/api/admin/upload-loop-media',adminAuth,loopController.uploadLoopMedia);
+router.get('/api/admin/get-loop-media',loopController.getLoopMedia);
+
 
 
 // Front-End Api's

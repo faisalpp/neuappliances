@@ -41,12 +41,12 @@ dbconnect();
 app.use(router);
 
 app.use('/storage', express.static(path.join(__dirname + '/storage')));
-// if(process.env.NODE_ENV === "prod"){
+if(process.env.NODE_ENV === "prod"){
   app.use(express.static(path.join(__dirname,"./client/build")))
   app.use("*", (req,res) => {
     res.sendFile(path.join(__dirname,"./client/build/index.html"),function (err){res.status(500).send(err)});
   })
-// }
+}
 
 app.use(errorHandler);
 

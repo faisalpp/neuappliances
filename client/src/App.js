@@ -66,8 +66,8 @@ import UpdateProduct from "./pages/AdminAccount/UpdateProduct";
 import CreateFaq from "./pages/AdminAccount/CreateFaq";
 import ManageBlogs from "./pages/AdminAccount/ManageBlogs";
 import CreateBlog from "./pages/AdminAccount/CreateBlog";
-import Media from "./pages/AdminAccount/Media";
-import CreateBlog2 from "./pages/AdminAccount/CreateBlog2";
+import ManageLoop from "./pages/AdminAccount/ManageLoop";
+import AdminChangePassword from "./pages/AdminAccount/AdminChangePassword";
 
 function App() {
 
@@ -173,8 +173,9 @@ function App() {
       <Route path="/admin/manage-blogs" element={<ProtectedAdmin><ManageBlogs/></ProtectedAdmin>} />
       <Route path="/admin/create-blog" element={<ProtectedAdmin><CreateBlog/></ProtectedAdmin>} />
       {/* Admin Media */}
-      <Route path="/admin/media" element={<ProtectedAdmin><Media/></ProtectedAdmin>} />
-      <Route path="/ckeditor" element={<CreateBlog2/>} />
+      <Route path="/admin/manage-loop" element={<ProtectedAdmin><ManageLoop/></ProtectedAdmin>} />
+      {/* Admin Password Change */}
+      <Route path="/admin/change-password" element={<ProtectedAdmin><AdminChangePassword/></ProtectedAdmin>} />
       
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />

@@ -3,13 +3,16 @@ import {CKEditor} from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 
-const BlogEditor = ({state,setState,quillRef,config}) => {
-
-  const [data,setData] = useState('')
+const BlogEditor = ({state,setState}) => {
 
   const handleChange = (e,editor) => {
-    setData(editor.getData())
+    setState(editor.getData())
   }
+
+  const editorConfig = {
+    height: '600px', // Set the desired height here
+    // other configuration options...
+  };
 
   return (
    <>
@@ -17,8 +20,8 @@ const BlogEditor = ({state,setState,quillRef,config}) => {
     <CKEditor
      editor={ClassicEditor}
      onChange={(e,editor)=>{handleChange(e,editor)}}
+     config={editorConfig}
     />
-    {data}
     </div>
    </>
   )

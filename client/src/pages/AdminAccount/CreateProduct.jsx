@@ -236,85 +236,85 @@ const CreateProduct = () => {
           </div> 
 
           <div className='flex space-x-2 items-center' >
-           <TextInput  name="title" title="Product Title" iscompulsory="true" type="text" value={values.title} change={handleTitleChange} error={errors.title} errormessage={errors.title ? errors.title : undefined} placeholder="Enter Product Title"  />
-           <TextInput  name="slug" title="Product Slug" iscompulsory="true" type="text" value={values.slug} change={handleChange} error={errors.slug} errormessage={errors.slug ? errors.slug : undefined} placeholder="Enter Product Slug" />
+           <TextInput  name="title" title="Product Title" iscompulsory="true" type="text" value={values.title} change={handleTitleChange} error={errors.length > 0 && errors.includes('Product Title is Required!') ? true : false} errormessage="Product Title is Required!" placeholder="Enter Product Title"  />
+           <TextInput  name="slug" title="Product Slug" iscompulsory="true" type="text" value={values.slug} change={handleChange} error={errors.length > 0 && errors.includes('Product Slug is Required!') ? true : false} errormessage="Product Slug is Required!" placeholder="Enter Product Slug" />
           </div>
           <div className='flex space-x-2 items-center' >
-          <SelectInput name="category" options={categories} value={values.category} change={handleChange} title="Product Category" iscompulsory="true" error={errors.category} errormessage={errors.category ? errors.category : undefined}  />
-          <SelectInput name="color" options={productColors} value={values.color} change={handleChange} title="Product Color" iscompulsory="true" error={errors.color} errormessage={errors.color ? errors.color : undefined}  />
-          </div>
-          {/* Input Group End*/}
-
-          {/* Input Group */}
-          <div className='flex space-x-2 items-center' >
-          <SelectInput name="brand" title="Product Brand" iscompulsory="true" value={values.brand} change={handleChange} options={categoryBrands} error={errors.brand} errormessage={errors.brand ? errors.brand : undefined} />
-          <SelectInput name="fuelType" title="Fuel Type" iscompulsory="true" value={values.fuelType} change={handleChange} options={['Electric','Gas','Propane','Electric & Gas','Electric, Gas & Propane']} error={errors.fuelType} errormessage={errors.fuelType ? errors.fuelType : undefined}  />
+          <SelectInput name="category" options={categories} value={values.category} change={handleChange} title="Product Category" iscompulsory="true" error={errors.length > 0 && errors.includes('Product Category is Required!') ? true : false} errormessage="Product Category is Required!"  />
+          <SelectInput name="color" options={productColors} value={values.color} change={handleChange} title="Product Color" iscompulsory="true" error={errors.length > 0 && errors.includes('Product Color is Required!') ? true : false} errormessage="Product Color is Required!"  />
           </div>
           {/* Input Group End*/}
 
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
-           <SelectInput name="type" title="Product Type" iscompulsory="true" value={values.type} change={handleChange} options={productTypes} error={errors.type} errormessage={errors.type ? errors.type : undefined} />
-           <SelectInput name="dryerOption" title="Dryer Option" iscompulsory="true" value={values.dryerOption} change={handleChange} options={['STACKABLE','STEAM','BOTH']} error={errors.dryerOption} errormessage={errors.dryerOption ? errors.dryerOption : undefined} />
+          <SelectInput name="brand" title="Product Brand" iscompulsory="true" value={values.brand} change={handleChange} options={categoryBrands} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" />
+          <SelectInput name="fuelType" title="Fuel Type" iscompulsory="true" value={values.fuelType} change={handleChange} options={['Electric','Gas','Propane','Electric & Gas','Electric, Gas & Propane']} error={errors.length > 0 && errors.includes('Product Fuel Type is Required!') ? true : false} errormessage="Product Fuel Type is Required!"  />
           </div>
           {/* Input Group End*/}
 
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
-           <SelectInput name="feature" title="Product Feature" iscompulsory="true" value={values.feature} change={handleChange} options={productFeatures} error={errors.feature} errormessage={errors.feature ? errors.feature : undefined} />
-           <TextInput  name="bullet1" title="Bullet Description 1" iscompulsory="true" type="text" value={values.bullet1} change={handleChange} error={errors.bullet1} errormessage={errors.bullet1 ? errors.bullet1 : undefined} placeholder="Enter Product Bullet Point 1" />
+           <SelectInput name="type" title="Product Type" iscompulsory="true" value={values.type} change={handleChange} options={productTypes} error={errors.length > 0 && errors.includes('Product Type is Required!') ? true : false} errormessage="Product Type is Required!" />
+           <SelectInput name="dryerOption" title="Dryer Option" iscompulsory="true" value={values.dryerOption} change={handleChange} options={['STACKABLE','STEAM','BOTH']} error={errors.length > 0 && errors.includes('Product Dryer Options is Required!') ? true : false} errormessage="Product Dryer Options is Required!" />
+          </div>
+          {/* Input Group End*/}
+
+          {/* Input Group */}
+          <div className='flex space-x-2 items-center' >
+           <SelectInput name="feature" title="Product Feature" iscompulsory="true" value={values.feature} change={handleChange} options={productFeatures} error={errors.length > 0 && errors.includes('Product Feature is Required!') ? true : false} errormessage="Product Feature is Required!" />
+           <TextInput  name="bullet1" title="Bullet Description 1" iscompulsory="true" type="text" value={values.bullet1} change={handleChange} error={errors.length > 0 && errors.includes('Product Bullet Description 1 is Required!') ? true : false} errormessage="Product Bullet Description 1 is Required!" placeholder="Enter Product Bullet Point 1" />
           </div>
           {/* Input Group End*/}
 
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >           
-           <TextInput  name="bullet2" title="Bullet Description 2" iscompulsory="true" type="text" value={values.bullet2} change={handleChange} error={errors.bullet2} errormessage={errors.bullet2 ? errors.bullet2 : undefined} placeholder="Enter Product Bullet Point 2"/>
-           <TextInput  name="bullet3" title="Bullet Description 3" iscompulsory="true" type="text" value={values.bullet3} change={handleChange} error={errors.bullet3} errormessage={errors.bullet3 ? errors.bullet4 : undefined} placeholder="Enter Product Bullet Point 3"/>
+           <TextInput  name="bullet2" title="Bullet Description 2" iscompulsory="true" type="text" value={values.bullet2} change={handleChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Bullet Description 1 is Required!" placeholder="Enter Product Bullet Point 2"/>
+           <TextInput  name="bullet3" title="Bullet Description 3" iscompulsory="true" type="text" value={values.bullet3} change={handleChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Bullet Description 1 is Required!" placeholder="Enter Product Bullet Point 3"/>
           </div>
           {/* Input Group End*/}
 
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
-           <TextInput  name="bullet4" title="Bullet Description 4" iscompulsory="true" type="text" value={values.bullet4} change={handleChange} error={errors.bullet4} errormessage={errors.bullet4 ? errors.bullet4 : undefined} placeholder="Enter Product Bullet Point 4"/>
-           <TextInput name="salePrice" title="Product Sale Price" iscompulsory="false" type="text" value={values.salePrice} change={handleChange} error={errors.salePrice} errormessage={errors.salePrice ? errors.salePrice : undefined} placeholder="Enter Product Sale Price" />
+           <TextInput  name="bullet4" title="Bullet Description 4" iscompulsory="true" type="text" value={values.bullet4} change={handleChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" placeholder="Enter Product Bullet Point 4"/>
+           <TextInput name="salePrice" title="Product Sale Price" iscompulsory="false" type="text" value={values.salePrice} change={handleChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" placeholder="Enter Product Sale Price" />
           </div>
           {/* Input Group End*/}
           
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
-           <TextInput name="regularPrice" title="Product Regular Price" iscompulsory="true" type="text"  value={values.regularPrice} change={handleChange} error={errors.regularPrice} errormessage={errors.regularPrice ? errors.regularPrice : undefined} placeholder="Enter Product Regular Price"/>
-           <TextInput name="images" title="Product Images" multiple iscompulsory="true" type="file" accept="image/*" change={handleImageChange} error={errors.images} errormessage={errors.images ? errors.images : undefined} />
+           <TextInput name="regularPrice" title="Product Regular Price" iscompulsory="true" type="text"  value={values.regularPrice} change={handleChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" placeholder="Enter Product Regular Price"/>
+           <TextInput name="images" title="Product Images" multiple iscompulsory="true" type="file" accept="image/*" change={handleImageChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" />
           </div>
           
           {/* Input Group End*/}
           <div className='flex space-x-2 items-center' >
-           <TextInput name="featuresVideo" title="Features Video" iscompulsory="true" type="file" accept="video/*" change={handleFeaturesVideoChange} error={errors.featuresVideo} errormessage={errors.featuresVideo ? errors.featuresVideo : undefined} />
-           <TextInput name="threeSixty" title="Three Sixty Product Images (Zip Only)" iscompulsory="true" type="file" accept=".zip" change={handleThreeSixtyChange} error={errors.threeSixty} errormessage={errors.threeSixty ? errors.threeSixty : undefined} />
+           <TextInput name="featuresVideo" title="Features Video" iscompulsory="true" type="file" accept="video/*" change={handleFeaturesVideoChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" />
+           <TextInput name="threeSixty" title="Three Sixty Product Images (Zip Only)" iscompulsory="true" type="file" accept=".zip" change={handleThreeSixtyChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" />
            <ToolTip  title="360 Images should be in the root of zip file. Use 'img_1' & increment the number by one on each image. next image name should be 'img_2'. image should be in png format." />
           </div> 
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
-           <TextInput name="modelNo" title="Product Model No" iscompulsory="true" type="text" value={values.modelNo} change={handleChange} error={errors.modelNo} errormessage={errors.modelNo ? errors.modelNo : undefined} placeholder="Enter Product Model No" />
-           <TextInput name="itemId" title="Product Item Id" iscompulsory="true" type="text" value={values.itemId} change={handleChange} error={errors.itemId} errormessage={errors.itemId ? errors.itemId : undefined} placeholder="Enter Product Item Id" />
+           <TextInput name="modelNo" title="Product Model No" iscompulsory="true" type="text" value={values.modelNo} change={handleChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" placeholder="Enter Product Model No" />
+           <TextInput name="itemId" title="Product Item Id" iscompulsory="true" type="text" value={values.itemId} change={handleChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" placeholder="Enter Product Item Id" />
           </div>
           {/* Input Group End*/}
 
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
-           <TextInput name="stock" title="Product Total Stock" iscompulsory="true" type="text" value={values.stock} change={handleChange} error={errors.stock} errormessage={errors.stock ? errors.stock : undefined} placeholder="Enter Product Total Stock" />
-           <TextInput name="rating" title="Product Cosmatic Rating" iscompulsory="true" type="text" value={values.rating} change={handleChange} error={errors.rating} errormessage={errors.rating ? errors.rating : undefined} placeholder="Enter Cosmatic Rating (3-5)" />
+           <TextInput name="stock" title="Product Total Stock" iscompulsory="true" type="text" value={values.stock} change={handleChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" placeholder="Enter Product Total Stock" />
+           <TextInput name="rating" title="Product Cosmatic Rating" iscompulsory="true" type="text" value={values.rating} change={handleChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" placeholder="Enter Cosmatic Rating (3-5)" />
           </div>
           {/* Input Group End*/}
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
-          <TextInput name="lowerInstallment" title="Product Lower Installment Price" iscompulsory="true" type="text" value={values.lowerInstallment} change={handleChange} error={errors.lowerInstallment} errormessage={errors.lowerInstallment ? errors.lowerInstallment : undefined} placeholder="Enter Product Lower Installment Price" />
-           <TextInput name="highInstallment" title="Product Higher Installment Price" iscompulsory="true" type="text" value={values.highInstallment} change={handleChange} error={errors.highInstallment} errormessage={errors.highInstallment ? errors.highInstallment : undefined} placeholder="Enter Product Higher Installment Price" />
+          <TextInput name="lowerInstallment" title="Product Lower Installment Price" iscompulsory="true" type="text" value={values.lowerInstallment} change={handleChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" placeholder="Enter Product Lower Installment Price" />
+           <TextInput name="highInstallment" title="Product Higher Installment Price" iscompulsory="true" type="text" value={values.highInstallment} change={handleChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" placeholder="Enter Product Higher Installment Price" />
           </div>
           {/* Input Group End*/}
 
-          <TextAreaInput name="description" title="Product Description" iscompulsory="true" type="text" value={values.description} change={handleChange} error={errors.description} errormessage={errors.description ? errors.description : undefined} placeholder="Enter Product Description"  />
-          <TextAreaInput name="specification" title="Product Specification" iscompulsory="true" type="text" value={values.specification} change={handleChange} error={errors.specification} errormessage={errors.specification ? errors.specification : undefined} placeholder="Enter Product Specification"  />
-          <TextAreaInput name="deliveryInfo" title="Product Delivery Info" iscompulsory="true" type="text" value={values.deliveryInfo} change={handleChange} error={errors.deliveryInfo} errormessage={errors.deliveryInfo ? errors.deliveryInfo : undefined} placeholder="Enter Product Delivery Info"  />
+          <TextAreaInput name="description" title="Product Description" iscompulsory="true" type="text" value={values.description} change={handleChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" placeholder="Enter Product Description"  />
+          <TextAreaInput name="specification" title="Product Specification" iscompulsory="true" type="text" value={values.specification} change={handleChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" placeholder="Enter Product Specification"  />
+          <TextAreaInput name="deliveryInfo" title="Product Delivery Info" iscompulsory="true" type="text" value={values.deliveryInfo} change={handleChange} error={errors.length > 0 && errors.includes('Product Brand is Required!') ? true : false} errormessage="Product Brand is Required!" placeholder="Enter Product Delivery Info"  />
 
           <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a></button>
           </form>

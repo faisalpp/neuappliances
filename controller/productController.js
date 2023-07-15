@@ -2,8 +2,7 @@ const Category = require("../models/category");
 const categorySection = require("../models/categorySection");
 const Product = require("../models/product");
 const Joi = require("joi");
-const fs = require("fs");
-const formidable = require('formidable');
+const fs = require("fs")
 const AdmZip = require('adm-zip');
 const ProductDto = require("../dto/admin/product");
 

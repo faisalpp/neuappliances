@@ -39,26 +39,16 @@ const AdminItems = ({ onClose, isItems }) => {
         },
         {
             id:7,
-            title: "Help & Support",
-            link: '/admin/help-&-support',
+            title: 'Stay In Loop',
+            link: '/admin/manage-loop',
         },
         {
             id:8,
-            title: 'Stay In Loop',
-            link: '/admin/stay-in-loop',
-        },
-        {
-            id:9,
-            title: 'Media',
-            link: '/admin/media',
-        },
-        {
-            id:10,
             title: 'Change Password ',
             link: '/admin/change-password',
         },
         {
-            id:11,
+            id:9,
             title: 'Site Settings',
             link: '/admin/settings',
         },
