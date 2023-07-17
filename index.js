@@ -36,7 +36,6 @@ app.use(cors(corsOptions));
 //   })
 // );
 
-dbconnect();
 
 app.use(router);
 
@@ -50,7 +49,9 @@ if(process.env.NODE_ENV === "production"){
 
 app.use(errorHandler);
 
-app.listen(PORT,()=>{
-    console.log(`Server Started on port: ${PORT}`)
-});
+dbconnect().then(()=>{
+  app.listen(PORT,()=>{
+      console.log(`Server Started on port: ${PORT}`)
+  });
+})
 
