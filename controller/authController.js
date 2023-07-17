@@ -5,13 +5,13 @@ const RefreshToken = require('../models/token');
 const JWTService = require("../services/JwtService");
 const UserDTO = require('../dto/user')
 
-const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,25}$/;
+const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$/;
 
 const authController = {
   async register(req, res, next) {
     // 1. validate user input
     const userRegisterSchema = Joi.object({
-      firstName: Joi.string().min(8).max(30).required(),
+      firstName: Joi.string().max(30).required(),
       lastName: Joi.string().max(30).required(),
       email: Joi.string().email().required(),
       phone: Joi.string().required(),
@@ -124,8 +124,9 @@ const authController = {
 
     res.cookie('accessToken',accessToken,{httpOnly:false,maxAge: 24 * 60 * 60 * 1000});
     res.cookie('refreshToken',refreshToken,{httpOnly:false,maxAge: 24 * 60 * 60 * 1000});
-
+    console.log(user)
     const userDto = new UserDTO(user);
+    console.log(userDto)
 
     return res.status(200).json({status:200,user: userDto,msg:'Login Successful!',auth:true});
 

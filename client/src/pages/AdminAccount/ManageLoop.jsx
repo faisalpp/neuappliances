@@ -15,8 +15,8 @@ import Pagination from '../../components/Pagination';
 
 const ManageLoop = () => {
   // Cloudinary Config
-  const cloudName = "diflxhpwx";
-  const upload_preset = "odlrv6td";
+  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+  const upload_preset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
   const folder = 'LoopMedia';
 
   const [mediaPopup,setMediaPopup] = useState(false)

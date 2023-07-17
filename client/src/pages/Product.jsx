@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import React, { useEffect, useRef } from 'react'
+import { Link, useNavigate, useParams,useLocation } from 'react-router-dom'
 import MainLayout from '../layout/MainLayout'
 import { RiStackLine } from 'react-icons/ri'
 import { GiThermometerHot } from 'react-icons/gi'
@@ -31,21 +31,70 @@ import StickyNavbar from '../components/DeskComp/Navbar/StickyNavbar'
 import CustomModal from '../components/Modal/CustomModal'
 import TruckSvg from '../svgs/TruckSvg'
 import { GetAppliancesBySlug } from '../api/frontEnd'
+import { addToCart } from '../api/cart'
 import Loader from '../components/Loader/Loader'
 import { React360Viewer } from 'react-360-product-viewer'
+import { useSelector } from 'react-redux'
+import {toast} from 'react-toastify'
+import { resetUser } from "../store/userSlice";
+import { AddToCart } from "../store/cartSlice";
+import { useDispatch } from "react-redux";
 
 const Product = () => {
   // Get slug form url
   const { slug } = useParams()
   const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const location = useLocation();
 
-  const [deliveryType, setDeliverType] = useState('pickup');
+  const [orderType, setOrderType] = useState('pickup');
   const [zip, setZip] = useState('');
   const [changeZip, setChangeZip] = useState(true);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false)
-
+  
   const [product, setProduct] = useState([])
+  
+  const addToCartRef = useRef(null)
+  // Auth State
+  const id = useSelector((state) => state.user._id);
+
+  const AddToCart = async () => {
+    const data = {userId:id,productId:product._id,orderType:orderType}
+    const res = await addToCart(data)
+    const deliveryOrders = res.data.deliveryOrders;
+    const pickupOrders=res.data.pickupOrders
+    if(res.status === 200){
+      dispatch(addToCart({ deliveryOrders:deliveryOrders, pickupOrders:pickupOrders }));
+      toast.success("Product Add To Cart!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    if(res.code === 'ERR_BAD_REQUEST'){
+      toast.error("Login Required!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+        const callback = location.pathname
+        dispatch(resetUser());
+        navigate(`/login/?callback=${callback}`)
+    }
+  }
+
+
 
   useEffect(() => {
     GetProduct()
@@ -122,6 +171,7 @@ const Product = () => {
   };
 
 
+
   return (
     <>
       {loading ? <Loader /> :
@@ -150,15 +200,14 @@ const Product = () => {
                   <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+4</div><img src={product.images ? `${process.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}` : ''} className='w-10 h-16 2xl:w-20' alt='product' /></div>
                 </div>
                 <div className='flex relative justify-center items-center border-[1px] border-gray-300 rounded-lg lg:h-96 2xl:h-auto 2xl:py-14 w-full' >
-                  {/* <img src={`${process.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}`} alt='product' className='2xl:h-[378px]' /> */}
-                  <React360Viewer
+                  {product.threeSixty ? <React360Viewer
                     imagesBaseUrl={`${process.env.REACT_APP_INTERNAL_PATH}/${product.threeSixty}`}
                     imagesCount={36}
                     imagesFiletype="jpg"
                     mouseDragSpeed={5}
                     width={350}
                     height={350}
-                  />
+                  />:null}
                   {product.rating === '3' ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><AiOutlineDollarCircle />Best Value</div></div> : null}
                   {product.rating === '4' ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/local_fire_department.png" alt="" />Most Popular</div></div> : null}
                   {product.rating === '5' ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/star_rate_half.png.png" alt="" /> Premium Condition </div></div> : null}
@@ -193,7 +242,7 @@ const Product = () => {
               <h5 className='lg:text-xl text-sm font-bold lg:w-full sm:w-96' >{product.title}</h5>
               <div className='flex items-center' >
                 <h5 className='lg:text-sm text-xs lg:w-80 underline text-b3 font-bold cursor-pointer' >View More Buying Options</h5><div className='flex justify-end w-full' >
-                  {product.stock > 0 ? <span className='flex items-center bg-b13 text-white text-xs px-3 rounded-full py-2' >
+                  {product.inStock ? <span className='flex items-center bg-b13 text-white text-xs px-3 rounded-full py-2' >
                     <IoBagCheckOutline className='text-sm mr-1' />In Stock</span> :
                     <span className='flex items-center bg-red-500 text-white text-xs px-3 rounded-full py-2' >
                       <IoCloseOutline className='text-sm mr-1' />Out of Stock</span>
@@ -250,8 +299,8 @@ const Product = () => {
               {/* Delivery Card */}
               <div className='flex lg:flex-row flex-col lg:space-x-5 lg:space-y-0 space-y-3 w-full' >
 
-                <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${deliveryType === 'pickup' ? 'border-b10' : 'border-gray-300'} `} >
-                  <div className='flex items-center space-x-3' ><BsShopWindow className='text-xl' /><h6 className='font-bold text-sm' >Pickup</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setDeliverType('pickup')} className={`px-1 py-1 rounded-full cursor-pointer ${deliveryType === 'pickup' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoPrimitiveDot className={` ${deliveryType === 'pickup' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
+                <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${orderType === 'pickup' ? 'border-b10' : 'border-gray-300'} `} >
+                  <div className='flex items-center space-x-3' ><BsShopWindow className='text-xl' /><h6 className='font-bold text-sm' >Pickup</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderType('pickup')} className={`px-1 py-1 rounded-full cursor-pointer ${orderType === 'pickup' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoPrimitiveDot className={` ${orderType === 'pickup' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
                   <div className='flex flex-col space-y-2 mt-2 text-sm' >
                     <h6 className='text-b10' >Ready Fri, April 26th (EST).</h6>
                     <h6 className='text-gray-500' >Georgetown, Tx</h6>
@@ -259,8 +308,8 @@ const Product = () => {
                   </div>
                 </div>
 
-                <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${deliveryType === 'home' ? 'border-b10' : 'border-gray-300'} `} >
-                  <div className='flex items-center space-x-2' ><BsTruck className='text-3xl' /><h6 className='font-bold text-sm' >Delivery</h6><h6 onClick={() => setChangeZip(true)} className='text-xs w-max text-blue-400 hover:underline cursor-pointer' >Change ZIP</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setDeliverType('home')} className={`px-1 py-1 rounded-full cursor-pointer ${deliveryType === 'home' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoPrimitiveDot className={` ${deliveryType === 'home' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
+                <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${orderType === 'home' ? 'border-b10' : 'border-gray-300'} `} >
+                  <div className='flex items-center space-x-2' ><BsTruck className='text-3xl' /><h6 className='font-bold text-sm' >Delivery</h6><h6 onClick={() => setChangeZip(true)} className='text-xs w-max text-blue-400 hover:underline cursor-pointer' >Change ZIP</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderType('delivery')} className={`px-1 py-1 rounded-full cursor-pointer ${orderType === 'delivery' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoPrimitiveDot className={` ${orderType === 'delivery' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
 
                   <div className={` ${changeZip ? 'flex' : 'hidden'} flex-col items-center justify-center h-full space-y-2 mt-2 text-sm`} >
                     <div className='flex items-center bg-white border-[1px] h-10 px-2 rounded-lg space-x-2 w-10/12 ' ><AiOutlineSearch className='text-blue-400 text-lg' /><input type="search" value={zip} onChange={e => setZip(e.target.value)} placeholder='Enter ZIP Code' className="w-full text-xs outline-none" /></div>
@@ -277,7 +326,7 @@ const Product = () => {
 
               </div>
               {/* Buttons */}
-              <Link to="" className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><span className="font-bold ml-2" >Add To Cart</span></Link>
+              <button type="button" ref={addToCartRef} onClick={AddToCart} className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><span className="font-bold ml-2" >Add To Cart</span></button>
               <button type='button' onClick={() => handleOpenModal("2")} className='flex justify-center items-center bg-b3 text-sm text-white py-3 rounded-lg' ><span className="font-bold ml-2" >Complete Your Laundry Set</span></button>
 
               {/* Quicl FAQs */}

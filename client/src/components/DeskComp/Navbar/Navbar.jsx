@@ -15,7 +15,6 @@ import { resetUser } from '../../../store/userSlice'
 import { Menu } from '@headlessui/react'
 import { AdminSignout } from '../../../api/admin';
 import { Signout } from '../../../api/user';
-import Loader from '../../Loader/Loader'
 
 const Navbar = ({ sCart, setSCart }) => {
   const [megMenu, setMegMenu] = useState(false);
@@ -59,8 +58,9 @@ const Navbar = ({ sCart, setSCart }) => {
 
   const handleLogout = async (e) => {
     e.preventDefault();
-
+    
     const res = await Signout();
+    
     if (res.status === 200) {
       toast.success(res.msg, {
         position: "top-right",

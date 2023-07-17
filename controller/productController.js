@@ -5,14 +5,15 @@ const Joi = require("joi");
 const fs = require("fs")
 const AdmZip = require('adm-zip');
 const ProductDto = require("../dto/admin/product");
+const path = require('path')
 
 const productController = {
     async CreateProduct(req,res,next){
 
     // 1. validate user input
     const productRegisterSchema = Joi.object({
-       title:  Joi.string().min(30).required(),
-       slug:  Joi.string().min(30).required(),
+       title:  Joi.string().min(10).required(),
+       slug:  Joi.string().min(10).required(),
        category:  Joi.string().required(),
        color:  Joi.string().required(),
        brand:  Joi.string().required(),
@@ -29,7 +30,6 @@ const productController = {
        regularPrice:  Joi.string().required(),
        modelNo:  Joi.string().required(),
        itemId: Joi.string().required(),
-       stock:  Joi.string().required(),
        rating:  Joi.string().required(),
        lowerInstallment: Joi.string().required(),
        highInstallment:  Joi.string().required(),
@@ -44,7 +44,7 @@ const productController = {
         return next(error)
       }
       
-      const { images,featuresVideo, threeSixty } = req.files;
+      const { featuresVideo, threeSixty } = req.files;
       // Images Upload Start
       const imageKeys = Object.keys(req.files).filter(key => key.startsWith('images_'));
       let productImagesPath = [];
@@ -89,19 +89,30 @@ const productController = {
               // Extract the zip file contents
               const zip = new AdmZip(tempFilePath);
               zip.extractAllTo(threeVideoPath, true);
+
+              const imageFiles = fs.readdirSync(threeVideoPath);
+              imageFiles.sort();
+
+              imageFiles.forEach((file, index) => {
+                const originalPath = path.join(threeVideoPath, file);
+                const extension = path.extname(file);
+                const newFileName = `${index + 1}${extension}`;
+                const newPath = path.join(threeVideoPath, newFileName);
+            
+                fs.renameSync(originalPath, newPath);
+                // console.log(`Renamed ${file} to ${newFileName}`);
+              });
+            
       
               // Cleanup: remove the temporary zip file
               fs.unlink(tempFilePath, (unlinkError) => {
                 if (unlinkError) {
-                  console.error('Failed to remove temporary zip file:', unlinkError);
+                  // console.error('Failed to remove temporary zip file:', unlinkError);
                 }
               });
             }
           });
         }
-        // console.log(productImagesPath)
-        // console.log(featureVideoPath)
-        // console.log(threeVideoPath)
 
           // Get Product Data from Request
           const {title,slug,category,color,brand,fuelType,type,dryerOption,feature,bullet1,bullet2,bullet3,bullet4,salePrice,regularPrice,modelNo,itemId,stock,rating,lowerInstallment,highInstallment,description,specification,deliveryInfo} = req.body;

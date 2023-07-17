@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import { resetUser } from '../../store/userSlice'
+import {GetUserProfile} from '../../api/user'
 
 
 const Profile = () => {
@@ -27,22 +28,13 @@ const Profile = () => {
     const [countryList,setCountryList] = useState(countries);
 
     const GetProfile = async () => {
-     const response = await fetch('http://localhost:5000/api/user/profile',{
-        method: "POST",
-        headers: {
-          'Content-Type':'application/json'
-        },
-        body: JSON.stringify({_id}),
-        credentials: 'include',
-       });
-
-       const res = await response.json();
+       const res = await GetUserProfile({_id});
        if(res.status === 200){
-        setFirstName(res.user.firstName);
-        setLastName(res.user.lastName);
-        setEmail(res.user.email);
-        setPhone(res.user.phone);
-        setCountry(res.user.country);
+        setFirstName(res.data.user.firstName);
+        setLastName(res.data.user.lastName);
+        setEmail(res.data.user.email);
+        setPhone(res.data.user.phone);
+        setCountry(res.data.user.country);
        }else{
         dispatch(resetUser())
         navigate('/');

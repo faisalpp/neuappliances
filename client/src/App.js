@@ -71,11 +71,11 @@ import AdminChangePassword from "./pages/AdminAccount/AdminChangePassword";
 
 function App() {
 
-
   const ProtectedAdmin = ({ children }) => {
     const loading = useAutoLoginAdmin();
     return loading ? <Loader /> : <>{children}</>;
   }
+
   const ProtectedUser = ({ children }) => {
     const loading = useAutoLoginUser();
     return loading ? <Loader /> : <>{children}</>;

@@ -15,14 +15,15 @@ const Register = () => {
  const [firstName,setFirstName] = useState('faisal');
  const [lastName,setLastName] = useState('qayyum');
  const [email,setEmail] = useState('muhammadfaisal522@gmail.com');
- const [country,setCountry] = useState('USA');
+ const [country,setCountry] = useState('');
  const [phone,setPhone] = useState('03036542828');
  const [password,setPassword] = useState('Tenda522');
  const [confirmPassword,setConfirmPassword] = useState('Tenda522');
- const [countryList,setCountryList] = useState();
+ const [countryList,setCountryList] = useState([]);
 
  useEffect(() => {
    setCountryList(countries)
+   setCountry(countries[0].country)
  },[])
  
  
@@ -85,7 +86,7 @@ const Register = () => {
             <label className='text-b16 font-semibold text-xs block mb-2'>Country</label>
             <div className='relative'>
               <select value={country} onChange={e=> setCountry(e.target.value)} className='border border-[rgba(0,0,0,0.16)] rounded-lg h-10 text-sm px-4 w-full outline-none appearance-none'>
-                {countryList.map((country)=><option>{country}</option>)}
+                {countryList.length > 0 ? countryList.map((country,index)=><option key={index} >{country}</option>):<option>No Country Data Found!</option>}
                 </select>
                 <FiChevronDown className='absolute right-4 top-3' />
             </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import MainLayout from '../layout/MainLayout'
 import {BsArrowRightShort} from 'react-icons/bs'
 import { NavLink, useNavigate } from 'react-router-dom'
@@ -15,8 +15,18 @@ const Login = () => {
 
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
+  const [callback,setCallback] = useState('')
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Get the callback query from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const callbackQuery = urlParams.get('callback');
+    console.log(callbackQuery)
+    // Do something with the callback query
+    setCallback(callbackQuery)
+  }, []);
 
 
   const Login = async (e) => {
@@ -26,11 +36,12 @@ const Login = () => {
      const res = await Signin(data);
       if(res.status === 200){
        const user = {
-         _id: res.user._id,
-         email: res.user.email,
-         firstName: res.user.firstName,
-         lastName: res.user.lastName,
-         auth: res.auth,
+        _id: res.data.user._id,
+        email: res.data.user.email,
+        firstName: res.data.user.firstName,
+        lastName: res.data.user.lastName,
+        auth: res.data.auth,
+        isAdmin: res.data.user.isAdmin,
        }
        dispatch(setUser(user));
 
@@ -44,7 +55,11 @@ const Login = () => {
         progress: undefined,
         theme: "light",
         });
-        navigate('/my-account/profile');
+        if(callback !== null){
+          navigate(`${callback}`);
+        }else{
+          navigate('/my-account/profile');
+        }
      }else{
       toast.error(res.message, {
         position: "top-right",
@@ -66,7 +81,7 @@ const Login = () => {
     <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
 
       <div className='flex flex-col space-y-10 items-center pt-20 py-32 w-full' >
-        <div><img src="login_logo.png" alt="login_logo" /></div>
+        <div><img src="/login_logo.png" alt="login_logo" /></div>
         <form onSubmit={Login} className='flex flex-col space-y-5 w-5/12 px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >
           <h4 className='text-xl font-bold' >Login</h4>
           <div className='flex flex-col space-y-1' >

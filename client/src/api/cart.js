@@ -3,15 +3,6 @@ import axios from 'axios'
 const isDev = process.env.REACT_APP_DEV === "dev";
 const baseUrl = isDev ? process.env.REACT_APP_INTERNAL_PATH : "";
 
-
-const regApi = axios.create({
-    baseURL: baseUrl,
-    headers: {
-        "Content-Type":"application/json",
-    },
-});
-
-
 const api = axios.create({
     baseURL: baseUrl,
     withCredentials: true,
@@ -20,49 +11,17 @@ const api = axios.create({
     },
 });
 
-
-export const Signup = async (data) => {
+export const addToCart = async (data) => {
     let response;
 
     try{
-        response = await regApi.post('/api/register',data);
+        response = await api.post('/api/user/add-to-cart',data);
     }catch (error){
         return error;
     }
     return response;
 }
 
-export const Signin = async (data) => {
-    let response;
-
-    try{
-        response = await api.post('/api/login',data);
-    }catch (error){
-        return error;
-    }
-    return response;
-}
-export const GetUserProfile = async (data) => {
-    let response;
-
-    try{
-        response = await api.post('/api/user/get-profile',data);
-    }catch (error){
-        return error;
-    }
-    return response;
-}
-
-export const Signout = async () => {
-  let response;
-
-  try{
-      response = await api.get('/api/logout');
-  }catch (error){
-      return error;
-  }
-  return response;
-}
 
 const refreshUrl = isDev ? `${process.env.REACT_APP_INTERNAL_PATH}/api/user/refresh` : "/api/user/refresh";
 

@@ -12,6 +12,7 @@ const faqController = require('../controller/faqController');
 const uploadController = require('../controller/uploadController');
 const blogController = require('../controller/blogController');
 const loopController = require('../controller/loopController');
+const cartController = require('../controller/cartController');
 const uploader = require('express-fileupload');
 
 const app = express();
@@ -19,13 +20,13 @@ const router = express.Router();
 
 router.use(uploader())
 router.get('/api/admin/logout', adminAuth ,authController.logout);
-router.get('/api/logout', auth ,authController.logout);
+router.get('/api/logout', auth,authController.logout);
 
 // User Related Routes
 router.post('/api/register', authController.register);
 router.post('/api/login', authController.login);
 router.get('/api/user/refresh', authController.refresh);
-router.post('/api/user/profile',auth,userProfileController.getUserProfile);
+router.post('/api/user/get-profile',auth,userProfileController.getUserProfile);
 router.post('/api/user/update-profile',auth,userProfileController.UpdateProfile);
 
 // Admin Related Routes
@@ -76,7 +77,8 @@ router.post('/api/admin/create-blog',adminAuth,blogController.createBlog);
 router.post('/api/admin/upload-loop-media',adminAuth,loopController.uploadLoopMedia);
 router.get('/api/admin/get-loop-media',loopController.getLoopMedia);
 
-
+// User Cart Api's
+router.post('/api/user/add-to-cart',auth,cartController.addToCart);
 
 // Front-End Api's
 router.post('/api/get-product-by-filter',applianceController.GetApplianceBySectionType);

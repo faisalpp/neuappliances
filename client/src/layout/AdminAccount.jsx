@@ -4,13 +4,51 @@ import { RiArrowDropRightLine } from 'react-icons/ri';
 import { BsChevronDown } from 'react-icons/bs';
 import AdminItems from '../components/AdminDashboard/AdminItems';
 import { FiLogOut } from 'react-icons/fi';
+import { AdminSignout } from '../api/admin';
+import {toast} from 'react-toastify'
+import { useDispatch } from 'react-redux'
+import { resetUser } from '../store/userSlice'
+import { useNavigate } from 'react-router-dom';
 
 const AdminAccount = ({ children }) => {
     const [isItems, setIsItems] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleCloseItems = () => {
         setIsItems(false);
     };
+
+    const handleAdminLogout = async (e) => {
+        e.preventDefault();
+    
+        const res = await AdminSignout();
+        if (res.status === 200) {
+          toast.success(res.msg, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          dispatch(resetUser());
+          navigate('/');
+        } else {
+          toast.error(res.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      }
 
     return (
         <>
@@ -23,7 +61,7 @@ const AdminAccount = ({ children }) => {
                     <h1 className='font-bold text-2xl md:text-3xl xl:text-4xl 2xl:text-[40px]'>Dashboard</h1>
 
                     {/* 992px Up Screen Logout */}
-                    <button className='hidden lg:flex gap-4 items-center py-4 px-6 rounded-lg font-bold border border-[rgba(0,0,0,0.15)] text-[#B20B0B]'>
+                    <button type="button" onClick={handleAdminLogout} className='hidden lg:flex gap-4 items-center py-4 px-6 rounded-lg font-bold border border-[rgba(0,0,0,0.15)] text-[#B20B0B]'>
                         <span>
                             Logout
                         </span>

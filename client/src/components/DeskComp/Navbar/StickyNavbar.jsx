@@ -12,7 +12,7 @@ const StickyNavbar = ({ state, product }) => {
         <div className='hidden lg:flex items-center bg-gray-100 py-5 w-full justify-center 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
 
           <div className='flex space-x-5 items-center w-6/12 max-w-6/12' >
-            <div className='border-[1px] border-gray-200 rounded-lg px-2 py-1 w-fit' ><img src={product.images ? `${process.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}` : ''} className='w-24' alt='' /></div>
+            <div className='border-[1px] border-gray-200 rounded-lg px-2 py-1 w-fit' ><img src={product.images ? `${process.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}` : ''} className='w-12' alt='' /></div>
             <p className='font-bold text-clip maxlg:text-sm' >{product.title}</p>
           </div>
 
