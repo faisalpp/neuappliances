@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate, useParams,useLocation } from 'react-router-dom'
 import MainLayout from '../layout/MainLayout'
 import { RiStackLine } from 'react-icons/ri'
@@ -37,7 +37,7 @@ import { React360Viewer } from 'react-360-product-viewer'
 import { useSelector } from 'react-redux'
 import {toast} from 'react-toastify'
 import { resetUser } from "../store/userSlice";
-import { AddToCart } from "../store/cartSlice";
+import { updateCart } from "../store/cartSlice";
 import { useDispatch } from "react-redux";
 
 const Product = () => {
@@ -55,17 +55,15 @@ const Product = () => {
   
   const [product, setProduct] = useState([])
   
-  const addToCartRef = useRef(null)
   // Auth State
   const id = useSelector((state) => state.user._id);
 
   const AddToCart = async () => {
-    const data = {userId:id,productId:product._id,orderType:orderType}
+    const data = {userId:id,productId:product._id,orderType:orderType,deliveryLocation:zip}
     const res = await addToCart(data)
-    const deliveryOrders = res.data.deliveryOrders;
-    const pickupOrders=res.data.pickupOrders
+    console.log(res)
     if(res.status === 200){
-      dispatch(addToCart({ deliveryOrders:deliveryOrders, pickupOrders:pickupOrders }));
+      dispatch(updateCart(res.data.cart));
       toast.success("Product Add To Cart!", {
         position: "top-right",
         autoClose: 5000,
@@ -76,6 +74,7 @@ const Product = () => {
         progress: undefined,
         theme: "light",
       });
+      GetProduct()
     }
     if(res.code === 'ERR_BAD_REQUEST'){
       toast.error("Login Required!", {
@@ -91,6 +90,18 @@ const Product = () => {
         const callback = location.pathname
         dispatch(resetUser());
         navigate(`/login/?callback=${callback}`)
+    }
+    if(res.status === 404){
+      toast.error(res.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   }
 
@@ -208,9 +219,9 @@ const Product = () => {
                     width={350}
                     height={350}
                   />:null}
-                  {product.rating === '3' ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><AiOutlineDollarCircle />Best Value</div></div> : null}
-                  {product.rating === '4' ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/local_fire_department.png" alt="" />Most Popular</div></div> : null}
-                  {product.rating === '5' ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/star_rate_half.png.png" alt="" /> Premium Condition </div></div> : null}
+                  {product.rating ===  3 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><AiOutlineDollarCircle />Best Value</div></div> : null}
+                  {product.rating === 4 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/local_fire_department.png" alt="" />Most Popular</div></div> : null}
+                  {product.rating === 5 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/star_rate_half.png.png" alt="" /> Premium Condition </div></div> : null}
                 </div>
               </div>
               <div className='flex flex-col space-y-5 mt-10' >
@@ -242,7 +253,7 @@ const Product = () => {
               <h5 className='lg:text-xl text-sm font-bold lg:w-full sm:w-96' >{product.title}</h5>
               <div className='flex items-center' >
                 <h5 className='lg:text-sm text-xs lg:w-80 underline text-b3 font-bold cursor-pointer' >View More Buying Options</h5><div className='flex justify-end w-full' >
-                  {product.inStock ? <span className='flex items-center bg-b13 text-white text-xs px-3 rounded-full py-2' >
+                  {product.stock > 0 ? <span className='flex items-center bg-b13 text-white text-xs px-3 rounded-full py-2' >
                     <IoBagCheckOutline className='text-sm mr-1' />In Stock</span> :
                     <span className='flex items-center bg-red-500 text-white text-xs px-3 rounded-full py-2' >
                       <IoCloseOutline className='text-sm mr-1' />Out of Stock</span>
@@ -281,7 +292,7 @@ const Product = () => {
                 <div className='flex items-center gap-1' >
                   <h4 className='lg:text-sm text-xs font-semibold w-max text-black/50' >Cosmetic Rating</h4><ToolTip color="text-b3" />
                 </div>
-                <div className='flex items-center' ><StarIconPrinter numberOfTimes={parseInt(product.rating)} /> </div>
+                <div className='flex items-center' ><StarIconPrinter numberOfTimes={product.rating} /> </div>
               </div>
               {product.salePrice ?
                 <div className='lg:flex hidden items-center gap-4 mt-2' >
@@ -326,7 +337,7 @@ const Product = () => {
 
               </div>
               {/* Buttons */}
-              <button type="button" ref={addToCartRef} onClick={AddToCart} className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><span className="font-bold ml-2" >Add To Cart</span></button>
+              <button type="button" disabled={product.stock > 0 ? false : true} onClick={AddToCart} className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><span className="font-bold ml-2" >Add To Cart</span></button>
               <button type='button' onClick={() => handleOpenModal("2")} className='flex justify-center items-center bg-b3 text-sm text-white py-3 rounded-lg' ><span className="font-bold ml-2" >Complete Your Laundry Set</span></button>
 
               {/* Quicl FAQs */}
@@ -414,7 +425,7 @@ const Product = () => {
               </div>
               <div className='flex flex-col items-center border-l-[1px] border-white w-full' >
                 <h5 className='text-center border-b-[1px] border-gray-300 py-4 w-full font-normal' >#{product.itemId}</h5>
-                <div className='flex items-center border-b border-gray-300 justify-center py-[15px] w-full' ><StarIconPrinter numberOfTimes={parseInt(product.rating)} /></div>
+                <div className='flex items-center border-b border-gray-300 justify-center py-[15px] w-full' ><StarIconPrinter numberOfTimes={product.rating} /></div>
                 <div className='text-center border-b-[1px] border-gray-300 py-4 w-full font-normal' >{product.modelNo}</div>
                 <div className='flex items-center space-x-2 justify-center border-gray-300 py-3 w-full' >
                   <div className='flex items-center rounded-md justify-center pl-2 pr-2 sm:pr-8 py-1 space-x-1 border border-gray-300' ><img src="/nueshield.png" alt="nueshield" />
@@ -440,12 +451,12 @@ const Product = () => {
           {/* Review */}
           <div className='flex flex-col bg-white py-10 lg:py-14 xl:py-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
             <div className='flex flex-col gap-3 rounded-md items-center py-8 justify-center bg-b8' >
-              <div className='flex mt-2 items-center' >{<StarIconPrinter numberOfTimes={parseInt(product.rating)} />} </div>
+              <div className='flex mt-2 items-center' >{<StarIconPrinter numberOfTimes={product.rating} />} </div>
               <h3 className='text-[22px]'><span className='font-bold'>Cosmetic Rating:</span> <span className='font-medium'>{product.rating} Stars</span> </h3>
               <p className='font-medium text-[22px]' >What To Expect</p>
-              {product.rating === '3' ? <p className='text-sm text-center px-10' >If you are shopping for bargains you are in the right place! 3-star rated appliances get you an open box appliance that works perfectly, with moderate cosmetic damage like scratches or dents at the largest discounted price we offer. Customers purchasing 3 star appliances capitalize on our deepest discounts in exchange for larger cosmetic blemishes while still obtaining a 100% functional appliance.</p> : null}
-              {product.rating === '4' ? <p className='text-sm text-center px-10' >Our 4 Star line is for Austin's savviest shoppers! 4-star rated appliances get you an open box appliance that works perfectly, with minor to moderate cosmetic damage like scratches or dents at a great discount. Customers purchasing 4 star cosmetic Cosmetic Rating appliances are generally more accepting of more minor cosmetic blemishes for a deeper discount on the item while still obtaining a 100% functional appliance.</p> : null}
-              {product.rating === '5' ? <p className='text-sm text-center px-10' >If your shopping our 5 star appliances then you understand the value of a good deal! 5-star rated appliances get you an open box appliance that works perfectly, with very minor to no cosmetic damage like scratches or dents at a great discount. Our customers purchasing 5 star Cosmetic Cosmetic Rating appliances are generally looking for like new or new appliances while capitalizing on an open box discount vs a "Scratch or Dent" discounted appliance while still obtaining a 100% functional appliance.</p> : null}
+              {product.rating === 3 ? <p className='text-sm text-center px-10' >If you are shopping for bargains you are in the right place! 3-star rated appliances get you an open box appliance that works perfectly, with moderate cosmetic damage like scratches or dents at the largest discounted price we offer. Customers purchasing 3 star appliances capitalize on our deepest discounts in exchange for larger cosmetic blemishes while still obtaining a 100% functional appliance.</p> : null}
+              {product.rating === 4 ? <p className='text-sm text-center px-10' >Our 4 Star line is for Austin's savviest shoppers! 4-star rated appliances get you an open box appliance that works perfectly, with minor to moderate cosmetic damage like scratches or dents at a great discount. Customers purchasing 4 star cosmetic Cosmetic Rating appliances are generally more accepting of more minor cosmetic blemishes for a deeper discount on the item while still obtaining a 100% functional appliance.</p> : null}
+              {product.rating === 5 ? <p className='text-sm text-center px-10' >If your shopping our 5 star appliances then you understand the value of a good deal! 5-star rated appliances get you an open box appliance that works perfectly, with very minor to no cosmetic damage like scratches or dents at a great discount. Our customers purchasing 5 star Cosmetic Cosmetic Rating appliances are generally looking for like new or new appliances while capitalizing on an open box discount vs a "Scratch or Dent" discounted appliance while still obtaining a 100% functional appliance.</p> : null}
             </div>
           </div>
 

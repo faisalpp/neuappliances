@@ -22,6 +22,7 @@ const createProductSchema = yup.object().shape({
   threeSixty: yup.string().required("Product Three Sixty is Required!"),
   images: yup.array().required("Product Images is Required!"),
   rating: yup.string().required("Product Star Rating is Required!"),
+  stock: yup.string().required("Product Stock is Required!"),
   lowerInstallment: yup.string().required("Product Lower Installment Amount is Required!"),
   highInstallment: yup.string().required("Product Higher Installment Amount is Required!"),
   description: yup.string().required("Product Description is Required!"),

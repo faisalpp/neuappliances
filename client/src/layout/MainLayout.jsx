@@ -2,8 +2,8 @@ import React from 'react'
 import NavBar from '../components/Navbar'
 import Footer from '../components/DeskComp/Footer'
 import ScrollToTop from '../components/DeskComp/ScrollToTop'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.min.css';
+import { ToastContainer } from 'react-toastify';
 
 const MainLayout = ({ children }) => {
   return (
@@ -13,7 +13,6 @@ const MainLayout = ({ children }) => {
       <ScrollToTop />
       {children}
       <Footer />
-      <ToastContainer/>
     </>
   )
 }

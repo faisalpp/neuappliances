@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/ai';
 import { BiUserCircle } from 'react-icons/bi';
 import { IoMenu } from 'react-icons/io5';
@@ -24,6 +24,15 @@ const Navbar = ({ sCart, setSCart }) => {
   const navigate = useNavigate();
   const firstName = useSelector((state) => state.user.firstName);
 
+  const [cartCount,setCartCount] = useState(0);
+
+  const deliveryOrders = useSelector((state) => state.cart.deliveryOrders);
+  const pickupOrders = useSelector((state) => state.cart.pickupOrders);
+   
+  useEffect(()=>{
+    setCartCount(deliveryOrders.length + pickupOrders.length)
+  },[])
+
 
   const handleAdminLogout = async (e) => {
     e.preventDefault();
@@ -41,6 +50,19 @@ const Navbar = ({ sCart, setSCart }) => {
         theme: "light",
       });
       dispatch(resetUser());
+      navigate('/');
+    }else if (res.code === 'ERR_BAD_REQUEST'){
+      dispatch(resetUser());
+      toast.error('Session Expired!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       navigate('/');
     } else {
       toast.error(res.message, {
@@ -60,7 +82,7 @@ const Navbar = ({ sCart, setSCart }) => {
     e.preventDefault();
     
     const res = await Signout();
-    
+    console.log(res)
     if (res.status === 200) {
       toast.success(res.msg, {
         position: "top-right",
@@ -72,7 +94,18 @@ const Navbar = ({ sCart, setSCart }) => {
         progress: undefined,
         theme: "light",
       });
+    }else if (res.code === 'ERR_BAD_REQUEST'){
       dispatch(resetUser());
+      toast.error('Session Expired!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       navigate('/');
     } else {
       toast.error(res.message, {
@@ -91,7 +124,6 @@ const Navbar = ({ sCart, setSCart }) => {
 
   return (
     <>
-      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
       <div className='relative bg-b1' >
         {/* Navbar Start */}
         <div className="hidden lg:block py-5">
@@ -101,7 +133,7 @@ const Navbar = ({ sCart, setSCart }) => {
             </NavLink>
             <div className='col-start-4 col-end-8 flex items-center bg-white h-10 px-2 rounded-lg space-x-2 w-full ' ><AiOutlineSearch className='text-black' /><input type="text" placeholder='Search for appliances' className="w-full text-xs outline-none" /></div>
             <div className='col-start-9 col-end-13 flex justify-end space-x-2 w-full' >
-              <div onClick={() => { sCart ? setSCart(false) : setSCart(true) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><AiOutlineShoppingCart /><span className='ml-2 font-medium text-xs' >Cart</span><span className='ml-2 bg-b3 rounded-full text-xs h-4 w-4 text-center' >2</span></div>
+              <div onClick={() => { sCart ? setSCart(false) : setSCart(true) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><AiOutlineShoppingCart /><span className='ml-2 font-medium text-xs' >Cart</span><span className='ml-2 bg-b3 rounded-full text-xs h-4 w-4 text-center' >{cartCount}</span></div>
 
               {isAuth ? (isAdmin ? <Menu as="div" className="relative" >
                 <Menu.Button className='flex items-center px-4 bg-b2 py-[10px] w-max cursor-pointer rounded-md text-white' ><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs' >Hello {firstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>

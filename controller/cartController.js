@@ -9,6 +9,7 @@ const cartController = {
         userId: Joi.string().required(),
         productId: Joi.string().required(),
         orderType: Joi.string().required(),
+        deliveryLocation: Joi.string().required(),
       });
       const { error } = categoryRegisterSchema.validate(req.body);
   
@@ -18,16 +19,17 @@ const cartController = {
       }
 
       
-      const {userId,productId,orderType} = req.body;
+      const {userId,productId,orderType,deliveryLocation} = req.body;
       
       // 1.Get product by id
-      const product = await Product.find({_id:productId})
-      if(!product){
+      let product;
+      product = await Product.find({_id:productId,stock:{$gt:0}})
+      if(product.length === 0){
         const error = {
            status: 404,
            message:'Product Not Found!'
           }
-          next(error);
+          return  next(error);
         }
         // 2. Find User Cart
         const userCart = await Cart.find({userId:userId});
@@ -68,14 +70,20 @@ const cartController = {
             cartId,
             {
               userId:userId,
-              deliveryOrders: [{
-                productId: product._id,
-                name: product.title,
-                imageUrl: product[0].images[0],
-                salePrice: product.salePrice,
-                regularPrice: product.regularPrice,
-                rating: product.rating
-              }],
+              $push: {
+                deliveryOrders: {
+                  $each: [{
+                    pid: product[0]._id,
+                    title: product[0].title,
+                    image: product[0].images[0],
+                    salePrice: product[0].salePrice,
+                    regularPrice: product[0].regularPrice,
+                    rating: product[0].rating,
+                  }],
+                  $position: 0
+                }
+              },
+              deliveryLocation,
               expiry:expiry
             },
             { new: true }
@@ -85,14 +93,19 @@ const cartController = {
             cartId,
             {
               userId:userId,
-              pickupOrders: [{
-                productId: product._id,
-                name: product.title,
-                imageUrl: product[0].images[0],
-                salePrice: product.salePrice,
-                regularPrice: product.regularPrice,
-                rating: product.rating
-              }],
+              $push: {
+                pickupOrders: {
+                  $each: [{
+                    pid: product[0]._id,
+                    title: product[0].title,
+                    image: product[0].images[0],
+                    salePrice: product[0].salePrice,
+                    regularPrice: product[0].regularPrice,
+                    rating: product[0].rating,
+                  }],
+                  $position: 0
+                }
+              },
               expiry:expiry
             },
             { new: true }
@@ -100,12 +113,17 @@ const cartController = {
         }
         
         // Update Product Stock Status
-        const updateProduct = await Product.findByIdAndUpdate(
-          product._id,
-          {
-            inStock:false
-          },{new:true});
-          console.log(updateProduct)
+        try{
+          const product = await Product.findById(productId);
+           product.stock -= 1;
+           await product.save();
+        }catch(err){
+          const error={
+            status:500,
+            message: 'Internal Server Error!aa'
+          }
+          return next(error)
+        } 
           
         res.status(200).json({status: 200, cart:updatedCart});
         

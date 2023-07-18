@@ -14,7 +14,7 @@ import Loader2 from '../../components/Loader/Loader2'
 import ToolTip from '../../components/ToolTip'
 
 const CreateProduct = () => {
-  const initialValues = {title: '',color:'',slug: '',category: '',brand: '',fuelType: '',type: '',dryerOption: '',feature: '',bullet1: '',bullet2: '',bullet3: '',bullet4: '',salePrice: '',regularPrice: '',images: [],featuresVideo: '',threeSixty: '',modelNo: '',itemId: '',rating: '',lowerInstallment: '',highInstallment: '',description: '',specification: '',deliveryInfo: ''};
+  const initialValues = {title: '',color:'',slug: '',stock:'',category: '',brand: '',fuelType: '',type: '',dryerOption: '',feature: '',bullet1: '',bullet2: '',bullet3: '',bullet4: '',salePrice: '',regularPrice: '',images: [],featuresVideo: '',threeSixty: '',modelNo: '',itemId: '',rating: '3',lowerInstallment: '',highInstallment: '',description: '',specification: '',deliveryInfo: ''};
   
   const [values, setValues] = useState(initialValues);
 
@@ -114,9 +114,11 @@ const CreateProduct = () => {
         });
       }
       } catch (error) {
-        console.log(error.errors); 
-        setLoading(false)
         setErrors(error.errors)
+        for (var i = 0; i < error.errors.length; i++) {
+          console.log(error.errors[i])
+        }
+        setLoading(false)
       }
     }
     
@@ -221,7 +223,6 @@ const CreateProduct = () => {
         <>
         {loading ? <Loader2/>:
         <AdminAccount>
-        <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
          <div className='flex justify-center w-full'>
          <form onSubmit={CreateProduct} encType='multipart/form-data' className='flex flex-col justify-center space-y-5 w-full px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >
           <div className='grid grid-cols-6 gap-y-2 grid-flow-row' >
@@ -259,6 +260,8 @@ const CreateProduct = () => {
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
            <SelectInput name="feature" title="Product Feature" iscompulsory="true" value={values.feature} onChange={handleChange} options={productFeatures} error={errors.length > 0 && errors.includes('Product Feature is Required!') ? true : false} errormessage="Product Feature is Required!" />
+           <SelectInput name="rating" title="Product Cosmatic Rating" iscompulsory="true" value={values.rating} onChange={handleChange} options={['3','4','5']} error={errors.length > 0 && errors.includes('Product Star Rating is Required!') ? true : false} errormessage="Product Star Rating is Required!" />
+           <TextInput  name="stock" title="Total Stock" iscompulsory="true" type="text" value={values.stock} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Stock is Required!') ? true : false} errormessage="Product Stock is Required!" placeholder="Enter Product Stock" />
           </div>
           {/* Input Group End*/}
 
@@ -278,8 +281,8 @@ const CreateProduct = () => {
           
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
-           <TextInput name="salePrice" title="Product Sale Price" iscompulsory="false" type="text" value={values.salePrice} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Sale Price is Required!') ? true : false} errormessage="Product Sale Price is Required!" placeholder="Enter Product Sale Price" />
-           <TextInput name="regularPrice" title="Product Regular Price" iscompulsory="true" type="text"  value={values.regularPrice} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Regular Price is Required!') ? true : false} errormessage="Product Regular Price is Required!" placeholder="Enter Product Regular Price"/>
+           <TextInput name="salePrice" title="Sale Price" iscompulsory="false" type="text" value={values.salePrice} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Sale Price is Required!') ? true : false} errormessage="Product Sale Price is Required!" placeholder="Enter Product Sale Price" />
+           <TextInput name="regularPrice" title="Regular Price" iscompulsory="true" type="text"  value={values.regularPrice} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Regular Price is Required!') ? true : false} errormessage="Product Regular Price is Required!" placeholder="Enter Product Regular Price"/>
           </div>
           
           {/* Input Group End*/}
@@ -291,31 +294,25 @@ const CreateProduct = () => {
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
            <TextInput name="featuresVideo" title="Features Video" iscompulsory="true" type="file" accept="video/*" onChange={handleFeaturesVideoChange} error={errors.length > 0 && errors.includes('Product Features Video is Required!') ? true : false} errormessage="Product Features Video is Required!" />
-           <TextInput name="modelNo" title="Product Model No" iscompulsory="true" type="text" value={values.modelNo} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Model No is Required!') ? true : false} errormessage="Product Model No is Required!" placeholder="Enter Product Model No" />
+           <TextInput name="modelNo" title="Model No" iscompulsory="true" type="text" value={values.modelNo} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Model No is Required!') ? true : false} errormessage="Product Model No is Required!" placeholder="Enter Product Model No" />
           </div>
           {/* Input Group End*/}
 
           {/* Input Group */}
           <div className='flex space-x-2 items-center' >
-           <TextInput name="itemId" title="Product Item Id" iscompulsory="true" type="text" value={values.itemId} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Item Id is Required!') ? true : false} errormessage="Product Item Id is Required!" placeholder="Enter Product Item Id" />
-           <TextInput name="rating" title="Product Cosmatic Rating" iscompulsory="true" type="text" value={values.rating} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Star Rating is Required!') ? true : false} errormessage="Product Star Rating is Required!" placeholder="Enter Cosmatic Rating (3-5)" />
-          </div>
-          {/* Input Group End*/}
-          {/* Input Group */}
-          <div className='flex space-x-2 items-center' >
-          <TextInput name="lowerInstallment" title="Product Lower Installment Price" iscompulsory="true" type="text" value={values.lowerInstallment} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Lower Installment Amount is Required!') ? true : false} errormessage="Product Lower Installment Amount is Required!" placeholder="Enter Product Lower Installment Price" />
-           <TextInput name="highInstallment" title="Product Higher Installment Price" iscompulsory="true" type="text" value={values.highInstallment} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Higher Installment Amount is Required!') ? true : false} errormessage="Product Higher Installment Amount is Required!" placeholder="Enter Product Higher Installment Price" />
+           <TextInput name="itemId" title="Item Id" iscompulsory="true" type="text" value={values.itemId} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Item Id is Required!') ? true : false} errormessage="Product Item Id is Required!" placeholder="Enter Product Item Id" />
+          <TextInput name="lowerInstallment" title="Lower Installment Price" iscompulsory="true" type="text" value={values.lowerInstallment} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Lower Installment Amount is Required!') ? true : false} errormessage="Product Lower Installment Amount is Required!" placeholder="Enter Product Lower Installment Price" />
+           <TextInput name="highInstallment" title="Higher Installment Price" iscompulsory="true" type="text" value={values.highInstallment} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Higher Installment Amount is Required!') ? true : false} errormessage="Product Higher Installment Amount is Required!" placeholder="Enter Product Higher Installment Price" />
           </div>
           {/* Input Group End*/}
 
-          <TextAreaInput name="description" title="Product Description" iscompulsory="true" type="text" value={values.description} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Description is Required!') ? true : false} errormessage="Product Description is Required!" placeholder="Enter Product Description"  />
-          <TextAreaInput name="specification" title="Product Specification" iscompulsory="true" type="text" value={values.specification} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Specification is Required!') ? true : false} errormessage="Product Specification is Required!" placeholder="Enter Product Specification"  />
-          <TextAreaInput name="deliveryInfo" title="Product Delivery Info" iscompulsory="true" type="text" value={values.deliveryInfo} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Delivery Info is Required!') ? true : false} errormessage="Product Delivery Info is Required!" placeholder="Enter Product Delivery Info"  />
+          <TextAreaInput name="description" title="Description" iscompulsory="true" type="text" value={values.description} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Description is Required!') ? true : false} errormessage="Product Description is Required!" placeholder="Enter Product Description"  />
+          <TextAreaInput name="specification" title="Specification" iscompulsory="true" type="text" value={values.specification} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Specification is Required!') ? true : false} errormessage="Product Specification is Required!" placeholder="Enter Product Specification"  />
+          <TextAreaInput name="deliveryInfo" title="Delivery Info" iscompulsory="true" type="text" value={values.deliveryInfo} onChange={handleChange} error={errors.length > 0 && errors.includes('Product Delivery Info is Required!') ? true : false} errormessage="Product Delivery Info is Required!" placeholder="Enter Product Delivery Info"  />
 
           <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a></button>
           </form>
          </div>
-         <ToastContainer/>
         </AdminAccount>
          }
         </>
