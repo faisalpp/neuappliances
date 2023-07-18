@@ -1,21 +1,104 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useState,useRef} from 'react'
 import { AiOutlineArrowRight, AiOutlineClose,AiOutlineShop } from 'react-icons/ai'
 import { HiOutlineTruck } from 'react-icons/hi'
 import { FaDotCircle } from 'react-icons/fa'
 import SideCartCard from './Cart/SideCartCard'
 import { useSelector } from 'react-redux';
 import {GoPrimitiveDot} from 'react-icons/go'
+import SelectTimeSlot from './Cart/SelectTimeSlot'
+import {updateCart} from '../api/cart'
+import { resetUser } from "../store/userSlice";
+import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from 'react-router-dom'
+import {toast} from 'react-toastify'
 
 const SideCart = ({ sCart, setSCart }) => {
-  const [cartCount,setCartCount] = useState(0);
+  const cartCount = useSelector((state)=>state.cart.cartCount)
   const [pickupLocation,setPickupLocation] = useState('Georgetown Warehouse');
 
   const deliveryOrders = useSelector((state) => state.cart.deliveryOrders);
   const pickupOrders = useSelector((state) => state.cart.pickupOrders);
-   
-  useEffect(()=>{
-    setCartCount(deliveryOrders.length + pickupOrders.length)
-  },[])
+  const deliveryLocation = useSelector((state) => state.cart.deliveryLocation);
+
+  const totalPrice = useSelector((state)=>state.cart.totalPrice)
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+
+  // Cart Time Slot Functions
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+      const handleOutsideClick = (event) => {
+          if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+              setIsOpen(false);
+          }
+      };
+
+      document.addEventListener('mousedown', handleOutsideClick);
+
+      return () => {
+          document.removeEventListener('mousedown', handleOutsideClick);
+      };
+  }, []);
+
+  const toggleDropdown = () => {
+      setIsOpen(!isOpen);
+  };
+
+  // Select Time Slot Data 
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [timeSlot,setTimeSlot] = useState('')
+  // Zip Code Location
+  const [zip,setZip] = useState(deliveryLocation)
+
+  // UserId
+  const cartId = useSelector((state)=>state.cart.cartId)
+
+  // checkout loader
+  const [chkLoader,setChkLoader] = useState(false)
+
+  const UpdateCart = async () => {
+    setChkLoader(true)
+    const data = { cartId,pickupLocation:pickupLocation, deliveryLocation:zip,deliveryDate:selectedDate,deliveryTime:timeSlot};
+    const res = await updateCart(data)
+    if(res.status === 200){
+      setChkLoader(false)
+      dispatch(updateCart(res.data.cart));
+      navigate('/mycart/information')
+    }
+    if(res.code === 'ERR_BAD_REQUEST'){
+      setChkLoader(false)
+      toast.error("Login Required!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+        const callback = location.pathname
+        dispatch(resetUser());
+        navigate(`/login/?callback=${callback}`)
+    }else{
+      setChkLoader(false)
+      toast.error(res.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
 
 
   return (
@@ -23,7 +106,7 @@ const SideCart = ({ sCart, setSCart }) => {
 
       <div className={` ${sCart ? 'flex' : 'hidden'} flex-col float-right bg-white overflow-y-auto max-w-[480px] w-full h-screen`} >
         <div className='flex items-center  py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4><span className='bg-b3 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center' >{cartCount}</span></div><div className='flex items-center justify-end' ><AiOutlineClose onClick={() => setSCart(false)} className='cursor-pointer' /></div></div>
-
+       <div style={{'height':'calc(100vh - 200px)'}} className='flex flex-col overflow-y-scroll' >
         {deliveryOrders.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
           <h4 className='font-semibold' >Delivery Orders</h4>
           {/* Cart Product */}
@@ -39,22 +122,29 @@ const SideCart = ({ sCart, setSCart }) => {
               </div>
               <h4 className='text-b3 font-semibold' >$80</h4>
             </div>
-            <input type="text" className='border border-b14 p-[10px] rounded-lg outline-none w-full' />
-            <button type='button'>
-              <div className='flex gap-2 items-center'>
-                <span className='w-[18px] h-[18px]'>
-                  <img src="/svgs/calendar_month.png" alt="calendar_month" />
-                </span>
-                <span className='text-xs font-medium text-b3'>
-                  Select Time-slot
-                </span>
-              </div>
-            </button>
+            <input type="text" value={zip} onChange={setZip} className='border border-b14 p-[10px] rounded-lg outline-none w-full' />
+            <div ref={dropdownRef} className='relative'>
+                <button onClick={toggleDropdown} className='w-full rounded-lg flex justify-between items-center'>
+                    <div className='flex gap-2 items-center'>
+                        <span className='w-[18px] h-[18px]'>
+                            <img src="/svgs/calendar_month.png" alt="calendar_month" />
+                        </span>
+                        <span className='text-xs font-medium text-b3'>
+                            Select Time-slot
+                        </span>
+                    </div>
+                </button>
+                {isOpen && (
+                    <SelectTimeSlot timeSlot={timeSlot} setTimeSlot={setTimeSlot} selectDate={selectedDate} setSelectDate={setSelectedDate} />
+                )}
+
+            </div>
+
           </div>
 
         </div>:null}
 
-        {deliveryOrders.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
+        {pickupOrders.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
           <h4 className='font-semibold' >Pickup Orders</h4>
           {/* Cart Product */}
           <div className='flex flex-col gap-6 space-y-2 mb-3'>
@@ -83,20 +173,21 @@ const SideCart = ({ sCart, setSCart }) => {
           </div>
 
         </div>:null}
-
-        <div className='border-t border-gray-300 p-6 flex flex-col gap-6'>
+        </div>
+        <div className=' border-t border-gray-300 p-6 flex flex-col justify-end gap-6'>
           <div className='flex justify-between'>
             <span className='text-sm'>
               Order Total
             </span>
             <span className='font-bold'>
-              $2,279.00
+              ${totalPrice}
             </span>
           </div>
 
-          <button type='button' className='text-xs text-white rounded-lg bg-b3 px-4 py-3 flex gap-2 justify-center'>
+          <button type='button' onClick={UpdateCart} className='text-xs text-white rounded-lg bg-b3 px-4 py-3 flex gap-2 justify-center'>
             Proceed to Checkout
             <AiOutlineArrowRight className='text-base' />
+            {chkLoader ? <img src="/loader-bg.gif" className='w-4 h-4' />:null}
           </button>
         </div>
 

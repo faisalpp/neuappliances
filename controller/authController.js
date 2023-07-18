@@ -72,7 +72,7 @@ const authController = {
     });
 
     const { error } = userLoginSchema.validate(req.body);
-    console.log(req.body)
+    
     // 2. if error in validation -> return error via middleware
     if (error) {
       return next(error)
@@ -124,10 +124,9 @@ const authController = {
 
     res.cookie('accessToken',accessToken,{httpOnly:false,maxAge: 24 * 60 * 60 * 1000});
     res.cookie('refreshToken',refreshToken,{httpOnly:false,maxAge: 24 * 60 * 60 * 1000});
-    console.log(user)
+    
     const userDto = new UserDTO(user);
-    console.log(userDto)
-
+    
     return res.status(200).json({status:200,user: userDto,msg:'Login Successful!',auth:true});
 
   },

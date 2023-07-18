@@ -9,7 +9,6 @@ const faqController = {
         title: Joi.string().max(30).required(),
       });
       const { error } = faqTabSchema.validate(req.body);
-      console.log(error)
       // 2. if error in validation -> return error via middleware
       if (error) {
         return next(error)
@@ -55,7 +54,6 @@ const faqController = {
     
         // 2. if error in validation -> return error via middleware
         if (error) {
-          console.log(error)
           return next(error)
         }
         const {title,_id} = req.body;

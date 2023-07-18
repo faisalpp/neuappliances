@@ -24,14 +24,7 @@ const Navbar = ({ sCart, setSCart }) => {
   const navigate = useNavigate();
   const firstName = useSelector((state) => state.user.firstName);
 
-  const [cartCount,setCartCount] = useState(0);
-
-  const deliveryOrders = useSelector((state) => state.cart.deliveryOrders);
-  const pickupOrders = useSelector((state) => state.cart.pickupOrders);
-   
-  useEffect(()=>{
-    setCartCount(deliveryOrders.length + pickupOrders.length)
-  },[])
+  const cartCount = useSelector((state) => state.cart.cartCount);
 
 
   const handleAdminLogout = async (e) => {

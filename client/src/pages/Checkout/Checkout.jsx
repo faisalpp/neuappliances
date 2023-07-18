@@ -1,11 +1,13 @@
 import React from 'react';
 import Cart from './Cart';
+import MainLayout from '../../layout/MainLayout'
 
 
 const Checkout = ({ children }) => {
 
     return (
         <>
+        <MainLayout>
             <div className='grid grid-cols-1 justify-center items-center w-full h-full'>
                 <div className='flex maxlg:flex-col 3xl:grid grid-cols-2 w-full h-full'>
                     <div className='px-4 xs:px-10 sm:px-16 pt-14 pb-52 h-full grow w-full bg-white 2xl:max-w-[808px] 3xl:max-w-full'>
@@ -16,6 +18,7 @@ const Checkout = ({ children }) => {
                     <Cart />
                 </div>
             </div>
+            </MainLayout>
         </>
     )
 }

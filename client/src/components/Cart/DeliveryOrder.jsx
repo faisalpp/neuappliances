@@ -23,6 +23,7 @@ const DeliveryOrder = () => {
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
+    
     return (
         <div className='border border-b26 rounded p-5 md:p-10 grid grid-cols-1 gap-8'>
             <h2 className='text-b16 font-bold text-xl'>Delivery Orders</h2>

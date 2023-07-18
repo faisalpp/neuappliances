@@ -270,7 +270,6 @@ const adminController = {
       const {currentPass,newPass} = req.body;
 
       const match = await bcrypt.compare(currentPass,findAdmin.password);
-      console.log(match)
        if(!match){
         const error = {
           status: 401,

@@ -29,16 +29,15 @@ const CustomCaption = ({ CaptionProps, displayMonth }) => {
 
 }
 
-const DatePIcker = () => {
-
-    const [selectedDate, setSelectedDate] = useState(new Date());
+const DatePIcker = ({selectDate,setSelectDate}) => {
 
     const handleDayClick = (date) => {
         // if (isBefore(date, new Date())) {
         //     // Disable selection of previous dates
         //     return;
         // }
-        setSelectedDate(date);
+        console.log(date)
+        setSelectDate(date);
     };
 
     const disabledDays = {
@@ -46,7 +45,7 @@ const DatePIcker = () => {
     };
     return (
         <DayPicker
-            selected={selectedDate}
+            selected={selectDate}
             onDayClick={handleDayClick}
             disabledDays={disabledDays}
             components={{

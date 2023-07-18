@@ -181,7 +181,6 @@ const sectionController = {
           }
           
           const {image,title,rating,sectionItemId} = req.body;
-          console.log(sectionItemId)
   
           
           try {

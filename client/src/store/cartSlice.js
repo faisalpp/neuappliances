@@ -9,6 +9,8 @@ const initialState = {
   deliveryDate:null,
   deliveryTime:null,
   expiry: null,
+  totalPrice:null,
+  cartCount:0,
 };
 
 export const cartSlice = createSlice({
@@ -26,6 +28,21 @@ export const cartSlice = createSlice({
       state.pickupOrders = pickupOrders.length > 0 ? [...pickupOrders] : [];
       state.pickupLocation = pickupLocation || null;
       state.expiry = expiry;
+      state.cartCount = pickupOrders.length + deliveryOrders.length;
+
+      // Calculate total sale price
+      const totalDeliverySalePrice = state.deliveryOrders.reduce((total, order) => {
+        const salePrice = order.salePrice !== null ? order.salePrice : order.regularPrice;
+        return total + salePrice;
+      }, 0);
+
+      const totalPickupSalePrice = state.pickupOrders.reduce((total, order) => {
+        const salePrice = order.salePrice !== null ? order.salePrice : order.regularPrice;
+        return total + salePrice;
+      }, 0);
+
+      state.totalPrice = totalDeliverySalePrice + totalPickupSalePrice;
+      
     },
   },
 });

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DatePIcker from './DatePicker';
 import TimeSlot from './TimeSlot';
 
-const SelectTimeSlot = () => {
+const SelectTimeSlot = ({selectDate,setSelectDate,timeSlot,setTimeSlot}) => {
     const [activeTab, setActiveTab] = useState(1);
 
     const handleTabClick = (tabNumber) => {
@@ -22,10 +22,10 @@ const SelectTimeSlot = () => {
                 </button>
             </div>
             {activeTab === 1 &&
-                <DatePIcker />
+                <DatePIcker selectDate={selectDate} setSelectDate={setSelectDate} />
             }
             {activeTab === 2 &&
-                <TimeSlot />
+                <TimeSlot time={timeSlot} setTime={setTimeSlot} />
             }
         </div>
     )

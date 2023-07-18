@@ -22,6 +22,17 @@ export const addToCart = async (data) => {
     return response;
 }
 
+export const updateCart = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/user/update-cart',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
 
 const refreshUrl = isDev ? `${process.env.REACT_APP_INTERNAL_PATH}/api/user/refresh` : "/api/user/refresh";
 
