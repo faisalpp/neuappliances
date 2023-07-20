@@ -18,7 +18,7 @@ const TimeSlot = ({time,setTime}) => {
      const currentDay = currentDate.getDate();
      setCurrentDate(currentDay)
      setCurrentMonth(currentMonthName)
-     setTime(`${currentMonth} ${currentDate} - 8am - 12am`)
+     setTime(`${currentMonthName} ${currentDate} - 8am - 12am`)
      console.log(time)
     },[])
 

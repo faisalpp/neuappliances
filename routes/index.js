@@ -79,7 +79,9 @@ router.get('/api/admin/get-loop-media',loopController.getLoopMedia);
 
 // User Cart Api's
 router.post('/api/user/add-to-cart',auth,cartController.addToCart);
+router.post('/api/user/get-cart',auth,cartController.getCart);
 router.post('/api/user/update-cart',auth,cartController.updateCart);
+router.post('/api/user/remove-cart-item',auth,cartController.removeFromCart);
 
 // Front-End Api's
 router.post('/api/get-product-by-filter',applianceController.GetApplianceBySectionType);

@@ -6,10 +6,10 @@ const cartController = {
     async addToCart(req, res, next) {
        // 1. validate user input
     const categoryRegisterSchema = Joi.object({
-        userId: Joi.string().required(),
-        productId: Joi.string().required(),
-        orderType: Joi.string().required(),
-        deliveryLocation: Joi.string().required(),
+      userId: Joi.string().allow(null).empty(''),
+      orderType: Joi.string().allow(null).empty(''),
+      productId: Joi.string().allow(null).empty(''),
+      deliveryLocation: Joi.string().allow(null).empty(''),
       });
       const { error } = categoryRegisterSchema.validate(req.body);
   
@@ -20,7 +20,7 @@ const cartController = {
 
       
       const {userId,productId,orderType,deliveryLocation} = req.body;
-      
+      // console.log(req.body)
       // 1.Get product by id
       let product;
       product = await Product.find({_id:productId,stock:{$gt:0}})
@@ -33,6 +33,7 @@ const cartController = {
         }
         // 2. Find User Cart
         const userCart = await Cart.find({userId:userId});
+        console.log(userCart)
         let newCart;
         if(userCart.length === 0){
           try{
@@ -53,9 +54,9 @@ const cartController = {
 
       let cartId;
       if(newCart){
-        cartId = newCart._id;
+        cartId = newCart[0]._id;
       }else{
-        cartId = userCart._id
+        cartId = userCart[0]._id
       }
 
       // 3. Create cart Expiry
@@ -166,7 +167,66 @@ const cartController = {
       const error = {status:500,message:'Internal Server Error!'}
      }
 
+  },
+  async getCart(req, res, next) {
+    // 1. validate user input
+   const getCartSchema = Joi.object({
+     userId: Joi.string().required(),
+   });
+   const { error } = getCartSchema.validate(req.body);
+
+   // 2. if error in validation -> return error via middleware
+   if (error) {
+     return next(error)
+   }
+
+   
+   try{
+     const {userId} = req.body;
+     
+     const cart = await Cart.find({userId:userId})
+    
+     res.status(200).json({status: 200,cart:cart});
+
+   }catch(err){
+    const error = {status:500,message:'Internal Server Error!'}
+   }
+
+},
+async removeFromCart(req, res, next) {
+  // 1. validate user input
+ const getCartSchema = Joi.object({
+   pId: Joi.string().required(),
+   cartId: Joi.string().required(),
+ });
+ const { error } = getCartSchema.validate(req.body);
+
+ // 2. if error in validation -> return error via middleware
+ if (error) {
+   return next(error)
+ }
+
+ 
+ try {
+  const { pId, cartId } = req.body;
+
+  const result = await Cart.updateOne(
+    { _id: cartId }, // Match the cart based on its _id
+    { $pull: { deliveryOrders: { _id: pId } } } // Remove the order from the deliveryOrders array
+  );
+
+  if (result.nModified === 0) {
+    // If no document was modified, handle the scenario where the order was not found
+    return res.status(404).json({ status: 404, message: 'Order not found' });
   }
+
+  res.status(200).json({ status: 200, message: 'Product Removed!' });
+} catch (err) {
+  // Handle any other errors that occur during the update operation
+  res.status(500).json({ status: 500, message: 'Internal Server Error!' });
+}
+
+}
 }
 
 module.exports = cartController;

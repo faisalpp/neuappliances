@@ -37,7 +37,6 @@ import { React360Viewer } from 'react-360-product-viewer'
 import { useSelector } from 'react-redux'
 import {toast} from 'react-toastify'
 import { resetUser } from "../store/userSlice";
-import { updateCart } from "../store/cartSlice";
 import { useDispatch } from "react-redux";
 
 const Product = () => {
@@ -61,9 +60,7 @@ const Product = () => {
   const AddToCart = async () => {
     const data = {userId:id,productId:product._id,orderType:orderType,deliveryLocation:zip}
     const res = await addToCart(data)
-    console.log(res)
     if(res.status === 200){
-      dispatch(updateCart(res.data.cart));
       toast.success("Product Add To Cart!", {
         position: "top-right",
         autoClose: 5000,
@@ -119,7 +116,6 @@ const Product = () => {
     if (res.status === 200) {
       setProduct(res.data.product)
       setLoading(false)
-      console.log(product)
     } else {
       setLoading(false)
       toast.error('Internal Server Error!', {

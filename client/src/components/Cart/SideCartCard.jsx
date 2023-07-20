@@ -7,7 +7,7 @@ const SideCartCard = (props) => {
 
     const StarIconPrinter = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
-          <AiFillStar className='text-b7 text-sm' /> // Render the star icon component for each iteration
+          <AiFillStar key={index} className='text-b7 text-sm' /> // Render the star icon component for each iteration
         ));
     
         return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
@@ -43,7 +43,7 @@ const SideCartCard = (props) => {
                 </div>
             </div>
             <div>
-                <button>
+                <button type='button' onClick={props.RemoveFromCart(props.item._id)} >
                     <RiDeleteBin6Line className='text-xl text-b3' />
                 </button>
             </div>

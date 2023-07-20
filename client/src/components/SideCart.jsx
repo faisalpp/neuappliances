@@ -6,30 +6,76 @@ import SideCartCard from './Cart/SideCartCard'
 import { useSelector } from 'react-redux';
 import {GoPrimitiveDot} from 'react-icons/go'
 import SelectTimeSlot from './Cart/SelectTimeSlot'
-import {updateCart} from '../api/cart'
+import {getCart,removeFromCart} from '../api/cart'
 import { resetUser } from "../store/userSlice";
+import { setPickupLocation } from "../store/cartSlice";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from 'react-router-dom'
 import {toast} from 'react-toastify'
+import {BsCart3} from 'react-icons/bs'
 
 const SideCart = ({ sCart, setSCart }) => {
   const cartCount = useSelector((state)=>state.cart.cartCount)
-  const [pickupLocation,setPickupLocation] = useState('Georgetown Warehouse');
+  const userId = useSelector((state)=>state.user._id)
+  const deliveryLocation = useSelector((state)=>state.cart.deliveryLocation)
+  const [pickupOrders,setPickupOrders] = useState([]);
+  const [deliveryOrders,setDeliveryOrders] = useState([]);
+  const [cartId,setCartId] = useState(null);
+  const pickupLocation = useSelector((state)=>state.cart.pickupLocation)
 
-  const deliveryOrders = useSelector((state) => state.cart.deliveryOrders);
-  const pickupOrders = useSelector((state) => state.cart.pickupOrders);
-  const deliveryLocation = useSelector((state) => state.cart.deliveryLocation);
-
-  const totalPrice = useSelector((state)=>state.cart.totalPrice)
-
-  const navigate = useNavigate()
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
 
 
   // Cart Time Slot Functions
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+
+  const RemoveFromCart = async (proId) => {
+    const data = {pId:proId,cartId}
+    const res = await removeFromCart(data)
+    if(res.status === 200){
+      toast.success("Product Removed From Cart!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      // GetCart()
+    }
+    if(res.code === 'ERR_BAD_REQUEST'){
+      toast.error("Login Required!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+        const callback = location.pathname
+        dispatch(resetUser());
+        navigate(`/login/?callback=${callback}`)
+    }
+    if(res.status === 404){
+      toast.error(res.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
 
   useEffect(() => {
       const handleOutsideClick = (event) => {
@@ -55,63 +101,64 @@ const SideCart = ({ sCart, setSCart }) => {
   // Zip Code Location
   const [zip,setZip] = useState(deliveryLocation)
 
-  // UserId
-  const cartId = useSelector((state)=>state.cart.cartId)
-
   // checkout loader
   const [chkLoader,setChkLoader] = useState(false)
+  
+  const UpdateCart = () => {
+    // 
+  }
 
-  const UpdateCart = async () => {
-    setChkLoader(true)
-    const data = { cartId,pickupLocation:pickupLocation, deliveryLocation:zip,deliveryDate:selectedDate,deliveryTime:timeSlot};
-    const res = await updateCart(data)
+  useEffect(()=>{
+    const currentDateMonth = new Date();
+     const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+     const currentMonthName = monthNames[currentDateMonth.getMonth()]
+     // Create a new Date object
+     const currentDate = new Date();
+     // Get the current date
+     const currentDay = currentDate.getDate();
+     setTimeSlot(`${currentMonthName} ${currentDate} - 8am - 12am`)
+  },[])
+
+  const GetCart = async () => {
+    const res = await getCart({userId})
     if(res.status === 200){
-      setChkLoader(false)
-      dispatch(updateCart(res.data.cart));
-      navigate('/mycart/information')
-    }
-    if(res.code === 'ERR_BAD_REQUEST'){
-      setChkLoader(false)
-      toast.error("Login Required!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-        const callback = location.pathname
-        dispatch(resetUser());
-        navigate(`/login/?callback=${callback}`)
-    }else{
-      setChkLoader(false)
-      toast.error(res.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+        setPickupOrders(res.data.cart[0].pickupOrders)
+        setDeliveryOrders(res.data.cart[0].deliveryOrders)
+        setZip(res.data.cart[0].deliveryLocation)
+        setCartId(res.data.cart[0]._id)
+        console.log(res.data.cart)
+        console.log(res.data.cart[0].deliveryOrders)
     }
   }
+  useEffect(()=>{
+    if(sCart){
+      GetCart()
+    }
+  },[sCart])
+
+  
 
 
   return (
     <div className={` ${sCart ? 'fixed' : 'hidden'} top-0 z-[999] bg-black/60 w-full h-screen`} >
 
-      <div className={` ${sCart ? 'flex' : 'hidden'} flex-col float-right bg-white overflow-y-auto max-w-[480px] w-full h-screen`} >
-        <div className='flex items-center  py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4><span className='bg-b3 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center' >{cartCount}</span></div><div className='flex items-center justify-end' ><AiOutlineClose onClick={() => setSCart(false)} className='cursor-pointer' /></div></div>
+      <div className={` ${sCart ? 'flex' : 'hidden'} flex-col float-right bg-white overflow-y-auto max-w-[420px] w-full h-screen`} >
+        <div className='flex items-center  py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{!pickupOrders && !deliveryOrders ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center' >{cartCount}</span>}</div><div className='flex items-center justify-end' ><AiOutlineClose onClick={() => setSCart(false)} className='cursor-pointer' /></div></div>
+       {pickupOrders === undefined && deliveryOrders === undefined ? 
+       <div className='flex flex-col space-y-5 w-full justify-center items-center h-full' >
+        <img src="/bag.png" />
+        <h1 className='font-extrabold' >Your Cart is Empty</h1>
+        <h2 className='text-center' >Lorem Ipsum Doller Sit Amet, Consecture Audipicsing Elit</h2>
+        <button type='button' className='flex items-center justify-center rounded-lg bg-b3 py-3 text-white font-medium w-1/2 text-sm'><BsCart3 className='mr-2'/> Start Shopping</button>
+       </div> 
+       : 
+       <>
        <div style={{'height':'calc(100vh - 200px)'}} className='flex flex-col overflow-y-scroll' >
-        {deliveryOrders.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
+        {deliveryOrders.length > 0  ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
           <h4 className='font-semibold' >Delivery Orders</h4>
           {/* Cart Product */}
           <div className='flex flex-col gap-6 space-y-2 mb-3 w-full'>
-            {deliveryOrders.map((item,index)=> <SideCartCard key={index} item={item} />)}
+            {deliveryOrders.map((item,index)=> <SideCartCard key={index} item={item} RemoveFromCart={RemoveFromCart} />)}
           </div>
           {/* Cart Product End */}
 
@@ -135,8 +182,8 @@ const SideCart = ({ sCart, setSCart }) => {
                     </div>
                 </button>
                 {isOpen && (
-                    <SelectTimeSlot timeSlot={timeSlot} setTimeSlot={setTimeSlot} selectDate={selectedDate} setSelectDate={setSelectedDate} />
-                )}
+                  <SelectTimeSlot timeSlot={timeSlot} setTimeSlot={setTimeSlot} selectDate={selectedDate} setSelectDate={setSelectedDate} />
+                  )}
 
             </div>
 
@@ -144,11 +191,11 @@ const SideCart = ({ sCart, setSCart }) => {
 
         </div>:null}
 
-        {pickupOrders.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
+        {pickupOrders ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
           <h4 className='font-semibold' >Pickup Orders</h4>
           {/* Cart Product */}
           <div className='flex flex-col gap-6 space-y-2 mb-3'>
-            {deliveryOrders.map((item,index)=> <SideCartCard key={index} item={item} />)}
+            {pickupOrders.map((item,index)=> <SideCartCard key={index} item={item} RemoveFromCart={RemoveFromCart} />)}
           </div>
           {/* Cart Product End */}
 
@@ -156,13 +203,13 @@ const SideCart = ({ sCart, setSCart }) => {
             <div className='flex flex-col space-y-2' >
              
               <div className='flex items-center px-2 space-x-2' >
-                <div className='flex' ><span onClick={() => setPickupLocation('Georgetown Warehouse')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupLocation === 'Georgetown Warehouse' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoPrimitiveDot className={` ${pickupLocation === 'Georgetown Warehouse' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
+                <div className='flex' ><span onClick={() => dispatch(setPickupLocation('Georgetown Warehouse'))} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupLocation === 'Georgetown Warehouse' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoPrimitiveDot className={` ${pickupLocation === 'Georgetown Warehouse' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
                 <AiOutlineShop className='text-3xl text-gray-400' />
                 <h4 className='text-sm font-normal text-gray-400 w-full' >Pickup in the store Georgetown Warehouse</h4>
                 <h4 className='text-sm font-normal text-gray-400' >Free</h4>
               </div>
               <div className='flex items-center px-2 pt-2 space-x-2 border-t-[1px] border-gray-200' >
-                <div className='flex' ><span onClick={() => setPickupLocation('Austin, Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupLocation === 'Austin, Tx' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoPrimitiveDot className={` ${pickupLocation === 'Austin, Tx' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
+                <div className='flex' ><span onClick={() => dispatch(setPickupLocation('Austin, Tx'))} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupLocation === 'Austin, Tx' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoPrimitiveDot className={` ${pickupLocation === 'Austin, Tx' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
                 <AiOutlineShop className='text-3xl text-gray-400' />
                 <h4 className='text-sm font-normal text-gray-400 w-full' >Pickup in the store Austin, Tx</h4>
                 <h4 className='text-sm font-normal text-gray-400' >Free</h4>
@@ -180,7 +227,7 @@ const SideCart = ({ sCart, setSCart }) => {
               Order Total
             </span>
             <span className='font-bold'>
-              ${totalPrice}
+              $20
             </span>
           </div>
 
@@ -189,7 +236,7 @@ const SideCart = ({ sCart, setSCart }) => {
             <AiOutlineArrowRight className='text-base' />
             {chkLoader ? <img src="/loader-bg.gif" className='w-4 h-4' />:null}
           </button>
-        </div>
+        </div></>}
 
       </div>
 

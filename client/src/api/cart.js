@@ -21,12 +21,32 @@ export const addToCart = async (data) => {
     }
     return response;
 }
+export const getCart = async (data) => {
+    let response;
 
-export const updateCart = async (data) => {
+    try{
+        response = await api.post('/api/user/get-cart',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const updateCartData = async (data) => {
     let response;
 
     try{
         response = await api.post('/api/user/update-cart',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const removeFromCart = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/user/remove-cart-item',data);
     }catch (error){
         return error;
     }
