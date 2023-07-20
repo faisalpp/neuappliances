@@ -64,7 +64,7 @@ const ProductCard3 = ({ isGrid, product }) => {
                 <AiOutlineQuestionCircle />
               </div>
               <div className='flex items-center' >
-                <StarIconPrinter numberOfTimes={parseInt(product.rating)} />
+                <StarIconPrinter numberOfTimes={product.rating} />
               </div>
             </div>
             <div className='xs:flex hidden items-center gap-3 sm:gap-x-6 mt-2' >

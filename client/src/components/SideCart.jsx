@@ -8,7 +8,7 @@ import {GoPrimitiveDot} from 'react-icons/go'
 import SelectTimeSlot from './Cart/SelectTimeSlot'
 import {getCart,removeFromCart,updateCartData} from '../api/cart'
 import { resetUser } from "../store/userSlice";
-import { setPickupLocation,showSCart,hideSCart } from "../store/cartSlice";
+import { setPickupLocation,showSCart,hideSCart, setSubTotal } from "../store/cartSlice";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from 'react-router-dom'
 import {toast} from 'react-toastify'
@@ -23,7 +23,8 @@ const SideCart = () => {
   const [cartId,setCartId] = useState(null);
   const pickupLocation = useSelector((state)=>state.cart.pickupLocation)
   const sCart = useSelector((state) => state.cart.sCart);
-
+  const [total,setTotal] = useState(0)
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -62,7 +63,7 @@ const SideCart = () => {
   
   const UpdateCart = async () => {
     setChkLoader(true)
-    const data = { cartId:cartId, pickupLocation:pickupLocation, deliveryLocation:zip, deliveryDate:selectedDate, deliveryTime:timeSlot}
+    const data = { cartId:cartId, pickupLocation:pickupLocation, deliveryLocation:zip, deliveryDate:selectedDate, deliveryTime:timeSlot,total:total}
     const res = await updateCartData(data)
     if(res.status === 200){
       setChkLoader(false)
@@ -193,6 +194,23 @@ const SideCart = () => {
     }
   }
   
+  
+  const  calculateTotalPrice = (orders) => {
+    let totalPrice = 0;
+    for (const order of orders) {
+      if (order.salePrice !== undefined) {
+        totalPrice += order.salePrice;
+      } else if (order.regularPrice !== undefined) {
+        totalPrice += order.regularPrice;
+      }
+    }
+    return totalPrice;
+  }
+  useEffect(()=>{
+    const deliveryOrdersTotal = calculateTotalPrice(deliveryOrders)
+    const pickupOrdersTotal =  calculateTotalPrice(pickupOrders)
+    setTotal(pickupOrdersTotal + deliveryOrdersTotal)
+  },[deliveryOrders,pickupOrders])
 
 
   return (
@@ -283,7 +301,7 @@ const SideCart = () => {
               Order Total
             </span>
             <span className='font-bold'>
-              $20
+              ${total}
             </span>
           </div>
 

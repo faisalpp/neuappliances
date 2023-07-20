@@ -13,6 +13,7 @@ const uploadController = require('../controller/uploadController');
 const blogController = require('../controller/blogController');
 const loopController = require('../controller/loopController');
 const cartController = require('../controller/cartController');
+const orderController = require('../controller/orderController');
 const uploader = require('express-fileupload');
 
 const app = express();
@@ -82,6 +83,10 @@ router.post('/api/user/add-to-cart',auth,cartController.addToCart);
 router.post('/api/user/get-cart',auth,cartController.getCart);
 router.post('/api/user/update-cart',auth,cartController.updateCart);
 router.post('/api/user/remove-cart-item',auth,cartController.removeFromCart);
+
+// User Order Processing Api's
+router.post('/api/user/save-order-address',auth,orderController.saveOrderAddress);
+
 
 // Front-End Api's
 router.post('/api/get-product-by-filter',applianceController.GetApplianceBySectionType);

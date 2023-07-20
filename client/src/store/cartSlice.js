@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  subTotal:0,
+  total:0,
   pickupLocation:'Georgetown Warehouse',
   deliveryLocation:null,
   deliveryDate:null,
   deliveryTime:null,
-  totalPrice:null,
   cartCount:0,
-  sCart:false
+  sCart:false,
 };
 
 export const cartSlice = createSlice({
@@ -26,8 +27,11 @@ export const cartSlice = createSlice({
     setDeliveryTime: (state, action) => {
       state.deliveryTime = action.payload.deliveryTime  
     },
-    setTotalPrice: (state, action) => {
-      state.totalPrice = action.payload.totalPrice  
+    setSubTotal: (state, action) => {
+      state.subTotal = action.payload.subTotal  
+    },
+    setTotal: (state, action) => {
+      state.total = action.payload.total  
     },
     setCartCount: (state, action) => {
       state.cartCount = action.payload.cartCount  
@@ -42,6 +46,6 @@ export const cartSlice = createSlice({
   
 });
 
-export const { setPickupLocation ,setDeliveryLocation,setDeliveryDate,setDeliveryTime,setTotalPrice,setCartCount,showSCart,hideSCart } = cartSlice.actions;
+export const { setPickupLocation ,setDeliveryLocation,setDeliveryDate,setDeliveryTime,setSubTotal,setTotal,setCartCount,showSCart,hideSCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

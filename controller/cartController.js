@@ -140,6 +140,7 @@ const cartController = {
        deliveryLocation:Joi.string().required(),
        deliveryDate:Joi.string().required(),
        deliveryTime:Joi.string().required(),
+       total:Joi.number().required(),
      });
      const { error } = getCartSchema.validate(req.body);
  
@@ -149,7 +150,7 @@ const cartController = {
      }
 
      
-     const {cartId,pickupLocation, deliveryLocation,deliveryDate,deliveryTime} = req.body;
+     const {cartId,pickupLocation, deliveryLocation,deliveryDate,deliveryTime,total} = req.body;
      try{
        
        const cart = await Cart.findByIdAndUpdate(
@@ -158,8 +159,10 @@ const cartController = {
           pickupLocation:pickupLocation,
           deliveryLocation:deliveryLocation,
           deliveryDate:deliveryDate,
-          deliveryTime:deliveryTime
+          deliveryTime:deliveryTime,
+          total:total
         },{new:true});
+        console.log(cart)
        res.status(200).json({status: 200,cart:cart,msg:'Cart Updated Successfully!'});
 
      }catch(err){
@@ -234,7 +237,8 @@ async removeFromCart(req, res, next) {
   res.status(500).json({ status: 500, message: 'Internal Server Error!' });
 }
 
-}
+},
+
 }
 
 module.exports = cartController;
