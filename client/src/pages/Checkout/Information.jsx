@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect, useState,useRef} from 'react';
 import { RiQuestionFill } from 'react-icons/ri';
 import CustomInput from '../../components/Reusable/CustomInput';
 import { Checkbox } from "@material-tailwind/react";
@@ -6,6 +6,13 @@ import Checkout from './Checkout';
 import UpdateButton from '../../components/Checkout/UpdateButton';
 import BreadCrumb from '../../components/Checkout/BreadCrumb';
 import CustomSelect from '../../components/Reusable/CustomSelect';
+import { AiOutlineArrowRight, AiOutlineClose,AiOutlineShop } from 'react-icons/ai'
+import { useSelector } from 'react-redux';
+import {getCart,removeFromCart,updateCartData} from '../../api/cart'
+import { resetUser } from "../../store/userSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom'
+import {toast} from 'react-toastify'
 
 const Information = () => {
     const Countrys = [
@@ -20,6 +27,60 @@ const Information = () => {
         { name: 'Alberta', value: 'alberta' },
         { name: 'Alberta', value: 'alberta' }
     ]
+
+    const userId = useSelector((state)=>state.user._id)
+    const deliveryLocation = useSelector((state)=>state.cart.deliveryLocation)
+    const [pickupOrders,setPickupOrders] = useState([]);
+    const [deliveryOrders,setDeliveryOrders] = useState([]);
+    const [cartId,setCartId] = useState(null);
+    const pickupLocation = useSelector((state)=>state.cart.pickupLocation)
+    const sCart = useSelector((state) => state.cart.sCart);
+    const [loading,setLoading] = useState(false)
+
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const GetCart = async () => {
+        setLoading(true)
+        const res = await getCart({userId})
+        if(res.status === 200){
+          setPickupOrders(res.data.cart[0].pickupOrders)
+          setDeliveryOrders(res.data.cart[0].deliveryOrders)
+          setCartId(res.data.cart[0]._id)
+          setLoading(false)
+        }else if (res.code === 'ERR_BAD_REQUEST'){
+          setLoading(false)
+          dispatch(resetUser());
+          toast.error('Please Login To Proceed!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          navigate('/login')
+        } else {
+          setLoading(false)
+          toast.error(res.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      }
+
+      useEffect(() => {
+        GetCart()
+      },[])
+      
 
     return (
         <>

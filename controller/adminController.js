@@ -100,7 +100,7 @@ const adminController = {
       return next(error);
     }
     const refreshToken = JWTService.signRefreshToken({_id:admin._id},'30m');
-    const accessToken = JWTService.signAccessToken({_id:admin._id},'60m');
+    const accessToken = JWTService.signAccessToken({_id:admin._id},'24h');
 
     // update refresh token in database
     try {
@@ -182,7 +182,7 @@ const adminController = {
     try {
       const accessToken = JWTService.signAccessToken({ _id: id }, "30m");
 
-      const refreshToken = JWTService.signRefreshToken({ _id: id }, "60m");
+      const refreshToken = JWTService.signRefreshToken({ _id: id }, "24h");
 
       await RefreshToken.updateOne({ _id: id }, { token: refreshToken });
 

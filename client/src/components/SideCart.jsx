@@ -6,7 +6,7 @@ import SideCartCard from './Cart/SideCartCard'
 import { useSelector } from 'react-redux';
 import {GoPrimitiveDot} from 'react-icons/go'
 import SelectTimeSlot from './Cart/SelectTimeSlot'
-import {getCart,removeFromCart} from '../api/cart'
+import {getCart,removeFromCart,updateCartData} from '../api/cart'
 import { resetUser } from "../store/userSlice";
 import { setPickupLocation,showSCart,hideSCart } from "../store/cartSlice";
 import { useDispatch } from "react-redux";
@@ -31,8 +31,7 @@ const SideCart = () => {
   // Cart Time Slot Functions
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-
-  
+  const [loading,setLoading] = useState(false)
 
   useEffect(() => {
       const handleOutsideClick = (event) => {
@@ -61,8 +60,40 @@ const SideCart = () => {
   // checkout loader
   const [chkLoader,setChkLoader] = useState(false)
   
-  const UpdateCart = () => {
-    // 
+  const UpdateCart = async () => {
+    setChkLoader(true)
+    const data = { cartId:cartId, pickupLocation:pickupLocation, deliveryLocation:zip, deliveryDate:selectedDate, deliveryTime:timeSlot}
+    const res = await updateCartData(data)
+    if(res.status === 200){
+      setChkLoader(false)
+      navigate('/mycart/information')
+      dispatch(hideSCart())
+    }else if (res.code === 'ERR_BAD_REQUEST'){
+      setChkLoader(false)
+      dispatch(resetUser());
+      toast.error('Please Login To Proceed!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      setChkLoader(false)
+      toast.error(res.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   }
 
   useEffect(()=>{
@@ -77,17 +108,18 @@ const SideCart = () => {
   },[])
 
   const GetCart = async () => {
+    setLoading(true)
     const res = await getCart({userId})
     if(res.status === 200){
-        setPickupOrders(res.data.cart[0].pickupOrders)
-        setDeliveryOrders(res.data.cart[0].deliveryOrders)
-        setZip(res.data.cart[0].deliveryLocation)
-        setCartId(res.data.cart[0]._id)
-        console.log(res.data.cart)
-        console.log(res.data.cart[0].deliveryOrders)
+      setPickupOrders(res.data.cart[0].pickupOrders)
+      setDeliveryOrders(res.data.cart[0].deliveryOrders)
+      setZip(res.data.cart[0].deliveryLocation)
+      setCartId(res.data.cart[0]._id)
+      setLoading(false)
     }else if (res.code === 'ERR_BAD_REQUEST'){
+      setLoading(false)
       dispatch(resetUser());
-      toast.error('Session Expired!', {
+      toast.error('Please Login To Proceed!', {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -97,8 +129,8 @@ const SideCart = () => {
         progress: undefined,
         theme: "light",
       });
-      navigate('/');
     } else {
+      setLoading(false)
       toast.error(res.message, {
         position: "top-right",
         autoClose: 5000,
@@ -119,7 +151,7 @@ const SideCart = () => {
 
   const RemoveFromCart = async (e,proId,type) => {
     e.preventDefault()
-    const data = {pId:proId,cartId,type}
+    const data = {id:proId,cartId,type}
     const res = await removeFromCart(data)
     console.log(data)
     if(res.status === 200){
@@ -168,7 +200,7 @@ const SideCart = () => {
 
       <div className={` ${sCart ? 'flex' : 'hidden'} flex-col float-right bg-white overflow-y-auto max-w-[420px] w-full h-screen`} >
         <div className='flex items-center  py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{pickupOrders.length === 0 && deliveryOrders.length === 0 ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center' >{cartCount}</span>}</div><div className='flex items-center justify-end' ><AiOutlineClose onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='cursor-pointer' /></div></div>
-       {pickupOrders.length === 0 && deliveryOrders.length === 0 ? 
+       {loading ? <div className='flex justify-center items-center h-full w-full' ><img src="/loader-bg.gif" className='w-10 h-10 ml-2' /></div> : pickupOrders.length === 0 && deliveryOrders.length === 0 ? 
        <div className='flex flex-col space-y-5 w-full justify-center items-center h-full' >
         <img src="/bag.png" />
         <h1 className='font-extrabold' >Your Cart is Empty</h1>

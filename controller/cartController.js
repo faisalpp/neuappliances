@@ -160,7 +160,6 @@ const cartController = {
           deliveryDate:deliveryDate,
           deliveryTime:deliveryTime
         },{new:true});
-      
        res.status(200).json({status: 200,cart:cart,msg:'Cart Updated Successfully!'});
 
      }catch(err){
@@ -196,7 +195,7 @@ const cartController = {
 async removeFromCart(req, res, next) {
   // 1. validate user input
  const getCartSchema = Joi.object({
-   pId: Joi.string().required(),
+   id: Joi.string().required(),
    cartId: Joi.string().required(),
    type: Joi.string().required(),
  });
@@ -209,21 +208,20 @@ async removeFromCart(req, res, next) {
 
  
  try {
-  const { pId, cartId,type } = req.body;
+  const { id, cartId,type } = req.body;
   // console.log(req.body)
   let result
   if(type === 'delivery'){
     result = await Cart.updateOne(
       { _id: cartId }, // Match the cart based on its _id
-      { $pull: { deliveryOrders: { pid: pId } } } // Remove the order from the deliveryOrders array
+      { $pull: { deliveryOrders: { _id: id } } } // Remove the order from the deliveryOrders array
       );
   }else{
     result = await Cart.updateOne(
       { _id: cartId }, // Match the cart based on its _id
-      { $pull: { pickupOrders: { pid: pId } } } // Remove the order from the deliveryOrders array
+      { $pull: { pickupOrders: { _id: id } } } // Remove the order from the deliveryOrders array
       );
   }
-  console.log(result)
   
   if (result.modifiedCount === 0) {
     // If no document was modified, handle the scenario where the order was not found

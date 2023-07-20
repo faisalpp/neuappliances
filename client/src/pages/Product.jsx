@@ -37,7 +37,9 @@ import { React360Viewer } from 'react-360-product-viewer'
 import { useSelector } from 'react-redux'
 import {toast} from 'react-toastify'
 import { resetUser } from "../store/userSlice";
+import { showSCart } from "../store/cartSlice";
 import { useDispatch } from "react-redux";
+import { FaLaptopHouse } from 'react-icons/fa'
 
 const Product = () => {
   // Get slug form url
@@ -51,6 +53,7 @@ const Product = () => {
   const [changeZip, setChangeZip] = useState(true);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false)
+  const [loading2, setLoading2] = useState(false)
   
   const [product, setProduct] = useState([])
   
@@ -58,6 +61,7 @@ const Product = () => {
   const id = useSelector((state) => state.user._id);
 
   const AddToCart = async () => {
+    setLoading2(true)
     const data = {userId:id,productId:product._id,orderType:orderType,deliveryLocation:zip}
     const res = await addToCart(data)
     if(res.status === 200){
@@ -71,9 +75,12 @@ const Product = () => {
         progress: undefined,
         theme: "light",
       });
+      setLoading2(false)
+      dispatch(showSCart())
       GetProduct()
     }
     if(res.code === 'ERR_BAD_REQUEST'){
+      setLoading(false)
       toast.error("Login Required!", {
         position: "top-right",
         autoClose: 5000,
@@ -89,6 +96,7 @@ const Product = () => {
         navigate(`/login/?callback=${callback}`)
     }
     if(res.status === 404){
+      setLoading(false)
       toast.error(res.message, {
         position: "top-right",
         autoClose: 5000,
@@ -218,7 +226,7 @@ const Product = () => {
                 </div>
                 <div className='flex relative justify-center items-center border-[1px] border-gray-300 rounded-lg lg:h-96 2xl:h-auto 2xl:py-14 w-full' >
                   {product.threeSixty ? <React360Viewer
-                    imagesBaseUrl={`${process.env.REACT_APP_INTERNAL_PATH}/${product.threeSixty}`}
+                    imagesBaseUrl={`${process.env.REACT_APP_DEV ? process.env.REACT_APP_INTERNAL_PATH : null}/${product.threeSixty}`}
                     imagesCount={36}
                     imagesFiletype="jpg"
                     mouseDragSpeed={5}
@@ -343,8 +351,8 @@ const Product = () => {
 
               </div>
               {/* Buttons */}
-              <button type="button" disabled={product.stock > 0 ? false : true} onClick={AddToCart} className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><span className="font-bold ml-2" >Add To Cart</span></button>
-              <button type='button' onClick={() => handleOpenModal("2")} className='flex justify-center items-center bg-b3 text-sm text-white py-3 rounded-lg' ><span className="font-bold ml-2" >Complete Your Laundry Set</span></button>
+              <button type="button" disabled={product.stock > 0 ? false : true} onClick={AddToCart} className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><span className="flex items-center font-bold ml-2" >Add To Cart {loading2 ? <img src="/loader-bg.gif" className='w-4 h-4 ml-2' />:null}</span></button>
+              {product.category === 'washer-&-dryer' ? <button type='button' onClick={() => handleOpenModal("2")} className='flex justify-center items-center bg-b3 text-sm text-white py-3 rounded-lg' ><span className="font-bold ml-2" >Complete Your Laundry Set</span></button>:null}
 
               {/* Quicl FAQs */}
               <div className='flex flex-col space-y-3' >
