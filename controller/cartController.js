@@ -198,6 +198,7 @@ async removeFromCart(req, res, next) {
  const getCartSchema = Joi.object({
    pId: Joi.string().required(),
    cartId: Joi.string().required(),
+   type: Joi.string().required(),
  });
  const { error } = getCartSchema.validate(req.body);
 
@@ -208,14 +209,23 @@ async removeFromCart(req, res, next) {
 
  
  try {
-  const { pId, cartId } = req.body;
-
-  const result = await Cart.updateOne(
-    { _id: cartId }, // Match the cart based on its _id
-    { $pull: { deliveryOrders: { _id: pId } } } // Remove the order from the deliveryOrders array
-  );
-
-  if (result.nModified === 0) {
+  const { pId, cartId,type } = req.body;
+  // console.log(req.body)
+  let result
+  if(type === 'delivery'){
+    result = await Cart.updateOne(
+      { _id: cartId }, // Match the cart based on its _id
+      { $pull: { deliveryOrders: { pid: pId } } } // Remove the order from the deliveryOrders array
+      );
+  }else{
+    result = await Cart.updateOne(
+      { _id: cartId }, // Match the cart based on its _id
+      { $pull: { pickupOrders: { pid: pId } } } // Remove the order from the deliveryOrders array
+      );
+  }
+  console.log(result)
+  
+  if (result.modifiedCount === 0) {
     // If no document was modified, handle the scenario where the order was not found
     return res.status(404).json({ status: 404, message: 'Order not found' });
   }

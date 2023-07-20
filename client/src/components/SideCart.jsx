@@ -32,50 +32,7 @@ const SideCart = ({ sCart, setSCart }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const RemoveFromCart = async (proId) => {
-    const data = {pId:proId,cartId}
-    const res = await removeFromCart(data)
-    if(res.status === 200){
-      toast.success("Product Removed From Cart!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      // GetCart()
-    }
-    if(res.code === 'ERR_BAD_REQUEST'){
-      toast.error("Login Required!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-        const callback = location.pathname
-        dispatch(resetUser());
-        navigate(`/login/?callback=${callback}`)
-    }
-    if(res.status === 404){
-      toast.error(res.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  }
+  
 
   useEffect(() => {
       const handleOutsideClick = (event) => {
@@ -128,6 +85,30 @@ const SideCart = ({ sCart, setSCart }) => {
         setCartId(res.data.cart[0]._id)
         console.log(res.data.cart)
         console.log(res.data.cart[0].deliveryOrders)
+    }else if (res.code === 'ERR_BAD_REQUEST'){
+      dispatch(resetUser());
+      toast.error('Session Expired!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      navigate('/');
+    } else {
+      toast.error(res.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   }
   useEffect(()=>{
@@ -136,6 +117,49 @@ const SideCart = ({ sCart, setSCart }) => {
     }
   },[sCart])
 
+  const RemoveFromCart = async (e,proId,type) => {
+    e.preventDefault()
+    const data = {pId:proId,cartId,type}
+    const res = await removeFromCart(data)
+    console.log(data)
+    if(res.status === 200){
+      toast.success("Product Removed From Cart!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      GetCart()
+    }else if (res.code === 'ERR_BAD_REQUEST'){
+      dispatch(resetUser());
+      toast.error('Session Expired!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      navigate('/');
+    } else {
+      toast.error(res.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
   
 
 
@@ -143,8 +167,8 @@ const SideCart = ({ sCart, setSCart }) => {
     <div className={` ${sCart ? 'fixed' : 'hidden'} top-0 z-[999] bg-black/60 w-full h-screen`} >
 
       <div className={` ${sCart ? 'flex' : 'hidden'} flex-col float-right bg-white overflow-y-auto max-w-[420px] w-full h-screen`} >
-        <div className='flex items-center  py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{!pickupOrders && !deliveryOrders ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center' >{cartCount}</span>}</div><div className='flex items-center justify-end' ><AiOutlineClose onClick={() => setSCart(false)} className='cursor-pointer' /></div></div>
-       {pickupOrders === undefined && deliveryOrders === undefined ? 
+        <div className='flex items-center  py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{pickupOrders.length === 0 && deliveryOrders.length === 0 ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center' >{cartCount}</span>}</div><div className='flex items-center justify-end' ><AiOutlineClose onClick={() => setSCart(false)} className='cursor-pointer' /></div></div>
+       {pickupOrders.length === 0 && deliveryOrders.length === 0 ? 
        <div className='flex flex-col space-y-5 w-full justify-center items-center h-full' >
         <img src="/bag.png" />
         <h1 className='font-extrabold' >Your Cart is Empty</h1>
@@ -158,7 +182,7 @@ const SideCart = ({ sCart, setSCart }) => {
           <h4 className='font-semibold' >Delivery Orders</h4>
           {/* Cart Product */}
           <div className='flex flex-col gap-6 space-y-2 mb-3 w-full'>
-            {deliveryOrders.map((item,index)=> <SideCartCard key={index} item={item} RemoveFromCart={RemoveFromCart} />)}
+            {deliveryOrders.map((item,index)=> <SideCartCard key={index} item={item} RemoveFromCart={RemoveFromCart} type="delivery" />)}
           </div>
           {/* Cart Product End */}
 
@@ -191,11 +215,11 @@ const SideCart = ({ sCart, setSCart }) => {
 
         </div>:null}
 
-        {pickupOrders ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
+        {pickupOrders.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
           <h4 className='font-semibold' >Pickup Orders</h4>
           {/* Cart Product */}
           <div className='flex flex-col gap-6 space-y-2 mb-3'>
-            {pickupOrders.map((item,index)=> <SideCartCard key={index} item={item} RemoveFromCart={RemoveFromCart} />)}
+            {pickupOrders.map((item,index)=> <SideCartCard key={index} item={item} RemoveFromCart={RemoveFromCart} type="pickup" />)}
           </div>
           {/* Cart Product End */}
 
