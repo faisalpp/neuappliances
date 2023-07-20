@@ -8,9 +8,9 @@ const Navbar = () => {
   const [sCart, setSCart] = useState(false);
   return (
     <>
-      <DeskNavbar setSCart={setSCart} />
-      <MobNavbar setSCart={setSCart} />
-      <SideCart sCart={sCart} setSCart={setSCart} />
+      <DeskNavbar />
+      <MobNavbar />
+      <SideCart />
     </>
   )
 }

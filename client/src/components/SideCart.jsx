@@ -8,13 +8,13 @@ import {GoPrimitiveDot} from 'react-icons/go'
 import SelectTimeSlot from './Cart/SelectTimeSlot'
 import {getCart,removeFromCart} from '../api/cart'
 import { resetUser } from "../store/userSlice";
-import { setPickupLocation } from "../store/cartSlice";
+import { setPickupLocation,showSCart,hideSCart } from "../store/cartSlice";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {BsCart3} from 'react-icons/bs'
 
-const SideCart = ({ sCart, setSCart }) => {
+const SideCart = () => {
   const cartCount = useSelector((state)=>state.cart.cartCount)
   const userId = useSelector((state)=>state.user._id)
   const deliveryLocation = useSelector((state)=>state.cart.deliveryLocation)
@@ -22,10 +22,10 @@ const SideCart = ({ sCart, setSCart }) => {
   const [deliveryOrders,setDeliveryOrders] = useState([]);
   const [cartId,setCartId] = useState(null);
   const pickupLocation = useSelector((state)=>state.cart.pickupLocation)
+  const sCart = useSelector((state) => state.cart.sCart);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
 
 
   // Cart Time Slot Functions
@@ -167,7 +167,7 @@ const SideCart = ({ sCart, setSCart }) => {
     <div className={` ${sCart ? 'fixed' : 'hidden'} top-0 z-[999] bg-black/60 w-full h-screen`} >
 
       <div className={` ${sCart ? 'flex' : 'hidden'} flex-col float-right bg-white overflow-y-auto max-w-[420px] w-full h-screen`} >
-        <div className='flex items-center  py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{pickupOrders.length === 0 && deliveryOrders.length === 0 ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center' >{cartCount}</span>}</div><div className='flex items-center justify-end' ><AiOutlineClose onClick={() => setSCart(false)} className='cursor-pointer' /></div></div>
+        <div className='flex items-center  py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{pickupOrders.length === 0 && deliveryOrders.length === 0 ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center' >{cartCount}</span>}</div><div className='flex items-center justify-end' ><AiOutlineClose onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='cursor-pointer' /></div></div>
        {pickupOrders.length === 0 && deliveryOrders.length === 0 ? 
        <div className='flex flex-col space-y-5 w-full justify-center items-center h-full' >
         <img src="/bag.png" />

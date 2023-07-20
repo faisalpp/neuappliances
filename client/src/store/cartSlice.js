@@ -7,6 +7,7 @@ const initialState = {
   deliveryTime:null,
   totalPrice:null,
   cartCount:0,
+  sCart:false
 };
 
 export const cartSlice = createSlice({
@@ -31,10 +32,16 @@ export const cartSlice = createSlice({
     setCartCount: (state, action) => {
       state.cartCount = action.payload.cartCount  
     },
+    showSCart: (state, action) => {
+      state.sCart = true 
+    },
+    hideSCart: (state, action) => {
+      state.sCart = false 
+    },
   },
   
 });
 
-export const { setPickupLocation ,setDeliveryLocation,setDeliveryDate,setDeliveryTime,setTotalPrice,setCartCount } = cartSlice.actions;
+export const { setPickupLocation ,setDeliveryLocation,setDeliveryDate,setDeliveryTime,setTotalPrice,setCartCount,showSCart,hideSCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

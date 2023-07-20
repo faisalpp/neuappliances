@@ -15,8 +15,9 @@ import { resetUser } from '../../../store/userSlice'
 import { Menu } from '@headlessui/react'
 import { AdminSignout } from '../../../api/admin';
 import { Signout } from '../../../api/user';
+import {showSCart,hideSCart} from '../../../store/cartSlice'
 
-const Navbar = ({ sCart, setSCart }) => {
+const Navbar = () => {
   const [megMenu, setMegMenu] = useState(false);
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user.auth);
@@ -25,6 +26,7 @@ const Navbar = ({ sCart, setSCart }) => {
   const firstName = useSelector((state) => state.user.firstName);
 
   const cartCount = useSelector((state) => state.cart.cartCount);
+  const sCart = useSelector((state) => state.cart.sCart);
 
 
   const handleAdminLogout = async (e) => {
@@ -126,7 +128,7 @@ const Navbar = ({ sCart, setSCart }) => {
             </NavLink>
             <div className='col-start-4 col-end-8 flex items-center bg-white h-10 px-2 rounded-lg space-x-2 w-full ' ><AiOutlineSearch className='text-black' /><input type="text" placeholder='Search for appliances' className="w-full text-xs outline-none" /></div>
             <div className='col-start-9 col-end-13 flex justify-end space-x-2 w-full' >
-              <div onClick={() => { sCart ? setSCart(false) : setSCart(true) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><AiOutlineShoppingCart /><span className='ml-2 font-medium text-xs' >Cart</span><span className='ml-2 bg-b3 rounded-full text-xs h-4 w-4 text-center' >{cartCount}</span></div>
+              <div onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><AiOutlineShoppingCart /><span className='ml-2 font-medium text-xs' >Cart</span><span className='ml-2 bg-b3 rounded-full text-xs h-4 w-4 text-center' >{cartCount}</span></div>
 
               {isAuth ? (isAdmin ? <Menu as="div" className="relative" >
                 <Menu.Button className='flex items-center px-4 bg-b2 py-[10px] w-max cursor-pointer rounded-md text-white' ><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs' >Hello {firstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>
