@@ -11,7 +11,7 @@ const categorySection = require('../controller/sectionController');
 const faqController = require('../controller/faqController');
 const uploadController = require('../controller/uploadController');
 const blogController = require('../controller/blogController');
-const loopController = require('../controller/loopController');
+const videoMediaController = require('../controller/videoMediaController');
 const cartController = require('../controller/cartController');
 const orderController = require('../controller/orderController');
 const uploader = require('express-fileupload');
@@ -75,9 +75,9 @@ router.post('/api/admin/delete-media',adminAuth,uploadController.deleteMedia);
 // Blog Api's
 router.post('/api/admin/create-blog',adminAuth,blogController.createBlog);
 // Loop Media Api's
-router.post('/api/admin/upload-loop-media',adminAuth,loopController.uploadLoopMedia);
+router.post('/api/admin/upload-video-media',adminAuth,videoMediaController.uploadVideoMedia);
 
-router.get('/api/admin/get-loop-media',loopController.getLoopMedia);
+router.post('/api/admin/get-video-media',videoMediaController.getVideoMedia);
 // User Cart Api's
 router.post('/api/user/add-to-cart',auth,cartController.addToCart);
 router.post('/api/user/get-cart',auth,cartController.getCart);

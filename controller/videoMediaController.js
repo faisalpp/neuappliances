@@ -1,13 +1,14 @@
-const Loop = require('../models/loop')
+const VideoMedia = require('../models/videoMedia')
 const Joi = require("joi");
 
 
-const loopController = {
-    async uploadLoopMedia(req, res, next) {
+const videoMediaController = {
+    async uploadVideoMedia(req, res, next) {
         const uploadLoopSchema = Joi.object({
             url: Joi.string().required(),
             type: Joi.string().required(),
             section: Joi.string().required(),
+            publicId: Joi.string().required(),
           });
           const { error } = uploadLoopSchema.validate(req.body);
           // 2. if error in validation -> return error via middleware
@@ -19,10 +20,11 @@ const loopController = {
           
           try {
 
-            const mediaToUpload = new Loop({
+            const mediaToUpload = new VideoMedia({
                 url,
                 type,
-                section
+                section,
+                publicId
               });
     
         
@@ -34,9 +36,9 @@ const loopController = {
               return next(error);
             }
     },
-    async getLoopMedia(req,res,next){
+    async getVideoMedia(req,res,next){
       const uploadLoopSchema = Joi.object({
-        type: Joi.string().required(),
+        section: Joi.string().required(),
       });
       const { error } = uploadLoopSchema.validate(req.body);
        // 2. if error in validation -> return error via middleware
@@ -44,14 +46,15 @@ const loopController = {
         return next(error)
       }
 
-      let page = Number(req.query.page);
-      let limit = Number(req.query.limit);
+      let page = Number(req.query.page) || 1;
+      let limit = Number(req.query.limit) || 3;
 
       let skip = (page - 1) * limit;
-
+      const {section} = req.body;
+      
       try{
-        const loops = await Loop.find({}).skip(skip).limit(limit);
-        const totalCount = await Loop.countDocuments();
+        const loops = await VideoMedia.find({section:section}).skip(skip).limit(limit);
+        const totalCount = await VideoMedia.countDocuments();
         return res.status(200).json({status:200,loops:loops,count:loops.length,totalCount:totalCount});
       }catch(error){
         return next(error)
@@ -59,4 +62,4 @@ const loopController = {
     },
 }
 
-module.exports = loopController
+module.exports = videoMediaController

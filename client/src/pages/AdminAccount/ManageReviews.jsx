@@ -13,7 +13,7 @@ import Loader2 from '../../components/Loader/Loader2'
 import Pagination from '../../components/Pagination';
 
 
-const ManageMedia = () => {
+const ManageReviews = () => {
   // Cloudinary Config
   const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
   const upload_preset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
@@ -180,4 +180,4 @@ const ManageMedia = () => {
   )
 }
 
-export default ManageMedia
+export default ManageReviews

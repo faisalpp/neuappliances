@@ -368,22 +368,22 @@ export const createBlog = async (data) => {
 }
 
 // UPLOAD LOOP MEDIA
-export const uploadLoopMedia = async (data) => {
+export const uploadVideoMedia = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/upload-loop-media',data);
+        response = await AdminApi.post('/api/admin/upload-video-media',data);
     }catch (error){
         return error;
     }
     return response;
 }
 // GET LOOP MEDIA
-export const getLoopMedia = async (params) => {
+export const getVideoMedia = async (params,data) => {
     let response;
     
     try{
-        response = await AdminApi.get(`/api/admin/get-loop-media/?page=${params.page}&limit=${params.limit}`);
+        response = await AdminApi.post(`/api/admin/get-video-media/?page=${params.page}&limit=${params.limit}`,data);
     }catch (error){
         return error;
     }

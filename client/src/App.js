@@ -68,6 +68,7 @@ import ManageBlogs from "./pages/AdminAccount/ManageBlogs";
 import CreateBlog from "./pages/AdminAccount/CreateBlog";
 import ManageVideos from "./pages/AdminAccount/ManageVideos";
 import AdminChangePassword from "./pages/AdminAccount/AdminChangePassword";
+import ManageReviews from "./pages/AdminAccount/ManageReviews";
 
 function App() {
 
@@ -174,6 +175,8 @@ function App() {
       <Route path="/admin/create-blog" element={<ProtectedAdmin><CreateBlog/></ProtectedAdmin>} />
       {/* Admin Media */}
       <Route path="/admin/manage-videos" element={<ProtectedAdmin><ManageVideos/></ProtectedAdmin>} />
+      {/* Admin Manage Reviews */}
+      <Route path="/admin/manage-reviews" element={<ProtectedAdmin><ManageReviews/></ProtectedAdmin>} />
       {/* Admin Password Change */}
       <Route path="/admin/change-password" element={<ProtectedAdmin><AdminChangePassword/></ProtectedAdmin>} />
       

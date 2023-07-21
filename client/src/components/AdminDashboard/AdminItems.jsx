@@ -44,11 +44,16 @@ const AdminItems = ({ onClose, isItems }) => {
         },
         {
             id:8,
+            title: 'Reviews Manager',
+            link: '/admin/manage-reviews',
+        },
+        {
+            id:9,
             title: 'Change Password ',
             link: '/admin/change-password',
         },
         {
-            id:9,
+            id:10,
             title: 'Site Settings',
             link: '/admin/settings',
         },
