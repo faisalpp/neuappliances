@@ -10,6 +10,7 @@ const cartController = {
       orderType: Joi.string().allow(null).empty(''),
       productId: Joi.string().allow(null).empty(''),
       deliveryLocation: Joi.string().allow(null).empty(''),
+      pickupLocation: Joi.string().allow(null).empty(''),
       });
       const { error } = categoryRegisterSchema.validate(req.body);
   
@@ -19,7 +20,7 @@ const cartController = {
       }
 
       
-      const {userId,productId,orderType,deliveryLocation} = req.body;
+      const {userId,productId,orderType,deliveryLocation,pickupLocation} = req.body;
       // console.log(req.body)
       // 1.Get product by id
       let product;
@@ -51,10 +52,10 @@ const cartController = {
           return next(error)
         }
       }
-
+      
       let cartId;
       if(newCart){
-        cartId = newCart[0]._id;
+        cartId = newCart._id;
       }else{
         cartId = userCart[0]._id
       }
@@ -84,6 +85,7 @@ const cartController = {
                   $position: 0
                 }
               },
+              $inc: { cartCount: 1 },
               deliveryLocation,
               expiry:expiry
             },
@@ -107,6 +109,8 @@ const cartController = {
                   $position: 0
                 }
               },
+              $inc: { cartCount: 1 },
+              pickupLocation,
               expiry:expiry
             },
             { new: true }
@@ -135,11 +139,11 @@ const cartController = {
     async updateCart(req, res, next) {
       // 1. validate user input
      const getCartSchema = Joi.object({
-       cartId: Joi.string().required(),
-       pickupLocation:Joi.string().required(),
-       deliveryLocation:Joi.string().required(),
-       deliveryDate:Joi.string().required(),
-       deliveryTime:Joi.string().required(),
+       userId: Joi.string().required(),
+       pickupLocation:Joi.string().allow(null).empty(''),
+       deliveryLocation:Joi.string().allow(null).empty(''),
+       deliveryDate:Joi.string().allow(null).empty(''),
+       deliveryTime:Joi.string().allow(null).empty(''),
        total:Joi.number().required(),
      });
      const { error } = getCartSchema.validate(req.body);
@@ -150,11 +154,10 @@ const cartController = {
      }
 
      
-     const {cartId,pickupLocation, deliveryLocation,deliveryDate,deliveryTime,total} = req.body;
+     const {userId,pickupLocation, deliveryLocation,deliveryDate,deliveryTime,total} = req.body;
      try{
-       
-       const cart = await Cart.findByIdAndUpdate(
-        cartId,
+       const cart = await Cart.findOneAndUpdate(
+         userId,
         {
           pickupLocation:pickupLocation,
           deliveryLocation:deliveryLocation,
@@ -162,6 +165,7 @@ const cartController = {
           deliveryTime:deliveryTime,
           total:total
         },{new:true});
+        
         console.log(cart)
        res.status(200).json({status: 200,cart:cart,msg:'Cart Updated Successfully!'});
 
@@ -187,7 +191,7 @@ const cartController = {
      const {userId} = req.body;
      
      const cart = await Cart.find({userId:userId})
-    
+     console.log(cart)
      res.status(200).json({status: 200,cart:cart});
 
    }catch(err){
@@ -199,7 +203,7 @@ async removeFromCart(req, res, next) {
   // 1. validate user input
  const getCartSchema = Joi.object({
    id: Joi.string().required(),
-   cartId: Joi.string().required(),
+   userId: Joi.string().required(),
    type: Joi.string().required(),
  });
  const { error } = getCartSchema.validate(req.body);
@@ -211,17 +215,17 @@ async removeFromCart(req, res, next) {
 
  
  try {
-  const { id, cartId,type } = req.body;
+  const { id, userId,type } = req.body;
   // console.log(req.body)
   let result
   if(type === 'delivery'){
     result = await Cart.updateOne(
-      { _id: cartId }, // Match the cart based on its _id
+      { userId: userId }, // Match the cart based on its _id
       { $pull: { deliveryOrders: { _id: id } } } // Remove the order from the deliveryOrders array
       );
   }else{
     result = await Cart.updateOne(
-      { _id: cartId }, // Match the cart based on its _id
+      { userId: userId }, // Match the cart based on its _id
       { $pull: { pickupOrders: { _id: id } } } // Remove the order from the deliveryOrders array
       );
   }

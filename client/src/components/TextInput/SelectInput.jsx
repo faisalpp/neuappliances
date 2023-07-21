@@ -6,7 +6,7 @@ const SelectInput = (props) => {
     const options = props.options
   return (
 
-     <div className='w-1/2' >
+     <div className={`${props.widthFull ? 'w-full' : 'w-1/2'}`} >
            <h5 className='text-xs font-semibold mb-2' >{props.title} {props.iscompulsory ? <i className='text-red-500' >*</i> : null}</h5><h5 className='text-red-500 text-xs' >{props.error ? props.errormessage : null}</h5>
            <div className='relative'>
            <select {...props} className={`border ${props.error ? 'border-red-500' :'border-[rgba(0,0,0,0.16)]'} rounded-lg h-10 text-sm px-4 w-full outline-none appearance-none`}>

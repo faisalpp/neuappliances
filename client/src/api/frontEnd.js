@@ -51,3 +51,14 @@ export const GetAppliancesBySlug = async (data) => {
     }
     return response;
 }
+
+export const GetLoopMediaAll = async () => {
+    let response;
+
+    try{
+        response = await api.get('/api/admin/get-loop-media-all');
+    }catch (error){
+        return error;
+    }
+    return response;
+}

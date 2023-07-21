@@ -39,8 +39,8 @@ const AdminItems = ({ onClose, isItems }) => {
         },
         {
             id:7,
-            title: 'Stay In Loop',
-            link: '/admin/manage-loop',
+            title: 'Videos Manager',
+            link: '/admin/manage-videos',
         },
         {
             id:8,

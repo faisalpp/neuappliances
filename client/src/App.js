@@ -66,7 +66,7 @@ import UpdateProduct from "./pages/AdminAccount/UpdateProduct";
 import CreateFaq from "./pages/AdminAccount/CreateFaq";
 import ManageBlogs from "./pages/AdminAccount/ManageBlogs";
 import CreateBlog from "./pages/AdminAccount/CreateBlog";
-import ManageLoop from "./pages/AdminAccount/ManageLoop";
+import ManageVideos from "./pages/AdminAccount/ManageVideos";
 import AdminChangePassword from "./pages/AdminAccount/AdminChangePassword";
 
 function App() {
@@ -173,7 +173,7 @@ function App() {
       <Route path="/admin/manage-blogs" element={<ProtectedAdmin><ManageBlogs/></ProtectedAdmin>} />
       <Route path="/admin/create-blog" element={<ProtectedAdmin><CreateBlog/></ProtectedAdmin>} />
       {/* Admin Media */}
-      <Route path="/admin/manage-loop" element={<ProtectedAdmin><ManageLoop/></ProtectedAdmin>} />
+      <Route path="/admin/manage-videos" element={<ProtectedAdmin><ManageVideos/></ProtectedAdmin>} />
       {/* Admin Password Change */}
       <Route path="/admin/change-password" element={<ProtectedAdmin><AdminChangePassword/></ProtectedAdmin>} />
       

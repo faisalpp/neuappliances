@@ -22,7 +22,8 @@ const cartSchema = new mongoose.Schema({
     rating: { type: Number, required: true },
   }],
   pickupLocation: { type: String},
-  total:{type: Number},
+  cartCount:{type: Number,default:0},
+  total:{type: Number,default:0},
   addressId:{type: mongoose.Schema.Types.ObjectId, ref: 'OrderAddress'},
   expiry: {type:String},
 });

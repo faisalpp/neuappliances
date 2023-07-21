@@ -52,8 +52,8 @@ const Information = () => {
         address: '',
         appartment: '',
         city: '',
-        country: '',
-        province: '',
+        country: 'canada',
+        province: 'alberta',
         postalCode: '',
         phone: '',
         saveAddress: false,
@@ -85,8 +85,8 @@ const Information = () => {
         e.preventDefault()
         console.log(e)
         setLoading(true)
-        try {
-         const err = await orderAddressValidationSchema.validate(values, { abortEarly: false });
+        // try {
+        //  const err = await orderAddressValidationSchema.validate(values, { abortEarly: false });
          const res = await saveOrderAddress(values)
          console.log(res)
          if(res.status === 200){
@@ -121,10 +121,10 @@ const Information = () => {
               theme: "light",
             });
           }
-        } catch (error) {
-         setErrors(error.errors)
-         setLoading(false)
-      }
+        // } catch (error) {
+        //  setErrors(error.errors)
+        //  setLoading(false)
+    //   }
     }
       
 
@@ -197,7 +197,7 @@ const Information = () => {
                       Return to Cart
                   </span>
                  </Link>
-                 <button type='submit' className='flex items-center py-3 px-6 text-xs rounded-lg bg-b3 text-white'>
+                 <button type='submit' disabled={loading ? true : false} className='flex items-center py-3 px-6 text-xs rounded-lg bg-b3 text-white'>
                      Continue to Shipping {loading ? <img src="/loader-bg.gif" className="ml-2 w-4 h-4" />:null}
                  </button>
                 </div>

@@ -1,5 +1,6 @@
 const Joi = require("joi");
 const OrderAddress = require('../models/orderAddress')
+const Cart = require('../models/cart')
 
 const orderController = {
 
@@ -28,7 +29,7 @@ const orderController = {
    }
   
    const {userId,email,keepUpdates,firstName,lastName,address,appartment,city,country,province,postalCode,phone,saveAddress} = req.body;
-   
+
    try{
      
     const orderAddressToCreate = new OrderAddress({
@@ -48,10 +49,11 @@ const orderController = {
     });
   
     const savedAddress = await orderAddressToCreate.save();
-
     
-    await User.findOneAndUpdate({userId}, {addressId:savedAddress._id}, { new: true });
-  
+     const ee = await Cart.findOneAndUpdate(userId, {addressId:savedAddress._id}, { new: true });
+     console.log(ee)   
+    
+    
     res.status(200).json({status: 200,msg:"Order Address Saved!"});
   
    }catch(err){

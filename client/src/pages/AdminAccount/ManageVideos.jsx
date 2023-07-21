@@ -13,7 +13,7 @@ import Loader2 from '../../components/Loader/Loader2'
 import Pagination from '../../components/Pagination';
 
 
-const ManageLoop = () => {
+const ManageMedia = () => {
   // Cloudinary Config
   const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
   const upload_preset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
@@ -21,6 +21,7 @@ const ManageLoop = () => {
 
   const [mediaPopup,setMediaPopup] = useState(false)
   const [type,setType] = useState('upload');
+  const [section,setSection] = useState('');
 
   const [mediaUrl,setMediaUrl] = useState('');
   const [uploadUrl,setUploadUrl] = useState('');
@@ -105,10 +106,10 @@ const ManageLoop = () => {
   const Submit = async (e) => {
     e.preventDefault()
     if(type === 'upload'){
-      const data = {type:type,url:uploadedMedia}
+      const data = {type:type,url:uploadedMedia,section:section}
       await HandleMedia(data)
     }else{
-      const data = {type:type,url:mediaUrl}
+      const data = {type:type,url:mediaUrl,section:section}
       await HandleMedia(data)
     }
     
@@ -123,6 +124,7 @@ const ManageLoop = () => {
     const GetLoopMedia = async () => {
         const params = {page:page,limit:limit};
         const res = await getLoopMedia(params);
+        console.log(res)
         if(res.status === 200){
             setMedia(res.data.loops)
             setTotalCount(res.data.totalCount)
@@ -140,7 +142,8 @@ const ManageLoop = () => {
         <Popup state={mediaPopup} setState={setMediaPopup}>
           <form onSubmit={Submit} className='flex flex-col space-y-3' >
            <h1 className="font-semibold" >Upload Loop Media</h1>
-           <SelectInput name="type" title="Upload Type" iscompulsory="true" onChange={e=>setType(e.target.value)} options={['Upload','Link']}  />
+           <SelectInput widthFull="true" name="type" title="Upload Type" iscompulsory="true" onChange={e=>setType(e.target.value)} options={['Upload','Link']}  />
+           <SelectInput widthFull="true" name="section" title="Select Upload Section" iscompulsory="true" onChange={e=>setSection(e.target.value)} options={['Home Page Hero Section','Home Page Tour Section','Stay In Loop Video',"Faq's Page Video",'Our Story Page Video','Our Showroom Page Video','Our Compnies Page Video']}  />
            {type === 'upload' ? <div className='flex items-end space-x-3'><TextInput  name="uploadUrl" title="Product Title" iscompulsory="true" type="file" accept="video/*" onChange={e=>setUploadUrl(e.target.files[0])} /><button type='button' onClick={CloudinaryUpload} className='flex justify-center items-center cursor-pointer rounded-md py-1 w-fit h-12 bg-b3' ><a className='flex items-center justify-center text-center  w-14 py-1 rounded-md text-white font-semibold' >{isUpload ? <img src='/loader-bg.gif' className='h-8' /> : <span className='text-xs' >Upload</span>} </a></button></div>:null}
            {type  === 'link' ? <TextInput  name="mediaUrl" title="Product Title" iscompulsory="true" type="text" onChange={e=>setMediaUrl(e.target.value)} placeholder="Enter Media Url" />:null}
            <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Submit</span><BsArrowRightShort className='text-2xl' /> </a></button>
@@ -159,11 +162,11 @@ const ManageLoop = () => {
            <Pagination page={page} setPage={setPage} totalPages={totalPages} />
            </>
            :
-           <h1 className='text-center' >No Loop Media Found!</h1>}
+           <h1 className='text-center' >No Videos Found!</h1>}
       </AdminAccount>}
         <ToastContainer />
     </>
   )
 }
 
-export default ManageLoop
+export default ManageMedia

@@ -7,6 +7,7 @@ const loopController = {
         const uploadLoopSchema = Joi.object({
             url: Joi.string().required(),
             type: Joi.string().required(),
+            section: Joi.string().required(),
           });
           const { error } = uploadLoopSchema.validate(req.body);
           // 2. if error in validation -> return error via middleware
@@ -14,13 +15,14 @@ const loopController = {
             return next(error)
           }
     
-          const {url,type} = req.body;
+          const {url,type,section} = req.body;
           
           try {
 
             const mediaToUpload = new Loop({
                 url,
-                type
+                type,
+                section
               });
     
         
@@ -33,8 +35,17 @@ const loopController = {
             }
     },
     async getLoopMedia(req,res,next){
-      let page = Number(req.query.page) || 1;
-      let limit = Number(req.query.limit) || 3;
+      const uploadLoopSchema = Joi.object({
+        type: Joi.string().required(),
+      });
+      const { error } = uploadLoopSchema.validate(req.body);
+       // 2. if error in validation -> return error via middleware
+       if (error) {
+        return next(error)
+      }
+
+      let page = Number(req.query.page);
+      let limit = Number(req.query.limit);
 
       let skip = (page - 1) * limit;
 

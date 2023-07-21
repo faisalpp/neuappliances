@@ -50,6 +50,7 @@ const Product = () => {
 
   const [orderType, setOrderType] = useState('pickup');
   const [zip, setZip] = useState('');
+  const [pickupLocation, setPickupLocation] = useState('Georgetown, Tx');
   const [changeZip, setChangeZip] = useState(true);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false)
@@ -62,7 +63,7 @@ const Product = () => {
 
   const AddToCart = async () => {
     setLoading2(true)
-    const data = {userId:id,productId:product._id,orderType:orderType,deliveryLocation:zip}
+    const data = {userId:id,productId:product._id,orderType:orderType,deliveryLocation:zip,pickupLocation:pickupLocation}
     const res = await addToCart(data)
     if(res.status === 200){
       toast.success("Product Add To Cart!", {
