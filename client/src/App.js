@@ -69,6 +69,7 @@ import CreateBlog from "./pages/AdminAccount/CreateBlog";
 import ManageVideos from "./pages/AdminAccount/ManageVideos";
 import AdminChangePassword from "./pages/AdminAccount/AdminChangePassword";
 import ManageReviews from "./pages/AdminAccount/ManageReviews";
+import ShippingTax from "./pages/AdminAccount/ShippingTax";
 
 function App() {
 
@@ -179,7 +180,9 @@ function App() {
       <Route path="/admin/manage-reviews" element={<ProtectedAdmin><ManageReviews/></ProtectedAdmin>} />
       {/* Admin Password Change */}
       <Route path="/admin/change-password" element={<ProtectedAdmin><AdminChangePassword/></ProtectedAdmin>} />
-      
+      {/* Admin Shipping & Tax */}
+      <Route path="/admin/manage-shipping" element={<ProtectedAdmin><ShippingTax/></ProtectedAdmin>} />
+
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />
       <Route path="/isr" element={<Isr />} />

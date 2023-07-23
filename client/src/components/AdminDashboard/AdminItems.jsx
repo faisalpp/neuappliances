@@ -54,8 +54,8 @@ const AdminItems = ({ onClose, isItems }) => {
         },
         {
             id:10,
-            title: 'Site Settings',
-            link: '/admin/settings',
+            title: 'Shipping & Tax',
+            link: '/admin/manage-shipping',
         },
     ]
 
