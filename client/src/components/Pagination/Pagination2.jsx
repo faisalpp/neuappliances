@@ -7,7 +7,7 @@ const Pagination2 = ({page,setPage,totalPages}) => {
         const pageNumbers = [];
         for (let i = 1; i <= totalPages; i++) {
           pageNumbers.push(
-            <button type="button" key={i} onClick={() => setPage(i)} className={`flex justify-center items-center self-center cursor-pointer rounded-md py-1 w-8 ${page === i?'text-b6':'text-black'} `} >{i}</button>
+            <button type="button" key={i} onClick={() => setPage(i)} className={`flex justify-center items-center self-center cursor-pointer text-sm rounded-md py-1 w-8 ${page === i?'text-b6':'text-black'} `} >{i}</button>
           );
         }
         return pageNumbers;
