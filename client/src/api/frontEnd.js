@@ -52,11 +52,21 @@ export const GetAppliancesBySlug = async (data) => {
     return response;
 }
 
-export const GetLoopMediaAll = async () => {
+export const getVideoMediaAll = async (params,data) => {
     let response;
 
     try{
-        response = await api.get('/api/admin/get-loop-media-all');
+        response = await api.post(`/api/admin/get-video-media/?page=${params.page}&limit=${params.limit}`,data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const getSingleVideoMedia = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/admin/get-single-video-media',data);
     }catch (error){
         return error;
     }

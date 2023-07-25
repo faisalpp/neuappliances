@@ -10,25 +10,26 @@ import TextInput from '../../components/TextInput/TextInput';
 import {uploadVideoMedia,getVideoMedia} from '../../api/admin'
 import axios from 'axios'
 import Loader2 from '../../components/Loader/Loader2'
-import Pagination from '../../components/Pagination';
+import Pagination from '../../components/Pagination/Pagination';
 
 
 const ManageMedia = () => {
   // Cloudinary Config
-  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
-  const upload_preset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
-  const folder = 'LoopMedia';
+  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
+  const upload_preset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET
+  const folder = 'LoopMedia'
 
   const [mediaPopup,setMediaPopup] = useState(false)
   const [type,setType] = useState('upload');
-  const [section,setSection] = useState('');
+  const [section,setSection] = useState('home-page-hero-section');
   const [selectedSection,setSelectedSection] = useState('home-page-hero-section');
+  const [publicId,setPublicId] = useState('');
   
   const [mediaUrl,setMediaUrl] = useState('');
   const [uploadUrl,setUploadUrl] = useState('');
 
   const [media,setMedia] = useState([])
-  const [uploadedMedia,setUploadedMedia] = useState('home-page-hero-section')
+  const [uploadedMedia,setUploadedMedia] = useState('')
 
   // Uploading States
   const [isUpload,setIsUpload] = useState(false)
@@ -43,7 +44,9 @@ const ManageMedia = () => {
     formData.append('upload_preset',upload_preset)
     axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/video/upload`,formData)
      .then(res=>{ 
-       setUploadedMedia(res.data.secure_url);
+      console.log(res)
+       setUploadedMedia(res.data.secure_url)
+       setPublicId(res.data.public_id);
        setIsUpload(false)
        toast.success('Media Upload Successfull!', {
         position: "top-right",
@@ -107,7 +110,7 @@ const ManageMedia = () => {
   const Submit = async (e) => {
     e.preventDefault()
     if(type === 'upload'){
-      const data = {type:type,url:uploadedMedia,section:section}
+      const data = {type:type,url:uploadedMedia,section:section,publicId:publicId}
       await HandleMedia(data)
     }else{
       const data = {type:type,url:mediaUrl,section:section}
@@ -147,8 +150,8 @@ const ManageMedia = () => {
         <Popup state={mediaPopup} setState={setMediaPopup}>
           <form onSubmit={Submit} className='flex flex-col space-y-3' >
            <h1 className="font-semibold" >Upload Loop Media</h1>
-           <SelectInput widthFull="true" name="type" title="Upload Type" iscompulsory="true" onChange={e=>setType(e.target.value)} options={['Upload','Link']}  />
-           <SelectInput widthFull="true" name="sectionType" title="Select Page Section" iscompulsory="true" onChange={e=>setSection(e.target.value)} options={['Home Page Hero Section','Home Page Tour Section','Stay In Loop Video',"Faq's Page Video",'Our Story Page Video','Our Showroom Page Video','Our Compnies Page Video']}  />
+           <SelectInput widthFull="true" name="type" title="Upload Type" iscompulsory="true" onChange={e=>setType(e.target.value)} options={['Upload','Link','Iframe']}  />
+           <SelectInput widthFull="true" name="section" title="Select Page Section" iscompulsory="true" onChange={e=>setSection(e.target.value)} options={['Home Page Hero Section','Home Page Tour Section','Stay In Loop Video',"Faq's Page Video",'Our Story Page Video','Our Showroom Page Video','Our Compnies Page Video']}  />
            {type === 'upload' ? <div className='flex items-end space-x-3'><TextInput  name="uploadUrl" title="Product Title" iscompulsory="true" type="file" accept="video/*" onChange={e=>setUploadUrl(e.target.files[0])} /><button type='button' onClick={CloudinaryUpload} className='flex justify-center items-center cursor-pointer rounded-md py-1 w-fit h-12 bg-b3' ><a className='flex items-center justify-center text-center  w-14 py-1 rounded-md text-white font-semibold' >{isUpload ? <img src='/loader-bg.gif' className='h-8' /> : <span className='text-xs' >Upload</span>} </a></button></div>:null}
            {type  === 'link' ? <TextInput  name="mediaUrl" title="Product Title" iscompulsory="true" type="text" onChange={e=>setMediaUrl(e.target.value)} placeholder="Enter Media Url" />:null}
            <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Submit</span><BsArrowRightShort className='text-2xl' /> </a></button>
@@ -157,7 +160,7 @@ const ManageMedia = () => {
         <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
         {isSubmit ? <Loader2/>:<AdminAccount>
           <div className='flex items-center mb-5 py-3 rounded-3xl px-10 w-full' >
-          <SelectInput widthFull="false" name="sectionType" title="Filter Section Videos" iscompulsory="false" onChange={e=>setSelectedSection(e.target.value)} options={['Home Page Hero Section','Home Page Tour Section','Stay In Loop Video',"Faq's Page Video",'Our Story Page Video','Our Showroom Page Video','Our Compnies Page Video']}  /> 
+          <SelectInput widthFull="false" name="sectionType" title="Filter Section Videos" iscompulsory="false" onChange={e=>setSelectedSection(e.target.value)} options={['Home Page Hero Section','Home Page Tour Section','Stay In Loop Videos',"Faq's Page Video",'Our Story Page Video','Our Showroom Page Video','Our Compnies Page Video']}  /> 
            <div className='flex w-full justify-end space-x-3' >
             <AiFillPlusCircle onClick={()=>setMediaPopup(true)} className='text-b3 text-3xl shadow-xl rounded-full cursor-pointer' />   
            </div>

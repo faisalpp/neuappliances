@@ -10,7 +10,7 @@ import TextInput from '../../components/TextInput/TextInput';
 import {uploadVideoMedia,getVideoMedia} from '../../api/admin'
 import axios from 'axios'
 import Loader2 from '../../components/Loader/Loader2'
-import Pagination from '../../components/Pagination';
+import Pagination from '../../components/Pagination/Pagination';
 
 
 const ManageReviews = () => {

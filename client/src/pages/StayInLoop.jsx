@@ -1,22 +1,38 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import MainLayout from '../layout/MainLayout';
 import Pagination from '../Pagination/Pagination.js';
 import { RiArrowDropRightLine } from 'react-icons/ri';
+import {getVideoMediaAll} from '../api/frontEnd'
+import Pagination2 from '../components/Pagination/Pagination2';
 
 
 const StayInLoop = () => {
 
-    let PageSize = 12;
+    const [media,setMedia] = useState([])
+    const [page,setPage] = useState(1);
+    const [limit,setLimit] = useState(12);
+    const [totalPages,setTotalPages] = useState(0);
+    const [isLoading,setIsLoading] = useState(false);
 
-    const data = ['/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png', '/video.png']
-
-    const [currentPage, setCurrentPage] = useState(1);
-
-    const currentTableData = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * PageSize;
-        const lastPageIndex = firstPageIndex + PageSize;
-        return data.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage,PageSize]);
+    
+    useEffect(() => {
+        const GetLoopMedia = async () => {
+            setIsLoading(true)
+            const params = {page:page,limit:limit};
+            const data = {section:'stay-in-loop-videos'}
+            const res = await getVideoMediaAll(params,data);
+            console.log(res)
+            if(res.status === 200){
+                setMedia(res.data.loops)
+                setTotalPages(Math.ceil(res.data.totalCount / limit))
+                setIsLoading(false)
+              }else{
+                setIsLoading(false)
+                console.log(res)
+            }
+        }
+        GetLoopMedia()
+    }, [page])    
 
     return (
         <>
@@ -24,7 +40,7 @@ const StayInLoop = () => {
                 <div className='py-10 lg:py-16 xl:py-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
                     {/* Bread Crumbs Start */}
                     <div className='flex items-center' >
-                        <h5 className='text-xs text-b3' >Back to all appliance</h5><RiArrowDropRightLine className='text-xl text-b19' /><h5 className='text-xs text-black' >Buying Options</h5>
+                        <h5 className='text-xs text-b3' >Home</h5><RiArrowDropRightLine className='text-xl text-b19' /><h5 className='text-xs text-black' >Stay In The Loop</h5>
                     </div>
                     {/* Bread Crumbs End */}
                     <h1 className='text-32px font-bold mt-6'>
@@ -33,21 +49,15 @@ const StayInLoop = () => {
                 </div>
 
                 <div className='pb-10 lg:pb-16 xl:pb-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
-                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-                        {currentTableData.map((image) => (
-                            <div className='w-full'>
-                                <img src={image} alt="" className='h-[300px] object-cover w-full rounded-2xl' />
-                            </div>
-                        ))}
-                    </div>
+                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+                  {media.map((item) => (
+                   <div className='w-full'>
+                     {item.type === 'iframe' ? <iframe src={item.url} title={item.url} className='h-[300px] object-cover w-full rounded-2xl' ></iframe> : <video src={item.url} className='h-[300px] object-cover w-full rounded-2xl' controls  />}   
+                   </div>
+                  ))}
+                 </div>
                     <div>
-                        <Pagination
-                            className="pagination-bar mt-9"
-                            currentPage={currentPage}
-                            totalCount={data.length}
-                            pageSize={PageSize}
-                            onPageChange={page => setCurrentPage(page)}
-                        />
+                        <Pagination2 page={page} setPage={setPage} totalPages={totalPages} />
                     </div>
                 </div>
 

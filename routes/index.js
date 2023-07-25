@@ -76,8 +76,9 @@ router.post('/api/admin/delete-media',adminAuth,uploadController.deleteMedia);
 router.post('/api/admin/create-blog',adminAuth,blogController.createBlog);
 // Loop Media Api's
 router.post('/api/admin/upload-video-media',adminAuth,videoMediaController.uploadVideoMedia);
-
 router.post('/api/admin/get-video-media',videoMediaController.getVideoMedia);
+router.post('/api/admin/get-single-video-media',videoMediaController.getSingleVideoMedia);
+
 // User Cart Api's
 router.post('/api/user/add-to-cart',auth,cartController.addToCart);
 router.post('/api/user/get-cart',auth,cartController.getCart);
