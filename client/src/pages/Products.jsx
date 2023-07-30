@@ -14,7 +14,8 @@ const Products = () => {
 
   const { category, type, value } = useParams()
   
-  const [filters, setFilters] = useState([])
+  const [categoriesFilters, setCategoriesFilters] = useState([])
+  const [ratingFilters, setRatingFilters] = useState([])
   const [products, setProducts] = useState([])
   const [isGrid, setIsGrid] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
@@ -46,9 +47,11 @@ const Products = () => {
     const res = await getAppliancesFilters()
     console.log(res)
     if (res.status === 200) {
-      setFilters(res.data.filters)
+      setRatingFilters(res.data.ratingFilters)
+      setCategoriesFilters(res.data.categoryFilters)
     } else {
-      setFilters([]);
+      setRatingFilters([]);
+      setCategoriesFilters([]);
     }
   }
 
@@ -75,7 +78,7 @@ const Products = () => {
           <div className='flex justify-center gap-12 xl:gap-x-60px w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
 
             {/* Filters Start */}
-            <ProductFilter filters={filters} onClose={handleCloseFilter} isFilter={isFilter} />
+            <ProductFilter categoriesFilters={categoriesFilters} ratingFilters={ratingFilters} onClose={handleCloseFilter} isFilter={isFilter} />
             {/* Filters End */}
 
             <div className={`grid ${isGrid ? 'lg:grid-cols-3 grid-cols-1 lg:gap-x-2' : 'grid-cols-1'} gap-y-5 mb-10 w-full`} >
