@@ -93,20 +93,6 @@ const applianceController = {
             }
           }
         ]);
-          
-         const result = await Product.aggregate([
-          {
-            $match: {
-              rating: { $in: [3, 4, 5] } // Match products with rating 3, 4, or 5
-            }
-          },
-          {
-            $group: {
-              _id: '$rating', // Group by the 'rating' field
-              count: { $sum: 1 } // Count the number of products in each group
-            }
-          }
-        ]);
   
           ratingFilters = await Product.aggregate([
             {
