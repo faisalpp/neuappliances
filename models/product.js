@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const productSchema = new mongoose.Schema({
     title: {type: String, required:true},
     slug: {type: String, required:true},
-    category: {type: String, required:true},
+    category: {type: String, ref: 'Category' ,required:true},
     color: {type: String, required:true},
     brand: {type: String, required:true},
     fuelType: {type: String, required:true},

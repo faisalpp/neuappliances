@@ -39,7 +39,6 @@ import {toast} from 'react-toastify'
 import { resetUser } from "../store/userSlice";
 import { showSCart } from "../store/cartSlice";
 import { useDispatch } from "react-redux";
-import { FaLaptopHouse } from 'react-icons/fa'
 
 const Product = () => {
   // Get slug form url

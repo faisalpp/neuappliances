@@ -101,7 +101,7 @@ function App() {
       <Route path="/forgot-password" element={<AuthRoute><ForgotPassword /></AuthRoute>} />
       <Route path="/products" element={<Products />} />
       <Route path="/product/:slug" element={<Product />} />
-      <Route path="/appliances/:categorySlug/:categoryId" element={<Appliances />} />
+      <Route path="/appliances/:categorySlug" element={<Appliances />} />
       {/* Appliances Filters */}
       <Route path="/appliances/:category/:type/:value" element={<Products />} />
 

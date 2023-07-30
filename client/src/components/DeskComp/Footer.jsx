@@ -43,12 +43,12 @@ const Footer = () => {
           <a href=''>Shop On Sale</a>
           <a href=''>Live Inventory</a>
           <a href=''>Virtual Showroom</a>
-          <a href=''>Financing</a>
+          <a href='/financing'>Financing</a>
           <a href=''>Discount Appliances in Stock</a>
           <a href=''>Austin Appliance Liquidation</a>
           <a href=''>Used Appliances</a>
-          <a href=''>Appliance Repair</a>
-          <a href=''>Helpful Appliance Tips</a>
+          <a href='/appliance-repair'>Appliance Repair</a>
+          <a href='/helpful-appliances-tips'>Helpful Appliance Tips</a>
         </div>
       </div>
       {/* Quick Links Section End */}
@@ -57,10 +57,10 @@ const Footer = () => {
       <div className='col-start-7 maxxl:!col-span-4 lg:mt-0 flex flex-col text-white/60 text-sm gap-y-5 w-max pt-12 hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
         <a href=''>Our Brands</a>
         <a href=''>Delivery</a>
-        <a href=''>Appliance Measuring Guide</a>
-        <a href=''>Do i have Electric or Gas?</a>
-        <a href=''>Our Products</a>
-        <a href=''>FAQ</a>
+        <a href='/measuring-guide'>Appliance Measuring Guide</a>
+        <a href='/do-i-have-electric-or-gas'>Do i have Electric or Gas?</a>
+        <a href='/appliancetypes'>Our Products</a>
+        <a href='/faqs'>FAQ</a>
         <a href=''>Contact</a>
         <a href=''>Terms</a>
         <a href=''>Refund</a>

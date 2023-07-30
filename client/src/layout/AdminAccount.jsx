@@ -80,7 +80,7 @@ const AdminAccount = ({ children }) => {
                     <AdminItems onClose={handleCloseItems} isItems={isItems} />
 
                     <div className='h-full w-full'>
-                        <div style={{'height':'calc(100vh - 70px)'}} className='border border-[rgba(0,0,0,0.15)] rounded-2xl p-5 sm:p-7 xl:py-5 xl:px-10'>
+                        <div className='h-auto border border-[rgba(0,0,0,0.15)] rounded-2xl p-5 sm:p-7 xl:py-5 xl:px-10'>
                             {children}
                         </div>
                     </div>

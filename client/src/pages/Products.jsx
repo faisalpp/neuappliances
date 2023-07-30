@@ -7,14 +7,14 @@ import { RiArrowDropRightLine } from 'react-icons/ri';
 import { FaBars } from 'react-icons/fa';
 import { BsGrid, BsChevronDown } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
-import { GetAppliancesByFilter } from '../api/frontEnd'
+import { GetAppliancesByFilter,getAppliancesFilters } from '../api/frontEnd'
 import Loader from '../components/Loader/Loader'
 
 const Products = () => {
 
   const { category, type, value } = useParams()
-  console.log(category + ' ', type + ' ', value)
-
+  
+  const [filters, setFilters] = useState([])
   const [products, setProducts] = useState([])
   const [isGrid, setIsGrid] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
@@ -35,6 +35,20 @@ const Products = () => {
     } else {
       setLoading(false)
       setProducts([]);
+    }
+  }
+
+  useEffect(() => {
+    GetAppliancesFilter()
+  }, [])
+
+  const GetAppliancesFilter = async () => {
+    const res = await getAppliancesFilters()
+    console.log(res)
+    if (res.status === 200) {
+      setFilters(res.data.filters)
+    } else {
+      setFilters([]);
     }
   }
 
@@ -61,12 +75,12 @@ const Products = () => {
           <div className='flex justify-center gap-12 xl:gap-x-60px w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
 
             {/* Filters Start */}
-            <ProductFilter onClose={handleCloseFilter} isFilter={isFilter} />
+            <ProductFilter filters={filters} onClose={handleCloseFilter} isFilter={isFilter} />
             {/* Filters End */}
 
             <div className={`grid ${isGrid ? 'lg:grid-cols-3 grid-cols-1 lg:gap-x-2' : 'grid-cols-1'} gap-y-5 mb-10 w-full`} >
 
-              {products.length > 0 ? products.map((product) => <ProductCard3 product={product} isGrid={isGrid} />) :
+              {products.length > 0 ? products.map((product,index) => <ProductCard3 key={index} product={product} isGrid={isGrid} />) :
                 <h1>No Product Founds!</h1>
               }
 

@@ -4,7 +4,7 @@ import RatingFilter from '../../components/DeskComp/Filter/RatingFilter'
 import HeaderFilter from '../../components/DeskComp/Filter/HeaderFilter';
 import SaleFilter from '../../components/DeskComp/Filter/SaleFilter';
 
-const Filter = ({ onClose, isFilter }) => {
+const Filter = ({ onClose, isFilter,filters }) => {
 
     const handleFilterClick = (event) => {
         event.stopPropagation();
@@ -26,7 +26,7 @@ const Filter = ({ onClose, isFilter }) => {
                         Close
                     </button>
                 </div>
-                <TypeFilter />
+                <TypeFilter categories={filters} />
                 <RatingFilter />
                 <HeaderFilter />
                 <SaleFilter />

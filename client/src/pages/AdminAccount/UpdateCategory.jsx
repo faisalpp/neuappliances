@@ -39,8 +39,7 @@ const UpdateCategory = () => {
             setTitle(res.data.category[0].title);
             setDescription(res.data.category[0].description);
             setSlug(res.data.category[0].slug);
-            const imgUrl = 'http://localhost:5000/storage/categories/'+ res.data.category[0].image
-            setImagePrev(imgUrl);
+            setImagePrev(res.data.category[0].image);
         }else{
             toast.error(res.message, {
             position: "top-right",

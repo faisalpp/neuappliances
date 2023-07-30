@@ -72,3 +72,13 @@ export const getSingleVideoMedia = async (data) => {
     }
     return response;
 }
+export const getAppliancesFilters = async () => {
+    let response;
+
+    try{
+        response = await api.get('/api/get-appliances-filters');
+    }catch (error){
+        return error;
+    }
+    return response;
+}

@@ -389,6 +389,17 @@ export const getVideoMedia = async (params,data) => {
     }
     return response;
 }
+// CREATE REVIEW
+export const createReview = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/create-revie',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 
 
 

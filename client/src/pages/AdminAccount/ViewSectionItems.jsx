@@ -28,7 +28,7 @@ const ViewSectionItem = () => {
          {/* Products Operations */}
          {sectionItems.length > 0 ?
          <div className='grid grid-cols-1 md:grid-cols-4 2xl:grid-cols-3 gap-7 xl:gap-10'>
-          {sectionItems.map((sectionItem,index)=><BrandCard updateUrl={`/admin/update-section-item/${sectionItem._id}`} key={index} brandname={sectionItem.title} brandimage={`http://localhost:5000/storage/sectionItems/${sectionItem.image}`} rating={sectionItem.rating} />)}
+          {sectionItems.map((sectionItem,index)=><BrandCard updateUrl={`/admin/update-section-item/${sectionItem._id}`} key={index} brandname={sectionItem.title} brandimage={sectionItem.image} rating={sectionItem.rating} />)}
          </div>
           :<h1 className='text-center' >No Section Item Found!</h1>}
         </AdminAccount>

@@ -14,6 +14,7 @@ const blogController = require('../controller/blogController');
 const videoMediaController = require('../controller/videoMediaController');
 const cartController = require('../controller/cartController');
 const orderController = require('../controller/orderController');
+const reviewController = require('../controller/reviewController');
 const uploader = require('express-fileupload');
 
 const app = express();
@@ -88,11 +89,16 @@ router.post('/api/user/remove-cart-item',auth,cartController.removeFromCart);
 // User Order Processing Api's
 router.post('/api/user/save-order-address',auth,orderController.saveOrderAddress);
 
+// Admin Reviews Api
+router.post('/api/admin/create-review',auth,reviewController.createReview);
+
 
 // Front-End Api's
 router.post('/api/get-product-by-filter',applianceController.GetApplianceBySectionType);
 router.post('/api/get-product-by-slug',applianceController.GetApplianceBySlug);
 router.get('/api/get-appliances',applianceController.GetAppliances);
 router.post('/api/appliance-sections',applianceController.GetApplianceSections);
+// Get All Filters Information for Products Page
+router.get('/api/get-appliances-filters',applianceController.GetAppliancesFilters);
 
 module.exports = router;

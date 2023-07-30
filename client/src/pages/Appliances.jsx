@@ -17,11 +17,11 @@ const Appliances = () => {
   const [sections, setSections] = useState([]);
   const [description, setDescription] = useState('');
   const [catTitle, setCatTitle] = useState('');
-  const { categorySlug, categoryId } = useParams();
+  const { categorySlug } = useParams();
 
   const [loading, isLoading] = useState(true);
 
-  const data = { categoryId };
+  const data = { categorySlug };
   useEffect(() => {
     const getAppliances = async () => {
       const res = await GetApplianceSections(data);

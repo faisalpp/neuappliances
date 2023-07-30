@@ -13,10 +13,10 @@ const applianceController = {
       }      
     },
     async GetApplianceSections(req,res,next){
-      const {categoryId} = req.body;
-      const category = await Category.findOne({_id:categoryId})
+      const {categorySlug} = req.body;
+      const category = await Category.findOne({slug:categorySlug})
       
-      categorySection.find({ categoryId: categoryId })
+      categorySection.find({ categoryId: category._id })
       .populate('sectionItemsId')
       .exec()
       .then(categorySections => {
@@ -71,8 +71,63 @@ const applianceController = {
       }catch(error){
         return next(error)
       }      
-    }
+    },
+    async GetAppliancesFilters(req,res,next){
+      let categoryFilters;
+      let ratingFilters;
+      try {
+      categoryFilters = await Category.aggregate([
+          {
+            $lookup: {
+              from: 'products', // The name of the "products" collection (automatically pluralized)
+              localField: 'slug',
+              foreignField: 'category',
+              as: 'products'
+            }
+          },
+          {
+            $project: {
+              title: 1,
+              slug: 1,
+              productCount: { $size: '$products' }
+            }
+          }
+        ]);
+          
+         const result = await Product.aggregate([
+          {
+            $match: {
+              rating: { $in: [3, 4, 5] } // Match products with rating 3, 4, or 5
+            }
+          },
+          {
+            $group: {
+              _id: '$rating', // Group by the 'rating' field
+              count: { $sum: 1 } // Count the number of products in each group
+            }
+          }
+        ]);
+  
+          ratingFilters = await Product.aggregate([
+            {
+              $match: {
+                rating: { $in: [3, 4, 5] } // Match products with rating 3, 4, or 5
+              }
+            },
+            {
+              $group: {
+                _id: '$rating', // Group by the 'rating' field
+                count: { $sum: 1 } // Count the number of products in each group
+              }
+            }
+          ]);
+       return res.status(200).json({status:200,categoryFilters:categoryFilters,ratingFilters:ratingFilters});
 
+      }catch(error){
+        return next(error)
+      }
+
+    },
 }
 
-module.exports = applianceController;
+module.exports = applianceController
