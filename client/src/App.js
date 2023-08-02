@@ -70,6 +70,12 @@ import ManageVideos from "./pages/AdminAccount/ManageVideos";
 import AdminChangePassword from "./pages/AdminAccount/AdminChangePassword";
 import ManageReviews from "./pages/AdminAccount/ManageReviews";
 import ShippingTax from "./pages/AdminAccount/ShippingTax";
+import ManageGallery from "./pages/AdminAccount/ManageGallery";
+import 'react-toastify/dist/ReactToastify.min.css';
+import { ToastContainer } from 'react-toastify';
+import ManageOrders from "./pages/AdminAccount/ManageOrders";
+import ManageCustomers from "./pages/AdminAccount/ManageCustomers";
+import UpdateCustomer from "./pages/AdminAccount/UpdateCustomer";
 
 function App() {
 
@@ -91,6 +97,8 @@ function App() {
 
 
   return (
+    <>
+    <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
     <Routes>
       <Route path="/" element={<Home />} />
       {/* landing Page */}
@@ -182,11 +190,20 @@ function App() {
       <Route path="/admin/change-password" element={<ProtectedAdmin><AdminChangePassword/></ProtectedAdmin>} />
       {/* Admin Shipping & Tax */}
       <Route path="/admin/manage-shipping" element={<ProtectedAdmin><ShippingTax/></ProtectedAdmin>} />
+      {/* Admin Manage Gallery */}
+      <Route path="/admin/manage-gallery" element={<ProtectedAdmin><ManageGallery/></ProtectedAdmin>} />
+      {/* Admin Manage Gallery */}
+      <Route path="/admin/manage-orders" element={<ProtectedAdmin><ManageOrders /></ProtectedAdmin>} />
+      {/* Admin Manage Customers */}
+      <Route path="/admin/manage-customers" element={<ProtectedAdmin><ManageCustomers /></ProtectedAdmin>} />
+       {/* Admin Update Customer */}
+       <Route path="/admin/update-customer" element={<ProtectedAdmin><UpdateCustomer /></ProtectedAdmin>} />
 
       <Route path="/test" element={<Test />} />
       <Route path="*" element={<NotFound />} />
       <Route path="/isr" element={<Isr />} />
     </Routes>
+    </>
   );
 }
 

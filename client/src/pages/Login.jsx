@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import {setUser} from '../store/userSlice'
 import {Signin} from '../api/user'
+import { loginUser } from '../store/userSlice'
 
 const Login = () => {
 

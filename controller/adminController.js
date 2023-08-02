@@ -65,7 +65,7 @@ const adminController = {
     // 1. validate user input
     const adminLoginSchema = Joi.object({
       email: Joi.string().email().required(),
-      password: Joi.string().pattern(passwordPattern).required(),
+      password: Joi.string().required(),
     });
 
     const { error } = adminLoginSchema.validate(req.body);

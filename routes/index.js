@@ -15,6 +15,7 @@ const videoMediaController = require('../controller/videoMediaController');
 const cartController = require('../controller/cartController');
 const orderController = require('../controller/orderController');
 const reviewController = require('../controller/reviewController');
+const galleryController = require('../controller/galleryController');
 const uploader = require('express-fileupload');
 
 const app = express();
@@ -79,6 +80,11 @@ router.post('/api/admin/create-blog',adminAuth,blogController.createBlog);
 router.post('/api/admin/upload-video-media',adminAuth,videoMediaController.uploadVideoMedia);
 router.post('/api/admin/get-video-media',videoMediaController.getVideoMedia);
 router.post('/api/admin/get-single-video-media',videoMediaController.getSingleVideoMedia);
+// Gallery Api's
+router.post('/api/admin/upload-gallery-image',adminAuth,galleryController.uploadGalleryImage);
+router.get('/api/admin/get-gallery-image',galleryController.getGalleryImage);
+router.get('/api/admin/delete-gallery-image',adminAuth,galleryController.deleteGalleryImage);
+
 
 // User Cart Api's
 router.post('/api/user/add-to-cart',auth,cartController.addToCart);

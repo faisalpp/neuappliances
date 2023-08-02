@@ -25,7 +25,7 @@ const AdminMultiApi = axios.create({
 
 export const Signin = async (data) => {
     let response;
-    console.log(data)
+    
     try{
         response = await AdminApi.post('/api/admin/login',data);
     }catch (error){
@@ -394,13 +394,36 @@ export const createReview = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/create-revie',data);
+        response = await AdminApi.post('/api/admin/create-review',data);
     }catch (error){
         return error;
     }
     return response;
 }
 
+// UPLOAD GALLERY IMAGE
+export const uploadGalleryImage = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminMultiApi.post('/api/admin/upload-gallery-image',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+// DELETE GALLERY IMAGE
+export const deleteGalleryImage = async (params) => {
+    let response;
+    
+    try{
+        response = await AdminApi.get(`/api/admin/delete-gallery-image/?publicId=${params.publicId}`);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 
 
 const refreshUrl = isDev ? `${process.env.REACT_APP_INTERNAL_PATH}/api/admin/refresh` : "/api/admin/refresh";

@@ -20,7 +20,7 @@ const LoopSection = () => {
         }
     }
     GetSingleVideoMedia()
-  },[])
+  },[]);
 
   return (
     // <div className='flex flex-col mt-12 3xl:max-w-1680px px-120px mx-auto' >
@@ -33,7 +33,7 @@ const LoopSection = () => {
       <div className='py-10 lg:py-16 lg:mb-0' >
         {loopVideo.length > 0 ? <video controls className='col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]' src={video} />:null}
         <div>
-          <StayLoopSlider loopVideo={loopVideo} setLoopVideo={setLoopVideo} setVideo={setVideo} />
+          <StayLoopSlider loopVideo={loopVideo} setLoopVideo={setLoopVideo} setVideo={setVideo} video={video} />
         </div>
         <div className='flex justify-center mt-10 lg:mt-16' ><Link to='/stay-in-loop' className='flex items-center border-[1px] border-b3 w-fit px-4 py-2 rounded-md text-b3 font-semibold' ><span className='text-sm' >View All Videos</span><BsArrowRightShort className='text-2xl' /></Link></div>
       </div>

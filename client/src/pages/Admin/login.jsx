@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import {setUser} from '../../store/userSlice'
 import { useSelector } from "react-redux";
 import { Signin } from '../../api/admin'
+import { loginUser } from '../../store/userSlice'
 
 const Login = () => {
 
@@ -25,20 +26,9 @@ const Login = () => {
     e.preventDefault();
     const data = {email,password}
 
-     const res = await Signin(data);
-     
-     if(res.status === 200){
-       const user = {
-         _id: res.data.user._id,
-         email: res.data.user.email,
-         firstName: res.data.user.firstName,
-         lastName: res.data.user.lastName,
-         auth: res.data.auth,
-         isAdmin: res.data.user.isAdmin,
-       }
-       dispatch(setUser(user));
-
-       toast.success(res.msg, {
+     const res = await dispatch(loginUser(data));
+     if(res.payload.status === 200){
+       toast.success(res.payload.msg, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -49,8 +39,9 @@ const Login = () => {
         theme: "light",
         });
         navigate('/admin/dashboard');
-     }else{
-      toast.error(res.message, {
+     }
+     if(res.payload.code === 'ERR_BAD_REQUEST'){
+      toast.error('Invalid Credentials!', {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -68,8 +59,6 @@ const Login = () => {
     <>
     {!auth ?
     <MainLayout>
-    <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
-
       <div className='flex flex-col space-y-10 items-center pt-20 py-32 w-full' >
         <div><img src="login_logo.png" alt="login_logo" /></div>
         <form onSubmit={Login} className='flex flex-col space-y-5 w-5/12 px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >
@@ -86,7 +75,6 @@ const Login = () => {
           <div className='flex w-full justify-center' ><h5 className='text-sm' >New customer? <NavLink to="/register" ><span className='text-b3 hover:underline cursor-pointer' >Create an Account</span></NavLink></h5></div>
         </form>
       </div>
-      <ToastContainer/>
     </MainLayout>:<Navigate to="/admin/dashboard" />}
     
     </>

@@ -15,45 +15,55 @@ const AdminItems = ({ onClose, isItems }) => {
         {
             id:2,
             title: 'Orders',
-            link: '/admin/orders',
+            link: '/admin/manage-orders',
         },
         {
             id:3,
+            title: 'Customers',
+            link: '/admin/manage-customers',
+        },
+        {
+            id:4,
             title: 'Products',
             link: '/admin/manage-products',
         },
         {
-            id:4,
+            id:5,
             title: 'Categories',
             link: '/admin/categories',
         },
         {
-            id:5,
+            id:6,
             title: 'Blog',
             link: '/admin/manage-blogs',
         },
         {
-            id:6,
+            id:7,
             title: "FAQ's",
             link: '/admin/faq',
         },
         {
-            id:7,
+            id:8,
             title: 'Videos Manager',
             link: '/admin/manage-videos',
         },
         {
-            id:8,
+            id:9,
             title: 'Reviews Manager',
             link: '/admin/manage-reviews',
         },
         {
-            id:9,
+            id:10,
+            title: 'Gallery Manager',
+            link: '/admin/manage-gallery',
+        },
+        {
+            id:11,
             title: 'Change Password ',
             link: '/admin/change-password',
         },
         {
-            id:10,
+            id:12,
             title: 'Shipping & Tax',
             link: '/admin/manage-shipping',
         },
