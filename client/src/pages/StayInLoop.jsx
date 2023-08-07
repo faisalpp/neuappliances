@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MainLayout from '../layout/MainLayout';
-import Pagination from '../Pagination/Pagination.js';
+import Pagination from '../Pagination/Pagination';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import {getVideoMediaAll} from '../api/frontEnd'
 import Pagination2 from '../components/Pagination/Pagination2';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MainLayout from '../../layout/MainLayout';
 import ApplianceDetail from '../../components/Appliances/ApplianceDetail';
 import { RiArrowDropRightLine } from 'react-icons/ri';
@@ -7,8 +7,27 @@ import SatisfiedSection from '../../components/SatisfiedSection';
 import { Link } from 'react-router-dom';
 import RecentStories from '../../components/Blogs/RecentStories';
 import { AiOutlineArrowDown } from 'react-icons/ai';
+import {GetRecentBlog} from '../../api/frontEnd'
 
 const Index = () => {
+
+    const [page,setPage] = useState(1)
+    const [limit,setLimit] = useState(16)
+    const [blogs,setBlogs] = useState([])
+
+    useEffect(()=>{
+       GetBlogs()
+    },[])
+
+    const GetBlogs = async () => {
+        const params = {page:page,limit:limit}
+        const res = await GetRecentBlog(params);
+        if(res.status === 200){
+            setBlogs(res.data.blogs)
+        }else{
+            setBlogs([])
+        }
+    }
 
     return (
         <>
@@ -25,7 +44,7 @@ const Index = () => {
                 </div>
 
                 {/* Recent Stories */}
-                <RecentStories />
+                <RecentStories blogs={blogs} />
 
                 <SatisfiedSection title="Our Customers Are RAVING About Our Appliance Outlet" dots={true} />
 

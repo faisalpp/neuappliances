@@ -6,39 +6,40 @@ import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <div className="lg:grid flex flex-col xl:items-center lg:items-center  grid-cols-12 bg-b1 py-10 px-[8.33%]" >
+    <div className='flex justify-center bg-b1 px-32' >
+    <div className="grid grid-cols-16 bg-b1 py-20 w-fit" >
 
       {/* Logo Section Start */}
-      <div className='col-start-1 col-end-3 maxxl:!col-span-4 gap-y-10' >
+      <div className='col-start-1 col-end-3 flex flex-col space-y-10 maxxl:!col-span-4' >
 
         {/* Nav Logos */}
         <div className='flex flex-col gap-y-10  text-white' >
           <h4 className='w-max text-white text-lg font-bold font-reg' >Our Companies</h4>
-          <div className='gap-y-5' >
+          <div className='flex flex-col space-y-2' >
             <img className='w-32 h-12' src="/neu.png" alt="logo2" />
-            <p className='text-[10px] w-max text-white/60 font-reg' >Shop Austin's #1 Local Discount Appliance Outlet</p>
+            <p className='text-xs w-max text-white/60 font-normal' >Shop Austin's #1 Local Discount Appliance Outlet</p>
           </div>
         </div>
 
         {/* Nav Logo 2 */}
-        <div className='flex flex-col gap-y-2 mt-5 text-white' >
+        <div className='flex flex-col gap-y-2 text-white' >
           <img className='w-32 h-12' src="/neu2.png" alt="logo2" />
-          <p className='text-[10px] w-max text-white/60 font-reg' >Shop Discount Appliance Repair Parts</p>
+          <p className='text-xs w-max text-white/60 font-normal' >Shop Discount Appliance Repair Parts</p>
         </div>
 
         {/* Nav Logo 3 */}
-        <div className='flex flex-col gap-y-2 mt-5 text-white' >
+        <div className='flex flex-col gap-y-3 text-white' >
           <img className='w-32 h-12' src="/neu3.png" alt="logo3" />
-          <p className='text-[10px] w-64 text-white/60 font-reg' >Wholesale Supply Distributor of Bulk Scratch and Dent Appliances to Appliance Vendor's across the Country</p>
+          <p className='text-xs w-80 text-white/60 font-normal' >Wholesale Supply Distributor of Bulk Scratch and Dent Appliances to Appliance Vendor's across the Country</p>
         </div>
 
       </div>
       {/* Logo Section End */}
 
       {/* Quick Links Section Start */}
-      <div className='col-start-4 col-end-6 maxxl:!col-span-4' >
+      <div className='col-start-5 col-end-7 maxxl:!col-span-4' >
         <h4 className='w-max text-white text-lg font-bold font-reg' >Quick Links</h4>
-        <div className='flex flex-col text-white/60 text-sm gap-y-5 w-max mt-3 hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
+        <div className='flex flex-col text-white/60 text-base font-normal gap-y-5 w-max mt-10 hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
           <a href=''>Shop Now</a>
           <a href=''>Shop On Sale</a>
           <a href=''>Live Inventory</a>
@@ -54,7 +55,7 @@ const Footer = () => {
       {/* Quick Links Section End */}
 
       {/* Quick Links Section 2 Start */}
-      <div className='col-start-7 maxxl:!col-span-4 lg:mt-0 flex flex-col text-white/60 text-sm gap-y-5 w-max pt-12 hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
+      <div className='col-start-9 maxxl:!col-span-4 lg:mt-0 flex flex-col text-white/60 text-base font-normal gap-y-5 w-max pt-[65px] hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
         <a href=''>Our Brands</a>
         <a href=''>Delivery</a>
         <a href='/measuring-guide'>Appliance Measuring Guide</a>
@@ -69,7 +70,7 @@ const Footer = () => {
       {/* Quick Links Section 2 End */}
 
       {/* Quick Links Section 2 Start */}
-      <div className='col-start-10 col-end-12 maxxl:!col-span-12 lg:mt-0 pt-20 flex flex-col h-full text-white text-sm md:w-max' >
+      <div className='col-start-14 col-end-16 maxxl:!col-span-12 flex flex-col h-full text-white text-sm md:w-max' >
         {/* Email Address */}
         <div>
           <h4 className='font-bold text-lg' >Get Latest Discount Offers</h4>
@@ -98,6 +99,7 @@ const Footer = () => {
       {/* Quick Links Section 2 End */}
 
 
+    </div>
     </div>
   )
 }

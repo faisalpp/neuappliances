@@ -9,20 +9,26 @@ const BlogEditor = ({state,setState}) => {
     setState(editor.getData())
   }
 
-  const editorConfig = {
-    height: '600px', // Set the desired height here
-    // other configuration options...
-  };
 
   return (
    <>
-   <div>
     <CKEditor
      editor={ClassicEditor}
      onChange={(e,editor)=>{handleChange(e,editor)}}
-     config={editorConfig}
+     config={{
+      height: '300px', // Set the initial height
+    }}
+     onReady={(editor) => {
+      editor.ui.view.editable.element.style.minHeight = "300px";
+      }}
+      onBlur={(event, editor) => {
+        console.log(event)
+        editor.ui.view.editable.element.style.minHeight = '300px';
+      }}
+      onFocus={(event, editor) => {
+        editor.ui.view.editable.element.style.minHeight = "300px";
+      }}
     />
-    </div>
    </>
   )
 }

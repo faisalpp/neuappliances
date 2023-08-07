@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const blogSchema = new mongoose.Schema({
+const applianceTipsSchema = new mongoose.Schema({
     title: {type:String,required:true,unique:true},
     slug: {type:String,required:true,unique:true},
     thumbnail: {type:String},
@@ -8,4 +8,4 @@ const blogSchema = new mongoose.Schema({
     content: {type:String,required:true},
 },{timestamps: true});
 
-module.exports = mongoose.model('Blog',blogSchema,'blogs');
+module.exports = mongoose.model('ApplianceTips',applianceTipsSchema,'applianceTips');

@@ -10,73 +10,31 @@ import TextInput from '../../components/TextInput/TextInput';
 import {uploadVideoMedia,getVideoMedia} from '../../api/admin'
 import axios from 'axios'
 import Loader2 from '../../components/Loader/Loader2'
-import Pagination from '../../components/Pagination/Pagination';
+import Pagination2 from '../../components/Pagination/Pagination2';
 
 
 const ManageMedia = () => {
-  // Cloudinary Config
-  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
-  const upload_preset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET
-  const folder = 'LoopMedia'
 
   const [mediaPopup,setMediaPopup] = useState(false)
   const [type,setType] = useState('upload');
   const [section,setSection] = useState('home-page-hero-section');
   const [selectedSection,setSelectedSection] = useState('home-page-hero-section');
-  const [publicId,setPublicId] = useState('');
   
-  const [mediaUrl,setMediaUrl] = useState('');
-  const [uploadUrl,setUploadUrl] = useState('');
+  const [uploadMedia,setUploadMedia] = useState('');
 
   const [media,setMedia] = useState([])
-  const [uploadedMedia,setUploadedMedia] = useState('')
 
   // Uploading States
-  const [isUpload,setIsUpload] = useState(false)
   const [isSubmit,setIsSubmit] = useState(false)
 
-  const CloudinaryUpload = async () =>  {
-    setIsUpload(true)
-    const file = uploadUrl;
-    const formData = new FormData()
-    formData.append('file',file);
-    formData.append('folder',folder);
-    formData.append('upload_preset',upload_preset)
-    axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/video/upload`,formData)
-     .then(res=>{ 
-      console.log(res)
-       setUploadedMedia(res.data.secure_url)
-       setPublicId(res.data.public_id);
-       setIsUpload(false)
-       toast.success('Media Upload Successfull!', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      })
-     .catch(err=>{
-          setIsUpload(false)
-          toast.error('Media Cloud Internal Error!', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-     })
-  }
-
-  const HandleMedia = async (data) => {
+  const Submit = async (e) => {
+    e.preventDefault()
     setIsSubmit(true)
-    const res = await uploadVideoMedia(data)
+    const formData = new FormData()
+    formData.set('uploadMedia',uploadMedia);
+    formData.append('section',section);
+    formData.append('type',type);
+    const res = await uploadVideoMedia(formData)
     console.log(res)
     if(res.data.status === 200){
       toast.success(res.msg, {
@@ -107,20 +65,8 @@ const ManageMedia = () => {
       }
   }
 
-  const Submit = async (e) => {
-    e.preventDefault()
-    if(type === 'upload'){
-      const data = {type:type,url:uploadedMedia,section:section,publicId:publicId}
-      await HandleMedia(data)
-    }else{
-      const data = {type:type,url:mediaUrl,section:section}
-      await HandleMedia(data)
-    }
-    
-  }
-
   const [page,setPage] = useState(1);
-  const [limit,setLimit] = useState(3);
+  const [limit,setLimit] = useState(16);
   const [totalPages,setTotalPages] = useState(0);
   // Loader
   const [isLoading,setIsLoading] = useState(false)
@@ -131,14 +77,12 @@ const ManageMedia = () => {
         const params = {page:page,limit:limit};
         const data = {section:selectedSection}
         const res = await getVideoMedia(params,data);
-        console.log(res)
         if(res.status === 200){
             setMedia(res.data.loops)
             setTotalPages(Math.ceil(res.data.totalCount / limit))
             setIsLoading(false)
           }else{
             setIsLoading(false)
-            console.log(res)
         }
     }
     GetLoopMedia()
@@ -152,8 +96,8 @@ const ManageMedia = () => {
            <h1 className="font-semibold" >Upload Loop Media</h1>
            <SelectInput widthFull="true" name="type" title="Upload Type" iscompulsory="true" onChange={e=>setType(e.target.value)} options={['Upload','Link','Iframe']}  />
            <SelectInput widthFull="true" name="section" title="Select Page Section" iscompulsory="true" onChange={e=>setSection(e.target.value)} options={['Home Page Hero Section','Home Page Tour Section','Stay In Loop Video',"Faq's Page Video",'Our Story Page Video','Our Showroom Page Video','Our Compnies Page Video']}  />
-           {type === 'upload' ? <div className='flex items-end space-x-3'><TextInput  name="uploadUrl" title="Product Title" iscompulsory="true" type="file" accept="video/*" onChange={e=>setUploadUrl(e.target.files[0])} /><button type='button' onClick={CloudinaryUpload} className='flex justify-center items-center cursor-pointer rounded-md py-1 w-fit h-12 bg-b3' ><a className='flex items-center justify-center text-center  w-14 py-1 rounded-md text-white font-semibold' >{isUpload ? <img src='/loader-bg.gif' className='h-8' /> : <span className='text-xs' >Upload</span>} </a></button></div>:null}
-           {type  === 'link' ? <TextInput  name="mediaUrl" title="Product Title" iscompulsory="true" type="text" onChange={e=>setMediaUrl(e.target.value)} placeholder="Enter Media Url" />:null}
+           {type === 'upload' ? <div className='flex items-end space-x-3'><TextInput  name="uploadUrl" title="Product Title" iscompulsory="true" type="file" accept="video/*" onChange={e=>setUploadMedia(e.target.files[0])} /><a className='flex items-center justify-center text-center  w-14 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Upload</span> </a></div>:null}
+           {type  === 'link' ? <TextInput  name="mediaUrl" title="Product Title" iscompulsory="true" type="text" onChange={e=>setUploadMedia(e.target.value)} placeholder="Enter Media Url" />:null}
            <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Submit</span><BsArrowRightShort className='text-2xl' /> </a></button>
           </form>
         </Popup>
@@ -170,7 +114,7 @@ const ManageMedia = () => {
            </div> : media.length > 0 ? <><div className="grid grid-cols-4 gap-x-5 gap-y-5 w-full">
              {media.map((item,index)=><video key={index} controls className='object-cover rounded-2xl xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 ' src={item.url} />)}
            </div>
-           <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+           {media.length > 16 ? <Pagination2 page={page} setPage={setPage} totalPages={totalPages} />:null}
            </>
            :
            <div className='flex mt-32 justify-center w-full h-full' >

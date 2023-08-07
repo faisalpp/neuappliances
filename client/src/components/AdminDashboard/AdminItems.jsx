@@ -29,7 +29,7 @@ const AdminItems = ({ onClose, isItems }) => {
         },
         {
             id:5,
-            title: 'Categories',
+            title: 'Category Pages',
             link: '/admin/categories',
         },
         {
@@ -39,31 +39,41 @@ const AdminItems = ({ onClose, isItems }) => {
         },
         {
             id:7,
+            title: 'Help & Support',
+            link: '/admin/manage-help-support',
+        },
+        {
+            id:8,
+            title: 'Helpful Appliance Tips',
+            link: '/admin/manage-appliance-tips',
+        },
+        {
+            id:9,
             title: "FAQ's",
             link: '/admin/faq',
         },
         {
-            id:8,
+            id:10,
             title: 'Videos Manager',
             link: '/admin/manage-videos',
         },
         {
-            id:9,
+            id:11,
             title: 'Reviews Manager',
             link: '/admin/manage-reviews',
         },
         {
-            id:10,
+            id:12,
             title: 'Gallery Manager',
             link: '/admin/manage-gallery',
         },
         {
-            id:11,
+            id:13,
             title: 'Change Password ',
             link: '/admin/change-password',
         },
         {
-            id:12,
+            id:14,
             title: 'Shipping & Tax',
             link: '/admin/manage-shipping',
         },

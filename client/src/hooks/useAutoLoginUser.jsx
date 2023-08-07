@@ -12,8 +12,8 @@ function useAutoLoginUser() {
 
 
   const autoLoginApiCall = async () => {
-    const isDev = process.env.REACT_APP_DEV === "dev";
-    const url = isDev ? `${process.env.REACT_APP_INTERNAL_PATH}/api/user/refresh` : "/api/user/refresh";
+    const isDev = import.meta.env.VITE_APP_DEV === "dev";
+    const url = isDev ? `${import.meta.env.VITE_APP_INTERNAL_PATH}/api/user/refresh` : "/api/user/refresh";
     await axios.get(url,
         {withCredentials: true,})
         .then((response) => {

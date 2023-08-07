@@ -74,8 +74,9 @@ router.post('/api/admin/delete-faq',faqController.deleteFaq);
 router.post('/api/admin/image-upload',adminAuth,uploadController.uploadImage);
 router.post('/api/admin/get-uploaded-media',adminAuth,uploadController.getMedia);
 router.post('/api/admin/delete-media',adminAuth,uploadController.deleteMedia);
-// Blog Api's
+// Blog Admin Api's
 router.post('/api/admin/create-blog',adminAuth,blogController.createBlog);
+router.post('/api/admin/delete-blog',adminAuth,blogController.DeleteBlog);
 // Loop Media Api's
 router.post('/api/admin/upload-video-media',adminAuth,videoMediaController.uploadVideoMedia);
 router.post('/api/admin/get-video-media',videoMediaController.getVideoMedia);
@@ -106,5 +107,11 @@ router.get('/api/get-appliances',applianceController.GetAppliances);
 router.post('/api/appliance-sections',applianceController.GetApplianceSections);
 // Get All Filters Information for Products Page
 router.get('/api/get-appliances-filters',applianceController.GetAppliancesFilters);
+
+// Blog User Api's
+router.get('/api/get-recent-blogs',blogController.GetRecentBlogs);
+router.post('/api/get-blog-by-slug',blogController.GetBlogBySlug);
+router.post('/api/get-blog-by-cateogry',blogController.GetBlogByCategory);
+
 
 module.exports = router;

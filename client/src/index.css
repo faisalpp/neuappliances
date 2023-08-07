@@ -8,6 +8,10 @@
   box-sizing: border-box;
 }
 
+.body{
+  font-family: 'Montserrat';
+}
+
 #tour {
   background-image: url('../public/map.png');
   backdrop-filter: blur(2.6px);

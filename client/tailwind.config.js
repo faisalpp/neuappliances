@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
+    "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
@@ -98,7 +99,14 @@ module.exports = {
       },
       maxWidth: {
         '1680px': '1680px',
-      }
+      },
+      gridTemplateColumns: {
+        // Add your custom grid columns here
+        '14': 'repeat(14, minmax(0, 1fr))',
+        '16': 'repeat(16, minmax(0, 1fr))',
+        '18': 'repeat(18, minmax(0, 1fr))',
+        // Add more as needed
+      },
     },
   },
   plugins: [],

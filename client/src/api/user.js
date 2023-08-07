@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const isDev = process.env.REACT_APP_DEV === "dev";
-const baseUrl = isDev ? process.env.REACT_APP_INTERNAL_PATH : "";
+const isDev = import.meta.env.VITE_APP_DEV === "dev";
+const baseUrl = isDev ? import.meta.env.VITE_APP_INTERNAL_PATH : "";
 
 
 const regApi = axios.create({
@@ -64,7 +64,7 @@ export const Signout = async () => {
   return response;
 }
 
-const refreshUrl = isDev ? `${process.env.REACT_APP_INTERNAL_PATH}/api/user/refresh` : "/api/user/refresh";
+const refreshUrl = isDev ? `${import.meta.env.VITE_APP_INTERNAL_PATH}/api/user/refresh` : "/api/user/refresh";
 
 api.interceptors.response.use(
     (config) => config,

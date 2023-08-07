@@ -76,6 +76,10 @@ import { ToastContainer } from 'react-toastify';
 import ManageOrders from "./pages/AdminAccount/ManageOrders";
 import ManageCustomers from "./pages/AdminAccount/ManageCustomers";
 import UpdateCustomer from "./pages/AdminAccount/UpdateCustomer";
+import ManageHelpSupport from "./pages/AdminAccount/ManageHelpSupport";
+import ManageApplianceTips from "./pages/AdminAccount/ManageApplianceTips";
+import CreateHelpSupport from "./pages/AdminAccount/CreateHelpSupport";
+import CreateApplianceTips from "./pages/AdminAccount/CreateApplianceTips";
 
 function App() {
 
@@ -125,7 +129,7 @@ function App() {
       <Route path="/financing" element={<Financing />} />
       {/* Blogs */}
       <Route path="/blogs" element={<Blogs />} />
-      <Route path="/blog-article" element={<BlogArticle />} />
+      <Route path="/blog/:slug" element={<BlogArticle />} />
 
       <Route path="/my-account/profile" element={<ProtectedUser><Profile /></ProtectedUser>} />
       <Route path="/my-account/order-history" element={<ProtectedUser><OrderHistory /></ProtectedUser>} />
@@ -150,7 +154,7 @@ function App() {
       <Route path="/how-it-works/hassle-free" element={<HassleFree />} />
 
       <Route path="/help-and-support" element={<HelpAndSupport />} />
-      <Route path="/help-card-page" element={<HelpCardPage />} />
+      <Route path="/help-and-support/:category/:slug" element={<HelpCardPage />} />
       <Route path="/email" element={<Email />} />
       <Route path="/do-i-have-electric-or-gas" element={<DoIHaveElectricGas />} />
 
@@ -182,6 +186,13 @@ function App() {
       {/* Admin Blog Routes */}
       <Route path="/admin/manage-blogs" element={<ProtectedAdmin><ManageBlogs/></ProtectedAdmin>} />
       <Route path="/admin/create-blog" element={<ProtectedAdmin><CreateBlog/></ProtectedAdmin>} />
+      {/* Admin Help and Support Routes */}
+      <Route path="/admin/manage-help-support" element={<ProtectedAdmin><ManageHelpSupport/></ProtectedAdmin>} />
+      <Route path="/admin/create-help-support" element={<ProtectedAdmin><CreateHelpSupport /></ProtectedAdmin>} />
+      {/* Admin Hellpful Appliance Tips Routes */}
+      <Route path="/admin/manage-appliance-tips" element={<ProtectedAdmin><ManageApplianceTips /></ProtectedAdmin>} />
+      <Route path="/admin/create-appliance-tips" element={<ProtectedAdmin><CreateApplianceTips /></ProtectedAdmin>} />
+
       {/* Admin Media */}
       <Route path="/admin/manage-videos" element={<ProtectedAdmin><ManageVideos/></ProtectedAdmin>} />
       {/* Admin Manage Reviews */}

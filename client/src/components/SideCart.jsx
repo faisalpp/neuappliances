@@ -4,7 +4,7 @@ import { HiOutlineTruck } from 'react-icons/hi'
 import { FaDotCircle } from 'react-icons/fa'
 import SideCartCard from './Cart/SideCartCard'
 import { useSelector } from 'react-redux';
-import {GoPrimitiveDot} from 'react-icons/go'
+import {GoDotFill} from 'react-icons/go'
 import SelectTimeSlot from './Cart/SelectTimeSlot'
 import {getCart,removeFromCart,updateCartData} from '../api/cart'
 import { resetUser } from "../store/userSlice";
@@ -280,13 +280,13 @@ const SideCart = () => {
             <div className='flex flex-col space-y-2' >
              
               <div className='flex items-center px-2 space-x-2' >
-                <div className='flex' ><span onClick={() => setPickupLocation('Georgetown Warehouse')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupLocation === 'Georgetown Warehouse' || '' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoPrimitiveDot className={` ${pickupLocation === 'Georgetown Warehouse' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
+                <div className='flex' ><span onClick={() => setPickupLocation('Georgetown Warehouse')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupLocation === 'Georgetown Warehouse' || '' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${pickupLocation === 'Georgetown Warehouse' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
                 <AiOutlineShop className='text-3xl text-gray-400' />
                 <h4 className='text-sm font-normal text-gray-400 w-full' >Pickup in the store Georgetown Warehouse</h4>
                 <h4 className='text-sm font-normal text-gray-400' >Free</h4>
               </div>
               <div className='flex items-center px-2 pt-2 space-x-2 border-t-[1px] border-gray-200' >
-                <div className='flex' ><span onClick={() => setPickupLocation('Austin, Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupLocation === 'Austin, Tx' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoPrimitiveDot className={` ${pickupLocation === 'Austin, Tx' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
+                <div className='flex' ><span onClick={() => setPickupLocation('Austin, Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupLocation === 'Austin, Tx' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${pickupLocation === 'Austin, Tx' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
                 <AiOutlineShop className='text-3xl text-gray-400' />
                 <h4 className='text-sm font-normal text-gray-400 w-full' >Pickup in the store Austin, Tx</h4>
                 <h4 className='text-sm font-normal text-gray-400' >Free</h4>

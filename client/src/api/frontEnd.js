@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const isDev = process.env.REACT_APP_DEV === "dev";
-const baseUrl = isDev ? process.env.REACT_APP_INTERNAL_PATH : "";
+const isDev = import.meta.env.VITE_APP_DEV === "dev";
+const baseUrl = isDev ? import.meta.env.VITE_APP_INTERNAL_PATH : "";
 
 const api = axios.create({
     baseURL: baseUrl,
@@ -91,6 +91,37 @@ export const getGalleryImages = async (params) => {
         }else{
             response = await api.get(`/api/admin/get-gallery-image/?page=${params.page}&limit=${params.limit}`);
         }
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const GetRecentBlog = async (params) => {
+    let response;
+
+    try{
+      response = await api.get(`/api/get-recent-blogs/?page=${params.page}&limit=${params.limit}`);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const GetBlogBySlug = async (data) => {
+    let response;
+
+    try{
+      response = await api.post('/api/get-blog-by-slug',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const GetBlogByCateogry = async (data,params) => {
+    let response;
+
+    try{
+      response = await api.post(`/api/get-blog-by-cateogry/?page=${params.page}&limit=${params.limit}`,data);
     }catch (error){
         return error;
     }

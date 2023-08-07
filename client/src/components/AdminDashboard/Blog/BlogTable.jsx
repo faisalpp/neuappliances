@@ -1,8 +1,7 @@
 import React from 'react'
-import ProductRow from './ProductRow'
-import {BsImage} from 'react-icons/bs'
+import BlogRow from './BlogRow'
 
-const ProductTable = ({data}) => {
+const BlogTable = ({data,deleteBlog}) => {
   return (
     <div className="flex flex-col">
   <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -12,16 +11,15 @@ const ProductTable = ({data}) => {
           <thead
             className="border-b border-l border-b3 bg-b3 font-medium text-white">
             <tr>
-              <th scope="col" className="px-6 py-4"><BsImage/></th>
+              <th scope="col" className="px-6 py-4 text-center">Image</th>
               <th scope="col" className="px-6 py-4">Title</th>
-              <th scope="col" className="px-6 py-4">Sale&nbsp;Price</th>
-              <th scope="col" className="px-6 py-4">Reguler Price</th>
-              <th scope="col" className="px-6 py-4">Rating</th>
+              <th scope="col" className="px-6 py-4">Category</th>
               <th scope="col" className="px-6 py-4">Action</th>
             </tr>
           </thead>
           <tbody>
-            {data.map((item)=><ProductRow img={import.meta.env.VITE_APP_DEV ? `${import.meta.env.VITE_APP_INTERNAL_PATH}/${item.images[0]}`:`${item.images[0]}`} title={item.title} salePrice={item.salePrice} regularPrice={item.regularPrice} rating={item.rating} />)}
+            {/* <BlogRow img={import.meta.env.VITE_APP_DEV ? `${import.meta.env.VITE_APP_INTERNAL_PATH}/${item.images[0]}`:`${item.images[0]}`} /> */}
+            {data.map((blog,index)=><BlogRow key={index} id={blog._id} delBlog={deleteBlog} img={blog.thumbnail ? blog.thumbnail : '/no-image.jfif'}  title={blog.title} category={blog.category} />)}
           </tbody>
         </table>
       </div>
@@ -31,4 +29,4 @@ const ProductTable = ({data}) => {
   )
 }
 
-export default ProductTable
+export default BlogTable

@@ -6,7 +6,7 @@ const sectionItem = require("../models/sectionItem");
 const applianceController = {
     async GetAppliances(req,res,next){
       try{
-        const categories = await Category.find({});
+        const categories = await Category.find({}).limit(5);
         return res.status(200).json({status:200,categories:categories});
       }catch(error){
         return next(error)

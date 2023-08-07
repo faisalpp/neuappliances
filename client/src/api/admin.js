@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const isDev = process.env.REACT_APP_DEV === "dev";
-const baseUrl = isDev ? process.env.REACT_APP_INTERNAL_PATH : "";
+const isDev = import.meta.env.VITE_APP_DEV === "dev";
+const baseUrl = isDev ? import.meta.env.VITE_APP_INTERNAL_PATH : "";
 
 const AdminApi = axios.create({
     baseURL: baseUrl,
@@ -327,7 +327,7 @@ export const uploadImage = async (data) => {
     let response;
     
     try{
-        response = await AdminMultiApi.post('/api/admin/image-upload',data);
+        response = await AdminMultiApi.post('/api/admin/image-upload',data,{validateStatus: () => true});
     }catch (error){
         return error;
     }
@@ -338,7 +338,7 @@ export const getMedia = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/get-uploaded-media',data);
+        response = await AdminApi.post('/api/admin/get-uploaded-media',data,{validateStatus: () => true});
     }catch (error){
         return error;
     }
@@ -348,7 +348,7 @@ export const deleteMedia = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/delete-media',data);
+        response = await AdminApi.post('/api/admin/delete-media',data,{validateStatus: () => true});
     }catch (error){
         return error;
     }
@@ -360,7 +360,17 @@ export const createBlog = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/create-blog',data);
+        response = await AdminMultiApi.post('/api/admin/create-blog',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const deleteBlog = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/delete-blog',data,{validateStatus: () => true});
     }catch (error){
         return error;
     }
@@ -372,7 +382,7 @@ export const uploadVideoMedia = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/upload-video-media',data);
+        response = await AdminMultiApi.post('/api/admin/upload-video-media',data);
     }catch (error){
         return error;
     }
@@ -426,7 +436,7 @@ export const deleteGalleryImage = async (params) => {
 }
 
 
-const refreshUrl = isDev ? `${process.env.REACT_APP_INTERNAL_PATH}/api/admin/refresh` : "/api/admin/refresh";
+const refreshUrl = isDev ? `${import.meta.env.VITE_APP_INTERNAL_PATH}/api/admin/refresh` : "/api/admin/refresh";
 
 AdminApi.interceptors.response.use(
     (config) => config,

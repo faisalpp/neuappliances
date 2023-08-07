@@ -9,7 +9,7 @@ import { MdElectricBolt, MdOutlinePropane } from 'react-icons/md';
 import { AiOutlineDollarCircle, AiFillStar, AiOutlineQuestionCircle, AiOutlineSearch, AiFillCloseCircle, AiOutlineShoppingCart, AiOutlineHeart } from 'react-icons/ai';
 import { IoBagCheckOutline, IoCloseOutline } from 'react-icons/io5';
 import { BsArrowRightShort, BsShopWindow, BsStarHalf } from 'react-icons/bs';
-import { GoPrimitiveDot } from 'react-icons/go';
+import { GoDotFill } from 'react-icons/go';
 import { BsTruck } from 'react-icons/bs';
 import { useState } from 'react'
 import { getCords } from '../api'
@@ -325,7 +325,7 @@ const Product = () => {
               <div className='flex lg:flex-row flex-col lg:space-x-5 lg:space-y-0 space-y-3 w-full' >
 
                 <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${orderType === 'pickup' ? 'border-b10' : 'border-gray-300'} `} >
-                  <div className='flex items-center space-x-3' ><BsShopWindow className='text-xl' /><h6 className='font-bold text-sm' >Pickup</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderType('pickup')} className={`px-1 py-1 rounded-full cursor-pointer ${orderType === 'pickup' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoPrimitiveDot className={` ${orderType === 'pickup' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
+                  <div className='flex items-center space-x-3' ><BsShopWindow className='text-xl' /><h6 className='font-bold text-sm' >Pickup</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderType('pickup')} className={`px-1 py-1 rounded-full cursor-pointer ${orderType === 'pickup' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderType === 'pickup' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
                   <div className='flex flex-col space-y-2 mt-2 text-sm' >
                     <h6 className='text-b10' >Ready Fri, April 26th (EST).</h6>
                     <h6 className='text-gray-500' >Georgetown, Tx</h6>
@@ -334,7 +334,7 @@ const Product = () => {
                 </div>
 
                 <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${orderType === 'home' ? 'border-b10' : 'border-gray-300'} `} >
-                  <div className='flex items-center space-x-2' ><BsTruck className='text-3xl' /><h6 className='font-bold text-sm' >Delivery</h6><h6 onClick={() => setChangeZip(true)} className='text-xs w-max text-blue-400 hover:underline cursor-pointer' >Change ZIP</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderType('delivery')} className={`px-1 py-1 rounded-full cursor-pointer ${orderType === 'delivery' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoPrimitiveDot className={` ${orderType === 'delivery' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
+                  <div className='flex items-center space-x-2' ><BsTruck className='text-3xl' /><h6 className='font-bold text-sm' >Delivery</h6><h6 onClick={() => setChangeZip(true)} className='text-xs w-max text-blue-400 hover:underline cursor-pointer' >Change ZIP</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderType('delivery')} className={`px-1 py-1 rounded-full cursor-pointer ${orderType === 'delivery' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderType === 'delivery' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
 
                   <div className={` ${changeZip ? 'flex' : 'hidden'} flex-col items-center justify-center h-full space-y-2 mt-2 text-sm`} >
                     <div className='flex items-center bg-white border-[1px] h-10 px-2 rounded-lg space-x-2 w-10/12 ' ><AiOutlineSearch className='text-blue-400 text-lg' /><input type="search" value={zip} onChange={e => setZip(e.target.value)} placeholder='Enter ZIP Code' className="w-full text-xs outline-none" /></div>

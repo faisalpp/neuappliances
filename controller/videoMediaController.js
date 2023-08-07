@@ -1,14 +1,15 @@
 const VideoMedia = require('../models/videoMedia')
 const Joi = require("joi");
+const s3 = require('../services/S3')
 
 
 const videoMediaController = {
     async uploadVideoMedia(req, res, next) {
+        console.log(req)
         const uploadLoopSchema = Joi.object({
-            url: Joi.string().required(),
+            uploadMedia: Joi.any().required(),
             type: Joi.string().required(),
             section: Joi.string().required(),
-            publicId: Joi.string().allow(null).empty(''),
           });
           const { error } = uploadLoopSchema.validate(req.body);
           // 2. if error in validation -> return error via middleware
@@ -16,7 +17,10 @@ const videoMediaController = {
             return next(error)
           }
     
-          const {url,type,section,publicId} = req.body;
+          const {type,section} = req.body;
+
+          
+          
           
           try {
 

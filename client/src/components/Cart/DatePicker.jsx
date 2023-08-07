@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { CaptionProps, DayPicker, useNavigation } from 'react-day-picker';
+import React from 'react';
+import { DayPicker, useNavigation } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
-import { format, isBefore } from 'date-fns';
+import { format } from 'date-fns';
 import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 
 const CustomCaption = ({ CaptionProps, displayMonth }) => {
