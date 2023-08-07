@@ -104,8 +104,8 @@ const authController = {
     }catch(error){
       return next(error);
     }
-    const refreshToken = JWTService.signRefreshToken({_id:user._id},'30m');
-    const accessToken = JWTService.signAccessToken({_id:user._id},'24h');
+    const refreshToken = JWTService.signRefreshToken({_id:user._id},'24h');
+    const accessToken = JWTService.signAccessToken({_id:user._id},'30m');
 
     // update refresh token in database
     try {

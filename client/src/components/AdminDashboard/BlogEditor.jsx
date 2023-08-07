@@ -14,6 +14,7 @@ const BlogEditor = ({state,setState}) => {
    <>
     <CKEditor
      editor={ClassicEditor}
+     value={state}
      onChange={(e,editor)=>{handleChange(e,editor)}}
      config={{
       height: '300px', // Set the initial height

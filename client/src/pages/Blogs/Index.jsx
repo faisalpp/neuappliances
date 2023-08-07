@@ -8,29 +8,64 @@ import { Link } from 'react-router-dom';
 import RecentStories from '../../components/Blogs/RecentStories';
 import { AiOutlineArrowDown } from 'react-icons/ai';
 import {GetRecentBlog} from '../../api/frontEnd'
+import Loader2 from '../../components/Loader/Loader2'
 
 const Index = () => {
 
+    const [clicks,setClicks] = useState(0)
     const [page,setPage] = useState(1)
-    const [limit,setLimit] = useState(16)
+    const [limit,setLimit] = useState(6)
+    const [count,setCount] = useState(0)
     const [blogs,setBlogs] = useState([])
+    const [loading,setLoading] = useState(false)
+    const [load,setLoad] = useState(false)
 
     useEffect(()=>{
        GetBlogs()
     },[])
 
     const GetBlogs = async () => {
+        setLoading(true)
         const params = {page:page,limit:limit}
         const res = await GetRecentBlog(params);
+        console.log(res)
         if(res.status === 200){
-            setBlogs(res.data.blogs)
+            setCount(Math.ceil(res.data.totalCount / limit))
+            setBlogs(prevBlogs=>[...prevBlogs,...res.data.blogs])
+            setLoading(false)
         }else{
             setBlogs([])
+            setLoading(false)
         }
+    }
+
+    const MoreBlogs = async (e) => {
+        e.preentDefault()
+        setLoad(true)
+        const params = {page:page,limit:limit}
+        const res = await GetRecentBlog(params);
+        console.log(res)
+        if(res.status === 200){
+            setCount(Math.ceil(res.data.totalCount / limit))
+            setBlogs(prevBlogs=>[...prevBlogs,...res.data.blogs])
+            setLoad(false)
+        }else{
+            setLoad(false)
+        }
+    }
+
+    const LoadMore = () => {
+      if (clicks < page) {
+        // Increment the click count
+        MoreBlogs()
+        setClicks(prevClicks => prevClicks + 1);
+        setPage(prevPage => prevPage + 1);
+      }
     }
 
     return (
         <>
+        {loading ? <Loader2/> : 
             <MainLayout>
                 <div className='py-10 lg:py-16 xl:py-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
                     {/* Bread Crumbs Start */}
@@ -40,16 +75,16 @@ const Index = () => {
                     {/* Bread Crumbs End */}
                     <ApplianceDetail title="Appliance Industry Blog" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum metus vel urna tempor auctor. Pellentesque varius lacus at nisl tincidunt fringilla. Phasellus non felis eu lectus pellentesque tincidunt. Sed eget facilisis tortor. Nulla eget imperdiet ex, consectetur pharetra ligula." />
 
-                    <Link to="" className='inline-flex text-xs font-medium items-center gap-1 text-b3 border border-b3 px-4 py-3 rounded-lg mt-6'>See All Stories <span><AiOutlineArrowDown className='text-base' /></span></Link>
+                    <button type="button" onClick={LoadMore} className='inline-flex text-xs font-medium items-center gap-1 text-b3 border border-b3 px-4 py-3 rounded-lg mt-6'>See All Stories <span><AiOutlineArrowDown className='text-base' /></span></button>
                 </div>
 
                 {/* Recent Stories */}
-                <RecentStories blogs={blogs} />
+                <RecentStories load={load} data={blogs} trigger={LoadMore} />
 
                 <SatisfiedSection title="Our Customers Are RAVING About Our Appliance Outlet" dots={true} />
 
                 <NewsLetterSection backimage="Newsletter.png" />
-            </MainLayout>
+            </MainLayout>}
         </>
     )
 }

@@ -34,6 +34,7 @@ const CreateBlog = () => {
   const [title,setTitle] = useState('');
   const [slug,setSlug] = useState('');
   const [thumbnail,setThumbnail] = useState('');
+  const [tempImg,setTempImg] = useState('');
   const [category,setCategory] = useState('');
   const [content,setContent] = useState('');
 
@@ -106,7 +107,13 @@ const CreateBlog = () => {
 
   const handleThumbnailSelection = (e) => {
     e.preventDefault()
-    setThumbnail(e.target.files[0])
+    const file = e.target.files[0]
+    if(file){
+      setThumbnail(file)
+      setTempImg(file)
+    }else{
+      setThumbnail(tempImg)
+    }
   };
 
   const handleThumbnailClick = () => {

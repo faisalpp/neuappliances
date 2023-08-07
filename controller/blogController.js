@@ -3,7 +3,7 @@ const Joi = require('joi')
 const RecentBlogDTO = require('../dto/blog/recentBlog')
 const AWS3 = require('@aws-sdk/client-s3')
 const S3Client = require('../services/S3')
-const { AWS_S3_BUCKET_NAME, AWS_S3_REGION } = require('../config/index')
+const { AWS_S3_USER_ACCESS_KEY,AWS_S3_USER_SECRET_ACCESS_KEY,AWS_S3_REGION,AWS_S3_BUCKET_NAME } = require('../config/index')
 
 const blogController = {
     async createBlog(req, res, next) {
@@ -33,16 +33,14 @@ const blogController = {
           }
           
              const fileName = 'blog/' + Date.now() + '-' + req.files.thumbnail.name
-             const encFileName = encodeURIComponent(fileName)
 
              let uploadParams = {Key: fileName,Bucket: AWS_S3_BUCKET_NAME, Body: req.files.thumbnail.data}
              const command = new AWS3.PutObjectCommand(uploadParams)
              const response = await S3Client.send(command)
-             const url = `https://${AWS_S3_BUCKET_NAME}.s3.${AWS_S3_REGION}.amazonaws.com/${encFileName}`;
              
              if(response.$metadata.httpStatusCode === 200){
                try{
-                const BlogToCreate = new Blog({title,slug,thumbnail:encFileName,category,content});
+                const BlogToCreate = new Blog({title,slug,thumbnail:fileName,category,content});
                 const blog = await BlogToCreate.save();
                 return res.status(200).json({status: 200, msg:'Blog Created Successuly!'});
                }catch(err){
@@ -66,12 +64,15 @@ const blogController = {
           let skip = (page - 1) * limit;
 
           const blogs = await Blog.find({}).skip(skip).limit(limit);
-          let i;
-          let RecentBlogs;
-          for(i=0;i < blogs.length;i++){
-            RecentBlogs = new RecentBlogDTO(blogs[i]);      
+          const totalCount = await Blog.countDocuments();
+          
+          const RecentBlogs = [];
+          for(let i=0;i < blogs.length;i++){
+            const blog = new RecentBlogDTO(blogs[i]);      
+            RecentBlogs.push(blog)
           }
-          return res.status(200).json({status: 200, blogs:RecentBlogs});
+          
+          return res.status(200).json({status: 200, blogs:RecentBlogs,totalCount:totalCount});
         }catch(error){
           return next(error)
         }
@@ -137,21 +138,28 @@ async DeleteBlog(req, res, next) {
     const {id} = req.body;
     
     try{
-      const blog = await Blog.findByIdAndDelete(id);
-      console.log(blog)
-      if(!blog){
-        return res.status(500).json({status: 500, msg:'Internal Server Error!'});
-      }else{
+     const blog = await Blog.findByIdAndDelete(id);
+     
+     if(!blog){
+       return res.status(500).json({status: 500, message:'Internal Server Error!'});
+     }else{
+      // Create an S3 instance
+      const s3 = new AWS3.S3Client({credentials:{accessKeyId:AWS_S3_USER_ACCESS_KEY,secretAccessKey:AWS_S3_USER_SECRET_ACCESS_KEY},region:AWS_S3_REGION})
+
        const params = {
-          Bucket: AWS_S3_BUCKET_NAME,
           Key: blog.thumbnail,
+          Bucket: AWS_S3_BUCKET_NAME,
        };
        const command = new AWS3.DeleteObjectCommand(params);
-       const response = await S3Client.send(command)
-       console.log(response)
-       return res.status(200).json({status: 200, msg:'Blog Deleted Successfully!'});
-      }        
-    }catch(error){
+       try{
+         await s3.send(command)
+        }catch(error){
+         const err = {status:500,message:"Cloud Internal Server Server!"} 
+         return next(err)
+        }
+        return res.status(200).json({status: 200, msg:'Blog Deleted Successfully!'});
+        }        
+      }catch(error){
       return next(error)
     }
 

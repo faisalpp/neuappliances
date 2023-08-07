@@ -99,8 +99,8 @@ const adminController = {
     }catch(error){
       return next(error);
     }
-    const refreshToken = JWTService.signRefreshToken({_id:admin._id},'30m');
-    const accessToken = JWTService.signAccessToken({_id:admin._id},'24h');
+    const refreshToken = JWTService.signRefreshToken({_id:admin._id},'24m');
+    const accessToken = JWTService.signAccessToken({_id:admin._id},'30m');
 
     // update refresh token in database
     try {
