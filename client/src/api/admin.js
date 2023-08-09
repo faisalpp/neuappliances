@@ -366,11 +366,41 @@ export const createBlog = async (data) => {
     }
     return response;
 }
+export const updateBlog = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminMultiApi.post('/api/admin/update-blog',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const deleteBlog = async (data) => {
     let response;
     
     try{
         response = await AdminApi.post('/api/admin/delete-blog',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const duplicateBlog = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/duplicate-blog',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const searchBlog = async (data,params) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post(`/api/admin/search-blog/?page=${params.page}&limit=${params.limit}`,data,{validateStatus: () => true});
     }catch (error){
         return error;
     }

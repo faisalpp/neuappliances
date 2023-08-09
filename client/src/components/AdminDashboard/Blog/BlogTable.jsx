@@ -1,7 +1,7 @@
 import React from 'react'
 import BlogRow from './BlogRow'
 
-const BlogTable = ({data,deleteBlog}) => {
+const BlogTable = ({data,setPage,getBlog}) => {
   return (
     <div className="flex flex-col">
   <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -19,7 +19,7 @@ const BlogTable = ({data,deleteBlog}) => {
           </thead>
           <tbody>
             {/* <BlogRow img={import.meta.env.VITE_APP_DEV ? `${import.meta.env.VITE_APP_INTERNAL_PATH}/${item.images[0]}`:`${item.images[0]}`} /> */}
-            {data.map((blog,index)=><BlogRow key={index} id={blog._id} delBlog={deleteBlog} img={blog.thumbnail ? `https://${import.meta.env.VITE_AWS_S3_BUCKET_NAME}.s3.${import.meta.env.VITE_AWS_S3_REGION}.amazonaws.com/${blog.thumbnail}` : '/no-image.jfif'}  title={blog.title} category={blog.category} />)}
+            {data.map((blog,index)=><BlogRow key={index} id={blog._id} setPage={setPage} getBlog={getBlog} img={blog.thumbnail ? `https://${import.meta.env.VITE_AWS_S3_BUCKET_NAME}.s3.${import.meta.env.VITE_AWS_S3_REGION}.amazonaws.com/${blog.thumbnail}` : '/no-image.jfif'}  title={blog.title} slug={blog.slug} category={blog.category} />)}
           </tbody>
         </table>
       </div>

@@ -37,7 +37,7 @@ const Footer = () => {
       {/* Logo Section End */}
 
       {/* Quick Links Section Start */}
-      <div className='col-start-5 col-end-7 maxxl:!col-span-4' >
+      <div className='col-start-6 col-end-7 maxxl:!col-span-4' >
         <h4 className='w-max text-white text-lg font-bold font-reg' >Quick Links</h4>
         <div className='flex flex-col text-white/60 text-base font-normal gap-y-5 w-max mt-10 hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
           <a href=''>Shop Now</a>
@@ -55,7 +55,7 @@ const Footer = () => {
       {/* Quick Links Section End */}
 
       {/* Quick Links Section 2 Start */}
-      <div className='col-start-9 maxxl:!col-span-4 lg:mt-0 flex flex-col text-white/60 text-base font-normal gap-y-5 w-max pt-[65px] hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
+      <div className='col-start-9 col-end-13  lg:mt-0 flex flex-col text-white/60 text-base font-normal gap-y-5 w-max pt-[65px] hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
         <a href=''>Our Brands</a>
         <a href=''>Delivery</a>
         <a href='/measuring-guide'>Appliance Measuring Guide</a>
@@ -70,7 +70,7 @@ const Footer = () => {
       {/* Quick Links Section 2 End */}
 
       {/* Quick Links Section 2 Start */}
-      <div className='col-start-14 col-end-16 maxxl:!col-span-12 flex flex-col h-full text-white text-sm md:w-max' >
+      <div className='col-start-13 col-end-16  flex flex-col h-full text-white text-sm md:w-max' >
         {/* Email Address */}
         <div>
           <h4 className='font-bold text-lg' >Get Latest Discount Offers</h4>

@@ -31,7 +31,7 @@ const Index = () => {
         console.log(res)
         if(res.status === 200){
             setCount(Math.ceil(res.data.totalCount / limit))
-            setBlogs(prevBlogs=>[...prevBlogs,...res.data.blogs])
+            setBlogs(res.data.blogs)
             setLoading(false)
         }else{
             setBlogs([])
@@ -39,10 +39,9 @@ const Index = () => {
         }
     }
 
-    const MoreBlogs = async (e) => {
-        e.preentDefault()
+    const MoreBlogs = async (nextPage) => {
         setLoad(true)
-        const params = {page:page,limit:limit}
+        const params = {page:nextPage,limit:limit}
         const res = await GetRecentBlog(params);
         console.log(res)
         if(res.status === 200){
@@ -56,10 +55,9 @@ const Index = () => {
 
     const LoadMore = () => {
       if (clicks < page) {
-        // Increment the click count
-        MoreBlogs()
-        setClicks(prevClicks => prevClicks + 1);
-        setPage(prevPage => prevPage + 1);
+          setPage(prevPage => prevPage + 1);
+          setClicks(prevClicks => prevClicks + 1);
+        MoreBlogs(page+1)
       }
     }
 
@@ -75,11 +73,11 @@ const Index = () => {
                     {/* Bread Crumbs End */}
                     <ApplianceDetail title="Appliance Industry Blog" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum metus vel urna tempor auctor. Pellentesque varius lacus at nisl tincidunt fringilla. Phasellus non felis eu lectus pellentesque tincidunt. Sed eget facilisis tortor. Nulla eget imperdiet ex, consectetur pharetra ligula." />
 
-                    <button type="button" onClick={LoadMore} className='inline-flex text-xs font-medium items-center gap-1 text-b3 border border-b3 px-4 py-3 rounded-lg mt-6'>See All Stories <span><AiOutlineArrowDown className='text-base' /></span></button>
+                    <button type="button" className='inline-flex text-xs font-medium items-center gap-1 text-b3 border border-b3 px-4 py-3 rounded-lg mt-6'>See All Stories <span><AiOutlineArrowDown className='text-base' /></span></button>
                 </div>
 
                 {/* Recent Stories */}
-                <RecentStories load={load} data={blogs} trigger={LoadMore} />
+                <RecentStories load={load} data={blogs} LoadMore={LoadMore} />
 
                 <SatisfiedSection title="Our Customers Are RAVING About Our Appliance Outlet" dots={true} />
 

@@ -80,6 +80,7 @@ import ManageHelpSupport from "./pages/AdminAccount/ManageHelpSupport";
 import ManageApplianceTips from "./pages/AdminAccount/ManageApplianceTips";
 import CreateHelpSupport from "./pages/AdminAccount/CreateHelpSupport";
 import CreateApplianceTips from "./pages/AdminAccount/CreateApplianceTips";
+import UpdateBlog from "./pages/AdminAccount/UpdateBlog";
 
 function App() {
 
@@ -186,6 +187,7 @@ function App() {
       {/* Admin Blog Routes */}
       <Route path="/admin/manage-blogs" element={<ProtectedAdmin><ManageBlogs/></ProtectedAdmin>} />
       <Route path="/admin/create-blog" element={<ProtectedAdmin><CreateBlog/></ProtectedAdmin>} />
+      <Route path="/admin/update-blog/:slug" element={<ProtectedAdmin><UpdateBlog /></ProtectedAdmin>} />
       {/* Admin Help and Support Routes */}
       <Route path="/admin/manage-help-support" element={<ProtectedAdmin><ManageHelpSupport/></ProtectedAdmin>} />
       <Route path="/admin/create-help-support" element={<ProtectedAdmin><CreateHelpSupport /></ProtectedAdmin>} />

@@ -7,12 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { GetCategories,createBlog } from '../../api/admin'
 import BlogEditor from '../../components/AdminDashboard/BlogEditor';
 import TextInput from '../../components/TextInput/TextInput';
-import TextAreaInput from '../../components/TextInput/TextAreaInput';
 import { useRef } from 'react';
 import SelectInput from '../../components/TextInput/SelectInput';
 import * as Yup from 'yup';
-import { FaLastfmSquare } from 'react-icons/fa';
-import { RiTruckLine } from 'react-icons/ri';
 
 
 const CreateBlog = () => {
@@ -98,11 +95,11 @@ const CreateBlog = () => {
 
 
   const fetchDataForCategory = async () => {
-        const res = await GetCategories();
-        if(res.status === 200){
-          setCategories(res.data.categories);
-          setCategory(res.data.categories[0].title.toLowerCase().replace(/\s/g,'-'))
-        }
+    const res = await GetCategories();
+    if(res.status === 200){
+      setCategories(res.data.categories);
+      setCategory(res.data.categories[0].slug)
+    }
   }
 
   const handleThumbnailSelection = (e) => {
@@ -138,7 +135,7 @@ const CreateBlog = () => {
              <input ref={thumbnailRef} name="thumbnail" type="file" className='hidden' onChange={e=>handleThumbnailSelection(e)} />
             </div>
             <div className='flex justify-center space-x-5 w-full' >
-             <SelectInput name="category" title="Select Blog Category" iscompulsory="true" onChange={e=>setCategory(e.target.value.toLowerCase().replace(/\s/g,'-'))} options={categories} />
+             <SelectInput name="categor" title="Select Blog Category" iscompulsory="true" onChange={e=>setCategory(e.target.value)} options={categories} />
             </div>
            </div> 
           </div>

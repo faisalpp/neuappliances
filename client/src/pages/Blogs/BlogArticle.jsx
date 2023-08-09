@@ -3,7 +3,6 @@ import MainLayout from '../../layout/MainLayout';
 import NewsLetterSection from '../../components/NewsLetterSection';
 import SatisfiedSection from '../../components/SatisfiedSection';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import ArticleCard from '../../components/Blogs/ArticleCard';
 import { FaTwitter } from 'react-icons/fa';
 import { RiLinkedinFill } from 'react-icons/ri';
 import { AiOutlineInstagram } from 'react-icons/ai';
@@ -25,6 +24,7 @@ const BlogArticle = () => {
         setLoading(true)
       const data = {slug:slug}
       const res = await GetBlogBySlug(data)
+      console.log(res)
       if(res.status === 200){
         setBlog(res.data.blog)
         setLoading(false)
@@ -52,12 +52,12 @@ const BlogArticle = () => {
                     <div className='max-w-[960px] mx-auto grid grid-cols-1 gap-10 md:gap-14'>
                         <div>
                             <h1 className='text-28px coxs:text-3xl sm:text-4xl lg:text-40px font-bold mb-4 leading-tight'>
-                                {blog[0].title}
+                                {blog.length > 0 ? blog[0].title:null}
                             </h1>
-                            <span className='md:text-xl tracking-[-0.4px]'>{FormatDate(blog[0].createdAt)}</span>
+                            <span className='md:text-xl tracking-[-0.4px]'>{blog.length > 0 ? FormatDate(blog[0].createdAt):null}</span>
                         </div>
                         <div>
-                        {parse(blog[0].content )}
+                        {blog.length > 0 ? parse(blog[0].content ):null}
                         </div>
                         
                         {/* Share Post */}

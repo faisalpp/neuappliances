@@ -52,28 +52,42 @@ const ReviewSlider = ({ color, clientreviews, icon }) => {
         </button>
     );
     // console.log(color)
+
+    const StarIconPrinter = ({ numberOfTimes }) => {
+        const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
+          <AiFillStar className='text-b7 text-sm' /> // Render the star icon component for each iteration
+        ));
+    
+        return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
+    };
+    const StarIconPrinter2 = ({ numberOfTimes }) => {
+        const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
+          <AiFillStar className='text-gray-300 text-sm' /> // Render the star icon component for each iteration
+        ));
+    
+        return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
+    };
+
     return (
         <div>
-            <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
+            {clientreviews.length > 0 ? <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
                 {clientreviews.map((clientreview, index) => (
                     <div key={index}>
                         <div style={{ backgroundColor: color }} className="flex flex-col shadow-sm px-5 py-3 rounded-xl xl:h-[170px] sm:mx-2">
                             <div className="flex mt-2">
-                                <AiFillStar className={`text-b7 text-sm ${clientreview.review === 1 || clientreview.review === 2 || clientreview.review === 3 || clientreview.review === 4 ? 'text-b7' : 'text-gray-300'}`} />
-                                <AiFillStar className={`text-b7 text-sm ${clientreview.review === 2 || clientreview.review === 3 || clientreview.review === 4 ? 'text-b7' : 'text-gray-300'}`} />
-                                <AiFillStar className={`text-b7 text-sm ${clientreview.review === 3 || clientreview.review === 4 ? 'text-b7' : 'text-gray-300'}`} />
-                                <AiFillStar className={`text-b7 text-sm ${clientreview.review === 4 ? 'text-b7' : 'text-gray-300'}`} />
+                                <StarIconPrinter numberOfTimes={clientreview.rating} />
+                                <StarIconPrinter2 numberOfTimes={5 - clientreview.rating} />
                             </div>
-                            <p className="text-sm font-semibold mt-1">{clientreview.content}</p>
+                            <p className="text-sm font-semibold mt-1">{clientreview.text && clientreview.text.length > 90 ? clientreview.text.substring(0,90) + '...': clientreview.text }</p>
                             <a href='' className="text-sm text-b6 mt-2">Read More</a>
                             <div className="flex items-center">
-                                <h5 className="text-sm mt-2 w-10/12">{clientreview.author}</h5>
+                                <h5 className="text-sm mt-2 w-10/12">{clientreview.author_name}</h5>
                                 <img src={icon} className="h-5 w-10 mt-4" alt="Icon" />
                             </div>
                         </div>
                     </div>
                 ))}
-            </Slider>
+            </Slider>:<div className='flex items-center justify-center w-full' ><img src="/loader-bg.gif" className="w-10 h-10 " /></div>}
         </div >
     );
 };

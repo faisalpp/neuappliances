@@ -11,6 +11,7 @@ const categorySection = require('../controller/sectionController');
 const faqController = require('../controller/faqController');
 const uploadController = require('../controller/uploadController');
 const blogController = require('../controller/blogController');
+const helpController = require('../controller/helpController');
 const videoMediaController = require('../controller/videoMediaController');
 const cartController = require('../controller/cartController');
 const orderController = require('../controller/orderController');
@@ -77,6 +78,21 @@ router.post('/api/admin/delete-media',adminAuth,uploadController.deleteMedia);
 // Blog Admin Api's
 router.post('/api/admin/create-blog',adminAuth,blogController.createBlog);
 router.post('/api/admin/delete-blog',adminAuth,blogController.DeleteBlog);
+router.post('/api/admin/duplicate-blog',adminAuth,blogController.duplicateBlog);
+router.post('/api/admin/search-blog',adminAuth,blogController.GetBlogBySearch);
+router.post('/api/admin/update-blog',adminAuth,blogController.updateBlog);
+// Blog User Api's
+router.get('/api/get-recent-blogs',blogController.GetRecentBlogs);
+router.post('/api/get-blog-by-slug',blogController.GetBlogBySlug);
+router.post('/api/get-blog-by-cateogry',blogController.GetBlogByCategory);
+
+// Help & Support Admin Api's
+router.post('/api/admin/create-help',adminAuth,helpController.createHelp);
+router.post('/api/admin/update-help',adminAuth,helpController.updateHelp);
+router.post('/api/admin/delete-help',adminAuth,helpController.deleteHelp);
+router.post('/api/admin/search-help',adminAuth,helpController.getHelpBySearch);
+router.post('/api/admin/get-help-by-category',adminAuth,helpController.getHelpByCategory);
+
 // Loop Media Api's
 router.post('/api/admin/upload-video-media',adminAuth,videoMediaController.uploadVideoMedia);
 router.post('/api/admin/get-video-media',videoMediaController.getVideoMedia);
@@ -108,10 +124,7 @@ router.post('/api/appliance-sections',applianceController.GetApplianceSections);
 // Get All Filters Information for Products Page
 router.get('/api/get-appliances-filters',applianceController.GetAppliancesFilters);
 
-// Blog User Api's
-router.get('/api/get-recent-blogs',blogController.GetRecentBlogs);
-router.post('/api/get-blog-by-slug',blogController.GetBlogBySlug);
-router.post('/api/get-blog-by-cateogry',blogController.GetBlogByCategory);
+
 
 
 module.exports = router;
