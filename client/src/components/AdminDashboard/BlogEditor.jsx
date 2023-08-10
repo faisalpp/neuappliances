@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import  ClassicEditor from 'ckeditor5-custom-build/build/ckeditor'
+import React, { useEffect } from 'react'
+import Editor from 'ckeditor5-custom-build/build/ckeditor'
 import {CKEditor} from '@ckeditor/ckeditor5-react';
 
 const BlogEditor = ({state,setState}) => {
@@ -8,22 +8,14 @@ const BlogEditor = ({state,setState}) => {
     setState(editor.getData())
   }
 
-
   return (
    <>
     <CKEditor
-     editor={ClassicEditor}
+     editor={Editor}
      data={state}
      onChange={(e,editor)=>{handleChange(e,editor)}}
      config={{
       height: '300px', // Set the initial height
-      // plugins: [Base64UploadAdapter],
-    //   toolbar: ['undo', 'redo',
-    //   '|', 'heading',
-    //   '|', 'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
-    //   '|', 'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
-    //   '|', 'link', 'uploadImage', 'mediaEmbed','blockQuote', 'codeBlock',
-    //   '|', 'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent','fontSize']
      toolbar: [
     'alignment',
 		'autoImage',
