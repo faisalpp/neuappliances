@@ -1,5 +1,5 @@
 import React from 'react'
-import Editor from 'ckeditor5-custom-build'
+import Editor from 'ckeditor5-custom-build/build/ckeditor'
 import {CKEditor} from '@ckeditor/ckeditor5-react';
 
 const BlogEditor = ({state,setState}) => {
