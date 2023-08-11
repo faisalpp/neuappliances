@@ -7,7 +7,7 @@ const ApplianceWholeSale = () => {
     return (
         <div className='bg-b8 px-3 maxcosm:py-5 xs:p-10 2xl:p-7 3xl:p-10 rounded-3xl flex flex-col gap-6'>
             <div>
-                <img src="nueapplianceswholesale.png" alt="nueapplianceswholesale" className='h-16' />
+                <img src="/nueapplianceswholesale.png" alt="nueapplianceswholesale" className='h-16' />
             </div>
             <div className='flex flex-col gap-3 text-b18'>
                 <h3 className='font-bold text-2xl'>Neu Appliance Wholesale</h3>
@@ -73,8 +73,8 @@ const ApplianceWholeSale = () => {
                 </ul>
             </div>
             <div className='inline-flex flex-col coxs:flex-row gap-2 pt-6 lg:pt-[57px]'>
-                <Link to="" className='bg-b3 px-4 py-3 rounded-lg text-xs text-white flex gap-1 items-center font-medium'><span>Go to Neu Appliance Wholesale</span><span><BiLinkExternal className="text-white text-sm" /></span></Link>
-                <Link to="" className='border border-b3 px-4 py-3 rounded-lg text-xs text-b3 flex gap-1 items-center font-medium whitespace-nowrap'><span><BiPlayCircle className="text-b3 text-sm" /></span><span>Watch Video</span></Link>
+                <Link to="https://www.neuappliancewholesale.com" className='bg-b3 px-4 py-3 rounded-lg text-xs text-white flex gap-1 items-center font-medium'><span>Go to Neu Appliance Wholesale</span><span><BiLinkExternal className="text-white text-sm" /></span></Link>
+                <Link to="https://www.youtube.com/watch?v=UjUl8PSALbM" target="_blank" className='border border-b3 px-4 py-3 rounded-lg text-xs text-b3 flex gap-1 items-center font-medium whitespace-nowrap'><span><BiPlayCircle className="text-b3 text-sm" /></span><span>Watch Video</span></Link>
             </div>
         </div>
     )

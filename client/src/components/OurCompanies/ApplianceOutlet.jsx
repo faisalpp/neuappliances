@@ -11,7 +11,7 @@ const ApplianceParts = () => {
     return (
         <div className='bg-[#F2F9FC] px-3 maxcosm:py-5 xs:p-10 2xl:p-7 3xl:p-10 rounded-3xl flex flex-col gap-6'>
             <div>
-                <img src="nueappliancesoutlet.png" alt="nueappliancesoutlet" className='h-16' />
+                <img src="/nueappliancesoutlet.png" alt="nueappliancesoutlet" className='h-16' />
             </div>
             <div className='flex flex-col gap-3 text-b18'>
                 <h3 className='font-bold text-2xl'>Neu Appliance Outlet</h3>
@@ -85,8 +85,8 @@ const ApplianceParts = () => {
                     </ul>
                 </div>
                 <div className='inline-flex gap-2 pt-6'>
-                    <Link to="" className='bg-[#071822] px-4 py-3 rounded-lg text-xs text-white flex gap-1 items-center font-medium'><HiOutlineShoppingCart className="text-white text-sm" /><span>Shop Now</span></Link>
-                    <Link to="" className='border border-[#071822] px-4 py-3 rounded-lg text-xs text-[#071822] flex gap-1 items-center font-medium'><BiPlayCircle className="text-[#071822] text-sm" /><span>Watch Video</span></Link>
+                    <Link to="/products" className='bg-[#071822] px-4 py-3 rounded-lg text-xs text-white flex gap-1 items-center font-medium'><HiOutlineShoppingCart className="text-white text-sm" /><span>Shop Now</span></Link>
+                    <Link to="https://youtu.be/YliJxHkreaE" target="_blank" className='border border-[#071822] px-4 py-3 rounded-lg text-xs text-[#071822] flex gap-1 items-center font-medium'><BiPlayCircle className="text-[#071822] text-sm" /><span>Watch Video</span></Link>
                 </div>
             </div>
         </div>

@@ -7,7 +7,7 @@ const ApplianceParts = () => {
     return (
         <div className='bg-[rgba(248,211,87,0.08)] px-3 maxcosm:py-5 xs:p-10 2xl:p-7 3xl:p-10 rounded-3xl flex flex-col gap-6'>
             <div>
-                <img src="nueappliancesparts.png" alt="nueappliancesparts" className='h-16' />
+                <img src="/nueappliancesparts.png" alt="nueappliancesparts" className='h-16' />
             </div>
             <div className='flex flex-col gap-3 text-b18'>
                 <h3 className='font-bold text-2xl'>Neu Appliance Parts</h3>
@@ -53,8 +53,8 @@ const ApplianceParts = () => {
                     </div>
                 </div>
                 <div className='inline-flex flex-col coxs:flex-row gap-2 pt-6'>
-                    <Link to="" className='bg-b4 px-4 py-3 rounded-lg text-xs text-b16 flex gap-1 items-center font-medium'><span>Go to Neu Appliance Parts</span><BiLinkExternal className="text-b18 text-sm" /></Link>
-                    <Link to="" className='border border-[#071822] px-4 py-3 rounded-lg text-xs text-[#071822] flex gap-1 items-center font-medium whitespace-nowrap'><BiPlayCircle className="text-[#071822] text-sm" /><span>Watch Video</span></Link>
+                    <Link to="http://neuapplianceparts.com" target='_blank' className='bg-b4 px-4 py-3 rounded-lg text-xs text-b16 flex gap-1 items-center font-medium'><span>Go to Neu Appliance Parts</span><BiLinkExternal className="text-b18 text-sm" /></Link>
+                    <Link to="https://youtu.be/GliOcJH2pSM" target='_blank' className='border border-[#071822] px-4 py-3 rounded-lg text-xs text-[#071822] flex gap-1 items-center font-medium whitespace-nowrap'><BiPlayCircle className="text-[#071822] text-sm" /><span>Watch Video</span></Link>
                 </div>
             </div>
         </div>

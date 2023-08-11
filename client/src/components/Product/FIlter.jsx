@@ -27,7 +27,7 @@ const Filter = ({ onClose, isFilter,categoriesFilters,ratingFilters }) => {
                 </div>
                 <TypeFilter filters={categoriesFilters}  />
                 <RatingFilter filters={ratingFilters} />
-                <HeaderFilter />
+                {/* <HeaderFilter /> */}
                 <SaleFilter />
             </div>
         </div>
