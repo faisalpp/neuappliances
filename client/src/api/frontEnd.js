@@ -127,3 +127,13 @@ export const GetBlogByCateogry = async (data,params) => {
     }
     return response;
 }
+export const GetGoogleReviews = async () => {
+    let response;
+
+    try{
+      response = await api.get('/api/get-google-reviews');
+    }catch (error){
+        return error;
+    }
+    return response;
+}

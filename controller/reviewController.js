@@ -1,5 +1,7 @@
 const Joi = require("joi");
 const Review = require('../models/review')
+const {GOOGLE_API_KEY, GOOGLE_PLACE_ID} = require('../config/index')
+const axios = require('axios');
 
 const reviewController = {
 
@@ -39,7 +41,20 @@ const reviewController = {
     return next(error)
    }
 
+  },
+
+  async getGoogleReviews(req, res, next) {
+    const placeId = GOOGLE_PLACE_ID;
+    const apiKey = GOOGLE_API_KEY; // Replace with your Google API key
+    try {
+        const response = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&fields=reviews&key=${apiKey}`);
+        res.status(200).json({ reviews:response.data.result.reviews });
+    } catch (error) {
+        console.error('Error fetching reviews:', error.message);
+        res.status(500).json({ error: 'Error fetching reviews' });
+    }
   }
+
 }
 
 module.exports = reviewController

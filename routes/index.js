@@ -114,7 +114,7 @@ router.post('/api/user/save-order-address',auth,orderController.saveOrderAddress
 
 // Admin Reviews Api
 router.post('/api/admin/create-review',auth,reviewController.createReview);
-
+router.get('/api/get-google-reviews',reviewController.getGoogleReviews);
 
 // Front-End Api's
 router.post('/api/get-product-by-filter',applianceController.GetApplianceBySectionType);

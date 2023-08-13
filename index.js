@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const router = require('./routes/index')
-const mongoose = require('mongoose');
 const {PORT} = require('./config/index')
 const errorHandler = require('./middleware/errorHandler')
 const dbconnect = require('./databse/index')
@@ -22,19 +21,19 @@ app.use(express.json({ limit: '10mb' }));
 // Increase payload size limit for URL-encoded requests
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.json());
+if(process.env.NODE_ENV === "production"){
 app.use(cors(corsOptions));
-
-
-
-// app.use(
-//   cors({
-//     origin: function (origin, callback) {
-//       return callback(null, true);
-//     },
-//     optionsSuccessStatus: 200,
-//     credentials: true,
-//   })
-// );
+}else{
+ app.use(
+  cors({
+   origin: function (origin, callback) {
+    return callback(null, true);
+   },
+    optionsSuccessStatus: 200,
+    credentials: true,
+  })
+ );
+}
 
 
 app.use(router);

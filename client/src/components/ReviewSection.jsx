@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import ReviewSlider from './ReviewSlider'
 import ReviewSlider2 from './ReviewSlider2'
 import { BsArrowRightShort } from 'react-icons/bs'
-import axios from 'axios'
+import {GetGoogleReviews} from '../api/frontEnd'
 
 const ReviewSection = () => {
   const clientreviews = [
@@ -35,23 +35,34 @@ const ReviewSection = () => {
 
   const [reviews, setReviews] = useState([]);
 
-  useEffect(() => {
-    // Your Google Places API key
-    const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
-    // Place ID of the location you want to fetch reviews for
-    const placeId = import.meta.env.VITE_GOOGLE_PLACE_ID;
-    const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&fields=reviews&key=${apiKey}`;
+  const gg = async () => {
+    const res =  await GetGoogleReviews();
+    console.log(res.data.reviews)
+    if(res.status === 200){
+      setReviews(res.data.reviews);
+    }else{
+      setReviews([])
+    }
+  }
 
-    axios.get(apiUrl)
-      .then(response => {
-        console.log(response)
-        if (response.data.result && response.data.result.reviews) {
-          setReviews(response.data.result.reviews);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching reviews:', error);
-      });
+  useEffect(() => {
+    gg()
+    // // Your Google Places API key
+    // const apiKey = 'AIzaSyBJa7rXLIRQKJPLS6awxh2gG529tDmccMs';
+    // // Place ID of the location you want to fetch reviews for
+    // const placeId = import.meta.env.VITE_GOOGLE_PLACE_ID;
+    // const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&fields=reviews&key=${apiKey}`;
+
+    // axios.get(apiUrl)
+    //   .then(response => {
+    //     console.log(response)
+    //     if (response.data.result && response.data.result.reviews) {
+    //       setReviews(response.data.result.reviews);
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.error('Error fetching reviews:', error);
+    //   });
   }, []);
 
 

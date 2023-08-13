@@ -26,7 +26,7 @@ const DeliveryMap = ({ customStyle }) => {
 
     const loadMap = async (result) => {
         const loader = new Loader({
-            apiKey: 'AIzaSyBJa7rXLIRQKJPLS6awxh2gG529tDmccMs', // Replace with your own API key
+            apiKey: import.meta.env.VITE_GOOGLE_API_KEY, // Replace with your own API key
             version: 'weekly', // or specify a specific version (e.g., 'weekly', 'weekly.next', 'beta')
         });
 
