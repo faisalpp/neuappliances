@@ -8,72 +8,58 @@ const AdminItems = ({ onClose, isItems }) => {
 
     const myaccountItems = [
         {
-            id:1,
             title: 'Dashboard',
             link: '/admin/dashboard',
         },
         {
-            id:2,
             title: 'Orders',
             link: '/admin/manage-orders',
         },
         {
-            id:3,
             title: 'Customers',
             link: '/admin/manage-customers',
         },
         {
-            id:4,
             title: 'Products',
             link: '/admin/manage-products',
         },
         {
-            id:5,
             title: 'Category Pages',
             link: '/admin/categories',
         },
         {
-            id:6,
             title: 'Blog',
             link: '/admin/manage-blogs',
         },
         {
-            id:7,
             title: 'Help & Support',
             link: '/admin/manage-help-support',
         },
         {
-            id:8,
-            title: 'Helpful Appliance Tips',
-            link: '/admin/manage-appliance-tips',
+            title: 'Meet The Team',
+            link: '/admin/manage-team',
         },
         {
-            id:9,
             title: "FAQ's",
             link: '/admin/faq',
         },
         {
-            id:10,
             title: 'Videos Manager',
             link: '/admin/manage-videos',
         },
         {
-            id:11,
             title: 'Reviews Manager',
             link: '/admin/manage-reviews',
         },
         {
-            id:12,
             title: 'Gallery Manager',
             link: '/admin/manage-gallery',
         },
         {
-            id:13,
             title: 'Change Password ',
             link: '/admin/change-password',
         },
         {
-            id:14,
             title: 'Shipping & Tax',
             link: '/admin/manage-shipping',
         },
@@ -101,8 +87,8 @@ const AdminItems = ({ onClose, isItems }) => {
                         </button>
                     </div>
                     <div className='maxlg:!px-3 flex flex-col gap-1 maxlg:py-3'>
-                        {myaccountItems.map((item) => (
-                            <Link to={item.link} key={item.id} className={`duration-300 w-full px-6 py-4 font-semibold flex justify-between items-center text-left border rounded-lg ${location.pathname === item.link ? 'active border-b3 bg-b3 text-white' : 'border-b14 text-[rgba(17,16,16,0.64)]'}`}>
+                        {myaccountItems.map((item,index) => (
+                            <Link to={item.link} key={index} className={`duration-300 w-full px-6 py-4 font-semibold flex justify-between items-center text-left border rounded-lg ${location.pathname === item.link ? 'active border-b3 bg-b3 text-white' : 'border-b14 text-[rgba(17,16,16,0.64)]'}`}>
                                 <span>{item.title}</span>
                                 {
                                     location.pathname === item.link ?

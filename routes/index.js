@@ -17,9 +17,9 @@ const cartController = require('../controller/cartController');
 const orderController = require('../controller/orderController');
 const reviewController = require('../controller/reviewController');
 const galleryController = require('../controller/galleryController');
+const teamController = require('../controller/admin/teamController');
 const uploader = require('express-fileupload');
 
-const app = express();
 const router = express.Router();
 
 router.use(uploader())
@@ -81,6 +81,12 @@ router.post('/api/admin/delete-blog',adminAuth,blogController.DeleteBlog);
 router.post('/api/admin/duplicate-blog',adminAuth,blogController.duplicateBlog);
 router.post('/api/admin/search-blog',adminAuth,blogController.GetBlogBySearch);
 router.post('/api/admin/update-blog',adminAuth,blogController.updateBlog);
+// Team Member Admin Api's
+router.post('/api/admin/create-team-member',adminAuth,teamController.createMember);
+router.post('/api/admin/update-team-member',adminAuth,teamController.updateMember);
+router.get('/api/get-team-member',teamController.getMembers);
+router.post('/api/update-member-index',teamController.updateMembersPosition);
+
 // Blog User Api's
 router.get('/api/get-recent-blogs',blogController.GetRecentBlogs);
 router.post('/api/get-blog-by-slug',blogController.GetBlogBySlug);

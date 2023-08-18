@@ -137,3 +137,13 @@ export const GetGoogleReviews = async () => {
     }
     return response;
 }
+export const GetTeamMember = async () => {
+    let response;
+
+    try{
+      response = await api.get('/api/get-team-member');
+    }catch (error){
+        return error;
+    }
+    return response;
+}

@@ -465,6 +465,38 @@ export const deleteGalleryImage = async (params) => {
     return response;
 }
 
+// Team Member Api's
+export const createTeamMember = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminMultiApi.post('/api/admin/create-team-member',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const updateTeamMember = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminMultiApi.post('/api/admin/update-team-member',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const updateMemberIndex = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/update-member-index',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
 
 const refreshUrl = isDev ? `${import.meta.env.VITE_APP_INTERNAL_PATH}/api/admin/refresh` : "/api/admin/refresh";
 

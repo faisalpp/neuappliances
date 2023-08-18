@@ -1,4 +1,5 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
+import {GetTeamMember} from '../../api/frontEnd'
 
 const AboutCeo = () => {
 
@@ -44,6 +45,26 @@ const AboutCeo = () => {
             about: 'Lorem Ipsum',
         },
     ]
+    
+    const [members,setMembers] = useState([])
+    const [loading,setLoading] = useState(false)
+
+    const GetMembers = async () => {
+        setLoading(true)
+        const res = await GetTeamMember();
+        console.log(res)
+        if(res.status === 200){
+          setLoading(false)
+          setMembers(res.data.members)
+       }else{
+          setLoading(false)
+          setMembers([])
+        }
+       }
+   
+       useEffect(()=>{
+         GetMembers()
+       },[])
 
     return (
         <>
@@ -51,16 +72,16 @@ const AboutCeo = () => {
                 <h2 className='text-xl lg:text-2xl xl:text-[32px] mb-10 lg:mb-16 xl:mb-20 2xl:mb-120px font-bold text-center'>Meet The Team</h2>
 
                 <div className='3xl:px-[60px] flex flex-wrap justify-center 3xl:justify-start gap-10 3xl:gap-20'>
-                    {teams.map((team, index) => (
-                        <figure className="border border-transparent hover:border-b20 rounded-[20px] hover:shadow-s1 duration-300 p-5 w-[200px]">
-                            <img className="w-40 h-40 rounded-full mx-auto" src={`team/${team.image}`} alt="" />
+                    {members.map((team, index) => (
+                        <figure key={index} className="border border-transparent hover:border-b20 rounded-[20px] hover:shadow-s1 duration-300 p-5 w-[200px]">
+                            <img className="w-40 h-40 rounded-full mx-auto" src={team.image} alt="" />
                             <div className="pt-[10px]">
                                 <figcaption className="font-medium text-center">
                                     <div className='font-bold text-[22px] text-b18 mb-3'>
                                         {team.name}
                                     </div>
                                     <div className='text-b3'>
-                                        {team.about}
+                                        {team.designation}
                                     </div>
                                 </figcaption>
                             </div>
