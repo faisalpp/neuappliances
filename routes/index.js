@@ -11,7 +11,8 @@ const categorySection = require('../controller/sectionController');
 const faqController = require('../controller/faqController');
 const uploadController = require('../controller/uploadController');
 const blogController = require('../controller/blogController');
-const helpController = require('../controller/admin/helpController');
+const helpController = require('../controller/admin/Help&Support/helpController');
+const helpTabController = require('../controller/admin/Help&Support/helpTabController');
 const videoMediaController = require('../controller/videoMediaController');
 const cartController = require('../controller/cartController');
 const orderController = require('../controller/orderController');
@@ -93,11 +94,15 @@ router.post('/api/get-blog-by-slug',blogController.GetBlogBySlug);
 router.post('/api/get-blog-by-cateogry',blogController.GetBlogByCategory);
 
 // Help & Support Admin Api's
-router.post('/api/admin/create-help',adminAuth,helpController.createHelp);
-router.post('/api/admin/update-help',adminAuth,helpController.updateHelp);
-router.post('/api/admin/delete-help',adminAuth,helpController.deleteHelp);
-router.post('/api/admin/search-help',adminAuth,helpController.getHelpBySearch);
-router.post('/api/admin/get-help-by-category',adminAuth,helpController.getHelpByCategory);
+ router.post('/api/admin/create-help',adminAuth,helpController.createHelp);
+ router.post('/api/admin/update-help',adminAuth,helpController.updateHelp);
+ router.post('/api/admin/delete-help',adminAuth,helpController.deleteHelp);
+ router.post('/api/admin/search-help',adminAuth,helpController.getHelpBySearch);
+ router.post('/api/get-help-by-category',helpController.getHelpByCategory);
+ router.post('/api/get-help-by-slug',helpController.getHelpBySlug);
+// Help & Support Tab Admin Api's
+ router.post('/api/admin/create-help-tab',adminAuth,helpTabController.createHelpTab);
+ router.get('/api/get-help-tab',helpTabController.getHelpTabs);
 
 // Loop Media Api's
 router.post('/api/admin/upload-video-media',adminAuth,videoMediaController.uploadVideoMedia);

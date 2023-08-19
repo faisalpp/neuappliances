@@ -82,6 +82,7 @@ import CreateHelpSupport from "./pages/AdminAccount/CreateHelpSupport";
 import CreateApplianceTips from "./pages/AdminAccount/CreateApplianceTips";
 import UpdateBlog from "./pages/AdminAccount/UpdateBlog";
 import ManageTeam from "./pages/AdminAccount/ManageTeam";
+import UpdateHelp from "./pages/AdminAccount/UpdateHelp";
 
 function App() {
 
@@ -157,6 +158,7 @@ function App() {
 
       <Route path="/help-and-support" element={<HelpAndSupport />} />
       <Route path="/help-and-support/:category/:slug" element={<HelpCardPage />} />
+      <Route path="/admin/update-help/:slug" element={<ProtectedAdmin><UpdateHelp /></ProtectedAdmin>} />
       <Route path="/email" element={<Email />} />
       <Route path="/do-i-have-electric-or-gas" element={<DoIHaveElectricGas />} />
 

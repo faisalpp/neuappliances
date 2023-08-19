@@ -129,16 +129,7 @@ export const GetBlogByCateogry = async (data,params) => {
     return response;
 }
 
-export const GetHelpByCateogry = async (data,params) => {
-    let response;
 
-    try{
-      response = await api.post(`/api/admin/get-help-by-category/?page=${params.page}&limit=${params.limit}`,data);
-    }catch (error){
-        return error;
-    }
-    return response;
-}
 
 
 export const GetGoogleReviews = async () => {
@@ -161,3 +152,4 @@ export const GetTeamMember = async () => {
     }
     return response;
 }
+

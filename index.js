@@ -21,19 +21,23 @@ app.use(express.json({ limit: '10mb' }));
 // Increase payload size limit for URL-encoded requests
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.json());
-if(process.env.NODE_ENV === "production"){
-app.use(cors(corsOptions));
-}else{
- app.use(
+
+const allowedDomains = ['http://localhost:5173','https://neuoutletapp-03ffb1b9719f.herokuapp.com']
+
+app.use(
   cors({
-   origin: function (origin, callback) {
-    return callback(null, true);
-   },
+    origin: function (origin, callback) {
+      // Check if the requesting origin is in the allowedDomains array
+      if (allowedDomains.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error('Not allowed by CORS'));
+    },
     optionsSuccessStatus: 200,
     credentials: true,
   })
- );
-}
+);
+
 
 
 app.use(router);

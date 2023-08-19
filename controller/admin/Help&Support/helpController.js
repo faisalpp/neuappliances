@@ -1,4 +1,5 @@
-const Help = require('../../models/helpNsupport');
+const Help = require('../../../models/helpNsupport');
+const HelpTab = require('../../../models/helpNSupportTab');
 const Joi = require('joi')
 
 const helpController = {
@@ -100,36 +101,37 @@ const helpController = {
     },
 
     async getHelpByCategory(req, res, next) {
-        const helpSchema = Joi.object({
-            category: Joi.string().required(),
-          });
-          const { error } = helpSchema.validate(req.body);
-          
-          // 2. if error in validation -> return error via middleware
-          if (error) {
-            return next(error)
+      const blogSchema = Joi.object({
+          category: Joi.string().required(),
+        });
+        const { error } = blogSchema.validate(req.body);
+        
+        // 2. if error in validation -> return error via middleware
+        if (error) {
+          return next(error)
+        }
+    
+        const {category} = req.body;
+        
+        try{
+          let page = Number(req.query.page)
+          let limit = Number(req.query.limit)
+          let skip = (page - 1) * limit;
+          if(category !== 'all-categories'){
+            const helps = await Help.find({category:category}).skip(skip).limit(limit);     
+            // console.log(helps)
+            const totalCount = helps.length
+            return res.status(200).json({status: 200, helps:helps,totalCount:totalCount});
+          }else{
+            const helps2 = await Help.find({}).skip(skip).limit(limit); 
+            const totalCount2 = await Help.countDocuments();
+            return res.status(200).json({status: 200, helps:helps2,totalCount:totalCount2});
           }
-      
-          const {category} = req.body;
-          
-          try{
-            let page = Number(req.query.page)
-            let limit = Number(req.query.limit)
-            let skip = (page - 1) * limit;
-            if(category !== 'all-categories'){
-              const helps = await Help.find({category:category}).skip(skip).limit(limit);     
-              const totalCount = helps.length
-              return res.status(200).json({status: 200, helps:helps,totalCount:totalCount});
-            }else{
-              const helps2 = await Help.find({}).skip(skip).limit(limit); 
-              const totalCount2 = await Help.countDocuments();
-              return res.status(200).json({status: 200, helps:helps2,totalCount:totalCount2});
-            }
-          }catch(error){
-            return next(error)
-          }
-      
-      },
+        }catch(error){
+          return next(error)
+        }
+    
+    },
 
       async getHelpBySearch(req, res, next) {
         const helpSchema = Joi.object({

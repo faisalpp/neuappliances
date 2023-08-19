@@ -195,7 +195,6 @@ const CreateFaq = () => {
            </form>
           </Popup>
             <AdminAccount>
-             <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
              <div className='flex w-full items-center space-x-3 mb-5' >
              <BsFillArrowLeftCircleFill className='text-2xl text-b3 cursor-pointer' onClick={()=>navigate(-1)} />
               <div className='flex w-full justify-end space-x-3' >
@@ -207,7 +206,6 @@ const CreateFaq = () => {
                {faqs.length > 0 ? faqs.map((faq,index)=> <FaqAccordion key={index} DeleteFaq={DeleteFaq} setUpdatedFaqId={setUpdatedFaqId} setUpdatePopup={setUpdateFaqPopup} setUpdateQuestion={setUpdatedQuestion} setUpdatedAnswer={setUpdatedAnswer} id={faq._id} title={faq.question} parent='gap-3 bg-[#F8FBFB] [&>div>h6]:maxmd:text-sm text-white p-4 md:px-8 md:py-6 rounded-xl border-none text-b18 h-auto' icon='text-xl text-black' textStyle='font-bold text-md text-b18' child='[&>p]:text-sm text-b18 font-normal' answer={faq.answer} />)
                :<h1>No FAQ's Found!</h1>}
               </div>
-             <ToastContainer />
             </AdminAccount>
         </>
     )

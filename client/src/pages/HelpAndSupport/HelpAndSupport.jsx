@@ -4,7 +4,8 @@ import { RiArrowDropRightLine } from 'react-icons/ri';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FiChevronRight } from 'react-icons/fi';
 import HelpAndSupportCard from '../../components/HelpAndSupportCard';
-// import {GetBlogByType} from '../../api/frontEnd'
+import {getHelpTabs} from '../../api/admin/Help&Support/helpSupportTab'
+import {GetHelpByCateogry} from '../../api/admin/Help&Support/helpSupport'
 import Pagination2 from '../../components/Pagination/Pagination2'
 
 const HelpAndSupport = () => {
@@ -13,29 +14,32 @@ const HelpAndSupport = () => {
     const [loading,setLoading] = useState(false)
     const [activeTab, setActiveTab] = useState('delivery');
     const [fadeOut, setFadeOut] = useState(false);
-    const [totalPages,setTotalPages] = useState(10);
+    const [totalCount,setTotalCount] = useState(10);
 
     const [page,setPage] = useState(1)
     const [limit,setLimit] = useState(16)
 
-    // const GetBlog = async () => {
-    //  const data = {type:'help-&-support',category:activeTab}
-    //  const params = {page:page,limit:limit}
-    //  setLoading(true)
-    //  const res = await GetBlogByType(data,params);
-    //  console.log(res)
-    //  if(res.status === 200){
-    //     setLoading(false)
-    //     setBlogs(res.data.blogs)
-    //  }else{
-    //     setLoading(false)
-    //     setBlogs([])
-    //  }
-    // }
+    useEffect(()=>{
+        GetBlog()
+      },[activeTab,page])
+    
+      const GetBlog = async () => {
+       setLoading(true)
+        const params = {page:page,limit:limit}
+        const data = {category:activeTab}
+       const res = await GetHelpByCateogry(data,params)
+       console.log(res)
+       if(res.status === 200){
+          setLoading(false)
+          setBlogs(res.data.helps)
+          setTotalCount(Math.ceil(res.data.totalCount / limit))
+        }else{
+          setBlogs([])
+          setLoading(false)
+       }
+    }
 
-    // useEffect(()=>{
-    //     GetBlog()
-    // },[activeTab])
+    
 
     
 
@@ -49,6 +53,24 @@ const HelpAndSupport = () => {
     useEffect(() => {
         setFadeOut(false); // Reset fade-out animation after tab change
     }, [activeTab]);
+
+    // const [tabLoading,setTabLoading] = useState(false)
+    const [helpTabs,setHelpTabs] = useState([])
+
+    useEffect(() => {
+        const GetHelpTabs = async () => {
+            const res = await getHelpTabs();
+            // console.log(res)
+            if(res.status === 200){
+                setHelpTabs(res.data.helpTabs)
+                setActiveTab(res.data.helpTabs[0].slug)
+            }else{
+                setHelpTabs([])
+            }
+        }
+        GetHelpTabs()
+    }, [])
+
 
     return (
         <>
@@ -72,20 +94,11 @@ const HelpAndSupport = () => {
                 {/* Help and Support */}
                 <div className='pb-10 lg:pb-16 xl:pb-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto flex maxlg:flex-col gap-10 lg:gap-7 xl:gap-10'>
                     <div className="tab-buttons maxlg:order-2 lg:max-w-[250px] 2xl:max-w-xs lg:w-full flex flex-col gap-2">
-                        <button className={`px-5 xl:px-6 py-4 xl:text-lg font-semibold flex justify-between items-center text-left border border-[rgba(0,0,0,0.15)] rounded-2xl ${activeTab === 'delivery' ? 'active text-white bg-b3' : 'text-b23'}`} onClick={() => handleTabClick('delivery')}>
-                         <span>Delivery</span>{activeTab === 'delivery' ? <FiChevronRight /> : ''}
-                        </button>
-                        <button className={`px-5 xl:px-6 py-4 xl:text-lg font-semibold flex justify-between items-center text-left border border-[rgba(0,0,0,0.15)] rounded-2xl ${activeTab === 'purchase' ? 'active text-white bg-b3' : 'text-b23'}`} onClick={() => handleTabClick('purchase')}>
-                         <span>Purchase</span>{activeTab === 'purchase' ? <FiChevronRight /> : ''}
-                        </button>
-                        <button className={`px-5 xl:px-6 py-4 xl:text-lg font-semibold flex justify-between items-center text-left border border-[rgba(0,0,0,0.15)] rounded-2xl ${activeTab === 'return' ? 'active text-white bg-b3' : 'text-b23'}`} onClick={() => handleTabClick('return')}>
-                         <span>Return</span>{activeTab === 'return' ? <FiChevronRight /> : ''}
-                        </button>
-                        <button className={`px-5 xl:px-6 py-4 xl:text-lg font-semibold flex justify-between items-center text-left border border-[rgba(0,0,0,0.15)] rounded-2xl ${activeTab === 'refund' ? 'active text-white bg-b3' : 'text-b23'}`} onClick={() => handleTabClick('refund')}>
-                         <span>Refund</span>{activeTab === 'refund' ? <FiChevronRight /> : ''}
-                        </button>
+                        {helpTabs.map((tab,index)=> <button key={index} className={`px-5 xl:px-6 py-4 xl:text-lg font-semibold flex justify-between items-center text-left border border-[rgba(0,0,0,0.15)] rounded-2xl ${activeTab === tab.slug ? 'active text-white bg-b3' : 'text-b23'}`} onClick={() => handleTabClick(tab.slug)}>
+                         <span>{tab.title}</span>{activeTab === tab.slug ? <FiChevronRight /> : ''}
+                        </button>)}
                     </div>
-                    <div className='flex flex-col' >
+                    <div className='flex flex-col w-full ' >
                     {loading ? <div className='flex  items-center w-full justify-center' ><img src="/loader2.gif" /></div> : <div className={`tab-content w-full ${fadeOut ? 'fade-out' : ''}`}>  
                       {blogs.length > 0 ? <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4'>
                        {blogs.map((blog)=><HelpAndSupportCard title={blog.title} parent='gap-3 bg-[#F8FBFB] [&>div>h6]:maxmd:text-sm text-white p-4 md:px-8 md:py-6 rounded-xl border-none text-b18 h-auto' icon='text-xl text-black' textStyle='font-bold text-md text-b18' child='[&>p]:text-sm text-b18 font-normal' category={blog.category} slug={blog.slug} shortDescription={blog.shortDescription} />)}
