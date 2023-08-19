@@ -8,13 +8,13 @@ import { TfiHeadphoneAlt } from 'react-icons/tfi';
 import NavDropDown from '../Navbar/NavDropDown';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import { resetUser } from '../../../store/userSlice'
 import { Menu } from '@headlessui/react'
-import { AdminSignout } from '../../../api/admin';
-import { Signout } from '../../../api/user';
+import { AdminSignout } from '../../../api/admin/auth';
+import { Signout } from '../../../api/user/auth';
 import {showSCart,hideSCart} from '../../../store/cartSlice'
 
 const Navbar = () => {

@@ -4,10 +4,10 @@ import { RiArrowDropRightLine } from 'react-icons/ri';
 import { BsChevronDown } from 'react-icons/bs';
 import AdminItems from '../components/AdminDashboard/AdminItems';
 import { FiLogOut } from 'react-icons/fi';
-import { AdminSignout } from '../api/admin';
+import { AdminSignout } from '../api/admin/auth';
 import {toast} from 'react-toastify'
 import { useDispatch } from 'react-redux'
-import { resetUser } from '../store/userSlice'
+import { resetAdmin } from '../store/adminSlice'
 import { useNavigate } from 'react-router-dom';
 
 const AdminAccount = ({ children }) => {
@@ -34,7 +34,7 @@ const AdminAccount = ({ children }) => {
             progress: undefined,
             theme: "light",
           });
-          dispatch(resetUser());
+          dispatch(resetAdmin());
           navigate('/');
         } else {
           toast.error(res.message, {

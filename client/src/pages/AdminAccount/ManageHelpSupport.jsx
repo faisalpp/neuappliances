@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BlogTable from '../../components/AdminDashboard/Blog/BlogTable';
 import Pagination2 from '../../components/Pagination/Pagination2'
-import {GetBlogByCateogry} from '../../api/frontEnd'
+import {GetHelpByCateogry} from '../../api/frontEnd'
 import {GetCategories, searchBlog} from '../../api/admin'
 import SelectInput from '../../components/TextInput/SelectInput'
 
@@ -40,7 +40,7 @@ const ManageHelpSupport = () => {
     params = {page:page,limit:limit}
     }
     const data = {category:category}
-   const res = await GetBlogByCateogry(data,params)
+   const res = await GetHelpByCateogry(data,params)
    if(res.status === 200){
       setLoading(false)
       setBlogs(res.data.blogs)
@@ -84,7 +84,7 @@ const SearchBlog = async (e) => {
         <>
             <AdminAccount>
              <div className='flex items-center space-x-2 my-2 bg-white py-3 px-5 w-full' >
-              <NavLink to="/admin/create-blog" className='bg-b3 text-white text-xs px-3 rounded-2xl cursor-pointer py-2 font-bold' >Create&nbsp;Blog</NavLink>
+              <NavLink to="/admin/create-help-support" className='bg-b3 text-white text-xs px-3 rounded-2xl cursor-pointer py-2 font-bold' >Create&nbsp;Help&nbsp;&&nbsp;Support</NavLink>
               <SelectInput onChange={e=>setCategory(e.target.value)} options={categories} />
               <div className='flex w-full justify-end space-x-3' >
               <input value={search} onChange={e=>setSearch(e.target.value)} placeholder='Search Blog' className='text-xs px-2 outline-none border border-b3 rounded-md' />

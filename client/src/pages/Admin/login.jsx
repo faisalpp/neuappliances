@@ -3,13 +3,11 @@ import MainLayout from '../../layout/MainLayout'
 import {BsArrowRightShort} from 'react-icons/bs'
 import { NavLink, Navigate, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
-import {setUser} from '../../store/userSlice'
-import { useSelector } from "react-redux";
-import { Signin } from '../../api/admin'
-import { loginUser } from '../../store/userSlice'
+import { useSelector } from "react-redux"
+import { loginAdmin } from '../../store/adminSlice'
 
 const Login = () => {
 
@@ -26,7 +24,8 @@ const Login = () => {
     e.preventDefault();
     const data = {email,password}
 
-     const res = await dispatch(loginUser(data));
+     const res = await dispatch(loginAdmin(data));
+     
      if(res.payload.status === 200){
        toast.success(res.payload.msg, {
         position: "top-right",

@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import countries from '../services/countries';
 import { FiChevronDown } from 'react-icons/fi';
-import {Signup} from '../api/user';
+import {Signup} from '../api/user/auth';
 
 const Register = () => {
 

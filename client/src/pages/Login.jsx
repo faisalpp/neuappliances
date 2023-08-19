@@ -6,8 +6,6 @@ import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
-import {setUser} from '../store/userSlice'
-import {Signin} from '../api/user'
 import { loginUser } from '../store/userSlice'
 
 const Login = () => {
@@ -34,19 +32,9 @@ const Login = () => {
     e.preventDefault();
     const data = {email,password}
 
-     const res = await Signin(data);
-      if(res.status === 200){
-       const user = {
-        _id: res.data.user._id,
-        email: res.data.user.email,
-        firstName: res.data.user.firstName,
-        lastName: res.data.user.lastName,
-        auth: res.data.auth,
-        isAdmin: res.data.user.isAdmin,
-       }
-       dispatch(setUser(user));
-
-       toast.success(res.msg, {
+     const res = await dispatch(loginUser(data));
+     if(res.payload.status === 200){
+       toast.success(res.payload.msg, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -61,8 +49,9 @@ const Login = () => {
         }else{
           navigate('/my-account/profile');
         }
-     }else{
-      toast.error(res.message, {
+     }
+     if(res.payload.code === 'ERR_BAD_REQUEST'){
+      toast.error('Invalid Credentials!', {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,

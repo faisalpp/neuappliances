@@ -1,4 +1,4 @@
-const Help = require('../models/helpNsupport');
+const Help = require('../../models/helpNsupport');
 const Joi = require('joi')
 
 const helpController = {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AdminAccount from '../../layout/AdminAccount';
 import TextInput from '../../components/TextInput/TextInput';
-import {ChangePassword} from '../../api/admin'
+import {ChangePassword} from '../../api/admin/auth'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';

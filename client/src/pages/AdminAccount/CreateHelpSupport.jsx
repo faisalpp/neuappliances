@@ -88,7 +88,7 @@ const CreateHelpSupport = () => {
   return (
     <>
         <AdminAccount>
-          <form onSubmit={CreateHelp} className='flex flex-col space-y-5 w-full py-5 bg-white' >
+          <form onSubmit={CreateHelpSupport} className='flex flex-col space-y-5 w-full py-5 bg-white' >
           <div className='flex w-full' >
            <div className='flex flex-col space-y-10 w-1/2' >
             <TextInput width="full" name="title" title="Blog Title" iscompulsory="true" type="text" value={title} onChange={(e)=>{setTitle(e.target.value);setSlug(e.target.value.toLowerCase().replace(/\s/g,'-').replace(/\./g, ''))}} error={errors && errors.includes('Title is required') ? true : false} errormessage="Title is required" placeholder="Enter Blog Title" />

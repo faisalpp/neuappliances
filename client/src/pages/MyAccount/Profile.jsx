@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import { resetUser } from '../../store/userSlice'
-import {GetUserProfile} from '../../api/user'
+import {GetUserProfile} from '../../api/user/profile'
 
 
 const Profile = () => {

@@ -1,5 +1,5 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import {Signin} from "../api/user/auth"
+import {Signin} from "../api/admin/auth"
 
 const initialState = {
   _id: "",
@@ -11,10 +11,11 @@ const initialState = {
 };
 
 // Create an async thunk for the login action
-export const loginUser = createAsyncThunk("user/login", async (data) => {
+export const loginAdmin = createAsyncThunk("admin/login", async (data) => {
     try{
       const response = await Signin(data); // Call your login API with the provided data
       if(response.status === 200){
+        console.log(response)
         return response.data; // Assuming your API response contains the user data
       }else{
         return response
@@ -24,11 +25,11 @@ export const loginUser = createAsyncThunk("user/login", async (data) => {
     }
 });
 
-export const userSlice = createSlice({
-  name: "user",
+export const adminSlice = createSlice({
+  name: "admin",
   initialState,
   reducers: {
-    setUser: (state, action) => {
+    setAdmin: (state, action) => {
       const { _id, email, firstName, lastName,auth,isAdmin } = action.payload;
 
       state._id = _id;
@@ -38,7 +39,7 @@ export const userSlice = createSlice({
       state.auth = auth;
       state.isAdmin = isAdmin;
     },
-    resetUser: (state) => {
+    resetAdmin: (state) => {
       state._id = "";
       state.email = "";
       state.firstName = "";
@@ -48,7 +49,7 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loginUser.fulfilled, (state, action) => {
+    builder.addCase(loginAdmin.fulfilled, (state, action) => {
       const { _id, email, firstName, lastName, auth, isAdmin } = action.payload;
 
       state._id = _id;
@@ -61,6 +62,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUser, resetUser,setUserAuth } = userSlice.actions;
+export const { setAdmin, resetAdmin } = adminSlice.actions;
 
-export default userSlice.reducer;
+export default adminSlice.reducer;

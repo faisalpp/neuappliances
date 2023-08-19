@@ -130,7 +130,7 @@ const teamController = {
       }
     },
     async updateMembersPosition(req,res,next){
-      console.log(req.body)
+  
       const data = req.body;
       // Create an array of update operations
       const updateOperations = data.map(({ _id, index }) => ({
