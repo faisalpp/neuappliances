@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Link, useNavigate, useParams,useLocation } from 'react-router-dom'
+import { Link, useNavigate, useParams, useLocation } from 'react-router-dom'
 import MainLayout from '../layout/MainLayout'
 import { RiStackLine } from 'react-icons/ri'
 import { GiThermometerHot } from 'react-icons/gi'
@@ -16,6 +16,7 @@ import { getCords } from '../api'
 import OtherProductCard from '../components/OtherProductCard'
 import FaqAccordion from '../components/FaqAccordion'
 import HiwSection from '../components/HiwSection'
+import NewProductCards from '../components/NewProductCards'
 import PaymentOptions from '../components/PaymentOptions'
 import SatisfiedSection from '../components/SatisfiedSection'
 import ProductFeatures from '../components/ProductFeatures'
@@ -35,7 +36,7 @@ import { addToCart } from '../api/cart'
 import Loader from '../components/Loader/Loader'
 import { React360Viewer } from 'react-360-product-viewer'
 import { useSelector } from 'react-redux'
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 import { resetUser } from "../store/userSlice";
 import { showSCart } from "../store/cartSlice";
 import { useDispatch } from "react-redux";
@@ -54,17 +55,17 @@ const Product = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false)
   const [loading2, setLoading2] = useState(false)
-  
+
   const [product, setProduct] = useState([])
-  
+
   // Auth State
   const id = useSelector((state) => state.user._id);
 
   const AddToCart = async () => {
     setLoading2(true)
-    const data = {userId:id,productId:product._id,orderType:orderType,deliveryLocation:zip,pickupLocation:pickupLocation}
+    const data = { userId: id, productId: product._id, orderType: orderType, deliveryLocation: zip, pickupLocation: pickupLocation }
     const res = await addToCart(data)
-    if(res.status === 200){
+    if (res.status === 200) {
       toast.success("Product Add To Cart!", {
         position: "top-right",
         autoClose: 5000,
@@ -79,7 +80,7 @@ const Product = () => {
       dispatch(showSCart())
       GetProduct()
     }
-    if(res.code === 'ERR_BAD_REQUEST'){
+    if (res.code === 'ERR_BAD_REQUEST') {
       setLoading(false)
       toast.error("Login Required!", {
         position: "top-right",
@@ -91,11 +92,11 @@ const Product = () => {
         progress: undefined,
         theme: "light",
       });
-        const callback = location.pathname
-        dispatch(resetUser());
-        navigate(`/login/?callback=${callback}`)
+      const callback = location.pathname
+      dispatch(resetUser());
+      navigate(`/login/?callback=${callback}`)
     }
-    if(res.status === 404){
+    if (res.status === 404) {
       setLoading(false)
       toast.error(res.message, {
         position: "top-right",
@@ -220,20 +221,20 @@ const Product = () => {
               <div className='flex gap-2 md:gap-5' >
                 <div className='flex flex-col space-y-2 min-w-[70px] 2xl:min-w-[100px] h-full' >
                   {product.images ? product.images.slice(0, 4).map((image, index) =>
-                    <div key={index} className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src={`${process.env.REACT_APP_INTERNAL_PATH}/${image}`} className='w-10 2xl:w-20' alt='product' /></div>
+                    <div key={index} className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src={`${import.meta.env.REACT_APP_INTERNAL_PATH}/${image}`} className='w-10 2xl:w-20' alt='product' /></div>
                   ) : null}
-                  <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+4</div><img src={product.images ? `${process.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}` : ''} className='w-10 h-16 2xl:w-20' alt='product' /></div>
+                  <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+4</div><img src={product.images ? `${import.meta.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}` : ''} className='w-10 h-16 2xl:w-20' alt='product' /></div>
                 </div>
                 <div className='flex relative justify-center items-center border-[1px] border-gray-300 rounded-lg lg:h-96 2xl:h-auto 2xl:py-14 w-full' >
                   {product.threeSixty ? <React360Viewer
-                    imagesBaseUrl={`${process.env.REACT_APP_DEV ? process.env.REACT_APP_INTERNAL_PATH : null}/${product.threeSixty}`}
+                    imagesBaseUrl={`${import.meta.env.REACT_APP_DEV ? import.meta.env.REACT_APP_INTERNAL_PATH : null}/${product.threeSixty}`}
                     imagesCount={36}
                     imagesFiletype="jpg"
                     mouseDragSpeed={5}
                     width={350}
                     height={350}
-                  />:null}
-                  {product.rating ===  3 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><AiOutlineDollarCircle />Best Value</div></div> : null}
+                  /> : null}
+                  {product.rating === 3 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><AiOutlineDollarCircle />Best Value</div></div> : null}
                   {product.rating === 4 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/local_fire_department.png" alt="" />Most Popular</div></div> : null}
                   {product.rating === 5 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/star_rate_half.png.png" alt="" /> Premium Condition </div></div> : null}
                 </div>
@@ -279,7 +280,7 @@ const Product = () => {
                   <h4 className='font-bold lg:text-3xl text-xl text-b3 ' >${product.salePrice ? product.salePrice : product.regularPrice}</h4>
                   {product.salePrice ? <strike className="text-lg" >${product.salePrice}</strike> : null}
                 </div>
-                <div className='flex items-center gap-5 lg:flex-wrap'>
+                <div className='flex items-center sm:justify-between sm:w-full gap-5 lg:flex-wrap'>
                   {product.salePrice ? <span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >${product.regularPrice - product.salePrice} Savings</span> : null}
                   <button className="flex justify-end items-center hover:underline text-b3" ><AiOutlineHeart /><span>Add to favorites</span></button>
                 </div>
@@ -351,8 +352,8 @@ const Product = () => {
 
               </div>
               {/* Buttons */}
-              <button type="button" disabled={product.stock > 0 ? false : true} onClick={AddToCart} className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><span className="flex items-center font-bold ml-2" >Add To Cart {loading2 ? <img src="/loader-bg.gif" className='w-4 h-4 ml-2' />:null}</span></button>
-              {product.category === 'washer-&-dryer' ? <button type='button' onClick={() => handleOpenModal("2")} className='flex justify-center items-center bg-b3 text-sm text-white py-3 rounded-lg' ><span className="font-bold ml-2" >Complete Your Laundry Set</span></button>:null}
+              <button type="button" disabled={product.stock > 0 ? false : true} onClick={AddToCart} className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><span className="flex items-center font-bold ml-2" >Add To Cart {loading2 ? <img src="/loader-bg.gif" className='w-4 h-4 ml-2' /> : null}</span></button>
+              {product.category === 'washer-&-dryer' ? <button type='button' onClick={() => handleOpenModal("2")} className='flex justify-center items-center bg-b3 text-sm text-white py-3 rounded-lg' ><span className="font-bold ml-2" >Complete Your Laundry Set</span></button> : null}
 
               {/* Quicl FAQs */}
               <div className='flex flex-col space-y-3' >
@@ -404,7 +405,8 @@ const Product = () => {
             </div>
 
           </div>
-
+          {/* New Product Cards */}
+          <NewProductCards />
           {/* Faq Accrodions */}
           <div className='flex flex-col items-center mb-5 justify-center pt-14 xl:pt-10 gap-y-3 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
             <FaqAccordion title="Appliance Description" parent='w-full px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer={product.description} />
@@ -418,7 +420,7 @@ const Product = () => {
             <div className='mt-5 relative flex justify-center w-full mb-5' >
               {/* <img src="/360appliance.png" alt='product' className='w-[17rem] mx-auto' /> */}
               <React360Viewer
-                imagesBaseUrl={`${process.env.REACT_APP_INTERNAL_PATH}/${product.threeSixty}`}
+                imagesBaseUrl={`${import.meta.env.REACT_APP_INTERNAL_PATH}/${product.threeSixty}`}
                 imagesCount={36}
                 imagesFiletype="jpg"
                 mouseDragSpeed={5}

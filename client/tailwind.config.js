@@ -20,7 +20,9 @@ module.exports = withMT({
       'lg': '992px',
 
       'xl': '1200px',
+
       'coxxl': '1280px',
+
       'coxl': '1340px',
 
       '2xl': '1440px',

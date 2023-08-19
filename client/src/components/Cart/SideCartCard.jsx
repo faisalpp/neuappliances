@@ -7,15 +7,15 @@ const SideCartCard = (props) => {
 
     const StarIconPrinter = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
-          <AiFillStar key={index} className='text-b7 text-sm' /> // Render the star icon component for each iteration
+            <AiFillStar key={index} className='text-b7 text-sm' /> // Render the star icon component for each iteration
         ));
-    
+
         return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
-      };
+    };
 
     return (
         <div className='flex justify-start mt-3 gap-3 w-full' >
-            <img src={process.env.REACT_APP_DEV === 'dev' ? `${process.env.REACT_APP_INTERNAL_PATH}/${props.item.image}`:`${props.item.image}`} className='w-16 h-16' alt='' />
+            <img src={import.meta.env.REACT_APP_DEV === 'dev' ? `${import.meta.env.REACT_APP_INTERNAL_PATH}/${props.item.image}` : `${props.item.image}`} className='w-16 h-16' alt='' />
             <div className='flex flex-col justify-center gap-2 w-full' >
                 <p className='text-sm font-semibold line-clamp-2' >{props.item.title}</p>
                 <div className='flex items-center space-x-5'>
@@ -43,7 +43,7 @@ const SideCartCard = (props) => {
                 </div>
             </div>
             <div>
-                <button type='button' onClick={(e)=>props.RemoveFromCart(e,props.item._id,props.type)} >
+                <button type='button' onClick={(e) => props.RemoveFromCart(e, props.item._id, props.type)} >
                     <RiDeleteBin6Line className='text-xl text-b3' />
                 </button>
             </div>

@@ -6,7 +6,7 @@ import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <div className='flex justify-center bg-b1 px-32 hidden' >
+    <div className='flex justify-center bg-b1 px-32' >
       <div className="grid grid-cols-16 bg-b1 py-20 w-fit" >
 
         {/* Logo Section Start */}

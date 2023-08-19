@@ -4,7 +4,7 @@ import ToolTip from '../ToolTip'
 import { BsPencil } from 'react-icons/bs'
 import { NavLink } from 'react-router-dom'
 
-const ProductCard = ({ id,stars ,title,image,salePrice,regularPrice}) => {
+const ProductCard = ({ id, stars, title, image, salePrice, regularPrice }) => {
     const StarIconPrinter = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
             <AiFillStar key={index} className='text-b7 text-lg' /> // Render the star icon component for each iteration
@@ -14,9 +14,9 @@ const ProductCard = ({ id,stars ,title,image,salePrice,regularPrice}) => {
     return (
         <>
             <div className={`relative flex flex-col border border-b14 rounded-2xl bg-white overflow-hidden`} >
-                <span className='absolute top-0 right-0 bg-b4 rounded-2xl mt-2 mr-1 px-4 py-2 text-xs font-bold z-20' >{(100-(salePrice/regularPrice)*100)}% Off</span>
+                <span className='absolute top-0 right-0 bg-b4 rounded-2xl mt-2 mr-1 px-4 py-2 text-xs font-bold z-20' >{(100 - (salePrice / regularPrice) * 100)}% Off</span>
                 <div className='flex w-full justify-center xl:px-5 lg:px-5 px-3 pt-10' >
-                    <img src={`${process.env.REACT_APP_INTERNAL_PATH}/${image}`} className=' xl:w-54 lg:w-32 w-[160px] h-full' alt='refrigrator' />
+                    <img src={`${import.meta.env.REACT_APP_INTERNAL_PATH}/${image}`} className=' xl:w-54 lg:w-32 w-[160px] h-full' alt='refrigrator' />
                 </div>
                 {/* Remove Item */}
                 <NavLink to={`/admin/update-product/${id}`} ><button type="button" className='absolute top-0 left-4 w-10 h-10 rounded-full bg-b3 flex justify-center items-center'>
@@ -28,7 +28,7 @@ const ProductCard = ({ id,stars ,title,image,salePrice,regularPrice}) => {
                     <div className='flex' ><h4 className='text-b3 font-semibold' >${salePrice}</h4>
                         <div className='flex justify-end w-full space-x-2 items-center' >
                             <strike className="text-[rgba(17,16,16,0.64)]">${regularPrice}</strike>
-                            <span className='bg-b4 rounded-xl font-semibold px-2 py-1 text-xs' >- {100-((salePrice/regularPrice)*100)}%</span>
+                            <span className='bg-b4 rounded-xl font-semibold px-2 py-1 text-xs' >- {100 - ((salePrice / regularPrice) * 100)}%</span>
                         </div>
                     </div>
                     <div className='flex items-center space-x-2' ><div className='flex items-center gap-1' ><h4 className='text-sm font-semibold text-b15' >Cosmetic Rating</h4><ToolTip color="text-b3" /></div><div className='flex mt-2 items-center' ><StarIconPrinter numberOfTimes={stars} /> </div></div>
