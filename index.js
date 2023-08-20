@@ -10,7 +10,7 @@ const app = express();
 
 const corsOptions = {
   credentials: true,
-  origin: ["http://localhost:3000","http://localhost:5173"],
+  origin: ["http://localhost:5173","https://neuoutletapp-03ffb1b9719f.herokuapp.com"],
 };
 
 
@@ -22,23 +22,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.json());
 
-const allowedDomains = ['http://localhost:5173','https://neuoutletapp-03ffb1b9719f.herokuapp.com']
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Check if the requesting origin is in the allowedDomains array
-      if (allowedDomains.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error('Not allowed by CORS'));
-    },
-    optionsSuccessStatus: 200,
-    credentials: true,
-  })
-);
-
-
+app.use(cors(corsOptions))
 
 app.use(router);
 
