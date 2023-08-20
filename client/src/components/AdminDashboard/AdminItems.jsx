@@ -36,6 +36,10 @@ const AdminItems = ({ onClose, isItems }) => {
             link: '/admin/manage-help-support',
         },
         {
+            title: 'Helpful Appliance Tips',
+            link: '/admin/manage-appliance-tips',
+        },
+        {
             title: 'Meet The Team',
             link: '/admin/manage-team',
         },

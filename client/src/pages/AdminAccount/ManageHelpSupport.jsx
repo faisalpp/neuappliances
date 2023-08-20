@@ -181,7 +181,7 @@ const SearchBlog = async (e) => {
                  {loading ? <div className='flex items-center justify-center w-full' ><img src="/loader-bg.gif" className='w-10 h-10' /></div> : blogs ? <HelpTable setPage={setPage} getBlog={GetBlog} data={blogs} />:<div className='flex justify-center w-full h-full' >
                 <img src="/not-found.png" className='w-36 h-36' />
                </div>}
-               {totalCount <= limit ? <Pagination2 page={page} setPage={setPage} totalPages={totalCount} />:null}
+               {totalCount >= limit ? <Pagination2 page={page} setPage={setPage} totalPages={totalCount} />:null}
             
             
             

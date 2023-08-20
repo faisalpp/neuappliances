@@ -65,6 +65,7 @@ const fetchDataForCategory = async () => {
   }
 }
 
+
 const SearchBlog = async (e) => {
   e.preventDefault()
   const data = {title:search}

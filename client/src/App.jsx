@@ -83,6 +83,7 @@ import CreateApplianceTips from "./pages/AdminAccount/CreateApplianceTips";
 import UpdateBlog from "./pages/AdminAccount/UpdateBlog";
 import ManageTeam from "./pages/AdminAccount/ManageTeam";
 import UpdateHelp from "./pages/AdminAccount/UpdateHelp";
+import UpdateApplianceTips from "./pages/AdminAccount/UpdateApplianceTips";
 
 function App() {
 
@@ -158,7 +159,6 @@ function App() {
 
       <Route path="/help-and-support" element={<HelpAndSupport />} />
       <Route path="/help-and-support/:category/:slug" element={<HelpCardPage />} />
-      <Route path="/admin/update-help/:slug" element={<ProtectedAdmin><UpdateHelp /></ProtectedAdmin>} />
       <Route path="/email" element={<Email />} />
       <Route path="/do-i-have-electric-or-gas" element={<DoIHaveElectricGas />} />
 
@@ -196,9 +196,11 @@ function App() {
       {/* Admin Help and Support Routes */}
       <Route path="/admin/manage-help-support" element={<ProtectedAdmin><ManageHelpSupport/></ProtectedAdmin>} />
       <Route path="/admin/create-help-support" element={<ProtectedAdmin><CreateHelpSupport /></ProtectedAdmin>} />
+      <Route path="/admin/update-help/:slug" element={<ProtectedAdmin><UpdateHelp /></ProtectedAdmin>} />
       {/* Admin Hellpful Appliance Tips Routes */}
       <Route path="/admin/manage-appliance-tips" element={<ProtectedAdmin><ManageApplianceTips /></ProtectedAdmin>} />
       <Route path="/admin/create-appliance-tips" element={<ProtectedAdmin><CreateApplianceTips /></ProtectedAdmin>} />
+      <Route path="/admin/update-appliance-tips/:slug" element={<ProtectedAdmin><UpdateApplianceTips /></ProtectedAdmin>} />
 
       {/* Admin Media */}
       <Route path="/admin/manage-videos" element={<ProtectedAdmin><ManageVideos/></ProtectedAdmin>} />

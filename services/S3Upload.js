@@ -27,7 +27,28 @@ class AWSService{
         };
         const command = new AWS3.DeleteObjectCommand(params);
         const resp = await s3.send(command)
+        // console.log(resp)
         return {resp}
+    }
+    static async duplicateFile(image,prefix){
+        const url = image
+        const searchString = "amazonaws.com/";
+        const startIndex = url.indexOf(searchString)
+        const sourceUrl = url.substring(startIndex + searchString.length);
+
+        const s3 = new AWS3.S3Client({credentials:{accessKeyId:AWS_S3_USER_ACCESS_KEY,secretAccessKey:AWS_S3_USER_SECRET_ACCESS_KEY},region:AWS_S3_REGION})
+        const newImageName = prefix + Date.now() + '-' + '(dup)'
+        const updateImg = `https://${AWS_S3_BUCKET_NAME}.s3.${AWS_S3_REGION}.amazonaws.com/` + newImageName;
+
+        const copyParams = {
+          Bucket: AWS_S3_BUCKET_NAME,
+          CopySource: AWS_S3_BUCKET_NAME + '/' + sourceUrl,
+          Key: newImageName
+        };
+        const command = new AWS3.CopyObjectCommand(copyParams);
+        const resp = await s3.send(command)
+        // console.log(resp)
+        return {resp,updateImg}
     }
 }
 

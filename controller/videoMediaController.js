@@ -19,9 +19,6 @@ const videoMediaController = {
     
           const {type,section} = req.body;
 
-          
-          
-          
           try {
 
             const mediaToUpload = new VideoMedia({

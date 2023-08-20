@@ -1,9 +1,7 @@
 const Joi = require('joi')
 const Team = require('../../models/team')
-const AWS3 = require('@aws-sdk/client-s3')
-const S3Client = require('../../services/S3')
 const AWSService = require('../../services/S3Upload')
-const { AWS_S3_USER_ACCESS_KEY,AWS_S3_USER_SECRET_ACCESS_KEY,AWS_S3_REGION,AWS_S3_BUCKET_NAME } = require('../../config/index')
+
 
 const teamController = {
     async createMember(req, res, next) {
@@ -28,18 +26,10 @@ const teamController = {
               return next(error)
           }
 
-
-          
-          const newImageName = 'team/' + Date.now() + '-' + req.files.image.name
-          const imageUrl = `https://${AWS_S3_BUCKET_NAME}.s3.${AWS_S3_REGION}.amazonaws.com/` + newImageName
-
-          let uploadParams = {Key: newImageName,Bucket: AWS_S3_BUCKET_NAME, Body: req.files.image.data}
-          const command = new AWS3.PutObjectCommand(uploadParams)
-          const response = await S3Client.send(command)
-
+          const {response,updateImg} = await AWSService.uploadFile({name:req.files.image.name,data:req.files.image.data},'team/')
           if(response.$metadata.httpStatusCode === 200){
            try{
-             const MemberToCreate = new Team({name,designation,image:imageUrl});
+             const MemberToCreate = new Team({name,designation,image:updateImg});
              await MemberToCreate.save();
              return res.status(200).json({status: 200, msg:'Team Member Created!'});
             }catch(err){

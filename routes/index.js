@@ -13,6 +13,7 @@ const uploadController = require('../controller/uploadController');
 const blogController = require('../controller/blogController');
 const helpController = require('../controller/admin/Help&Support/helpController');
 const helpTabController = require('../controller/admin/Help&Support/helpTabController');
+const tipsController = require('../controller/admin/appTipsController');
 const videoMediaController = require('../controller/videoMediaController');
 const cartController = require('../controller/cartController');
 const orderController = require('../controller/orderController');
@@ -104,6 +105,14 @@ router.post('/api/get-blog-by-cateogry',blogController.GetBlogByCategory);
 // Help & Support Tab Admin Api's
  router.post('/api/admin/create-help-tab',adminAuth,helpTabController.createHelpTab);
  router.get('/api/get-help-tab',helpTabController.getHelpTabs);
+ // Appliance Tips Admin Api's
+ router.post('/api/admin/create-tip',adminAuth,tipsController.createTip);
+ router.post('/api/admin/update-tip',adminAuth,tipsController.updateTip);
+ router.post('/api/admin/duplicate-tip',adminAuth,tipsController.duplicateTip);
+ router.post('/api/admin/delete-tip',adminAuth,tipsController.deleteTip);
+ router.post('/api/admin/search-tip',tipsController.getTipBySearch);
+ router.post('/api/get-tip-by-category',tipsController.getTipByCategory);
+ router.post('/api/get-tip-by-slug',tipsController.getTipBySlug);
 
 // Loop Media Api's
 router.post('/api/admin/upload-video-media',adminAuth,videoMediaController.uploadVideoMedia);

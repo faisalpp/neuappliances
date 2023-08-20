@@ -30,15 +30,15 @@ const ManageFaq = () => {
 
     const [faqTabs,setFaqTabs] = useState([])
 
-    useEffect(() => {
-        const GetFaqTabs = async () => {
-            const res = await getFaqTab();
-            if(res.status === 200){
-                setFaqTabs(res.data.faqTabs)
-            }else{
-                console.log(res)
-            }
+    const GetFaqTabs = async () => {
+        const res = await getFaqTab();
+        if(res.status === 200){
+            setFaqTabs(res.data.faqTabs)
+        }else{
+            console.log(res)
         }
+    }
+    useEffect(() => {
         GetFaqTabs()
     }, [])
     
@@ -88,6 +88,7 @@ const ManageFaq = () => {
         console.log(data)
         const res = await updateFaqTab(data);
         if(res.status === 200){
+            GetFaqTabs()
             setUpdateFaqPopup(false)
             toast.success(res.msg, {
                 position: "top-right",
@@ -134,7 +135,6 @@ const ManageFaq = () => {
                 </form>
              </Popup>
             <AdminAccount>
-            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
             <div className='flex mb-5 py-3 rounded-3xl px-10 w-full' >
               <div className='flex w-full justify-end space-x-3' >
                <AiFillPlusCircle onClick={()=>setFaqPopup(true)} className='text-b3 text-3xl shadow-xl rounded-full cursor-pointer' />
@@ -155,7 +155,6 @@ const ManageFaq = () => {
                 }
 
                </div> 
-               <ToastContainer/>
             </AdminAccount>
         </>
     )

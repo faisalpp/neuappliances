@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import AdminAccount from '../../layout/AdminAccount';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Popup from '../../components/AdminDashboard/Popup';
 import {BsArrowRightShort} from 'react-icons/bs'
@@ -8,7 +8,6 @@ import {AiFillPlusCircle} from 'react-icons/ai'
 import SelectInput from '../../components/TextInput/SelectInput';
 import TextInput from '../../components/TextInput/TextInput';
 import {uploadVideoMedia,getVideoMedia} from '../../api/admin'
-import axios from 'axios'
 import Loader2 from '../../components/Loader/Loader2'
 import Pagination2 from '../../components/Pagination/Pagination2';
 
@@ -101,7 +100,6 @@ const ManageMedia = () => {
            <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Submit</span><BsArrowRightShort className='text-2xl' /> </a></button>
           </form>
         </Popup>
-        <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
         {isSubmit ? <Loader2/>:<AdminAccount>
           <div className='flex items-center mb-5 py-3 rounded-3xl px-10 w-full' >
           <SelectInput widthFull="false" name="sectionType" title="Filter Section Videos" iscompulsory="false" onChange={e=>setSelectedSection(e.target.value)} options={['Home Page Hero Section','Home Page Tour Section','Stay In Loop Videos',"Faq's Page Video",'Our Story Page Video','Our Showroom Page Video','Our Compnies Page Video']}  /> 
@@ -122,7 +120,6 @@ const ManageMedia = () => {
            </div>
            }
       </AdminAccount>}
-        <ToastContainer />
     </>
   )
 }

@@ -1,5 +1,5 @@
 const Help = require('../../../models/helpNsupport');
-const HelpTab = require('../../../models/helpNSupportTab');
+const BlogDTO = require('../../../dto/admin/blog');
 const Joi = require('joi')
 
 const helpController = {
@@ -144,7 +144,7 @@ const helpController = {
     
         const {category} = req.body;
         
-        // try{
+        try{
           let page = Number(req.query.page)
           let limit = Number(req.query.limit)
           let skip = (page - 1) * limit;
@@ -152,17 +152,26 @@ const helpController = {
           if(category !== 'all-categories'){
             const helps = await Help.find({category:category}).skip(skip).limit(limit);     
             const totalCount = await Help.countDocuments({category:category});
-            // console.log(totalCount)
-            return res.status(200).json({status: 200, helps:helps,totalCount:totalCount});
+            
+            let blogsDTOs=[];
+            helps.forEach((blog) => {
+              const blogDto = new BlogDTO(blog);
+              blogsDTOs.push(blogDto);
+            });
+            return res.status(200).json({status: 200, helps:blogsDTOs,totalCount:totalCount});
           }else{
             const helps2 = await Help.find({}).skip(skip).limit(limit); 
             const totalCount2 = await Help.countDocuments();
-            
-            return res.status(200).json({status: 200, helps:helps2,totalCount:totalCount2});
+            let blogsDTOs2=[];
+            helps2.forEach((blog) => {
+              const blogDto2 = new BlogDTO(blog);
+              blogsDTOs2.push(blogDto2);
+            });
+            return res.status(200).json({status: 200, helps:blogsDTOs2,totalCount:totalCount2});
           }
-        // }catch(error){
-        //   return next(error)
-        // }
+        }catch(error){
+          return next(error)
+        }
     
     },
 
