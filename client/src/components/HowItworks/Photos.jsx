@@ -1,5 +1,6 @@
 import React from 'react'
 import WhatWeShallCard from './WhatWeSellCard'
+import HowItWorksCard from './HowItWorksCard'
 import SatisfiedSection from '../SatisfiedSection'
 import { AiOutlineArrowRight } from 'react-icons/ai'
 import HowItWorks from '../../pages/HowItWorks/HowItWorks'
@@ -13,10 +14,12 @@ const Photos = () => {
                     <p className='mt-4 max-w-[896px] w-full text-b18 mx-auto text-center'>
                         Each scratch and dent appliance is unique. Every appliance receives their own 360° photos and video. This allows you to shop from home while seeing exactly where the cosmetic blemishes are (if any!)
                     </p>
-                    <div className='[&>*:nth-child(even)>div:first-child]:order-2 grid grid-cols-1 gap-60px'>
-                        <WhatWeShallCard feature={false} image="testing1.png" title="Each Appliance Get Their Own Photo + Video" description1="Each appliance gets their own set of photos and videos of the actual item. So you know exactly where the dent or ding is (if any!). " />
-                        <WhatWeShallCard feature={false} image="testing2.png" title="State Of The Art Photo Booth" description1="Our Industry 1st photo booth was custom built to bring visual transparency to our customers. Our photo room includes a 70’ wide custom made automatic turntable so each appliance can be viewed 360° from every angle." />
-                        <WhatWeShallCard feature={false} image="testing3.png" title="High Definition Pictures and Videos" description1="Our Photographers use professional photography equipment to ensure our appliances have the highest definition pictures and videos available." />
+                    <div className='[&>*:nth-child(odd)>div:first-child]:order-2 grid grid-cols-1 gap-60px'>
+                        <HowItWorksCard icon="StateofArt.png" image="testing2.png" title="State Of The Art Photo Booth" description="Our Industry leading photo booth was custom built to bring visual transparency to our customers. Our photo room includes a 10 ft wide custom made automatic turntable, allowing us to capture each appliance from every angle, 360°." />
+                        <HowItWorksCard icon="360Photos.png" image="Washing.png" title="360  Photos" description="Each appliance receives their own 360 (degree sign) interactive view. This industry leading approach allows you to tour each Scratch and Dent Appliance's cosmetic condition." />
+                        <HowItWorksCard icon="ScratchandDent.png" image="Scarcthanddent.png" title="Scratch and Dent Showcase" description="All major cosmetic blemishes are highlighted on the 360 view." />
+                        <HowItWorksCard icon="ScratchandDent.png" image="image3.png" title="High Definition Pictures and Videos" description="Our Photographers use professional photography equipment to ensure our appliances have the highest definition pictures and videos available." />
+                        <HowItWorksCard icon="ScratchandDent.png" image="testing1.png" title="Each Appliance Get Their Own Photo + Video" description="Each appliance gets their own set of photos and videos of the actual item. So you know exactly where the dent or ding is (if any!). " />
                     </div>
 
                     <SatisfiedSection title="Our Customers Love Being Able to Shop For Scratch and Dent Appliances From Home" SectionStyle="[&>h4]:2xl:!text-4xl [&>h4]:2xl:!leading-[44px] !p-0 !max-w-full" />

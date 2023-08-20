@@ -8,8 +8,8 @@
   box-sizing: border-box;
 }
 
-.body {
-  font-family: 'Montserrat';
+body {
+  font-family: 'Montserrat', sans-serif;
 }
 
 #tour {
@@ -179,8 +179,23 @@
 }
 
 /* === */
+/* checklsit Scroll Bar */
+#checklists::-webkit-scrollbar-track {
+  border-radius: 16px;
+  background-color: white;
+}
 
+#checklists::-webkit-scrollbar {
+  width: 16px;
+  background-color: white;
+}
 
+#checklists::-webkit-scrollbar-thumb {
+  border-radius: 16px;
+  background-color: #D9D9D9;
+}
+
+/* ========= */
 h1.ce-header {
   @apply text-3xl font-bold
 }

@@ -34,7 +34,7 @@ const Faqs = () => {
                 <h2 className='text-xl lg:text-2xl xl:text-[32px] font-bold text-b18 text-center'>Common FAQs with Appliance Repair</h2>
                 <div className='flex flex-col gap-3 sm:gap-4 w-full'>
                     {faqs.map((faq, index) => (
-                        <FaqAccordion activeBg="!bg-b3" activeText="!text-white" title={faq.title} parent='gap-3 bg-[#F8FBFB] [&>div>h6]:maxmd:text-sm p-4 md:px-8 md:py-6 rounded-xl border-none text-b18 h-auto' icon='text-xl text-black' textStyle='font-bold text-md text-b18' child='[&>p]:text-sm text-b18 font-normal' answer={faq.answer} />
+                        <FaqAccordion key={index} activeBg="!bg-b3" activeText="!text-white" title={faq.title} parent='gap-3 bg-[#F8FBFB] [&>div>h6]:maxmd:text-sm p-4 md:px-8 md:py-6 rounded-xl border-none text-b18 h-auto' icon='text-xl text-black' textStyle='font-bold text-md text-b18' child='[&>p]:text-sm text-b18 font-normal' answer={faq.answer} />
                     ))}
                 </div>
                 <p className='text-b18 xs:leading-8 text-base xs:text-xl'>

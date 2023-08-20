@@ -409,9 +409,9 @@ const Product = () => {
           <NewProductCards />
           {/* Faq Accrodions */}
           <div className='flex flex-col items-center mb-5 justify-center pt-14 xl:pt-10 gap-y-3 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
-            <FaqAccordion title="Appliance Description" parent='w-full px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer={product.description} />
-            <FaqAccordion title="Specifications" parent='w-full px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer={product.specification} />
-            <FaqAccordion title="Delivery Info" parent='w-full px-4 py-4 rounded-xl h-auto' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm' answer={product.deliveryInfo} />
+            <FaqAccordion title="Appliance Description" parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm !mt-0' answer={product.description} chevrown />
+            <FaqAccordion title="Specifications" parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm !mt-0' answer={product.specification} chevrown />
+            <FaqAccordion title="Delivery Info" parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm !mt-0' answer={product.deliveryInfo} chevrown />
           </div>
 
           {/* 360 Degree Product Section */}
