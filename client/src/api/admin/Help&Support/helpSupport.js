@@ -32,6 +32,16 @@ export const updateHelp = async (data) => {
     }
     return response;
 }
+export const duplicateHelp = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/duplicate-help',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const deleteHelp = async (data) => {
     let response;
     

@@ -96,6 +96,7 @@ router.post('/api/get-blog-by-cateogry',blogController.GetBlogByCategory);
 // Help & Support Admin Api's
  router.post('/api/admin/create-help',adminAuth,helpController.createHelp);
  router.post('/api/admin/update-help',adminAuth,helpController.updateHelp);
+ router.post('/api/admin/duplicate-help',adminAuth,helpController.duplicateHelp);
  router.post('/api/admin/delete-help',adminAuth,helpController.deleteHelp);
  router.post('/api/admin/search-help',adminAuth,helpController.getHelpBySearch);
  router.post('/api/get-help-by-category',helpController.getHelpByCategory);

@@ -20,7 +20,7 @@ const ManageHelpSupport = () => {
   const [blogs,setBlogs] = useState([])
 
   const [page,setPage] = useState(1)
-  const [limit,setLimit] = useState(8)
+  const [limit,setLimit] = useState(4)
   const [totalCount,setTotalCount] = useState(0)
 
   const [loading,setLoading] = useState(false)
@@ -181,7 +181,7 @@ const SearchBlog = async (e) => {
                  {loading ? <div className='flex items-center justify-center w-full' ><img src="/loader-bg.gif" className='w-10 h-10' /></div> : blogs ? <HelpTable setPage={setPage} getBlog={GetBlog} data={blogs} />:<div className='flex justify-center w-full h-full' >
                 <img src="/not-found.png" className='w-36 h-36' />
                </div>}
-               {blogs.length > limit ? <Pagination2 page={page} setPage={setPage} totalPages={totalCount} />:null}
+               {totalCount <= limit ? <Pagination2 page={page} setPage={setPage} totalPages={totalCount} />:null}
             
             
             

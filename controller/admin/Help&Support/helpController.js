@@ -100,6 +100,37 @@ const helpController = {
           return res.status(200).json({status:200,msg:'Help & Support Deleted Successfully!'});
     },
 
+    async duplicateHelp(req, res, next) {
+      const blogSchema = Joi.object({
+          slug: Joi.string().required(),
+        });
+        const { error } = blogSchema.validate(req.body);
+        
+        // 2. if error in validation -> return error via middleware
+        if (error) {
+          return next(error)
+        }
+        
+        // 3. if email or username is already registered -> return an error
+        const {slug} = req.body;
+        
+        const blog = await Help.findOne({ slug });  
+        if (blog) {
+            const title = blog.title + '(Duplicate)' + Date.now();
+            const slug = title.toLocaleLowerCase().replace(/\s/g,'-');
+            try{
+              const BlogToCreate = new Help({title:title,slug:slug,category:blog.category,shortDescription:blog.shortDescription,content:blog.content});
+              await BlogToCreate.save();
+              return res.status(200).json({status: 200, msg:'Help & Support Duplicate Created!'});
+            }catch(err){
+              const error = {status:500,message:"Internal Server Error!"}
+              return next(error)
+            }
+        }else{
+          return res.status(404).json({status: 404, message:'Help & Support Does Not Exist!'});
+        }  
+  },
+
     async getHelpByCategory(req, res, next) {
       const blogSchema = Joi.object({
           category: Joi.string().required(),
@@ -113,23 +144,25 @@ const helpController = {
     
         const {category} = req.body;
         
-        try{
+        // try{
           let page = Number(req.query.page)
           let limit = Number(req.query.limit)
           let skip = (page - 1) * limit;
+          // console.log(category)
           if(category !== 'all-categories'){
             const helps = await Help.find({category:category}).skip(skip).limit(limit);     
-            // console.log(helps)
-            const totalCount = helps.length
+            const totalCount = await Help.countDocuments({category:category});
+            // console.log(totalCount)
             return res.status(200).json({status: 200, helps:helps,totalCount:totalCount});
           }else{
             const helps2 = await Help.find({}).skip(skip).limit(limit); 
             const totalCount2 = await Help.countDocuments();
+            
             return res.status(200).json({status: 200, helps:helps2,totalCount:totalCount2});
           }
-        }catch(error){
-          return next(error)
-        }
+        // }catch(error){
+        //   return next(error)
+        // }
     
     },
 
@@ -158,6 +191,7 @@ const helpController = {
             const helps = await Help.find(queryObject).skip(skip).limit(limit); 
             
             const totalCount = await Help.countDocuments();
+            console.log(totalCount)
             return res.status(200).json({status: 200, helps:helps,totalCount:totalCount});
           }catch(error){
             return next(error)

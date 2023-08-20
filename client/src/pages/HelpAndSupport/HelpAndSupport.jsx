@@ -14,10 +14,10 @@ const HelpAndSupport = () => {
     const [loading,setLoading] = useState(false)
     const [activeTab, setActiveTab] = useState('delivery');
     const [fadeOut, setFadeOut] = useState(false);
-    const [totalCount,setTotalCount] = useState(10);
+    const [totalCount,setTotalCount] = useState(0);
 
     const [page,setPage] = useState(1)
-    const [limit,setLimit] = useState(16)
+    const [limit,setLimit] = useState(2)
 
     useEffect(()=>{
         GetBlog()
@@ -33,6 +33,7 @@ const HelpAndSupport = () => {
           setLoading(false)
           setBlogs(res.data.helps)
           setTotalCount(Math.ceil(res.data.totalCount / limit))
+          console.log(Math.ceil(res.data.totalCount / limit))
         }else{
           setBlogs([])
           setLoading(false)
@@ -109,7 +110,7 @@ const HelpAndSupport = () => {
                       </div>
                       }
                     </div>}
-                    {blogs.length > 16 ? <Pagination2 page={page} setPage={setPage} totalPages={totalPages} />:null}
+                    <Pagination2 page={page} setPage={setPage} totalPages={totalCount} />
                     </div>
                 </div>
             </MainLayout >
