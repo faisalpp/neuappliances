@@ -116,6 +116,7 @@ router.post('/api/get-blog-by-cateogry',blogController.GetBlogByCategory);
 
 // Loop Media Api's
 router.post('/api/admin/upload-video-media',adminAuth,videoMediaController.uploadVideoMedia);
+router.post('/api/admin/delete-video-media',adminAuth,videoMediaController.deleteVideoMedia);
 router.post('/api/admin/get-video-media',videoMediaController.getVideoMedia);
 router.post('/api/admin/get-single-video-media',videoMediaController.getSingleVideoMedia);
 // Gallery Api's

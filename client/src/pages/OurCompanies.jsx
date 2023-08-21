@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MainLayout from '../layout/MainLayout';
 import ApplianceDetail from '../components/Appliances/ApplianceDetail';
 import ShopAustinSection from '../components/Appliances/ShopAustinSection';
@@ -10,8 +10,23 @@ import ApplianceOutlet from '../components/OurCompanies/ApplianceOutlet';
 import ApplianceWholeSale from '../components/OurCompanies/ApplianceWholeSale';
 import { Link } from 'react-router-dom';
 import { AiOutlineArrowDown } from 'react-icons/ai';
+import {getSingleVideoMedia} from '../api/frontEnd'
 
 const OurCompanies = () => {
+
+    const [video,setVideo] = useState([])
+
+    useEffect(() => {
+      const GetSingleVideoMedia = async () => {
+        const data = {section:"our-compnies-page-video"}
+          const res = await getSingleVideoMedia(data);
+          console.log(res)
+          if(res.status === 200){
+            setVideo(res.data.media[0])
+          }
+      }
+      GetSingleVideoMedia()
+    },[]);
 
     return (
         <>
@@ -47,7 +62,8 @@ const OurCompanies = () => {
 
                 {/* Video Section */}
                 <div className='w-full 3xl:max-w-1680px mx-auto'>
-                    <iframe className='w-full h-[700px] 3xl:h-[920px]' src="https://www.youtube.com/embed/OzCAGd4YVbI" title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                {video && video.type === 'iframe' ? <iframe className='w-full h-[700px] 2xl:h-[920px]' src={video.url} title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>:null}
+                 {video && video.type !== 'iframe' ? <video controls autoPlay className='w-full h-[700px] object-cover 2xl:h-[920px]' src={video.url} />:null}
                 </div>
 
                 {/* Shop Austin Section */}

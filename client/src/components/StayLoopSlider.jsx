@@ -29,7 +29,7 @@ const StayLoopSlider = ({video,loopVideo,setLoopVideo,setVideo}) => {
      
       {loopVideo.length > 0 ? loopVideo.map((item)=> <div className='relative' >
        <div onClick={()=>setVideo(`${item.url}`)} className="absolute flex items-center justify-center cursor-pointer bg-black/20 z-40 rounded-2xl xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 " >{video === item.url ? <BsFillStopCircleFill className="text-gray-300 text-4xl" /> :<AiFillPlayCircle className="text-gray-300 text-4xl" />}</div>
-       {item.type === 'iframe' ? <iframe className='2xl:h-[504px] lg:h-96 lg:w-full h-52 w-80 rounded-2xl ' src={item.url} title={item.url} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe> : <video className='myIframe object-cover col-start-1 col-end-6 rounded-2xl xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 ' src={item.url} />}
+       {item.type === 'iframe' ? <iframe className='xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 rounded-2xl ' src={item.url} title={item.url} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe> : <video className='myIframe object-cover col-start-1 col-end-6 rounded-2xl xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 ' src={item.url} />}
       </div>):null}
      
      </div>

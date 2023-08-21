@@ -14,7 +14,7 @@ const RecentStories = ({ load, data, LoadMore }) => {
             {data.length > 0 ? <><h2 className='text-2xl xl:text-32px font-bold text-b18 text-center'>Recent Stories</h2>
                 <div className='my-10 grid grid-cols-1 xs:grid-cols-2 md:!grid-cols-3 gap-y-10 gap-x-4 2xl:gap-6'>
                     {data.length > 0 && data.map((blog, index) => (
-                        <BlogCard key={index} image={blog.thumbnail ? `https://${import.meta.env.VITE_AWS_S3_BUCKET_NAME}.s3.${import.meta.env.VITE_AWS_S3_REGION}.amazonaws.com/${blog.thumbnail}` : '/no-image.jfif'} title={blog.title.substr(0, 50)} date={FormatDate(blog.createdAt)} readMore={blog.slug} />
+                        <BlogCard key={index} image={blog.thumbnail ? blog.thumbnail : '/no-image.jfif'} title={blog.title.substr(0, 50)} date={FormatDate(blog.createdAt)} readMore={blog.slug} />
                     ))}
                 </div>
                 <div className='flex justify-center'>

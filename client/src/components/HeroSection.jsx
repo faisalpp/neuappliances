@@ -10,7 +10,7 @@ const HeroSection = () => {
     const GetSingleVideoMedia = async () => {
       const data = { section: 'home-page-hero-section' }
       const res = await getSingleVideoMedia(data);
-      console.log(res)
+      // console.log(res)
       if (res.status === 200) {
         setHeroVideo(res.data.media)
       }
@@ -30,7 +30,8 @@ const HeroSection = () => {
             <div className='relative w-full' >
               <img src="/45.png" alt="45.png" className='absolute xl:-top-14 xl:-left-10 lg:-top-10 lg:-left-10 2xl:w-[152px] 2xl:h-[152px] xl:w-[135px] xl:h-[135] lg:w-[125px] lg:h-[125px] h-20 -top-8 -left-5' />
               {heroVideo.length > 0 && heroVideo[0].type === 'iframe' ? <iframe className='2xl:h-[504px] lg:h-96 lg:w-full h-52 w-full md:w-80 rounded-2xl ' src={heroVideo[0].url} title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> : null}
-              {heroVideo.length > 0 && heroVideo[0].type !== 'iframe' ? <video controls className='2xl:h-[504px] object-cover lg:h-96 lg:w-full h-52 w-full md:w-80 rounded-2xl ' src={heroVideo[0].url} /> : null}
+              {heroVideo.length > 0 && heroVideo[0].type !== 'iframe'   ? <video controls className='2xl:h-[504px] object-cover lg:h-96 lg:w-full h-52 w-full md:w-80 rounded-2xl ' src={heroVideo[0].url} /> : null}
+            
             </div>
           </div>
         </div>

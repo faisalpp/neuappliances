@@ -19,7 +19,7 @@ const BlogTable = ({data,setPage,getBlog}) => {
           </thead>
           <tbody>
             {/* <BlogRow img={import.meta.env.VITE_APP_DEV ? `${import.meta.env.VITE_APP_INTERNAL_PATH}/${item.images[0]}`:`${item.images[0]}`} /> */}
-            {data.map((blog,index)=><BlogRow key={index} id={blog._id} setPage={setPage} getBlog={getBlog} img={blog.thumbnail ? `https://${import.meta.env.VITE_AWS_S3_BUCKET_NAME}.s3.${import.meta.env.VITE_AWS_S3_REGION}.amazonaws.com/${blog.thumbnail}` : '/no-image.jfif'}  title={blog.title} slug={blog.slug} category={blog.category} />)}
+            {data.map((blog,index)=><BlogRow key={index} id={blog._id} setPage={setPage} getBlog={getBlog} img={blog.thumbnail ? blog.thumbnail : '/no-image.jfif'}  title={blog.title} slug={blog.slug} category={blog.category} />)}
           </tbody>
         </table>
       </div>

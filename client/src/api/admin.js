@@ -379,28 +379,7 @@ export const searchBlog = async (data,params) => {
     return response;
 }
 
-// UPLOAD LOOP MEDIA
-export const uploadVideoMedia = async (data) => {
-    let response;
-    
-    try{
-        response = await AdminMultiApi.post('/api/admin/upload-video-media',data);
-    }catch (error){
-        return error;
-    }
-    return response;
-}
-// GET LOOP MEDIA
-export const getVideoMedia = async (params,data) => {
-    let response;
-    
-    try{
-        response = await AdminApi.post(`/api/admin/get-video-media/?page=${params.page}&limit=${params.limit}`,data);
-    }catch (error){
-        return error;
-    }
-    return response;
-}
+
 // CREATE REVIEW
 export const createReview = async (data) => {
     let response;

@@ -1,10 +1,7 @@
 const Blog = require('../models/blog')
 const Joi = require('joi')
 const RecentBlogDTO = require('../dto/blog/recentBlog')
-const AWS3 = require('@aws-sdk/client-s3')
-const S3Client = require('../services/S3')
 const AWSService = require('../services/S3Upload')
-const { AWS_S3_USER_ACCESS_KEY,AWS_S3_USER_SECRET_ACCESS_KEY,AWS_S3_REGION,AWS_S3_BUCKET_NAME } = require('../config/index')
 
 const blogController = {
     async createBlog(req, res, next) {
