@@ -7,13 +7,13 @@ import { RiArrowDropRightLine } from 'react-icons/ri';
 import { FaBars } from 'react-icons/fa';
 import { BsGrid, BsChevronDown } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
-import { GetAppliancesByFilter,getAppliancesFilters } from '../api/frontEnd'
+import { GetAppliancesByFilter, getAppliancesFilters } from '../api/frontEnd'
 import Loader from '../components/Loader/Loader'
 
 const Products = () => {
 
   const { category, type, value } = useParams()
-  
+
   const [categoriesFilters, setCategoriesFilters] = useState([])
   const [ratingFilters, setRatingFilters] = useState([])
   const [products, setProducts] = useState([])
@@ -83,7 +83,7 @@ const Products = () => {
 
             <div className={`grid ${isGrid ? 'lg:grid-cols-3 grid-cols-1 lg:gap-x-2' : 'grid-cols-1'} gap-y-5 mb-10 w-full`} >
 
-              {products.length > 0 ? products.map((product,index) => <ProductCard3 key={index} product={product} isGrid={isGrid} />) :
+              {products.length > 0 ? products.map((product, index) => <ProductCard3 key={index} product={product} isGrid={isGrid} />) :
                 <h1>No Product Founds!</h1>
               }
 
