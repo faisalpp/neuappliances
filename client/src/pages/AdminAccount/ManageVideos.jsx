@@ -46,6 +46,8 @@ const ManageMedia = () => {
         progress: undefined,
         theme: "light",
       });
+      setUploadMedia(section)
+      setSelectedSection()
       GetLoopMedia()
       setIsSubmit(false)
       setMediaPopup(false)
@@ -88,7 +90,7 @@ const ManageMedia = () => {
 
   useEffect(() => {
     GetLoopMedia()
-}, [selectedSection])
+}, [selectedSection,page])
 
 const [delLoading,setDelLoading] = useState(false)
   
@@ -154,7 +156,7 @@ const DeleteVideo = async (e,id,type,url) => {
                {item.type === 'iframe' ?<iframe className='object-cover rounded-2xl xl:h-[150px] xl:w-[180px] lg:w-[200px] lg:h-32 w-32 h-32 ' src={item.url} title="#885 Liquidation Half Truckload of 25 Scratch &amp; Dent Kitchen and Laundry Appliances South Carolina" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ></iframe>:null} 
               </div></>)}
            </div>
-           {media.length > 16 ? <Pagination2 page={page} setPage={setPage} totalPages={totalPages} />:null}
+           <Pagination2 page={page} setPage={setPage} totalPages={totalPages} />
            </>
            :
            <div className='flex mt-32 justify-center w-full h-full' >

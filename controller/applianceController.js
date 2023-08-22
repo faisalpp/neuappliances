@@ -25,7 +25,7 @@ const applianceController = {
         return res.status(200).json({status:200,categorySections:categorySections,categoryDescription:category.description,categoryTitle:category.title});
       })
       .catch(err => {
-        return res.status(500).json({status:500,msg:"Internal Server Error!"});
+        return res.status(500).json({status:500,massage:"Internal Server Error!"});
       });
 
     },

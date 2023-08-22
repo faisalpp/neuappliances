@@ -168,7 +168,7 @@ const productController = {
           
          // Upload 360 End
         }catch(err){
-          const error = {status:500,msg:"Internal Server Error!"}
+          const error = {status:500,message:"Internal Server Error!"}
           return next(error)
         }
         
@@ -215,7 +215,7 @@ const productController = {
         return res.status(200).json({status:200,productTypes:productTypes});
       })
       .catch(err => {
-          return res.status(500).json({msg:'Internal Server Error!'});
+          return res.status(500).json({message:'Internal Server Error!'});
       });
     },
     async GetProductFeatures(req,res,next){
@@ -229,7 +229,7 @@ const productController = {
           return res.status(200).json({status:200,productFeatures:productFeatures});
       })
       .catch(err => {
-          return res.status(500).json({msg:'Internal Server Error!'});
+          return res.status(500).json({message:'Internal Server Error!'});
       });
     },
     async GetCategoryBrands(req,res,next){
@@ -242,7 +242,7 @@ const productController = {
           return res.status(200).json({status:200,categoryBrands:categoryBrands});
       })
       .catch(err => {
-          return res.status(500).json({msg:'Internal Server Error!'});
+          return res.status(500).json({message:'Internal Server Error!'});
       });
     },
     async GetCategoryColors(req,res,next){
@@ -255,7 +255,7 @@ const productController = {
           return res.status(200).json({status:200,categoryColors:categoryColors});
       })
       .catch(err => {
-          return res.status(500).json({msg:'Internal Server Error!'});
+          return res.status(500).json({message:'Internal Server Error!'});
       });
     }
 

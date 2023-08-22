@@ -156,7 +156,7 @@ const sectionController = {
             return res.status(200).json({status:200,msg:'Section Item Created Successfully!'});
           })
           .catch(err => {
-            return res.status(500).json({status:500,msg:'Internal Server Error!'});
+            return res.status(500).json({status:500,message:'Internal Server Error!'});
           });
   
       

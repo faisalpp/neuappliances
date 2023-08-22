@@ -30,25 +30,25 @@ const ManageReviews = () => {
   const [errors,setErrors] = useState([])
 
   const [author,setAuthor] = useState('');
-  const [pageType,setPageType] = useState('homepage-google-review');
+  const [pageType,setPageType] = useState('homePage-footer-review');
   const [content,setContent] = useState('');
   const [rating,setRating] = useState('3');
 
   const [loading,setLoading] = useState(false)
   
-  const pageNames = ['HomePage Google Review','HomePage Yelp Review','HomePage General Review','How It Works 1st Section Review (What We Sell Tab)','How It Works 2nd Section Review (Wat We Sell Tab)','How It Works Review (Ratings Tab)','How It Works Review (Tested Tab)','How It Works Review (Photo Tab)','How It Works Review (Delivered Tab)','How It Works 1st Section Review (Hassle Free Tab)','How It Works 2nd Section Review (Hassle Free Tab)','Faq Page Review','Our Story Page Review','Our Showroom Page Review','Our Companies Page Review','Appliance Repair Page Review','Measuring Guide Page Review','Helpfull Appliance Tips Page Review','Financing Page Review','Blog Page Review','Product Details Page Revi']
+  const pageNames = ['HomePage Footer Review','How It Works 1st Section Review (What We Sell Tab)','How It Works 2nd Section Review (Wat We Sell Tab)','How It Works Review (Ratings Tab)','How It Works Review (Tested Tab)','How It Works Review (Photo Tab)','How It Works Review (Delivered Tab)','How It Works 1st Section Review (Hassle Free Tab)','How It Works 2nd Section Review (Hassle Free Tab)','Faq Page Review','Our Story Page Review','Our Showroom Page Review','Our Companies Page Review','Appliance Repair Page Review','Measuring Guide Page Review','Helpfull Appliance Tips Page Review','Financing Page Review','Blog Page Review']
 
   const Submit = async (e) => {
     e.preventDefault()
     setLoading(true)
     try {
       const err = await reviewValidationSchema.validate({author,pageType,content,rating}, { abortEarly: false });
-      const data = {author:author,page:pageType,content:content,rating:rating}
+      const data = {author:author,pageType,content:content,rating:rating}
       const res = await createReview(data);
       if(res.status === 200){
         setLoading(false)
           setReviewPopup(false)
-          toast.success(res.msg, {
+          toast.success(res.data.msg, {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -61,7 +61,7 @@ const ManageReviews = () => {
       }else{
           setLoading(false)
           setReviewPopup(false)
-          toast.error(res.message, {
+          toast.error(res.data.message, {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -73,8 +73,11 @@ const ManageReviews = () => {
             });
       }
     } catch (error) {
-      console.error('Validation errors:', error.errors);
-      setErrors(error.errors)
+      if (error) {
+        setErrors(error.errors)
+      } else {
+        setErrors([])
+      }
       setLoading(false)
     }
   }
@@ -110,10 +113,10 @@ const ManageReviews = () => {
         <Popup state={reviewPopup} setState={setReviewPopup}>
           <form onSubmit={Submit} className='flex flex-col space-y-3' >
            <h1 className="font-semibold" >Create a Review</h1>
-           <SelectInput widthFull="true" name="type" title="Select Page" iscompulsory="true" onChange={e=>setPageType(e.target.value)} options={pageNames} error={errors.includes('PageType is Required!') ? true : false} errormessage="PageType is Required!"  />
-           <TextInput  name="author" title="Author Name" iscompulsory="true" type="text" value={author} onChange={e=>setAuthor(e.target.value)} placeholder="Jhon Doe" error={errors.includes('PageType is Required!') ? true : false} errormessage="PageType is Required!" />
-           <SelectInput widthFull="true" name="rating" title="Review Rating" iscompulsory="true" onChange={e=>setRating(e.target.value)} options={['3','4','5']} error={errors.includes('Rating is Required!') ? true : false} errormessage="Rating is Required!" />
-           <TextArea  name="content" title="Review Content" iscompulsory="true" type="text" value={content} onChange={e=>setContent(e.target.value)} placeholder="Write Review Here..." error={errors.includes('Content is Required!') ? true : false} errormessage="Content is Required!" />
+           <SelectInput widthFull="true" name="type" title="Select Page" iscompulsory="true" onChange={e=>setPageType(e.target.value)} options={pageNames} error={errors && errors.includes('PageType is Required!') ? true : false} errormessage="PageType is Required!"  />
+           <TextInput  name="author" title="Author Name" iscompulsory="true" type="text" value={author} onChange={e=>setAuthor(e.target.value)} placeholder="Jhon Doe" error={errors && errors.includes('PageType is Required!') ? true : false} errormessage="PageType is Required!" />
+           <SelectInput widthFull="true" name="rating" title="Review Rating" iscompulsory="true" onChange={e=>setRating(e.target.value)} options={['3','4','5']} error={errors && errors.includes('Rating is Required!') ? true : false} errormessage="Rating is Required!" />
+           <TextArea  name="content" title="Review Content" iscompulsory="true" type="text" value={content} onChange={e=>setContent(e.target.value)} placeholder="Write Review Here..." error={errors && errors.includes('Content is Required!') ? true : false} errormessage="Content is Required!" />
            <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' >{loading ? <img src="/loader-bg.gif" className='w-4 h-4 ml-2' />:<><span className='text-xs' >Submit</span><BsArrowRightShort className='text-2xl' /></> }</a></button>
           </form>
         </Popup>

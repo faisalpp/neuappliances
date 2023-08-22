@@ -86,11 +86,7 @@ export const getGalleryImages = async (params) => {
     let response;
 
     try{
-        if(!params){
-            response = await api.get('/api/admin/get-gallery-image');
-        }else{
-            response = await api.get(`/api/admin/get-gallery-image/?page=${params.page}&limit=${params.limit}`);
-        }
+     response = await api.get(`/api/admin/get-gallery-image/?page=${params.page}&limit=${params.limit}`)
     }catch (error){
         return error;
     }

@@ -9,7 +9,7 @@ const reviewController = {
       // 1. validate user input
      const getCartSchema = Joi.object({
       author: Joi.string().required(),
-      page: Joi.string().required(),
+      pageType: Joi.string().required(),
       content: Joi.string().required(),
       rating: Joi.string().required(),
     });
@@ -21,20 +21,20 @@ const reviewController = {
     }
 
 
-    const {page,author,content,rating} = req.body;
+    const {pageType,author,content,rating} = req.body;
 
    try{
      
     const reviewToCreate = new Review({
-     page,
+      pageType,
      author,
      content,
      rating
     });
   
-    const savedAddress = await reviewToCreate.save()
+    await reviewToCreate.save()
     
-    res.status(200).json({status: 200,msg:"Review Saved!"});
+    res.status(200).json({status: 200,msg:"Review Created Successfully!"});
   
    }catch(err){
     const error = {status:500,message:'Internal Server Error!'}
@@ -42,6 +42,23 @@ const reviewController = {
    }
 
   },
+
+  async getReviews(req, res, next) {
+
+    try{
+        let pagee = Number(req.query.page) 
+        let limit = Number(req.query.limit) 
+
+        let skip = (pagee - 1) * limit;
+
+        const gallery = await Review.find({}).skip(skip).limit(limit);
+        const totalCount = await Review.countDocuments({});
+        return res.status(200).json({status:200,gallery:gallery,totalCount:totalCount});
+    }catch(error){
+        return next(error)
+    }
+
+ },
 
   async getGoogleReviews(req, res, next) {
     const placeId = GOOGLE_PLACE_ID;

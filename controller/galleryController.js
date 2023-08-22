@@ -1,38 +1,50 @@
 const Joi = require('joi')
 const Gallery = require('../models/gallery')
-const { CLOUDINARY_CLOUD_NAME,CLOUDINARY_UPLOAD_PRESET, CLOUDINARY_API_KEY,CLOUDINARY_API_SECRET} = require('../config/index')
-const axios = require('axios')
-const cloudinary = require('cloudinary').v2;
+const AWSService = require('../services/S3Upload')
 
 const galleryController = {
   async uploadGalleryImage(req, res, next) {
 
-    const image = req.files.image;
+    if(!req.files){
+      return res.status(500).json({ status: 500, message: 'Image Required!' });
+    }
+    const imageKeys = Object.keys(req.files).filter(key => key.startsWith('image_'));
     
-    const formData = new FormData()
-    formData.append('file',`data:${image.mimetype};base64,${image.data.toString('base64')}`);
-    formData.append('folder','Gallery');
-    formData.append('upload_preset',CLOUDINARY_UPLOAD_PRESET)
-    axios.post(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,formData)
-     .then(resp=>{ 
-       const newImage = new Gallery({
-        imageUrl:resp.data.secure_url,
-        publicId:resp.data.public_id,
-      });
+    const imgPaths = [];
+    for (const key of imageKeys) {
+      const file = req.files[key];
+      const {response,updateImg} = await AWSService.uploadFile({name:file.name,data:file.data},'gallery/')
+      if(response.$metadata.httpStatusCode === 200){
+        imgPaths.push(updateImg)
+      }else{
+        return res.status(500).json({ status: 500, message: 'Cloud Internal Server Error!' });
+      }
+    }
+    
+    
+    if(imageKeys.length === imgPaths.length){
+      try{
+        for(const img of imgPaths){
+          const newImage = new Gallery({
+            url:img,
+          });
+          newImage.save();
+        }
+        return res.status(200).json({ status: 200, msg: 'Image Uploaded Successfully!' });
+      }catch(error){
+        return res.status(500).json({ status: 500, message: 'Internal Server Error!' });
+      }
+    }else{
+      return res.status(500).json({ status: 500, message: 'Cloud Internal Server Error!' });
+    }
      
-      newImage.save();
-      return res.status(200).json({ status: 200, msg: 'Image Uploaded Successfully!' });
-    }).catch(err=>{
-        console.log(err)
-         return res.status(500).json({ status: 500, msg: 'Failed to upload image to Cloudinary' });
-     })
 
  },
  async getGalleryImage(req, res, next) {
 
     try{
-        let page = Number(req.query.page) || 0;
-        let limit = Number(req.query.limit) || 0;
+        let page = Number(req.query.page) 
+        let limit = Number(req.query.limit) 
 
         let skip = (page - 1) * limit;
 
@@ -46,27 +58,38 @@ const galleryController = {
  },
  
  async deleteGalleryImage(req, res, next) {
- 
-  // Configure Cloudinary
-  cloudinary.config({
-    cloud_name: CLOUDINARY_CLOUD_NAME,
-    api_key: CLOUDINARY_API_KEY,
-    api_secret: CLOUDINARY_API_SECRET 
+  const gallerySchema = Joi.object({
+    id: Joi.string().required(),
   });
+  const { error } = gallerySchema.validate(req.body);
+  
+  // 2. if error in validation -> return error via middleware
+  if (error) {
+    return next(error)
+  }
+  
+  // 3. if email or username is already registered -> return an error
+  const {id } = req.body;
 
-  const { publicId } = req.params;
+  const gallImg = await Gallery.findOne({_id:id})
 
-  // Delete the image from Cloudinary
-  cloudinary.uploader.destroy(publicId, (error, result) => {
-    if (error) {
-      return res.status(500).json({ status:500,message: 'Failed to delete image' });
+  if(!gallImg){
+    return res.status(500).json({ status: 500, message: 'Gallery Image Not Found!' });
+  }
+
+  const {resp} = await AWSService.deleteFile(gallImg.url)
+
+  if(resp.$metadata.httpStatusCode === 204){
+    try{
+      const blog = await Gallery.findByIdAndDelete(id);
+      return res.status(200).json({ status: 200, msg: 'Image Deleted Successfully!' });
+    }catch(error){
+      return res.status(500).json({ status: 500, message: 'Internal Server Error!' });
     }
-
-    // Image deleted successfully
-    return res.status(200).json({ status:200,msg: 'Image deleted successfully' });
-  });
-
- }
+  }else{
+    return res.status(500).json({ status: 500, message: 'Cloud Internal Server Error!' });
+  }
+ },
 
 
 }

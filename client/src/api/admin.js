@@ -392,29 +392,9 @@ export const createReview = async (data) => {
     return response;
 }
 
-// UPLOAD GALLERY IMAGE
-export const uploadGalleryImage = async (data) => {
-    let response;
-    
-    try{
-        response = await AdminMultiApi.post('/api/admin/upload-gallery-image',data);
-    }catch (error){
-        return error;
-    }
-    return response;
-}
 
-// DELETE GALLERY IMAGE
-export const deleteGalleryImage = async (params) => {
-    let response;
-    
-    try{
-        response = await AdminApi.get(`/api/admin/delete-gallery-image/?publicId=${params.publicId}`);
-    }catch (error){
-        return error;
-    }
-    return response;
-}
+
+
 
 // Team Member Api's
 export const createTeamMember = async (data) => {

@@ -37,7 +37,7 @@ const blogController = {
                 const blog = await BlogToCreate.save();
                 return res.status(200).json({status: 200, msg:'Blog Created Successuly!'});
                }catch(err){
-                 const error = {status:500,msg:"Internal Server Error!"}
+                 const error = {status:500,massage:"Internal Server Error!"}
                  return next(error)
                }
              }else{
@@ -122,7 +122,7 @@ const blogController = {
               return res.status(200).json({status:200,msg:'Blog Updated Successfully!'});
           
               } catch (error) {
-                const err = {status:500,msg:"Internal Server Error!"}
+                const err = {status:500,message:"Internal Server Error!"}
                 return next(err);
               }
         }else{
@@ -137,7 +137,7 @@ const blogController = {
                   const blog = await BlogToCreate.save();
                   return res.status(200).json({status: 200, msg:'Blog Updated Successuly!'});
                  }catch(err){
-                   const error = {status:500,msg:"Internal Server Error!"}
+                   const error = {status:500,message:"Internal Server Error!"}
                    return next(error)
                  }
                }

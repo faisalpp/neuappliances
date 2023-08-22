@@ -50,17 +50,17 @@ const StayInLoop = () => {
                 </div>
 
                 <div className='pb-10 lg:pb-16 xl:pb-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
-                  {isLoading ? <div className='flex items-center justify-center' ><img src="/loader-bg.gif" /></div> : media.map((item) => (<>
-                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-                   <div className='w-full'>
-                     {item.type === 'iframe' ? <iframe src={item.url} title={item.url} className='h-[300px] object-cover w-full rounded-2xl' ></iframe> : <video src={item.url} className='h-[300px] object-cover w-full rounded-2xl' controls  />}   
-                   </div>
-                    </div>
-                    <div>
-                        <Pagination2 page={page} setPage={setPage} totalPages={totalPages} />
-                    </div>
-                  </>
+                  {isLoading ? <div className='flex items-center justify-center' ><img src="/loader-bg.gif" /></div> : 
+                  <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-6'>
+                   {media.map((item) => (
+                         <div className='w-fit'>
+                         {item.type === 'iframe' ? <iframe src={item.url} title={item.url} className='h-[250px] object-cover w-full rounded-2xl' ></iframe> : <video src={item.url} className='h-[300px] object-cover w-full rounded-2xl' controls  />}   
+                       </div>
                   ))}
+                  </div>}
+                  <div>
+                    <Pagination2 page={page} setPage={setPage} totalPages={totalPages} />
+                  </div>
                 </div>
 
             </MainLayout>
