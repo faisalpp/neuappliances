@@ -38,6 +38,8 @@ module.exports = withMT({
 
       // min and max width breakpoints
 
+      'xs-to-sm': { 'min': '425px', 'max': '576px' },
+      'md-to-lg': { 'min': '768px', 'max': '992px' },
       'lg-to-xl': { 'min': '992px', 'max': '1060px' },
     },
     extend: {

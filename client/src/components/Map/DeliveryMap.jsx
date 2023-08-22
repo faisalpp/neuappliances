@@ -129,7 +129,7 @@ const DeliveryMap = ({ customStyle }) => {
     }, [])
     return (
         <div className={customStyle}>
-            <div className={`absolute bottom-20 lg:left-24 ${success ? 'flex' : 'hidden'} items-center z-20 bg-transparent h-52 justify-center w-11/12`} >
+            <div className={`absolute bottom-20 lg:left-24 ${success ? 'flex' : 'hidden'} items-center z-20 bg-transparent h-52 justify-center w-11/12 lg:ml-5 lg:right-0`} >
                 <div className='absolute flex items-center z-20 bottom-20 space-x-2 bg-white shadow-xl px-5 py-2 rounded-lg' >
                     <AiFillCheckCircle className='text-b12' />
                     <p className='font-semibold' >Delivery Available {zip}</p>
