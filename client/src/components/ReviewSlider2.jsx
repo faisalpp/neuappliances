@@ -18,7 +18,7 @@ const ReviewSlider2 = ({ color, clientreviews, icon }) => {
             {
                 breakpoint: 575,
                 settings: {
-                    slidesToShow: 1,
+                    slidesToShow: 1.12,
                 },
             },
             {
@@ -55,16 +55,16 @@ const ReviewSlider2 = ({ color, clientreviews, icon }) => {
 
     const StarIconPrinter = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
-          <AiFillStar className='text-b7 text-sm' /> // Render the star icon component for each iteration
+            <AiFillStar className='text-b7 text-sm' /> // Render the star icon component for each iteration
         ));
-    
+
         return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
     };
     const StarIconPrinter2 = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
-          <AiFillStar className='text-gray-300 text-sm' /> // Render the star icon component for each iteration
+            <AiFillStar className='text-gray-300 text-sm' /> // Render the star icon component for each iteration
         ));
-    
+
         return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
     };
 
@@ -72,13 +72,13 @@ const ReviewSlider2 = ({ color, clientreviews, icon }) => {
         <div>
             {clientreviews ? <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
                 {clientreviews.map((clientreview, index) => (
-                    <div key={index}>
+                    <div key={index} className='maxsm:px-2'>
                         <div style={{ backgroundColor: color }} className="flex flex-col shadow-sm px-5 py-3 rounded-xl xl:h-[170px] sm:mx-2">
                             <div className="flex mt-2">
                                 <StarIconPrinter numberOfTimes={clientreview.review} />
                                 <StarIconPrinter2 numberOfTimes={5 - clientreview.review} />
                             </div>
-                            <p className="text-sm font-semibold mt-1">{clientreview.content }</p>
+                            <p className="text-sm font-semibold mt-1">{clientreview.content}</p>
                             <a href='' className="text-sm text-b6 mt-2">Read More</a>
                             <div className="flex items-center">
                                 <h5 className="text-sm mt-2 w-10/12">{clientreview.author}</h5>
@@ -87,7 +87,7 @@ const ReviewSlider2 = ({ color, clientreviews, icon }) => {
                         </div>
                     </div>
                 ))}
-            </Slider>:null}
+            </Slider> : null}
         </div >
     );
 };

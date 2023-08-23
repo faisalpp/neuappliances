@@ -17,9 +17,9 @@ const ReviewEXSlider = ({ clientreviews, icon, dots }) => {
     responsive: [
       {
         breakpoint: 767,
-        dots: false,
         settings: {
-          slidesToShow: 1,
+          dots: true,
+          slidesToShow: 1.08,
         },
       },
       {
@@ -49,7 +49,7 @@ const ReviewEXSlider = ({ clientreviews, icon, dots }) => {
   // console.log(color)
   return (
     <div className='reviewslider-wrapper'>
-      <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
+      <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative maxmd:mb-10'>
         {clientreviews.map((clientreview, index) => (
           <div key={index}>
             <ReviewExCard description={clientreview.description} author={clientreview.author} review={clientreview.review} />
