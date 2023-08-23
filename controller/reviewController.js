@@ -43,17 +43,134 @@ const reviewController = {
 
   },
 
+  async updateReview(req, res, next) {
+    // 1. validate user input
+   const getCartSchema = Joi.object({
+    id: Joi.string().required(),
+    author: Joi.string().required(),
+    pageType: Joi.string().required(),
+    content: Joi.string().required(),
+    rating: Joi.string().required(),
+  });
+  const { error } = getCartSchema.validate(req.body);
+ 
+  // 2. if error in validation -> return error via middleware
+  if (error) {
+    return next(error)
+  }
+
+
+  const {id,pageType,author,content,rating} = req.body;
+
+  const findReview = Review.findOne({_id:id});
+
+  if(!findReview){
+    return res.status(500).json({status: 500, message:'Review Not Found!'});
+  }
+
+  try { 
+     await Review.findByIdAndUpdate(
+      id,
+      {pageType,author,content,rating},
+      { new: true }
+    );
+
+    return res.status(200).json({status:200,msg:'Review Updated Successfully!'});
+
+    } catch (error) {
+      return res.status(500).json({status: 500, message:'Internal Server Error!'});
+    }
+
+},
+
+async duplicateReview(req, res, next) {
+  // 1. validate user input
+ const getCartSchema = Joi.object({
+  id: Joi.string().required()
+});
+const { error } = getCartSchema.validate(req.body);
+
+// 2. if error in validation -> return error via middleware
+if (error) {
+  return next(error)
+}
+
+
+const {id} = req.body;
+
+const findReview = await Review.findOne({_id:id});
+
+if(!findReview){
+  return res.status(500).json({status: 500, message:'Review Not Found!'});
+}
+
+// try { 
+   const dAuthor = findReview.author + '(duplicate)'
+   const reviewToCreate = new Review({
+     pageType:findReview.pageType,
+     author:dAuthor,
+     content:findReview.content,
+     rating:findReview.rating
+    });
+
+  await reviewToCreate.save()
+
+  return res.status(200).json({status:200,msg:'Review Duplicated Successfully!'});
+
+  // } catch (error) {
+  //   return res.status(500).json({status: 500, message:'Internal Server Error!'});
+  // }
+
+},
+
+async deleteReview(req, res, next) {
+  // 1. validate user input
+ const getCartSchema = Joi.object({
+  id: Joi.string().required()
+});
+const { error } = getCartSchema.validate(req.body);
+
+// 2. if error in validation -> return error via middleware
+if (error) {
+  return next(error)
+}
+
+
+const {id} = req.body;
+
+const findReview = Review.findOne({_id:id});
+
+if(!findReview){
+  return res.status(500).json({status: 500, message:'Review Not Found!'});
+}
+
+try { 
+  await Review.findByIdAndDelete(id);
+  return res.status(200).json({status:200,msg:'Review Deleted Successfully!'});
+  } catch (error) {
+    return res.status(500).json({status: 500, message:'Internal Server Error!'});
+  }
+
+},
+
   async getReviews(req, res, next) {
 
     try{
-        let pagee = Number(req.query.page) 
+        let page = Number(req.query.page) 
         let limit = Number(req.query.limit) 
 
-        let skip = (pagee - 1) * limit;
-
-        const gallery = await Review.find({}).skip(skip).limit(limit);
-        const totalCount = await Review.countDocuments({});
-        return res.status(200).json({status:200,gallery:gallery,totalCount:totalCount});
+        let skip = (page - 1) * limit;
+        let reviews;
+        let totalCount;
+        // console.log(req.body.pageType)
+        if(req.body.pageType !== 'all-categories'){
+          reviews = await Review.find({pageType:req.body.pageType}).skip(skip).limit(limit);
+          totalCount = await Review.countDocuments({pageType:req.body.pageType});
+        }else{
+          reviews = await Review.find({}).skip(skip).limit(limit);
+          totalCount = await Review.countDocuments({});
+        }
+        return res.status(200).json({status:200,reviews:reviews,totalCount:totalCount});
     }catch(error){
         return next(error)
     }

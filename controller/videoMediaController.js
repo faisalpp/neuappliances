@@ -99,18 +99,17 @@ const videoMediaController = {
        if (error) {
         return next(error)
       }
-
       let page = Number(req.query.page) || 1;
       let limit = Number(req.query.limit) || 3;
-
+      
       let skip = (page - 1) * limit;
       const {section} = req.body;
+      console.log(section)
       
       try{
-        console.log(section)
-        const loops = await VideoMedia.find({section:section}).skip(skip).limit(limit);
+        const media = await VideoMedia.find({section:section}).skip(skip).limit(limit);
         const totalCount = await VideoMedia.countDocuments({section:section});
-        return res.status(200).json({status:200,loops:loops,count:loops.length,totalCount:totalCount});
+        return res.status(200).json({status:200,media:media,totalCount:totalCount});
       }catch(error){
         return next(error)
       }

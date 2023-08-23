@@ -380,17 +380,7 @@ export const searchBlog = async (data,params) => {
 }
 
 
-// CREATE REVIEW
-export const createReview = async (data) => {
-    let response;
-    
-    try{
-        response = await AdminApi.post('/api/admin/create-review',data);
-    }catch (error){
-        return error;
-    }
-    return response;
-}
+
 
 
 

@@ -123,6 +123,13 @@ router.post('/api/admin/get-single-video-media',videoMediaController.getSingleVi
 router.post('/api/admin/upload-gallery-image',adminAuth,galleryController.uploadGalleryImage);
 router.get('/api/admin/get-gallery-image',galleryController.getGalleryImage);
 router.post('/api/admin/delete-gallery-image',adminAuth,galleryController.deleteGalleryImage);
+// Admin Reviews Api
+router.post('/api/admin/create-review',adminAuth,reviewController.createReview);
+router.post('/api/admin/update-review',adminAuth,reviewController.updateReview);
+router.post('/api/admin/delete-review',adminAuth,reviewController.deleteReview);
+router.post('/api/admin/duplicate-review',adminAuth,reviewController.duplicateReview);
+router.post('/api/admin/get-reviews',adminAuth,reviewController.getReviews);
+router.get('/api/get-google-reviews',reviewController.getGoogleReviews);
 
 
 // User Cart Api's
@@ -134,9 +141,6 @@ router.post('/api/user/remove-cart-item',auth,cartController.removeFromCart);
 // User Order Processing Api's
 router.post('/api/user/save-order-address',auth,orderController.saveOrderAddress);
 
-// Admin Reviews Api
-router.post('/api/admin/create-review',adminAuth,reviewController.createReview);
-router.get('/api/get-google-reviews',reviewController.getGoogleReviews);
 
 // Front-End Api's
 router.post('/api/get-product-by-filter',applianceController.GetApplianceBySectionType);

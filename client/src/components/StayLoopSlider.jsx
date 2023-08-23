@@ -4,7 +4,7 @@ import {AiFillPlayCircle} from 'react-icons/ai'
 import {BsFillStopCircleFill} from 'react-icons/bs'
 
 
-const StayLoopSlider = ({video,loopVideo,setLoopVideo,setVideo}) => {
+const StayLoopSlider = ({page,setPage,totalPages,video,loopVideo,setLoopVideo,setVideo}) => {
  useEffect(() => {
    let box = document.getElementById('id3');
    setBox(box);
@@ -12,10 +12,12 @@ const StayLoopSlider = ({video,loopVideo,setLoopVideo,setVideo}) => {
   
   const [Box,setBox] = useState();
   const btnprev = () => {
+    page > 1 ? setPage(page - 1) : setPage(1);
     let width = Box.clientWidth;
     Box.scrollLeft = Box.scrollLeft - width;
   }
   const btnnext = () => {
+    page < totalPages && setPage(page + 1)
     let width = Box.clientWidth;
     Box.scrollLeft = Box.scrollLeft + width;
   }

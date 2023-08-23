@@ -77,11 +77,11 @@ const ManageGallery = () => {
     setIsLoading(true)
     const params = {page:page,limit:limit};
     const res = await getGalleryImages(params);
-    // console.log(res)
+    console.log(res)
     if(res.status === 200){
+        setIsLoading(false)
         setMedia(res.data.gallery)
         setTotalPages(Math.ceil(res.data.totalCount / limit))
-        setIsLoading(false)
       }else{
         setIsLoading(false)
         setMedia([])

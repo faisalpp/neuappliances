@@ -4,6 +4,7 @@ import {FiChevronDown} from 'react-icons/fi'
 
 const SelectInput = (props) => {
     const options = props.options
+    // console.log(props.options)
   return (
 
      <div className={`${props.widthFull === 'true' ? 'w-full' : 'w-1/2'}`} >
