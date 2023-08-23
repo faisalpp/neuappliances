@@ -65,13 +65,11 @@ const HowItWorks = ({ children }) => {
                     {/* tabs */}
                     <div className='flex maxxl:flex-wrap maxxl:justify-center xl:columns-6 gap-4'>
                         {TABS.map((tab) => (
-                            <Link to={tab.link} key={tab.id} className={`xl:w-full items-center py-4 px-8 rounded-2xl flex justify-center gap-2 xl:whitespace-nowrap ${location.pathname === tab.link ? 'active bg-b3 font-bold text-white' : 'bg-b11 text-black'}`} >
-                                {
-                                    location.pathname === tab.link ?
-                                        <img src={`/svgs/` + tab.icon} className='w-8 h-8' alt={tab.title} />
-                                        : null
-                                }
-                                {tab.title}
+                            <Link to={tab.link} key={tab.id} className={`xl:w-full items-center p-[10px] md:py-4 md:px-8 rounded-[10px_10px_0_0] md:rounded-2xl flex justify-center gap-2 xl:whitespace-nowrap ${location.pathname === tab.link ? 'active bg-b3 font-bold text-white' : 'bg-b11 text-black'}`} >
+                                <span className={`w-8 h-8 ${location.pathname === tab.link ? '' : 'md:hidden'}`}>
+                                    <img src={`/svgs/` + tab.icon} className='w-8 h-8' alt={tab.title} />
+                                </span>
+                                <span className={location.pathname === tab.link ? '' : 'maxmd:hidden'}>{tab.title}</span>
                             </Link>
                         ))}
                     </div>

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/ai';
 import { BiUserCircle } from 'react-icons/bi';
 import { IoMenu } from 'react-icons/io5';
@@ -15,7 +15,7 @@ import { resetUser } from '../../../store/userSlice'
 import { Menu } from '@headlessui/react'
 import { AdminSignout } from '../../../api/admin/auth';
 import { Signout } from '../../../api/user/auth';
-import {showSCart,hideSCart} from '../../../store/cartSlice'
+import { showSCart, hideSCart } from '../../../store/cartSlice'
 
 const Navbar = () => {
   const [megMenu, setMegMenu] = useState(false);
@@ -46,7 +46,7 @@ const Navbar = () => {
       });
       dispatch(resetUser());
       navigate('/');
-    }else if (res.code === 'ERR_BAD_REQUEST'){
+    } else if (res.code === 'ERR_BAD_REQUEST') {
       dispatch(resetUser());
       toast.error('Session Expired!', {
         position: "top-right",
@@ -75,7 +75,7 @@ const Navbar = () => {
 
   const handleLogout = async (e) => {
     e.preventDefault();
-    
+
     const res = await Signout();
     console.log(res)
     if (res.status === 200) {
@@ -89,7 +89,7 @@ const Navbar = () => {
         progress: undefined,
         theme: "light",
       });
-    }else if (res.code === 'ERR_BAD_REQUEST'){
+    } else if (res.code === 'ERR_BAD_REQUEST') {
       dispatch(resetUser());
       toast.error('Session Expired!', {
         position: "top-right",
@@ -231,7 +231,7 @@ const Navbar = () => {
             </div>
             <div className='col-start-10 col-end-13 flex items-center justify-end space-x-10' >
               <div className='flex items-center space-x-1 text-b4 cursor-pointer hover:text-white' ><FiPhone /><span className='text-xs font-medium w-max' >(512) 992-2714</span></div>
-              <div className='flex items-center space-x-1 text-white cursor-pointer' ><TfiHeadphoneAlt /><span className='text-xs font-medium w-max text-white/80' >Need Help?</span></div>
+              <Link to="/help-and-support" className='flex items-center space-x-1 text-white cursor-pointer' ><TfiHeadphoneAlt /><span className='text-xs font-medium w-max text-white/80' >Need Help?</span></Link>
             </div>
           </div>
 
