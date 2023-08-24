@@ -17,6 +17,9 @@ const AWS_S3_BUCKET_NAME=process.env.AWS_S3_BUCKET_NAME
 const GOOGLE_API_KEY=process.env.GOOGLE_API_KEY
 const GOOGLE_PLACE_ID=process.env.GOOGLE_PLACE_ID
 
+const YELP_API_KEY = process.env.YELP_API_KEY
+const YELP_BUSINESS_ID = process.env.YELP_BUSINESS_ID
+
 
 module.exports = {
  PORT,
@@ -32,5 +35,7 @@ module.exports = {
  AWS_S3_REGION,
  AWS_S3_BUCKET_NAME,
  GOOGLE_API_KEY,
- GOOGLE_PLACE_ID
+ GOOGLE_PLACE_ID,
+ YELP_API_KEY,
+ YELP_BUSINESS_ID
 }

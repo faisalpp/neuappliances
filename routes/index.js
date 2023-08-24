@@ -132,6 +132,7 @@ router.post('/api/admin/duplicate-review',adminAuth,reviewController.duplicateRe
 router.post('/api/admin/get-reviews',reviewController.getReviews);
 router.post('/api/get-reviews',reviewController.getUserReviews);
 router.get('/api/get-google-reviews',reviewController.getGoogleReviews);
+router.get('/api/get-yelp-reviews',reviewController.getYelpReviews);
 
 
 

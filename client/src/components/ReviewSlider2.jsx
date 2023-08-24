@@ -70,24 +70,24 @@ const ReviewSlider2 = ({ color, clientreviews, icon }) => {
 
     return (
         <div>
-            {clientreviews ? <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
+            {clientreviews.length > 0 ? <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
                 {clientreviews.map((clientreview, index) => (
                     <div key={index} className='maxsm:px-2'>
                         <div style={{ backgroundColor: color }} className="flex flex-col shadow-sm px-5 py-3 rounded-xl xl:h-[170px] sm:mx-2">
                             <div className="flex mt-2">
-                                <StarIconPrinter numberOfTimes={clientreview.review} />
-                                <StarIconPrinter2 numberOfTimes={5 - clientreview.review} />
+                                <StarIconPrinter numberOfTimes={clientreview.rating} />
+                                <StarIconPrinter2 numberOfTimes={5 - clientreview.rating} />
                             </div>
-                            <p className="text-sm font-semibold mt-1">{clientreview.content}</p>
+                            <p className="text-sm font-semibold mt-1">{clientreview.text}</p>
                             <a href='' className="text-sm text-b6 mt-2">Read More</a>
                             <div className="flex items-center">
-                                <h5 className="text-sm mt-2 w-10/12">{clientreview.author}</h5>
+                                <h5 className="text-sm mt-2 w-10/12">{clientreview.user.name}</h5>
                                 <img src={icon} className="h-5 w-10 mt-4" alt="Icon" />
                             </div>
                         </div>
                     </div>
                 ))}
-            </Slider> : null}
+            </Slider> : <div className='flex items-center justify-center w-full' ><img src="/loader-bg.gif" className="w-10 h-10 " /></div>}
         </div >
     );
 };

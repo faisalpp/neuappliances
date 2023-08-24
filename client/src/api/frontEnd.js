@@ -139,9 +139,10 @@ export const getReviews = async (data) => {
 
 
 
+
 export const GetGoogleReviews = async () => {
     let response;
-
+    
     try{
       response = await api.get('/api/get-google-reviews');
     }catch (error){
@@ -149,6 +150,18 @@ export const GetGoogleReviews = async () => {
     }
     return response;
 }
+export const getYelpReviews = async () => {
+    let response;
+
+    try{
+      response = await api.get('/api/get-yelp-reviews');
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+
 export const GetTeamMember = async () => {
     let response;
 

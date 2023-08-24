@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const Review = require('../models/review')
-const {GOOGLE_API_KEY, GOOGLE_PLACE_ID} = require('../config/index')
+const {GOOGLE_API_KEY, GOOGLE_PLACE_ID, YELP_API_KEY,YELP_BUSINESS_ID} = require('../config/index')
 const axios = require('axios');
 
 const reviewController = {
@@ -193,10 +193,31 @@ try {
     const apiKey = GOOGLE_API_KEY; // Replace with your Google API key
     try {
         const response = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&fields=reviews&key=${apiKey}`);
-        res.status(200).json({ reviews:response.data.result.reviews });
+        return res.status(200).json({ reviews:response.data.result.reviews });
     } catch (error) {
-        res.status(500).json({ error: 'Error fetching reviews' });
+        return res.status(500).json({ error: 'Error fetching reviews' });
     }
+  },
+  
+  async getYelpReviews(req, res, next) {
+    const apiKey = YELP_API_KEY
+      const businessId = YELP_BUSINESS_ID; // Replace with the actual business ID
+
+        const response = await axios.get(
+          `https://api.yelp.com/v3/businesses/${businessId}/reviews`,
+          {
+            headers: {
+              Authorization: `Bearer ${apiKey}`,
+            },
+          }
+        );
+        // console.log(response.status)
+        if (response.status === 200) {
+          res.status(200).json({ reviews:response.data.reviews });
+        } else {
+          return res.status(500).json({ message: 'Error fetching reviews' });
+        }
+
   }
 
 }
