@@ -10,9 +10,9 @@ import { BiPlayCircle } from 'react-icons/bi'
 const ApplianceParts = () => {
     return (
         <div className='bg-[#F2F9FC] px-3 maxcosm:py-5 xs:p-10 2xl:p-7 3xl:p-10 rounded-3xl flex flex-col gap-6'>
-            <div>
+            <Link to="/">
                 <img src="/nueappliancesoutlet.png" alt="nueappliancesoutlet" className='h-16' />
-            </div>
+            </Link>
             <div className='flex flex-col gap-3 text-b18'>
                 <h3 className='font-bold text-2xl'>Neu Appliance Outlet</h3>
                 <p className='leading-6'>

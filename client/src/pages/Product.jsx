@@ -190,12 +190,11 @@ const Product = () => {
 
   const StarIconPrinter = ({ numberOfTimes }) => {
     const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
-      <AiFillStar className='text-b7 text-lg' /> // Render the star icon component for each iteration
+      <AiFillStar key={index} className='text-b7 text-lg' /> // Render the star icon component for each iteration
     ));
 
     return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
   };
-
 
 
   return (
@@ -216,7 +215,7 @@ const Product = () => {
             <div className='flex items-center' ><h5 className='text-xs text-blue-400' >Home</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-blue-400' >Product</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-gray-500' >{product.title}</h5></div>
           </div>
           {/* Bread Crumbs End */}
-          <div className='grid grid-cols-1 lg:grid-cols-12 gap-10 lg:items-start items-center mb-10 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+          <div id='product-information' className='grid grid-cols-1 lg:grid-cols-12 gap-10 lg:items-start items-center mb-10 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
             <div className='lg:col-span-5' >
               <div className='flex gap-2 md:gap-5' >
                 <div className='flex flex-col space-y-2 min-w-[70px] 2xl:min-w-[100px] h-full' >
@@ -265,7 +264,7 @@ const Product = () => {
             </div>
 
             <div className='lg:col-span-7 flex flex-col lg:px-0 px-1 space-y-5 lg:mt-0 mt-4' >
-              <h5 className='lg:text-xl text-sm font-bold lg:w-full sm:w-96' >{product.title}</h5>
+              <h2 className='text-2xl md:text-3xl xl:text-[2rem] leading-8 font-bold lg:w-full' >{product.title}</h2>
               <div className='flex items-center' >
                 <h5 className='lg:text-sm text-xs lg:w-80 underline text-b3 font-bold cursor-pointer' >View More Buying Options</h5><div className='flex justify-end w-full' >
                   {product.stock > 0 ? <span className='flex items-center bg-b13 text-white text-xs px-3 rounded-full py-2' >
@@ -415,7 +414,7 @@ const Product = () => {
           </div>
 
           {/* 360 Degree Product Section */}
-          <div className='flex flex-col gap-5 items-center py-10 lg:py-14 xl:py-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto border border-b14 rounded-3xl' >
+          <div id='360-view' className='flex flex-col gap-5 items-center py-10 lg:py-14 xl:py-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto border border-b14 rounded-3xl' >
             <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' >360° View of This Appliance</h4>
             <div className='mt-5 relative flex justify-center w-full mb-5' >
               {/* <img src="/360appliance.png" alt='product' className='w-[17rem] mx-auto' /> */}
@@ -477,7 +476,9 @@ const Product = () => {
           </div>
 
           {/* How it Works */}
-          <HiwSection />
+          <div id='testimonials-view'>
+            <HiwSection learnmore={() => handleOpenModal("1")} />
+          </div>
 
           {/* Reviews Section */}
           <SatisfiedSection title="Our Customers LOVE our Scratch and Dent Discounts!" dots={true} />

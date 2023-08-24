@@ -202,7 +202,7 @@ const Navbar = () => {
                 <h4 className='font-semibold' >Help & Support</h4>
                 <div className='flex flex-col space-y-4 text-xs mt-4 font-medium text-white/80' >
                   <Link to="/help-and-support">Help Placing an Order Us</Link>
-                  <Link to="">Return and Exchange</Link>
+                  <Link to="">Returns and Exchange</Link>
                   <Link to="">Contact Us</Link>
                 </div>
               </div>
@@ -230,7 +230,7 @@ const Navbar = () => {
               <div className='flex items-center font-normal text-white/80 text-xs cursor-pointer hover:text-b6' ><span className='w-max' >Pricing</span></div>
             </div>
             <div className='col-start-10 col-end-13 flex items-center justify-end space-x-10' >
-              <div className='flex items-center space-x-1 text-b4 cursor-pointer hover:text-white' ><FiPhone /><span className='text-xs font-medium w-max' >(512) 992-2714</span></div>
+              <Link to="tel:(512) 992-2714" className='flex items-center space-x-1 text-b4 cursor-pointer hover:text-white' ><FiPhone /><span className='text-xs font-medium w-max' >(512) 992-2714</span></Link>
               <Link to="/help-and-support" className='flex items-center space-x-1 text-white cursor-pointer' ><TfiHeadphoneAlt /><span className='text-xs font-medium w-max text-white/80' >Need Help?</span></Link>
             </div>
           </div>

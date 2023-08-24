@@ -3,6 +3,12 @@ import MainLayout from '../../layout/MainLayout';
 import ShopAustinSection from '../../components/Appliances/ShopAustinSection';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
+import Sell from '../../svgs/HowItWork/Sell';
+import Rating from '../../svgs/HowItWork/Rating';
+import Testing from '../../svgs/HowItWork/Testing';
+import Photos from '../../svgs/HowItWork/Photos';
+import HassleFree from '../../svgs/HowItWork/HassleFree';
+import Delivered from '../../svgs/HowItWork/Delivered';
 
 const HowItWorks = ({ children }) => {
     const location = useLocation();
@@ -12,37 +18,37 @@ const HowItWorks = ({ children }) => {
             id: 1,
             title: 'What We Sell',
             link: '/how-it-works/what-we-sell',
-            icon: 'sell.png',
+            icon: Sell,
         },
         {
             id: 2,
             title: 'Ratings',
             link: '/how-it-works/rating-system',
-            icon: 'hotel_class.png',
+            icon: Rating,
         },
         {
             id: 3,
             title: 'Tested',
             link: '/how-it-works/testing-process',
-            icon: 'build.png',
+            icon: Testing,
         },
         {
             id: 4,
             title: 'Photos',
             link: '/how-it-works/product-photos',
-            icon: 'magic_exchange.png',
+            icon: Photos,
         },
         {
             id: 5,
             title: 'Delivered',
             link: '/how-it-works/delivery',
-            icon: 'local_shipping.png',
+            icon: HassleFree,
         },
         {
             id: 6,
             title: 'Hassle-Free',
             link: '/how-it-works/hassle-free',
-            icon: 'gpp_maybe.png',
+            icon: Delivered,
         }
     ];
 
@@ -63,15 +69,17 @@ const HowItWorks = ({ children }) => {
                         How it Works
                     </h1>
                     {/* tabs */}
-                    <div className='flex maxxl:flex-wrap maxxl:justify-center xl:columns-6 gap-4'>
-                        {TABS.map((tab) => (
-                            <Link to={tab.link} key={tab.id} className={`xl:w-full items-center p-[10px] md:py-4 md:px-8 rounded-[10px_10px_0_0] md:rounded-2xl flex justify-center gap-2 xl:whitespace-nowrap ${location.pathname === tab.link ? 'active bg-b3 font-bold text-white' : 'bg-b11 text-black'}`} >
-                                <span className={`w-8 h-8 ${location.pathname === tab.link ? '' : 'md:hidden'}`}>
-                                    <img src={`/svgs/` + tab.icon} className='w-8 h-8' alt={tab.title} />
-                                </span>
-                                <span className={location.pathname === tab.link ? '' : 'maxmd:hidden'}>{tab.title}</span>
-                            </Link>
-                        ))}
+                    <div className='flex maxsm:overflow-x-auto maxsm:pb-4 md:flex-wrap lg:flex-nowrap sm:justify-center lg:justify-start lg:columns-6 gap-4'>
+                        {TABS.map((tab) => {
+                            return (
+                                <Link to={tab.link} key={tab.id} className={`lg:w-full items-center p-[10px] md:py-4 md:px-8 lg:p-[10px] xl:py-4 xl:px-8 rounded-[10px_10px_0_0] md:rounded-2xl flex justify-center gap-2 whitespace-nowrap ${location.pathname === tab.link ? 'active bg-b3 font-bold text-white' : 'bg-b11 text-black'}`} >
+                                    <span className={`w-6 h-6 md:w-8 md:h-8 ${location.pathname === tab.link ? '' : 'md:hidden'}`}>
+                                        <tab.icon customclass="w-6 h-6 md:w-8 md:h-8" color={location.pathname === tab.link ? 'white' : 'black'} />
+                                    </span>
+                                    <span className={location.pathname === tab.link ? '' : 'maxmd:hidden'}>{tab.title}</span>
+                                </Link>
+                            )
+                        })}
                     </div>
 
                     {/* <div className={`content ${fadeOut ? 'fade-out' : ''}`}>

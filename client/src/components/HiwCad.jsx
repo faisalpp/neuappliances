@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const HiwCad = ({ icon, title, txt, link }) => {
+const HiwCad = ({ icon, title, txt, popup }) => {
   return (
     <>
       <div className='h-full px-1 py-2 md:p-2 lg:p-5 xl:p-0'>
@@ -10,11 +10,9 @@ const HiwCad = ({ icon, title, txt, link }) => {
           <h5 className='font-bold text-xl xl:text-2xl text-center' >{title}</h5>
           <div className='text-center'>
             <p className='lg:text-sm md:text-sm xl:text-base font-medium text-center text-black/70' >{txt}</p>
-            {
-              link ?
-                <Link to={link} className="text-b3 font-semibold mt-1">Learn More</Link>
-                : null
-            }
+            {popup ?
+              <button onClick={popup} className="text-b3 font-semibold mt-1">Learn More</button>
+              : null}
           </div>
         </div>
       </div>

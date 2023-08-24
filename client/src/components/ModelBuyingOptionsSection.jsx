@@ -8,7 +8,7 @@ const ModelBuyingOptionsSection = () => {
   return (
     <>
 
-      <div className='py-14 xl:py-20 items-center w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-[180px] mx-auto' >
+      <div id='compare' className='py-14 xl:py-20 items-center w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-[180px] mx-auto' >
         <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center' >Buying Options for Model Number WF45B6300AC</h4>
 
 

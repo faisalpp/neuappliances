@@ -6,9 +6,9 @@ import ScratchSvg2 from '../../svgs/ScratchSvg2'
 const ApplianceWholeSale = () => {
     return (
         <div className='bg-b8 px-3 maxcosm:py-5 xs:p-10 2xl:p-7 3xl:p-10 rounded-3xl flex flex-col gap-6'>
-            <div>
+            <a href='http://neuappliancewholesale.com/' target='_new'>
                 <img src="/nueapplianceswholesale.png" alt="nueapplianceswholesale" className='h-16' />
-            </div>
+            </a>
             <div className='flex flex-col gap-3 text-b18'>
                 <h3 className='font-bold text-2xl'>Neu Appliance Wholesale</h3>
                 <p className='leading-6'>

@@ -6,7 +6,7 @@ import FaqAccordion from './FaqAccordion';
 const InspectionScoreSection = () => {
   return (
     <>
-      <div className='flex items-center flex-col bg-b8 py-10 lg:py-14 xl:py-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+      <div id='inspections' className='flex items-center flex-col bg-b8 py-10 lg:py-14 xl:py-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
 
         <div className='flex flex-col w-full' >
           <div className='flex flex-col gap-5 2xl:gap-10 w-full items-center' >
