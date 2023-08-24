@@ -22,7 +22,7 @@ const Photos = () => {
                         <HowItWorksCard icon="ScratchandDent.png" image="testing1.png" title="Each Appliance Get Their Own Photo + Video" description="Each appliance gets their own set of photos and videos of the actual item. So you know exactly where the dent or ding is (if any!). " />
                     </div>
 
-                    <SatisfiedSection title="Our Customers Love Being Able to Shop For Scratch and Dent Appliances From Home" SectionStyle="[&>h4]:2xl:!text-4xl [&>h4]:2xl:!leading-[44px] !p-0 !max-w-full" />
+                    <SatisfiedSection apiSectionName="how-it-works-review-(photo-tab)" title="Our Customers Love Being Able to Shop For Scratch and Dent Appliances From Home" SectionStyle="[&>h4]:2xl:!text-4xl [&>h4]:2xl:!leading-[44px] !p-0 !max-w-full" />
 
                     <div className='flex justify-center mb-10'>
                         <button className='flex gap-2 items-center border border-b3 rounded-lg px-6 py-3 text-b3 font-semibold'>Browse our Scratch and Dent Discounts <AiOutlineArrowRight className='text-b3' /></button>

@@ -125,6 +125,17 @@ export const GetBlogByCateogry = async (data,params) => {
     return response;
 }
 
+export const getReviews = async (data) => {
+    let response;
+
+    try{
+      response = await api.post('/api/get-reviews',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
 
 
 

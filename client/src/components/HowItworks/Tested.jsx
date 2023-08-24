@@ -20,7 +20,7 @@ const Tested = () => {
                         <HowItWorksCard icon="100Points.png" image="image3.png" title="100- Points Inspections" description="Our technicians thoroughly inspect each appliance to ensure they are 100% functional and include all needed pieces. Each type of appliance has their own 100+ point inspection checklist that guides our technicians to thoroughly inspect each appliance." showChecklists={true} />
                     </div>
 
-                    <SatisfiedSection title="Our Customers Trust Our Appliances" SectionStyle="[&>h4]:2xl:!text-4xl [&>h4]:2xl:!leading-[44px] !p-0 !max-w-full" />
+                    <SatisfiedSection apiSectionName="how-it-works-review-(tested-tab)" title="Our Customers Trust Our Appliances" SectionStyle="[&>h4]:2xl:!text-4xl [&>h4]:2xl:!leading-[44px] !p-0 !max-w-full" />
 
                     <div className='flex justify-center mb-10'>
                         <button className='flex gap-2 items-center border border-b3 rounded-lg px-6 py-3 text-b3 font-semibold'>Shop our 100% Functional Discounted Appliances <AiOutlineArrowRight className='text-b3' /></button>

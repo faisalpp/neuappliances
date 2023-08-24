@@ -1,34 +1,26 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import ReviewExSlider from '../components/ReviewExSlider'
+import {getReviews} from '../api/frontEnd'
 
-const SatisfiedSection = ({ title, dots, SectionStyle }) => {
-  const clientreviews = [
-    {
-      description: 'Facilisis sodales sollicitudin mi porttitor tellus. Nunc volutpat non ornare pellentesque in nam sem. Elementum porttitor nunc bibendum laoreet. Facilisis sodales sollicitudin mi porttitor tellus. Nunc volutpat non ornare pellentesque in nam sem. Elementum porttitor nunc bibendum laoreet.',
-      author: 'John Doe',
-      review: 4,
-    },
-    {
-      description: 'Facilisis sodales sollicitudin mi porttitor tellus. Nunc volutpat non ornare pellentesque in nam sem. Elementum porttitor nunc bibendum laoreet. Facilisis sodales sollicitudin mi porttitor tellus. Nunc volutpat non ornare pellentesque in nam sem. Elementum porttitor nunc bibendum laoreet.',
-      author: 'John Doe',
-      review: 4,
-    },
-    {
-      description: 'Facilisis sodales sollicitudin mi porttitor tellus. Nunc volutpat non ornare pellentesque in nam sem. Elementum porttitor nunc bibendum laoreet. Facilisis sodales sollicitudin mi porttitor tellus. Nunc volutpat non ornare pellentesque in nam sem. Elementum porttitor nunc bibendum laoreet.',
-      author: 'John Doe',
-      review: 4,
-    },
-    {
-      description: 'Facilisis sodales sollicitudin mi porttitor tellus. Nunc volutpat non ornare pellentesque in nam sem. Elementum porttitor nunc bibendum laoreet. Facilisis sodales sollicitudin mi porttitor tellus. Nunc volutpat non ornare pellentesque in nam sem. Elementum porttitor nunc bibendum laoreet.',
-      author: 'John Doe',
-      review: 4,
-    },
-    {
-      description: 'Facilisis sodales sollicitudin mi porttitor tellus. Nunc volutpat non ornare pellentesque in nam sem. Elementum porttitor nunc bibendum laoreet. Facilisis sodales sollicitudin mi porttitor tellus. Nunc volutpat non ornare pellentesque in nam sem. Elementum porttitor nunc bibendum laoreet.',
-      author: 'John Doe',
-      review: 4,
+const SatisfiedSection = ({ apiSectionName,title, dots, SectionStyle }) => {
+
+  const [reviews,setReviews] = useState([])
+
+  const GetLoopMedia = async () => {
+    const data = {pageType:apiSectionName}
+    const res = await getReviews(data);
+    // console.log(res)
+    if(res.status === 200){
+      setReviews(res.data.reviews)
+    }else{
+      setReviews([])
     }
-  ];
+  }
+  useEffect(() => {
+    GetLoopMedia()
+  }, [])
+
+
   return (
     <div className={`flex flex-col justify-center 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-[112px] mx-auto py-10 lg:py-16 xl:py-20 2xl:py-120px ${SectionStyle} ${dots ? 'mb-7' : ''}`} >
       {
@@ -37,7 +29,7 @@ const SatisfiedSection = ({ title, dots, SectionStyle }) => {
           : null
       }
       <div className="relative" >
-        <ReviewExSlider clientreviews={clientreviews} dots={dots} />
+        <ReviewExSlider clientreviews={reviews} dots={dots} />
       </div>
     </div>
   )

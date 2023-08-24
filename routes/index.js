@@ -119,17 +119,21 @@ router.post('/api/admin/upload-video-media',adminAuth,videoMediaController.uploa
 router.post('/api/admin/delete-video-media',adminAuth,videoMediaController.deleteVideoMedia);
 router.post('/api/admin/get-video-media',videoMediaController.getVideoMedia);
 router.post('/api/admin/get-single-video-media',videoMediaController.getSingleVideoMedia);
-// Gallery Api's
+// Admin Gallery Api's
 router.post('/api/admin/upload-gallery-image',adminAuth,galleryController.uploadGalleryImage);
 router.get('/api/admin/get-gallery-image',galleryController.getGalleryImage);
 router.post('/api/admin/delete-gallery-image',adminAuth,galleryController.deleteGalleryImage);
+
 // Admin Reviews Api
 router.post('/api/admin/create-review',adminAuth,reviewController.createReview);
 router.post('/api/admin/update-review',adminAuth,reviewController.updateReview);
 router.post('/api/admin/delete-review',adminAuth,reviewController.deleteReview);
 router.post('/api/admin/duplicate-review',adminAuth,reviewController.duplicateReview);
-router.post('/api/admin/get-reviews',adminAuth,reviewController.getReviews);
+router.post('/api/admin/get-reviews',reviewController.getReviews);
+router.post('/api/get-reviews',reviewController.getUserReviews);
 router.get('/api/get-google-reviews',reviewController.getGoogleReviews);
+
+
 
 
 // User Cart Api's
@@ -143,6 +147,8 @@ router.post('/api/user/save-order-address',auth,orderController.saveOrderAddress
 
 
 // Front-End Api's
+
+
 router.post('/api/get-product-by-filter',applianceController.GetApplianceBySectionType);
 router.post('/api/get-product-by-slug',applianceController.GetApplianceBySlug);
 router.get('/api/get-appliances',applianceController.GetAppliances);

@@ -46,7 +46,7 @@ const GeneralFaqs = () => {
         <ShopAustinSection />
 
         {/* Reviews Section */}
-        <SatisfiedSection title="Our Customers Are RAVING About Our Appliance Outlet" dots={true} />
+        <SatisfiedSection apiSectionName="faq-page-review" title="Our Customers Are RAVING About Our Appliance Outlet" dots={true} />
         {/* End  */}
         <NewsLetterSection backimage="Newsletter.png" />
         {/* End Tabs*/}

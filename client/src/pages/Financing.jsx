@@ -67,7 +67,7 @@ const Financing = () => {
                 </div>
 
 
-                <SatisfiedSection title="Our Customers Are RAVING About Our Appliance Outlet" dots={true} />
+                <SatisfiedSection apiSectionName="financing-page-review" title="Our Customers Are RAVING About Our Appliance Outlet" dots={true} />
 
                 <NewsLetterSection backimage="Newsletter.png" />
             </MainLayout>

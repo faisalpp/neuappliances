@@ -36,15 +36,38 @@ const ManageReviews = () => {
   const [errors,setErrors] = useState([])
 
   const [author,setAuthor] = useState('');
-  const [pageType,setPageType] = useState('homePage-footer-review');
-  const [selectedSection,setSelectedSection] = useState('all-categories');
+  const [pageType,setPageType] = useState('home-page-footer-review');
+  const [selectedSection,setSelectedSection] = useState('home-page-footer-review');
   const [content,setContent] = useState('');
   const [rating,setRating] = useState('3');
 
   const [loading,setLoading] = useState(false)
   
-  const [pageNames,setPageNames] = useState(['All Categories','Home Page Footer Review','How It Works 1st Section Review (What We Sell Tab)','How It Works 2nd Section Review (Wat We Sell Tab)','How It Works Review (Ratings Tab)','How It Works Review (Tested Tab)','How It Works Review (Photo Tab)','How It Works Review (Delivered Tab)','How It Works 1st Section Review (Hassle Free Tab)','How It Works 2nd Section Review (Hassle Free Tab)','Faq Page Review','Our Story Page Review','Our Showroom Page Review','Our Companies Page Review','Appliance Repair Page Review','Measuring Guide Page Review','Helpfull Appliance Tips Page Review','Financing Page Review','Blog Page Review'])
+  const [pageNames,setPageNames] = useState(['Home Page Footer Review','How It Works 1st Section Review (What We Sell Tab)','How It Works 2nd Section Review (Wat We Sell Tab)','How It Works Review (Ratings Tab)','How It Works Review (Tested Tab)','How It Works Review (Photo Tab)','How It Works Review (Delivered Tab)','How It Works 1st Section Review (Hassle Free Tab)','How It Works 2nd Section Review (Hassle Free Tab)','Faq Page Review','Our Story Page Review','Our Showroom Page Review','Our Companies Page Review','Appliance Repair Page Review','Measuring Guide Page Review','Helpfull Appliance Tips Page Review','Financing Page Review','Blog Page Review'])
 
+  const [page,setPage] = useState(1);
+  const [limit,setLimit] = useState(8);
+  const [totalPages,setTotalPages] = useState(0);
+  // Loader
+  const [isLoading,setIsLoading] = useState(false)
+
+  const GetLoopMedia = async () => {
+      setIsLoading(true)
+      const params = {page:page,limit:limit};
+      const data = {pageType:selectedSection}
+      console.log(selectedSection)
+      const res = await getReviews(params,data);
+      if(res.status === 200){
+        setReviews(res.data.reviews)
+        setTotalPages(Math.ceil(res.data.totalCount / limit))
+        setIsLoading(false)
+      }else{
+          setIsLoading(false)
+      }
+  }
+  useEffect(() => {
+    GetLoopMedia()
+}, [selectedSection,page])
 
   
   const Submit = async (e) => {
@@ -55,11 +78,12 @@ const ManageReviews = () => {
       const data = {author:author,pageType,content:content,rating:rating}
       const res = await createReview(data);
       if(res.status === 200){
+        GetLoopMedia()
         setLoading(false)
           setReviewPopup(false)
           toast.success(res.data.msg, {
               position: "top-right",
-              autoClose: 5000,
+              autoClose: 2000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
@@ -72,7 +96,7 @@ const ManageReviews = () => {
           setReviewPopup(false)
           toast.error(res.data.message, {
               position: "top-right",
-              autoClose: 5000,
+              autoClose: 2000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
@@ -91,28 +115,7 @@ const ManageReviews = () => {
     }
   }
 
-  const [page,setPage] = useState(1);
-  const [limit,setLimit] = useState(3);
-  const [totalPages,setTotalPages] = useState(0);
-  // Loader
-  const [isLoading,setIsLoading] = useState(false)
 
-  const GetLoopMedia = async () => {
-      setIsLoading(true)
-      const params = {page:page,limit:limit};
-      const data = {pageType:selectedSection}
-      const res = await getReviews(params,data);
-      if(res.status === 200){
-        setReviews(res.data.reviews)
-        setTotalPages(Math.ceil(res.data.totalCount / limit))
-        setIsLoading(false)
-      }else{
-          setIsLoading(false)
-      }
-  }
-  useEffect(() => {
-    GetLoopMedia()
-}, [selectedSection,page])
 
 const [delLoading,setDelLoading] = useState(false)
 const [dupLoading,setDupLoading] = useState(false)
@@ -127,7 +130,7 @@ const [uContent,setUcontent] = useState('');
 const [uPageType,setUpageType] = useState('')
 
 const [uRatings,setUratings] = useState(['3','4','5'])
-const [pageUnames,setPageUnames] = useState(['All Categories','Home Page Footer Review','How It Works 1st Section Review (What We Sell Tab)','How It Works 2nd Section Review (Wat We Sell Tab)','How It Works Review (Ratings Tab)','How It Works Review (Tested Tab)','How It Works Review (Photo Tab)','How It Works Review (Delivered Tab)','How It Works 1st Section Review (Hassle Free Tab)','How It Works 2nd Section Review (Hassle Free Tab)','Faq Page Review','Our Story Page Review','Our Showroom Page Review','Our Companies Page Review','Appliance Repair Page Review','Measuring Guide Page Review','Helpfull Appliance Tips Page Review','Financing Page Review','Blog Page Review'])
+const [pageUnames,setPageUnames] = useState(['Home Page Footer Review','How It Works 1st Section Review (What We Sell Tab)','How It Works 2nd Section Review (Wat We Sell Tab)','How It Works Review (Ratings Tab)','How It Works Review (Tested Tab)','How It Works Review (Photo Tab)','How It Works Review (Delivered Tab)','How It Works 1st Section Review (Hassle Free Tab)','How It Works 2nd Section Review (Hassle Free Tab)','Faq Page Review','Our Story Page Review','Our Showroom Page Review','Our Companies Page Review','Appliance Repair Page Review','Measuring Guide Page Review','Helpfull Appliance Tips Page Review','Financing Page Review','Blog Page Review'])
 
 const UpdateReview = async (e) => {
   e.preventDefault()
@@ -138,6 +141,7 @@ const UpdateReview = async (e) => {
     console.log(data)
     const res = await updateReview(data);
     if(res.status === 200){
+      setPage(1)
       GetLoopMedia()
       setUpLoading(false)
       setReviewUPopup(false)
@@ -146,7 +150,7 @@ const UpdateReview = async (e) => {
       setUcontent('')
       toast.success(res.data.msg, {
        position: "top-right",
-       autoClose: 5000,
+       autoClose: 2000,
        hideProgressBar: false,
        closeOnClick: true,
        pauseOnHover: true,
@@ -155,11 +159,12 @@ const UpdateReview = async (e) => {
        theme: "light",
       });
     }else{
+      setPage(1)
         setUpLoading(false)
         setReviewUPopup(false)
         toast.error(res.data.message, {
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -183,11 +188,12 @@ const DeleteReview = async (e,dId) => {
   setDelLoading(true)
     const res = await deleteReview({id:dId});
     if(res.status === 200){
+      setPage(1)
       GetLoopMedia()
       setDelLoading(false)
       toast.success(res.data.msg, {
        position: "top-right",
-       autoClose: 5000,
+       autoClose: 2000,
        hideProgressBar: false,
        closeOnClick: true,
        pauseOnHover: true,
@@ -196,10 +202,11 @@ const DeleteReview = async (e,dId) => {
        theme: "light",
       });
     }else{
+      setPage(1)
       setDelLoading(false)
       toast.error(res.data.message, {
        position: "top-right",
-       autoClose: 5000,
+       autoClose: 2000,
        hideProgressBar: false,
        closeOnClick: true,
        pauseOnHover: true,
@@ -214,11 +221,12 @@ const DuplicateReview = async (e,dId) => {
   setDupLoading(true)
     const res = await duplicateReview({id:dId});
     if(res.status === 200){
+      setPage(1)
       GetLoopMedia()
       setDupLoading(false)
       toast.success(res.data.msg, {
        position: "top-right",
-       autoClose: 5000,
+       autoClose: 2000,
        hideProgressBar: false,
        closeOnClick: true,
        pauseOnHover: true,
@@ -227,10 +235,11 @@ const DuplicateReview = async (e,dId) => {
        theme: "light",
       });
     }else{
+      setPage(1)
       setDupLoading(false)
       toast.error(res.data.message, {
        position: "top-right",
-       autoClose: 5000,
+       autoClose: 2000,
        hideProgressBar: false,
        closeOnClick: true,
        pauseOnHover: true,
@@ -296,7 +305,7 @@ const StarIconPrinter2 = ({ numberOfTimes }) => {
         <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
         <AdminAccount>
           <div className='flex items-center mb-5 py-3 rounded-3xl px-10 w-full' >
-          <SelectInput widthFull="true" name="sectionType" title="Filter Section Videos" iscompulsory="false" onChange={e=>setSelectedSection(e.target.value)} options={pageNames}  /> 
+          <SelectInput widthFull="true" name="sectionType" title="Filter Section Testimonials" iscompulsory="false" onChange={e=>setSelectedSection(e.target.value)} options={pageNames}  /> 
            <div className='flex w-full justify-end space-x-3' >
             <AiFillPlusCircle onClick={()=>setReviewPopup(true)} className='text-b3 text-3xl shadow-xl rounded-full cursor-pointer' />   
            </div>

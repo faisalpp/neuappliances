@@ -51,7 +51,7 @@ const OurShowroom = () => {
                 <ShopAustinSection />
                 {/* Client Reviews */}
 
-                <SatisfiedSection title="Testimonials" dots={true} />
+                <SatisfiedSection apiSectionName="our-showroom-page-review" title="Testimonials" dots={true} />
 
                 <NewsLetterSection backimage="Newsletter.png" />
 

@@ -79,7 +79,7 @@ const Index = () => {
                 {/* Recent Stories */}
                 <RecentStories load={load} data={blogs} LoadMore={LoadMore} />
 
-                <SatisfiedSection title="Our Customers Are RAVING About Our Appliance Outlet" dots={true} />
+                <SatisfiedSection apiSectionName="blog-page-review" title="Our Customers Are RAVING About Our Appliance Outlet" dots={true} />
 
                 <NewsLetterSection backimage="Newsletter.png" />
             </MainLayout>}

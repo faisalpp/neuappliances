@@ -16,10 +16,10 @@ const videoMediaController = {
           }
     
           const {type,section,uploadMedia} = req.body;
-          console.log(req.body)
+        
           if(section !== 'stay-in-loop-videos'){
             const findDup = await VideoMedia.findOne({section:section});
-            // console.log(findDup)
+            
             if(findDup){
               if(findDup.type === 'upload'){
                 const media = await VideoMedia.findByIdAndDelete(findDup._id);
@@ -104,7 +104,7 @@ const videoMediaController = {
       
       let skip = (page - 1) * limit;
       const {section} = req.body;
-      console.log(section)
+    
       
       try{
         const media = await VideoMedia.find({section:section}).skip(skip).limit(limit);

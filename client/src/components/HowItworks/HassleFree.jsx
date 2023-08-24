@@ -17,8 +17,8 @@ const HassleFree = () => {
                         <MapCards icon="schedule.png" title="Delivery Times and Updates" description="Getting an appliance delivered has never been so easy! Don’t wait around all day, we offer Narrow delivery windows and updates as our team gets closer. Go about your day and we will keep you in the loop!" />
                     </div>
 
-                    <SatisfiedSection title="Our Customers Love Being Able to Shop For Scratch and Dent Appliances From Home" SectionStyle="[&>h4]:2xl:!text-4xl [&>h4]:2xl:!leading-[44px] !p-0 !max-w-full" />
-                    <SatisfiedSection SectionStyle="!p-0 !max-w-full" />
+                    <SatisfiedSection apiSectionName="how-it-works-1st-section-review-(hassle-free-tab)" title="Our Customers Love Being Able to Shop For Scratch and Dent Appliances From Home" SectionStyle="[&>h4]:2xl:!text-4xl [&>h4]:2xl:!leading-[44px] !p-0 !max-w-full" />
+                    <SatisfiedSection apiSectionName="how-it-works-2nd-section-review-(hassle-free-tab)" SectionStyle="!p-0 !max-w-full" />
 
                     <div className='flex justify-center mb-10'>
                         <button className='flex gap-2 items-center border border-b3 rounded-lg px-6 py-3 text-b3 font-semibold'>Shop Now <AiOutlineArrowRight className='text-b3' /></button>

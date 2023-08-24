@@ -51,7 +51,7 @@ const orderController = {
     const savedAddress = await orderAddressToCreate.save();
     
      const ee = await Cart.findOneAndUpdate(userId, {addressId:savedAddress._id}, { new: true });
-     console.log(ee)   
+     
     
     
     res.status(200).json({status: 200,msg:"Order Address Saved!"});

@@ -104,7 +104,7 @@ if(!findReview){
   return res.status(500).json({status: 500, message:'Review Not Found!'});
 }
 
-// try { 
+try { 
    const dAuthor = findReview.author + '(duplicate)'
    const reviewToCreate = new Review({
      pageType:findReview.pageType,
@@ -117,9 +117,9 @@ if(!findReview){
 
   return res.status(200).json({status:200,msg:'Review Duplicated Successfully!'});
 
-  // } catch (error) {
-  //   return res.status(500).json({status: 500, message:'Internal Server Error!'});
-  // }
+  } catch (error) {
+    return res.status(500).json({status: 500, message:'Internal Server Error!'});
+  }
 
 },
 
@@ -156,13 +156,13 @@ try {
   async getReviews(req, res, next) {
 
     try{
-        let page = Number(req.query.page) 
-        let limit = Number(req.query.limit) 
-
+        let page = Number(req.query.page)
+        let limit = Number(req.query.limit)
+          
         let skip = (page - 1) * limit;
+      
         let reviews;
         let totalCount;
-        // console.log(req.body.pageType)
         if(req.body.pageType !== 'all-categories'){
           reviews = await Review.find({pageType:req.body.pageType}).skip(skip).limit(limit);
           totalCount = await Review.countDocuments({pageType:req.body.pageType});
@@ -176,6 +176,17 @@ try {
     }
 
  },
+  async getUserReviews(req, res, next) {
+
+    try{
+      const reviews = await Review.find({pageType:req.body.pageType});
+      const totalCount = await Review.countDocuments({pageType:req.body.pageType});
+      return res.status(200).json({status:200,reviews:reviews,totalCount:totalCount});
+    }catch(error){
+        return next(error)
+    }
+
+ },
 
   async getGoogleReviews(req, res, next) {
     const placeId = GOOGLE_PLACE_ID;
@@ -184,7 +195,6 @@ try {
         const response = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&fields=reviews&key=${apiKey}`);
         res.status(200).json({ reviews:response.data.result.reviews });
     } catch (error) {
-        console.error('Error fetching reviews:', error.message);
         res.status(500).json({ error: 'Error fetching reviews' });
     }
   }

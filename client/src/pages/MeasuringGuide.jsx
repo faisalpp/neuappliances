@@ -30,7 +30,7 @@ const MeasuringGuide = () => {
                 {/* Shop Austin Section */}
                 <ShopAustinSection />
 
-                <SatisfiedSection title="Testimonials" dots={true} />
+                <SatisfiedSection apiSectionName="measuring-guide-page-review" title="Testimonials" dots={true} />
 
                 <NewsLetterSection backimage="Newsletter.png" />
             </MainLayout>

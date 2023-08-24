@@ -21,7 +21,7 @@ const cartController = {
 
       
       const {userId,productId,orderType,deliveryLocation,pickupLocation} = req.body;
-      // console.log(req.body)
+      
       // 1.Get product by id
       let product;
       product = await Product.find({_id:productId,stock:{$gt:0}})
@@ -34,7 +34,7 @@ const cartController = {
         }
         // 2. Find User Cart
         const userCart = await Cart.find({userId:userId});
-        console.log(userCart)
+    
         let newCart;
         if(userCart.length === 0){
           try{
@@ -166,7 +166,6 @@ const cartController = {
           total:total
         },{new:true});
         
-        console.log(cart)
        res.status(200).json({status: 200,cart:cart,msg:'Cart Updated Successfully!'});
 
      }catch(err){
@@ -191,7 +190,7 @@ const cartController = {
      const {userId} = req.body;
      
      const cart = await Cart.find({userId:userId})
-     console.log(cart)
+     
      res.status(200).json({status: 200,cart:cart});
 
    }catch(err){
@@ -216,7 +215,7 @@ async removeFromCart(req, res, next) {
  
  try {
   const { id, userId,type } = req.body;
-  // console.log(req.body)
+  
   let result
   if(type === 'delivery'){
     result = await Cart.updateOne(

@@ -55,14 +55,14 @@ const ReviewSlider = ({ color, clientreviews, icon }) => {
 
     const StarIconPrinter = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
-            <AiFillStar className='text-b7 text-sm' /> // Render the star icon component for each iteration
+            <AiFillStar key={index} className='text-b7 text-sm' /> // Render the star icon component for each iteration
         ));
 
         return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
     };
     const StarIconPrinter2 = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
-            <AiFillStar className='text-gray-300 text-sm' /> // Render the star icon component for each iteration
+            <AiFillStar key={index} className='text-gray-300 text-sm' /> // Render the star icon component for each iteration
         ));
 
         return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons

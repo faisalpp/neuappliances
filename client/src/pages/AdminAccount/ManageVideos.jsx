@@ -80,7 +80,7 @@ const ManageMedia = () => {
     const res = await getVideoMedia(params,data);
     console.log(res)
     if(res.status === 200){
-        setMedia(res.data.loops)
+        setMedia(res.data.media)
         setTotalPages(Math.ceil(res.data.totalCount / limit))
         setIsLoading(false)
       }else{
@@ -149,11 +149,11 @@ const DeleteVideo = async (e,id,type,url) => {
           </div>
            {isLoading ? <div className='flex mt-32 justify-center w-full h-full' >
              <img src="/loader-bg.gif" className='w-24 h-24' />
-           </div> : media.length > 0 ? <><div className="grid grid-cols-4 gap-x-2 gap-y-5 w-full">
+           </div> : media ? <><div className="grid grid-cols-4 gap-x-2 gap-y-5 w-full">
              {media.map((item,index)=><><div className="relative  w-full" >
                {item.section  === 'stay-in-loop-videos' ?  <div className="absolute right-2 bg-transparent h-10 w-10" ><div className="flex  justify-end  w-10 h-10 mt-1 " ><span title="Delete Video" onClick={e=>DeleteVideo(e,item._id,item.type,item.url)} className='flex items-center justify-center bg-red-500 text-white hover:bg-white hover:text-red-500 hover:border-red-500 text-xs w-8 h-8 rounded-full cursor-pointer ' >{delLoading ? <img src="/loader-bg.gif" className='w-4 h-4' />: <BsFillTrashFill className="text-sm" />}</span></div></div>:null}
                {item.type === "upload" || item.type === "link" ? <video key={index} controls className='object-cover rounded-2xl xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 ' src={item.url} />:null}
-               {item.type === 'iframe' ?<iframe className='object-cover rounded-2xl xl:h-[150px] xl:w-[180px] lg:w-[200px] lg:h-32 w-32 h-32 ' src={item.url} title="#885 Liquidation Half Truckload of 25 Scratch &amp; Dent Kitchen and Laundry Appliances South Carolina" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ></iframe>:null} 
+               {item.type === 'iframe' ? <iframe onLoad={()=>setVload(false)} className='object-cover rounded-2xl xl:h-[150px] xl:w-[180px] lg:w-[200px] lg:h-32 w-32 h-32 ' src={item.url} title="#885 Liquidation Half Truckload of 25 Scratch &amp; Dent Kitchen and Laundry Appliances South Carolina" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ></iframe>:null} 
               </div></>)}
            </div>
            <Pagination2 page={page} setPage={setPage} totalPages={totalPages} />

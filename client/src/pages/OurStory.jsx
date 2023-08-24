@@ -33,7 +33,7 @@ const OurStory = () => {
                 <div className='pt-10 lg:pt-16 xl:pt-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
                     {/* Bread Crumbs Start */}
                     <div className='flex items-center' >
-                        <h5 className='text-xs text-b3' >Home</h5><RiArrowDropRightLine className='text-xl text-b19' /><h5 className='text-xs text-black' >FAQs</h5>
+                        <h5 className='text-xs text-b3' >Home</h5><RiArrowDropRightLine className='text-xl text-b19' /><h5 className='text-xs text-black' >Our Story</h5>
                     </div>
                     {/* Bread Crumbs End */}
                     <ApplianceDetail title="Our Story" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum metus vel urna tempor auctor. Pellentesque varius lacus at nisl tincidunt fringilla. Phasellus non felis eu lectus pellentesque tincidunt. Sed eget facilisis tortor. Nulla eget imperdiet ex, consectetur pharetra ligula." />
@@ -59,7 +59,7 @@ const OurStory = () => {
 
                 {/* Client Reviews */}
 
-                <SatisfiedSection title="Testimonials" dots={true} />
+                <SatisfiedSection apiSectionName="our-story-page-review" title="Testimonials" dots={true} />
 
                 <NewsLetterSection backimage="Newsletter.png" />
 

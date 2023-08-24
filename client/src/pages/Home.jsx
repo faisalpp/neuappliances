@@ -38,7 +38,7 @@ const Home = () => {
         <RatingProductSection />
         <TourSection />
         <GallerySection />
-        <SatisfiedSection title="Join Thousands of our Satisfied Customers." />
+        <SatisfiedSection apiSectionName="home-page-footer-review" title="Join Thousands of our Satisfied Customers." />
         <NewsLetterSection backimage="new.png" />
       </MainLayout>
     </>

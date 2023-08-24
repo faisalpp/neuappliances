@@ -47,22 +47,6 @@ const ReviewSection = () => {
 
   useEffect(() => {
     gg()
-    // // Your Google Places API key
-    // const apiKey = 'AIzaSyBJa7rXLIRQKJPLS6awxh2gG529tDmccMs';
-    // // Place ID of the location you want to fetch reviews for
-    // const placeId = import.meta.env.VITE_GOOGLE_PLACE_ID;
-    // const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&fields=reviews&key=${apiKey}`;
-
-    // axios.get(apiUrl)
-    //   .then(response => {
-    //     console.log(response)
-    //     if (response.data.result && response.data.result.reviews) {
-    //       setReviews(response.data.result.reviews);
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.error('Error fetching reviews:', error);
-    //   });
   }, []);
 
 

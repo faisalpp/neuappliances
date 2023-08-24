@@ -25,7 +25,7 @@ const HelpfulApliancesTips = () => {
                 {/* Shop Austin Section */}
                 <ShopAustinSection />
 
-                <SatisfiedSection title="Testimonials" />
+                <SatisfiedSection apiSectionName="helpfull-appliance-tips-page-review" title="Testimonials" />
 
                 <NewsLetterSection backimage="Newsletter.png" />
             </MainLayout>
