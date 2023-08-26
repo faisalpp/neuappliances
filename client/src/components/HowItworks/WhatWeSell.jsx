@@ -8,12 +8,12 @@ const WhatWeShall = () => {
     return (
         <HowItWorks>
             <div className='flex flex-col items-center py-10 px-4 md:px-10 lg:py-14 xl:py-28 2xl:p-10 2xl:!pt-[70px]' >
-                <h4 className='xl:text-4xl text-xl font-bold text-center mb-4' >What We sell</h4>
-                <div className='grid grid-cols-1 gap-60px'>
+                <h4 className='xl:text-4xl text-2xl font-bold text-center md:mb-4' >What We sell</h4>
+                <div className='grid grid-cols-1 gap-8 md:gap-60px'>
                     <p className='mt-4 max-w-[896px] w-full text-b18 mx-auto text-center'>
                         We sell a wide variety of discounted appliances, We liquidate appliances many types of appliances for large big-box retailers and appliance manufacturers.
                     </p>
-                    <div className='[&>*:nth-child(even)>div:first-child]:order-2 grid grid-cols-1 gap-60px'>
+                    <div className='[&>*:nth-child(even)>div:first-child]:order-2 grid grid-cols-1 gap-10 md:gap-60px'>
                         <WhatWeShallCard image="image1.png" title="Scratch and Dent Appliances" description1="Our scratch and dent appliances typically have cosmetic imperfections or blemishes. These imperfections can include scratches, dents, dings, scuffs or other marks that occurred during shipping, handling, or even during the manufacturing process." description2="Our Appliance Outlet sells scratch and dent appliances at a huge discounted price compared to the new-in-box versions, making them an attractive option for bargain hunters. However, it is important to note that while these appliances may have minor exterior blemishes, they still function just as well as their undamaged counterparts." />
                         <WhatWeShallCard image="image2.png" title="Floor Models and Display Appliances" description1="Our Appliance Outlet sells floor model and display model appliances that have been displayed in a showroom or retail store for customers to view and test. They are often used as demonstration models to showcase the features and functions of the appliance to potential buyers." description2="Floor model appliances are typically brand new and unused, although they may have been used for demonstration purposes only. We liquidate these appliances at deep discounts  to make room for newer models or to clear out inventory." />
                     </div>

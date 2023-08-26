@@ -35,18 +35,18 @@ const OurShowroom = () => {
                     {/* Bread Crumbs End */}
                     <ApplianceDetail title="Our Showroom" description="Take a 3D interactive tour of our Appliance Outlet Showroom here in Austin, TX!" />
 
-                    <p className='w-full md:w-2/3 3xl:w-[1135px] text-b16 mt-5'>
+                    <p className='w-full md:w-2/3 3xl:w-[1135px] text-b16 mt-5 maxmd:text-center'>
                         Our Showroom receives new appliances daily and we update our Virtual Tour every Tuesday so make sure to check back for updates!
                     </p>
                 </div>
 
                 {/* Video Section */}
                 <div className='w-full 3xl:max-w-1680px mx-auto'>
-                 {video && video.type === 'iframe' ? <iframe className='w-full h-[700px] 2xl:h-[920px]' src={video.url} title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>:null}
-                 {video && video.type !== 'iframe' ? <video controls autoPlay className='w-full h-[700px] object-cover 2xl:h-[920px]' src={video.url} />:null}
+                 {video && video.type === 'iframe' ? <iframe className='w-full h-[250px] md:h-[700px] 2xl:h-[920px]' src={video.url} title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>:null}
+                 {video && video.type !== 'iframe' ? <video controls autoPlay className='w-full h-[250px] md:h-[700px] object-cover 2xl:h-[920px]' src={video.url} />:null}
                 </div>
 
-                <MassiveAppliance sliderstyle="sm:mx-2 3xl:mx-5" />
+                <MassiveAppliance sliderstyle="mx-2 3xl:mx-5" />
                 {/* Shop Austin Section */}
                 <ShopAustinSection />
                 {/* Client Reviews */}

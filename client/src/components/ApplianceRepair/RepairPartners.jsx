@@ -7,7 +7,7 @@ import PartnerCard from './PartnerCard';
 const RepairPartners = () => {
     return (
         <div>
-            <div className='pb-10 lg:pb-16 xl:pb-20 pt-5 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+            <div className='md:pb-10 lg:pb-16 xl:pb-20 pt-5 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
                 <h2 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-[40px] font-bold text-b18 text-center'>Our Recommended Repair Partners</h2>
             </div>
             <div className='py-10 lg:py-16 xl:py-20 grid grid-cols-1 gap-20 2xl:gap-44 [&>div:nth-child(even)>.repairImages]:order-2 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>

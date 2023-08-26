@@ -3,7 +3,7 @@ import { AiOutlineArrowRight, AiOutlineCheckCircle, AiOutlinePercentage } from '
 
 const CosmaticRatingCard = ({ rating, damage, discount, description }) => {
     return (
-        <div className='p-10 flex flex-col gap-[26px] bg-white shadow-[0px_20px_40px_0px_rgba(0,0,0,0.07)] rounded-3xl'>
+        <div className='p-6 md:p-10 flex flex-col gap-[26px] bg-white shadow-[0px_20px_40px_0px_rgba(0,0,0,0.07)] rounded-3xl'>
             <h3 className='text-b18 text-2xl text-center'><span className='font-bold'>Cosmetic Rating:</span> {rating} Stars </h3>
             <p className='text-b29 text-center font-semibold'>
                 {damage}
@@ -17,7 +17,7 @@ const CosmaticRatingCard = ({ rating, damage, discount, description }) => {
                 </span>
             </div>
             <div className='flex justify-between items-center'>
-                <span className='text-black/50 flex gap-1 items-center'>
+                <span className='text-black/50 maxmd:text-sm flex gap-1 font-semibold items-center'>
                     Discount <AiOutlinePercentage />
                 </span>
                 <span className='flex gap-2'>

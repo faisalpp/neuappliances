@@ -17,9 +17,10 @@ const CosmaticSlider = ({ sliderstyle }) => {
     initialSlide: 0,
     responsive: [
       {
-        breakpoint: 575,
+        breakpoint: 767,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 1.08,
+          dots: true,
         },
       },
       {
@@ -56,7 +57,7 @@ const CosmaticSlider = ({ sliderstyle }) => {
   return (
     <>
       <div className='mt-8'>
-        <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
+        <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative maxmd:pb-5'>
           <ProductCard2 sliderstyle={sliderstyle} stars={4} />
           <ProductCard2 sliderstyle={sliderstyle} stars={5} />
           <ProductCard2 sliderstyle={sliderstyle} stars={4} />

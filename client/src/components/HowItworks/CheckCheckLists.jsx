@@ -33,7 +33,7 @@ const CheckCheckLists = () => {
 
     return (
         <>
-            <button onClick={handleOpen} className='px-4 py-3 bg-b3 text-white font-semibold rounded-lg'>See our Checklists</button>
+            <button onClick={handleOpen} className='px-4 py-3 bg-b3 text-white font-semibold rounded-lg maxmd:w-full'>See our Checklists</button>
             <Dialog className="relative lg:!min-w-[85%] maxmd:mt-20" open={open} handler={handleOpen} size="xl">
                 <DialogHeader className="px-5 pt-10 pb-4 md:py-10 md:p-10 block">
                     <h2 className=" text-xl md:text-2xl lg:text-3xl xl:text-4xl font-body md:mb-8 text-black md:text-center">Checklists</h2>

@@ -23,22 +23,22 @@ const ApplianceParts = () => {
                 <p className='font-bold'>
                     Neu Appliance Outlet provides the solutions you have been looking for:
                 </p>
-                <div className='grid grid-cols-2 lg:grid-cols-3 gap-2'>
-                    <div className='p-2 bg-[#F7FBFD] flex flex-col items-center gap-2 rounded-lg'>
+                <div className='grid grid-cols-3 gap-2'>
+                    <div className='py-4 px-0 sm:px-4 lg:p-2 bg-[#F7FBFD] flex flex-col items-center gap-2 rounded-lg'>
                         <ShieldSvg className="w-10 h-10 mx-auto" />
-                        <p className='text-b18 font-bold text-xs text-center'>
+                        <p className='text-b18 font-bold text-[10px] lg:text-xs text-center'>
                             Certified Refurbished Appliances
                         </p>
                     </div>
-                    <div className='p-2 bg-[#F7FBFD] flex flex-col items-center gap-2 rounded-lg'>
+                    <div className='py-4 px-0 sm:px-4 lg:p-2 bg-[#F7FBFD] flex flex-col items-center gap-2 rounded-lg'>
                         <ScratchSvg className="w-10 h-10 mx-auto" />
-                        <p className='text-b18 font-bold text-xs text-center'>
+                        <p className='text-b18 font-bold text-[10px] lg:text-xs text-center'>
                             Scratch & Dent Appliances
                         </p>
                     </div>
-                    <div className='p-2 bg-[#F7FBFD] flex flex-col items-center gap-2 rounded-lg'>
+                    <div className='py-4 px-0 sm:px-4 lg:p-2 bg-[#F7FBFD] flex flex-col items-center gap-2 rounded-lg'>
                         <BoxSvg className="w-10 h-10 mx-auto" />
-                        <p className='text-b18 font-bold text-xs text-center'>
+                        <p className='text-b18 font-bold text-[10px] lg:text-xs text-center'>
                             Open Box Appliances
                         </p>
                     </div>
@@ -46,47 +46,23 @@ const ApplianceParts = () => {
             </div>
             <div className='flex flex-col justify-between h-full'>
                 <div className='text-b18 flex flex-col gap-3'>
-                    <p>
+                    <p className='font-bold'>
                         Our Website's Tools For Success include:
                     </p>
-                    <ul className='flex flex-col gap-3'>
-                        <li className='flex items-center gap-3'>
-                            <div className='w-6 h-6'>
+                    <ul className='flex flex-col gap-4'>
+                        {toolsList.map((item,index)=>(
+                        <li key={index} className='flex items-center gap-3'>
+                            <div className='w-5 h-5 md:w-6 md:h-6'>
                                 <RoundedTick />
                             </div>
-                            <p>
-                                High definition appliance pictures of the actual item you’re purchasing.
-                            </p>
+                            <p className='maxmd:text-sm'>{item}</p>
                         </li>
-                        <li className='flex items-center gap-3'>
-                            <div className='w-6 h-6'>
-                                <RoundedTick />
-                            </div>
-                            <p>
-                                Detailed appliance specifications & dimensions.
-                            </p>
-                        </li>
-                        <li className='flex items-center gap-3'>
-                            <div className='w-6 h-6'>
-                                <RoundedTick />
-                            </div>
-                            <p>
-                                Accurate Cosmetic Rating descriptions.
-                            </p>
-                        </li>
-                        <li className='flex items-center gap-3'>
-                            <div className='w-6 h-6'>
-                                <RoundedTick />
-                            </div>
-                            <p>
-                                Fast & convenient delivery.
-                            </p>
-                        </li>
+                        ))}
                     </ul>
                 </div>
-                <div className='inline-flex gap-2 pt-6'>
-                    <Link to="/products" className='bg-[#071822] px-4 py-3 rounded-lg text-xs text-white flex gap-1 items-center font-medium'><HiOutlineShoppingCart className="text-white text-sm" /><span>Shop Now</span></Link>
-                    <Link to="https://youtu.be/YliJxHkreaE" target="_blank" className='border border-[#071822] px-4 py-3 rounded-lg text-xs text-[#071822] flex gap-1 items-center font-medium'><BiPlayCircle className="text-[#071822] text-sm" /><span>Watch Video</span></Link>
+                <div className='inline-flex maxmd:flex-col gap-2 pt-6'>
+                    <Link to="/products" className='bg-[#071822] px-4 py-3 rounded-lg text-xs text-white justify-center flex gap-1 items-center font-medium'><HiOutlineShoppingCart className="text-white text-sm" /><span>Shop Now</span></Link>
+                    <Link to="https://youtu.be/YliJxHkreaE" target="_blank" className='border border-[#071822] px-4 py-3  justify-center rounded-lg text-xs text-[#071822] flex gap-1 items-center font-medium'><BiPlayCircle className="text-[#071822] text-sm" /><span>Watch Video</span></Link>
                 </div>
             </div>
         </div>
@@ -94,3 +70,5 @@ const ApplianceParts = () => {
 }
 
 export default ApplianceParts
+
+const toolsList = ['High definition appliance pictures of the actual item you’re purchasing.', 'Detailed appliance specifications & dimensions.', 'Accurate condition descriptions.','Fast & convenient delivery.']

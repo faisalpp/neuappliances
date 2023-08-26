@@ -5,8 +5,8 @@ import CheckCheckLists from './CheckCheckLists'
 
 const HowItWorksCard = ({ image, title, description, icon, showChecklists }) => {
     return (
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-106px items-center'>
-            <div className='space-y-4'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-106px items-center'>
+            <div className='space-y-4 order-2 lg:order-none'>
                 <img src={'/howitworks/' + icon} className='w-16 h-16' alt={title} />
                 <h3 className='text-2xl font-semibold text-black'>
                     {title}

@@ -13,19 +13,19 @@ import { getSingleVideoMedia } from '../api/frontEnd';
 
 const OurStory = () => {
 
-    const [video,setVideo] = useState([])
+    const [video, setVideo] = useState([])
 
     useEffect(() => {
-      const GetSingleVideoMedia = async () => {
-        const data = {section:"our-story-page-video"}
-          const res = await getSingleVideoMedia(data);
-          console.log(res)
-          if(res.status === 200){
-            setVideo(res.data.media[0])
-          }
-      }
-      GetSingleVideoMedia()
-    },[]);
+        const GetSingleVideoMedia = async () => {
+            const data = { section: "our-story-page-video" }
+            const res = await getSingleVideoMedia(data);
+            console.log(res)
+            if (res.status === 200) {
+                setVideo(res.data.media[0])
+            }
+        }
+        GetSingleVideoMedia()
+    }, []);
 
     return (
         <>
@@ -43,13 +43,13 @@ const OurStory = () => {
 
                 <AboutCeo />
 
-                <OurVision BoxStyle="-left-8" order="order-2" image="ourvalue.png" about="OUR VALUE" title="Libero blandit fames tortor porta nunc, imperdiet donec. Semper sit pulvinar sed." description="Egestas nulla mauris elit at sed gravida. Donec neque nulla nisi nulla. Vel cras purus tempor ultricies amet. Bibendum sit sit." />
+                <OurVision BoxStyle="-left-8" order="lg:order-2" image="ourvalue.png" about="OUR VALUE" title="Libero blandit fames tortor porta nunc, imperdiet donec. Semper sit pulvinar sed." description="Egestas nulla mauris elit at sed gravida. Donec neque nulla nisi nulla. Vel cras purus tempor ultricies amet. Bibendum sit sit." />
 
                 <OurStorySection />
                 {/* Video Section */}
                 <div className='w-full 3xl:max-w-1680px mx-auto'>
-                {video && video.type === 'iframe' ? <iframe className='w-full h-[700px] 2xl:h-[920px]' src={video.url} title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>:null}
-                 {video && video.type !== 'iframe' ? <video controls autoPlay className='w-full h-[700px] object-cover 2xl:h-[920px]' src={video.url} />:null}
+                    {video && video.type === 'iframe' ? <iframe className='w-full h-[250px] md:h-[700px] 2xl:h-[920px]' src={video.url} title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> : null}
+                    {video && video.type !== 'iframe' ? <video controls autoPlay className='w-full h-[250px] md:h-[700px] object-cover 2xl:h-[920px]' src={video.url} /> : null}
                 </div>
 
                 {/* Team */}

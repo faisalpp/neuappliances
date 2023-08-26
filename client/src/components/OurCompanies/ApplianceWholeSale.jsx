@@ -19,65 +19,25 @@ const ApplianceWholeSale = () => {
                 <p className='font-bold'>
                     Our wholesale customers use our services to stock their showrooms with quality appliance inventory supply by the truckload including:
                 </p>
-                <ul className='grid grid-cols-1 coxs:grid-cols-2 gap-2 text-b18'>
-                    <li className='flex items-center gap-2 py-6 pl-4 pr-2 bg-[#F6FDFE] rounded-lg'>
+                <ul className='grid grid-cols-2 gap-2 text-b18'>
+                    {SupplyLists.map((item,index)=>(
+                    <li key={index} className='flex items-center gap-2 py-4 md:py-6 pl-4 pr-2 bg-[#F6FDFE] rounded-lg'>
                         <div className='w-8 h-8'>
                             <ScratchSvg2 />
                         </div>
-                        <p className='text-sm font-medium'>
-                            Scratch & Dent Appliances
-                        </p>
+                        <p className='text-[10px] md:text-sm font-medium'>{item}</p>
                     </li>
-                    <li className='flex items-center gap-2 py-6 pl-4 pr-2 bg-[#F6FDFE] rounded-lg'>
-                        <div className='w-8 h-8'>
-                            <ScratchSvg2 />
-                        </div>
-                        <p className='text-sm font-medium'>
-                            Customer Return Appliances
-                        </p>
-                    </li>
-                    <li className='flex items-center gap-2 py-6 pl-4 pr-2 bg-[#F6FDFE] rounded-lg'>
-                        <div className='w-8 h-8'>
-                            <ScratchSvg2 />
-                        </div>
-                        <p className='text-sm font-medium'>
-                            Salvage
-                            Appliances
-                        </p>
-                    </li>
-                    <li className='flex items-center gap-2 py-6 pl-4 pr-2 bg-[#F6FDFE] rounded-lg'>
-                        <div className='w-8 h-8'>
-                            <ScratchSvg2 />
-                        </div>
-                        <p className='text-sm font-medium'>
-                            Used
-                            Appliances
-                        </p>
-                    </li>
-                    <li className='flex items-center gap-2 py-6 pl-4 pr-2 bg-[#F6FDFE] rounded-lg'>
-                        <div className='w-8 h-8'>
-                            <ScratchSvg2 />
-                        </div>
-                        <p className='text-sm font-medium'>
-                            General Liquidation Appliances
-                        </p>
-                    </li>
-                    <li className='flex items-center gap-2 py-6 pl-4 pr-2 bg-[#F6FDFE] rounded-lg'>
-                        <div className='w-8 h-8'>
-                            <ScratchSvg2 />
-                        </div>
-                        <p className='text-sm font-medium'>
-                            and more
-                        </p>
-                    </li>
+                    ))}
                 </ul>
             </div>
-            <div className='inline-flex flex-col coxs:flex-row gap-2 pt-6 lg:pt-[57px]'>
-                <Link to="https://www.neuappliancewholesale.com" className='bg-b3 px-4 py-3 rounded-lg text-xs text-white flex gap-1 items-center font-medium'><span>Go to Neu Appliance Wholesale</span><span><BiLinkExternal className="text-white text-sm" /></span></Link>
-                <Link to="https://www.youtube.com/watch?v=UjUl8PSALbM" target="_blank" className='border border-b3 px-4 py-3 rounded-lg text-xs text-b3 flex gap-1 items-center font-medium whitespace-nowrap'><span><BiPlayCircle className="text-b3 text-sm" /></span><span>Watch Video</span></Link>
+            <div className='inline-flex flex-col sm:flex-row gap-2 pt-6 lg:pt-[57px]'>
+                <Link to="https://www.neuappliancewholesale.com" className='bg-b3 px-4 py-3 rounded-lg text-xs text-white flex justify-center gap-1 items-center font-medium'><span>Go to Neu Appliance Wholesale</span><span><BiLinkExternal className="text-white text-sm" /></span></Link>
+                <Link to="https://www.youtube.com/watch?v=UjUl8PSALbM" target="_blank" className='border border-b3 px-4 py-3 rounded-lg text-xs text-b3 flex justify-center gap-1 items-center font-medium whitespace-nowrap'><span><BiPlayCircle className="text-b3 text-sm" /></span><span>Watch Video</span></Link>
             </div>
         </div>
     )
 }
 
 export default ApplianceWholeSale
+
+const SupplyLists = ['Scratch & Dent Appliances', 'Customer Return Appliances', 'Salvage Appliances', 'Used Appliances', 'General Liquidation Appliances','and more']

@@ -10,15 +10,15 @@ const Delivered = () => {
         <HowItWorks>
             <div className='flex flex-col items-center py-10 px-4 md:px-10 lg:py-14 xl:py-28 2xl:p-10 2xl:!pt-[70px]' >
                 <h4 className='xl:text-4xl text-xl font-bold text-center mb-4' >Delivery and Installation</h4>
-                <div className='grid grid-cols-1 gap-60px'>
-                    <p className='mt-4 max-w-[896px] w-full text-b18 mx-auto text-center mb-10'>
+                <div className='grid grid-cols-1 gap-10 lg:gap-60px'>
+                    <p className='mt-4 max-w-[896px] w-full text-b18 mx-auto text-center md:mb-10'>
                         Our Austin local appliance delivery Pros are fast and efficient. We offer quick delivery and installation services to Austin, Tx and the surrounding areas.
                     </p>
                     {/* Delivery Map */}
                     {/* <MapSection /> */}
                     <DeliveryMap customStyle="flex flex-col lg:grid [&>.mapform]:lg:ml-10 [&>.mapform]:2xl:!h-[617px] [&>#map]:lg:!absolute [&>#map]:left-0 [&>#map]:right-0 relative items-center" />
 
-                    <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10'>
+                    <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 md:mt-10'>
                         <MapCards icon="pickup-shield-security.png" title="Pickup Available" description="Need it instantly? We offer pickup! Our team will help you load it up!" />
                         <MapCards icon="airport_shuttle.png" title="Fast Delivery" description="Our delivery and installation teams are fast and efficient providing you quick options for delivery" />
                         <MapCards icon="home_pin.png" title="Serving The Greater Austin, TX Area" description="We offer our delivery and installation services through the Greater Austin,Tx area and Central Tx. Enter your zip code to check if we deliver to your area. (same as home page with the map etc)" />

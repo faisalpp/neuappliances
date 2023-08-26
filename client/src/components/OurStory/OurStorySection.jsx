@@ -5,7 +5,7 @@ const OurStory = () => {
     return (
         <>
             <div className='py-10 lg:py-16 xl:py-20 2xl:py-100px bg-b8'>
-                <div className='max-w-[572px] flex flex-col mx-auto text-center gap-5'>
+                <div className='max-w-[572px] flex flex-col mx-auto text-center gap-5 px-4'>
                     <div><span className='uppercase text-xs'>LOREM IPSUM</span></div>
                     <h2 className='text-2xl sm:text-[40px] text-b3 font-bold sm:leading-[49px]'>
                         Lorem Ipsum dolor sin amet consegur.

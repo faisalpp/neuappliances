@@ -25,36 +25,20 @@ const ApplianceParts = () => {
                             Our Website's Tools For Success include:
                         </p>
                         <ul className='flex flex-col gap-2'>
-                            <li className='flex items-start gap-3 py-[15px]'>
+                            {ToolLists.map((item,index)=>(
+                            <li key={index} className='flex items-start gap-3 py-[15px]'>
                                 <div className='w-10 h-10'>
                                     <SolutionSvg />
                                 </div>
-                                <p className='text-sm font-medium'>
-                                    Revolutionary Appliance Parts store specializing in providing deeply discounted In-Stock appliance parts.
-                                </p>
+                                <p className='text-sm font-medium'>{item}</p>
                             </li>
-                            <li className='flex items-start gap-3 py-[15px]'>
-                                <div className='w-10 h-10'>
-                                    <SolutionSvg />
-                                </div>
-                                <p className='text-sm font-medium'>
-                                    Specializing in Open Box and Like/New Appliance parts to save our customers money, our appliance processing center uninstalls tens of thousands of Like New appliance parts from new scratch and dent appliances every year.
-                                </p>
-                            </li>
-                            <li className='flex items-start gap-3 py-[15px]'>
-                                <div className='w-10 h-10'>
-                                    <SolutionSvg />
-                                </div>
-                                <p className='text-sm font-medium'>
-                                    Offering the public and appliance repair professionals an affordable solution for otherwise hard to source or expensive appliance parts.
-                                </p>
-                            </li>
+                            ))}
                         </ul>
                     </div>
                 </div>
-                <div className='inline-flex flex-col coxs:flex-row gap-2 pt-6'>
-                    <Link to="http://neuapplianceparts.com" target='_blank' className='bg-b4 px-4 py-3 rounded-lg text-xs text-b16 flex gap-1 items-center font-medium'><span>Go to Neu Appliance Parts</span><BiLinkExternal className="text-b18 text-sm" /></Link>
-                    <Link to="https://youtu.be/GliOcJH2pSM" target='_blank' className='border border-[#071822] px-4 py-3 rounded-lg text-xs text-[#071822] flex gap-1 items-center font-medium whitespace-nowrap'><BiPlayCircle className="text-[#071822] text-sm" /><span>Watch Video</span></Link>
+                <div className='inline-flex flex-col sm:flex-row gap-2 pt-6'>
+                    <Link to="http://neuapplianceparts.com" target='_blank' className='bg-b4 px-4 py-3 rounded-lg text-xs text-b16 flex justify-center gap-1 items-center font-medium'><span>Go to Neu Appliance Parts</span><BiLinkExternal className="text-b18 text-sm" /></Link>
+                    <Link to="https://youtu.be/GliOcJH2pSM" target='_blank' className='border border-[#071822] px-4 py-3 rounded-lg text-xs text-[#071822] flex justify-center gap-1 items-center font-medium whitespace-nowrap'><BiPlayCircle className="text-[#071822] text-sm" /><span>Watch Video</span></Link>
                 </div>
             </div>
         </div>
@@ -62,3 +46,5 @@ const ApplianceParts = () => {
 }
 
 export default ApplianceParts
+
+const ToolLists = ['Revolutionary Appliance Parts store specializing in providing deeply discounted In-Stock appliance parts.', 'Specializing in Open Box and Like/New Appliance parts to save our customers money, our appliance processing center uninstalls tens of thousands of Like New appliance parts from new scratch and dent appliances every year.','Offering the public and appliance repair professionals an affordable solution for otherwise hard to source or expensive appliance parts.']
