@@ -47,32 +47,32 @@ const Footer = () => {
         <div className='order-2 sm:order-none sm:col-span-6 lg:col-span-3' >
           <h4 className='w-max text-white text-lg font-bold font-reg' >Quick Links</h4>
           <div className='flex flex-col text-white/60 text-base font-normal gap-y-5 mt-10 hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
-            <a href=''>Shop Now</a>
-            <a href=''>Shop On Sale</a>
-            <a href='/how-it-works/what-we-sell'>Live Inventory</a>
-            <a href=''>Virtual Showroom</a>
-            <a href='/financing'>Financing</a>
-            <a href=''>Discount Appliances in Stock</a>
-            <a href=''>Austin Appliance Liquidation</a>
-            <a href=''>Used Appliances</a>
-            <a href='/appliance-repair'>Appliance Repair</a>
-            <a href='/helpful-appliances-tips'>Helpful Appliance Tips</a>
+            <Link to=''>Shop Now</Link>
+            <Link to=''>Shop On Sale</Link>
+            <Link to='/how-it-works/what-we-sell'>Live Inventory</Link>
+            <Link to=''>Virtual Showroom</Link>
+            <Link to='/financing'>Financing</Link>
+            <Link to=''>Discount Appliances in Stock</Link>
+            <Link to=''>Austin Appliance Liquidation</Link>
+            <Link to=''>Used Appliances</Link>
+            <Link to='/appliance-repair'>Appliance Repair</Link>
+            <Link to='/helpful-appliances-tips'>Helpful Appliance Tips</Link>
           </div>
         </div>
         {/* Quick Links Section End */}
 
         {/* Quick Links Section 2 Start */}
         <div className='order-3 sm:order-none sm:col-span-6 lg:col-span-3 lg:mt-0 flex flex-col text-white/60 text-base font-normal gap-y-5 sm:pt-[65px] hover:[&>a]:underline hover:[&>a]:cursor-pointer' >
-          <a href=''>Our Brands</a>
-          <a href=''>Delivery</a>
-          <a href='/measuring-guide'>Appliance Measuring Guide</a>
-          <a href='/do-i-have-electric-or-gas'>Do I have Electric or Gas?</a>
-          <a href='/appliancetypes'>Our Products</a>
-          <a href='/faqs'>FAQ</a>
-          <a href=''>Contact</a>
-          <a href=''>Terms</a>
-          <a href=''>Refunds</a>
-          <a href=''>Privacy Policy</a>
+          <Link to=''>Our Brands</Link>
+          <Link to=''>Delivery</Link>
+          <Link to='/measuring-guide'>Appliance Measuring Guide</Link>
+          <Link to='/do-i-have-electric-or-gas'>Do I have Electric or Gas?</Link>
+          <Link to='/appliancetypes'>Our Products</Link>
+          <Link to='/faqs'>FAQ</Link>
+          <Link to=''>Contact</Link>
+          <Link to=''>Terms</Link>
+          <Link to=''>Refunds</Link>
+          <Link to=''>Privacy Policy</Link>
         </div>
         {/* Quick Links Section 2 End */}
 

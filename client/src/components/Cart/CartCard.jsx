@@ -10,17 +10,17 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 
 const CartCard = () => {
     return (
-        <div className='relative grid grid-cols-1 md:grid-cols-[160px_1fr] gap-5 3xl:gap-10 p-6 rounded-2xl border border-[0px_10px_60px_0px_rgba(0,0,0,0.10)] shadow-[0px_10px_60px_0px_rgba(0,0,0,0.10)]'>
+        <div className='relative grid grid-cols-1 md:grid-cols-[160px_1fr] gap-5 3xl:gap-10 p-4 sm:p-6 rounded-2xl border border-[0px_10px_60px_0px_rgba(0,0,0,0.10)] shadow-[0px_10px_60px_0px_rgba(0,0,0,0.10)]'>
             <div>
                 <img src="/cart/mycart.png" className='w-40 h-40' alt="" />
             </div>
             <div className='flex items-start gap-2'>
                 <div className='flex flex-col gap-4'>
-                    <h3 className='text-b18 text-base sm:text-xl leading-6 font-semibold'>White GE 1.7 cu. ft. Over the Range Microwave with Convenience Cooking Controls</h3>
-                    <div className='flex  gap-2  items-center'>
+                    <h3 className='text-b18 text-sm sm:text-base md:text-lg lg:text-xl md:leading-6 font-semibold'>White GE 1.7 cu. ft. Over the Range Microwave with Convenience Cooking Controls</h3>
+                    <div className='flex  gap-2 maxmd:justify-between items-center'>
                         <div className='py-[10px] bg-b13 px-4 rounded-full text-white inline-flex gap-2 items-center'>
                             <StockSvg />
-                            <span className=' font-semibold text-sm'>In Stock</span>
+                            <span className=' font-semibold text-[12.408px] sm:text-sm'>In Stock</span>
                         </div>
                         <span className='text-[12.408px] font-medium text-[rgba(0,0,0,0.64)]'>
                             Only 2 left

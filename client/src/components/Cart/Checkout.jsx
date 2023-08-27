@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const Checkout = () => {
 
     return (
-        <div className='border border-b26 rounded p-5 md:p-10 flex flex-col gap-6'>
+        <div className='border border-b26 rounded px-5 py-10 md:p-10 flex flex-col gap-6'>
             <h2 className='text-b16 font-bold text-xl'>Order Summary</h2>
             <div className='flex justify-between'><span>4 Items</span><span>$2,279.00</span></div>
             <div className='flex justify-between'><span>Delivery Fee</span><span>$80</span></div>

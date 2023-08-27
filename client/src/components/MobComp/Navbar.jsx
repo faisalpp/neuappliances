@@ -8,8 +8,8 @@ import { BsFillChatSquareHeartFill } from 'react-icons/bs'
 import { BiUserCircle } from 'react-icons/bi';
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import {showSCart,hideSCart} from '../../store/cartSlice'
-import { useSelector,useDispatch } from 'react-redux';
+import { showSCart, hideSCart } from '../../store/cartSlice'
+import { useSelector, useDispatch } from 'react-redux';
 
 const Navbar = () => {
 
@@ -17,16 +17,16 @@ const Navbar = () => {
   const [dealMenu, setDealMenu] = useState(false);
   const [productMenu, setProductMenu] = useState(false);
   const [brandMenu, setBrandMenu] = useState(false);
-  const sCart = useSelector((state)=>state.cart.sCart)
+  const sCart = useSelector((state) => state.cart.sCart)
 
   const dispatch = useDispatch()
 
   return (
     <>
-      <div className='lg:hidden grid grid-cols-12 bg-b1 text-white py-4 px-4 md:px-10' >
-        <img src="/neu.png" className='col-start-1 px-2 col-end-4 w-24 h-10' alt='' />
+      <div className='lg:hidden flex justify-between bg-b1 text-white py-4 px-4 md:px-10' >
+        <img src="/neu.png" className='w-32' alt='neuappliance' />
         {/* <div className='col-start-5 col-end-9 flex items-center bg-white h-10 px-2 rounded-lg space-x-2 w-full ' ><AiOutlineSearch className='text-black' /><input type="text" placeholder='Search for appliances' className="w-full text-[10px] text-black outline-none" /></div> */}
-        <div className='col-start-12 col-end-12 space-x-4 flex items-center justify-end' >
+        <div className='space-x-4 flex items-center justify-end' >
           <div onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='relative items-center px-2 bg-b2 py-2 h-fit w-fit rounded-full text-white' ><AiOutlineShoppingCart /><span className='absolute -top-2 ml-2 bg-b3 rounded-full text-[8px] py-[3px] px-[7px] text-center' >2</span></div>
           {/* <div className='flex items-center px-2 py-2 bg-b2 h-fit w-fit rounded-full text-white' ><BiUserCircle /></div>   */}
           {mobMenu ? <div onClick={() => setMobMenu(false)} className='flex items-center px-2 py-2 bg-b2 h-fit w-fit rounded-full text-white' ><IoCloseOutline className='text-white' /></div> : <div onClick={() => setMobMenu(true)} className='flex items-center px-2 py-2 bg-b2 h-fit w-fit rounded-full text-white' ><IoMenu /></div>}

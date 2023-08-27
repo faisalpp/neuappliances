@@ -12,7 +12,7 @@ const PriceRangeCard = ({ title, items }) => {
                         <div className='w-6 h-6'>
                             <TickSvg />
                         </div>
-                        <p className='text-b18 text-left leading-6' dangerouslySetInnerHTML={{
+                        <p className='maxmd:text-sm text-b18 text-left leading-6' dangerouslySetInnerHTML={{
                             __html: item.replace(/\n/g, '<br/>')
                         }}>
                         </p>

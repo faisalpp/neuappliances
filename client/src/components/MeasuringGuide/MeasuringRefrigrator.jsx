@@ -3,8 +3,8 @@ import MeasuringCard from './MeasuringCard'
 
 const MeasuringRefrigrator = () => {
     return (
-        <div className='flex flex-col gap-14 pb-10 lg:pb-16 xl:pb-20 2xl:pb-120px pt-10 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
-            <h2 className='text-xl lg:text-2xl xl:text-[32px] font-bold text-b18 text-center'>
+        <div className='flex flex-col gap-5 md:gap-14 pb-16 xl:pb-20 2xl:pb-120px pt-10 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+            <h2 className='text-2xl xl:text-[32px] font-bold text-b18 text-center'>
                 Measuring Refrigerators
             </h2>
             <div className='grid lg:grid-cols-2 gap-6'>
