@@ -127,7 +127,7 @@ const blogController = {
               }
         }else{
           try{
-            const {resp} = await AWSService.duplicateFile(thumbnail)
+            const {resp} = await AWSService.deleteFile(thumbnail)
            if(resp.$metadata.httpStatusCode === 200){
              try{
                const {response,updateImg} = await AWSService.uploadFile({name:req.files.thumbnail.name,data:req.files.thumbnail.data},'blog/')
@@ -250,7 +250,7 @@ async DeleteBlog(req, res, next) {
 
        try{
          const {resp} = await AWSService.deleteFile(blog.thumbnail)
-         if(res.$metadata.httpStatusCode === 200){
+         if(resp.$metadata.httpStatusCode === 200){
            return res.status(200).json({status: 200, msg:'Blog Deleted Successfully!'});    
          }
         }catch(error){

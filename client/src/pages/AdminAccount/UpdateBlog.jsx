@@ -4,7 +4,8 @@ import { BsArrowRightShort } from 'react-icons/bs'
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { GetCategories,updateBlog } from '../../api/admin'
+import {  updateBlog } from '../../api/admin'
+import {GetCategories} from '../../api/admin/category'
 import { GetBlogBySlug } from '../../api/frontEnd'
 import BlogEditor from '../../components/AdminDashboard/BlogEditor';
 import TextInput from '../../components/TextInput/TextInput';
@@ -171,7 +172,7 @@ const UpdateBlog = () => {
            </div> 
           </div>
             <BlogEditor state={content} setState={setContent} />
-            <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> :<a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a>}</button>
+            <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> :<a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Update</span><BsArrowRightShort className='text-2xl' /></a>}</button>
           </form>
         </AdminAccount>
     </>

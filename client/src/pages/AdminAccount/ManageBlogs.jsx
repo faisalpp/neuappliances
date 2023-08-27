@@ -6,7 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import BlogTable from '../../components/AdminDashboard/Blog/BlogTable';
 import Pagination2 from '../../components/Pagination/Pagination2'
 import {GetBlogByCateogry} from '../../api/frontEnd'
-import {GetCategories, searchBlog} from '../../api/admin'
+import {  searchBlog} from '../../api/admin'
+import {GetCategories} from '../../api/admin/category'
 import SelectInput from '../../components/TextInput/SelectInput'
 
 const ManageBlogs = () => {

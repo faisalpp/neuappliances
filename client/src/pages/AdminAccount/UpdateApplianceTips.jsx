@@ -4,7 +4,8 @@ import { BsArrowRightShort } from 'react-icons/bs'
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { GetCategories,updateBlog } from '../../api/admin'
+import { updateBlog } from '../../api/admin'
+import {GetCategories} from '../../api/admin/category'
 import { GetBlogBySlug } from '../../api/frontEnd'
 import BlogEditor from '../../components/AdminDashboard/BlogEditor';
 import TextInput from '../../components/TextInput/TextInput';

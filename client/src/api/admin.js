@@ -29,33 +29,15 @@ const AdminMultiApi = axios.create({
 
 
 
-export const GetCategories = async () => {
-    let response;
 
-    try{
-        response = await AdminApi.get('/api/admin/get-categories');
-    }catch (error){
-        return error;
-    }
-    return response;
-}
 
-export const createCategory = async (data) => {
-    let response;
 
-    try{
-        response = await AdminApi.post('/api/admin/create-category',data);
-    }catch (error){
-        return error;
-    }
-    return response;
-}
 
 export const updateCategory = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/update-category',data);
+        response = await AdminMultiApi.post('/api/admin/update-category',data);
     }catch (error){
         return error;
     }

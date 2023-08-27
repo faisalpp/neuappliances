@@ -14,7 +14,7 @@ const ApplianceTypes = () => {
     
     useEffect(() => {
         const getAppliances = async () => {
-            const res = await GetAppliances();
+            const res = await GetAppliances({limit:'all'});
             if (res.status === 200) {
                 setApplianceTypes(res.data.categories);
                 setLoading(false)

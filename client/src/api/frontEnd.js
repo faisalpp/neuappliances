@@ -10,11 +10,21 @@ const api = axios.create({
     },
 });
 
-export const GetAppliances = async () => {
+export const GetAppliances = async (params) => {
     let response;
 
     try{
-        response = await api.get('/api/get-appliances');
+        response = await api.get(`/api/get-appliances/?limit=${params.limit}`);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const getNabarAppliances = async () => {
+    let response;
+
+    try{
+        response = await api.get('/api/get-navbar-appliances');
     }catch (error){
         return error;
     }

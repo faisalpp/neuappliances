@@ -142,12 +142,15 @@ const ManageFaq = () => {
               </div>
              </div>
                 {/* Products Operations */}
-               <div className="flex flex-wrap space-x-5" >
+               <div className="grid grid-cols-3 gap-x-3 " >
                 
-                {faqTabs.length > 0 ? faqTabs.map((tab,index)=><div key={index} className="tab-buttons maxlg:order-2 lg:w-[30%] flex flex-col gap-2 mb-2">
-                 <div className='p-2 xl:p-3 xl:text-sm font-semibold flex justify-between items-center text-left border border-[rgba(0,0,0,0.15)] rounded-2xl text-b23'><span >{tab.title}</span>
-                  <span className='p-2 bg-b6 hover:bg-white border-b3 border-2  rounded-full cursor-pointer group' ><BsPencil onClick={()=>{setUpdateFaqPopup(true);setUpdatedFaqTabTitle(tab.title);setUpdatedFaqTabId(tab._id)}} className='text-white group-hover:text-b3 text-lg shadow-xl' /></span>
-                  <NavLink to={`/admin/create-faq/${tab.slug}`} className='p-2 bg-b6 hover:bg-white border-b3 border-2  rounded-full cursor-pointer group' ><AiFillEye className='text-white group-hover:text-b3 text-lg shadow-xl' /></NavLink>
+                {faqTabs.length > 0 ? faqTabs.map((tab,index)=><div key={index} className="tab-buttons maxlg:order-2 w-full flex flex-col gap-2 mb-2">
+                 <div className='p-2 xl:p-3 xl:text-sm font-semibold flex justify-between items-center text-left border border-[rgba(0,0,0,0.15)] rounded-2xl text-b23'>
+                  <span className='w-96' >{tab.title}</span>
+                  <div className='flex w-full space-x-1' >
+                   <span className='p-2 bg-b6 hover:bg-white border-b3 border-2  rounded-full cursor-pointer group' ><BsPencil onClick={()=>{setUpdateFaqPopup(true);setUpdatedFaqTabTitle(tab.title);setUpdatedFaqTabId(tab._id)}} className='text-white group-hover:text-b3 text-lg shadow-xl' /></span>
+                   <NavLink to={`/admin/create-faq/${tab.slug}`} className='p-2 bg-b6 hover:bg-white border-b3 border-2  rounded-full cursor-pointer group' ><AiFillEye className='text-white group-hover:text-b3 text-lg shadow-xl' /></NavLink>
+                  </div>
                  </div>
                 </div>)
                 :

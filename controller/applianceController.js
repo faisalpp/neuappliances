@@ -5,8 +5,21 @@ const sectionItem = require("../models/sectionItem");
 
 const applianceController = {
     async GetAppliances(req,res,next){
+      let categories;
       try{
-        const categories = await Category.find({}).limit(5);
+        if(req.query.limit !== 'all'){
+          categories = await Category.find({}).limit(req.query.limit);
+        }else{
+          categories = await Category.find({}).sort({ index: 1 });;
+        }
+        return res.status(200).json({status:200,categories:categories});
+      }catch(error){
+        return next(error)
+      }      
+    },
+    async GetNavbarAppliances(req,res,next){
+      try{
+        const  categories = await Category.find({inMenu:true});
         return res.status(200).json({status:200,categories:categories});
       }catch(error){
         return next(error)

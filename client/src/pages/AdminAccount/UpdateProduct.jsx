@@ -5,7 +5,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {GetCategories,getCategoryBrands,getProductTypes,getProductFeatures,createProduct,getCategoryColors} from '../../api/admin'
+import { getCategoryBrands,getProductTypes,getProductFeatures,createProduct,getCategoryColors} from '../../api/admin'
+import {GetCategories} from '../../api/admin/category'
 import TextInput from '../../components/TextInput/TextInput';
 import TextAreaInput from '../../components/TextInput/TextAreaInput';
 import SelectInput from '../../components/TextInput/SelectInput';

@@ -2,7 +2,7 @@ import React from 'react'
 import { AiFillStar } from 'react-icons/ai'
 import { NavLink } from 'react-router-dom';
 
-const BrandCard = ({ title, image, rating, brandimage, brandname, colorimage, colorname,updateUrl,viewUrl}) => {
+const BrandCard = ({ ref,title, image, rating, brandimage, brandname, colorimage, colorname,updateUrl,viewUrl}) => {
     const StarIconPrinter = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
             <AiFillStar key={index} className='text-b7' /> // Render the star icon component for each iteration
@@ -22,7 +22,7 @@ const BrandCard = ({ title, image, rating, brandimage, brandname, colorimage, co
       
 
     return (
-        <div>
+        <div ref={ref} >
             {title ?
                 <div className='rounded-2xl maxmd:mx-auto maxmd:max-w-[330px] border border-gray-300 p-3'>
                     <img src={image} className='xl:w-auto h-80 mx-auto' alt={title} />

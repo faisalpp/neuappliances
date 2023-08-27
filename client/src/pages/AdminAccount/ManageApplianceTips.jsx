@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import Pagination2 from '../../components/Pagination/Pagination2'
 import {getTipBySearch,GetTipByCateogry} from '../../api/admin/applianceTips'
-import {GetCategories} from '../../api/admin'
+import {GetCategories} from '../../api/admin/category'
 import SelectInput from '../../components/TextInput/SelectInput'
 import ApplianceTable from '../../components/AdminDashboard/ApplianceTips/ApplianceTable';
 

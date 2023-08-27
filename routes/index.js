@@ -46,6 +46,7 @@ router.get('/api/admin/get-categories',adminAuth,categoryController.GetCategorie
 router.post('/api/admin/category-by-id',adminAuth,categoryController.GetCategoryById);
 router.post('/api/admin/create-category',adminAuth,categoryController.CreateCategory);
 router.post('/api/admin/update-category',adminAuth,categoryController.UpdateCategory);
+router.post('/api/admin/update-categories-index',adminAuth,categoryController.updateCategoriesPosition);
 // Sections Related Routes
 router.post('/api/admin/create-section',adminAuth,categorySection.CreateSection);
 router.post('/api/admin/update-section',adminAuth,categorySection.UpdateSection);
@@ -153,6 +154,7 @@ router.post('/api/user/save-order-address',auth,orderController.saveOrderAddress
 router.post('/api/get-product-by-filter',applianceController.GetApplianceBySectionType);
 router.post('/api/get-product-by-slug',applianceController.GetApplianceBySlug);
 router.get('/api/get-appliances',applianceController.GetAppliances);
+router.get('/api/get-navbar-appliances',applianceController.GetNavbarAppliances);
 router.post('/api/appliance-sections',applianceController.GetApplianceSections);
 // Get All Filters Information for Products Page
 router.get('/api/get-appliances-filters',applianceController.GetAppliancesFilters);

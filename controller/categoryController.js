@@ -1,6 +1,8 @@
 const Category = require("../models/category");
 const Joi = require("joi");
 const fs = require("fs");
+const AWSService = require('../services/S3Upload')
+
 
 const categoryController = {
     async CreateCategory(req,res,next){
@@ -8,9 +10,9 @@ const categoryController = {
     // 1. validate user input
     const categoryRegisterSchema = Joi.object({
         title: Joi.string().max(30).required(),
-        image: Joi.string().required(),
         description: Joi.string().required(),
         slug: Joi.string().required(),
+        inMenu: Joi.boolean().required(),
       });
       const { error } = categoryRegisterSchema.validate(req.body);
   
@@ -19,9 +21,8 @@ const categoryController = {
         return next(error)
       }
 
-      const {title,image,slug,description} = req.body;
-      
-      try {
+      const {title,slug,description,inMenu} = req.body;
+    
         
 
       const titleInUse = await Category.exists({ title });
@@ -35,46 +36,60 @@ const categoryController = {
           return next(error);
         }
 
-        // read as buffer
-        const buffer = Buffer.from(
-          image.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""),
-          "base64"
-        );
+         if(!req.files.image){
+           return res.status(500).json({msg:'Category Image Required!'});  
+         }
 
-        // allot a random name
-        const imagePath = `${Date.now()}-${title}.png`;
+         const {response,updateImg} = await AWSService.uploadFile({name:req.files.image.name,data:req.files.image.data},'category/')
+         if(response.$metadata.httpStatusCode === 200){
+          try{
+           const categoryToRegister = new Category({title,image: updateImg,description,slug: slug,inMenu:inMenu});
+           await categoryToRegister.save();
 
-        try {
-         fs.writeFileSync(`storage/categories/${imagePath}`, buffer);
-        } catch (error) {
-          return next(error);
-        }
-
-    
-          const categoryToRegister = new Category({
-            title,
-            image: imagePath,
-            description,
-            slug: slug
-          });
-
-    
-         const category = await categoryToRegister.save();
-
-        return res.status(200).json({status:200,msg:'Category Created Successfully!'});
-    
-        } catch (error) {
-          return next(error);
+           return res.status(200).json({status:200,msg:'Category Created Successfully!'});
+          }catch(err){
+            const error = {status:500,massage:"Internal Server Error!"}
+            return next(error)
+          }
+        }else{
+         const error = {
+           status: 500,
+           message: "AWS S3 Internal Server Error!"
+         }
+         return next(error)
         }
     },
-    async UpdateCategory(req,res,next){
+    async updateCategoriesPosition(req,res,next){
+  
+      const data = req.body;
+      // Create an array of update operations
+      const updateOperations = data.map(({ _id, index }) => ({
+        updateOne: {
+            filter: { _id },
+            update: { $set: { index } }
+        }
+      }));
+      // Execute the bulk update operation
+      try{
+        const update  = await Category.bulkWrite(updateOperations)
+        return res.status(200).json({status:200,msg:'Categories Position Updated!'});
+      }catch(err){
+        const error = {status:500,messge:"Internal Server Error!"}
+          return next(error)
+      }
 
+     },
+
+    async UpdateCategory(req,res,next){
+      //  console.log(req.body.inMenu)
       // 1. validate user input
       const categoryUpdateSchema = Joi.object({
+          id: Joi.string().required(),
           title: Joi.string().max(30).required(),
           image: Joi.string().allow('').allow(null),
+          oldImage: Joi.string().allow('').allow(null),
+          inMenu: Joi.boolean().required(),
           description: Joi.string().required(),
-          categoryId: Joi.string().required(),
           slug: Joi.string().required(),
         });
         const { error } = categoryUpdateSchema.validate(req.body);
@@ -84,43 +99,53 @@ const categoryController = {
           return next(error)
         }
   
-        const {title,image,slug,description,categoryId} = req.body;
-        
-        try {
-          if(!image === ''){
-            // read as buffer
-            const buffer = Buffer.from(
-            image.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""),
-            "base64"
-          );
-  
-          // allot a random name
-          const imagePath = `${Date.now()}-${title}.png`;
-  
+        const {title,image,oldImage,inMenu,slug,description,id} = req.body;
+        // console.log(oldImage)
+        if(oldImage === ''){
           try {
-           fs.writeFileSync(`storage/categories/${imagePath}`, buffer);
-          } catch (error) {
-            return next(error);
-          }
-          const updatedSection = await Category.findByIdAndUpdate(
-            categoryId,
-            {title,image,slug,description},
-            { new: true }
-          );
-        }else{
-          const updatedSection = await Category.findByIdAndUpdate(
-            categoryId,
-            {title,slug,description},
-            { new: true }
-            );
-          }
-
-  
-          return res.status(200).json({status:200,msg:'Category Updated Successfully!'});
+              await Category.findByIdAndUpdate(
+                id,
+                {title,slug,inMenu,description},
+                { new: true }
+              );
       
-          } catch (error) {
-            return next(error);
+              return res.status(200).json({status:200,msg:'Category Updated Successfully!'});
+          
+              } catch (error) {
+                const err = {status:500,message:"Internal Server Error!"}
+                return next(err);
+              }
+        }else{
+          try{
+            const {resp} = await AWSService.deleteFile(oldImage)
+            // console.log(resp.$metadata.httpStatusCode)
+           if(resp.$metadata.httpStatusCode === 204){
+             try{
+               const {response,updateImg} = await AWSService.uploadFile({name:req.files.image.name,data:req.files.image.data},'category/')
+               if(response.$metadata.httpStatusCode === 200){
+                try{
+                   await Category.findByIdAndUpdate(
+                    id,
+                    {title,slug,description,inMenu,image:updateImg},
+                    { new: true }
+                  );
+                  return res.status(200).json({status: 200, msg:'Category Updated Successuly!'});
+                 }catch(err){
+                   const error = {status:500,message:"Internal Server Error!"}
+                   return next(error)
+                 }
+               }
+             }catch(error){
+               const err = {status:500,message:"Cloud Internal Server Server!"} 
+               return next(err)
+             }
+
+           }
+          }catch(error){
+           const err = {status:500,message:"Cloud Internal Server Server!"} 
+           return next(err)
           }
+        }
       },
 
     async GetCategories(req,res,next){

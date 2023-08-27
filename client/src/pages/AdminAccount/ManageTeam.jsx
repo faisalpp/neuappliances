@@ -209,7 +209,7 @@ const ManageTeam = () => {
         ...item,
         index: index+1 // Add the index property
     }));
-    console.log(updatedItems)
+    // console.log(updatedItems)
       setMembers(updatedItems);
     }
 
