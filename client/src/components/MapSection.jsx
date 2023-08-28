@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai'
 import { Loader } from "@googlemaps/js-api-loader"
 import { getCords } from '../api'
 import MobMapForm from './MobMapForm'
