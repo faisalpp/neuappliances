@@ -25,6 +25,7 @@ const Appliances = () => {
   useEffect(() => {
     const getAppliances = async () => {
       const res = await GetApplianceSections(data);
+      console.log(res)
       if (res.status === 200) {
         setSections(res.data.categorySections);
         setDescription(res.data.categoryDescription);
@@ -56,7 +57,7 @@ const Appliances = () => {
           {/* End */}
 
           {/* Reviews Section */}
-          <SatisfiedSection title="Join Thousands of our Satisfied Customers." />
+          <SatisfiedSection apiSectionName="categories-page" title="Join Thousands of our Satisfied Customers." />
 
           <NewsLetterSection backimage="/Newsletter.png" />
         </MainLayout>)}

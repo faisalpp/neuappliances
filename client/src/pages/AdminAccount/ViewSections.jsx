@@ -5,15 +5,11 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { NavLink,useNavigate } from 'react-router-dom';
 import {getSection} from '../../api/admin'
 import {useParams} from 'react-router-dom';
-import {useDispatch}  from 'react-redux'
-import {resetUser} from '../../store/userSlice'
+
 
 const ViewSections = () => {
     const { slug } = useParams();
     const [sections,setSections] = useState([]);
-
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     const data = {slug};
 
@@ -23,11 +19,9 @@ const ViewSections = () => {
             
             if(res.status === 200){
                 setSections(res.data.categorySections);
+            }else{
+                setSections([])
             }
-            if(res.code === 'ERR_BAD_REQUEST'){
-                dispatch(resetUser());
-                navigate('/nu-admin')
-              }
         }
         Sections()
     }, [])

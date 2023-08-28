@@ -43,7 +43,7 @@ const ManageReviews = () => {
 
   const [loading,setLoading] = useState(false)
   
-  const [pageNames,setPageNames] = useState(['Home Page Footer Review','How It Works 1st Section Review (What We Sell Tab)','How It Works 2nd Section Review (Wat We Sell Tab)','How It Works Review (Ratings Tab)','How It Works Review (Tested Tab)','How It Works Review (Photo Tab)','How It Works Review (Delivered Tab)','How It Works 1st Section Review (Hassle Free Tab)','How It Works 2nd Section Review (Hassle Free Tab)','Faq Page Review','Our Story Page Review','Our Showroom Page Review','Our Companies Page Review','Appliance Repair Page Review','Measuring Guide Page Review','Helpfull Appliance Tips Page Review','Financing Page Review','Blog Page Review'])
+  const [pageNames,setPageNames] = useState(['Home Page Footer Review','How It Works 1st Section Review (What We Sell Tab)','How It Works 2nd Section Review (Wat We Sell Tab)','How It Works Review (Ratings Tab)','How It Works Review (Tested Tab)','How It Works Review (Photo Tab)','How It Works Review (Delivered Tab)','How It Works 1st Section Review (Hassle Free Tab)','How It Works 2nd Section Review (Hassle Free Tab)','Faq Page Review','Our Story Page Review','Our Showroom Page Review','Our Companies Page Review','Appliance Repair Page Review','Measuring Guide Page Review','Helpfull Appliance Tips Page Review','Financing Page Review','Blog Page Review','Categories Page'])
 
   const [page,setPage] = useState(1);
   const [limit,setLimit] = useState(8);
@@ -130,7 +130,7 @@ const [uContent,setUcontent] = useState('');
 const [uPageType,setUpageType] = useState('')
 
 const [uRatings,setUratings] = useState(['3','4','5'])
-const [pageUnames,setPageUnames] = useState(['Home Page Footer Review','How It Works 1st Section Review (What We Sell Tab)','How It Works 2nd Section Review (Wat We Sell Tab)','How It Works Review (Ratings Tab)','How It Works Review (Tested Tab)','How It Works Review (Photo Tab)','How It Works Review (Delivered Tab)','How It Works 1st Section Review (Hassle Free Tab)','How It Works 2nd Section Review (Hassle Free Tab)','Faq Page Review','Our Story Page Review','Our Showroom Page Review','Our Companies Page Review','Appliance Repair Page Review','Measuring Guide Page Review','Helpfull Appliance Tips Page Review','Financing Page Review','Blog Page Review'])
+const [pageUnames,setPageUnames] = useState(['Home Page Footer Review','How It Works 1st Section Review (What We Sell Tab)','How It Works 2nd Section Review (Wat We Sell Tab)','How It Works Review (Ratings Tab)','How It Works Review (Tested Tab)','How It Works Review (Photo Tab)','How It Works Review (Delivered Tab)','How It Works 1st Section Review (Hassle Free Tab)','How It Works 2nd Section Review (Hassle Free Tab)','Faq Page Review','Our Story Page Review','Our Showroom Page Review','Our Companies Page Review','Appliance Repair Page Review','Measuring Guide Page Review','Helpfull Appliance Tips Page Review','Financing Page Review','Blog Page Review','Categories Page'])
 
 const UpdateReview = async (e) => {
   e.preventDefault()

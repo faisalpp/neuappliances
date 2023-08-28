@@ -30,6 +30,7 @@ const applianceController = {
       const category = await Category.findOne({slug:slug})
       
       categorySection.find({ categorySlug: slug })
+      .sort({ index: 1 })
       .populate('sectionItemsId')
       .exec()
       .then(categorySections => {

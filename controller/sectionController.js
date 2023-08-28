@@ -2,6 +2,7 @@ const categorySection = require("../models/categorySection");
 const sectionItem = require("../models/sectionItem");
 const Joi = require("joi");
 const fs = require('fs')
+const AWSService = require('../services/S3Upload')
 
 const sectionController = {
     async CreateSection(req,res,next){
@@ -121,20 +122,20 @@ const sectionController = {
           return res.status(500).json({status:500,message:'Image Required!'});
         }
   
-        const {title,image,rating,sectionId} = req.body;
+        const {title,rating,sectionId} = req.body;
         
         
-          const {resp,updateImg} = await AWSService.duplicateFile(blog.thumbnail,'blog/')
-          if(resp.$metadata.httpStatusCode === 200){
+        const {response,updateImg} = await AWSService.uploadFile({name:req.files.image.name,data:req.files.image.data},'category-section/')
+          if(response.$metadata.httpStatusCode === 200){
+            try {
             const sectionItemToRegister = new sectionItem({
               title,
-              image:imagePath,
+              image:updateImg,
               rating,
               sectionId,
             });
-  
-            try {
-           await sectionItemToRegister.save()
+            
+            await sectionItemToRegister.save()
            .then(savedSectionItem => {
             // Step 3: Update the CategorySection's sectionItems array with the new SectionItem's ID
             return categorySection.updateOne(
@@ -144,7 +145,7 @@ const sectionController = {
           })
           .then(() => {
             // Step 4: SectionItem created and associated with CategorySection successfully
-            return res.status(200).json({status:200,msg:'Section Item Created Successfully!'});
+            return res.status(200).json({status:200,msg:'Section Item Created!'});
           })
           .catch(err => {
             return res.status(500).json({status:500,message:'Internal Server Error!'});
@@ -224,9 +225,10 @@ const sectionController = {
 
     async GetCategorySections(req,res,next){
       const {slug} = req.body;
+      console.log(slug)
   
       try{
-        const categorySections = await categorySection.find({categorySlug: slug});
+        const categorySections = await categorySection.find({categorySlug: slug}).sort({ index: 1 });
 
           return res.status(200).json({status:200,categorySections:categorySections});
         }catch(error){

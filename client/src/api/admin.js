@@ -112,7 +112,7 @@ export const updateSectionItem = async (data) => {
     let response;
 
     try{
-        response = await AdminApi.post('/api/admin/update-section-item',data);
+        response = await AdminMultiApi.post('/api/admin/update-section-item',data);
     }catch (error){
         return error;
     }
