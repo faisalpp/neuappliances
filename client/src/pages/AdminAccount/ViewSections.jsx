@@ -9,13 +9,13 @@ import {useDispatch}  from 'react-redux'
 import {resetUser} from '../../store/userSlice'
 
 const ViewSections = () => {
-    const { categoryId,title } = useParams();
+    const { slug } = useParams();
     const [sections,setSections] = useState([]);
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const data = {categoryId};
+    const data = {slug};
 
     useEffect(() => {
         const Sections = async () => {
@@ -39,12 +39,12 @@ const ViewSections = () => {
          <div className='flex mb-5 bg-b5 py-3 rounded-3xl px-10 shadow-md w-full' >
             <div className='flex items-center border-[1px] rounded-xl border-gray-200' ><AiOutlineSearch className='text-gray-400 ml-3' /><input placeholder='Search Brand' className='text-sm px-2 outline-none' /></div>
             <div className='flex w-full justify-end space-x-3' >
-             <NavLink to={`/admin/create-section/${title}/${categoryId}`} className='bg-b3 text-white text-sm px-2 rounded-md cursor-pointer py-1' >Create Section</NavLink>
+             <NavLink to={`/admin/create-section/${slug}`} className='bg-b3 text-white text-sm px-2 rounded-md cursor-pointer py-1' >Create Section</NavLink>
             </div>
          </div>
          {sections.length > 0 ?
          <div className='flex justify-center'>
-          <Table sections={sections} categoryTitle={title} />
+          <Table sections={sections}  />
          </div>:<h1 className='text-center' >No Category Sections Found!</h1>}
         </AdminAccount>
         </>

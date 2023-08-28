@@ -101,7 +101,7 @@ export const createSectionItem = async (data) => {
     let response;
 
     try{
-        response = await AdminApi.post('/api/admin/create-section-item',data);
+        response = await AdminMultiApi.post('/api/admin/create-section-item',data);
     }catch (error){
         return error;
     }
@@ -379,6 +379,17 @@ export const createTeamMember = async (data) => {
     }
     return response;
 }
+export const deleteTeamMember = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/delete-team-member',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
 export const updateTeamMember = async (data) => {
     let response;
     

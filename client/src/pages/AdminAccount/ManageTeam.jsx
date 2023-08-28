@@ -4,12 +4,13 @@ import {AiFillPlusCircle} from 'react-icons/ai'
 import Popup from '../../components/AdminDashboard/Popup';
 import TextInput from '../../components/TextInput/TextInput';
 import {BsArrowRightShort,BsPencil} from 'react-icons/bs'
-import { createTeamMember,updateTeamMember,updateMemberIndex } from '../../api/admin'
+import { createTeamMember,updateTeamMember,updateMemberIndex,deleteTeamMember } from '../../api/admin'
 import { GetTeamMember } from '../../api/frontEnd'
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {DragDropContext,Droppable,Draggable} from 'react-beautiful-dnd'
+import { Link } from 'react-router-dom';
 
 const ManageTeam = () => {
 
@@ -105,7 +106,7 @@ const ManageTeam = () => {
             setSubmit(false)
             toast.success(res.data.msg, {
               position: "top-right",
-              autoClose: 5000,
+              autoClose: 1000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
@@ -123,7 +124,7 @@ const ManageTeam = () => {
             setSubmit(false)
             toast.error(res.data.message, {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -158,7 +159,7 @@ const ManageTeam = () => {
           setUsubmit(false)
           toast.success(res.data.msg, {
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 1000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -177,7 +178,7 @@ const ManageTeam = () => {
           setUsubmit(false)
           toast.error(res.data.message, {
               position: "top-right",
-              autoClose: 5000,
+              autoClose: 1000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
@@ -220,7 +221,7 @@ const ManageTeam = () => {
         setIloading(false)
         toast.success(res.data.msg, {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -233,7 +234,7 @@ const ManageTeam = () => {
         setIloading(false)
         toast.error(res.data.message, {
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 1000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -242,6 +243,40 @@ const ManageTeam = () => {
             theme: "light",
           });
     }
+    }
+
+    const [delLoading,setDelLoading] = useState(null)
+
+    const DeleteMember = async (e,id) => {
+      e.preventDefault()
+      setDelLoading(id)
+      const res = await  deleteTeamMember({id:id});
+      if(res.status === 200){
+        setDelLoading(null)
+        toast.success(res.data.msg, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+          GetMembers()
+      }else{
+        setDelLoading(null)
+        toast.error(res.data.message, {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+    } 
     }
 
     return (
@@ -303,7 +338,10 @@ const ManageTeam = () => {
                                         </div>
                                     </figcaption>
                                 </div>
-                                <button type="button" onClick={e=>updateSelection(e,team.name,team.designation,team.image,team._id)} className='flex self-center justify-center items-center cursor-pointer rounded-md py-1 mt-2 w-fit bg-b3' >{uSubmit ? <img src='/loader-bg.gif' className='w-8' /> :<a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Update</span></a>}</button>
+                                <div className='flex space-x-3' >
+                                 <button type="button"  onClick={e=>updateSelection(e,team.name,team.designation,team.image,team._id)} className='flex self-center justify-center items-center cursor-pointer rounded-md py-1 mt-2 w-fit bg-b3' >{uSubmit ? <img src='/loader-bg.gif' className='w-8' /> :<a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Update</span></a>}</button>
+                                 <Link onClick={e=>DeleteMember(e,team._id)}  className='flex self-center justify-center items-center cursor-pointer rounded-md py-1 mt-2 w-fit bg-red-500' >{delLoading === team._id ? <img src='/loader-bg.gif' className='w-8' /> :<a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Delete</span></a>}</Link>
+                                </div>
                             </figure>
                         )}
                     </Draggable>

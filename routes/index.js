@@ -87,6 +87,7 @@ router.post('/api/admin/update-blog',adminAuth,blogController.updateBlog);
 // Team Member Admin Api's
 router.post('/api/admin/create-team-member',adminAuth,teamController.createMember);
 router.post('/api/admin/update-team-member',adminAuth,teamController.updateMember);
+router.post('/api/admin/delete-team-member',adminAuth,teamController.deleteMember);
 router.get('/api/get-team-member',teamController.getMembers);
 router.post('/api/update-member-index',teamController.updateMembersPosition);
 

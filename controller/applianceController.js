@@ -26,10 +26,10 @@ const applianceController = {
       }      
     },
     async GetApplianceSections(req,res,next){
-      const {categorySlug} = req.body;
-      const category = await Category.findOne({slug:categorySlug})
+      const {slug} = req.body;
+      const category = await Category.findOne({slug:slug})
       
-      categorySection.find({ categoryId: category._id })
+      categorySection.find({ categorySlug: slug })
       .populate('sectionItemsId')
       .exec()
       .then(categorySections => {

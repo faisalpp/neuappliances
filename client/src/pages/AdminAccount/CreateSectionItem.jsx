@@ -23,26 +23,24 @@ const CreateSectionItem = () => {
     
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
   const onImageChange = (event) => {
     setImagePrev(URL.createObjectURL(event.target.files[0]));
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-     setImage(reader.result);
-    };
+    setImage(event.target.files[0])
   }
   
     const CreateSectionItem = async (e) => {
       e.preventDefault();
-      const data = {title,image,sectionId,rating}
-      const res = await createSectionItem(data);
+      const formData = new FormData();
+      formData.set('title',title) 
+      formData.set('image',image) 
+      formData.set('sectionId',sectionId) 
+      formData.set('rating',rating) 
+      const res = await createSectionItem(formData);
       if(res.status === 200){
-         toast.success(res.msg, {
+         toast.success(res.data.msg, {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -51,14 +49,10 @@ const CreateSectionItem = () => {
           theme: "light",
           });
           navigate(`/admin/view-section-items/${id}`);
-       }
-       if(res.code === 'ERR_BAD_REQUEST'){
-         dispatch(resetUser());
-         navigate('/nu-admin')
        }else{
-        toast.error(res.message, {
+        toast.error(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -73,7 +67,7 @@ const CreateSectionItem = () => {
     return (
         <>
         <AdminAccount>
-        <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
+        
         <div className='mb-3' ><BsFillArrowLeftCircleFill className='text-2xl text-b3 cursor-pointer' onClick={()=>navigate(-1)} /></div>
          
          <div className='flex justify-center w-full'>
@@ -99,7 +93,6 @@ const CreateSectionItem = () => {
           <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a></button>
           </form>
          </div>
-         <ToastContainer/>
         </AdminAccount>
         </>
     )

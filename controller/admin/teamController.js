@@ -58,7 +58,7 @@ const teamController = {
           
       // 2. if error in validation -> return error via middleware
       if (error) {
-        console.log(error)
+        // console.log(error)
         return next(error)
       }
 
@@ -110,6 +110,38 @@ const teamController = {
 
 
 
+    },
+    async deleteMember(req,res,next){
+      const memberSchema = Joi.object({
+        id: Joi.string().required(),
+      });
+
+      const { error } = memberSchema.validate(req.body);
+          
+      // 2. if error in validation -> return error via middleware
+      if (error) {
+        console.log(error)
+        return next(error)
+      }
+
+      const { id } = req.body;
+
+      const isMember = await Team.findOne({_id:id});
+      // console.log(isMember)
+      if(!isMember){
+        const error = {status:500,messge:"Team Member Not Found!"}
+        return next(error)
+      }
+
+     try{
+      const {resp} = await AWSService.deleteFile(isMember.image)
+         if(resp.$metadata.httpStatusCode === 204){
+           await Team.findByIdAndDelete(id);
+           return res.status(200).json({msg:"Team Member Deleted!"});
+         }
+      }catch(error){
+        return next(error)
+      }
     },
     async getMembers(req,res,next){
      try{

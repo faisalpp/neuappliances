@@ -11,8 +11,8 @@ const sectionController = {
         title: Joi.string().required(),
         cardStyle: Joi.string().required(),
         type: Joi.string().required(),
+        Slug: Joi.string().required(),
         slug: Joi.string().required(),
-        categoryId: Joi.string().required(),
       });
       const { error } = sectionRegisterSchema.validate(req.body);
   
@@ -21,7 +21,7 @@ const sectionController = {
         return next(error)
       }
 
-      const {cardStyle,title,slug,categoryId,type} = req.body;
+      const {cardStyle,title,Slug,slug,type} = req.body;
       
       try {
         
@@ -42,12 +42,12 @@ const sectionController = {
             cardStyle,
             type,
             title,
-            slug: slug,
-            categoryId
+            slug: Slug,
+            categorySlug:slug
           });
 
     
-         const categorySections = await categorySectionToRegister.save();
+         await categorySectionToRegister.save();
 
         return res.status(200).json({status:200,msg:'Category Section Created Successfully!'});
     
@@ -106,7 +106,7 @@ const sectionController = {
       // 1. validate user input
       const sectionItemRegisterSchema = Joi.object({
           title: Joi.string(),
-          image: Joi.string().required(),
+          image: Joi.string().allow('').allow(null),
           rating: Joi.string().allow('').allow(null),
           sectionId: Joi.string().required(),
         });
@@ -116,25 +116,16 @@ const sectionController = {
         if (error) {
           return next(error)
         }
+
+        if(!req.files.image){
+          return res.status(500).json({status:500,message:'Image Required!'});
+        }
   
         const {title,image,rating,sectionId} = req.body;
         
-        try {
-        // read as buffer
-        const buffer = Buffer.from(
-          image.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""),
-          "base64"
-        );
-
-        // allot a random name
-        const imagePath = `${Date.now()}-${sectionId}.png`;
-
-        try {
-         fs.writeFileSync(`storage/sectionItems/${imagePath}`, buffer);
-        } catch (error) {
-          return next(error);
-        }
-  
+        
+          const {resp,updateImg} = await AWSService.duplicateFile(blog.thumbnail,'blog/')
+          if(resp.$metadata.httpStatusCode === 200){
             const sectionItemToRegister = new sectionItem({
               title,
               image:imagePath,
@@ -142,7 +133,7 @@ const sectionController = {
               sectionId,
             });
   
-      
+            try {
            await sectionItemToRegister.save()
            .then(savedSectionItem => {
             // Step 3: Update the CategorySection's sectionItems array with the new SectionItem's ID
@@ -158,11 +149,14 @@ const sectionController = {
           .catch(err => {
             return res.status(500).json({status:500,message:'Internal Server Error!'});
           });
-  
       
           } catch (error) {
             return next(error);
           }
+          }else{
+            return res.status(500).json({status: 500, message:'AWS Cloud Internal Server Error!'});
+          }
+
       },
       async UpdateSectionItem(req,res,next){
     
@@ -229,10 +223,10 @@ const sectionController = {
       },
 
     async GetCategorySections(req,res,next){
-      const {categoryId} = req.body;
+      const {slug} = req.body;
   
       try{
-        const categorySections = await categorySection.find({categoryId: categoryId});
+        const categorySections = await categorySection.find({categorySlug: slug});
 
           return res.status(200).json({status:200,categorySections:categorySections});
         }catch(error){

@@ -11,11 +11,10 @@ import {useParams} from 'react-router-dom'
 
 const CreateSection = () => {
 
-  const {id,categoryTitle} = useParams()
-
-    const [categoryId,setCategoryId] = useState(id);
+    const {slug} = useParams()
+    const [submit,setSubmit] = useState(false);
     const [title,setTitle] = useState('');
-    const [slug,setSlug] = useState('');
+    const [Slug,setSlug] = useState('');
     const [type,setType] = useState('cosmatic-rating');
     const [cardStyle,setCardStyle] = useState('head-rating-card');
 
@@ -23,12 +22,14 @@ const CreateSection = () => {
   
     const CreateBrand = async (e) => {
       e.preventDefault();
-      const data = {title,slug,cardStyle,categoryId,type}
+      setSubmit(true)
+      const data = {title,Slug,cardStyle,slug,type}
       const res = await createSection(data);
       if(res.status === 200){
-         toast.success(res.msg, {
+         setSubmit(false) 
+         toast.success(res.data.msg, {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -38,9 +39,10 @@ const CreateSection = () => {
           });
           navigate(-1);
        }else{
-        toast.error(res.message, {
+         setSubmit(false)
+        toast.error(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -61,7 +63,6 @@ const CreateSection = () => {
     return (
         <>
         <AdminAccount>
-        <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
          <div className='flex justify-center w-full'>
          <form onSubmit={CreateBrand} encType='multipart/form-data' className='flex flex-col space-y-5 w-8/12 px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >
           <div className='flex flex-col space-y-1'>
@@ -100,17 +101,16 @@ const CreateSection = () => {
            </div>
           </div>
           <div className='flex flex-col space-y-1'>
-           <h5 className='text-xs font-semibold' >Category Title</h5>
-           <input type="text" value={categoryTitle} readOnly className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refrigerators-by-styles' />
+           <h5 className='text-xs font-semibold' >Category</h5>
+           <input type="text" value={slug} readOnly className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refrigerators-by-styles' />
           </div>
           <div className='flex flex-col space-y-1'>
            <h5 className='text-xs font-semibold' >Url Slug</h5>
-           <input type="text" value={slug} readOnly className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refrigerators-by-styles' />
+           <input type="text" value={Slug} readOnly className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='refrigerators-by-styles' />
           </div>
-          <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a></button>
+          <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a>}</button>
           </form>
          </div>
-         <ToastContainer/>
         </AdminAccount>
         </>
     )

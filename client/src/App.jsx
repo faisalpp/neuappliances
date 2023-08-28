@@ -167,7 +167,7 @@ function App() {
       <Route path="/admin/dashboard" element={<ProtectedAdmin><Dashboard /></ProtectedAdmin>} />
       {/* Categories Related Routes */}
       {/* Category Section Related Routes */}
-      <Route path="/admin/create-section/:categoryTitle/:id" element={<ProtectedAdmin><CreateSection /></ProtectedAdmin>} />
+      <Route path="/admin/create-section/:slug" element={<ProtectedAdmin><CreateSection /></ProtectedAdmin>} />
       <Route path="/admin/update-section/:slug/:id" element={<ProtectedAdmin><UpdateSection /></ProtectedAdmin>} />
       {/* Category Section Item Related Routes */}
       <Route path="/admin/create-section-item/:style/:id" element={<ProtectedAdmin><CreateSectionItem /></ProtectedAdmin>} />
@@ -175,7 +175,7 @@ function App() {
       <Route path="/admin/categories" element={<ProtectedAdmin><ManageCategories /></ProtectedAdmin>} />
       <Route path="/admin/create-category" element={<ProtectedAdmin><CreateCategory /></ProtectedAdmin>} />
       <Route path="/admin/update-category/:id" element={<ProtectedAdmin><UpdateCategory /></ProtectedAdmin>} />
-      <Route path="/admin/view-category-sections/:title/:categoryId" element={<ProtectedAdmin><ViewSections /></ProtectedAdmin>} />
+      <Route path="/admin/view-category-sections/:slug" element={<ProtectedAdmin><ViewSections /></ProtectedAdmin>} />
       {/* Section Items */}
 
       <Route path="/admin/view-section-items/:sectionId" element={<ProtectedAdmin><ViewSectionItems /></ProtectedAdmin>} />
