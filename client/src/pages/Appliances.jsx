@@ -47,7 +47,7 @@ const Appliances = () => {
             {/* Bread Crumbs End */}
             <ApplianceDetail title={catTitle} description={description} />
           </div>
-          {sections.map((section) => (section.cardStyle === "head-rating-card" ? <CosmaticRating section={section} /> : null))}
+          {sections.map((section, index) => (section.cardStyle === "head-rating-card" ? <CosmaticRating key={index} section={section} /> : null))}
           <ProductSection data={sections} category={catTitle} />
           {/* Shop Austin Section */}
           <ShopAustinSection />

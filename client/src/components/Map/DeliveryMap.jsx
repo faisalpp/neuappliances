@@ -136,7 +136,7 @@ const DeliveryMap = ({ customStyle }) => {
                 </div>
             </div>
 
-            <div className={`absolute bottom-10 left-24 ${error ? 'flex' : 'hidden'} items-center z-20 bg-transparent h-52 justify-end w-12/12`} >
+            <div className={`absolute bottom-20 lg:left-24 ${error ? 'flex' : 'hidden'} items-center z-20 bg-transparent h-52 justify-center w-11/12 lg:ml-5 lg:right-0`} >
                 <div className='flex justify-center h-fit items-center space-x-2 bg-white shadow-xl px-5 py-2 rounded-lg' >
                     <AiFillCloseCircle className='text-red-500' />
                     <p className='font-semibold' >Delivery Not Available {zip}</p>
