@@ -12,15 +12,15 @@ const MobileFaqs = ({ title, isOpen, onClick, tabfaqs, activeClass }) => {
                 <span>{title}</span>
                 <FiChevronDown className={`duration-200 ${activeClass ? 'rotate-180' : ''}`} />
             </button>
-            <div className={`${isOpen ? 'flex flex-col gap-3 pt-6 max-h-full' : 'max-h-0 select-none opacity-0 pointer-events-none'} duration-200`} >
+            <div className={`${isOpen ? 'flex flex-col gap-6 pt-6 max-h-full' : 'max-h-0 select-none opacity-0 pointer-events-none'} duration-200`} >
                 {tabfaqs.length > 0 ?
                     tabfaqs.map((item, index) => (
                         <FaqAccordion
                             key={index}
                             title={item.question}
-                            parent='gap-3 bg-[#F8FBFB] [&>div>h6]:maxmd:text-sm text-white p-4 md:px-8 md:py-6 rounded-xl border-none text-b18 h-auto'
+                            parent='gap-3 bg-[#F8FBFB] text-white p-4 md:px-8 md:py-6 rounded-xl border-none text-b18 h-auto'
                             icon='text-xl text-black'
-                            textStyle='font-bold text-md text-b18'
+                            textStyle='font-bold text-lg text-b18'
                             child='[&>p]:text-sm text-b18 font-normal'
                             answer={item.answer}
                         />
