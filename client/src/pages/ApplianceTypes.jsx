@@ -11,10 +11,10 @@ const ApplianceTypes = () => {
 
     const [applianceTypes, setApplianceTypes] = useState([]);
     const [loading, setLoading] = useState(true);
-    
+
     useEffect(() => {
         const getAppliances = async () => {
-            const res = await GetAppliances({limit:'all'});
+            const res = await GetAppliances({ limit: 'all' });
             if (res.status === 200) {
                 setApplianceTypes(res.data.categories);
                 setLoading(false)
@@ -35,7 +35,7 @@ const ApplianceTypes = () => {
                     </div>
                     {/* Bread Crumbs End */}
                     <div className='flex flex-col gap-6 items-center text-center py-10 lg:py-16 xl:py-20 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
-                        <h2 className='text-3xl lg:text-4xl font-bold text-[#111010]'>Shop By Appliance Types</h2>
+                        <h2 className='text-32px lg:text-4xl font-bold text-[#111010]'>Shop By Appliance Types</h2>
                         <p className='md:w-3/4 mx-auto text-[#111010]'>
                             We understand the value of your time and the importance of easy navigation, so we’ve carefully curated a selection of categories to make your search a breeze. Comb through our wide range of appliances type including trendy appliance, classic favorites, niche appliances, and more.
                         </p>
