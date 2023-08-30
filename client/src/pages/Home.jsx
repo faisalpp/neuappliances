@@ -23,6 +23,8 @@ const Home = () => {
   return (
     <>
       <MainLayout>
+      <script src="https://static.elfsight.com/platform/platform.js" data-use-service-core defer></script>
+<div class="elfsight-app-e353e15d-00c0-408e-a088-0d639b57d70f"></div>
         <HeroSection />
         <BrandsSlider />
         <WwslSection />
