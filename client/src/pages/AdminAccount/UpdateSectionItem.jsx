@@ -22,13 +22,10 @@ const UpdateSectionItem = () => {
     const navigate = useNavigate();
 
     const onImageChange = (event) => {
-      setImagePrev(URL.createObjectURL(event.target.files[0]));
-      const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-       setImage(reader.result);
-      };
+      if(event.target.files[0]){
+        setImagePrev(URL.createObjectURL(event.target.files[0]));
+        setImage(event.target.files[0])
+      }
     }
 
     useEffect(() => {      
@@ -37,12 +34,10 @@ const UpdateSectionItem = () => {
         const res = await getSectionItemById(data);
         if(res.status === 200){
             setTitle(res.data.sectionItem[0].title);
-            setRating(res.data.sectionItem[0].rating);
-            const imgUrl = 'http://localhost:5000/storage/sectionItems/'+ res.data.sectionItem[0].image
-            setImagePrev(imgUrl);
-            console.log(res.data.sectionItem[0].rating)
+            setRating(res.data.sectionItem[0].rating); 
+            setImagePrev(res.data.sectionItem[0].image);
         }else{
-            toast.error(res.message, {
+            toast.error(res.data.message, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -63,7 +58,7 @@ const UpdateSectionItem = () => {
       const res = await updateSectionItem(data);
 
       if(res.status === 200){
-         toast.success(res.msg, {
+         toast.success(res.data.msg, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -75,7 +70,7 @@ const UpdateSectionItem = () => {
           });
           navigate(-1);
        }else{
-        toast.error(res.message, {
+        toast.error(res.data.message, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,

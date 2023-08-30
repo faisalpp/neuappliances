@@ -50,6 +50,7 @@ router.post('/api/admin/update-categories-index',adminAuth,categoryController.up
 // Sections Related Routes
 router.post('/api/admin/create-section',adminAuth,categorySection.CreateSection);
 router.post('/api/admin/update-section',adminAuth,categorySection.UpdateSection);
+router.post('/api/admin/update-section-index',adminAuth,categorySection.UpdateSectionsIndex);
 router.post('/api/admin/section-by-id',adminAuth,categorySection.GetCategorySectionById);
 router.post('/api/admin/sections',adminAuth,categorySection.GetCategorySections);
 // Section Item Related Routes

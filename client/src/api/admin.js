@@ -75,6 +75,16 @@ export const updateSection = async (data) => {
     }
     return response;
 }
+export const updateSectionsIndex = async (data) => {
+    let response;
+
+    try{
+        response = await AdminApi.post('/api/admin/update-section-index',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 
 export const getSection = async (data) => {
     let response;

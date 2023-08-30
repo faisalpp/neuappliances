@@ -102,6 +102,39 @@ const sectionController = {
             return next(error);
           }
       },
+
+      async UpdateSectionsIndex(req,res,next){
+    
+        // 1. validate user input
+        const sectionRegisterSchema = Joi.object({
+            sections: Joi.array().required(),
+          });
+          const { error } = sectionRegisterSchema.validate(req.body);
+      
+          // 2. if error in validation -> return error via middleware
+          if (error) {
+            return next(error)
+          }
+    
+          const {sections} = req.body;
+
+           // Create an array of update operations
+           const updateOperations = sections.map(({ _id, index }) => ({
+             updateOne: {
+                 filter: { _id },
+                 update: { $set: { index } }
+             }
+           }));
+           // Execute the bulk update operation
+           try{
+             const update  = await categorySection.bulkWrite(updateOperations)
+             return res.status(200).json({status:200,msg:'Sections Position  Updated!'});
+           }catch(err){
+             const error = {status:500,messge:"Internal Server Error!"}
+               return next(error)
+           }
+        },
+
     async CreateSectionItem(req,res,next){
     
       // 1. validate user input

@@ -123,7 +123,7 @@ const ManageCategories = () => {
                             <h3 className='font-semibold px-3 text-center text-xs'><StarIconPrinter numberOfTimes={category.rating} /></h3>
                             <div className='flex space-x-2' >
                              <NavLink to={`/admin/update-category/${category._id}`} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-fit px-2 mt-1 text-center' >Update</NavLink>
-                             <NavLink to={`/admin/view-category-sections/${category.slug}`} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-fit px-2 mt-1 text-center' >Edit</NavLink> 
+                             <NavLink to={`/admin/manage-category-sections/${category.slug}`} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-fit px-2 mt-1 text-center' >Edit</NavLink> 
                             </div>
                         </div>
                         </div>

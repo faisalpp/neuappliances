@@ -242,7 +242,7 @@ const ManageTeam = () => {
             progress: undefined,
             theme: "light",
           });
-    }
+     }
     }
 
     const [delLoading,setDelLoading] = useState(null)
@@ -353,28 +353,6 @@ const ManageTeam = () => {
         )}
     </Droppable>
 </DragDropContext>
-            {/* <div className=' w-full 3xl:max-w-1680px mx-auto'>
-                <div className='3xl:px-[60px] flex flex-wrap justify-center 3xl:justify-start gap-10 3xl:gap-20'>
-                    {loading ? <div className='flex items-center justify-center w-full' ><img src="/loader-bg.gif" className='w-10 h-10' /></div> : members.length > 0 ? members.map((team, index) => (
-                        <figure title="Click to Update!" onClick={e=>updateSelection(e,team.name,team.designation,team.image,team._id)} key={index} className="border hover:border-b6 border-b20 rounded-[20px] hover:cursor-pointer hover:shadow-s1 duration-300 p-5 w-[200px]">
-                            <img className="w-40 h-40 rounded-full mx-auto" src={team.image} />
-                            <div className="pt-[10px]">
-                                <figcaption className="font-medium text-center">
-                                    <div className='font-bold text-[22px] text-b18 mb-3'>
-                                        {team.name}
-                                    </div>
-                                    <div className='text-b3'>
-                                        {team.designation}
-                                    </div>
-                                </figcaption>
-                            </div>
-                        </figure>
-                    )):<div className='flex justify-center w-full h-full' >
-                    <img src="/not-found.png" className='w-36 h-36' />
-                   </div>}
-                </div>
-            </div> */}
-
         </AdminAccount>
         </>
     )

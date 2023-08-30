@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 const sectionItemSchema = new mongoose.Schema({
+    index: {type:Number},
     title: {type:String},
     rating: {type:String,default:null},
     image: {type: String, required:true},

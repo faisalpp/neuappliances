@@ -163,7 +163,7 @@ const teamController = {
       }));
       // Execute the bulk update operation
       try{
-        const update  = Team.bulkWrite(updateOperations)
+        const update  = await Team.bulkWrite(updateOperations)
         return res.status(200).json({status:200,msg:'Team Member Updated!'});
       }catch(err){
         const error = {status:500,messge:"Internal Server Error!"}

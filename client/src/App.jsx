@@ -41,13 +41,13 @@ import StayInLoop from "./pages/StayInLoop";
 import Loader from './components/Loader/Loader'
 import CreateCategory from "./pages/AdminAccount/CreateCategory";
 import CreateProduct from "./pages/AdminAccount/CreateProduct";
-import ViewSections from "./pages/AdminAccount/ViewSections";
+import ManageSections from "./pages/AdminAccount/ManageSections";
 import CreateSection from "./pages/AdminAccount/CreateSection";
 import CreateSectionItem from "./pages/AdminAccount/CreateSectionItem";
 import CheckoutInformation from "./pages/Checkout/Information";
 import CheckoutShipping from "./pages/Checkout/Shipping";
 import CheckoutPayment from "./pages/Checkout/Payment";
-import ViewSectionItems from "./pages/AdminAccount/ViewSectionItems";
+import ManageSectionItems from "./pages/AdminAccount/ManageSectionItems";
 import ManageFaq from "./pages/AdminAccount/ManageFaq"
 import { useSelector } from "react-redux";
 import UpdateSection from "./pages/AdminAccount/UpdateSection";
@@ -175,10 +175,10 @@ function App() {
       <Route path="/admin/categories" element={<ProtectedAdmin><ManageCategories /></ProtectedAdmin>} />
       <Route path="/admin/create-category" element={<ProtectedAdmin><CreateCategory /></ProtectedAdmin>} />
       <Route path="/admin/update-category/:id" element={<ProtectedAdmin><UpdateCategory /></ProtectedAdmin>} />
-      <Route path="/admin/view-category-sections/:slug" element={<ProtectedAdmin><ViewSections /></ProtectedAdmin>} />
+      <Route path="/admin/manage-category-sections/:slug" element={<ProtectedAdmin><ManageSections /></ProtectedAdmin>} />
       {/* Section Items */}
 
-      <Route path="/admin/view-section-items/:sectionId" element={<ProtectedAdmin><ViewSectionItems /></ProtectedAdmin>} />
+      <Route path="/admin/manage-section-items/:sectionId" element={<ProtectedAdmin><ManageSectionItems /></ProtectedAdmin>} />
       <Route path="/admin/update-section-item/:id" element={<ProtectedAdmin><UpdateSectionItem /></ProtectedAdmin>} />
       {/* Product Update */}
       <Route path="/admin/create-product" element={<ProtectedAdmin><CreateProduct /></ProtectedAdmin>} />
