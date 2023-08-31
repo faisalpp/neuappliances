@@ -1,11 +1,12 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { NavLink } from 'react-router-dom';
-import { MdCreateNewFolder } from 'react-icons/md';
 import { AiFillEye } from 'react-icons/ai';
-import { BsPencil } from 'react-icons/bs';
+import { BsPencil,BsFillTrashFill } from 'react-icons/bs';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import {deleteSection} from '../../api/admin'
+import {toast} from 'react-toastify'
 
-const Table = ({ sections,setSections }) => {
+const Table = ({ getSections,sections,setSections,pop }) => {
 
   const handleDragEnd = (result) => {
     // console.log(result)
@@ -19,6 +20,41 @@ const Table = ({ sections,setSections }) => {
   // console.log(updatedItems)
   setSections(updatedItems);
   }
+
+  const [delLoading,setDelLoading] = useState(false)
+
+      const DeleteSection = async (e,id) => {
+        e.preventDefault()
+         setDelLoading(true)
+         const data = {id:id}
+         const res = await deleteSection(data);
+         if(res.status === 200){
+           setDelLoading(false)
+           getSections()
+           toast.success(res.data.msg, {
+             position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }else{
+          setDelLoading(false)
+          toast.error(res.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+        }
+      }
 
   return (
     <div className="flex flex-col">
@@ -52,12 +88,13 @@ const Table = ({ sections,setSections }) => {
                                 className="pt-2 border-2 border-b6 hover:border-red-500 hover:cursor-pointer"
                               >
                                 <td className="px-2 py-4 font-medium w-20 ">{section.title}</td>
-                                <td className="whitespace-nowrap px-5 py-4 capitalize">{section.cardStyle}</td>
-                                <td className="whitespace-nowrap px-5 py-4 capitalize">{section.type}</td>
+                                <td className="whitespace-nowrap px-5 py-4 capitalize">{section.cardStyle.replace(/-/g,' ')}</td>
+                                <td className="whitespace-nowrap px-5 py-4 capitalize">{section.type.replace(/-/g,' ')}</td>
                                 <td className="whitespace-nowrap px-5 py-4 capitalize">{section.categorySlug}</td>
                                 <td className="flex space-x-2 whitespace-nowrap px-6 py-4 " title="Update, Create & View Section Items">
-                                  <NavLink title="Manage Section Item" to={`/admin/manage-section-items/${section._id}`} className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-sm px-2 rounded-full cursor-pointer py-2' ><AiFillEye className="text-lg" /></NavLink>
-                                  <NavLink title="Edit Section" to={`/admin/update-section/${section.slug}/${section._id}`} className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-sm px-2 rounded-full cursor-pointer py-2' ><BsPencil className="text-lg" /></NavLink>
+                                  <NavLink title="Manage Section Item" to={`/admin/manage-section-items/${section.cardStyle}/${section._id}`} className='flex items-center justify-center bg-b7 text-white hover:bg-white hover:text-b7 border-2 border-white hover:border-b7 text-sm px-2 rounded-full cursor-pointer py-2' ><AiFillEye className="text-lg" /></NavLink>
+                                  <span onClick={(e)=>pop(e,section._id,section.title,section.type,section.slug,section.cardStyle)} title="Edit Section" className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-sm px-2 rounded-full cursor-pointer py-2' ><BsPencil className="text-lg" /></span>
+                                  <span title="Delete Section" onClick={e=>DeleteSection(e,section._id)} className='flex items-center justify-center bg-red-500/30 text-red-500 hover:bg-white hover:text-red-500 border-2 border-white hover:border-red-500 text-sm px-2 w-fit rounded-full cursor-pointer py-2' >{delLoading ? <img src="/loader-bg.gif" className='w-4 h-4' />: <BsFillTrashFill className="text-base" />}</span>
                                 </td>
                               </tr>
                             )}

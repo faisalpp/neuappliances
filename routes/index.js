@@ -46,16 +46,19 @@ router.get('/api/admin/get-categories',adminAuth,categoryController.GetCategorie
 router.post('/api/admin/category-by-id',adminAuth,categoryController.GetCategoryById);
 router.post('/api/admin/create-category',adminAuth,categoryController.CreateCategory);
 router.post('/api/admin/update-category',adminAuth,categoryController.UpdateCategory);
+router.post('/api/admin/delete-category',adminAuth,categoryController.DeleteCategory);
 router.post('/api/admin/update-categories-index',adminAuth,categoryController.updateCategoriesPosition);
 // Sections Related Routes
 router.post('/api/admin/create-section',adminAuth,categorySection.CreateSection);
 router.post('/api/admin/update-section',adminAuth,categorySection.UpdateSection);
 router.post('/api/admin/update-section-index',adminAuth,categorySection.UpdateSectionsIndex);
+router.post('/api/admin/delete-section',adminAuth,categorySection.DeleteSection);
 router.post('/api/admin/section-by-id',adminAuth,categorySection.GetCategorySectionById);
 router.post('/api/admin/sections',adminAuth,categorySection.GetCategorySections);
 // Section Item Related Routes
 router.post('/api/admin/create-section-item',adminAuth,categorySection.CreateSectionItem);
 router.post('/api/admin/update-section-item',adminAuth,categorySection.UpdateSectionItem);
+router.post('/api/admin/delete-section-item',adminAuth,categorySection.DeleteSectionItem);
 router.post('/api/admin/section-item-by-id',adminAuth,categorySection.GetSectionItemById);
 router.post('/api/admin/section-items',adminAuth,categorySection.GetSectionItems);
 // Product Api's

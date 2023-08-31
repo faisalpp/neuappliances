@@ -1,12 +1,12 @@
 import React,{useEffect} from 'react';
 import AdminAccount from '../../layout/AdminAccount';
-import {BsArrowRightShort} from 'react-icons/bs'
+import {BsArrowRightShort,BsFillArrowLeftCircleFill} from 'react-icons/bs'
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import {updateCategory,getCategoryById} from '../../api/admin'
+import {updateCategory,getCategoryById} from '../../api/admin/category'
 
 const UpdateCategory = () => {
     const {id} = useParams()
@@ -109,6 +109,9 @@ const UpdateCategory = () => {
     return (
         <>
         <AdminAccount>
+        <div className='flex mb-5 py-3 rounded-3xl px-10 w-full' >
+             <BsFillArrowLeftCircleFill onClick={()=>navigate(-1)} className='text-b3 text-3xl shadow-xl rounded-full cursor-pointer' />
+          </div>
     
          <div className='flex justify-center w-full'>
          <form onSubmit={UpdateCategory} encType='multipart/form-data' className='flex flex-col space-y-5 w-8/12 px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >

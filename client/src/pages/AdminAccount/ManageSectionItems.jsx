@@ -1,32 +1,37 @@
 import React,{useEffect,useState,useRef} from 'react';
 import AdminAccount from '../../layout/AdminAccount';
 import BrandCard from '../../components/AdminDashboard/BrandCard'
-import { useNavigate } from 'react-router-dom';
+import {createSectionItem,updateSectionItem} from '../../api/admin'
 import { getSectionItems } from '../../api/admin';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Popup from '../../components/AdminDashboard/Popup';
 import {AiFillPlusCircle} from 'react-icons/ai'
-import {BsPencil,BsArrowRightShort} from 'react-icons/bs'
+import {BsPencil,BsArrowRightShort,BsFillArrowLeftCircleFill} from 'react-icons/bs'
+import TextInput from '../../components/TextInput/TextInput';
+import {toast} from 'react-toastify'
 
 const ManageSectionItem = () => {
-    const { sectionId } = useParams();
+    const { style,sectionId } = useParams();
+    const [cardStyle,setCardStyle] = useState(style);
     const [sectionItems,setSectionItems] = useState([]);
     const data = {sectionId}
-    useEffect(() => {
-        const getSectionItem = async () => {
-            const res = await getSectionItems(data);
-            if(res.status === 200){
-                setSectionItems(res.data.sectionItems);
-            }
+    const getSectionItem = async () => {
+        const res = await getSectionItems(data);
+        if(res.status === 200){
+            setSectionItems(res.data.sectionItems);
         }
+    }
+    useEffect(() => {
         getSectionItem()
     }, [])
 
     const imgRef = useRef()
+    const [errors,setErrors] = useState([])
     const [submit,setSubmit] = useState(false)
     const [popup,setPopup] = useState(false)
     const [image,setImage] = useState('')
     const [tempImg,setTempImg] = useState('')
+    const navigate = useNavigate()
 
     const handleImage = (e) => {
         const file = e.target.files[0]
@@ -36,54 +41,118 @@ const ManageSectionItem = () => {
         }
     }
 
+    const [title,setTitle] = useState('')
+    const [rating,setRating] = useState('')
 
     const CreateSectionItem = async (e) => {
         e.preventDefault()
-      setSubmit(true)
-      const data = {title,Slug,cardStyle,slug,type}
-     try{
-      await sectionCreationValidationSchema.validate(data, { abortEarly: false });
-     } catch (error) {
-       if(error){
-         setErrors(error.errors)
-       }else{
-         setErrors([])
-       }
-     }
-     const res = await createSection(data);
-      if(res.status === 200){
-          setSubmit(false)
-          toast.success(res.data.msg, {
-            position: "top-right",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          Sections()
-          setTitle('');
-          setSlug('');
-          setPopup(false)
-        }else{
-          setSubmit(false)
-          setTitle('');
-          setSlug('');
-          setPopup(false)
-          toast.error(res.data.message, {
-              position: "top-right",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
+     setSubmit(true)
+     const formData = new FormData();
+     formData.set('title',title) 
+     formData.set('image',image) 
+     formData.set('sectionId',sectionId) 
+     formData.set('rating',rating) 
+     const res = await createSectionItem(formData);
+     if(res.status === 200){
+       setSubmit(false)
+       getSectionItem()
+       setPopup(false)
+        toast.success(res.data.msg, {
+         position: "top-right",
+         autoClose: 1000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         theme: "light",
+         });
+      }else{
+       setSubmit(false)
+       setPopup(false)
+       toast.error(res.data.message, {
+         position: "top-right",
+         autoClose: 1000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         theme: "light",
+         });
       }
     }
+
+    const uImgRef = useRef()
+    const [uPopup,setUpopup] = useState(false)
+    const [uImage,setUimage] = useState('')
+    const [oldImg,setoldImg] = useState('')
+    const [uTempImg,setUtempImg] = useState('')
+    const [itemId,setItemId] = useState()
+
+    const handleUpdateImage = (e) => {
+        const file = e.target.files[0]
+        if(file){
+          setUimage(file)
+          setUtempImg(window.URL.createObjectURL(file))
+        }
+    }
+
+    const [uTitle,setUtitle] = useState('')
+    const [uRating,setUrating] = useState('')
+
+    const UpdateSectionItem = async (e) => {
+        e.preventDefault()
+     setSubmit(true)
+     const formData = new FormData();
+     formData.set('title',uTitle) 
+     formData.set('image',uImage) 
+     formData.set('tempImg',uTempImg) 
+     formData.set('oldImg',oldImg) 
+     formData.set('sectionItemId',itemId) 
+     formData.set('rating',uRating) 
+     const res = await updateSectionItem(formData);
+     if(res.status === 200){
+       setSubmit(false)
+       getSectionItem()
+       setUpopup(false)
+        toast.success(res.data.msg, {
+         position: "top-right",
+         autoClose: 1000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         theme: "light",
+         });
+      }else{
+       setSubmit(false)
+       setUpopup(false)
+       toast.error(res.data.message, {
+         position: "top-right",
+         autoClose: 1000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         theme: "light",
+         });
+      }
+    }
+
+    const handleUpdateStates = (e,img,title,rating,id) => {
+      e.preventDefault()
+      setoldImg(img)
+      setUimage(img)
+      setUtitle(title)
+      setUrating(rating)
+      setItemId(id)
+      setUpopup(true)
+    }
+
+
     
     return (
         <>
@@ -99,15 +168,34 @@ const ManageSectionItem = () => {
             
             <input ref={imgRef} type="file" name="image" onChange={e=>handleImage(e)} className='hidden' />
           </div>
-          {/* <TextInput  width="full" name="name" title="Name" iscompulsory="true" type="text" value={name} onChange={(e)=>setName(e.target.value)} error={errors && errors.includes('Name is required') ? true : false} errormessage="Title is Required" placeholder="Scott"  /> */}
-          {/* <TextInput  width="full" name="designation" title="Designation" iscompulsory="true" type="text" value={designation} onChange={(e)=>setDesignation(e.target.value)} error={errors && errors.includes('Designation is required') ? true : false} errormessage="Title is Required" placeholder="CEO & Founder"  /> */}
+          {cardStyle === 'head-rating-card' || cardStyle === 'rating-card' ? null : <TextInput  width="full" name="title" title="Title" iscompulsory="true" type="text" value={title} onChange={(e)=>setTitle(e.target.value)} error={errors && errors.includes('Title is required') ? true : false} errormessage="Title is Required" placeholder="Cool Master"  />}
+          {cardStyle === 'head-rating-card' || cardStyle === 'rating-card' ? <TextInput  width="full" name="rating" title="Rating" iscompulsory="true" type="text" value={rating} onChange={(e)=>setRating(e.target.value)} error={errors && errors.includes('Name is required') ? true : false} errormessage="Title is Required" placeholder="3"  />:null}
           <button type="button" onClick={CreateSectionItem} className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> :<a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a>}</button>
          </form>
         </Popup>
         {/* Create Section Item End */}
+        {/* Update Section Item Start */}
+         <Popup state={uPopup} setState={setUpopup}>
+         <form className='flex flex-col space-y-3' >
+          <h1 className="font-semibold" >Update Section Item</h1>
+          <div className='relative rounded-2xl border border-gray-300 p-3 h-fit w-[200px] flex justify-center items-center self-center ' >
+            <div className='absolute flex bg-transparent rounded-full w-full h-full' >
+             <span onClick={()=>{uImgRef.current.click();}} className='absolute -right-3 -bottom-2 flex items-center h-fit justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-sm px-2 w-fit rounded-full cursor-pointer py-2' ><BsPencil className="text-base" /></span>
+            </div>
+            <img src={uTempImg !== '' ? uTempImg : uImage} alt="" />
+            
+            <input ref={uImgRef} type="file" name="image" onChange={e=>handleUpdateImage(e)} className='hidden' />
+          </div>
+          {cardStyle === 'head-rating-card' || cardStyle === 'rating-card' ? null : <TextInput  width="full" name="title" title="Title" iscompulsory="true" type="text" value={uTitle} onChange={(e)=>setUtitle(e.target.value)} error={errors && errors.includes('Name is required') ? true : false} errormessage="Title is Required" placeholder="Cool Master"  />}
+          {cardStyle === 'head-rating-card' || cardStyle === 'rating-card' ? <TextInput  width="full" name="rating" title="Rating" iscompulsory="true" type="text" value={uRating} onChange={(e)=>setUrating(e.target.value)} error={errors && errors.includes('Name is required') ? true : false} errormessage="Title is Required" placeholder="Cool Master"  />:null}
+          <button type="button" onClick={UpdateSectionItem} className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> :<a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a>}</button>
+         </form>
+        </Popup>
+        {/* Update Section Item End */}
 
         <AdminAccount>
         <div className='flex mb-5 py-3 rounded-3xl px-10 w-full' >
+        <   BsFillArrowLeftCircleFill onClick={()=>navigate(-1)} className='text-b3 text-3xl shadow-xl rounded-full cursor-pointer' />
             <div className='flex w-full justify-end space-x-3' >
              <AiFillPlusCircle onClick={()=>setPopup(true)} className='text-b3 text-3xl shadow-xl rounded-full cursor-pointer' />
             </div>
@@ -115,7 +203,7 @@ const ManageSectionItem = () => {
          {/* Products Operations */}
          {sectionItems.length > 0 ?
          <div className='grid grid-cols-1 md:grid-cols-4 2xl:grid-cols-3 gap-7 xl:gap-10'>
-          {sectionItems.map((sectionItem,index)=><BrandCard updateUrl={`/admin/update-section-item/${sectionItem._id}`} key={index} brandname={sectionItem.title} brandimage={sectionItem.image} rating={sectionItem.rating} />)}
+          {sectionItems.map((sectionItem,index)=><BrandCard getSectionItem={getSectionItem} id={sectionItem._id} handleUpdateStates={handleUpdateStates} updateUrl='' key={index} brandname={sectionItem.title} brandimage={sectionItem.image} rating={sectionItem.rating} />)}
          </div>
           :<div className='flex justify-center w-full h-full' >
           <img src="/not-found.png" className='w-36 h-36' />

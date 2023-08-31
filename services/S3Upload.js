@@ -30,6 +30,28 @@ class AWSService{
         // console.log(resp)
         return {resp}
     }
+    static async deleteMultiFiles(images){
+        console.log(images)
+        let imgKeys = [];
+        let searchString = "amazonaws.com/";
+        images.forEach(item=>{
+          const startIndex = item.indexOf(searchString)
+          const substring = item.substring(startIndex + searchString.length);
+          imgKeys.push({Key:substring})
+        })
+        console.log(imgKeys)
+        
+        const s3 = new AWS3.S3Client({credentials:{accessKeyId:AWS_S3_USER_ACCESS_KEY,secretAccessKey:AWS_S3_USER_SECRET_ACCESS_KEY},region:AWS_S3_REGION})
+        const params = {
+          Bucket: AWS_S3_BUCKET_NAME,
+          Delete:{
+            Objects: imgKeys
+          },
+        };
+        const command = new AWS3.DeleteObjectsCommand(params);
+        const resp = await s3.send(command)
+        return {resp}
+    }
     static async duplicateFile(image,prefix){
         const url = image
         const searchString = "amazonaws.com/";

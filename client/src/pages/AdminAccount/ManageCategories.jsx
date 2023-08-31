@@ -1,8 +1,9 @@
 import React,{useEffect,useState} from 'react';
 import AdminAccount from '../../layout/AdminAccount';
-import { AiFillStar } from 'react-icons/ai'
+import { AiFillEye,AiFillStar } from 'react-icons/ai'
+import { BsPencil,BsFillTrashFill } from 'react-icons/bs'
 import { NavLink } from 'react-router-dom';
-import {GetCategories,updateCategoriesIndex} from '../../api/admin/category'
+import {GetCategories,updateCategoriesIndex,deleteCategory} from '../../api/admin/category'
 import {DragDropContext,Droppable,Draggable} from 'react-beautiful-dnd'
 import {  toast } from 'react-toastify';
 const ManageCategories = () => {
@@ -90,6 +91,42 @@ const ManageCategories = () => {
       }));
       setCategories(updatedItems);
     }
+
+    const [delLoading,setDelLoading] = useState('')
+
+
+    const DeleteCategory = async (e,id) => {
+      e.preventDefault()
+      setDelLoading(id)
+         const data = {id:id}
+         const res = await deleteCategory(data);
+         if(res.status === 200){
+           setDelLoading(false)
+           Categories()
+           toast.success(res.data.msg, {
+             position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }else{
+          setDelLoading('')
+          toast.error(res.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+        }
+    }
     
     return (
         <>
@@ -121,14 +158,13 @@ const ManageCategories = () => {
                             <img src={category.image} className='max-w-full h-[133px] object-contain' alt={category.title} />
                             <h3 className='font-semibold px-3 text-center text-xs'>{hyphenToCamelCase(category.title)}</h3> 
                             <h3 className='font-semibold px-3 text-center text-xs'><StarIconPrinter numberOfTimes={category.rating} /></h3>
-                            <div className='flex space-x-2' >
-                             <NavLink to={`/admin/update-category/${category._id}`} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-fit px-2 mt-1 text-center' >Update</NavLink>
-                             <NavLink to={`/admin/manage-category-sections/${category.slug}`} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-fit px-2 mt-1 text-center' >Edit</NavLink> 
+                            <div className='flex space-x-2 mt-2' >
+                             <NavLink to={`/admin/update-category/${category._id}`} title="Edit Category" className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-sm px-2 rounded-full cursor-pointer py-2' ><BsPencil className="text-base" /></NavLink>
+                             <span onClick={(e)=>DeleteCategory(e,category._id)} title="Delete Category" className='flex items-center justify-center bg-red-500/30 text-red-500 hover:bg-white hover:text-red-500 border-2 border-white hover:border-red-500 text-sm px-2 w-fit rounded-full cursor-pointer py-2' >{delLoading ===  category._id ?  <img src="/loader-bg.gif" className='w-4 h-4' />:<BsFillTrashFill className="text-base" />}</span>
+                             <NavLink to={`/admin/manage-category-sections/${category.slug}`} title="View Sections" className='flex items-center justify-center bg-b7/30 text-b7 hover:bg-white hover:b7 border-2 border-white hover:border-b7 text-sm px-[7px] w-fit rounded-full cursor-pointer py-1' > <AiFillEye className="text-lg" /></NavLink>
                             </div>
                         </div>
                         </div>
-
-                        // <BrandCard  {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}  key={category.title} updateUrl={`/admin/update-category/${category._id}`} viewUrl={`/admin/view-category-sections/${category.title}/${category._id}`} brandname={category.title} brandimage={category.image} />
                      )}
                    </Draggable>
                  )}

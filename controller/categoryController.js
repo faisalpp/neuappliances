@@ -1,4 +1,6 @@
 const Category = require("../models/category");
+const categorySection = require("../models/categorySection");
+const sectionItem = require("../models/sectionItem");
 const Joi = require("joi");
 const fs = require("fs");
 const AWSService = require('../services/S3Upload')
@@ -148,6 +150,56 @@ const categoryController = {
         }
       },
 
+    async DeleteCategory(req,res,next){
+      const blogSchema = Joi.object({
+        id: Joi.string().required(),
+      });
+      const { error } = blogSchema.validate(req.body);
+      
+      // 2. if error in validation -> return error via middleware
+      if (error) {
+        return next(error)
+      }
+  
+      const {id} = req.body;
+
+      let delImgs = [];
+      let delSectionItems = [];
+      let sectionItems;
+      const category = await Category.findOne({_id:id})
+      const catSection = await categorySection.findOne({categorySlug:category.slug})
+      if(category){
+        delImgs.push(category.image)
+      }
+      console.log(delImgs)
+      try{
+        sectionItems = await categorySection.findOne({categorySlug:category.slug}).populate('sectionItemsId').exec()
+      }catch(err){
+        return res.status(500).json({message:"Internal Server Server!"})
+      }
+      if(sectionItems){
+        sectionItems.sectionItemsId.forEach(item=>{
+          delImgs.push(item.image)
+          delSectionItems.push(item._id)
+        });
+      }
+      // const response = await AWSService.deleteFile(category.image)
+      const {resp} = await AWSService.deleteMultiFiles(delImgs)
+      if(resp.$metadata.httpStatusCode === 200){
+        try{
+            await Category.findByIdAndDelete(category._id);
+            await categorySection.findByIdAndDelete(catSection._id);
+            await sectionItem.deleteMany({
+              _id: { $in: delSectionItems }
+            });
+            return res.status(200).json({status: 200, msg:'Category Deleted!'});    
+          }catch(err){
+            return res.status(500).json({message:"Internal Server Server!"})
+          }
+      }else{
+        return res.status(500).json({message:"Cloud Internal Server Server!"})
+      }
+    },
     async GetCategories(req,res,next){
       
       try{

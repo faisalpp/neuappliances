@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AiFillStar } from 'react-icons/ai'
+import { BsPencil,BsFillTrashFill } from 'react-icons/bs'
 import { NavLink } from 'react-router-dom';
+import {deleteSectionItem} from '../../api/admin'
+import {toast} from 'react-toastify'
 
-const BrandCard = ({ ref,title, image, rating, brandimage, brandname, colorimage, colorname,updateUrl,viewUrl}) => {
+const BrandCard = ({ getSectionItem,id,handleUpdateStates,ref,title, image, rating, brandimage, brandname, colorimage, colorname,updateUrl,viewUrl}) => {
     const StarIconPrinter = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
             <AiFillStar key={index} className='text-b7' /> // Render the star icon component for each iteration
@@ -19,6 +22,42 @@ const BrandCard = ({ ref,title, image, rating, brandimage, brandname, colorimage
         var spaceSeparatedString = capitalizedWords.join(' ');
         return spaceSeparatedString;
       }
+
+      const [delLoading,setDelLoading] = useState(false)
+
+      const DeleteSectionItem = async (e,id) => {
+        e.preventDefault()
+         setDelLoading(true)
+         const data = {id:id}
+         const res = await deleteSectionItem(data);
+         if(res.status === 200){
+           setDelLoading(false)
+           getSectionItem()
+           toast.success(res.data.msg, {
+             position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }else{
+          setDelLoading(false)
+          toast.error(res.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+        }
+      }
+
       
 
     return (
@@ -49,7 +88,9 @@ const BrandCard = ({ ref,title, image, rating, brandimage, brandname, colorimage
                         <h3 className='font-semibold px-3 text-center text-xs'>{hyphenToCamelCase(brandname)}</h3> 
                         <h3 className='font-semibold px-3 text-center text-xs'><StarIconPrinter numberOfTimes={rating} /></h3>
                         <div className='flex space-x-2' >
-                         {updateUrl ? <NavLink to={updateUrl} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-fit px-2 mt-1 text-center' >Update</NavLink>:null} 
+                         {/* <span onClick={e=>handleUpdateStates(e,brandimage,brandname,rating,id)} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-fit px-2 mt-1 text-center' >Update</span> */}
+                         <span onClick={e=>handleUpdateStates(e,brandimage,brandname,rating,id)} title="Edit Item" className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-sm px-2 rounded-full cursor-pointer py-2' ><BsPencil className="text-base" /></span>
+                         <span title="Delete Blog" onClick={e=>DeleteSectionItem(e,id)} className='flex items-center justify-center bg-red-500/30 text-red-500 hover:bg-white hover:text-red-500 border-2 border-white hover:border-red-500 text-sm px-2 w-fit rounded-full cursor-pointer py-2' >{delLoading ? <img src="/loader-bg.gif" className='w-4 h-4' />: <BsFillTrashFill className="text-base" />}</span>
                          {viewUrl ? <NavLink to={viewUrl} className='bg-b3 text-white text-xs rounded-md cursor-pointer py-1 w-fit px-2 mt-1 text-center' >Edit</NavLink>:null} 
                         </div>
                     </div>

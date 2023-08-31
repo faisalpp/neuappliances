@@ -33,26 +33,8 @@ const AdminMultiApi = axios.create({
 
 
 
-export const updateCategory = async (data) => {
-    let response;
-    
-    try{
-        response = await AdminMultiApi.post('/api/admin/update-category',data);
-    }catch (error){
-        return error;
-    }
-    return response;
-}
-export const getCategoryById = async (data) => {
-    let response;
-    
-    try{
-        response = await AdminApi.post('/api/admin/category-by-id',data);
-    }catch (error){
-        return error;
-    }
-    return response;
-}
+
+
 
 export const createSection = async (data) => {
     let response;
@@ -80,6 +62,17 @@ export const updateSectionsIndex = async (data) => {
 
     try{
         response = await AdminApi.post('/api/admin/update-section-index',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const deleteSection = async (data) => {
+    let response;
+
+    try{
+        response = await AdminApi.post('/api/admin/delete-section',data);
     }catch (error){
         return error;
     }
@@ -123,6 +116,17 @@ export const updateSectionItem = async (data) => {
 
     try{
         response = await AdminMultiApi.post('/api/admin/update-section-item',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const deleteSectionItem = async (data) => {
+    let response;
+
+    try{
+        response = await AdminApi.post('/api/admin/delete-section-item',data);
     }catch (error){
         return error;
     }
