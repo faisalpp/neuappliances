@@ -88,9 +88,9 @@ const Table = ({ getSections,sections,setSections,pop }) => {
                                 className="pt-2 border-2 border-b6 hover:border-red-500 hover:cursor-pointer"
                               >
                                 <td className="px-2 py-4 font-medium w-20 ">{section.title}</td>
-                                <td className="whitespace-nowrap px-5 py-4 capitalize">{section.cardStyle.replace(/-/g,' ')}</td>
-                                <td className="whitespace-nowrap px-5 py-4 capitalize">{section.type.replace(/-/g,' ')}</td>
-                                <td className="whitespace-nowrap px-5 py-4 capitalize">{section.categorySlug}</td>
+                                <td className="whitespace-nowrap px-5 py-4 capitalize">{section.cardStyle.replace(/\-/g,' ')}</td>
+                                <td className="whitespace-nowrap px-5 py-4 capitalize">{section.type.replace(/\-/g,' ')}</td>
+                                <td className="whitespace-nowrap px-5 py-4 capitalize">{section.categorySlug.replace(/\-/g,' ')}</td>
                                 <td className="flex space-x-2 whitespace-nowrap px-6 py-4 " title="Update, Create & View Section Items">
                                   <NavLink title="Manage Section Item" to={`/admin/manage-section-items/${section.cardStyle}/${section._id}`} className='flex items-center justify-center bg-b7 text-white hover:bg-white hover:text-b7 border-2 border-white hover:border-b7 text-sm px-2 rounded-full cursor-pointer py-2' ><AiFillEye className="text-lg" /></NavLink>
                                   <span onClick={(e)=>pop(e,section._id,section.title,section.type,section.slug,section.cardStyle)} title="Edit Section" className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-sm px-2 rounded-full cursor-pointer py-2' ><BsPencil className="text-lg" /></span>

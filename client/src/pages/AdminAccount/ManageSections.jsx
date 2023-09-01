@@ -18,6 +18,8 @@ const ManageSections = () => {
     title: Yup.string().required('Title is required'),
     Slug: Yup.string().required('Slug is required'),
     slug: Yup.string().required('Image is required'),
+    cardStyle: Yup.string().required('Card Style is required'),
+    type: Yup.string().required('Type is required'),
   });
   const sectionUpdateValidationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
@@ -147,7 +149,7 @@ const ManageSections = () => {
   function capitalizeWords(str) {
     return str.replace(/\b\w/g, function(match) {
         return match.toUpperCase()
-    }).replace(/-/g, ' ');
+    }).replace(/\-/g, ' ');
 }
 
 
@@ -273,7 +275,7 @@ const ManageSections = () => {
            <label className='text-b16 font-semibold text-xs block mb-2'>Section Type<i className='text-red-500' >*</i></label>
            <div className='relative'>
             <select onChange={e=>setType(e.target.value)} className='border border-[rgba(0,0,0,0.16)] rounded-lg h-10 text-sm px-4 w-full outline-none appearance-none'>
-             <option value='cosmetic-rating' >Cosmatic Rating</option>
+             <option value='cosmetic-rating' >Cosmetic Rating</option>
              <option value='product-features' >Product Features</option>
              <option value='product-types' >Product Types</option>
              <option value='product-finishes-&-colors' >Product Finishes & Colors</option>

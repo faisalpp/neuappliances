@@ -50,7 +50,7 @@ const sectionController = {
     
          await categorySectionToRegister.save();
 
-        return res.status(200).json({status:200,msg:'Category Section Created Successfully!'});
+        return res.status(200).json({status:200,msg:'Category Section Created!'});
     
         } catch (error) {
           return next(error);
@@ -193,7 +193,7 @@ const sectionController = {
           return next(error)
         }
 
-        if(!req.files.image){
+        if(!req.files){
           return res.status(500).json({status:500,message:'Image Required!'});
         }
   

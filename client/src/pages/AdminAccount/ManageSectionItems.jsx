@@ -57,6 +57,11 @@ const ManageSectionItem = () => {
        setSubmit(false)
        getSectionItem()
        setPopup(false)
+       imgRef.current.value = null;
+       setTitle('');
+       setRating('');
+       setImage('');
+       setTempImg('');
         toast.success(res.data.msg, {
          position: "top-right",
          autoClose: 1000,
@@ -116,6 +121,11 @@ const ManageSectionItem = () => {
        setSubmit(false)
        getSectionItem()
        setUpopup(false)
+       uImgRef.current.value = null;
+       setUtitle('');
+       setUimage('');
+       setUrating('');
+       setUtempImg('')
         toast.success(res.data.msg, {
          position: "top-right",
          autoClose: 1000,
