@@ -216,7 +216,7 @@ const Product = () => {
           </div>
           {/* Bread Crumbs End */}
           <div id='product-information' className='grid grid-cols-1 lg:grid-cols-12 gap-10 lg:items-start items-center mb-10 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
-            <div className='lg:col-span-5' >
+            <div className='lg:col-span-5 lg:sticky lg:top-44' >
               <div className='flex gap-2 md:gap-5' >
                 <div className='flex flex-col space-y-2 min-w-[70px] 2xl:min-w-[100px] h-full' >
                   {product.images ? product.images.slice(0, 4).map((image, index) =>
