@@ -92,6 +92,7 @@ module.exports = withMT({
         'reg': 'Montserrat'
       },
       spacing: {
+        '10px': '10px',
         '14px': '14px',
         '100px': '100px',
         '106px': '106px',

@@ -83,6 +83,7 @@ import UpdateBlog from "./pages/AdminAccount/UpdateBlog";
 import ManageTeam from "./pages/AdminAccount/ManageTeam";
 import UpdateHelp from "./pages/AdminAccount/UpdateHelp";
 import UpdateApplianceTips from "./pages/AdminAccount/UpdateApplianceTips";
+import BuyingOptionsV1 from "./pages/BuyingOptionsV1";
 
 function App() {
 
@@ -105,123 +106,126 @@ function App() {
 
   return (
     <>
-    <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
-    <Routes>
-      <Route path="/" element={<Home />} />
-      {/* landing Page */}
-      <Route path="/landing-page" element={<Landing />} />
-      {/* ===== */}
-      <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
-      <Route path="/register" element={<AuthRoute><Register /></AuthRoute>} />
-      <Route path="/forgot-password" element={<AuthRoute><ForgotPassword /></AuthRoute>} />
-      <Route path="/products" element={<Products />} />
-      <Route path="/product/:slug" element={<Product />} />
-      <Route path="/appliances/:categorySlug" element={<Appliances />} />
-      {/* Appliances Filters */}
-      <Route path="/appliances/:category/:type/:value" element={<Products />} />
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {/* landing Page */}
+        <Route path="/landing-page" element={<Landing />} />
 
-      <Route path="/appliancetypes" element={<ApplianceTypes />} />
-      <Route path="/faqs" element={<GeneralFaqs />} />
-      <Route path="/our-story" element={<OurStory />} />
-      <Route path="/our-showroom" element={<OurShowroom />} />
-      <Route path="/our-companies" element={<OurCompanies />} />
-      <Route path="/appliance-repair" element={<ApplianceRepair />} />
-      <Route path="/measuring-guide" element={<MeasuringGuide />} />
-      <Route path="/helpful-appliances-tips" element={<HelpfulApliancesTips />} />
-      <Route path="/tips-forregerators-and-freezers" element={<AppliancesTipsDetail />} />
-      <Route path="/financing" element={<Financing />} />
-      {/* Blogs */}
-      <Route path="/blogs" element={<Blogs />} />
-      <Route path="/blog/:slug" element={<BlogArticle />} />
 
-      <Route path="/my-account/profile" element={<ProtectedUser><Profile /></ProtectedUser>} />
-      <Route path="/my-account/order-history" element={<ProtectedUser><OrderHistory /></ProtectedUser>} />
-      <Route path="/my-account/my-favourites" element={<ProtectedUser><MyFavourite /></ProtectedUser>} />
-      <Route path="/my-account/saved-addresses" element={<ProtectedUser><SavedAddress /></ProtectedUser>} />
-      <Route path="/my-account/billing-information" element={<ProtectedUser><BillingInformation /></ProtectedUser>} />
-      <Route path="/my-account/change-password" element={<ProtectedUser><ChangePassword /></ProtectedUser>} />
-      <Route path="/my-account/email-preferences" element={<ProtectedUser><EmailPreferences /></ProtectedUser>} />
+        <Route path="/buying-optionsv1" element={<BuyingOptionsV1 />} />
+        {/* ===== */}
+        <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
+        <Route path="/register" element={<AuthRoute><Register /></AuthRoute>} />
+        <Route path="/forgot-password" element={<AuthRoute><ForgotPassword /></AuthRoute>} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/product/:slug" element={<Product />} />
+        <Route path="/appliances/:categorySlug" element={<Appliances />} />
+        {/* Appliances Filters */}
+        <Route path="/appliances/:category/:type/:value" element={<Products />} />
 
-      <Route path="/mycart" element={<MyCart />} />
-      <Route path="/mycart/information" element={<CheckoutInformation />} />
-      <Route path="/mycart/shipping" element={<CheckoutShipping />} />
-      <Route path="/mycart/payment" element={<CheckoutPayment />} />
+        <Route path="/appliancetypes" element={<ApplianceTypes />} />
+        <Route path="/faqs" element={<GeneralFaqs />} />
+        <Route path="/our-story" element={<OurStory />} />
+        <Route path="/our-showroom" element={<OurShowroom />} />
+        <Route path="/our-companies" element={<OurCompanies />} />
+        <Route path="/appliance-repair" element={<ApplianceRepair />} />
+        <Route path="/measuring-guide" element={<MeasuringGuide />} />
+        <Route path="/helpful-appliances-tips" element={<HelpfulApliancesTips />} />
+        <Route path="/tips-forregerators-and-freezers" element={<AppliancesTipsDetail />} />
+        <Route path="/financing" element={<Financing />} />
+        {/* Blogs */}
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blog/:slug" element={<BlogArticle />} />
 
-      <Route path="/stay-in-loop" element={<StayInLoop />} />
+        <Route path="/my-account/profile" element={<ProtectedUser><Profile /></ProtectedUser>} />
+        <Route path="/my-account/order-history" element={<ProtectedUser><OrderHistory /></ProtectedUser>} />
+        <Route path="/my-account/my-favourites" element={<ProtectedUser><MyFavourite /></ProtectedUser>} />
+        <Route path="/my-account/saved-addresses" element={<ProtectedUser><SavedAddress /></ProtectedUser>} />
+        <Route path="/my-account/billing-information" element={<ProtectedUser><BillingInformation /></ProtectedUser>} />
+        <Route path="/my-account/change-password" element={<ProtectedUser><ChangePassword /></ProtectedUser>} />
+        <Route path="/my-account/email-preferences" element={<ProtectedUser><EmailPreferences /></ProtectedUser>} />
 
-      <Route path="/how-it-works/what-we-sell" element={<WhatWeSell />} />
-      <Route path="/how-it-works/rating-system" element={<Ratings />} />
-      <Route path="/how-it-works/testing-process" element={<Tested />} />
-      <Route path="/how-it-works/product-photos" element={<Photos />} />
-      <Route path="/how-it-works/delivery" element={<Delivered />} />
-      <Route path="/how-it-works/hassle-free" element={<HassleFree />} />
+        <Route path="/mycart" element={<MyCart />} />
+        <Route path="/mycart/information" element={<CheckoutInformation />} />
+        <Route path="/mycart/shipping" element={<CheckoutShipping />} />
+        <Route path="/mycart/payment" element={<CheckoutPayment />} />
 
-      <Route path="/help-and-support" element={<HelpAndSupport />} />
-      <Route path="/help-and-support/:category/:slug" element={<HelpCardPage />} />
-      <Route path="/email" element={<Email />} />
-      <Route path="/do-i-have-electric-or-gas" element={<DoIHaveElectricGas />} />
+        <Route path="/stay-in-loop" element={<StayInLoop />} />
 
-      {/* Admin Related Routes */}
-      <Route path="/nu-admin" element={<AuthRoute><AdminLogin /></AuthRoute>} />
-      <Route path="/admin/dashboard" element={<ProtectedAdmin><Dashboard /></ProtectedAdmin>} />
-      {/* Categories Related Routes */}
-      {/* Category Section Related Routes */}
-      <Route path="/admin/create-section/:slug" element={<ProtectedAdmin><CreateSection /></ProtectedAdmin>} />
-      <Route path="/admin/update-section/:slug/:id" element={<ProtectedAdmin><UpdateSection /></ProtectedAdmin>} />
-      {/* Category Section Item Related Routes */}
-      {/* <Route path="/admin/create-section-item/:style/:id" element={<ProtectedAdmin><CreateSectionItem /></ProtectedAdmin>} /> */}
-      {/* Categories Related Routes */}
-      <Route path="/admin/categories" element={<ProtectedAdmin><ManageCategories /></ProtectedAdmin>} />
-      <Route path="/admin/create-category" element={<ProtectedAdmin><CreateCategory /></ProtectedAdmin>} />
-      <Route path="/admin/update-category/:id" element={<ProtectedAdmin><UpdateCategory /></ProtectedAdmin>} />
-      <Route path="/admin/manage-category-sections/:slug" element={<ProtectedAdmin><ManageSections /></ProtectedAdmin>} />
-      {/* Section Items */}
+        <Route path="/how-it-works/what-we-sell" element={<WhatWeSell />} />
+        <Route path="/how-it-works/rating-system" element={<Ratings />} />
+        <Route path="/how-it-works/testing-process" element={<Tested />} />
+        <Route path="/how-it-works/product-photos" element={<Photos />} />
+        <Route path="/how-it-works/delivery" element={<Delivered />} />
+        <Route path="/how-it-works/hassle-free" element={<HassleFree />} />
 
-      <Route path="/admin/manage-section-items/:style/:sectionId" element={<ProtectedAdmin><ManageSectionItems /></ProtectedAdmin>} />
-      <Route path="/admin/update-section-item/:id" element={<ProtectedAdmin><UpdateSectionItem /></ProtectedAdmin>} />
-      {/* Product Update */}
-      <Route path="/admin/create-product" element={<ProtectedAdmin><CreateProduct /></ProtectedAdmin>} />
-      <Route path="/admin/manage-products" element={<ProtectedAdmin><ManageProducts /></ProtectedAdmin>} />
-      <Route path="/admin/update-product/:id" element={<ProtectedAdmin><UpdateProduct /></ProtectedAdmin>} />
-      {/* {FAQ Routes} */}
-      <Route path="/admin/faq" element={<ProtectedAdmin><ManageFaq/></ProtectedAdmin>} />
-      <Route path="/admin/create-faq/:slug" element={<ProtectedAdmin><CreateFaq/></ProtectedAdmin>} />
-      {/* Admin Blog Routes */}
-      <Route path="/admin/manage-blogs" element={<ProtectedAdmin><ManageBlogs/></ProtectedAdmin>} />
-      <Route path="/admin/create-blog" element={<ProtectedAdmin><CreateBlog/></ProtectedAdmin>} />
-      <Route path="/admin/update-blog/:slug" element={<ProtectedAdmin><UpdateBlog /></ProtectedAdmin>} />
-      {/* Admin Manage Team Routes */}
-      <Route path="/admin/manage-team" element={<ProtectedAdmin><ManageTeam /></ProtectedAdmin>} />
-      {/* Admin Help and Support Routes */}
-      <Route path="/admin/manage-help-support" element={<ProtectedAdmin><ManageHelpSupport/></ProtectedAdmin>} />
-      <Route path="/admin/create-help-support" element={<ProtectedAdmin><CreateHelpSupport /></ProtectedAdmin>} />
-      <Route path="/admin/update-help/:slug" element={<ProtectedAdmin><UpdateHelp /></ProtectedAdmin>} />
-      {/* Admin Hellpful Appliance Tips Routes */}
-      <Route path="/admin/manage-appliance-tips" element={<ProtectedAdmin><ManageApplianceTips /></ProtectedAdmin>} />
-      <Route path="/admin/create-appliance-tips" element={<ProtectedAdmin><CreateApplianceTips /></ProtectedAdmin>} />
-      <Route path="/admin/update-appliance-tips/:slug" element={<ProtectedAdmin><UpdateApplianceTips /></ProtectedAdmin>} />
+        <Route path="/help-and-support" element={<HelpAndSupport />} />
+        <Route path="/help-and-support/:category/:slug" element={<HelpCardPage />} />
+        <Route path="/email" element={<Email />} />
+        <Route path="/do-i-have-electric-or-gas" element={<DoIHaveElectricGas />} />
 
-      {/* Admin Media */}
-      <Route path="/admin/manage-videos" element={<ProtectedAdmin><ManageVideos/></ProtectedAdmin>} />
-      {/* Admin Manage Reviews */}
-      <Route path="/admin/manage-reviews" element={<ProtectedAdmin><ManageReviews/></ProtectedAdmin>} />
-      {/* Admin Password Change */}
-      <Route path="/admin/change-password" element={<ProtectedAdmin><AdminChangePassword/></ProtectedAdmin>} />
-      {/* Admin Shipping & Tax */}
-      <Route path="/admin/manage-shipping" element={<ProtectedAdmin><ShippingTax/></ProtectedAdmin>} />
-      {/* Admin Manage Gallery */}
-      <Route path="/admin/manage-gallery" element={<ProtectedAdmin><ManageGallery/></ProtectedAdmin>} />
-      {/* Admin Manage Gallery */}
-      <Route path="/admin/manage-orders" element={<ProtectedAdmin><ManageOrders /></ProtectedAdmin>} />
-      {/* Admin Manage Customers */}
-      <Route path="/admin/manage-customers" element={<ProtectedAdmin><ManageCustomers /></ProtectedAdmin>} />
-       {/* Admin Update Customer */}
-       <Route path="/admin/update-customer" element={<ProtectedAdmin><UpdateCustomer /></ProtectedAdmin>} />
+        {/* Admin Related Routes */}
+        <Route path="/nu-admin" element={<AuthRoute><AdminLogin /></AuthRoute>} />
+        <Route path="/admin/dashboard" element={<ProtectedAdmin><Dashboard /></ProtectedAdmin>} />
+        {/* Categories Related Routes */}
+        {/* Category Section Related Routes */}
+        <Route path="/admin/create-section/:slug" element={<ProtectedAdmin><CreateSection /></ProtectedAdmin>} />
+        <Route path="/admin/update-section/:slug/:id" element={<ProtectedAdmin><UpdateSection /></ProtectedAdmin>} />
+        {/* Category Section Item Related Routes */}
+        {/* <Route path="/admin/create-section-item/:style/:id" element={<ProtectedAdmin><CreateSectionItem /></ProtectedAdmin>} /> */}
+        {/* Categories Related Routes */}
+        <Route path="/admin/categories" element={<ProtectedAdmin><ManageCategories /></ProtectedAdmin>} />
+        <Route path="/admin/create-category" element={<ProtectedAdmin><CreateCategory /></ProtectedAdmin>} />
+        <Route path="/admin/update-category/:id" element={<ProtectedAdmin><UpdateCategory /></ProtectedAdmin>} />
+        <Route path="/admin/manage-category-sections/:slug" element={<ProtectedAdmin><ManageSections /></ProtectedAdmin>} />
+        {/* Section Items */}
 
-      <Route path="/test" element={<Test />} />
-      <Route path="*" element={<NotFound />} />
-      <Route path="/isr" element={<Isr />} />
-    </Routes>
+        <Route path="/admin/manage-section-items/:style/:sectionId" element={<ProtectedAdmin><ManageSectionItems /></ProtectedAdmin>} />
+        <Route path="/admin/update-section-item/:id" element={<ProtectedAdmin><UpdateSectionItem /></ProtectedAdmin>} />
+        {/* Product Update */}
+        <Route path="/admin/create-product" element={<ProtectedAdmin><CreateProduct /></ProtectedAdmin>} />
+        <Route path="/admin/manage-products" element={<ProtectedAdmin><ManageProducts /></ProtectedAdmin>} />
+        <Route path="/admin/update-product/:id" element={<ProtectedAdmin><UpdateProduct /></ProtectedAdmin>} />
+        {/* {FAQ Routes} */}
+        <Route path="/admin/faq" element={<ProtectedAdmin><ManageFaq /></ProtectedAdmin>} />
+        <Route path="/admin/create-faq/:slug" element={<ProtectedAdmin><CreateFaq /></ProtectedAdmin>} />
+        {/* Admin Blog Routes */}
+        <Route path="/admin/manage-blogs" element={<ProtectedAdmin><ManageBlogs /></ProtectedAdmin>} />
+        <Route path="/admin/create-blog" element={<ProtectedAdmin><CreateBlog /></ProtectedAdmin>} />
+        <Route path="/admin/update-blog/:slug" element={<ProtectedAdmin><UpdateBlog /></ProtectedAdmin>} />
+        {/* Admin Manage Team Routes */}
+        <Route path="/admin/manage-team" element={<ProtectedAdmin><ManageTeam /></ProtectedAdmin>} />
+        {/* Admin Help and Support Routes */}
+        <Route path="/admin/manage-help-support" element={<ProtectedAdmin><ManageHelpSupport /></ProtectedAdmin>} />
+        <Route path="/admin/create-help-support" element={<ProtectedAdmin><CreateHelpSupport /></ProtectedAdmin>} />
+        <Route path="/admin/update-help/:slug" element={<ProtectedAdmin><UpdateHelp /></ProtectedAdmin>} />
+        {/* Admin Hellpful Appliance Tips Routes */}
+        <Route path="/admin/manage-appliance-tips" element={<ProtectedAdmin><ManageApplianceTips /></ProtectedAdmin>} />
+        <Route path="/admin/create-appliance-tips" element={<ProtectedAdmin><CreateApplianceTips /></ProtectedAdmin>} />
+        <Route path="/admin/update-appliance-tips/:slug" element={<ProtectedAdmin><UpdateApplianceTips /></ProtectedAdmin>} />
+
+        {/* Admin Media */}
+        <Route path="/admin/manage-videos" element={<ProtectedAdmin><ManageVideos /></ProtectedAdmin>} />
+        {/* Admin Manage Reviews */}
+        <Route path="/admin/manage-reviews" element={<ProtectedAdmin><ManageReviews /></ProtectedAdmin>} />
+        {/* Admin Password Change */}
+        <Route path="/admin/change-password" element={<ProtectedAdmin><AdminChangePassword /></ProtectedAdmin>} />
+        {/* Admin Shipping & Tax */}
+        <Route path="/admin/manage-shipping" element={<ProtectedAdmin><ShippingTax /></ProtectedAdmin>} />
+        {/* Admin Manage Gallery */}
+        <Route path="/admin/manage-gallery" element={<ProtectedAdmin><ManageGallery /></ProtectedAdmin>} />
+        {/* Admin Manage Gallery */}
+        <Route path="/admin/manage-orders" element={<ProtectedAdmin><ManageOrders /></ProtectedAdmin>} />
+        {/* Admin Manage Customers */}
+        <Route path="/admin/manage-customers" element={<ProtectedAdmin><ManageCustomers /></ProtectedAdmin>} />
+        {/* Admin Update Customer */}
+        <Route path="/admin/update-customer" element={<ProtectedAdmin><UpdateCustomer /></ProtectedAdmin>} />
+
+        <Route path="/test" element={<Test />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/isr" element={<Isr />} />
+      </Routes>
     </>
   );
 }

@@ -49,13 +49,13 @@ const ReviewEXSlider = ({ clientreviews, icon, dots }) => {
   // console.log(color)
   return (
     <div className='reviewslider-wrapper'>
-      {clientreviews.length > 0 ? <Slider {...settings}  prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative maxmd:mb-10'>
+      {clientreviews.length > 0 ? <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative maxmd:mb-10'>
         {clientreviews.map((clientreview, index) => (
           <div key={index}>
             <ReviewExCard description={clientreview.content} author={clientreview.author} review={clientreview.rating} />
           </div>
         ))}
-      </Slider>:<div className='flex items-center justify-center w-full' ><img src="/loader-bg.gif" className="w-10 h-10 " /></div>}
+      </Slider> : <div className='flex items-center justify-center w-full' ><img src="/loader-bg.gif" className="w-10 h-10 " /></div>}
     </div >
   );
 };
