@@ -3,18 +3,20 @@ import DropDown from './DropDown/DropDown'
 import { Link } from 'react-router-dom';
 
 const ProductSection = ({ productstype, onClose, isFilter }) => {
+    // console.log(productstype)
     const handleFilterClick = (event) => {
         event.stopPropagation();
     };
     const modalClass = isFilter ? 'maxlg:flex top-0 maxlg:bottom-0' : 'maxlg:-bottom-[420px] maxlg:opacity-0 maxlg:pointer-events-none';
 
-    const CosRatingMenu = ({ menu }) => (
+    const CosRatingMenu = ({ menu,k }) => (
         <ul className='flex flex-col gap-3'>
-            {menu.map((item, index) => (
-                <li key={index}>
-                    <Link to={item.link} className='text-sm text-b22'>{item.title}</Link>
+            {/* {console.log(menu['Cosmetic Ratings'])} */}
+             {k ? menu[k].map((item, index) => (
+                <li key={index} >
+                     <Link to={item.link} className='text-sm text-b22'>{item.name}</Link>
                 </li>
-            ))}
+            )):null}
         </ul>
     );
     return (
@@ -25,11 +27,11 @@ const ProductSection = ({ productstype, onClose, isFilter }) => {
                         Close
                     </button>
                 </div>
-                {productstype.map((product, index) => (
-                    <DropDown title={product.title} color="text-b22" key={index}>
-                        <CosRatingMenu menu={product.menu} />
+                {productstype ? productstype.map((product, index) => (
+                    <DropDown title={Object.keys(product)} color="text-b22" key={index}>
+                        <CosRatingMenu menu={product} k={Object.keys(product)} />
                     </DropDown>
-                ))}
+                )):null}
             </div>
         </div>
     )

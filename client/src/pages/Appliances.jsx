@@ -21,18 +21,64 @@ const Appliances = () => {
 
   const [loading, isLoading] = useState(true);
 
-  const data = { slug: categorySlug };
-  useEffect(() => {
-    const getAppliances = async () => {
-      const res = await GetApplianceSections(data);
-      console.log(res)
-      if (res.status === 200) {
-        setSections(res.data.categorySections);
-        setDescription(res.data.categoryDescription);
-        setCatTitle(res.data.categoryTitle);
-        isLoading(false)
-      }
+  
+  
+  const [menu,setMenu] = useState([])
+  
+  function capitalizeWords(str) {
+    return str.replace(/\b\w/g, function(match) {
+        return match.toUpperCase()
+    }).replace(/\-/g, ' ');
+}
+
+const ConstructMenu = () => {
+  let sectType;
+  let cardType;
+  let menuItems = [];
+  sections.forEach(item=> {
+    sectType = item.cardStyle;
+    cardType = item.type;
+    let menuItem = [];
+   if(sectType !== 'head-rating-card'){
+    item.sectionItemsId.filter(i=>{
+     if(i.rating){
+      const name = `${i.rating} Stars ${catTitle}`
+      const link = `/products/?category=${catTitle.toLowerCase().replace(/\s/g,'-')}&rating=${i.rating}`
+      let item = {name:name,link:link}
+      menuItem.push(item)
+      
+     }else{
+      const name = `${i.title}`
+      const link = `/products/?category=${catTitle.toLowerCase().replace(/\s/g,'-')}&${cardType}=${i.title.toLowerCase().replace(/\s/g,'-')}`
+      let item = {name:name,link:link}
+      menuItem.push(item)
+     }
+     
+    })
+    menuItems.push({[capitalizeWords(cardType)]:menuItem})
+  }
+  setMenu(menuItems)
+})
+}
+
+// [ { "title":[] } ]
+  
+useEffect(()=>{
+    ConstructMenu()
+  },[sections])
+  
+  const getAppliances = async () => {
+    const data = { slug: categorySlug };
+    const res = await GetApplianceSections(data);
+    if (res.status === 200) {
+      setSections(res.data.categorySections);
+      setDescription(res.data.categoryDescription);
+      setCatTitle(res.data.categoryTitle);
+      isLoading(false)
     }
+  }
+
+  useEffect(() => {
     getAppliances();
   }, [])
 
@@ -49,7 +95,7 @@ const Appliances = () => {
             <ApplianceDetail title={catTitle} description={description} />
           </div>
           {sections.map((section, index) => (section.cardStyle === "head-rating-card" ? <CosmaticRating key={index} section={section} /> : null))}
-          <ProductSection data={sections} category={catTitle} />
+          <ProductSection menu={menu} data={sections} category={catTitle} />
           {/* Shop Austin Section */}
           <ShopAustinSection />
           {/* Recentky Added Section */}

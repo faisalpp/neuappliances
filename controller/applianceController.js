@@ -35,7 +35,9 @@ const applianceController = {
       .exec()
       .then(categorySections => {
         // categorySections will contain an array of CategorySection documents
-      
+        categorySections.forEach(section => {
+          section.sectionItemsId.sort((a, b) => a.index - b.index);
+        });
         return res.status(200).json({status:200,categorySections:categorySections,categoryDescription:category.description,categoryTitle:category.title});
       })
       .catch(err => {

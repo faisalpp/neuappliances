@@ -89,7 +89,7 @@ const ManageSections = () => {
       const [title,setTitle] = useState('');
       const [Slug,setSlug] = useState('');
       const [cardStyle,setCardStyle] = useState('head-rating-card');
-      const [type,setType] = useState('cosmatic-rating');
+      const [type,setType] = useState('cosmetic-rating');
 
       const handleTitle = (e) => {
         setTitle(e.target.value);
@@ -165,7 +165,7 @@ const ManageSections = () => {
   
   useEffect(()=>{
    setUcardStyles(['Head Rating Card','Rating Card','Color Card','Brand Card','General Card','2xN Card'])
-   setUtypes(['Cosmetic Rating','Product Features','Product Types','Product Finishes & Colors','Product Brands','Product Fuel Types'])
+   setUtypes(['Cosmetic Ratings','Features','Types','Finishes & Colors','Brands','Fuel Types'])
   },[])
 
   const handleUtitle = (e) => {
@@ -275,12 +275,12 @@ const ManageSections = () => {
            <label className='text-b16 font-semibold text-xs block mb-2'>Section Type<i className='text-red-500' >*</i></label>
            <div className='relative'>
             <select onChange={e=>setType(e.target.value)} className='border border-[rgba(0,0,0,0.16)] rounded-lg h-10 text-sm px-4 w-full outline-none appearance-none'>
-             <option value='cosmetic-rating' >Cosmetic Rating</option>
-             <option value='product-features' >Product Features</option>
-             <option value='product-types' >Product Types</option>
-             <option value='product-finishes-&-colors' >Product Finishes & Colors</option>
-             <option value='product-brands' >Product Brands</option>
-             <option value='product-fuel-types' >Product Fuel Types</option>
+             <option value='cosmetic-ratings' >Cosmetic Rating</option>
+             <option value='features' >Product Features</option>
+             <option value='types' >Product Types</option>
+             <option value='finishes-&-colors' >Product Finishes & Colors</option>
+             <option value='brands' >Product Brands</option>
+             <option value='fuel-types' >Product Fuel Types</option>
             </select>
             <FiChevronDown className='absolute right-4 top-3' />
            </div>

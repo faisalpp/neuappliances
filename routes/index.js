@@ -58,6 +58,7 @@ router.post('/api/admin/sections',adminAuth,categorySection.GetCategorySections)
 // Section Item Related Routes
 router.post('/api/admin/create-section-item',adminAuth,categorySection.CreateSectionItem);
 router.post('/api/admin/update-section-item',adminAuth,categorySection.UpdateSectionItem);
+router.post('/api/admin/update-section-item-index',adminAuth,categorySection.UpdateSectionItems);
 router.post('/api/admin/delete-section-item',adminAuth,categorySection.DeleteSectionItem);
 router.post('/api/admin/section-item-by-id',adminAuth,categorySection.GetSectionItemById);
 router.post('/api/admin/section-items',adminAuth,categorySection.GetSectionItems);

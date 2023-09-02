@@ -78,7 +78,6 @@ const Navbar = () => {
     e.preventDefault();
 
     const res = await Signout();
-    console.log(res)
     if (res.status === 200) {
       toast.success(res.msg, {
         position: "top-right",
@@ -123,7 +122,6 @@ const Navbar = () => {
   useEffect(() => {
       const getAppliances = async () => {
           const res = await getNabarAppliances();
-          // console.log(res)
           if (res.status === 200) {
               let data = [];
               if(res.data.categories.length > 0){

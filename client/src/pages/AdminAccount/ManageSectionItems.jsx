@@ -2,13 +2,14 @@ import React,{useEffect,useState,useRef} from 'react';
 import AdminAccount from '../../layout/AdminAccount';
 import BrandCard from '../../components/AdminDashboard/BrandCard'
 import {createSectionItem,updateSectionItem} from '../../api/admin'
-import { getSectionItems } from '../../api/admin';
+import { getSectionItems,updateSectionItemsIndex } from '../../api/admin';
 import { useNavigate, useParams } from 'react-router-dom';
 import Popup from '../../components/AdminDashboard/Popup';
 import {AiFillPlusCircle} from 'react-icons/ai'
 import {BsPencil,BsArrowRightShort,BsFillArrowLeftCircleFill} from 'react-icons/bs'
 import TextInput from '../../components/TextInput/TextInput';
 import {toast} from 'react-toastify'
+import {DragDropContext,Droppable,Draggable} from 'react-beautiful-dnd'
 
 const ManageSectionItem = () => {
     const { style,sectionId } = useParams();
@@ -17,6 +18,7 @@ const ManageSectionItem = () => {
     const data = {sectionId}
     const getSectionItem = async () => {
         const res = await getSectionItems(data);
+        console.log(res)
         if(res.status === 200){
             setSectionItems(res.data.sectionItems);
         }
@@ -163,6 +165,54 @@ const ManageSectionItem = () => {
     }
 
 
+    const handleDragEnd = (result) => {
+      console.log(result)
+      const items = Array.from(sectionItems)
+      const [recordedItem] = items.splice(result.source.index,1)
+      items.splice(result.destination.index,0,recordedItem)
+      const updatedItems = items.map((item, index) => ({
+        ...item,
+        index: index+1 // Add the index property
+    }));
+    // console.log(updatedItems)
+    setSectionItems(updatedItems);
+    }
+
+    const [iLoading,setIloading] = useState(false)
+
+    const UpdateSectionItemsIndex = async(e) => {
+      e.preventDefault()
+      setIloading(true)
+      const res = await updateSectionItemsIndex({sectionItems:sectionItems});
+      if(res.status === 200){
+        setIloading(false)
+        toast.success(res.data.msg, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        getSectionItem()
+      }else{
+        setIloading(false)
+        toast.error(res.data.message, {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+     }
+    }
+
+
     
     return (
         <>
@@ -212,9 +262,26 @@ const ManageSectionItem = () => {
           </div>
          {/* Products Operations */}
          {sectionItems.length > 0 ?
-         <div className='grid grid-cols-1 md:grid-cols-4 2xl:grid-cols-3 gap-7 xl:gap-10'>
-          {sectionItems.map((sectionItem,index)=><BrandCard getSectionItem={getSectionItem} id={sectionItem._id} handleUpdateStates={handleUpdateStates} updateUrl='' key={index} brandname={sectionItem.title} brandimage={sectionItem.image} rating={sectionItem.rating} />)}
-         </div>
+         <>
+         <DragDropContext onDragEnd={handleDragEnd} className='w-full 3xl:max-w-1680px mx-auto'>
+         <Droppable droppableId='sectionItem' className='3xl:px-[60px] flex flex-wrap justify-center 3xl:justify-start gap-10 3xl:gap-20'>
+         {(provided) => (
+          <div {...provided.droppableProps} ref={provided.innerRef} className='grid grid-cols-1 md:grid-cols-4 2xl:grid-cols-3 gap-7 xl:gap-10'>
+           {sectionItems.map((sectionItem,index)=> 
+            <Draggable key={sectionItem._id} draggableId={sectionItem._id} index={index}>
+              {(provided) => (
+                <div className='w-fit h-fit' {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} title="Draggable!" key={index} >
+                 <BrandCard getSectionItem={getSectionItem} id={sectionItem._id} handleUpdateStates={handleUpdateStates} updateUrl='' key={index} brandname={sectionItem.title} brandimage={sectionItem.image} rating={sectionItem.rating} />
+                </div>
+              )}
+            </Draggable>
+           )}
+           {provided.placeholder}
+          </div>)}
+         </Droppable>
+         </DragDropContext>
+         <div className='flex w-full justify-end' ><button type="button" onClick={e=>UpdateSectionItemsIndex(e)} className='flex mt-2 items-center cursor-pointer rounded-md py-1 w-fit bg-b3' >{iLoading ? <img src='/loader-bg.gif' className='w-8' /> :<a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Save</span></a>}</button></div>
+         </>
           :<div className='flex justify-center w-full h-full' >
           <img src="/not-found.png" className='w-36 h-36' />
          </div>}

@@ -8,7 +8,7 @@ import { Link, NavLink } from 'react-router-dom';
 import FilterSvg from '../../svgs/FilterSvg';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 
-const ProductSection = ({ data, category }) => {
+const ProductSection = ({ menu,data, category }) => {
     const [isFilter, setIsFilter] = useState(false);
     const handleCloseFilter = () => {
         setIsFilter(false);
@@ -136,7 +136,7 @@ const ProductSection = ({ data, category }) => {
                     <FilterSvg /> Filters
                 </button>
                 {/* End FIlter Button */}
-                <ProductType productstype={productstype} onClose={handleCloseFilter} isFilter={isFilter} />
+                <ProductType productstype={menu} onClose={handleCloseFilter} isFilter={isFilter} />
 
                 <div className='w-full h-full flex flex-col gap-60px'>
                     {/* Cosmatic Rating */}

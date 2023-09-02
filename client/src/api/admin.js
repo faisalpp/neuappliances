@@ -121,6 +121,16 @@ export const updateSectionItem = async (data) => {
     }
     return response;
 }
+export const updateSectionItemsIndex = async (data) => {
+    let response;
+
+    try{
+        response = await AdminApi.post('/api/admin/update-section-item-index',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 
 export const deleteSectionItem = async (data) => {
     let response;

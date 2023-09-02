@@ -306,6 +306,38 @@ const sectionController = {
             }
         },
 
+        async UpdateSectionItems(req,res,next){
+    
+          // 1. validate user input
+          const sectionRegisterSchema = Joi.object({
+              sectionItems: Joi.array().required(),
+            });
+            const { error } = sectionRegisterSchema.validate(req.body);
+        
+            // 2. if error in validation -> return error via middleware
+            if (error) {
+              return next(error)
+            }
+      
+            const {sectionItems} = req.body;
+            //  console.log(sectionItems)
+             // Create an array of update operations
+             const updateOperations = sectionItems.map(({ _id, index }) => ({
+               updateOne: {
+                   filter: { _id },
+                   update: { $set: { index } }
+               }
+             }));
+             // Execute the bulk update operation
+             try{
+               const update  = await sectionItem.bulkWrite(updateOperations)
+               return res.status(200).json({status:200,msg:'Section Items Position Updated!'});
+             }catch(err){
+               const error = {status:500,messge:"Internal Server Error!"}
+                 return next(error)
+             }
+          },
+
         async DeleteSectionItem(req, res, next) {
           const blogSchema = Joi.object({
               id: Joi.string().required(),
@@ -343,7 +375,7 @@ const sectionController = {
       async GetSectionItems(req,res,next){
         const {sectionId} = req.body;
         try{
-          const sectionItems = await sectionItem.find({sectionId: sectionId});
+          const sectionItems = await sectionItem.find({sectionId: sectionId}).sort({ index: 1 });
           return res.status(200).json({status:200,sectionItems});
         }catch(error){
           return next(error)
@@ -366,7 +398,7 @@ const sectionController = {
       const {sectionId} = req.body;
   
       try{
-        const section = await categorySection.find({_id:sectionId});
+        const section = await categorySection.find({_id:sectionId}).sort({ index: 1 });
 
           return res.status(200).json({status:200,section:section});
         }catch(error){
@@ -377,7 +409,7 @@ const sectionController = {
       const {sectionItemId} = req.body;
       
       try{
-        const item = await sectionItem.find({_id:sectionItemId});
+        const item = await sectionItem.find({_id:sectionItemId}).sort({ index: 1 });
 
           return res.status(200).json({status:200,sectionItem:item});
         }catch(error){
