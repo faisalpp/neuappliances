@@ -11,7 +11,6 @@ const ProductSection = ({ productstype, onClose, isFilter }) => {
 
     const CosRatingMenu = ({ menu,k }) => (
         <ul className='flex flex-col gap-3'>
-            {/* {console.log(menu['Cosmetic Ratings'])} */}
              {k ? menu[k].map((item, index) => (
                 <li key={index} >
                      <Link to={item.link} className='text-sm text-b22'>{item.name}</Link>

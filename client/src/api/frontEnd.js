@@ -92,6 +92,16 @@ export const getAppliancesFilters = async () => {
     }
     return response;
 }
+export const searchAppliance = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/search-appliance',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const getGalleryImages = async (params) => {
     let response;
 

@@ -122,7 +122,7 @@ function App() {
         <Route path="/product/:slug" element={<Product />} />
         <Route path="/appliances/:categorySlug" element={<Appliances />} />
         {/* Appliances Filters */}
-        <Route path="/appliances/:category/:type/:value" element={<Products />} />
+        <Route path="/appliances" element={<Products />} />
 
         <Route path="/appliancetypes" element={<ApplianceTypes />} />
         <Route path="/faqs" element={<GeneralFaqs />} />

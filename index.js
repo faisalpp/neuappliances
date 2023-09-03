@@ -26,10 +26,11 @@ app.use(cors(corsOptions))
 
 app.use(router);
 
-app.use('/storage', express.static(path.join(__dirname + '/storage')));
+// app.use('/storage', express.static(path.join(__dirname + '/storage')));
 if(process.env.NODE_ENV === "production"){
   app.use(express.static(path.join(__dirname,"client/build")))
   app.use("*", (req,res) => {
+    console.log(req)
     res.sendFile(path.resolve(__dirname,'client','build','index.html'),function (err){res.status(500).send(err)});
   })
 }

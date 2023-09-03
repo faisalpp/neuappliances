@@ -43,13 +43,13 @@ const ConstructMenu = () => {
     item.sectionItemsId.filter(i=>{
      if(i.rating){
       const name = `${i.rating} Stars ${catTitle}`
-      const link = `/products/?category=${catTitle.toLowerCase().replace(/\s/g,'-')}&rating=${i.rating}`
+      const link = `/appliances/?category=${catTitle.toLowerCase().replace(/\s/g,'-')}&rating=${i.rating}`
       let item = {name:name,link:link}
       menuItem.push(item)
       
      }else{
       const name = `${i.title}`
-      const link = `/products/?category=${catTitle.toLowerCase().replace(/\s/g,'-')}&${cardType}=${i.title.toLowerCase().replace(/\s/g,'-')}`
+      const link = `/appliances/?category=${catTitle.toLowerCase().replace(/\s/g,'-')}&${cardType}=${i.title.toLowerCase().replace(/\s/g,'-')}`
       let item = {name:name,link:link}
       menuItem.push(item)
      }
@@ -60,8 +60,6 @@ const ConstructMenu = () => {
   setMenu(menuItems)
 })
 }
-
-// [ { "title":[] } ]
   
 useEffect(()=>{
     ConstructMenu()

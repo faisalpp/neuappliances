@@ -3,7 +3,6 @@ import React from 'react'
 import NavBarLink from './NavBarLink'
 
 const NavDropDown = ({ title, links, icon, bold }) => {
-  console.log(links)
   return (
     <Menu as="div" className="relative" >
       <Menu.Button className='flex items-center text-xs text-white/80 cursor-pointer hover:text-b6 w-max' >{title}{icon}</Menu.Button>
