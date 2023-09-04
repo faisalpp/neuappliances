@@ -6,13 +6,11 @@ import MainLayout from '../layout/MainLayout';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { FaBars } from 'react-icons/fa';
 import { BsGrid, BsChevronDown } from 'react-icons/bs';
-import { useParams } from 'react-router-dom';
+import { useParams,useLocation } from 'react-router-dom';
 import { GetAppliancesByFilter, getAppliancesFilters } from '../api/frontEnd'
 import Loader from '../components/Loader/Loader'
 
 const Products = () => {
-
-  const { category, type, value } = useParams()
 
   const [categoriesFilters, setCategoriesFilters] = useState([])
   const [ratingFilters, setRatingFilters] = useState([])
@@ -21,15 +19,34 @@ const Products = () => {
   const [isFilter, setIsFilter] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const location = useLocation();
+  const [params,setParams] = useState({})
+
+  useEffect(() => {
+    // Create a URLSearchParams object from the query string
+    const queryParams = new URLSearchParams(location.search);
+
+    // Create an object to store the query parameters
+    const queryParamsObject = {};
+
+    // Iterate through the query parameters and store them in the object
+    for (const [key, value] of queryParams.entries()) {
+      queryParamsObject[key] = value;
+    }
+    console.log(queryParamsObject)
+    setParams(queryParamsObject)
+    
+
+  }, []);
+
+
   useEffect(() => {
     getAppliancesByFilter()
-  }, [])
+  }, [params])
 
   const getAppliancesByFilter = async () => {
-    const data = { category, type, value }
     setLoading(true)
-    const res = await GetAppliancesByFilter(data)
-    console.log(res)
+    const res = await GetAppliancesByFilter(params)
     if (res.status === 200) {
       setProducts(res.data.products)
       setLoading(false)

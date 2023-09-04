@@ -55,39 +55,45 @@ const applianceController = {
       }      
     },
     async GetApplianceBySectionType(req,res,next){
-      const {category,type,value} = req.body;
-      const query = {category}
+      console.log(req.body)
+      let query = {};
+      query.category = req.body.category
+      // Get the keys of the object as an array
+      const keys = Object.keys(req.body);
+      const name = keys[1];
+      switch(name){
+        case 'rating':
+         query.rating = parseInt(req.body[name]);
+        break;
+        case 'features':
+         query.feature = req.body[name];
+        break;
+        case 'types':
+         query.type = req.body[name];
+        break;
+        case 'finishes-and-colors':
+         query.color = req.body[name];
+        break;
+        case 'brands':
+         query.brand = req.body[name];
+        break;
+        case 'fuel-types':
+         query.fuelType = req.body[name];
+        break;
+      }
+
+      console.log(query)
+
       try{
-
-        switch(type){
-          case 'cosmatic-rating':
-           query.rating = value;
-           break;
-          case 'types':
-            query.type = value;
-            break
-          case 'features':
-            query.feature = value;
-            break;
-          case 'brands':
-            query.brand = value;
-            break
-          case 'colors':
-            query.color = value;
-            break
-          case 'fuel-type':
-            query.fuelType = value;
-            break
-        }
-
-        
         const products = await Product.find(query);
         return res.status(200).json({status:200,products:products});
         
       }catch(error){
         return next(error)
       }      
+           
     },
+
     async GetAppliancesFilters(req,res,next){
       let categoryFilters;
       let ratingFilters;
@@ -130,6 +136,11 @@ const applianceController = {
       }
 
     },
+
+    async SearchAppliance(req,res,next){
+      return res.status(200).json({status:200,appliances:req.body.query});
+    },
+
 }
 
 module.exports = applianceController

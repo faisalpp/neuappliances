@@ -164,6 +164,8 @@ router.get('/api/get-navbar-appliances',applianceController.GetNavbarAppliances)
 router.post('/api/appliance-sections',applianceController.GetApplianceSections);
 // Get All Filters Information for Products Page
 router.get('/api/get-appliances-filters',applianceController.GetAppliancesFilters);
+// Search Product
+router.post('/api/search-appliance',applianceController.SearchAppliance);
 
 
 
