@@ -7,13 +7,24 @@ const SavedAddress = () => {
     return (
         <>
             <MyAccount>
-                <div className='flex flex-col gap-10 [&>hr:last-child]:hidden'>
-                    <EditSavedAddress />
-                    <EditSavedAddress />
-                </div>
+                <SavedAddressData />
             </MyAccount>
         </>
     )
 }
 
 export default SavedAddress
+
+
+const SavedAddressData = () => {
+    return (
+        <>
+            <div className='flex flex-col gap-10 [&>hr:last-child]:hidden'>
+                <EditSavedAddress />
+                <EditSavedAddress />
+            </div>
+        </>
+    )
+}
+
+export { SavedAddressData };

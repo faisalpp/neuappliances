@@ -17,6 +17,7 @@ import ApplianceRepair from './pages/ApplianceRepair';
 import MeasuringGuide from './pages/MeasuringGuide';
 import HelpfulApliancesTips from './pages/HelpfulApliancesTips';
 import AppliancesTipsDetail from './pages/AppliancesTipsDetail';
+import MobileMyAccount from './pages/MyAccount/MobileMyAccount';
 import Profile from './pages/MyAccount/Profile';
 import OrderHistory from './pages/MyAccount/OrderHistory';
 import MyFavourite from './pages/MyAccount/MyFavourite';
@@ -137,7 +138,9 @@ function App() {
         {/* Blogs */}
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/blog/:slug" element={<BlogArticle />} />
-
+        {/* For Mobile My Account*/}
+        <Route path="/my-account" element={<ProtectedUser><MobileMyAccount /></ProtectedUser>} />
+        {/* For Desktop My Account */}
         <Route path="/my-account/profile" element={<ProtectedUser><Profile /></ProtectedUser>} />
         <Route path="/my-account/order-history" element={<ProtectedUser><OrderHistory /></ProtectedUser>} />
         <Route path="/my-account/my-favourites" element={<ProtectedUser><MyFavourite /></ProtectedUser>} />

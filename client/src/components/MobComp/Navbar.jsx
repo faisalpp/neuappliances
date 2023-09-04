@@ -1,11 +1,11 @@
-import { AiOutlineShoppingCart, AiOutlineLogin, AiOutlineLogout, AiFillHome, AiFillGift } from 'react-icons/ai';
+import { AiOutlineShoppingCart, AiOutlineLogin, AiOutlineLogout, AiFillHome, AiFillGift, AiOutlineSearch } from 'react-icons/ai';
 import { IoMenu, IoCloseOutline } from 'react-icons/io5';
 import { CgSmartHomeWashMachine } from 'react-icons/cg';
 import { FaBandcamp } from 'react-icons/fa'
 import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri'
 import { GiReceiveMoney } from 'react-icons/gi'
 import { BsFillChatSquareHeartFill } from 'react-icons/bs'
-import { BiUserCircle } from 'react-icons/bi';
+import { BiSolidUserCircle, BiUserCircle } from 'react-icons/bi';
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { showSCart, hideSCart } from '../../store/cartSlice'
@@ -24,12 +24,14 @@ const Navbar = () => {
   return (
     <>
       <div className='lg:hidden flex justify-between bg-b1 text-white py-4 px-4 md:px-10' >
-        <img src="/neu.png" className='w-32' alt='neuappliance' />
-        {/* <div className='col-start-5 col-end-9 flex items-center bg-white h-10 px-2 rounded-lg space-x-2 w-full ' ><AiOutlineSearch className='text-black' /><input type="text" placeholder='Search for appliances' className="w-full text-[10px] text-black outline-none" /></div> */}
-        <div className='space-x-4 flex items-center justify-end' >
-          <div onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='relative items-center px-2 bg-b2 py-2 h-fit w-fit rounded-full text-white' ><AiOutlineShoppingCart /><span className='absolute -top-2 ml-2 bg-b3 rounded-full text-[8px] py-[3px] px-[7px] text-center' >2</span></div>
-          {/* <div className='flex items-center px-2 py-2 bg-b2 h-fit w-fit rounded-full text-white' ><BiUserCircle /></div>   */}
-          {mobMenu ? <div onClick={() => setMobMenu(false)} className='flex items-center px-2 py-2 bg-b2 h-fit w-fit rounded-full text-white' ><IoCloseOutline className='text-white' /></div> : <div onClick={() => setMobMenu(true)} className='flex items-center px-2 py-2 bg-b2 h-fit w-fit rounded-full text-white' ><IoMenu /></div>}
+        <div className='flex gap-4 items-center'>
+          {mobMenu ? <div onClick={() => setMobMenu(false)} className='flex items-center h-6 w-6 rounded-full text-white' ><IoCloseOutline className='text-white' /></div> : <div onClick={() => setMobMenu(true)} className='flex items-center h-6 w-6 rounded-full text-white' ><IoMenu className='w-6 h-6' /></div>}
+          <img src="/neu.png" className='w-32' alt='neuappliance' />
+        </div>
+        <div className='gap-8 flex items-center justify-end' >
+          <AiOutlineSearch className='w-6 h-6' />
+          <div onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='relative items-center h-6 w-6 rounded-full text-white' ><AiOutlineShoppingCart className='h-6 w-6' /><span className='absolute -top-2 ml-3 bg-b3 rounded-full text-[8px] py-[3px] px-[7px] text-center' >2</span></div>
+          <NavLink to="/my-account" className='flex items-center bg-b2 h-6 w-6 rounded-full text-white' ><BiUserCircle className='w-6 h-6' /></NavLink>
         </div>
       </div>
 

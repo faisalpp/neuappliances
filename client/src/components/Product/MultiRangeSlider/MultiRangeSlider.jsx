@@ -95,8 +95,12 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
                 <div className="slider">
                     <div className="slider__track" />
                     <div ref={range} className="slider__range" />
-                    <div className="slider__left-value">{min}</div>
-                    <div className="slider__right-value">{max}</div>
+                    <div className="flex justify-between absolute left-1 right-1 top-4 text-xs">
+                        <div className="">{min}</div>
+                        <div className="">99</div>
+                        <div className="">999</div>
+                        <div className="">{max}</div>
+                    </div>
                 </div>
             </div>
         </DropDown>

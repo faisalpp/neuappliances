@@ -7,8 +7,9 @@ import { BsChevronDown } from 'react-icons/bs';
 import { Link, NavLink } from 'react-router-dom';
 import FilterSvg from '../../svgs/FilterSvg';
 import { AiOutlineArrowRight } from 'react-icons/ai';
+import CarotSvg from '../../svgs/CarotSvg';
 
-const ProductSection = ({ menu,data, category }) => {
+const ProductSection = ({ menu, data, category }) => {
     const [isFilter, setIsFilter] = useState(false);
     const handleCloseFilter = () => {
         setIsFilter(false);
@@ -132,9 +133,14 @@ const ProductSection = ({ menu,data, category }) => {
         <div>
             <div className='flex maxlg:flex-col h-full justify-center gap-4 lg:gap-8 py-10 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px 3xl:pr-120px 3xl:pl-[88px] mx-auto' >
                 {/* FIlter Button For Mobile Screen */}
-                <button className='ml-auto w-full justify-center border border-b3 px-3 py-3 text-sm font-semibold rounded-lg flex gap-2 items-center lg:hidden' onClick={() => setIsFilter(true)}>
-                    <FilterSvg /> Filters
-                </button>
+                <div className='flex gap-2 items-center'>
+                    <button className='ml-auto w-full justify-center border border-b3 px-3 py-3 text-sm font-semibold rounded-lg flex gap-2 items-center lg:hidden' onClick={() => setIsFilter(true)}>
+                        All Categories <CarotSvg />
+                    </button>
+                    <button className='ml-auto w-full justify-center border border-b3 px-3 py-3 text-sm font-semibold rounded-lg flex gap-2 items-center lg:hidden' onClick={() => setIsFilter(true)}>
+                        <FilterSvg /> Filters
+                    </button>
+                </div>
                 {/* End FIlter Button */}
                 <ProductType productstype={menu} onClose={handleCloseFilter} isFilter={isFilter} />
 

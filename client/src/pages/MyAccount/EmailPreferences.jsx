@@ -7,13 +7,24 @@ const EmailPreferences = () => {
     return (
         <>
             <MyAccount>
-                <div className='flex flex-col gap-10 [&>hr:last-child]:hidden'>
-                    <EmailPreferenceData title="Deals & Offers" />
-                    <EmailPreferenceData title="Newsletter" />
-                </div>
+                <EmailPreferencesData />
             </MyAccount>
         </>
     )
 }
 
 export default EmailPreferences
+
+
+const EmailPreferencesData = () => {
+    return (
+        <>
+            <div className='flex flex-col gap-10 [&>hr:last-child]:hidden'>
+                <EmailPreferenceData title="Deals & Offers" />
+                <EmailPreferenceData title="Newsletter" />
+            </div>
+        </>
+    )
+}
+
+export { EmailPreferencesData };

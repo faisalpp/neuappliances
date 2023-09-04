@@ -7,10 +7,19 @@ const OrderHistory = () => {
     return (
         <>
             <MyAccount>
-
+                <OrderHistoryData />
             </MyAccount>
         </>
     )
 }
 
 export default OrderHistory
+
+
+const OrderHistoryData = () => {
+    return (
+        <></>
+    )
+}
+
+export { OrderHistoryData };
