@@ -21,7 +21,7 @@ const ProductTable = ({data}) => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item)=><ProductRow img={import.meta.env.VITE_APP_DEV ? `${import.meta.env.VITE_APP_INTERNAL_PATH}/${item.images[0]}`:`${item.images[0]}`} title={item.title} salePrice={item.salePrice} regularPrice={item.regularPrice} rating={item.rating} />)}
+            {data.map((item)=><ProductRow img={item.images[0]} title={item.title} salePrice={item.salePrice} regularPrice={item.regularPrice} rating={item.rating} />)}
           </tbody>
         </table>
       </div>

@@ -26,8 +26,8 @@ app.use(cors(corsOptions))
 
 app.use(router);
 
-// app.use('/storage', express.static(path.join(__dirname + '/storage')));
 if(process.env.NODE_ENV === "production"){
+  app.use('/storage', express.static(path.join(__dirname + '/storage')));
   app.use(express.static(path.join(__dirname,"client/build")))
   app.use("*", (req,res) => {
     console.log(req)
