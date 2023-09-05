@@ -1,7 +1,7 @@
 import {lazy,Suspense} from 'react'
 import { Routes, Route, useNavigate } from "react-router-dom";
 
-const Home = lazy(() => import('./pages/Home'));
+import Home from "./pages/Home"
 const Landing = lazy(() => import('./pages/Landing'));
 const Register = lazy(() => import('./pages/Register'));
 const Products = lazy(() => import('./pages/Products'));
