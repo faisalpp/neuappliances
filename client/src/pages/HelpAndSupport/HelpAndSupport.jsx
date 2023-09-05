@@ -106,7 +106,7 @@ const HelpAndSupport = () => {
                             </div>
                                 :
                                 <div className='flex mt-10 justify-center w-full h-full' >
-                                    <img src="/not-found.png" className='w-36 h-36' />
+                                    <img src="/not-found.webp" className='w-36 h-36' />
                                 </div>
                             }
                         </div>}

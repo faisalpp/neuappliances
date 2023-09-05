@@ -28,7 +28,7 @@ const GetScoop = () => {
                         </p>
                     </div>
                     <div>
-                        <img src="refrigrator&freeezer.png" className='h-auto sm:h-[502.857px] w-full' alt="" />
+                        <img src="refrigrator&freeezer.webp" className='h-auto sm:h-[502.857px] w-full' alt="" />
                     </div>
                     <div className='flex flex-col gap-4 sm:gap-6 w-full'>
                         <h2 className='text-2xl font-bold'>3. Double Check The Refrigerator Ice Maker Is Turned On</h2>
@@ -54,7 +54,7 @@ const GetScoop = () => {
                         </p>
                     </div>
                     <div>
-                        <img src="cleanthecondenser.png" className='h-auto sm:h-[502.857px] w-full' alt="" />
+                        <img src="cleanthecondenser.webp" className='h-auto sm:h-[502.857px] w-full' alt="" />
                     </div>
                     <div className='flex flex-col gap-4 sm:gap-6 w-full'>
                         <h2 className='text-2xl font-bold'>5. Purge Your Water System Before Use</h2>

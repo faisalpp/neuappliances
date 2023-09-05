@@ -11,10 +11,10 @@ const HassleFree = () => {
             <div className='flex flex-col items-center py-10 px-4 md:px-10 lg:py-14 xl:py-28 2xl:p-10 2xl:!pt-[70px]' >
                 <div className='grid grid-cols-1 gap-60px'>
                     <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
-                        <MapCards icon="pickup-shield-security.png" title="Pickup Available" description="Need it instantly? We offer pickup! Our team will help you load it up!" />
-                        <MapCards icon="airport_shuttle.png" title="Fast Delivery" description="Our delivery and installation teams are fast and efficient providing you quick options for delivery" />
-                        <MapCards icon="home_pin.png" title="Serving The Greater Austin, TX Area" description="We offer our delivery and installation services through the Greater Austin,Tx area and Central Tx. Enter your zip code to check if we deliver to your area. (same as home page with the map etc)" />
-                        <MapCards icon="schedule.png" title="Delivery Times and Updates" description="Getting an appliance delivered has never been so easy! Don’t wait around all day, we offer Narrow delivery windows and updates as our team gets closer. Go about your day and we will keep you in the loop!" />
+                        <MapCards icon="pickup-shield-security.webp" title="Pickup Available" description="Need it instantly? We offer pickup! Our team will help you load it up!" />
+                        <MapCards icon="airport_shuttle.webp" title="Fast Delivery" description="Our delivery and installation teams are fast and efficient providing you quick options for delivery" />
+                        <MapCards icon="home_pin.webp" title="Serving The Greater Austin, TX Area" description="We offer our delivery and installation services through the Greater Austin,Tx area and Central Tx. Enter your zip code to check if we deliver to your area. (same as home page with the map etc)" />
+                        <MapCards icon="schedule.webp" title="Delivery Times and Updates" description="Getting an appliance delivered has never been so easy! Don’t wait around all day, we offer Narrow delivery windows and updates as our team gets closer. Go about your day and we will keep you in the loop!" />
                     </div>
 
                     <SatisfiedSection apiSectionName="how-it-works-1st-section-review-(hassle-free-tab)" title="Our Customers Love Being Able to Shop For Scratch and Dent Appliances From Home" SectionStyle="[&>h4]:2xl:!text-4xl [&>h4]:2xl:!leading-[44px] !p-0 !max-w-full" />

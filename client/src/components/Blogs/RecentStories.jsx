@@ -19,7 +19,7 @@ const RecentStories = ({ load, data, LoadMore }) => {
                 </div>
                 <div className='flex justify-center'>
                     <button type="button" onClick={LoadMore} className='px-4 py-3 rounded-lg border bg-b3 text-white border-b3 hover:bg-white hover:text-b3 font-medium duration-300 text-xs'>{load ? <img src="loader-bg.gif" className='w-5 h-5' /> : 'Read More'}</button>
-                </div></> : <div className='w-full flex justify-center' ><img src="/not-found.png" className='w-32' /></div>}
+                </div></> : <div className='w-full flex justify-center' ><img src="/not-found.webp" className='w-32' /></div>}
         </div>
     )
 }

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const GetScoop = () => {
     return (
         <div className='relative py-12 lg:py-16 xl:py-20 2xl:py-120px w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
-            <img src="insidescoop.png" alt="insidescoop" className='-z-10 absolute top-0 left-0 right-0 bottom-0 w-full h-full' />
+            <img src="insidescoop.webp" alt="insidescoop" className='-z-10 absolute top-0 left-0 right-0 bottom-0 w-full h-full' />
             <h2 className='text-white font-bold mb-10 lg:mb-16 xl:mb-20 text-2xl xl:text-3xl 2xl:text-32px text-center'>
                 Get the Inside Scoop
             </h2>
@@ -37,32 +37,32 @@ export default GetScoop
 
 const ScoopCards = [
     {
-        image: 'refrigrator.png',
+        image: 'refrigrator.webp',
         title: 'Refrigerators & Freezers',
         tips: 8,
     },
     {
-        image: 'dryers.png',
+        image: 'dryers.webp',
         title: 'Dryers',
         tips: 8,
     },
     {
-        image: 'gasstoves.png',
+        image: 'gasstoves.webp',
         title: 'Gas Stoves',
         tips: 8,
     },
     {
-        image: 'refrigrator.png',
+        image: 'refrigrator.webp',
         title: 'Refrigerators & Freezers',
         tips: 8,
     },
     {
-        image: 'p1.png',
+        image: 'p1.webp',
         title: 'Washing Machines',
         tips: 8,
     },
     {
-        image: 'dryers.png',
+        image: 'dryers.webp',
         title: 'Dryers',
         tips: 8,
     },

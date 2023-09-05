@@ -12,7 +12,7 @@ const Washer = () => {
             <div className='py-6 pr-7 2xl:pr-12 bg-white border-[1px] border-b3 rounded-xl w-full' >
                 <div className='flex flex-col 2xl:flex-row gap-4 items-start w-full'>
                     <div className='max-w-[195px] w-full h-[209px]'>
-                        <img src='/p1.png' className='w-full h-full object-contain' alt='' />
+                        <img src='/p1.webp' className='w-full h-full object-contain' alt='' />
                     </div>
                     <div className='grid grid-cols-1 pl-7 2xl:p-0 gap-4 w-full' >
                         <p className='font-semibold line-clamp-1 leading-5 mb-2' >White GE 1.7 cu. ft. Over the Range Microwave with Convenience Cooking Controls for long text</p>

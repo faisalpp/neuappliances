@@ -16,7 +16,7 @@ import { Menu } from '@headlessui/react'
 import { AdminSignout } from '../../../api/admin/auth';
 import { Signout } from '../../../api/user/auth';
 import { showSCart, hideSCart } from '../../../store/cartSlice'
-import {getNabarAppliances,searchAppliance} from '../../../api/frontEnd'
+import { getNabarAppliances, searchAppliance } from '../../../api/frontEnd'
 
 const Navbar = () => {
   const [megMenu, setMegMenu] = useState(false);
@@ -118,31 +118,31 @@ const Navbar = () => {
 
   const [applianceTypes, setApplianceTypes] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
-      const getAppliances = async () => {
-          const res = await getNabarAppliances();
-          if (res.status === 200) {
-              let data = [];
-              if(res.data.categories.length > 0){
-                const filt = await res.data.categories.map((item)=> data.push({name:item.title,url:'/'+item.slug}) )
-                setApplianceTypes([...data,{ name: 'View All Categories',url: '/applianceTypes' }]);
-              }
-              setLoading(false)
-          } else {
-            setApplianceTypes([])
-          }
+    const getAppliances = async () => {
+      const res = await getNabarAppliances();
+      if (res.status === 200) {
+        let data = [];
+        if (res.data.categories.length > 0) {
+          const filt = await res.data.categories.map((item) => data.push({ name: item.title, url: '/' + item.slug }))
+          setApplianceTypes([...data, { name: 'View All Categories', url: '/applianceTypes' }]);
+        }
+        setLoading(false)
+      } else {
+        setApplianceTypes([])
       }
-      getAppliances();
+    }
+    getAppliances();
   }, [])
 
-  const [search,setSearch] = useState('')
+  const [search, setSearch] = useState('')
 
   const handleEnterKey = async (e) => {
-     if(e.key === 'Enter'){
-      const res = await searchAppliance({query:search});
+    if (e.key === 'Enter') {
+      const res = await searchAppliance({ query: search });
       console.log(res)
-     }
+    }
   }
 
 
@@ -153,15 +153,15 @@ const Navbar = () => {
         <div className="hidden lg:block py-5">
           <div className='lg:grid grid-cols-12 items-center 3xl:max-w-1680px px-16 xl:px-20 2xl:px-120px mx-auto w-full'>
             <NavLink to="/">
-              <img className='col-start-1 col-end-3' src="/neu.png" alt="logo" />
+              <img className='col-start-1 col-end-3' src="/neu.webp" alt="logo" />
             </NavLink>
             {/* Search Start */}
             <div className='col-start-4 col-end-8 flex items-center bg-white h-10 px-2 rounded-lg space-x-2 w-full ' >
               <AiOutlineSearch className='text-black' />
-              <input type="text" value={search} onKeyDown={e=>handleEnterKey(e)} onChange={e=>setSearch(e.target.value)} placeholder='Search for appliances' className="w-full text-xs outline-none" />
+              <input type="text" value={search} onKeyDown={e => handleEnterKey(e)} onChange={e => setSearch(e.target.value)} placeholder='Search for appliances' className="w-full text-xs outline-none" />
             </div>
             {/* Search End */}
-            
+
             <div className='col-start-9 col-end-13 flex justify-end space-x-2 w-full' >
               <div onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><AiOutlineShoppingCart /><span className='ml-2 font-medium text-xs' >Cart</span><span className='ml-2 bg-b3 rounded-full text-xs h-4 w-4 text-center' >{cartCount}</span></div>
 

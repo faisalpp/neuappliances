@@ -5,25 +5,25 @@ import ProductSlider from '../ProductSlider'
 const CosmatingRatingSlider = ({ title, dicount, type, stars, discount, codmetics }) => {
     const products = [
         {
-            image: '/p1.png',
+            image: '/p1.webp',
         },
         {
-            image: '/p1.png',
+            image: '/p1.webp',
         },
         {
-            image: '/p1.png',
+            image: '/p1.webp',
         },
         {
-            image: '/p1.png',
+            image: '/p1.webp',
         },
         {
-            image: '/p1.png',
+            image: '/p1.webp',
         },
         {
-            image: '/p1.png',
+            image: '/p1.webp',
         },
         {
-            image: '/p1.png',
+            image: '/p1.webp',
         },
     ];
     const StarIconPrinter = ({ numberOfTimes }) => {
@@ -36,8 +36,8 @@ const CosmatingRatingSlider = ({ title, dicount, type, stars, discount, codmetic
     return (
         <div className='flex flex-col maxmd:max-w-[330px] relative maxmd:mx-auto bg-white border border-b14 w-full h-auto rounded-2xl p-4 sm:p-6 md:p-8 lg:p-6' >
             {type === 1 ? <div className='absolute top-0 left-2 flex items-center bg-b9 w-fit px-3 rounded-b-2xl ml-2 justify-center h-6 gap-x-2 text-white' ><AiOutlineDollar /><span className='text-xs' >Best Value</span></div> : null}
-            {type === 2 ? <div className='absolute top-0 left-2  flex items-center bg-b3 w-fit px-3 rounded-b-2xl ml-2 justify-center h-7 gap-x-2 text-white' ><img src="/svgs/local_fire_department.png" alt="" /> <span className='text-xs' >Most Popular</span></div> : null}
-            {type === 3 ? <div className='absolute top-0 left-2  flex items-center bg-b7 w-fit rounded-b-2xl ml-2 justify-center px-3 h-7 gap-x-2 text-white' ><img src="/svgs/star_rate_half.png" alt="star_rate_half" /> <span className='text-xs' >Premium Condition</span></div> : null}
+            {type === 2 ? <div className='absolute top-0 left-2  flex items-center bg-b3 w-fit px-3 rounded-b-2xl ml-2 justify-center h-7 gap-x-2 text-white' ><img src="/svgs/local_fire_department.webp" alt="" /> <span className='text-xs' >Most Popular</span></div> : null}
+            {type === 3 ? <div className='absolute top-0 left-2  flex items-center bg-b7 w-fit rounded-b-2xl ml-2 justify-center px-3 h-7 gap-x-2 text-white' ><img src="/svgs/star_rate_half.webp" alt="star_rate_half" /> <span className='text-xs' >Premium Condition</span></div> : null}
             <div className='flex flex-col items-center justify-center mt-4 w-full pb-4' >
                 <div className='flex justify-center items-center text-center gap-x-1 text-sm sm:text-base xl:text-[22px]' ><h4 className='font-bold' >{title}:</h4><span className='font-semibold' >{stars} Stars</span></div>
                 <div className='flex gap-x-3' ><StarIconPrinter numberOfTimes={stars} /></div>
@@ -73,7 +73,7 @@ const CosmatingRatingSlider = ({ title, dicount, type, stars, discount, codmetic
                             <div className='flex gap-x-1 items-center text-sm' ><span>Open Box / Scratch & Dent</span></div>
                             <div className='flex gap-x-1 items-center text-sm' ><AiOutlineCheckCircle className='text-b6' /><h4>100%</h4></div>
                             <div className='flex gap-x-1 items-center text-sm' ><AiOutlineCheckCircle className='text-b6' /><h4>Passed</h4></div>
-                            <div className='flex gap-x-1 items-center text-sm' ><img src="/nueshield.png" className='w-4 h-4' alt="nueshield" /><span>1 Year Warranty</span></div>
+                            <div className='flex gap-x-1 items-center text-sm' ><img src="/nueshield.webp" className='w-4 h-4' alt="nueshield" /><span>1 Year Warranty</span></div>
                         </div>
                     </div>
                     <div className='mt-6 p-4 rounded-3xl border border-[rgba(34,166,171,0.50)] bg-[rgba(34,166,171,0.10)]'>

@@ -15,7 +15,7 @@ const ProductCard = ({ sliderstyle, stars }) => {
             <div className={`relative flex maxmd:max-w-[267px] maxmd:mx-auto flex-col border border-b14 rounded-2xl bg-white overflow-hidden`} >
                 <span className='absolute top-0 right-0 bg-b4 rounded-2xl mt-2 mr-1 px-4 py-2 text-xs font-bold z-20' >50% Off</span>
                 <div className='flex w-full justify-center xl:px-5 lg:px-5 px-3 pt-10' >
-                    <img src="/p1.png" className=' xl:w-54 lg:w-52 w-[160px] h-full' alt='refrigrator' />
+                    <img src="/p1.webp" className=' xl:w-54 lg:w-52 w-[160px] h-full' alt='refrigrator' />
                 </div>
                 {/* Remove Item */}
                 <button type="button" className='absolute top-3 left-4 h-7 w-7 md:w-10 md:h-10 rounded-full bg-b3 flex justify-center items-center'>

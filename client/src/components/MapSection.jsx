@@ -11,7 +11,7 @@ const MapSection = () => {
     <>
       <h4 className='font-bold text-center text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl mt-10 lg:mt-14 xl:mt-20' >Neu Local Delivery Area</h4>
       <div className='relative py-10 lg:py-14 xl:py-20 w-full h-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
-        <img src="/free.png" className='absolute z-40 xl:top-0 xl:w-52 xl:right-10 lg:w-36 w-20 lg:top-5 top-10 right-0 lg:right-8' />
+        <img src="/free.webp" className='absolute z-40 xl:top-0 xl:w-52 xl:right-10 lg:w-36 w-20 lg:top-5 top-10 right-0 lg:right-8' />
 
         {/* Map Section End */}
         <DeliveryMap customStyle="flex flex-col lg:grid grid-cols-3 3xl:grid-cols-4 items-center [&>#map]:col-span-2 [&>#map]:3xl:col-span-3" />

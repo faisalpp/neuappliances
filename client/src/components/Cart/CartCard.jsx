@@ -12,7 +12,7 @@ const CartCard = () => {
     return (
         <div className='relative grid grid-cols-1 md:grid-cols-[160px_1fr] gap-5 3xl:gap-10 p-4 sm:p-6 rounded-2xl border border-[0px_10px_60px_0px_rgba(0,0,0,0.10)] shadow-[0px_10px_60px_0px_rgba(0,0,0,0.10)]'>
             <div>
-                <img src="/cart/mycart.png" className='w-40 h-40' alt="" />
+                <img src="/cart/mycart.webp" className='w-40 h-40' alt="" />
             </div>
             <div className='flex items-start gap-2'>
                 <div className='flex flex-col gap-4'>

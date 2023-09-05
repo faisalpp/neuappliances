@@ -6,7 +6,7 @@ const RepairWork = () => {
             <div className='py-10 lg:py-16 xl:py-20 2xl:py-[144px] w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
                 <div className='bg-b3 rounded-3xl px-6 py-8 md:p-16 flex maxlg:flex-col gap-10 2xl:gap-16'>
                     <div className='maxmd:w-[241px] mx-auto lg:min-w-[320px] lg:h-[320px] xl:min-w-[352px] xl:h-[352px]'>
-                        <img src="appliance/appliancework.png" alt="" />
+                        <img src="appliance/appliancework.webp" alt="" />
                     </div>
                     <div>
                         <div className='rounded-3xl bg-[#18B5BA] px-4 py-6 md:p-7 sm:p-11 3xl:px-16 3xl:py-60px'>

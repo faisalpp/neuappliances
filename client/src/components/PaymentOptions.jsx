@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PaymentOptions = ({item}) => {
+const PaymentOptions = ({ item }) => {
   return (
     <div className='grid grid-cols-1 lg:grid-cols-2 items-center gap-5 justify-center w-full' >
       <div className='h-full flex justify-center lg:justify-end'>
@@ -36,7 +36,7 @@ const PaymentOptions = ({item}) => {
                 Powered by
               </span>
             </div>
-            <img src="/affirm.png" alt="affirm" className='w-[70px]' />
+            <img src="/affirm.webp" alt="affirm" className='w-[70px]' />
           </div>
           <div className='flex flex-col gap-5' >
             <p className='text-xs text-center text-b15 font-medium' >Vestibulum habitant hac sollicitudin convallis hendrerit. In pretium eget amet nibh vulputate felis vitae neque aliquam. Nibh nam varius ut.</p>

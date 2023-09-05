@@ -27,7 +27,7 @@ const OtherProductCard = ({ rating }) => {
           <StarIconPrinter numberOfTimes={rating} />
         </div>
         <div className='flex w-full justify-center my-3 items-center' >
-          <img src="/p1.png" className='w-28' alt='product' />
+          <img src="/p1.webp" className='w-28' alt='product' />
         </div>
         <div className='flex flex-col space-y-3' >
           <div className='flex items-center' ><h6 className='text-sm font-semibold text-b3' >$279.00</h6><div className='flex justify-end w-full text-xs text-gray-500' ><strike>$379.00</strike></div></div>

@@ -18,7 +18,7 @@ const Footer = () => {
             <h4 className='w-max text-white text-lg font-bold font-reg' >Our Companies</h4>
             <div className='flex flex-col space-y-2' >
               <Link to="/">
-                <img className='w-32 h-12' src="/neu.png" alt="logo2" />
+                <img className='w-32 h-12' src="/neu.webp" alt="logo2" />
               </Link>
               <p className='text-xs text-white/60 font-normal' >Shop Austin's #1 Local Discount Appliance Outlet</p>
             </div>
@@ -27,7 +27,7 @@ const Footer = () => {
           {/* Nav Logo 2 */}
           <div className='flex flex-col gap-y-2 text-white' >
             <a href="https://neuapplianceparts.com/" target='_new'>
-              <img className='w-32 h-12' src="/neu2.png" alt="logo2" />
+              <img className='w-32 h-12' src="/neu2.webp" alt="logo2" />
             </a>
             <p className='text-xs text-white/60 font-normal' >Shop Discount Appliance Repair Parts</p>
           </div>
@@ -35,7 +35,7 @@ const Footer = () => {
           {/* Nav Logo 3 */}
           <div className='flex flex-col gap-y-3 text-white' >
             <a href="https://neuappliancewholesale.com/" target='_new'>
-              <img className='w-32 h-12' src="/neu3.png" alt="logo3" />
+              <img className='w-32 h-12' src="/neu3.webp" alt="logo3" />
             </a>
             <p className='text-xs text-white/60 font-normal' >Wholesale Supply Distributor of Bulk Scratch and Dent Appliances to Appliance Vendor's across the Country</p>
           </div>

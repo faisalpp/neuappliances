@@ -8,7 +8,7 @@ const LaundryCard = () => {
     return (
         <div className='border grid grid-cols-1 sm:grid-cols-[150px_1fr] md:grid-cols-[240px_1fr] gap-5 border-b14 rounded-xl py-10 px-5'>
             <div className=''>
-                <img src="/drayer.png" className='w-40 h-40 sm:w-full sm:h-full md:w-60 md:h-60 object-contain' alt="" />
+                <img src="/drayer.webp" className='w-40 h-40 sm:w-full sm:h-full md:w-60 md:h-60 object-contain' alt="" />
             </div>
             <div className='space-y-4'>
                 <h3 className='line-clamp-2 text-lg md:text-xl font-semibold leading-6'>White GE 1.7 cu. ft. Over the Range Microwave with Convenience Cooking Controls for long text</h3>

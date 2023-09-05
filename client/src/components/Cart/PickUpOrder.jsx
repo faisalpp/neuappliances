@@ -10,7 +10,7 @@ const PickUpOrder = () => {
             <div className='w-full border border-[#D9D9D9] p-4 rounded-lg flex justify-between items-center'>
                 <div className='flex gap-2 items-center'>
                     <span className='w-[18px] h-[18px]'>
-                        <img src="/svgs/Pick-up.png" alt="Pick-up" />
+                        <img src="/svgs/Pick-up.webp" alt="Pick-up" />
                     </span>
                     <span className='text-sm text-[#545454]'>
                         Georgetown, Tx

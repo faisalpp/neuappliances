@@ -234,8 +234,8 @@ const Product = () => {
                     height={350}
                   /> : null}
                   {product.rating === 3 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><AiOutlineDollarCircle />Best Value</div></div> : null}
-                  {product.rating === 4 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/local_fire_department.png" alt="" />Most Popular</div></div> : null}
-                  {product.rating === 5 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/star_rate_half.png.png" alt="" /> Premium Condition </div></div> : null}
+                  {product.rating === 4 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/local_fire_department.webp" alt="" />Most Popular</div></div> : null}
+                  {product.rating === 5 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/star_rate_half.webp.webp" alt="" /> Premium Condition </div></div> : null}
                 </div>
               </div>
               <div className='flex flex-col space-y-5 mt-10' >
@@ -293,7 +293,7 @@ const Product = () => {
                     Powered by
                   </span>
                 </div>
-                <img src="/affirm.png" alt="affirm" className='w-[70px]' />
+                <img src="/affirm.webp" alt="affirm" className='w-[70px]' />
               </div>
               <ul className='flex flex-col mt-5 space-y-2 text-sm' >
                 <li>. {product.bullet1}</li>
@@ -318,7 +318,7 @@ const Product = () => {
                 </div> : null}
 
               <button onClick={() => handleOpenModal("1")} className='flex space-x-3 items-center px-3 py-2 border-[1px] border-b3 rounded-lg w-fit' >
-                <img src="/shield.png" alt='' />
+                <img src="/shield.webp" alt='' />
                 <h6 className='text-sm font-bold w-40' >NeuShield 1 Year Applicance Warranty</h6>
               </button>
               {/* Delivery Card */}
@@ -380,7 +380,7 @@ const Product = () => {
                 {/* 3rd FAQ */}
                 <div className='flex items-center space-x-3 border-[1px] px-5 border-gray-200 text-sm text-black py-3 rounded-lg' >
                   <span>
-                    <img src="/assignment_return.png" alt="assignment_return" className='w-6 h-6' />
+                    <img src="/assignment_return.webp" alt="assignment_return" className='w-6 h-6' />
                   </span>
                   <button type='button' onClick={() => handleOpenModal("3")} className='flex flex-col' >
                     <h6 className="font-bold ml-2" >Free Curbside Returns</h6>
@@ -417,7 +417,7 @@ const Product = () => {
           <div id='360-view' className='flex flex-col gap-5 items-center py-10 lg:py-14 xl:py-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto border border-b14 rounded-3xl' >
             <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' >360° View of This Appliance</h4>
             <div className='mt-5 relative flex justify-center w-full mb-5' >
-              {/* <img src="/360appliance.png" alt='product' className='w-[17rem] mx-auto' /> */}
+              {/* <img src="/360appliance.webp" alt='product' className='w-[17rem] mx-auto' /> */}
               <React360Viewer
                 imagesBaseUrl={`${import.meta.env.REACT_APP_INTERNAL_PATH}/${product.threeSixty}`}
                 imagesCount={36}
@@ -427,7 +427,7 @@ const Product = () => {
                 height={350}
               />
               <div className='absolute -bottom-5 left-0 right-0'>
-                <img src="/360angle.png" alt='product' className='w-72 mx-auto' />
+                <img src="/360angle.webp" alt='product' className='w-72 mx-auto' />
               </div>
             </div>
             <p className="font-normal" >Rotate <b>360°</b> to see the product from all angles</p>
@@ -443,7 +443,7 @@ const Product = () => {
                 <div className='flex items-center border-b border-gray-300 justify-center py-[15px] w-full' ><StarIconPrinter numberOfTimes={product.rating} /></div>
                 <div className='text-center border-b-[1px] border-gray-300 py-4 w-full font-normal' >{product.modelNo}</div>
                 <div className='flex items-center space-x-2 justify-center border-gray-300 py-3 w-full' >
-                  <div className='flex items-center rounded-md justify-center pl-2 pr-2 sm:pr-8 py-1 space-x-1 border border-gray-300' ><img src="/nueshield.png" alt="nueshield" />
+                  <div className='flex items-center rounded-md justify-center pl-2 pr-2 sm:pr-8 py-1 space-x-1 border border-gray-300' ><img src="/nueshield.webp" alt="nueshield" />
                     <span className='w-full text-xs font-medium break-words ' >NeuShield <br /> 1 Year Warranty</span>
                   </div>
                 </div>

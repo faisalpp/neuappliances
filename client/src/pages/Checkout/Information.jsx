@@ -132,7 +132,7 @@ const Information = () => {
             <Checkout>
                 {/* Logo */}
                 <Link to="/">
-                    <img src="/login_logo.png" alt="" />
+                    <img src="/login_logo.webp" alt="" />
                 </Link>
                 {/* Bread Crumbs Start */}
                 <BreadCrumb />
@@ -142,13 +142,13 @@ const Information = () => {
                     <legend className='mx-auto text-b16 font-medium text-sm px-3'>Express checkout</legend>
                     <div className='grid grid-cols-3 gap-2'>
                         <button className='rounded text-white flex justify-center p-3 bg-[#5A31F4]'>
-                            <img src="/payment/shoppay.png" alt="shoppay" className='h-[23px] object-contain' />
+                            <img src="/payment/shoppay.webp" alt="shoppay" className='h-[23px] object-contain' />
                         </button>
                         <button className='rounded text-white flex justify-center p-3 bg-[#113984]'>
-                            <img src="/payment/paypal.png" alt="shoppay" className='h-[23px] object-contain' />
+                            <img src="/payment/paypal.webp" alt="shoppay" className='h-[23px] object-contain' />
                         </button>
                         <button className='rounded text-white flex justify-center p-3 bg-black'>
-                            <img src="/payment/pay.png" alt="shoppay" className='h-[23px] object-contain' />
+                            <img src="/payment/pay.webp" alt="shoppay" className='h-[23px] object-contain' />
                         </button>
                     </div>
                 </fieldset>

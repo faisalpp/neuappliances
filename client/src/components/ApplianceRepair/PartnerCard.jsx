@@ -12,7 +12,7 @@ const PartnerCard = ({ image, title, description, imagestyle }) => {
             <div className='order-2 lg:order-none'>
                 <div className='inline-flex justify-start'>
                     <div className='border-[1.38569px] border-b3 px-4 py-2 rounded-full'>
-                        <img src="neulogo.png" alt="neulogo" className='h-[16.536px] w-[92.006px]' />
+                        <img src="neulogo.webp" alt="neulogo" className='h-[16.536px] w-[92.006px]' />
                         <span className='block font-medium uppercase text-[5.09px]'>RECOMMENDS</span>
                     </div>
                 </div>

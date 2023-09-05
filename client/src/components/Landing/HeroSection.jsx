@@ -10,11 +10,11 @@ const HeroSection = () => {
     return (
         <>
             <header className='relative'>
-                <img src="landing.png" alt="landing" className='absolute top-0 left-0 right-0 bottom-0 w-full h-full -z-10 pointer-events-none' />
+                <img src="landing.webp" alt="landing" className='absolute top-0 left-0 right-0 bottom-0 w-full h-full -z-10 pointer-events-none' />
                 {/* Navigation */}
                 <nav className='max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto py-5 flex justify-between items-center'>
                     <Link to="/">
-                        <img src="/neu.png" alt="neuappliances" className='h-10' />
+                        <img src="/neu.webp" alt="neuappliances" className='h-10' />
                     </Link>
                     <div className='flex gap-6 items-center'>
                         <button type='button' className='md:hidden text-white inline-flex items-center justify-center font-medium text-xs px-4 py-3 bg-[rgba(255,255,255,0.08)] rounded-lg relative'>
@@ -66,7 +66,7 @@ const HeroSection = () => {
                             </div>
                         </div>
                         <div className='flex justify-end' >
-                            <img src="/landing_banner.png" alt='refrigrators' className='2xl:w-[568px] 2xl:h-[457px] mx-auto' />
+                            <img src="/landing_banner.webp" alt='refrigrators' className='2xl:w-[568px] 2xl:h-[457px] mx-auto' />
                         </div>
                     </div>
 

@@ -33,7 +33,7 @@ const BuyingOptions = () => {
                 {productCards.map((item, index) => (
                     <div key={index} className={`border border-b14 rounded-2xl p-6 ${isGrid ? '' : 'flex gap-4 items-center'}`}>
                         <div className='min-w-[222px] min-h-[270px] relative'>
-                            <img src="/p1.png" alt="p1" className={`object-contain w-[222px] h-[270px] ${isGrid ? 'mx-auto' : ''}`} />
+                            <img src="/p1.webp" alt="p1" className={`object-contain w-[222px] h-[270px] ${isGrid ? 'mx-auto' : ''}`} />
                             <div className='absolute -right-3 -top-3 flex items-center justify-center text-sm text-b16 font-semibold px-3 py-2 bg-b7 rounded-full'>50% Off</div>
                         </div>
                         <div className='mt-6 flex flex-col w-full gap-5'>

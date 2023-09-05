@@ -4,10 +4,10 @@ const Email = () => {
     return (
         <div style={{ maxWidth: '960px', margin: '0 auto' }}>
             <nav style={{ backgroundColor: '#071822', padding: 'calc(25px)' }}>
-                <img src="/email/neu.png" className='mail_logo' alt="" style={{ margin: '0 auto', height: '40px', objectFit: 'contain' }} />
+                <img src="/email/neu.webp" className='mail_logo' alt="" style={{ margin: '0 auto', height: '40px', objectFit: 'contain' }} />
             </nav>
             <div style={{ padding: '40px calc(5vw)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
-                <img src="/email/email_banner.png" className='mail_banner' alt="" style={{ margin: '0 auto' }} />
+                <img src="/email/email_banner.webp" className='mail_banner' alt="" style={{ margin: '0 auto' }} />
                 <div style={{ color: '#242424', fontSize: '20px' }}>
                     <h3>Dear User</h3>
                     <p style={{ marginTop: '40px' }}>
@@ -38,7 +38,7 @@ const Email = () => {
                     <div style={{ padding: '16px calc(1.89vw)' }}>
                         <div style={{ display: 'flex', gap: '14px' }}>
                             <div style={{ minWidth: '64px', position: 'relative' }}>
-                                <img src="/p1.png" style={{ width: '64px', height: '64px', objectFit: 'contain' }} alt="" />
+                                <img src="/p1.webp" style={{ width: '64px', height: '64px', objectFit: 'contain' }} alt="" />
                                 <span style={{ position: 'absolute', width: '21px', height: '21px', color: 'white', fontWeight: '500', display: 'flex', justifyContent: 'center', alignItems: 'center', top: '-10px', right: '-10px', fontSize: '12px', borderRadius: '100%', padding: '2px', backgroundColor: '#22A6AB' }}>
                                     1
                                 </span>

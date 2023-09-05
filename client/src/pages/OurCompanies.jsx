@@ -71,7 +71,7 @@ const OurCompanies = () => {
 
                 <SatisfiedSection apiSectionName="our-companies-page-review" title="Testimonials" dots={true} />
 
-                <NewsLetterSection backimage="Newsletter.png" />
+                <NewsLetterSection backimage="Newsletter.webp" />
 
             </MainLayout>
         </>

@@ -32,7 +32,7 @@ const MeasuringGuide = () => {
 
                 <SatisfiedSection apiSectionName="measuring-guide-page-review" title="Testimonials" dots={true} />
 
-                <NewsLetterSection backimage="Newsletter.png" />
+                <NewsLetterSection backimage="Newsletter.webp" />
             </MainLayout>
         </>
     )

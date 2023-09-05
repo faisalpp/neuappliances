@@ -55,7 +55,7 @@ const CheckCheckLists = () => {
                                     <h3 className="mb-4 font-semibold text-black text-lg">{ChecklistsContent[activeTab].title}</h3>
                                     <ul className="m-0 p-0 grid grid-cols-3 gap-y-4 gap-x-10">
                                         {ChecklistsContent[activeTab].content.split(' , ').map((item, index) => (
-                                            <li key={index} className="flex items-center gap-2" ><img className="w-4 h-4" src="/howitworks/checklist.png" alt="checklist" /><span dangerouslySetInnerHTML={{ __html: item.trim() }}></span></li>
+                                            <li key={index} className="flex items-center gap-2" ><img className="w-4 h-4" src="/howitworks/checklist.webp" alt="checklist" /><span dangerouslySetInnerHTML={{ __html: item.trim() }}></span></li>
                                         ))}
                                     </ul>
                                 </>
@@ -66,7 +66,7 @@ const CheckCheckLists = () => {
                             {ChecklistsContent.map((item, index) => (
                                 <FaqAccordion key={index} activeBg="!bg-b3" activeText="!text-white" title={item.title} parent='overflow-hidden !p-0 rounded-lg [&>div]:px-6 [&>div]:py-4' icon='text-xl text-black' textStyle='font-bold text-md text-b18' child='bg-white p-5' answer={<ul className="m-0 p-0 grid sm:grid-cols-2 gap-4">
                                     {item.content.split(' , ').map((item, index) => (
-                                        <li key={index} className="flex items-center gap-2 text-black"><img className="w-4 h-4" src="/howitworks/checklist.png" alt="checklist" /><span dangerouslySetInnerHTML={{ __html: item.trim() }}></span></li>
+                                        <li key={index} className="flex items-center gap-2 text-black"><img className="w-4 h-4" src="/howitworks/checklist.webp" alt="checklist" /><span dangerouslySetInnerHTML={{ __html: item.trim() }}></span></li>
                                     ))}
                                 </ul>} chevrown />
                             ))}

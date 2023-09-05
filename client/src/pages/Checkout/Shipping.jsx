@@ -11,7 +11,7 @@ const Shipping = () => {
         <>
             <Checkout>
                 {/* Logo */}
-                <img src="login_logo.png" alt="" />
+                <img src="login_logo.webp" alt="" />
                 {/* Bread Crumbs Start */}
                 <BreadCrumb />
                 {/* Bread Crumbs End */}

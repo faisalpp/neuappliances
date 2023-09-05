@@ -16,7 +16,7 @@ const ModelBuyingOptionCard = ({ active, bestValue, cosmaticcondition, rating })
       <div className={`flex flex-col items-center space-y-5 px-6 pt-12 pb-4 w-full ${active} border  border-b8`} >
         <div className='flex w-full text-white justify-center' >{bestValue}</div>
         <div className='bg-white w-full flex justify-center py-8'>
-          <img src="/p1.png" className='w-52' alt='p1' />
+          <img src="/p1.webp" className='w-52' alt='p1' />
         </div>
         <div className='flex flex-col items-center justify-center pt-8 gap-7 text-center' >
           <div className='flex items-center' >

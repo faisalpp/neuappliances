@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import MainLayout from '../layout/MainLayout';
 import ApplianceDetail from '../components/Appliances/ApplianceDetail';
 import ShopAustinSection from '../components/Appliances/ShopAustinSection';
@@ -6,23 +6,23 @@ import { RiArrowDropRightLine } from 'react-icons/ri';
 import SatisfiedSection from '../components/SatisfiedSection'
 import MassiveAppliance from '../components/OurStory/MassiveAppliance';
 import NewsLetterSection from '../components/NewsLetterSection';
-import {getSingleVideoMedia} from '../api/frontEnd'
+import { getSingleVideoMedia } from '../api/frontEnd'
 
 const OurShowroom = () => {
 
-    const [video,setVideo] = useState([])
+    const [video, setVideo] = useState([])
 
     useEffect(() => {
-      const GetSingleVideoMedia = async () => {
-        const data = {section:"our-showroom-page-video"}
-          const res = await getSingleVideoMedia(data);
-          console.log(res)
-          if(res.status === 200){
-            setVideo(res.data.media[0])
-          }
-      }
-      GetSingleVideoMedia()
-    },[]);
+        const GetSingleVideoMedia = async () => {
+            const data = { section: "our-showroom-page-video" }
+            const res = await getSingleVideoMedia(data);
+            console.log(res)
+            if (res.status === 200) {
+                setVideo(res.data.media[0])
+            }
+        }
+        GetSingleVideoMedia()
+    }, []);
 
     return (
         <>
@@ -42,8 +42,8 @@ const OurShowroom = () => {
 
                 {/* Video Section */}
                 <div className='w-full 3xl:max-w-1680px mx-auto'>
-                 {video && video.type === 'iframe' ? <iframe className='w-full h-[250px] md:h-[700px] 2xl:h-[920px]' src={video.url} title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>:null}
-                 {video && video.type !== 'iframe' ? <video controls autoPlay className='w-full h-[250px] md:h-[700px] object-cover 2xl:h-[920px]' src={video.url} />:null}
+                    {video && video.type === 'iframe' ? <iframe className='w-full h-[250px] md:h-[700px] 2xl:h-[920px]' src={video.url} title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> : null}
+                    {video && video.type !== 'iframe' ? <video controls autoPlay className='w-full h-[250px] md:h-[700px] object-cover 2xl:h-[920px]' src={video.url} /> : null}
                 </div>
 
                 <MassiveAppliance sliderstyle="mx-2 3xl:mx-5" />
@@ -53,7 +53,7 @@ const OurShowroom = () => {
 
                 <SatisfiedSection apiSectionName="our-showroom-page-review" title="Testimonials" dots={true} />
 
-                <NewsLetterSection backimage="Newsletter.png" />
+                <NewsLetterSection backimage="Newsletter.webp" />
 
             </MainLayout>
         </>

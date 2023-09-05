@@ -5,42 +5,42 @@ const AboutCeo = () => {
 
     const teams = [
         {
-            image: 'Scott.png',
+            image: 'Scott.webp',
             name: 'Scott',
             about: 'Founder & CEO',
         },
         {
-            image: 'Kenneth.png',
+            image: 'Kenneth.webp',
             name: 'Kenneth',
             about: 'Lorem Ipsum',
         },
         {
-            image: 'Declan.png',
+            image: 'Declan.webp',
             name: 'Declan',
             about: 'Lorem Ipsum',
         },
         {
-            image: 'Josh.png',
+            image: 'Josh.webp',
             name: 'Josh',
             about: 'Lorem Ipsum',
         },
         {
-            image: 'Conley.png',
+            image: 'Conley.webp',
             name: 'Conley',
             about: 'Lorem Ipsum',
         },
         {
-            image: 'Joseph.png',
+            image: 'Joseph.webp',
             name: 'Joseph',
             about: 'Lorem Ipsum',
         },
         {
-            image: 'Javi.png',
+            image: 'Javi.webp',
             name: 'Javi',
             about: 'Lorem Ipsum',
         },
         {
-            image: 'Antonio.png',
+            image: 'Antonio.webp',
             name: 'Antonio',
             about: 'Lorem Ipsum',
         },

@@ -41,7 +41,7 @@ const ApplianceRepair = () => {
 
                 <SatisfiedSection apiSectionName="appliance-repair-page-review" title="Testimonials" dots={true} />
 
-                <NewsLetterSection backimage="Newsletter.png" />
+                <NewsLetterSection backimage="Newsletter.webp" />
             </MainLayout>
         </>
     )

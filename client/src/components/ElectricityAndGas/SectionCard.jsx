@@ -21,13 +21,13 @@ const SectionCard = ({ title }) => {
                 <h3 className='text-b18 text-center text-lg sm:text-xl font-bold mb-6'>2 Required Connections</h3>
                 <div className='flex items-center justify-center'>
                     <div className='xl:max-w-[205px] 2xl:max-w-[254px] xl:h-[254px]'>
-                        <img src="/gas/gasconnection.png" className='xl:max-w-[205px] 2xl:max-w-[254px] xl:h-[254px] object-contain' alt="" />
+                        <img src="/gas/gasconnection.webp" className='xl:max-w-[205px] 2xl:max-w-[254px] xl:h-[254px] object-contain' alt="" />
                     </div>
                     <div className='flex justify-center items-center min-w-[40px] min-h-[40px] max-w-[40px] max-h-[40px] sm:min-w-[50px] sm:min-h-[50px] sm:max-w-[50px] sm:max-h-[50px] rounded-full bgb15 text-4xl sm:text-[64px] font-bold text-b3 bg-[rgba(34,166,171,0.10)] border border-[rgba(34,166,171,0.50)]'>
                         +
                     </div>
                     <div className='xl:max-w-[205px] 2xl:max-w-[254px] xl:h-[254px]'>
-                        <img src="/gas/standardoutlet.png" className='xl:max-w-[205px] 2xl:max-w-[254px] xl:h-[254px] object-contain' alt="" />
+                        <img src="/gas/standardoutlet.webp" className='xl:max-w-[205px] 2xl:max-w-[254px] xl:h-[254px] object-contain' alt="" />
                     </div>
                 </div>
             </div>

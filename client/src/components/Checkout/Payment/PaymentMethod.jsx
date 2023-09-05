@@ -38,15 +38,15 @@ const PaymentMethod = () => {
                 <div className='[&>*]:border-b [&>*]:border-b31 [&>*:last-child]:border-0 border border-b31 rounded-md'>
                     <PaymentRadio customStyle="font-medium" name="payment_method" id="credit_card" title="Credit card" checked={true} />
                     <div className='p-4 bg-[#F9F9F9] grid grid-cols-1 gap-14px'>
-                        <CustomInput colorStyle="border-b31 placeholder:text-b25 placeholder:text-sm !text-sm" placeholder="Card number" icon="lock.png" />
+                        <CustomInput colorStyle="border-b31 placeholder:text-b25 placeholder:text-sm !text-sm" placeholder="Card number" icon="lock.webp" />
                         <CustomInput colorStyle="border-b31 placeholder:text-b25 placeholder:text-sm !text-sm" placeholder="Name on card" />
                         <div className='grid grid-cols-2 gap-14px'>
                             <CustomInput colorStyle="border-b31 placeholder:text-b25 placeholder:text-sm !text-sm" placeholder="Expiration date (MM / YY)" />
-                            <CustomInput colorStyle="border-b31 placeholder:text-b25 placeholder:text-sm !text-sm" placeholder="Security code" icon="question-fill.png" />
+                            <CustomInput colorStyle="border-b31 placeholder:text-b25 placeholder:text-sm !text-sm" placeholder="Security code" icon="question-fill.webp" />
                         </div>
                     </div>
-                    <PaymentRadio name="payment_method" labelImage="pay_paypal.png" id="paypal" />
-                    <PaymentRadio name="payment_method" id="affirm" labelImage="affirm.png" />
+                    <PaymentRadio name="payment_method" labelImage="pay_paypal.webp" id="paypal" />
+                    <PaymentRadio name="payment_method" id="affirm" labelImage="affirm.webp" />
                 </div>
             </div>
             {/* Billing Address */}

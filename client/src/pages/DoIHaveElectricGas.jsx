@@ -27,8 +27,8 @@ const DoIHaveElectricGas = () => {
             <div className='w-full 3xl:max-w-1680px pb-10 lg:pb-20 px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto grid grid-cols-1 gap-10'>
                 <SectionCard title="Gas Range Connections" />
                 <SectionCard title="Gas Dryer Connections" />
-                <SectionCard2 title="Electric Range Connections" description="Electric 240V Range Cords are interchangeable, at the appliance, between 3 prong cords and 4 prong cords. One of these two outlets must be present for a standard Electric 240v Range to be compatible." image1="elctric-range3.png" image2="elctric-range4.png" />
-                <SectionCard2 title="Electric Dryer Connections" description="Electric 240V Dryer Cords are interchangeable, at the appliance, between 3 prong cords and 4 prong cords. One of these two outlets must be present for a standard Electric 240v Dryer to be compatible." image1="elctric-drayer3.png" image2="elctric-drayer4.png" />
+                <SectionCard2 title="Electric Range Connections" description="Electric 240V Range Cords are interchangeable, at the appliance, between 3 prong cords and 4 prong cords. One of these two outlets must be present for a standard Electric 240v Range to be compatible." image1="elctric-range3.webp" image2="elctric-range4.webp" />
+                <SectionCard2 title="Electric Dryer Connections" description="Electric 240V Dryer Cords are interchangeable, at the appliance, between 3 prong cords and 4 prong cords. One of these two outlets must be present for a standard Electric 240v Dryer to be compatible." image1="elctric-drayer3.webp" image2="elctric-drayer4.webp" />
                 <SectionCard3 />
             </div>
             {/* Shop Austin Section */}
@@ -37,7 +37,7 @@ const DoIHaveElectricGas = () => {
             {/* Reviews Section */}
             <SatisfiedSection title="Testimonials" dots={true} />
             {/* End  */}
-            <NewsLetterSection backimage="Newsletter.png" />
+            <NewsLetterSection backimage="Newsletter.webp" />
             {/* End Tabs*/}
         </MainLayout>
     )

@@ -13,19 +13,19 @@ body {
 }
 
 #tour {
-  background-image: url('../public/map.png');
+  background-image: url('../public/map.webp');
   backdrop-filter: blur(2.6px);
   -webkit-backdrop-filter: blur(2.6px);
 }
 
 /* #news {
-  background-image: url('../public/new.png');
+  background-image: url('../public/new.webp');
   background-repeat: no-repeat;
   background-size: cover;
 } */
 
 #news-grid {
-  background-image: url('../public/grid.png');
+  background-image: url('../public/grid.webp');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -196,15 +196,18 @@ body {
 }
 
 /* Our story */
-.meetteam{
+.meetteam {
   @apply [&>figure:first-child]:maxmd:col-span-2 [&>figure:first-child]:maxmd:mx-auto [&>figure:first-child]:maxmd:w-[200px] [&>figure:first-child>img]:w-40 [&>figure:first-child>img]:h-40
 }
-.meetteam figure:first-child h3{
+
+.meetteam figure:first-child h3 {
   @apply text-lg
 }
-.meetteam figure:first-child span{
+
+.meetteam figure:first-child span {
   @apply text-sm
 }
+
 /* ========= */
 h1.ce-header {
   @apply text-3xl font-bold

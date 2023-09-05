@@ -225,7 +225,7 @@ const SideCart = () => {
           <div className='flex items-center sticky top-0 bg-white maxlg:rounded-t-2xl py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{pickupOrders.length === 0 && deliveryOrders.length === 0 ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center' >{cartCount}</span>}</div></div>
           {loading ? <div className='flex justify-center items-center h-full w-full' ><img src="/loader-bg.gif" className='w-10 h-10 ml-2' /></div> : pickupOrders.length === 0 && deliveryOrders.length === 0 ?
             <div className='flex flex-col px-2 space-y-5 w-full justify-center items-center h-full' >
-              <img src="/bag.png" />
+              <img src="/bag.webp" />
               <h1 className='font-extrabold' >Your Cart is Empty</h1>
               <h2 className='text-center' >Lorem Ipsum Doller Sit Amet, Consecture Audipicsing Elit</h2>
               <button type='button' className='flex items-center justify-center rounded-lg bg-b3 py-3 text-white font-medium w-1/2 text-sm'><BsCart3 className='mr-2' /> Start Shopping</button>
@@ -253,7 +253,7 @@ const SideCart = () => {
                       <button onClick={toggleDropdown} className='w-full rounded-lg flex justify-between items-center'>
                         <div className='flex gap-2 items-center'>
                           <span className='w-[18px] h-[18px]'>
-                            <img src="/svgs/calendar_month.png" alt="calendar_month" />
+                            <img src="/svgs/calendar_month.webp" alt="calendar_month" />
                           </span>
                           <span className='text-xs font-medium text-b3'>
                             Select Time-slot

@@ -39,11 +39,11 @@ const OurStory = () => {
                     <ApplianceDetail title="Our Story" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum metus vel urna tempor auctor. Pellentesque varius lacus at nisl tincidunt fringilla. Phasellus non felis eu lectus pellentesque tincidunt. Sed eget facilisis tortor. Nulla eget imperdiet ex, consectetur pharetra ligula." />
                 </div>
 
-                <OurVision BoxStyle="-left-10" image="ourvision.png" about="OUR VISION" title="Quis vitae pellentesque enim, nunc hendrerit enim metus ut magna. Pulvinar." description="Egestas nulla mauris elit at sed gravida. Donec neque nulla nisi nulla. Vel cras purus tempor ultricies amet. Bibendum sit sit." />
+                <OurVision BoxStyle="-left-10" image="ourvision.webp" about="OUR VISION" title="Quis vitae pellentesque enim, nunc hendrerit enim metus ut magna. Pulvinar." description="Egestas nulla mauris elit at sed gravida. Donec neque nulla nisi nulla. Vel cras purus tempor ultricies amet. Bibendum sit sit." />
 
                 <AboutCeo />
 
-                <OurVision BoxStyle="-left-8" order="lg:order-2" image="ourvalue.png" about="OUR VALUE" title="Libero blandit fames tortor porta nunc, imperdiet donec. Semper sit pulvinar sed." description="Egestas nulla mauris elit at sed gravida. Donec neque nulla nisi nulla. Vel cras purus tempor ultricies amet. Bibendum sit sit." />
+                <OurVision BoxStyle="-left-8" order="lg:order-2" image="ourvalue.webp" about="OUR VALUE" title="Libero blandit fames tortor porta nunc, imperdiet donec. Semper sit pulvinar sed." description="Egestas nulla mauris elit at sed gravida. Donec neque nulla nisi nulla. Vel cras purus tempor ultricies amet. Bibendum sit sit." />
 
                 <OurStorySection />
                 {/* Video Section */}
@@ -61,7 +61,7 @@ const OurStory = () => {
 
                 <SatisfiedSection apiSectionName="our-story-page-review" title="Testimonials" dots={true} />
 
-                <NewsLetterSection backimage="Newsletter.png" />
+                <NewsLetterSection backimage="Newsletter.webp" />
 
             </MainLayout>
         </>

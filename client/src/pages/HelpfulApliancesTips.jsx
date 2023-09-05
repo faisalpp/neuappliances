@@ -27,7 +27,7 @@ const HelpfulApliancesTips = () => {
 
                 <SatisfiedSection apiSectionName="helpfull-appliance-tips-page-review" title="Testimonials" />
 
-                <NewsLetterSection backimage="Newsletter.png" />
+                <NewsLetterSection backimage="Newsletter.webp" />
             </MainLayout>
         </>
     )

@@ -37,9 +37,9 @@ const Financing = () => {
                     </p>
                     <h3 className='my-10 text-xl font-bold text-center'>Lease terms are 12 months with 3 ways to pay it off:</h3>
                     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-                        <PayTermCard image="timer.png" title="Within 90 Days" description="You only pay: Initial Payment + $25 + Total" />
-                        <PayTermCard image="calendar.png" title="Early Buyout Option" description="Usually 75% of the remaining payments owed" />
-                        <PayTermCard image="clock.png" title="Full 12 Month Lease" description="Roughly 2x the cash price remaining" />
+                        <PayTermCard image="timer.webp" title="Within 90 Days" description="You only pay: Initial Payment + $25 + Total" />
+                        <PayTermCard image="calendar.webp" title="Early Buyout Option" description="Usually 75% of the remaining payments owed" />
+                        <PayTermCard image="clock.webp" title="Full 12 Month Lease" description="Roughly 2x the cash price remaining" />
                     </div>
                 </div>
 
@@ -68,7 +68,7 @@ const Financing = () => {
 
                 <SatisfiedSection apiSectionName="financing-page-review" title="Our Customers Are RAVING About Our Appliance Outlet" dots={true} />
 
-                <NewsLetterSection backimage="Newsletter.png" />
+                <NewsLetterSection backimage="Newsletter.webp" />
             </MainLayout>
         </>
     )

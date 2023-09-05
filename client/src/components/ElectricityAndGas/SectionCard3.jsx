@@ -14,18 +14,18 @@ const SectionCard3 = () => {
                 <div className='flex items-center justify-center maxcosm:flex-col gap-3 2xl:gap-6'>
                     <div className='xl:max-w-[130px] 2xl:max-w-[155px] xl:h-[155px]'>
                         <h3 className='font-semibold text-[10px] text-black text-center mb-2'>Gas Connector</h3>
-                        <img src="/gas/gasconnection.png" className='xl:max-w-[130px] 2xl:max-w-[155px] xl:h-[155px] object-contain' alt="" />
+                        <img src="/gas/gasconnection.webp" className='xl:max-w-[130px] 2xl:max-w-[155px] xl:h-[155px] object-contain' alt="" />
                     </div>
                     <div className='flex justify-center items-center min-w-[32px] min-h-[32px] max-w-[32px] max-h-[32px] rounded-full bgb15 text-2xl font-bold text-b3 bg-[rgba(34,166,171,0.10)] border border-[rgba(34,166,171,0.50)]'>
                         +
                     </div>
                     <div className='xl:max-w-[130px] 2xl:max-w-[155px] xl:h-[155px]'>
                         <h3 className='font-semibold text-[10px] text-black text-center mb-2'>Electric Range 3 Prong Outlet 240v</h3>
-                        <img src="/gas/elctric-drayer3.png" className='xl:max-w-[130px] 2xl:max-w-[155px] xl:h-[155px] object-contain' alt="" />
+                        <img src="/gas/elctric-drayer3.webp" className='xl:max-w-[130px] 2xl:max-w-[155px] xl:h-[155px] object-contain' alt="" />
                     </div>
                     <div className='xl:max-w-[130px] 2xl:max-w-[155px] xl:h-[155px]'>
                         <h3 className='font-semibold text-[10px] text-black text-center mb-2'>Electric Range 4 Prong Outlet 240v</h3>
-                        <img src="/gas/elctric-drayer4.png" className='xl:max-w-[130px] 2xl:max-w-[155px] xl:h-[155px] object-contain' alt="" />
+                        <img src="/gas/elctric-drayer4.webp" className='xl:max-w-[130px] 2xl:max-w-[155px] xl:h-[155px] object-contain' alt="" />
                     </div>
                 </div>
             </div>

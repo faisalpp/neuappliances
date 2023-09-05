@@ -57,7 +57,7 @@ const CompleteLaundary = ({ closeModal }) => {
                         <div className='flex gap-5'>
                             <div className='text-center space-y-2'>
                                 <div className='w-16 h-16 border flex justify-center items-center border-dashed border-b3 rounded-xl'>
-                                    <img src="/p1.png" alt="p1" className='w-10 h-10 object-contain' />
+                                    <img src="/p1.webp" alt="p1" className='w-10 h-10 object-contain' />
                                 </div>
                                 <span className='text-b16 text-sm font-medium'>
                                     Washer

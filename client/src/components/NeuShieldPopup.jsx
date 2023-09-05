@@ -11,7 +11,7 @@ const NeuShieldPopup = ({ closeModal }) => {
                     <IoCloseOutline className='text-3xl' />
                 </button>
                 <div>
-                    <img src="/neushieldround.png" className='w-16 h-16 mx-auto' alt="neushield" />
+                    <img src="/neushieldround.webp" className='w-16 h-16 mx-auto' alt="neushield" />
                 </div>
                 <h2 className='text-2xl font-bold text-center'>1 Year Neu Shield Warranty Included</h2>
                 <div>

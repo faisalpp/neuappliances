@@ -7,7 +7,7 @@ const ApplianceWholeSale = () => {
     return (
         <div className='bg-b8 px-3 maxcosm:py-5 xs:p-10 2xl:p-7 3xl:p-10 rounded-3xl flex flex-col gap-6'>
             <a href='http://neuappliancewholesale.com/' target='_new'>
-                <img src="/nueapplianceswholesale.png" alt="nueapplianceswholesale" className='h-16' />
+                <img src="/nueapplianceswholesale.webp" alt="nueapplianceswholesale" className='h-16' />
             </a>
             <div className='flex flex-col gap-3 text-b18'>
                 <h3 className='font-bold text-2xl'>Neu Appliance Wholesale</h3>
@@ -20,13 +20,13 @@ const ApplianceWholeSale = () => {
                     Our wholesale customers use our services to stock their showrooms with quality appliance inventory supply by the truckload including:
                 </p>
                 <ul className='grid grid-cols-2 gap-2 text-b18'>
-                    {SupplyLists.map((item,index)=>(
-                    <li key={index} className='flex items-center gap-2 py-4 md:py-6 pl-4 pr-2 bg-[#F6FDFE] rounded-lg'>
-                        <div className='w-8 h-8'>
-                            <ScratchSvg2 />
-                        </div>
-                        <p className='text-[10px] md:text-sm font-medium'>{item}</p>
-                    </li>
+                    {SupplyLists.map((item, index) => (
+                        <li key={index} className='flex items-center gap-2 py-4 md:py-6 pl-4 pr-2 bg-[#F6FDFE] rounded-lg'>
+                            <div className='w-8 h-8'>
+                                <ScratchSvg2 />
+                            </div>
+                            <p className='text-[10px] md:text-sm font-medium'>{item}</p>
+                        </li>
                     ))}
                 </ul>
             </div>
@@ -40,4 +40,4 @@ const ApplianceWholeSale = () => {
 
 export default ApplianceWholeSale
 
-const SupplyLists = ['Scratch & Dent Appliances', 'Customer Return Appliances', 'Salvage Appliances', 'Used Appliances', 'General Liquidation Appliances','and more']
+const SupplyLists = ['Scratch & Dent Appliances', 'Customer Return Appliances', 'Salvage Appliances', 'Used Appliances', 'General Liquidation Appliances', 'and more']

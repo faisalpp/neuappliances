@@ -21,50 +21,50 @@ const Appliances = () => {
 
   const [loading, isLoading] = useState(true);
 
-  
-  
-  const [menu,setMenu] = useState([])
-  
-  function capitalizeWords(str) {
-    return str.replace(/\b\w/g, function(match) {
-        return match.toUpperCase()
-    }).replace(/\-/g, ' ');
-}
 
-const ConstructMenu = () => {
-  let sectType;
-  let cardType;
-  let menuItems = [];
-  sections.forEach(item=> {
-    sectType = item.cardStyle;
-    cardType = item.type;
-    let menuItem = [];
-   if(sectType !== 'head-rating-card'){
-    item.sectionItemsId.filter(i=>{
-     if(i.rating){
-      const name = `${i.rating} Stars ${catTitle}`
-      const link = `/appliances/?category=${catTitle.toLowerCase().replace(/\s/g,'-')}&rating=${i.rating}`
-      let item = {name:name,link:link}
-      menuItem.push(item)
-      
-     }else{
-      const name = `${i.title}`
-      const link = `/appliances/?category=${catTitle.toLowerCase().replace(/\s/g,'-')}&${cardType}=${i.title.toLowerCase().replace(/\s/g,'-')}`
-      let item = {name:name,link:link}
-      menuItem.push(item)
-     }
-     
-    })
-    menuItems.push({[capitalizeWords(cardType)]:menuItem})
+
+  const [menu, setMenu] = useState([])
+
+  function capitalizeWords(str) {
+    return str.replace(/\b\w/g, function (match) {
+      return match.toUpperCase()
+    }).replace(/\-/g, ' ');
   }
-  setMenu(menuItems)
-})
-}
-  
-useEffect(()=>{
+
+  const ConstructMenu = () => {
+    let sectType;
+    let cardType;
+    let menuItems = [];
+    sections.forEach(item => {
+      sectType = item.cardStyle;
+      cardType = item.type;
+      let menuItem = [];
+      if (sectType !== 'head-rating-card') {
+        item.sectionItemsId.filter(i => {
+          if (i.rating) {
+            const name = `${i.rating} Stars ${catTitle}`
+            const link = `/appliances/?category=${catTitle.toLowerCase().replace(/\s/g, '-')}&rating=${i.rating}`
+            let item = { name: name, link: link }
+            menuItem.push(item)
+
+          } else {
+            const name = `${i.title}`
+            const link = `/appliances/?category=${catTitle.toLowerCase().replace(/\s/g, '-')}&${cardType}=${i.title.toLowerCase().replace(/\s/g, '-')}`
+            let item = { name: name, link: link }
+            menuItem.push(item)
+          }
+
+        })
+        menuItems.push({ [capitalizeWords(cardType)]: menuItem })
+      }
+      setMenu(menuItems)
+    })
+  }
+
+  useEffect(() => {
     ConstructMenu()
-  },[sections])
-  
+  }, [sections])
+
   const getAppliances = async () => {
     const data = { slug: categorySlug };
     const res = await GetApplianceSections(data);
@@ -103,7 +103,7 @@ useEffect(()=>{
           {/* Reviews Section */}
           <SatisfiedSection apiSectionName="categories-page" title="Join Thousands of our Satisfied Customers." />
 
-          <NewsLetterSection backimage="/Newsletter.png" />
+          <NewsLetterSection backimage="/Newsletter.webp" />
         </MainLayout>)}
     </>
   )

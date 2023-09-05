@@ -34,7 +34,7 @@ const DeliveryOrder = () => {
                 <button onClick={toggleDropdown} className='w-full border border-[#D9D9D9] p-4 rounded-lg flex justify-between items-center'>
                     <div className='flex gap-2 items-center'>
                         <span className='w-[18px] h-[18px]'>
-                            <img src="/svgs/calendar_month.png" alt="calendar_month" />
+                            <img src="/svgs/calendar_month.webp" alt="calendar_month" />
                         </span>
                         <span className='text-xs font-medium text-b3'>
                             Select Time-slot

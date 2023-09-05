@@ -11,7 +11,7 @@ const ApplianceParts = () => {
     return (
         <div className='bg-[#F2F9FC] px-3 maxcosm:py-5 xs:p-10 2xl:p-7 3xl:p-10 rounded-3xl flex flex-col gap-6'>
             <Link to="/">
-                <img src="/nueappliancesoutlet.png" alt="nueappliancesoutlet" className='h-16' />
+                <img src="/nueappliancesoutlet.webp" alt="nueappliancesoutlet" className='h-16' />
             </Link>
             <div className='flex flex-col gap-3 text-b18'>
                 <h3 className='font-bold text-2xl'>Neu Appliance Outlet</h3>
@@ -50,13 +50,13 @@ const ApplianceParts = () => {
                         Our Website's Tools For Success include:
                     </p>
                     <ul className='flex flex-col gap-4'>
-                        {toolsList.map((item,index)=>(
-                        <li key={index} className='flex items-center gap-3'>
-                            <div className='w-5 h-5 md:w-6 md:h-6'>
-                                <RoundedTick />
-                            </div>
-                            <p className='maxmd:text-sm'>{item}</p>
-                        </li>
+                        {toolsList.map((item, index) => (
+                            <li key={index} className='flex items-center gap-3'>
+                                <div className='w-5 h-5 md:w-6 md:h-6'>
+                                    <RoundedTick />
+                                </div>
+                                <p className='maxmd:text-sm'>{item}</p>
+                            </li>
                         ))}
                     </ul>
                 </div>
@@ -71,4 +71,4 @@ const ApplianceParts = () => {
 
 export default ApplianceParts
 
-const toolsList = ['High definition appliance pictures of the actual item you’re purchasing.', 'Detailed appliance specifications & dimensions.', 'Accurate condition descriptions.','Fast & convenient delivery.']
+const toolsList = ['High definition appliance pictures of the actual item you’re purchasing.', 'Detailed appliance specifications & dimensions.', 'Accurate condition descriptions.', 'Fast & convenient delivery.']

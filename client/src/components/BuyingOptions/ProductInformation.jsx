@@ -4,7 +4,7 @@ const ProductInformation = () => {
     return (
         <div className='grid grid-cols-1 lg:grid-cols-[560px_auto] gap-14'>
             <div className='border border-b14 rounded-2xl py-[77px]'>
-                <img src="/p1.png" alt="p1" className='w-[378px] h-[378px] object-contain mx-auto' />
+                <img src="/p1.webp" alt="p1" className='w-[378px] h-[378px] object-contain mx-auto' />
             </div>
             <div>
                 <h2 className='text-b18 font-bold text-2xl'>Champagne ENERGY STAR Samsung 4.5 cu. ft. Front Load Washer with Wi-Fi Connectivity and 7.5 cu. ft. Front Load Gas Dryer with Steam</h2>
