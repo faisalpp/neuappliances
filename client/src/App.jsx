@@ -1,93 +1,97 @@
+import {lazy,Suspense} from 'react'
 import { Routes, Route, useNavigate } from "react-router-dom";
-import Home from './pages/Home';
-import Landing from './pages/Landing';
-import Register from './pages/Register';
-import Products from './pages/Products';
-import Product from './pages/Product';
-import Login from './pages/Login';
-import AdminLogin from './pages/Admin/login';
-import ForgotPassword from './pages/ForgotPassword';
-import Appliances from './pages/Appliances';
-import ApplianceTypes from './pages/ApplianceTypes';
-import GeneralFaqs from './pages/GeneralFaqs';
-import OurStory from './pages/OurStory';
-import OurShowroom from './pages/OurShowroom';
-import OurCompanies from './pages/OurCompanies';
-import ApplianceRepair from './pages/ApplianceRepair';
-import MeasuringGuide from './pages/MeasuringGuide';
-import HelpfulApliancesTips from './pages/HelpfulApliancesTips';
-import AppliancesTipsDetail from './pages/AppliancesTipsDetail';
-import MobileMyAccount from './pages/MyAccount/MobileMyAccount';
-import Profile from './pages/MyAccount/Profile';
-import OrderHistory from './pages/MyAccount/OrderHistory';
-import MyFavourite from './pages/MyAccount/MyFavourite';
-import SavedAddress from './pages/MyAccount/SavedAddress';
-import BillingInformation from './pages/MyAccount/BillingInformation';
-import ChangePassword from './pages/MyAccount/ChangePassword';
-import EmailPreferences from './pages/MyAccount/EmailPreferences';
-import Blogs from './pages/Blogs/Index';
-import BlogArticle from './pages/Blogs/BlogArticle';
-import Financing from './pages/Financing';
-import MyCart from './pages/Cart/MyCart';
-import HelpAndSupport from './pages/HelpAndSupport/HelpAndSupport';
-import HelpCardPage from './pages/HelpAndSupport/HelpCardPage';
-import Test from './pages/Test'
-import NotFound from "./pages/NotFound";
-import Dashboard from "./pages/AdminAccount/Dashboard";
-import ManageProducts from "./pages/AdminAccount/ManageProducts";
-import ManageCategories from "./pages/AdminAccount/ManageCategories";
+
+const Home = lazy(() => import('./pages/Home'));
+const Landing = lazy(() => import('./pages/Landing'));
+const Register = lazy(() => import('./pages/Register'));
+const Products = lazy(() => import('./pages/Products'));
+const Product = lazy(() => import('./pages/Product'));
+const Login = lazy(() => import('./pages/Login'));
+const AdminLogin = lazy(() => import('./pages/Admin/login'));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+const Appliances = lazy(() => import('./pages/Appliances'));
+const ApplianceTypes = lazy(() => import('./pages/ApplianceTypes'));
+const GeneralFaqs = lazy(() => import('./pages/GeneralFaqs'));
+const OurStory = lazy(() => import('./pages/OurStory'));
+const OurShowroom = lazy(() => import('./pages/OurShowroom'));
+const OurCompanies = lazy(() => import('./pages/OurCompanies'));
+const ApplianceRepair = lazy(() => import('./pages/ApplianceRepair'));
+const MeasuringGuide = lazy(() => import('./pages/MeasuringGuide'));
+const HelpfulApliancesTips = lazy(() => import('./pages/HelpfulApliancesTips'));
+const AppliancesTipsDetail = lazy(() => import('./pages/AppliancesTipsDetail'));
+const MobileMyAccount = lazy(() => import('./pages/MyAccount/MobileMyAccount'));
+const Profile = lazy(() => import('./pages/MyAccount/Profile'));
+const OrderHistory = lazy(() => import('./pages/MyAccount/OrderHistory'));
+const MyFavourite = lazy(() => import('./pages/MyAccount/MyFavourite'));
+const SavedAddress = lazy(() => import('./pages/MyAccount/SavedAddress'));
+const BillingInformation = lazy(() => import('./pages/MyAccount/BillingInformation'));
+const ChangePassword = lazy(() => import('./pages/MyAccount/ChangePassword'));
+const EmailPreferences = lazy(() => import('./pages/MyAccount/EmailPreferences'));
+const Blogs = lazy(() => import('./pages/Blogs/Index'));
+const BlogArticle = lazy(() => import('./pages/Blogs/BlogArticle'));
+const Financing = lazy(() => import('./pages/Financing'));
+const MyCart = lazy(() => import('./pages/Cart/MyCart'));
+const HelpAndSupport = lazy(() => import('./pages/HelpAndSupport/HelpAndSupport'));
+const HelpCardPage = lazy(() => import('./pages/HelpAndSupport/HelpCardPage'));
+const Test = lazy(() => import('./pages/Test'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const Dashboard = lazy(() => import('./pages/AdminAccount/Dashboard'));
+const ManageProducts = lazy(() => import('./pages/AdminAccount/ManageProducts'));
+const ManageCategories = lazy(() => import('./pages/AdminAccount/ManageCategories'));
+const StayInLoop = lazy(() => import('./pages/StayInLoop'));
+const Loader = lazy(() => import('./components/Loader/Loader'));
+const CreateCategory = lazy(() => import('./pages/AdminAccount/CreateCategory'));
+const CreateProduct = lazy(() => import('./pages/AdminAccount/CreateProduct'));
+const ManageSections = lazy(() => import('./pages/AdminAccount/ManageSections'));
+const CreateSection = lazy(() => import('./pages/AdminAccount/CreateSection'));
+const CheckoutInformation = lazy(() => import('./pages/Checkout/Information'));
+const CheckoutShipping = lazy(() => import('./pages/Checkout/Shipping'));
+const CheckoutPayment = lazy(() => import('./pages/Checkout/Payment'));
+const ManageSectionItems = lazy(() => import('./pages/AdminAccount/ManageSectionItems'));
+const ManageFaq = lazy(() => import('./pages/AdminAccount/ManageFaq'));
+const UpdateSection = lazy(() => import('./pages/AdminAccount/UpdateSection'));
+const UpdateCategory = lazy(() => import('./pages/AdminAccount/UpdateCategory'));
+const UpdateSectionItem = lazy(() => import('./pages/AdminAccount/UpdateSectionItem'));
+const WhatWeSell = lazy(() => import('./components/HowItworks/WhatWeSell'));
+const Ratings = lazy(() => import('./components/HowItworks/Ratings'));
+const Tested = lazy(() => import('./components/HowItworks/Tested'));
+const Photos = lazy(() => import('./components/HowItworks/Photos'));
+const Delivered = lazy(() => import('./components/HowItworks/Delivered'));
+const HassleFree = lazy(() => import('./components/HowItworks/HassleFree'));
+const DoIHaveElectricGas = lazy(() => import('./pages/DoIHaveElectricGas'));
+const Email = lazy(() => import('./pages/Email/Email'));
+const Isr = lazy(() => import('./pages/InternalError'));
+const UpdateProduct = lazy(() => import('./pages/AdminAccount/UpdateProduct'));
+const CreateFaq = lazy(() => import('./pages/AdminAccount/CreateFaq'));
+const ManageBlogs = lazy(() => import('./pages/AdminAccount/ManageBlogs'));
+const CreateBlog = lazy(() => import('./pages/AdminAccount/CreateBlog'));
+const ManageVideos = lazy(() => import('./pages/AdminAccount/ManageVideos'));
+const AdminChangePassword = lazy(() => import('./pages/AdminAccount/AdminChangePassword'));
+const ManageReviews = lazy(() => import('./pages/AdminAccount/ManageReviews'));
+const ShippingTax = lazy(() => import('./pages/AdminAccount/ShippingTax'));
+const ManageGallery = lazy(() => import('./pages/AdminAccount/ManageGallery'));
+const ManageOrders = lazy(() => import('./pages/AdminAccount/ManageOrders'));
+const ManageCustomers = lazy(() => import('./pages/AdminAccount/ManageCustomers'));
+const UpdateCustomer = lazy(() => import('./pages/AdminAccount/UpdateCustomer'));
+const ManageHelpSupport = lazy(() => import('./pages/AdminAccount/ManageHelpSupport'));
+const ManageApplianceTips = lazy(() => import('./pages/AdminAccount/ManageApplianceTips'));
+const CreateHelpSupport = lazy(() => import('./pages/AdminAccount/CreateHelpSupport'));
+const CreateApplianceTips = lazy(() => import('./pages/AdminAccount/CreateApplianceTips'));
+const UpdateBlog = lazy(() => import('./pages/AdminAccount/UpdateBlog'));
+const ManageTeam = lazy(() => import('./pages/AdminAccount/ManageTeam'));
+const UpdateHelp = lazy(() => import('./pages/AdminAccount/UpdateHelp'));
+const UpdateApplianceTips = lazy(() => import('./pages/AdminAccount/UpdateApplianceTips'));
+const BuyingOptionsV1 = lazy(() => import('./pages/BuyingOptionsV1'));
+
+
 import useAutoLoginAdmin from './hooks/useAutoLoginAdmin'
 import useAutoLoginUser from './hooks/useAutoLoginUser'
-import StayInLoop from "./pages/StayInLoop";
-import Loader from './components/Loader/Loader'
-import CreateCategory from "./pages/AdminAccount/CreateCategory";
-import CreateProduct from "./pages/AdminAccount/CreateProduct";
-import ManageSections from "./pages/AdminAccount/ManageSections";
-import CreateSection from "./pages/AdminAccount/CreateSection";
-import CheckoutInformation from "./pages/Checkout/Information";
-import CheckoutShipping from "./pages/Checkout/Shipping";
-import CheckoutPayment from "./pages/Checkout/Payment";
-import ManageSectionItems from "./pages/AdminAccount/ManageSectionItems";
-import ManageFaq from "./pages/AdminAccount/ManageFaq"
 import { useSelector } from "react-redux";
-import UpdateSection from "./pages/AdminAccount/UpdateSection";
-import UpdateCategory from "./pages/AdminAccount/UpdateCategory";
-import UpdateSectionItem from "./pages/AdminAccount/UpdateSectionItem";
-import WhatWeSell from './components/HowItworks/WhatWeSell';
-import Ratings from './components/HowItworks/Ratings'
-import Tested from './components/HowItworks/Tested';
-import Photos from './components/HowItworks/Photos';
-import Delivered from './components/HowItworks/Delivered';
-import HassleFree from './components/HowItworks/HassleFree';
-import DoIHaveElectricGas from './pages/DoIHaveElectricGas';
-import Email from './pages/Email/Email';
-import Isr from "./pages/InternalError";
-import UpdateProduct from "./pages/AdminAccount/UpdateProduct";
-import CreateFaq from "./pages/AdminAccount/CreateFaq";
-import ManageBlogs from "./pages/AdminAccount/ManageBlogs";
-import CreateBlog from "./pages/AdminAccount/CreateBlog";
-import ManageVideos from "./pages/AdminAccount/ManageVideos";
-import AdminChangePassword from "./pages/AdminAccount/AdminChangePassword";
-import ManageReviews from "./pages/AdminAccount/ManageReviews";
-import ShippingTax from "./pages/AdminAccount/ShippingTax";
-import ManageGallery from "./pages/AdminAccount/ManageGallery";
-import 'react-toastify/dist/ReactToastify.min.css';
 import { ToastContainer } from 'react-toastify';
-import ManageOrders from "./pages/AdminAccount/ManageOrders";
-import ManageCustomers from "./pages/AdminAccount/ManageCustomers";
-import UpdateCustomer from "./pages/AdminAccount/UpdateCustomer";
-import ManageHelpSupport from "./pages/AdminAccount/ManageHelpSupport";
-import ManageApplianceTips from "./pages/AdminAccount/ManageApplianceTips";
-import CreateHelpSupport from "./pages/AdminAccount/CreateHelpSupport";
-import CreateApplianceTips from "./pages/AdminAccount/CreateApplianceTips";
-import UpdateBlog from "./pages/AdminAccount/UpdateBlog";
-import ManageTeam from "./pages/AdminAccount/ManageTeam";
-import UpdateHelp from "./pages/AdminAccount/UpdateHelp";
-import UpdateApplianceTips from "./pages/AdminAccount/UpdateApplianceTips";
-import BuyingOptionsV1 from "./pages/BuyingOptionsV1";
+import 'react-toastify/dist/ReactToastify.min.css';
 
 function App() {
-
+  
   const ProtectedAdmin = ({ children }) => {
     const loading = useAutoLoginAdmin();
     return loading ? <Loader /> : <>{children}</>;
@@ -108,6 +112,7 @@ function App() {
   return (
     <>
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
+      <Suspense fallback={<Loader/>} >
       <Routes>
         <Route path="/" element={<Home />} />
         {/* landing Page */}
@@ -229,6 +234,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/isr" element={<Isr />} />
       </Routes>
+      </Suspense>
     </>
   );
 }

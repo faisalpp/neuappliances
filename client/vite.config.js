@@ -1,11 +1,9 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import viteCompression from 'vite-plugin-compression';
-
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(),viteCompression()],
+  plugins: [react()],
   build: {
     outDir: 'build', // Change this to your desired output directory name
   },

@@ -1,0 +1,1 @@
+import{j as e}from"./index-700f33c8.js";const t=()=>e.jsx("div",{className:"fixed flex items-center justify-center top-0 w-full h-screen z-40 bg-white/80",children:e.jsx("img",{src:"/loading.gif",className:"h-12"})});export{t as default};
