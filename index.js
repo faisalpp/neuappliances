@@ -6,6 +6,7 @@ const errorHandler = require('./middleware/errorHandler')
 const dbconnect = require('./databse/index')
 const cookieParser = require('cookie-parser')
 const path = require('path')
+const fs = require('fs')
 const app = express();
 
 const corsOptions = {
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use(cors(corsOptions))
 
 app.use(router);
+
 
 if(process.env.NODE_ENV === "production"){
   app.use('/storage', express.static(path.join(__dirname + '/storage')));
