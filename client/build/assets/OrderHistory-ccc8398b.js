@@ -1,1 +1,0 @@
-import{j as r}from"./index-f13c45bd.js";import{M as t}from"./MyAccount-fe3b9a04.js";const n=()=>r.jsx(r.Fragment,{children:r.jsx(t,{children:r.jsx(s,{})})}),s=()=>r.jsx(r.Fragment,{});export{s as OrderHistoryData,n as default};

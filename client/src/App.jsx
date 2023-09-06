@@ -39,7 +39,6 @@ const Dashboard = lazy(() => import('./pages/AdminAccount/Dashboard'));
 const ManageProducts = lazy(() => import('./pages/AdminAccount/ManageProducts'));
 const ManageCategories = lazy(() => import('./pages/AdminAccount/ManageCategories'));
 const StayInLoop = lazy(() => import('./pages/StayInLoop'));
-const Loader = lazy(() => import('./components/Loader/Loader'));
 const CreateCategory = lazy(() => import('./pages/AdminAccount/CreateCategory'));
 const CreateProduct = lazy(() => import('./pages/AdminAccount/CreateProduct'));
 const ManageSections = lazy(() => import('./pages/AdminAccount/ManageSections'));
@@ -83,7 +82,7 @@ const UpdateHelp = lazy(() => import('./pages/AdminAccount/UpdateHelp'));
 const UpdateApplianceTips = lazy(() => import('./pages/AdminAccount/UpdateApplianceTips'));
 const BuyingOptionsV1 = lazy(() => import('./pages/BuyingOptionsV1'));
 
-
+import Loader from "./components/Loader/Loader";
 import useAutoLoginAdmin from './hooks/useAutoLoginAdmin'
 import useAutoLoginUser from './hooks/useAutoLoginUser'
 import { useSelector } from "react-redux";
