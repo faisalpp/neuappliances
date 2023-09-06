@@ -4,7 +4,6 @@ import App from './App.jsx'
 import './index.css'
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux'
-import { ThemeProvider } from "@material-tailwind/react";
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import store from './store'
@@ -13,7 +12,6 @@ let persistor = persistStore(store);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
-  <ThemeProvider>
     <Provider store={store} >
       <PersistGate loading={null} persistor={persistor} >
         <BrowserRouter>
@@ -21,6 +19,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </BrowserRouter>
       </PersistGate>
     </Provider>
-  </ThemeProvider>
   // </React.StrictMode>,
 )

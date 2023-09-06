@@ -1,0 +1,1 @@
+import{j as t}from"./index-28ed215d.js";const s=({style:e,src:r,title:a})=>t.jsx("iframe",{className:`${e}`,src:r,title:a,frameborder:"0",allow:"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"});export{s as default};
