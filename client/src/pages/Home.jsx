@@ -1,4 +1,4 @@
-import React,{lazy,Suspense} from 'react';
+import {lazy,Suspense} from 'react';
 import HeroSection from '../components/HeroSection'
 const BrandsSlider = lazy(()=>import('../components/BrandsSlider'));
 const WwslSection = lazy(()=>import('../components/WwslSection'));

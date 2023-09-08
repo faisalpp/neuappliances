@@ -35,10 +35,10 @@ const StayLoopSlider = ({page,setPage,totalPages,video,loopVideo,setLoopVideo,se
       {loopVideo.length > 0 ? loopVideo.map((item)=> <div className='relative' >
        <div onClick={()=>setVideo(`${item.url}`)} className="absolute flex items-center justify-center cursor-pointer bg-black/20 z-40 rounded-2xl xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 " >
         {video !== item.url ? <BsFillStopCircleFill className="text-gray-300 text-4xl" /> :<AiFillPlayCircle className="text-gray-300 text-4xl" />}</div>
-        {/* <IframeLoader/> */}
-        {/* <Suspense fallback={<IframeLoader/>} > */}
-         {/* {item.type === 'iframe' ? <Iframe style="xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 rounded-2xl" src={item.url} title={item.url} />:null} */}
-        {/* </Suspense> */}
+        <IframeLoader/>
+        <Suspense fallback={<IframeLoader/>} >
+         {item.type === 'iframe' ? <Iframe style="xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 rounded-2xl" src={item.url} title={item.url} />:null}
+        </Suspense>
         
         {item.type !== 'iframe' ? <video className='xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 rounded-2xl ' src={item.url} /> : null}
       </div>):null}

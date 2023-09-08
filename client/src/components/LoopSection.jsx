@@ -43,10 +43,10 @@ const LoopSection = () => {
 
       <div className='py-10 lg:py-16 lg:mb-0' >
         {loopVideo.length > 0 && type !== 'iframe' ? <video controls className='col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]' src={video} />:null}
-        <IframeLoader/>
-        {/* <Suspense fallback={<IframeLoader/>} >         */}
-         {/* {loopVideo.length > 0 && type === 'iframe' ? <Iframe style="col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]" src={video} title={video} /> :null} */}
-        {/* </Suspense> */}
+        {/* <IframeLoader/> */}
+        <Suspense fallback={<IframeLoader/>} >        
+         {loopVideo.length > 0 && type === 'iframe' ? <Iframe style="col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]" src={video} title={video} /> :null}
+        </Suspense>
         <div>
           <StayLoopSlider page={page} setPage={setPage} totalPages={totalPages} loopVideo={loopVideo} setLoopVideo={setLoopVideo} setVideo={setVideo} video={video} />
         </div>
