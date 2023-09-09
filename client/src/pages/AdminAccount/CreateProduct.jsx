@@ -1,10 +1,11 @@
 import React,{useEffect, useRef} from 'react';
 import AdminAccount from '../../layout/AdminAccount';
 import {BsArrowRightShort} from 'react-icons/bs'
-import {AiFillFolderAdd,AiFillPlusCircle} from 'react-icons/ai'
-import {FaImage} from 'react-icons/fa'
+import {AiFillFolderAdd,AiFillPlusCircle,AiFillYoutube} from 'react-icons/ai'
+import {FaImage,FaPhotoVideo,FaFileVideo} from 'react-icons/fa'
 import {PiVideoFill} from 'react-icons/pi'
 import {TiTick} from 'react-icons/ti'
+import {Tb360View} from 'react-icons/tb'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
@@ -15,6 +16,7 @@ import createProductSchema from '../../schemas/createProductSchema';
 import Loader2 from '../../components/Loader/Loader2'
 import TextInput from '../../components/TextInput/TextInput'
 import Iframe from '../../components/Reusable/Ifram'
+import YouTube from 'react-youtube';
 
 const CreateProduct = () => {
 
@@ -30,13 +32,16 @@ const CreateProduct = () => {
    const [stock,setStock] = useState('')
    const [modelNo,setModelNo] = useState('')
    const [itemId,setItemId] = useState('')
-  // Form States End
-
-  // Controller States Start
-  const [media,setMedia] = useState([])
-  const [imageField,setImageField] = useState('')
-  const [videoField,setVideoField] = useState('')
+   const [featureVideo,setFeatureVideo] = useState({type:'',data:''})
+   // Form States End
+   
+   // Controller States Start
+   const [media,setMedia] = useState([])
+   const [featureVideoField,setFeatureVideoField] = useState('')
+   const [imageField,setImageField] = useState('')
+   const [videoField,setVideoField] = useState()
   const imageSelectRef = useRef(null)
+  const featureVideoRef = useRef(null)
   // Controller States End
 
   const handleTagClick = (e,id) => {
@@ -57,8 +62,8 @@ const CreateProduct = () => {
   const ExtendTag = ({id,name,selected}) => {
    return (
        <>
-       {name === "top-refrigerator-bottom-freezer" ? <div onClick={e=>handleTagClick(e,id)} className={`flex flex-col cursor-pointer items-center border-[1px] ${selected ? 'border-b6' :'border-[rgba(0,0,0,0.15)]'} rounded-md px-2 py-2 w-fit h-fit`} ><h5 className='text-[9px] font-medium' >TOP REFRIGERAOTR</h5><span className='flex h-[1px] w-full bg-[rgba(0,0,0,0.15)]' ></span><h5 className='text-[9px] font-medium' >BOTTOM FREEZER</h5></div>:null}
-       {name === "top-freezer-bottom-refrigerator"?<div onClick={e=>handleTagClick(e,id)} className={`flex flex-col cursor-pointer items-center border-[1px] ${selected ? 'border-b6':'border-[rgba(0,0,0,0.15)]'} rounded-md px-2 py-2 w-fit h-fit`} ><h5 className='text-[9px] font-medium' >TOP FREEZER</h5><span className='flex h-[1px] w-full bg-[rgba(0,0,0,0.15)]' ></span><h5 className='text-[9px] font-medium' >BOTTOM REFRIGERAOTR</h5></div>:null}
+       {name === "top-refrigerator-bottom-freezer" ? <div onClick={e=>handleTagClick(e,id)} className={`flex flex-col hover:shadow-md cursor-pointer items-center border-[1px] ${selected ? 'border-b6' :'border-[rgba(0,0,0,0.15)]'} rounded-md px-2 py-2 w-fit h-fit`} ><h5 className='text-[9px] font-medium' >TOP REFRIGERAOTR</h5><span className='flex h-[1px] w-full bg-[rgba(0,0,0,0.15)]' ></span><h5 className='text-[9px] font-medium' >BOTTOM FREEZER</h5></div>:null}
+       {name === "top-freezer-bottom-refrigerator"?<div onClick={e=>handleTagClick(e,id)} className={`flex flex-col hover:shadow-md cursor-pointer items-center border-[1px] ${selected ? 'border-b6':'border-[rgba(0,0,0,0.15)]'} rounded-md px-2 py-2 w-fit h-fit`} ><h5 className='text-[9px] font-medium' >TOP FREEZER</h5><span className='flex h-[1px] w-full bg-[rgba(0,0,0,0.15)]' ></span><h5 className='text-[9px] font-medium' >BOTTOM REFRIGERAOTR</h5></div>:null}
        </>
        )
   }
@@ -122,6 +127,29 @@ const CreateProduct = () => {
     imageSelectRef.current.click();
   };
 
+  const handleFeatureVideo = (e,type) => {
+    if(type === 'upload'){
+      e.preventDefault()
+      setFeatureVideoField('')
+      const file = e.target.files[0]
+      if(file){
+        console.log(file)
+      setFeatureVideo({type:'upload',data:file});
+     }
+    }else if(type === 'url'){
+      if(featureVideoField === ''){
+        setFeatureVideo({type:'',data:'',prevImg:''})  
+      }else{
+        let id =  featureVideoField.split('/').pop();
+      const preview = `https://img.youtube.com/vi/${id}/mqdefault.jpg`
+      console.log(preview)
+      setFeatureVideo({type:'url',data:featureVideoField.replace('youtu.be/','youtube.com/embed/'),prevImg:preview})
+      setFeatureVideoField('')
+    }
+    }
+  }
+  
+
   const CreateProduct = (e) => {
      e.preventDefault()
      console.log(tags)
@@ -148,15 +176,31 @@ const CreateProduct = () => {
       <TextInput name="model-no" title="Model No" iscompulsory="true" type="text" value={modelNo} onChange={(e) => setModelNo(e.target.value)} error={errors && errors.includes('Model No is Required!') ? true : false} errormessage="Model No is Required!" placeholder="Model No : #9088324885" />
       <TextInput name="item-id" title="Item Id" iscompulsory="true" type="text" value={itemId} onChange={(e) => setItemId(e.target.value)} error={errors && errors.includes('Item Id is Required!') ? true : false} errormessage="Item Id is Required!" placeholder="Item Id: 234532455" />
      </div>
+     <div className='flex items-center justify-center space-x-2' >
+      {/* Features Video Start */}
      <div className="flex flex-col justify-center items-center py-3 border-[1px] border-[0,0,0,0,0.15] rounded-md w-1/2" >
-     <h5 className='text-center font-bold text-xs mb-2' >Upload Features Video</h5>
-      <iframe src="https://www.youtube.com/embed/xplgjdpABvc" className="h-52 rounded-md" />
-      <div className='flex items-center space-x-2 mt-2' >
-          <input type="text" value={imageField} onChange={e=>setImageField(e.target.value)} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Image Url' />
-          <button  onClick={e=>{e.preventDefault();setMedia(prev=>[...prev,{type:'image',url:imageField}]);setImageField('');console.log([...media,{type:'image',url:imageField}])}} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
-          <input ref={imageSelectRef} onChange={e=>{e.preventDefault();setMedia(prev=>[...prev,{type:'image',url: window.URL.createObjectURL(e.target.files[0]) }]);setImageField('');}} type="file" accept='image/webp' className='hidden' />
-          <button type='button' onClick={handleVideoClick} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><FaImage className='text-lg' /></a>}</button>    
-        </div>
+      <h5 className='text-center font-bold text-xs mb-2' >Upload Features Video</h5>
+       {featureVideo.type === 'url' ? <iframe src={featureVideo.data} className='h-52 rounded-md' />:null}
+       {featureVideo.type === 'upload' ? <div className="flex justify-center items-center h-52" ><h5>Video File: {featureVideo.data.name}</h5></div> :null}
+       {featureVideo.type === '' && featureVideo.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' ><FaPhotoVideo className='text-7xl' /></div>:null}
+       <div className='flex items-center justify-center pt-3 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
+           <input type="text" value={featureVideoField} onChange={e=>setFeatureVideoField(e.target.value.replace('youtu.be/','youtube.com/embed/'))} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Image Url' />
+           <button  onClick={e=>handleFeatureVideo(e,'url')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
+           <input  type="file" accept='video/*' ref={featureVideoRef} onChange={e=>handleFeatureVideo(e,'upload')} className='hidden' />
+           <button type='button' onClick={()=>featureVideoRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><FaFileVideo className='text-lg' /></a>}</button>    
+       </div>
+     </div>
+    {/* 360 Iframe */}
+     <div className="flex flex-col justify-center items-center py-3 border-[1px] border-[0,0,0,0,0.15] rounded-md w-1/2" >
+      <h5 className='text-center font-bold text-xs mb-2' >Insert 360 Iframe</h5>
+       {featureVideo.type === 'url' ? <iframe src={featureVideo.data} className='h-52 rounded-md' />:null}
+       {featureVideo.type === '' && featureVideo.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' ><Tb360View className='text-7xl' /></div>:null}
+       <div className='flex items-center justify-center pt-3 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
+           <input type="text" value={featureVideoField} onChange={e=>setFeatureVideoField(e.target.value.replace('youtu.be/','youtube.com/embed/'))} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url Only' />
+           <button  onClick={e=>handleFeatureVideo(e,'url')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
+       </div>
+     </div>
+
      </div>
 
 
