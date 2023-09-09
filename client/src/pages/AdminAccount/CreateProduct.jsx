@@ -16,7 +16,7 @@ import createProductSchema from '../../schemas/createProductSchema';
 import Loader2 from '../../components/Loader/Loader2'
 import TextInput from '../../components/TextInput/TextInput'
 import Iframe from '../../components/Reusable/Ifram'
-import YouTube from 'react-youtube';
+import BlogEditor from '../../components/AdminDashboard/BlogEditor'
 
 const CreateProduct = () => {
 
@@ -33,6 +33,9 @@ const CreateProduct = () => {
    const [modelNo,setModelNo] = useState('')
    const [itemId,setItemId] = useState('')
    const [featureVideo,setFeatureVideo] = useState({type:'',data:''})
+   const [description,setDescription] = useState('')
+   const [specification,setSpecification] = useState('')
+   const [deliveryInfo,setDeliveryInfo] = useState('')
    // Form States End
    
    // Controller States Start
@@ -250,6 +253,27 @@ const CreateProduct = () => {
       </div>
       </div>
       {/* Product Tags End */}
+
+      {/* Product Description Start */}
+      <div >
+      <h3 className='text-center text-xl font-bold border-t-[1px] border-r-[1px] border-l-[1px] border-[rgba(0,0,0,0.15)]' >Description</h3>
+       <BlogEditor state={specification} setState={setSpecification} />
+      </div>
+      {/* Product Description End */}
+
+      {/* Product Specification Start */}
+      <div>
+      <h3 className='text-center text-xl font-bold border-t-[1px] border-r-[1px] border-l-[1px] border-[rgba(0,0,0,0.15)]' >Specification</h3>
+       <BlogEditor state={specification} setState={setSpecification} />
+      </div>
+      {/* Product Specification End */}
+
+      {/* Product DeliveryInfo Start */}
+      <div>
+      <h3 className='text-center text-xl font-bold border-t-[1px] border-r-[1px] border-l-[1px] border-[rgba(0,0,0,0.15)]' >Delivery Info</h3>
+       <BlogEditor state={deliveryInfo} setState={setDeliveryInfo} />
+      </div>
+      {/* Product DeliveryInfo End */}
 
       <button type="submit" className='flex justify-center self-center items-center cursor-pointer rounded-md py-1 w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a>}</button>
      </form>
