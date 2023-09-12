@@ -1,7 +1,7 @@
 import React,{useEffect, useRef} from 'react';
 import AdminAccount from '../../layout/AdminAccount';
 import {BsArrowRightShort,BsFillTrashFill} from 'react-icons/bs'
-import {AiOutlinePlusSquare,AiFillPlusCircle} from 'react-icons/ai'
+import {AiOutlinePlusSquare,AiFillPlusCircle,AiFillCloseCircle} from 'react-icons/ai'
 import {BiSolidVideos} from 'react-icons/bi'
 import {FaImage,FaPhotoVideo,FaFileVideo} from 'react-icons/fa'
 import {TiTick} from 'react-icons/ti'
@@ -270,6 +270,12 @@ const CreateProduct = () => {
     }
   }
 
+  const deleteKeyword = (e,index) => {
+    e.preventDefault()
+     const data = keywords.filter((item,indx)=> indx !== index)
+     setKeywords(data)
+  }
+
   return (
    <>
     <Popup state={fPopup} setState={setFpopup} >
@@ -338,70 +344,62 @@ const CreateProduct = () => {
       <TextInput name="item-id" title="Item Id" iscompulsory="true" type="text" value={itemId} onChange={(e) => setItemId(e.target.value)} error={errors && errors.includes('Item Id is Required!') ? true : false} errormessage="Item Id is Required!" placeholder="Item Id: 234532455" />
      </div>
 
-     {/* Highlighed Features Start */}
-      <div className='flex flex-col border-[1px] border-[0,0,0,0,0.15] h-96 overflow-x-hidden overflow-y-scroll' >
-       <div className='flex w-full h-fit justify-center font-bold text-xl mt-2' ><h4>Key Features</h4></div>
-       <div className='grid grid-cols-3 mt-2 gap-x-2 gap-y-2 justify-center w-full' >
-        {/* Card Start */}
-        {keyFeatures.length > 0 ? keyFeatures.map((item,index)=><div key={index} className='flex flex-col  py-2 items-center h-auto  bg-b5 ml-2 rounded-md w-11/12' >
-          <div className='flex items-center justify-center border-[1px] border-[0,0,0,0,0.15] w-11/12 h-32 px-2 py-2 rounded-md' >
-            {item.media.file === 'image' ? <img src={item.media.data} className='w-20 h-20' />:
-            item.media.type === 'url' ? <iframe src={item.media.data} /> : <video src={item.media.data} />
-            }
-          </div> 
-          <div className='flex space-x-2 items-center justify-center w-full s mt-2' >
-           <button type='button' onClick={handleVideoClick} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><HiPencil className='text-lg' /></a></button>    
-           <button type='button' onClick={handleVideoClick} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-lg' /></a></button>    
-          </div>
-          <div className='flex flex-col px-2 mt-2 w-full' >
-          <h5 className='font-bold text-sm' >{item.data}</h5>
-          <p className='h-32 text-xs overflow-x-hidden overflow-y-scroll' >{item.description}</p>
-          </div>
-        </div>):null}
-        {/* Card End */}
-        {/* Add More Card Start */}
-        <div className='flex flex-col  justify-center py-2 items-center h-72 ml-2 rounded-md w-11/12' >
-          <div onClick={()=>setFpopup(true)} className='flex items-center hover:cursor-pointer shadow-xl justify-center border-[1px] border-b6 w-1/2 h-1/2 px-2 py-2 rounded-md' >
-            <AiOutlinePlusSquare className='text-b6 text-4xl' />
-          </div> 
-        </div>
-        {/* Add More Card End */}
+     <Accordion title="Main Key Features" answer={
+      <div className='flex flex-col border-[1px] border-[0,0,0,0,0.15] rounded-md h-96 overflow-x-hidden overflow-y-scroll w-full' >
+      <div className='grid grid-cols-3 mt-2 gap-x-2 gap-y-2 justify-center w-full' >
+       {/* Card Start */}
+       {keyFeatures.length > 0 ? keyFeatures.map((item,index)=><div key={index} className='flex flex-col  py-2 items-center h-auto  bg-b5 ml-2 rounded-md w-11/12' >
+         <div className='flex items-center justify-center border-[1px] border-[0,0,0,0,0.15] w-11/12 h-32 px-2 py-2 rounded-md' >
+           {item.media.file === 'image' ? <img src={item.media.data} className='w-20 h-20' />:
+           item.media.type === 'url' ? <iframe src={item.media.data} /> : <video src={item.media.data} />
+           }
+         </div> 
+         <div className='flex space-x-2 items-center justify-center w-full s mt-2' >
+          <button type='button' onClick={handleVideoClick} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><HiPencil className='text-lg' /></a></button>    
+          <button type='button' onClick={handleVideoClick} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-lg' /></a></button>    
+         </div>
+         <div className='flex flex-col px-2 mt-2 w-full' >
+         <h5 className='font-bold text-sm' >{item.data}</h5>
+         <p className='h-32 text-xs overflow-x-hidden overflow-y-scroll' >{item.description}</p>
+         </div>
+       </div>):null}
+       {/* Card End */}
+       {/* Add More Card Start */}
+       <div className='flex flex-col  justify-center py-2 items-center h-72 ml-2 rounded-md w-11/12' >
+         <div onClick={()=>setFpopup(true)} className='flex items-center hover:cursor-pointer shadow-xl justify-center border-[1px] border-b6 w-1/2 h-1/2 px-2 py-2 rounded-md' >
+           <AiOutlinePlusSquare className='text-b6 text-4xl' />
+         </div> 
        </div>
+       {/* Add More Card End */}
       </div>
-     {/* Highlighed Features End */}
-
-
-
-     <div className='flex items-center justify-center space-x-2' >
-      {/* Features Video Start */}
-     <div className="flex flex-col justify-center items-center py-3 border-[1px] border-[0,0,0,0,0.15] rounded-md w-1/2" >
-      <h5 className='text-center font-bold text-xs mb-2' >Upload Features Video</h5>
-       {featureVideo.type === 'url' ? <iframe src={featureVideo.data} className='h-52 rounded-md' />:null}
-       {featureVideo.type === 'upload' ? <div className="flex justify-center items-center h-52" ><h5>Video File: {featureVideo.data.name}</h5></div> :null}
-       {featureVideo.type === '' && featureVideo.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' ><FaPhotoVideo className='text-7xl' /></div>:null}
-       <div className='flex items-center justify-center pt-3 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
-           <input type="text" value={featureVideoField} onChange={e=>setFeatureVideoField(e.target.value.replace('youtu.be/','youtube.com/embed/'))} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Image Url' />
-           <button  onClick={e=>handleFeatureVideo(e,'url')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
-           <input  type="file" accept='video/*' ref={featureVideoRef} onChange={e=>handleFeatureVideo(e,'upload')} className='hidden' />
-           <button type='button' onClick={()=>featureVideoRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><FaFileVideo className='text-lg' /></a>}</button>    
-       </div>
      </div>
-    {/* 360 Iframe */}
-     <div className="flex flex-col justify-center items-center py-3 border-[1px] border-[0,0,0,0,0.15] rounded-md w-1/2" >
-      <h5 className='text-center font-bold text-xs mb-2' >Insert 360 Iframe</h5>
-       {featureVideo.type === 'url' ? <iframe src={featureVideo.data} className='h-52 rounded-md' />:null}
-       {featureVideo.type === '' && featureVideo.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' ><Tb360View className='text-7xl' /></div>:null}
-       <div className='flex items-center justify-center pt-3 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
-           <input type="text" value={featureVideoField} onChange={e=>setFeatureVideoField(e.target.value.replace('youtu.be/','youtube.com/embed/'))} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url Only' />
-           <button  onClick={e=>handleFeatureVideo(e,'url')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
-       </div>
-     </div>
+     } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child=' w-full [&>p]:text-sm !mt-0' />
 
-     </div>
-
-
-     {/* Product Media Start */}
-      <Accordion title="Product Media" answer={
+      <Accordion title="Product Media" answer={<div className="flex flex-col space-y-5" >
+             <div className='flex items-center justify-center space-x-2' >
+            <div className="flex flex-col justify-center items-center py-3 border-[1px] border-[0,0,0,0,0.15] rounded-md w-1/2" >
+             <h5 className='text-center font-bold text-xs mb-2' >Upload Features Video</h5>
+              {featureVideo.type === 'url' ? <iframe src={featureVideo.data} className='h-52 rounded-md' />:null}
+              {featureVideo.type === 'upload' ? <div className="flex justify-center items-center h-52" ><h5>Video File: {featureVideo.data.name}</h5></div> :null}
+              {featureVideo.type === '' && featureVideo.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' ><FaPhotoVideo className='text-7xl' /></div>:null}
+              <div className='flex items-center justify-center pt-3 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
+                  <input type="text" value={featureVideoField} onChange={e=>setFeatureVideoField(e.target.value.replace('youtu.be/','youtube.com/embed/'))} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Image Url' />
+                  <button  onClick={e=>handleFeatureVideo(e,'url')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
+                  <input  type="file" accept='video/*' ref={featureVideoRef} onChange={e=>handleFeatureVideo(e,'upload')} className='hidden' />
+                  <button type='button' onClick={()=>featureVideoRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><FaFileVideo className='text-lg' /></a>}</button>    
+              </div>
+            </div>
+            <div className="flex flex-col justify-center items-center py-3 border-[1px] border-[0,0,0,0,0.15] rounded-md w-1/2" >
+             <h5 className='text-center font-bold text-xs mb-2' >Insert 360 Iframe</h5>
+              {featureVideo.type === 'url' ? <iframe src={featureVideo.data} className='h-52 rounded-md' />:null}
+              {featureVideo.type === '' && featureVideo.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' ><Tb360View className='text-7xl' /></div>:null}
+              <div className='flex items-center justify-center pt-3 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
+                  <input type="text" value={featureVideoField} onChange={e=>setFeatureVideoField(e.target.value.replace('youtu.be/','youtube.com/embed/'))} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url Only' />
+                  <button  onClick={e=>handleFeatureVideo(e,'url')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
+              </div>
+            </div>
+       
+            </div>
        <div className='flex flex-col border-[1px] border-[rgba(0,0,0,0.15)] rounded-lg h-52' >
        <div className='flex items-center justify-between px-2 border-b-[1px] border-b-[rgba(0,0,0,0.15)] h-10 w-full' >
         
@@ -432,7 +430,7 @@ const CreateProduct = () => {
        </div>
        {/* Media Data Placeholder End */}
 
-      </div>
+      </div></div>
       } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
 
      {/* Product Media End */}
@@ -468,16 +466,22 @@ const CreateProduct = () => {
 
       {/* Seo Start */}
       <Accordion title="Product Seo" answer={
-       <h4>dd</h4>
+       <div className='flex flex-col space-y-2 w-full' > 
+         <TextInput width="full" name="title" title="Meta Title" type="text" value={metaTitle} onChange={(e) =>setMetaTitle(e.target.value)} error={errors && errors.includes('Product Title is Required!') ? true : false} errormessage="Product Title is Required!" placeholder="Enter Meta Title" />
+         <TextArea title="Meta Description" value={metaDescription} onChange={e=>setMetaDescription(e.target.value)} placeholder="Write Meta Description Here.." /> 
+        {/* Seo Keyword */}
+        <h5 className='text-xs font-semibold' >Meta Keywords</h5>
+        <div className='flex flex-wrap w-full py-3 px-2 rounded-xl border-[1px] borders-[0,0,0,0,0.15]' >
+        <div className="flex items-center space-x-2" >
+         {keywords.map((item,index)=><span key={index} className="flex items-center bg-b6 text-sm px-2 py-1 text-white rounded-2xl" >{item}<AiFillCloseCircle onClick={e=>deleteKeyword(e,index)} className='text-white bg-red-500 ml-1 text-xs cursor-pointer rounded-full' /></span>)}
+        <div/>
+        <input placeholder='Enter Meta Keywords' value={keywordField} onKeyDown={e => handleEnterKey(e)} onChange={e=>setKeywordField(e.target.value)} className='border-none outline-none mx-5 text-sm' />
+       </div>
+       </div>
+      </div>
       } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Seo End */}
-      <div className='flex flex-wrap w-full py-3 px-2 rounded-xl border-[1px] borders-[0,0,0,0,0.15]' >
-       <div className="flex items-center space-x-2" >
-        {keywords.map((item,index)=><span key={index} className="bg-b6 text-sm px-2 py-1 text-white rounded-2xl" >{item}</span>)}
-       <div/>
-       <input placeholder='Enter Keyword Here' value={keywordField} onKeyDown={e => handleEnterKey(e)} onChange={e=>setKeywordField(e.target.value)} className='border-none outline-none mx-5 text-sm' />
-      </div>
-      </div>
+      
 
       <button type="submit" className='flex justify-center self-center items-center cursor-pointer rounded-md py-1 w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a>}</button>
      </form>
