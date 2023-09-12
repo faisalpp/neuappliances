@@ -188,43 +188,11 @@ export const getProducts = async () => {
     return response;
 }
 
-// Get Product Types List
-export const getProductTypes = async (data) => {
+export const getCategoryData = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/get-product-types',data);
-    }catch (error){
-        return error;
-    }
-    return response;
-}
-// Get Product Types List
-export const getProductFeatures = async (data) => {
-    let response;
-    
-    try{
-        response = await AdminApi.post('/api/admin/get-product-features',data);
-    }catch (error){
-        return error;
-    }
-    return response;
-}
-export const getCategoryBrands = async (data) => {
-    let response;
-    
-    try{
-        response = await AdminApi.post('/api/admin/get-category-brands',data);
-    }catch (error){
-        return error;
-    }
-    return response;
-}
-export const getCategoryColors = async (data) => {
-    let response;
-    
-    try{
-        response = await AdminApi.post('/api/admin/get-category-colors',data);
+        response = await AdminApi.post('/api/admin/get-category-data',data);
     }catch (error){
         return error;
     }

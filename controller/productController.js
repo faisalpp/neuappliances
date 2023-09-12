@@ -205,54 +205,20 @@ const productController = {
         return next(error)
       }
     },
-    async GetProductTypes(req,res,next){
-      const {categoryId} = req.body;
-      categorySection.find({ categoryId: categoryId,type:'types' })
-      .populate('sectionItemsId')
-      .exec()
-      .then(productTypes => {
-        // categorySections will contain an array of CategorySection documents
-        return res.status(200).json({status:200,productTypes:productTypes});
-      })
-      .catch(err => {
-          return res.status(500).json({message:'Internal Server Error!'});
-      });
-    },
-    async GetProductFeatures(req,res,next){
-      const {categoryId} = req.body;
+    
+    async GetCategoryData(req,res,next) {
+      const {categorySlug} = req.body;
       
-      categorySection.find({ categoryId: categoryId,type:'features' })
+      categorySection.find({ categorySlug: categorySlug,type:{$in:['types','features','finishes-&-colors','brands','fuel-types']} })
       .populate('sectionItemsId')
       .exec()
-      .then(productFeatures => {
-        // categorySections will contain an array of CategorySection documents
-          return res.status(200).json({status:200,productFeatures:productFeatures});
-      })
-      .catch(err => {
-          return res.status(500).json({message:'Internal Server Error!'});
-      });
-    },
-    async GetCategoryBrands(req,res,next){
-      const {categoryId} = req.body;
-      categorySection.find({ categoryId: categoryId,type:'brands' })
-      .populate('sectionItemsId')
-      .exec()
-      .then(categoryBrands => {
-        // categorySections will contain an array of CategorySection documents
-          return res.status(200).json({status:200,categoryBrands:categoryBrands});
-      })
-      .catch(err => {
-          return res.status(500).json({message:'Internal Server Error!'});
-      });
-    },
-    async GetCategoryColors(req,res,next){
-      const {categoryId} = req.body;
-      categorySection.find({ categoryId: categoryId,type:'colors' })
-      .populate('sectionItemsId')
-      .exec()
-      .then(categoryColors => {
-        // categorySections will contain an array of CategorySection documents
-          return res.status(200).json({status:200,categoryColors:categoryColors});
+      .then(data => {
+        const types = data.filter(item => item.type === 'types');
+        const features = data.filter(item=>item.type === 'features');
+        const colors = data.filter(item=>item.type === 'finishes-&-colors');
+        const brands = data.filter(item=>item.type === 'brands');
+        const fuelTypes = data.filter(item=>item.type === 'fuel-types');
+        return res.status(200).json({status:200,types,features,colors,brands,fuelTypes});
       })
       .catch(err => {
           return res.status(500).json({message:'Internal Server Error!'});

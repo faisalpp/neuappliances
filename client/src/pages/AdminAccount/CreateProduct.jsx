@@ -1,22 +1,27 @@
 import React,{useEffect, useRef} from 'react';
 import AdminAccount from '../../layout/AdminAccount';
-import {BsArrowRightShort} from 'react-icons/bs'
-import {AiFillFolderAdd,AiFillPlusCircle,AiFillYoutube} from 'react-icons/ai'
+import {BsArrowRightShort,BsFillTrashFill} from 'react-icons/bs'
+import {AiOutlinePlusSquare,AiFillPlusCircle} from 'react-icons/ai'
+import {BiSolidVideos} from 'react-icons/bi'
 import {FaImage,FaPhotoVideo,FaFileVideo} from 'react-icons/fa'
-import {PiVideoFill} from 'react-icons/pi'
 import {TiTick} from 'react-icons/ti'
 import {Tb360View} from 'react-icons/tb'
+import {HiPencil} from 'react-icons/hi'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getCategoryBrands,getProductTypes,getProductFeatures,createProduct,getCategoryColors} from '../../api/admin'
+import { getCategoryData,createProduct} from '../../api/admin'
 import {GetCategories} from '../../api/admin/category'
 import createProductSchema from '../../schemas/createProductSchema';
 import Loader2 from '../../components/Loader/Loader2'
 import TextInput from '../../components/TextInput/TextInput'
+import SelectInput from '../../components/TextInput/SelectInput'
+import TextArea from '../../components/TextInput/TextAreaInput'
 import Iframe from '../../components/Reusable/Ifram'
 import BlogEditor from '../../components/AdminDashboard/BlogEditor'
+import Popup from '../../components/AdminDashboard/Popup'
+import Accordion from '../../components/FaqAccordion2'
 
 const CreateProduct = () => {
 
@@ -32,6 +37,13 @@ const CreateProduct = () => {
    const [stock,setStock] = useState('')
    const [modelNo,setModelNo] = useState('')
    const [itemId,setItemId] = useState('')
+   const [category,setCategory] = useState('')
+   const [type,setType] = useState('')
+   const [feature,setFeature] = useState('')
+   const [color,setColor] = useState('')
+   const [brand,setBrand] = useState('')
+   const [fuelType,setFuelType] = useState('')
+   const [keyFeatures,setKeyFeatures] = useState([])
    const [featureVideo,setFeatureVideo] = useState({type:'',data:''})
    const [description,setDescription] = useState('')
    const [specification,setSpecification] = useState('')
@@ -42,7 +54,13 @@ const CreateProduct = () => {
    const [media,setMedia] = useState([])
    const [featureVideoField,setFeatureVideoField] = useState('')
    const [imageField,setImageField] = useState('')
-   const [videoField,setVideoField] = useState()
+   const [videoField,setVideoField] = useState('')
+   const [categories,setCategories] = useState([])
+   const [brands,setBrands] = useState([])
+   const [features,setFeatures] = useState([])
+   const [types,setTypes] = useState([])
+   const [colors,setColors] = useState([])
+   const [fuelTypes,setFuelTypes] = useState([])
   const imageSelectRef = useRef(null)
   const featureVideoRef = useRef(null)
   // Controller States End
@@ -158,14 +176,154 @@ const CreateProduct = () => {
      console.log(tags)
   }
 
+
+  const GetCategoriess = async () => {
+    const res = await GetCategories();
+    if(res.status === 200){
+      setCategories(res.data.categories);
+      setCategory(res.data.categories[0].slug)
+    }else{
+      setCategories([])
+    }
+  }
+
+  useEffect(()=>{
+    GetCategoriess()
+  },[])
+
+  const setData = (property, data,setState) => {
+    if (data.length > 0) {
+      property(data[0].sectionItemsId);
+      setState(data[0].sectionItemsId[0].slug)
+    } else {
+      property([]);
+    }
+  };
+
+  const GetCategoryData = async () => {
+    const res = await getCategoryData({categorySlug:category})
+    if(res.status === 200){
+      setData(setFeatures, res.data.features,setFeature);
+      setData(setTypes, res.data.types,setType);
+      setData(setColors, res.data.colors,setColor);
+      setData(setBrands, res.data.brands,setBrand);
+      setData(setFuelTypes, res.data.fuelTypes,setFuelType);
+    }
+  }
+
+  useEffect(()=>{
+    GetCategoryData()
+  },[category])
+
+
+  // Product Highlighted Features Popup
+  const [fPopup,setFpopup] = useState(false)
+  const [fTitle,setFtitle] = useState('')
+  const [fDescription,setFdescription] = useState('')
+  const [fMedia,setFmedia] = useState({})
+  const [fImageField,setFimageField] = useState('')
+  const [fVideoField,setFvideoField] = useState('')
+  const fVideoRef = useRef(null)
+  const fImageRef = useRef(null)
+
+  const hanldeKeyFeatures = (e,type,media) => {
+    if(type === 'upload'){
+      e.preventDefault()
+      setFvideoField('')
+      const file = e.target.files[0]
+      if(file){
+      setFmedia({file:media,type:'upload',data:file});
+     }
+    }else if(type === 'url'){
+      if(featureVideoField === ''){
+        setFmedia({file:media,type:'',data:''})  
+      }else{
+        if(media === 'video'){
+          let id =  fVideoField.split('/').pop();
+          const preview = `https://img.youtube.com/vi/${id}/mqdefault.jpg`
+          setFmedia({file:media,type:'url',data:fVideoField.replace('youtu.be/','youtube.com/embed/'),prevImg:preview})
+          setFvideoField('')
+        }else{
+          setFmedia({file:media,type:'url',data:fImageField})
+          setFimageField('')
+        }
+    }
+    }
+  }
+
+  const saveKeyFeature = () => {
+    const data = {title:fTitle,description:fDescription,media:{file:fMedia.file,type:fMedia.type,data:fMedia.data}}
+    setKeyFeatures([...keyFeatures,data])
+    setFpopup(false)
+  }
+
+  // Product Seo
+  const [metaTitle,setMetaTitle] = useState('')
+  const [metaDescription,setDscription] = useState('')
+  const [keywordField,setKeywordField] = useState('')
+  const [keywords,setKeywords] = useState([])
+
+  const handleEnterKey = async (e) => {
+    if (e.key === 'Enter') {
+      setKeywords([...keywords,keywordField])
+      setKeywordField('')
+    }
+  }
+
   return (
    <>
+    <Popup state={fPopup} setState={setFpopup} >
+      <div className='flex flex-col items-center h-auto rounded-md w-11/12' >
+         <h4 className='pb-4 font-bold' >Create Product Feature</h4>
+          <div className='flex space-x-2' >
+          {/* Media Start */}
+           <div className='flex flex-col items-center justify-center border-[1px] border-[0,0,0,0,0.15] w-1/2 h-52 px-2 py-2 rounded-md' >
+             <div className='relative h-full flex items-center justify-center' >
+              {fImageField === '' ? <FaPhotoVideo className='text-7xl' />
+              :fMedia.type === 'url' ? <img src={fImageField} /> : <img src={window.URL.createObjectURL(fImageField)} className='w-20 h-20' />}
+             </div>
+             <div className='flex items-center justify-center pt-1 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
+              <input type="text" value={fImageField} onChange={e=>setFimageField(e.target.value)} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Image Url' />
+              <button  onClick={e=>hanldeKeyFeatures(e,'url','image')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
+              <input  type="file" accept='video/*' ref={fImageRef} onChange={e=>hanldeKeyFeatures(e,'upload','image')} className='hidden' />
+              <button type='button' onClick={()=>fImageRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><FaImage className='text-lg' /></a>}</button>    
+             </div>
+           </div>
+           <div className='flex flex-col items-center justify-center border-[1px] border-[0,0,0,0,0.15] w-1/2 h-52 px-2 py-2 rounded-md' >
+             <div className='h-full flex items-center justify-center' >
+              {fVideoField === '' ?<BiSolidVideos className='text-7xl' />
+              :fMedia.type === 'upload' ? <video src={fMedia.data} /> : <iframe src={fMedia.data} ></iframe>}
+             </div>
+             <div className='flex items-center justify-center pt-1 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
+              <input type="text" value={featureVideoField} onChange={e=>setFeatureVideoField(e.target.value.replace('youtu.be/','youtube.com/embed/'))} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url' />
+              <button  onClick={e=>hanldeKeyFeatures(e,'url','video')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
+              <input  type="file" accept='video/*' ref={fVideoRef} onChange={e=>hanldeKeyFeatures(e,'upload','video')} className='hidden' />
+              <button type='button' onClick={()=>fVideoRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><FaFileVideo className='text-lg' /></a>}</button>    
+             </div>
+           </div>
+          {/* Media End */}
+          </div>
+          <div className='flex flex-col space-y-2 items-center px-2 mt-2 w-full' >
+          <TextInput width="full" value={fTitle} onChange={e=>setFtitle(e.target.value)} placeholder="Enter Feature Title" />
+          <TextArea value={fDescription} onChange={e=>setFdescription(e.target.value)} placeholder="Write Feature Description Here.." /> 
+          <button type='button' onClick={saveKeyFeature} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-3 py-2 rounded-md text-white font-semibold text-xs' >Create</a></button>    
+          </div>
+        </div>
+    </Popup>
     <AdminAccount>
     <form onSubmit={CreateProduct} encType='multipart/form-data' className='flex flex-col justify-center space-y-5 w-full py-10' >
      
      <div className="flex items-center space-x-5 w-full" >
       <TextInput name="title" title="Title" iscompulsory="true" type="text" value={title} onChange={(e) => { setTitle(e.target.value); setSlug(e.target.value.toLowerCase().replace(/\s/g, '-').replace(/\./g, '')) }} error={errors && errors.includes('Product Title is Required!') ? true : false} errormessage="Product Title is Required!" placeholder="Enter Product Title" />
       <TextInput name="slug" readOnly title="Slug" iscompulsory="true" type="text" value={slug} error={errors && errors.includes('Product Slug is Required!') ? true : false} errormessage="Product Slug is Required!" placeholder="Enter Product Slug" />
+      <SelectInput name="categor" title="Product Category" iscompulsory="true" onChange={e => setCategory(e.target.value)} options={categories} />
+     </div>
+     <div className="flex space-x-5 items-center w-full" >
+      {features.length > 0 ? <SelectInput name="categor" title="Product Feature" iscompulsory="true" onChange={e => setFeature(e.target.value)} options={features} />:null}
+      {types.length > 0 ? <SelectInput name="categor" title="Product Type" iscompulsory="true" onChange={e => setType(e.target.value)} options={types} />:null}
+      {colors.length > 0 ? <SelectInput name="categor" title="Product Color" iscompulsory="true" onChange={e => setColor(e.target.value)} options={colors} />:null}
+      {fuelTypes.length > 0 ? <SelectInput name="categor" title="Product Fuel Type" iscompulsory="true" onChange={e => setFuelType(e.target.value)} options={fuelTypes} />:null}
+      {brands.length > 0 ? <SelectInput name="categor" title="Product Brand" iscompulsory="true" onChange={e => setBrand(e.target.value)} options={brands} />:null}
      </div>
      <div className="flex items-center space-x-5 w-full" >
       <TextInput name="regPrice" title="Regular Price" iscompulsory="true" type="text" value={regPrice} onChange={(e) => setRegPrice(e.target.value)} error={errors && errors.includes('Regular Price is Required!') ? true : false} errormessage="Sale Price is Required!" placeholder="Enter Sale Price" />
@@ -179,6 +337,41 @@ const CreateProduct = () => {
       <TextInput name="model-no" title="Model No" iscompulsory="true" type="text" value={modelNo} onChange={(e) => setModelNo(e.target.value)} error={errors && errors.includes('Model No is Required!') ? true : false} errormessage="Model No is Required!" placeholder="Model No : #9088324885" />
       <TextInput name="item-id" title="Item Id" iscompulsory="true" type="text" value={itemId} onChange={(e) => setItemId(e.target.value)} error={errors && errors.includes('Item Id is Required!') ? true : false} errormessage="Item Id is Required!" placeholder="Item Id: 234532455" />
      </div>
+
+     {/* Highlighed Features Start */}
+      <div className='flex flex-col border-[1px] border-[0,0,0,0,0.15] h-96 overflow-x-hidden overflow-y-scroll' >
+       <div className='flex w-full h-fit justify-center font-bold text-xl mt-2' ><h4>Key Features</h4></div>
+       <div className='grid grid-cols-3 mt-2 gap-x-2 gap-y-2 justify-center w-full' >
+        {/* Card Start */}
+        {keyFeatures.length > 0 ? keyFeatures.map((item,index)=><div key={index} className='flex flex-col  py-2 items-center h-auto  bg-b5 ml-2 rounded-md w-11/12' >
+          <div className='flex items-center justify-center border-[1px] border-[0,0,0,0,0.15] w-11/12 h-32 px-2 py-2 rounded-md' >
+            {item.media.file === 'image' ? <img src={item.media.data} className='w-20 h-20' />:
+            item.media.type === 'url' ? <iframe src={item.media.data} /> : <video src={item.media.data} />
+            }
+          </div> 
+          <div className='flex space-x-2 items-center justify-center w-full s mt-2' >
+           <button type='button' onClick={handleVideoClick} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><HiPencil className='text-lg' /></a></button>    
+           <button type='button' onClick={handleVideoClick} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-lg' /></a></button>    
+          </div>
+          <div className='flex flex-col px-2 mt-2 w-full' >
+          <h5 className='font-bold text-sm' >{item.data}</h5>
+          <p className='h-32 text-xs overflow-x-hidden overflow-y-scroll' >{item.description}</p>
+          </div>
+        </div>):null}
+        {/* Card End */}
+        {/* Add More Card Start */}
+        <div className='flex flex-col  justify-center py-2 items-center h-72 ml-2 rounded-md w-11/12' >
+          <div onClick={()=>setFpopup(true)} className='flex items-center hover:cursor-pointer shadow-xl justify-center border-[1px] border-b6 w-1/2 h-1/2 px-2 py-2 rounded-md' >
+            <AiOutlinePlusSquare className='text-b6 text-4xl' />
+          </div> 
+        </div>
+        {/* Add More Card End */}
+       </div>
+      </div>
+     {/* Highlighed Features End */}
+
+
+
      <div className='flex items-center justify-center space-x-2' >
       {/* Features Video Start */}
      <div className="flex flex-col justify-center items-center py-3 border-[1px] border-[0,0,0,0,0.15] rounded-md w-1/2" >
@@ -208,7 +401,8 @@ const CreateProduct = () => {
 
 
      {/* Product Media Start */}
-      <div className='flex flex-col border-[1px] border-[rgba(0,0,0,0.15)] rounded-lg h-52' >
+      <Accordion title="Product Media" answer={
+       <div className='flex flex-col border-[1px] border-[rgba(0,0,0,0.15)] rounded-lg h-52' >
        <div className='flex items-center justify-between px-2 border-b-[1px] border-b-[rgba(0,0,0,0.15)] h-10 w-full' >
         
         <div className='flex items-center space-x-2' >
@@ -239,41 +433,51 @@ const CreateProduct = () => {
        {/* Media Data Placeholder End */}
 
       </div>
+      } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
 
      {/* Product Media End */}
 
 
       {/* Product Tags Start */}
-      <h3 className='font-bold' >Select Product Tags</h3>
-      <div className='h-52 overflow-x-hidden overflow-y-scroll px-2 py-2  border-[1px] border-[rgba(0,0,0,0.15)] rounded-lg' >
-      <div className='flex flex-wrap gap-y-2 gap-x-5 my-5 ' >
-       {/* Tags Start */}
-        {tags.length > 0 ? tags.map((item,index)=> <>{item.el ? <ExtendTag id={item.id} name={item.el} selected={item.selected} /> : <div key={index} onClick={e=>handleTagClick(e,item.id)} className={`flex items-center cursor-pointer hover:shadow-md space-x-1 border-[1px] ${item.selected ? 'border-[1px] border-b6 ' :'border-[1px] border-[rgba(0,0,0,0.15)]'} rounded-md px-3 py-2 w-fit h-fit`} >{item.icon !== '' ?<img src={`/tags/${item.icon}.png`} className='h-6 w-6' />:null}<span><h5 className='text-[10px] font-medium' >{item.name}</h5></span></div>}</>):<div className='flex w-full h-full justify-center items-center' ><img src="/not-found.webp" className='w-28 h-28' /></div>}
-       {/* Tags End */}       
-      </div>
-      </div>
+      <Accordion title="Product Tags" answer={
+       <div className='h-52 overflow-x-hidden overflow-y-scroll px-2 py-2  border-[1px] border-[rgba(0,0,0,0.15)] rounded-lg' >
+       <div className='flex flex-wrap gap-y-2 gap-x-5 my-5 ' >
+         {tags.length > 0 ? tags.map((item,index)=> <>{item.el ? <ExtendTag id={item.id} name={item.el} selected={item.selected} /> : <div key={index} onClick={e=>handleTagClick(e,item.id)} className={`flex items-center cursor-pointer hover:shadow-md space-x-1 border-[1px] ${item.selected ? 'border-[1px] border-b6 ' :'border-[1px] border-[rgba(0,0,0,0.15)]'} rounded-md px-3 py-2 w-fit h-fit`} >{item.icon !== '' ?<img src={`/tags/${item.icon}.png`} className='h-6 w-6' />:null}<span><h5 className='text-[10px] font-medium' >{item.name}</h5></span></div>}</>):<div className='flex w-full h-full justify-center items-center' ><img src="/not-found.webp" className='w-28 h-28' /></div>}       
+       </div>
+       </div>
+      } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Product Tags End */}
 
       {/* Product Description Start */}
-      <div >
-      <h3 className='text-center text-xl font-bold border-t-[1px] border-r-[1px] border-l-[1px] border-[rgba(0,0,0,0.15)]' >Description</h3>
-       <BlogEditor state={specification} setState={setSpecification} />
-      </div>
+      <Accordion title="Description" answer={
+       <BlogEditor state={description} setState={setDescription} />
+      } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Product Description End */}
 
       {/* Product Specification Start */}
-      <div>
-      <h3 className='text-center text-xl font-bold border-t-[1px] border-r-[1px] border-l-[1px] border-[rgba(0,0,0,0.15)]' >Specification</h3>
+      <Accordion title="Specification" answer={
        <BlogEditor state={specification} setState={setSpecification} />
-      </div>
+      } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Product Specification End */}
 
       {/* Product DeliveryInfo Start */}
-      <div>
-      <h3 className='text-center text-xl font-bold border-t-[1px] border-r-[1px] border-l-[1px] border-[rgba(0,0,0,0.15)]' >Delivery Info</h3>
+      <Accordion title="Delivery Info" answer={
        <BlogEditor state={deliveryInfo} setState={setDeliveryInfo} />
-      </div>
+      } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Product DeliveryInfo End */}
+
+      {/* Seo Start */}
+      <Accordion title="Product Seo" answer={
+       <h4>dd</h4>
+      } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
+      {/* Seo End */}
+      <div className='flex flex-wrap w-full py-3 px-2 rounded-xl border-[1px] borders-[0,0,0,0,0.15]' >
+       <div className="flex items-center space-x-2" >
+        {keywords.map((item,index)=><span key={index} className="bg-b6 text-sm px-2 py-1 text-white rounded-2xl" >{item}</span>)}
+       <div/>
+       <input placeholder='Enter Keyword Here' value={keywordField} onKeyDown={e => handleEnterKey(e)} onChange={e=>setKeywordField(e.target.value)} className='border-none outline-none mx-5 text-sm' />
+      </div>
+      </div>
 
       <button type="submit" className='flex justify-center self-center items-center cursor-pointer rounded-md py-1 w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a>}</button>
      </form>
