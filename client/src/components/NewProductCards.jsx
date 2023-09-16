@@ -2,7 +2,7 @@ import React from 'react'
 
 const NewProductCards = () => {
     return (
-        <div className='py-10 lg:py-14 xl:py-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 2xl:gap-20'>
+        <div className='py-10 lg:py-14 xl:py-20 maincontainer grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 2xl:gap-20'>
             <div className='card'>
                 <div className='card_header px-5 py-10 border border-black/[0.08] rounded-3xl'>
                     <img src="/WashingMachine.webp" className='h-[266px] object-contain w-full' alt="WashingMachine" />

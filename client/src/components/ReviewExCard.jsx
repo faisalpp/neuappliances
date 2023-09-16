@@ -1,8 +1,24 @@
-import React from 'react'
+import { useState, useEffect, useRef } from 'react';
 import { AiFillStar } from 'react-icons/ai'
 import { Modal } from './Reusable/Modal';
 
 const ReviewExCard = ({ description, author, review }) => {
+
+  const paragraphRef = useRef(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  useEffect(() => {
+    const paragraph = paragraphRef.current;
+    if (paragraph) {
+      const maxLines = 6;
+      const lineHeight = parseInt(getComputedStyle(paragraph).lineHeight);
+      const maxHeight = maxLines * lineHeight;
+      const actualHeight = paragraph.scrollHeight;
+
+      setIsOverflowing(actualHeight > maxHeight);
+    }
+  }, [description]);
+
 
   const StarIconPrinter = ({ numberOfTimes }) => {
     const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
@@ -20,14 +36,27 @@ const ReviewExCard = ({ description, author, review }) => {
   };
 
   return (
-    <div className={`maxmd:mx-2 flex flex-col bg-[rgba(255,155,62,0.08)] shadow-sm p-6 sm:p-10 rounded-2xl md:mx-[11px]`} >
+    <div className={`maxmd:mx-2 h-full flex flex-col bg-[rgba(255,155,62,0.08)] shadow-sm p-6 sm:p-10 rounded-2xl md:mx-[11px]`} >
       <div className='flex' >
         <StarIconPrinter numberOfTimes={review} />
         <StarIconPrinter2 numberOfTimes={5 - review} />
       </div>
-      <p className='text-sm xl:text-base mt-6 font-normal leading-6 line-clamp-6' >{description}</p>
+      <div>
+        <p ref={paragraphRef} className='text-sm xl:text-base mt-6 font-normal leading-6 line-clamp-6'>
+          {description}
+        </p>
+        {isOverflowing && (
+          <Modal
+            title={author}
+            description={description}
+            rating={review}
+            buttonClass="text-b3 maxsm:text-sm font-semibold"
+            buttonName={`Learn More`}
+          />
+        )}
+      </div>
+
       <h5 className='text-lg xl:text-base mt-4 mb-2 font-bold lg:w-10/12 xl:w-10/12 w-full' >{author}</h5>
-      <Modal title={author} description={description} buttonClass="text-b3 maxsm:text-sm font-semibold" buttonName={`Learn More`} />
     </div>
   )
 }

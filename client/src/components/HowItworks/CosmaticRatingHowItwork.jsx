@@ -18,7 +18,7 @@ const CosmaticRatingHowItwork = () => {
                 <CosmaticRatingCard rating={5} damage="Very Minor to No Cosmetic Damage" discount="Great" description={`If your shopping our 5 star appliances then you understand the value of a good deal! 5-star rated appliances get you an open box appliance that works perfectly, with very minor to no cosmetic damage like scratchs or dents at a great discount. Our customers purchasing 5 star Cosmetic Cosmetic Rating appliances are generally looking for like new or new appliances while capitalizing on an open box discount vs a "Scratch or Dent" discounted appliance while still obtaining a 100% functional appliance.`} />
             </div>
 
-            <SatisfiedSection apiSectionName="how-it-works-review-(ratings-tab)" title="Our Customers Are RAVING About Our Rating System" SectionStyle="!p-0 !max-w-full" />
+            <SatisfiedSection apiSectionName="how-it-works-review-(ratings-tab)" title="Our Customers Are RAVING About Our Rating System" SectionStyle="!w-full !max-w-full" />
         </div>
     )
 }

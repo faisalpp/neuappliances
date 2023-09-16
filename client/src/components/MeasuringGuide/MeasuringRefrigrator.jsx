@@ -3,7 +3,7 @@ import MeasuringCard from './MeasuringCard'
 
 const MeasuringRefrigrator = () => {
     return (
-        <div className='flex flex-col gap-5 md:gap-14 pb-16 xl:pb-20 2xl:pb-120px pt-10 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+        <div className='flex flex-col gap-5 md:gap-14 pb-16 xl:pb-20 2xl:pb-120px pt-10 maincontainer'>
             <h2 className='text-2xl xl:text-[32px] font-bold text-b18 text-center'>
                 Measuring Refrigerators
             </h2>

@@ -13,7 +13,7 @@ const Ratings = () => {
                         We rate our scratch and dent appliances by their cosmetic appearance (How they look). Appliances with lower cosmetic ratings get Deeper Discounts! You pick your level of savings!
                     </p>
 
-                    <CosmaticCard customStyle="!p-0 maxmd:!mt-0" />
+                    <CosmaticCard customStyle="!w-full !p-0 maxmd:!mt-0" />
 
                     {/* Cosmatic Rating How it Work */}
                     <CosmaticRatingHowItwork />

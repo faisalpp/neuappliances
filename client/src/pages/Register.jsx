@@ -65,9 +65,9 @@ const Register = () => {
 
       <MainLayout>
         <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
-        <div className='flex flex-col space-y-10 items-center pt-20 py-32 w-full' >
+        <div className='flex flex-col space-y-10 items-center pt-20 py-32 w-full px-5' >
           <div><img src="login_logo.webp" alt="login_logo" /></div>
-          <form onSubmit={Submit} className='flex flex-col space-y-5 w-5/12 px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >
+          <form onSubmit={Submit} className='flex flex-col space-y-5 max-w-[633px] w-full px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >
             <h4 className='text-xl font-bold' >Register</h4>
             <div className='flex flex-col space-y-1' >
               <h5 className='text-xs font-semibold' >First Name</h5>

@@ -25,7 +25,7 @@ const ApplianceSection = () => {
   return (
     <div className='flex flex-col items-center py-10 px-4 md:px-10 lg:py-14 xl:py-28 bg-b8' >
       <h4 className='xl:text-4xl text-xl font-bold text-center mb-4' >Shop By Appliance Type</h4>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-10 2xl:gap-x-10 2xl:gap-y-14 mt-10 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-10 2xl:gap-x-10 2xl:gap-y-14 mt-10 maincontainer' >
         {applianceTypes && applianceTypes.map((item, index) => <SProductCard key={index} title={item.title} image={item.image} link={`/appliances/${item.slug}`} />)}
         {/* All Appliances */}
         <Link to='/applianceTypes' ><div className='maxmd:max-w-[330px] maxmd:mx-auto'>

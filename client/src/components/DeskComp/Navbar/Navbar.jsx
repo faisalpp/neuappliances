@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/ai';
 import { BiUserCircle } from 'react-icons/bi';
 import { IoMenu } from 'react-icons/io5';
@@ -150,54 +150,52 @@ const Navbar = () => {
     <>
       <div className='relative bg-b1' >
         {/* Navbar Start */}
-        <div className="hidden lg:block py-5">
-          <div className='lg:grid grid-cols-12 items-center 3xl:max-w-1680px px-16 xl:px-20 2xl:px-120px mx-auto w-full'>
-            <NavLink to="/">
-              <img className='col-start-1 col-end-3' src="/neu.webp" alt="logo" />
-            </NavLink>
-            {/* Search Start */}
-            <div className='col-start-4 col-end-8 flex items-center bg-white h-10 px-2 rounded-lg space-x-2 w-full ' >
-              <AiOutlineSearch className='text-black' />
-              <input type="text" value={search} onKeyDown={e => handleEnterKey(e)} onChange={e => setSearch(e.target.value)} placeholder='Search for appliances' className="w-full text-xs outline-none" />
-            </div>
-            {/* Search End */}
+        <div className='lg:grid grid-cols-12 py-5 items-center maincontainer'>
+          <NavLink to="/">
+            <img className='col-start-1 col-end-3' src="/neu.webp" alt="logo" />
+          </NavLink>
+          {/* Search Start */}
+          <div className='col-start-4 col-end-8 flex items-center bg-white h-10 px-2 rounded-lg space-x-2 w-full ' >
+            <AiOutlineSearch className='text-black' />
+            <input type="text" value={search} onKeyDown={e => handleEnterKey(e)} onChange={e => setSearch(e.target.value)} placeholder='Search for appliances' className="w-full text-xs outline-none" />
+          </div>
+          {/* Search End */}
 
-            <div className='col-start-9 col-end-13 flex justify-end space-x-2 w-full' >
-              <div onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><AiOutlineShoppingCart /><span className='ml-2 font-medium text-xs' >Cart</span><span className='ml-2 bg-b3 rounded-full text-xs h-4 w-4 text-center' >{cartCount}</span></div>
+          <div className='col-start-9 col-end-13 flex justify-end space-x-2 w-full' >
+            <div onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><AiOutlineShoppingCart /><span className='ml-2 font-medium text-xs' >Cart</span><span className='ml-2 bg-b3 rounded-full text-xs h-4 w-4 text-center' >{cartCount}</span></div>
 
-              {isAuth ? (isAdmin ? <Menu as="div" className="relative" >
-                <Menu.Button className='flex items-center px-4 bg-b2 py-[10px] w-max cursor-pointer rounded-md text-white' ><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs' >Hello {firstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>
+            {isAuth ? (isAdmin ? <Menu as="div" className="relative" >
+              <Menu.Button className='top__menu_button'><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs' >Hello {firstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>
+              {/* Mark this component as `static` */}
+              <Menu.Items as="div" className="absolute z-[100] top-12 -right-24 shadow-lg rounded-sm py-5 bg-white w-56 h-auto text-black">
+                <Menu.Item as="div" className="px-4" ><NavLink to="/admin/dashboard" className={`${({ isActive }) => isActive ? 'bg-b5' : ''} top__menu_item`} >Dashboard</NavLink></Menu.Item>
+                <Menu.Item as="div" className="px-4" ><NavLink to="" className={`${({ isActive }) => isActive ? 'bg-b5' : ''} top__menu_item`} >Order History</NavLink></Menu.Item>
+                <Menu.Item as="div" className="px-4" ><NavLink to="" className={`${({ isActive }) => isActive ? 'bg-b5' : ''} top__menu_item`} >Favorites</NavLink></Menu.Item>
+                <Menu.Item as="div" className="px-4" ><div onClick={handleAdminLogout} className='top__menu_item' >Logout</div></Menu.Item>
+              </Menu.Items>
+            </Menu>
+              : <Menu as="div" className="relative" >
+                <Menu.Button className='top__menu_button'><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs' >Hello {firstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>
                 {/* Mark this component as `static` */}
                 <Menu.Items as="div" className="absolute z-[100] top-12 -right-24 shadow-lg rounded-sm py-5 bg-white w-56 h-auto text-black">
-                  <Menu.Item as="div" className="px-4" ><NavLink to="/admin/dashboard" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Dashboard</NavLink></Menu.Item>
-                  <Menu.Item as="div" className="px-4" ><NavLink to="" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Order History</NavLink></Menu.Item>
-                  <Menu.Item as="div" className="px-4" ><NavLink to="" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Favorites</NavLink></Menu.Item>
-                  <Menu.Item as="div" className="px-4" ><div onClick={handleAdminLogout} className='flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-white font-normal' >Logout</div></Menu.Item>
+                  <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/profile" className={`${({ isActive }) => isActive ? 'bg-b5' : ''} top__menu_item`} >My Account</NavLink></Menu.Item>
+                  <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/order-history" className={`${({ isActive }) => isActive ? 'bg-b5' : ''} top__menu_item`} >Order History</NavLink></Menu.Item>
+                  <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/my-favourites" className={`${({ isActive }) => isActive ? 'bg-b5' : ''} top__menu_item`} >Favorites</NavLink></Menu.Item>
+                  <Menu.Item as="div" className="px-4" ><div onClick={handleLogout} className='top__menu_item' >Logout</div></Menu.Item>
                 </Menu.Items>
-              </Menu>
-                : <Menu as="div" className="relative" >
-                  <Menu.Button className='flex items-center px-4 bg-b2 py-[10px] w-max cursor-pointer rounded-md text-white' ><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs' >Hello {firstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>
-                  {/* Mark this component as `static` */}
-                  <Menu.Items as="div" className="absolute z-[100] top-12 -right-24 shadow-lg rounded-sm py-5 bg-white w-56 h-auto text-black">
-                    <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/profile" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >My Account</NavLink></Menu.Item>
-                    <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/order-history" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Order History</NavLink></Menu.Item>
-                    <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/my-favourites" className={({ isActive }) => isActive ? 'flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-b5 font-normal' : 'flex w-full px-2 cursor-pointer first:mt-0 mt-1 text-xs text-reg py-2 rounded-sm hover:bg-b5 font-normal'} >Favorites</NavLink></Menu.Item>
-                    <Menu.Item as="div" className="px-4" ><div onClick={handleLogout} className='flex w-full px-2 first:mt-0 mt-1 cursor-pointer text-xs text-reg py-2 rounded-md  hover:bg-b5 bg-white font-normal' >Logout</div></Menu.Item>
-                  </Menu.Items>
-                </Menu>) : (isAdmin === null ? <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-1 font-medium text-xs' >My Account</span></div></NavLink> : null)}
+              </Menu>) : (isAdmin === null ? <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-1 font-medium text-xs' >My Account</span></div></NavLink> : null)}
 
-              {/* {isAuth ? <NavLink to="/my-account/profile" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink> : <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink>} */}
-              <div onClick={() => { megMenu ? setMegMenu(false) : setMegMenu(true) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><IoMenu /><span className='ml-2 font-medium text-xs' >Menu</span></div>
-              {/* <div onClick={handleLogout} className='flex items-center cursor-pointer text-center px-2 bg-b2 h-10 w-24 rounded-md text-white' ><span className='text-center font-medium text-xs px-5' >Logout</span></div>   */}
-            </div>
+            {/* {isAuth ? <NavLink to="/my-account/profile" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink> : <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink>} */}
+            <div onClick={() => { megMenu ? setMegMenu(false) : setMegMenu(true) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><IoMenu /><span className='ml-2 font-medium text-xs' >Menu</span></div>
+            {/* <div onClick={handleLogout} className='flex items-center cursor-pointer text-center px-2 bg-b2 h-10 w-24 rounded-md text-white' ><span className='text-center font-medium text-xs px-5' >Logout</span></div>   */}
           </div>
         </div>
         {/* Navbar End */}
         {/* Sub Navbar Start */}
-        <div className="relative hidden lg:block text-white bg-white/[0.08] py-4" >
+        <div className="text-white bg-white/[0.08] py-4" >
 
           {/* Mega Menu Start */}
-          <div className={`absolute ${megMenu ? '' : 'hidden'} top-0 bg-b1 w-full pt-5 pb-20 z-30`} >
+          <div className={`absolute ${megMenu ? 'pt-5 pb-20' : 'max-h-0'} duration-300 overflow-hidden top-20 bg-b1 w-full z-30`} >
 
             <div className='grid grid-cols-12 justify-center 3xl:max-w-1680px px-16 xl:px-20 2xl:px-120px mx-auto'>
               <div className='col-start-1 col-end-2 flex flex-col items-center' >
@@ -253,16 +251,16 @@ const Navbar = () => {
           </div>
           {/* Mega Menu End */}
 
-          <div className='grid grid-cols-12 items-center 3xl:max-w-1680px px-16 xl:px-20 2xl:px-120px mx-auto'>
+          <div className='grid grid-cols-12 items-center maincontainer'>
             <div className='col-start-1 col-end-5 flex items-center space-x-4 xl:space-x-8 2xl:space-x-14' >
-              {/* <NavLink to='/' ><div className='flex items-center font-reg text-xs cursor-pointer text-white/80 hover:text-b6' ><span className='w-max' >Home</span></div></NavLink>  */}
+              {/* <NavLink to='/' ><div className='flex items-center font-reg text-xs cursor-pointer text-white/80 hover:text-b6' ><span >Home</span></div></NavLink>  */}
               <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Deals" links={[{ 'name': 'Recent Arrival', 'url': '/recent-arrivals' }, { 'name': '5 Star Products', 'url': '/five-star-products' }, { 'name': '4 Star Products', 'url': '/four-star-products' }, { 'name': '3 Star Products', 'url': '/three-star-products' }]} />
-              <div className='flex items-center font-normal text-white/80 text-xs cursor-pointer hover:text-b6' ><span className='w-max' >Shop Now</span></div>
+              <div className='nav____item' ><span >Shop&nbsp;Now</span></div>
               <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Products" links={applianceTypes} bold={600} />
               <NavDropDown icon={<RiArrowDropDownLine className='text-2xl' />} title="Popular Brands" links={[{ 'name': 'Amana', 'url': '/brands/amana' }, { 'name': 'Maytag', 'url': '/brand/maytag' }, { 'name': 'Frigdaire', 'url': '/brand/frigdaire' }, { 'name': 'Haier', 'url': '/brand/haier' }, { 'name': 'Hisense', 'url': '/brand/hisense' }, { 'name': 'Kenmore', 'url': '/Kenmore' }, { 'name': 'LG', 'url': '/lg' }, { 'name': 'KitchenAid', 'url': '/kitchen-aid' }, { 'name': 'Samsung', 'url': '/samsung' }, { 'name': 'Whirlpool', 'url': '/whirlpool' }, { 'name': 'Midea', 'url': '/midea' }]} bold={600} />
-              <div className='flex items-center font-normal text-white/80 text-xs cursor-pointer hover:text-b6' ><Link to="/financing" className='w-max' >Financing</Link></div>
-              <div className='flex items-center font-normal text-white/80 text-xs cursor-pointer hover:text-b6' ><span className='w-max' >Testimonials</span></div>
-              <div className='flex items-center font-normal text-white/80 text-xs cursor-pointer hover:text-b6' ><span className='w-max' >Pricing</span></div>
+              <div className='nav____item' ><Link to="/financing" >Financing</Link></div>
+              <div className='nav____item' ><span >Testimonials</span></div>
+              <div className='nav____item' ><span >Pricing</span></div>
             </div>
             <div className='col-start-10 col-end-13 flex items-center justify-end space-x-10' >
               <Link to="tel:(512) 992-2714" className='flex items-center space-x-1 text-b4 cursor-pointer hover:text-white' ><FiPhone /><span className='text-xs font-medium w-max' >(512) 992-2714</span></Link>

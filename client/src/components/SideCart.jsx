@@ -8,9 +8,9 @@ import { GoDotFill } from 'react-icons/go'
 import SelectTimeSlot from './Cart/SelectTimeSlot'
 import { getCart, removeFromCart, updateCartData } from '../api/cart'
 import { resetUser } from "../store/userSlice";
-import { setPickupLocation, showSCart, hideSCart, setSubTotal } from "../store/cartSlice";
+import { showSCart, hideSCart } from "../store/cartSlice";
 import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { BsCart3 } from 'react-icons/bs'
 
@@ -220,15 +220,15 @@ const SideCart = () => {
     <div className={` ${sCart ? 'top-0 lg:right-0' : 'maxlg:-top-[200vh] lg:-right-[200%]'} maxlg:pt-28 duration-500 fixed  z-[999] bg-black/60 w-full h-screen`} >
 
       <div className={` ${sCart ? '' : 'hidden'} relative mx-auto lg:float-right bg-white w-[90%] maxlg:rounded-t-2xl sm:w-[80%] lg:max-w-[420px] lg:w-full h-full`} >
-        <button onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='maxlg:w-10 maxlg:h-10 bg-white maxlg:hover:bg-b3 maxlg:hover:text-white duration-200 maxlg:rounded-full absolute -top-14 right-0 lg:top-5 lg:right-6 z-40  flex justify-center items-center'><AiOutlineClose className='text-xl' /></button>
+        <button onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='maxlg:w-10 maxlg:h-10 bg-white maxlg:hover:bg-b3 maxlg:hover:text-white duration-200 maxlg:rounded-full absolute -top-14 right-0 lg:top-5 lg:right-6 z-40  xy-center'><AiOutlineClose className='text-xl' /></button>
         <div className='flex flex-col overflow-y-auto w-full h-full'>
-          <div className='flex items-center sticky top-0 bg-white maxlg:rounded-t-2xl py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{pickupOrders.length === 0 && deliveryOrders.length === 0 ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center' >{cartCount}</span>}</div></div>
-          {loading ? <div className='flex justify-center items-center h-full w-full' ><img src="/loader-bg.gif" className='w-10 h-10 ml-2' /></div> : pickupOrders.length === 0 && deliveryOrders.length === 0 ?
+          <div className='flex items-center sticky top-0 bg-white maxlg:rounded-t-2xl py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{pickupOrders.length === 0 && deliveryOrders.length === 0 ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 xy-center' >{cartCount}</span>}</div></div>
+          {loading ? <div className='xy-center h-full w-full' ><img src="/loader-bg.gif" className='w-10 h-10 ml-2' /></div> : pickupOrders.length === 0 && deliveryOrders.length === 0 ?
             <div className='flex flex-col px-2 space-y-5 w-full justify-center items-center h-full' >
               <img src="/bag.webp" />
               <h1 className='font-extrabold' >Your Cart is Empty</h1>
               <h2 className='text-center' >Lorem Ipsum Doller Sit Amet, Consecture Audipicsing Elit</h2>
-              <button type='button' className='flex items-center justify-center rounded-lg bg-b3 py-3 text-white font-medium w-1/2 text-sm'><BsCart3 className='mr-2' /> Start Shopping</button>
+              <button type='button' className='xy-center rounded-lg bg-b3 py-3 text-white font-medium w-1/2 text-sm'><BsCart3 className='mr-2' /> Start Shopping</button>
             </div>
             :
             <>

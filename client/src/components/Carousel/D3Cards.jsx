@@ -18,9 +18,7 @@ export default function D3Cards(props) {
   }, [props.offset, props.showArrows]);
 
   return (
-    <div
-      style={{ width: props.width, height: props.height, margin: props.margin }}
-    >
+    <div className={props.class}>
       <Carousel
         slides={cards}
         goToSlide={goToSlide}

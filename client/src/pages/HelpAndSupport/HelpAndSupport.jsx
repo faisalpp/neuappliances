@@ -76,7 +76,7 @@ const HelpAndSupport = () => {
     return (
         <>
             <MainLayout>
-                <div className='py-10 lg:py-16 xl:py-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto flex flex-col gap-4' >
+                <div className='py-10 lg:py-16 xl:py-20 maincontainer flex flex-col gap-4' >
                     {/* Bread Crumbs Start */}
                     <div className='flex items-center' >
                         <h5 className='text-xs text-b3' >Home</h5><RiArrowDropRightLine className='text-xl text-b3' /><h5 className='text-xs text-black' >Help & Support Center</h5>
@@ -93,7 +93,7 @@ const HelpAndSupport = () => {
                     </div>
                 </div>
                 {/* Help and Support */}
-                <div className='pb-10 lg:pb-16 xl:pb-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto flex maxlg:flex-col gap-10 lg:gap-7 xl:gap-10'>
+                <div className='pb-10 lg:pb-16 xl:pb-20 maincontainer flex maxlg:flex-col gap-10 lg:gap-7 xl:gap-10'>
                     <div className="tab-buttons maxlg:order-2 lg:max-w-[250px] 2xl:max-w-xs lg:w-full flex flex-col gap-2">
                         {helpTabs.map((tab, index) => <button key={index} className={`px-5 xl:px-6 py-4 xl:text-lg font-semibold flex justify-between items-center text-left border border-[rgba(0,0,0,0.15)] rounded-2xl ${activeTab === tab.slug ? 'active text-white bg-b3' : 'text-b23'}`} onClick={() => handleTabClick(tab.slug)}>
                             <span>{tab.title}</span>{activeTab === tab.slug ? <FiChevronRight /> : ''}
