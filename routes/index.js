@@ -66,6 +66,7 @@ router.post('/api/admin/section-items',adminAuth,categorySection.GetSectionItems
 router.post('/api/admin/create-product',adminAuth,productController.CreateProduct);
 router.get('/api/admin/get-products',adminAuth,productController.GetProducts);
 router.post('/api/admin/get-category-data',adminAuth,productController.GetCategoryData);
+router.post('/api/admin/get-model-nos',adminAuth,productController.GetParentModelNumbers);
 // Faq Tab's Api's
 router.post('/api/admin/create-faq-tab',adminAuth,faqController.createFaqTab);
 router.get('/api/admin/get-faq-tab',faqController.getFaqTab);
@@ -77,8 +78,7 @@ router.post('/api/admin/update-faq',faqController.updateFaq);
 router.post('/api/admin/delete-faq',faqController.deleteFaq);
 
 // Asset Uploading Api's
-router.post('/api/admin/image-upload',adminAuth,uploadController.uploadImage);
-router.post('/api/admin/get-uploaded-media',adminAuth,uploadController.getMedia);
+router.post('/api/admin/upload-media',adminAuth,uploadController.uploadImage);
 router.post('/api/admin/delete-media',adminAuth,uploadController.deleteMedia);
 // Blog Admin Api's
 router.post('/api/admin/create-blog',adminAuth,blogController.createBlog);

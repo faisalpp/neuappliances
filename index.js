@@ -5,8 +5,7 @@ const {PORT} = require('./config/index')
 const errorHandler = require('./middleware/errorHandler')
 const dbconnect = require('./databse/index')
 const cookieParser = require('cookie-parser')
-const path = require('path')
-const fs = require('fs')
+const path = require('path');
 const app = express();
 
 const corsOptions = {
@@ -29,13 +28,12 @@ app.use(router);
 
 
 if(process.env.NODE_ENV === "production"){
-  app.use('/storage', express.static(path.join(__dirname + '/storage')));
   app.use(express.static(path.join(__dirname,"client/build")))
   app.use("*", (req,res) => {
-    console.log(req)
     res.sendFile(path.resolve(__dirname,'client','build','index.html'),function (err){res.status(500).send(err)});
   })
 }
+
 
 app.use(errorHandler);
 
