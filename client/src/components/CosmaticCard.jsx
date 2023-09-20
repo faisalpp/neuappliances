@@ -49,7 +49,7 @@ const CosmaticCard = ({ customStyle }) => {
   };
   return (
     <>
-      <div className={`xl:mt-14 w-full 3xl:max-w-1680px 3xl:mx-auto px-2 sm:px-4 md:px-10 lg:px-20 2xl:px-120px mt-14 h-auto ` + customStyle}>
+      <div className={`xl:mt-14 maincontainer mt-14 h-auto ` + customStyle}>
         <Slider {...settings} className='pb-5 xl:pb-0'>
           <ProductCard title='Moderate Cosmetic Damage' customStyle="px-2 pb-4 xl:pr-[5px]" codmetics='Moderate' dicount='Massive' stars={3} type={1} discount={1} />
           <ProductCard title='Moderate Cosmetic Damage' customStyle="px-2 pb-4 xl:px-[5px]" codmetics='Minor' dicount='Huge' stars={4} type={2} discount={2} />

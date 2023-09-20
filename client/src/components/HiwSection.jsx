@@ -50,8 +50,8 @@ const HiwSection = ({ learnmore }) => {
   return (
     <div className='flex flex-col items-center bg-b8 space-y-10 py-10 lg:py-14 xl:py-20 w-full' >
       <h4 className='font-bold text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl pb-5 mb-3 text-center' >How it Works</h4>
-      <div className='w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
-        <Slider {...settings} className='pb-5 xl:pb-0 [&>div>div]:xl:before:hidden [&>div>div>div>div]:xl:h-full [&>div>div>div]:xl:!w-full [&>div>div]:xl:!grid [&>div>div]:xl:!grid-cols-3 [&>div>div]:gap-7 [&>div>div]:2xl:gap-10 [&>div>div]:3xl:gap-x-[60px]'>
+      <div className='maincontainer'>
+        <Slider {...settings} className='howitworkslider'>
           <HiwCad icon="/hiw1.webp" title="Cosmetic Rating" txt=" We rate our scratch and dent appliances by their cosmetic appearance (How they look). Appliances with lower cosmetic ratings get Deeper Discounts! You pick your level of savings!" />
           <HiwCad icon="/hiw2.webp" title="Tested" txt='Our Open Box and Scratch and Dent appliances are thoroughly tested and must pass our 100 point inspection. This ensures every appliance performs 100% to manufacturer specifications, even if they are "Scratch and Dent."' />
           <HiwCad icon="/hiw3.webp" title="Shop With Confidence" txt='Every scratch and dent appliance we offer receives their own 360° photos and video. This allows you to shop from home while seeing exactly where the cosmetic blemishes are (if any!)' />

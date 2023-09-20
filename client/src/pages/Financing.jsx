@@ -16,7 +16,7 @@ const Financing = () => {
     return (
         <>
             <MainLayout>
-                <div className='py-10 lg:py-16 xl:py-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+                <div className='py-10 lg:py-16 xl:py-20 maincontainer' >
                     {/* Bread Crumbs Start */}
                     <div className='flex items-center' >
                         <h5 className='text-xs text-b3' >Home</h5><RiArrowDropRightLine className='text-xl text-b19' /><h5 className='text-xs text-black' >Blog</h5>
@@ -30,7 +30,7 @@ const Financing = () => {
                 </div>
 
                 {/* Pay terms Cards */}
-                <div className='pb-10 lg:pb-16 xl:pb-20 2xl:pb-120px pt-5 w-full 3xl:max-w-1680px [&>*]:text-b18 px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+                <div className='pb-10 lg:pb-16 xl:pb-20 2xl:pb-120px pt-5 [&>*]:text-b18 maincontainer'>
                     <h2 className='text-2xl xl:text-32px leading-8 xl:leading-10 font-bold text-center max-w-[720px] w-full mx-auto'>Acima is a third party NO-CREDIT NEEDED financing option.</h2>
                     <p className='max-w-[640px] mx-auto text-center mt-6 leading-6'>
                         Here are some techniques that will help you pay the least and maximize your bang for your buck. In plain English, Acima purchases the items from us (Neu Appliances) and leases them to you until you pay it off. Once you pay it off, you own them.
@@ -46,12 +46,12 @@ const Financing = () => {
                 {/* Pricing Range Cards */}
 
                 <div className='bg-b8' id='apply-financing'>
-                    <div className='py-10 lg:py-16 xl:py-20 2xl:py-120px pt-5 w-full 3xl:max-w-1680px [&>*]:text-b18 px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+                    <div className='py-10 lg:py-16 xl:py-20 2xl:py-120px pt-5 [&>*]:text-b18 maincontainer'>
                         <h2 className='text-2xl xl:text-32px leading-8 xl:leading-10 font-bold text-center max-w-[778px] w-full mx-auto'>
                             Neu Appliances recommends only purchasing what you can afford, stay in your price range.
                         </h2>
                         <p className='max-w-[640px] mx-auto text-center mt-6 leading-6'>
-                            Acima is a 3rd party and has no affiliation with Neu Appliances. That's why we can give you our scoop on their offer without their influence.
+                            Acima is a 3rd party and has no affiliation with Neu Appliances. That&apos;s why we can give you our scoop on their offer without their influence.
                         </p>
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 my-7 lg:my-12 xl:my-16 2xl:my-[72px] [&>*:nth-child(1)>ul>li:nth-child(1)]:!items-start [&>*:nth-child(1)>ul>li:nth-child(2)]:!items-start [&>*:nth-child(1)>ul>li:nth-child(4)]:!items-start'>
                             <PriceRangeCard title="Requirements" items={['US government-issued photo ID and SS# or ITIN#', '3 month history with current employer or source of income', 'Checking account for at least 90 days', 'Deposit $1,000 or more into your checking account', 'Positive checking account activity']} />

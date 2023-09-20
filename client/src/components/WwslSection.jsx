@@ -52,7 +52,7 @@ const WwslSection = () => {
       {/* What We Sell Section Start */}
       <div className='flex flex-col py-14 xl:py-20 bg-b8 w-full' >
         <h4 className='text-center font-bold text-4xl' >What We Sell</h4>
-        <div className='w-full 3xl:max-w-1680px px-4 lg:px-16 xl:px-20 2xl:px-120px mx-auto mt-14 xl:mt-16 mb-5'>
+        <div className='maincontainer mt-14 xl:mt-16 mb-5'>
           <Slider {...settings} className='pb-5 lg:pb-0'>
             {wwslList.map((item, index) => (
               <Wwsl key={index} img={item.icon} title={item.title} description={item.description} note={item.note} />

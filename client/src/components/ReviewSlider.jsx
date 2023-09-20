@@ -10,7 +10,8 @@ const ReviewSlider = ({ color, clientreviews, icon }) => {
         dots: false,
         infinite: false,
         arrows: true,
-        speed: 300,
+        autoplay: true,
+        autoplaySpeed: 2000,
         slidesToShow: 4,
         slidesToScroll: 1,
         initialSlide: 0,
@@ -78,11 +79,11 @@ const ReviewSlider = ({ color, clientreviews, icon }) => {
                                 <StarIconPrinter numberOfTimes={clientreview.rating} />
                                 <StarIconPrinter2 numberOfTimes={5 - clientreview.rating} />
                             </div>
-                            <p className="text-sm font-semibold mt-1">{clientreview.text && clientreview.text.length > 90 ? clientreview.text.substring(0, 90) + '...' : clientreview.text}</p>
+                            <p className="text-sm font-semibold mt-1 line-clamp-2">{clientreview.text}</p>
                             <a href='' className="text-sm text-b6 mt-2">Read More</a>
                             <div className="flex items-center">
-                                <h5 className="text-sm mt-2 w-10/12">{clientreview.author_name}</h5>
-                                <img src={icon} className="h-5 w-10 mt-4" alt="Icon" />
+                                <h5 className="text-sm mt-2 w-10/12">{clientreview.author_name ? clientreview.author_name : clientreview.user.name}</h5>
+                                <img src={icon} className="h-5 w-10 object-contain mt-4" alt="Icon" />
                             </div>
                         </div>
                     </div>

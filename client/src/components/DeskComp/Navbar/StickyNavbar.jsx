@@ -22,27 +22,29 @@ const StickyNavbar = ({ state, product }) => {
   return (
     <>
       <div className={`fixed top-0 z-50 ${state ? 'lg:flex' : 'hidden'} flex-col w-full bg-white shadow-lg`} >
-        <div className='hidden lg:flex items-center bg-gray-100 py-5 w-full justify-center 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+        <div className='bg-gray-100 maxlg:hidden'>
+          <div className='lg:flex items-center py-5 justify-center maincontainer' >
 
-          <div className='flex space-x-5 items-center w-6/12 max-w-6/12' >
-            <div className='border-[1px] border-gray-200 rounded-lg px-2 py-1 w-fit' ><img src={product.images ? `${import.meta.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}` : ''} className='w-12' alt='' /></div>
-            <p className='font-bold text-clip text-2xl md:text-3xl xl:text-[2rem] leading-8' >{product.title}</p>
-          </div>
-
-          <div className='flex space-x-5 items-center justify-end w-6/12' >
-            <div className='flex flex-col' >
-              <h4 className='font-bold text-xl lg:text-2xl text-b3' >${product.salePrice ? product.salePrice : product.regularPrice}</h4>
-              {product.salePrice ? <div className='flex space-x-5 items-center' >
-                <strike>${product.regularPrice}</strike>
-                <span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >Save $50.00</span>
-              </div> : null}
+            <div className='flex space-x-5 items-center w-6/12 max-w-6/12' >
+              <div className='border-[1px] border-gray-200 rounded-lg px-2 py-1 w-fit' ><img src={product.images ? `${import.meta.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}` : ''} className='w-12' alt='' /></div>
+              <p className='font-bold text-clip text-2xl md:text-3xl xl:text-[2rem] leading-8' >{product.title}</p>
             </div>
-            <div className='flex justify-center items-center bg-b7 text-sm text-white px-2 lg:px-10 py-3 cursor-pointer  rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><h6 className="font-bold ml-2" >Add To Cart</h6></div>
-          </div>
 
+            <div className='flex space-x-5 items-center justify-end w-6/12' >
+              <div className='flex flex-col' >
+                <h4 className='font-bold text-xl lg:text-2xl text-b3' >${product.salePrice ? product.salePrice : product.regularPrice}</h4>
+                {product.salePrice ? <div className='flex space-x-5 items-center' >
+                  <strike>${product.regularPrice}</strike>
+                  <span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >Save $50.00</span>
+                </div> : null}
+              </div>
+              <div className='flex justify-center items-center bg-b7 text-sm text-white px-2 lg:px-10 py-3 cursor-pointer  rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><h6 className="font-bold ml-2" >Add To Cart</h6></div>
+            </div>
+
+          </div>
         </div>
 
-        <div className='grid grid-cols-12 items-center bg-white justify-between w-full 3xl:max-w-1680px py-4 px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+        <div className='grid grid-cols-12 items-center bg-white justify-between maincontainer' >
           <div className='col-span-9 flex items-center lg:hidden'>
             <button type='button'>
               <FaBars />

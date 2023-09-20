@@ -6,7 +6,7 @@ import MainLayout from '../layout/MainLayout';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { FaBars } from 'react-icons/fa';
 import { BsGrid, BsChevronDown } from 'react-icons/bs';
-import { useParams,useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { GetAppliancesByFilter, getAppliancesFilters } from '../api/frontEnd'
 import Loader from '../components/Loader/Loader'
 
@@ -20,7 +20,7 @@ const Products = () => {
   const [loading, setLoading] = useState(false);
 
   const location = useLocation();
-  const [params,setParams] = useState({})
+  const [params, setParams] = useState({})
 
   useEffect(() => {
     // Create a URLSearchParams object from the query string
@@ -35,7 +35,7 @@ const Products = () => {
     }
     console.log(queryParamsObject)
     setParams(queryParamsObject)
-    
+
 
   }, []);
 
@@ -83,7 +83,7 @@ const Products = () => {
         :
         <MainLayout>
           {/* Bread Crumbs Start */}
-          <div className='flex items-center mt-5 py-5 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+          <div className='flex items-center mt-5 py-5 maincontainer' >
             <div className='flex items-center' ><h5 className='text-xs text-blue-400' >Home</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-gray-400' >Products</h5></div>
             <div className='flex items-center space-x-5 w-full justify-end' ><BsGrid className='cursor-pointer' onClick={() => setIsGrid(true)} /><FaBars className='cursor-pointer' onClick={() => setIsGrid(false)} /></div>
             <button className='ml-5 text-sm font-semibold flex gap-2 items-center lg:hidden' onClick={() => setIsFilter(true)}>
@@ -92,7 +92,7 @@ const Products = () => {
           </div>
           {/* Bread Crumbs End */}
 
-          <div className='flex justify-center gap-12 xl:gap-x-60px w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+          <div className='flex justify-center gap-12 xl:gap-x-60px maincontainer' >
 
             {/* Filters Start */}
             <ProductFilter categoriesFilters={categoriesFilters} ratingFilters={ratingFilters} onClose={handleCloseFilter} isFilter={isFilter} />

@@ -67,7 +67,7 @@ const Faqs = () => {
 
     return (
         <>
-            <div className='py-12 lg:py-16 xl:py-20 w-full max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto flex maxlg:flex-col gap-6 lg:gap-7 xl:gap-10'>
+            <div className='py-12 lg:py-16 xl:py-20 maincontainer flex maxlg:flex-col gap-6 lg:gap-7 xl:gap-10'>
                 {isDesktop ?
                     <>
                         <div className="tab-buttons maxlg:order-2 lg:w-[50%] flex flex-col gap-2">

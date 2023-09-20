@@ -8,7 +8,7 @@ const RecentlyAddedSection = () => {
 
     return (
         <>
-            <div className='py-10 lg:py-16 xl:py-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+            <div className='py-10 lg:py-16 xl:py-20 maincontainer'>
                 <h2 className='font-semibold text-xl lg:text-2xl text-center'>Recently Added Refrigerators</h2>
 
                 <CosmaticSlider />

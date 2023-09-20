@@ -30,7 +30,7 @@ const OurCompanies = () => {
     return (
         <>
             <MainLayout>
-                <div className='pt-10 lg:pt-16 xl:pt-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+                <div className='pt-10 lg:pt-16 xl:pt-20 maincontainer' >
                     {/* Bread Crumbs Start */}
                     <div className='flex items-center' >
                         <h5 className='text-xs text-b3' >Home</h5><RiArrowDropRightLine className='text-xl text-b19' /><h5 className='text-xs text-black' >Our Companies</h5>
@@ -49,7 +49,7 @@ const OurCompanies = () => {
 
 
                 {/* Cards */}
-                <div id='outlets-parts' className='grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-x-4 gap-y-10 3xl:gap-6 py-16 xl:py-20 2xl:py-120px w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
+                <div id='outlets-parts' className='grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-x-4 gap-y-10 3xl:gap-6 py-16 xl:py-20 2xl:py-120px maincontainer'>
 
                     <ApplianceOutlet />
 

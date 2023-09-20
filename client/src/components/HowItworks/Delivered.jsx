@@ -25,7 +25,7 @@ const Delivered = () => {
                         <MapCards icon="schedule.webp" title="Delivery Times and Updates" description="Getting an appliance delivered has never been so easy! Don’t wait around all day, we offer Narrow delivery windows and updates as our team gets closer. Go about your day and we will keep you in the loop!" />
                     </div>
 
-                    <SatisfiedSection apiSectionName="how-it-works-review-(delivered-tab)" title="Our Delivery Teams Get All The Love" SectionStyle="[&>h4]:2xl:!text-4xl [&>h4]:2xl:!leading-[44px] !p-0 !max-w-full" />
+                    <SatisfiedSection apiSectionName="how-it-works-review-(delivered-tab)" title="Our Delivery Teams Get All The Love" SectionStyle="[&>h4]:2xl:!text-4xl [&>h4]:2xl:!leading-[44px] !p-0 !w-full !max-w-full" />
 
                     <div className='flex justify-center mb-10'>
                         <button className='flex gap-2 items-center border border-b3 rounded-lg px-6 py-3 text-b3 font-semibold'>Shop our Appliances <AiOutlineArrowRight className='text-b3' /></button>

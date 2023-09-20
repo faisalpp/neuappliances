@@ -14,10 +14,10 @@ const ProductSection = ({ menu, data, category }) => {
     const handleCloseFilter = () => {
         setIsFilter(false);
     };
-    
+
     return (
         <div>
-            <div className='flex maxlg:flex-col h-full justify-center gap-4 lg:gap-8 py-10 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px 3xl:pr-120px 3xl:pl-[88px] mx-auto' >
+            <div className='flex maxlg:flex-col h-full justify-center gap-4 lg:gap-8 py-10 maincontainer' >
                 {/* FIlter Button For Mobile Screen */}
                 <div className='flex gap-2 items-center'>
                     <button className='ml-auto w-full justify-center border border-b3 px-3 py-3 text-sm font-semibold rounded-lg flex gap-2 items-center lg:hidden' onClick={() => setIsFilter(true)}>
@@ -78,7 +78,7 @@ const ProductSection = ({ menu, data, category }) => {
                         {section.cardStyle === 'color-card' ? <div>
                             <RelatedProducts title={section.title} />
                             <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mt-8'>
-                                {section.sectionItemsId.map((product, index) => <NavLink key={index} to={`/appliances/?category=${category.toLowerCase()}&${section.type.replace(/\&/,'and')}=${product.title.toLowerCase().replace(/\s/g, "-")}`} ><ProductCard key={product.title} colorname={product.title} colorimage={product.image} /></NavLink>)}
+                                {section.sectionItemsId.map((product, index) => <NavLink key={index} to={`/appliances/?category=${category.toLowerCase()}&${section.type.replace(/\&/, 'and')}=${product.title.toLowerCase().replace(/\s/g, "-")}`} ><ProductCard key={product.title} colorname={product.title} colorimage={product.image} /></NavLink>)}
                             </div>
                             <Link to="" className='lg:hidden whitespace-nowrap flex items-center justify-center gap-1 hover:gap-2 duration-300 mt-6 px-4 py-3 rounded-lg text-b3 font-medium text-base border border-b3'>
                                 <span>View More</span>

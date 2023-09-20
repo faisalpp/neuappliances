@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Link, useNavigate, useParams, useLocation } from 'react-router-dom'
 import MainLayout from '../layout/MainLayout'
 import { RiStackLine } from 'react-icons/ri'
@@ -211,11 +211,11 @@ const Product = () => {
           <CustomModal openmodal={openModal} closeModal={handleCloseModal} />
           {/* End */}
           {/* Bread Crumbs Start */}
-          <div className='flex items-center py-10 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+          <div className='flex items-center py-10 maincontainer' >
             <div className='flex items-center' ><h5 className='text-xs text-blue-400' >Home</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-blue-400' >Product</h5><RiArrowDropRightLine className='text-xl text-gray-500' /><h5 className='text-xs text-gray-500' >{product.title}</h5></div>
           </div>
           {/* Bread Crumbs End */}
-          <div id='product-information' className='grid grid-cols-1 lg:grid-cols-12 gap-10 lg:items-start items-center mb-10 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+          <div id='product-information' className='grid grid-cols-1 lg:grid-cols-12 gap-10 lg:items-start items-center mb-10 maincontainer' >
             <div className='lg:col-span-5 lg:sticky lg:top-44' >
               <div className='flex gap-2 md:gap-5' >
                 <div className='flex flex-col space-y-2 min-w-[70px] 2xl:min-w-[100px] h-full' >
@@ -407,64 +407,68 @@ const Product = () => {
           {/* New Product Cards */}
           <NewProductCards />
           {/* Faq Accrodions */}
-          <div className='flex flex-col items-center mb-5 justify-center pt-14 xl:pt-10 gap-y-3 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+          <div className='flex flex-col items-center mb-5 justify-center pt-14 xl:pt-10 gap-y-3 maincontainer' >
             <FaqAccordion title="Appliance Description" parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm !mt-0' answer={product.description} chevrown />
             <FaqAccordion title="Specifications" parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm !mt-0' answer={product.specification} chevrown />
             <FaqAccordion title="Delivery Info" parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm !mt-0' answer={product.deliveryInfo} chevrown />
           </div>
 
           {/* 360 Degree Product Section */}
-          <div id='360-view' className='flex flex-col gap-5 items-center py-10 lg:py-14 xl:py-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto border border-b14 rounded-3xl' >
-            <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' >360° View of This Appliance</h4>
-            <div className='mt-5 relative flex justify-center w-full mb-5' >
-              {/* <img src="/360appliance.webp" alt='product' className='w-[17rem] mx-auto' /> */}
-              <React360Viewer
-                imagesBaseUrl={`${import.meta.env.REACT_APP_INTERNAL_PATH}/${product.threeSixty}`}
-                imagesCount={36}
-                imagesFiletype="jpg"
-                mouseDragSpeed={5}
-                width={350}
-                height={350}
-              />
-              <div className='absolute -bottom-5 left-0 right-0'>
-                <img src="/360angle.webp" alt='product' className='w-72 mx-auto' />
+          <div className='border border-b14 rounded-3xl'>
+            <div id='360-view' className='flex flex-col gap-5 items-center py-10 lg:py-14 xl:py-20 maincontainer ' >
+              <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' >360° View of This Appliance</h4>
+              <div className='mt-5 relative flex justify-center w-full mb-5' >
+                {/* <img src="/360appliance.webp" alt='product' className='w-[17rem] mx-auto' /> */}
+                <React360Viewer
+                  imagesBaseUrl={`${import.meta.env.REACT_APP_INTERNAL_PATH}/${product.threeSixty}`}
+                  imagesCount={36}
+                  imagesFiletype="jpg"
+                  mouseDragSpeed={5}
+                  width={350}
+                  height={350}
+                />
+                <div className='absolute -bottom-5 left-0 right-0'>
+                  <img src="/360angle.webp" alt='product' className='w-72 mx-auto' />
+                </div>
               </div>
-            </div>
-            <p className="font-normal" >Rotate <b>360°</b> to see the product from all angles</p>
-            <div className='flex border-2 border-gray-[rgba(0,0,0,0.08)] rounded-2xl w-full md:w-2/3 xl:w-1/2' >
-              <div className='flex flex-col items-center border-r-[1px] border-gray-300 w-full' >
-                <h5 className='text-center border-b-[1px] border-gray-300 text-sm sm:text-base py-4 w-full font-semibold' >#ID</h5>
-                <h5 className='flex items-center gap-1 justify-center text-center border-b border-gray-300 text-sm sm:text-base py-4 w-full' ><span className='font-semibold' >Cosmetic Rating </span><ToolTip color="text-black/50" /></h5>
-                <h5 className='flex items-center justify-center text-center border-b border-gray-300 text-sm sm:text-base py-4 w-full font-semibold' >Model Number</h5>
-                <h5 className='flex items-center gap-1 justify-center text-center text-sm sm:text-base py-4 w-full font-semibold' ><span>Warranty</span> <ToolTip color="text-black/50" /></h5>
-              </div>
-              <div className='flex flex-col items-center border-l-[1px] border-white w-full' >
-                <h5 className='text-center border-b-[1px] border-gray-300 py-4 w-full font-normal' >#{product.itemId}</h5>
-                <div className='flex items-center border-b border-gray-300 justify-center py-[15px] w-full' ><StarIconPrinter numberOfTimes={product.rating} /></div>
-                <div className='text-center border-b-[1px] border-gray-300 py-4 w-full font-normal' >{product.modelNo}</div>
-                <div className='flex items-center space-x-2 justify-center border-gray-300 py-3 w-full' >
-                  <div className='flex items-center rounded-md justify-center pl-2 pr-2 sm:pr-8 py-1 space-x-1 border border-gray-300' ><img src="/nueshield.webp" alt="nueshield" />
-                    <span className='w-full text-xs font-medium break-words ' >NeuShield <br /> 1 Year Warranty</span>
+              <p className="font-normal" >Rotate <b>360°</b> to see the product from all angles</p>
+              <div className='flex border-2 border-gray-[rgba(0,0,0,0.08)] rounded-2xl w-full md:w-2/3 xl:w-1/2' >
+                <div className='flex flex-col items-center border-r-[1px] border-gray-300 w-full' >
+                  <h5 className='text-center border-b-[1px] border-gray-300 text-sm sm:text-base py-4 w-full font-semibold' >#ID</h5>
+                  <h5 className='flex items-center gap-1 justify-center text-center border-b border-gray-300 text-sm sm:text-base py-4 w-full' ><span className='font-semibold' >Cosmetic Rating </span><ToolTip color="text-black/50" /></h5>
+                  <h5 className='flex items-center justify-center text-center border-b border-gray-300 text-sm sm:text-base py-4 w-full font-semibold' >Model Number</h5>
+                  <h5 className='flex items-center gap-1 justify-center text-center text-sm sm:text-base py-4 w-full font-semibold' ><span>Warranty</span> <ToolTip color="text-black/50" /></h5>
+                </div>
+                <div className='flex flex-col items-center border-l-[1px] border-white w-full' >
+                  <h5 className='text-center border-b-[1px] border-gray-300 py-4 w-full font-normal' >#{product.itemId}</h5>
+                  <div className='flex items-center border-b border-gray-300 justify-center py-[15px] w-full' ><StarIconPrinter numberOfTimes={product.rating} /></div>
+                  <div className='text-center border-b-[1px] border-gray-300 py-4 w-full font-normal' >{product.modelNo}</div>
+                  <div className='flex items-center space-x-2 justify-center border-gray-300 py-3 w-full' >
+                    <div className='flex items-center rounded-md justify-center pl-2 pr-2 sm:pr-8 py-1 space-x-1 border border-gray-300' ><img src="/nueshield.webp" alt="nueshield" />
+                      <span className='w-full text-xs font-medium break-words ' >NeuShield <br /> 1 Year Warranty</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Shop With Confidnce */}
-            <div className='max-w-[930px] mt-6 lg:mt-10 mx-auto bg-b11 border-2 border-b14 rounded-3xl p-5 sm:p-8 flex flex-col gap-4'>
-              <h3 className='text-xl sm:text-2xl font-medium'>Shop With Confidence.</h3>
-              <p className=''>The item in the pictures above is the item you will receive.  Scratch and dent appliances are all unique, so we include 360° pictures and videos for every item we stock. Rotate the picture to Inspect the appliance's cosmetic condition.</p>
+              {/* Shop With Confidnce */}
+              <div className='max-w-[930px] mt-6 lg:mt-10 mx-auto bg-b11 border-2 border-b14 rounded-3xl p-5 sm:p-8 flex flex-col gap-4'>
+                <h3 className='text-xl sm:text-2xl font-medium'>Shop With Confidence.</h3>
+                <p className=''>The item in the pictures above is the item you will receive.  Scratch and dent appliances are all unique, so we include 360° pictures and videos for every item we stock. Rotate the picture to Inspect the appliance's cosmetic condition.</p>
+              </div>
             </div>
           </div>
 
           {/* PAyment Options */}
-          <div className='flex flex-col py-10 md:py-14 xl:py-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto bg-b8' >
-            <h4 className='font-bold text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-center mb-10 md:mb-14 xl:mb-20' >Payment Options</h4>
-            <PaymentOptions item={product} />
+          <div className='bg-b8'>
+            <div className='flex flex-col py-10 md:py-14 xl:py-20 maincontainer' >
+              <h4 className='font-bold text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-center mb-10 md:mb-14 xl:mb-20' >Payment Options</h4>
+              <PaymentOptions item={product} />
+            </div>
           </div>
 
           {/* Review */}
-          <div className='flex flex-col bg-white py-10 lg:py-14 xl:py-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+          <div className='flex flex-col bg-white py-10 lg:py-14 xl:py-20 maincontainer' >
             <div className='flex flex-col gap-3 rounded-md items-center py-8 justify-center bg-b8' >
               <div className='flex mt-2 items-center' >{<StarIconPrinter numberOfTimes={product.rating} />} </div>
               <h3 className='text-[22px]'><span className='font-bold'>Cosmetic Rating:</span> <span className='font-medium'>{product.rating} Stars</span> </h3>
@@ -502,7 +506,7 @@ const Product = () => {
           <ProductFaqSection />
 
           {/* Rlated Products */}
-          <div className='flex flex-col py-10 lg:py-14 xl:py-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
+          <div className='flex flex-col py-10 lg:py-14 xl:py-20 maincontainer' >
             <div className='flex flex-col items-center' >
               <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' >Related Products</h4>
             </div>
