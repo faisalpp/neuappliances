@@ -156,8 +156,26 @@ const productController = {
      }
       try{
         const modelNos = await Product.find({ category: req.body.category,productType:'parent' }).distinct("modelNo");
+        return res.status(200).json({status:200,modelNos});
+      }catch(error){
+        return res.status(500).json({message:'Internal Server Error!'});
+      }
+    },
+
+    async GetAllModelNumbers(req,res,next){
+      // 1. validate user input
+    const productSchema = Joi.object({
+      category:  Joi.string().required(),
+     });
+     const { error } = productSchema.validate(req.body);
+     
+     // 2. if error in validation -> return error via middleware
+     if (error) {
+       return next(error)
+     }
+      try{
         const allModelNos = await Product.find({ category: req.body.category }).distinct("modelNo");
-        return res.status(200).json({status:200,modelNos,allModelNos});
+        return res.status(200).json({status:200,allModelNos:allModelNos});
       }catch(error){
         return res.status(500).json({message:'Internal Server Error!'});
       }

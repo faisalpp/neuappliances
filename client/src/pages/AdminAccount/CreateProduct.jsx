@@ -9,7 +9,7 @@ import {Tb360View} from 'react-icons/tb'
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getCategoryData,createProduct,getModelNos,uploadMedia,deleteMedia} from '../../api/admin'
+import { getCategoryData,createProduct,getModelNos,uploadMedia,deleteMedia,getAllModelNos} from '../../api/admin'
 import {GetCategories} from '../../api/admin/category'
 import createProductSchema from '../../schemas/createProductSchema';
 import TextInput from '../../components/TextInput/TextInput'
@@ -532,17 +532,26 @@ const CreateProduct = () => {
      handleInputChange(e,'productType')
      setIsModelNos(true)
      const res = await getModelNos({category:parentCategory});
-     let AMS = res.data.allModelNos;
-     console.log(AMS)
-     let AM = res.data.modelNos;
       if(res.status === 200){
         setIsModelNos(false)
-        setAllModelNos(AMS)
-        setParentModels(AM)
+        setParentModels(res.data.modelNos)
         setParentModel(res.data.modelNos[0])
         setIsModelNos(false)
       }
    }
+
+   const handleAllModelNos = async () => {
+     const res = await getAllModelNos({category:values.category});
+      if(res.status === 200){
+        setAllModelNos(res.data.allModelNos)
+      }
+   }
+
+   useEffect(()=>{
+     if(values.category !== ''){
+       handleAllModelNos()
+      }
+   },[values.category])
 
    const navigate = useNavigate();
   // Create Product
@@ -659,9 +668,6 @@ const handleTitle = (e) => {
 });
 }
 
-  const [txt,setTxt] = useState('')
-  const [txtSg,setTxtSg] = useState(['hello','meo','test'])
-
   return (
    <>
     <Popup state={fPopup} setState={setFpopup} >
@@ -744,8 +750,7 @@ const handleTitle = (e) => {
      <div className="flex items-center space-x-5 w-full" >
       <SelectInput name="categor" title="Rating" iscompulsory="true" onChange={e =>handleInputChange(e,'rating')} options={['3','4','5']} />
       <TextInput name="stock" title="Stock" iscompulsory="true" type="text" value={values.stock} onChange={(e) =>handleInputChange(e,'stock')} error={errors && errors.includes('Stock is Required!') ? true : false} errormessage="Stock is Required!" placeholder="Total Stock: 12" />
-      {values.productType}
-      <TextInputSuggestion state={values.modelNo} setState={setValues} values={values} suggestionList={values.productType === 'variant' ? parentModels : allModelNos} iscompulsory="true" title="Model No" placeholder="#12334" />
+      <TextInputSuggestion state={values.modelNo} setState={setValues} values={values} suggestionList={allModelNos} iscompulsory="true" title="Model No" placeholder="#12334" />
       <TextInput name="item-id" title="Item Id" iscompulsory="true" type="text" value={values.itemId} onChange={(e) =>handleInputChange(e,'itemId')} error={errors && errors.includes('Item Id is Required!') ? true : false} errormessage="Item Id is Required!" placeholder="Item Id: 234532455" />
      </div>
 

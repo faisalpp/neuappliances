@@ -67,6 +67,7 @@ router.post('/api/admin/create-product',adminAuth,productController.CreateProduc
 router.get('/api/admin/get-products',adminAuth,productController.GetProducts);
 router.post('/api/admin/get-category-data',adminAuth,productController.GetCategoryData);
 router.post('/api/admin/get-model-nos',adminAuth,productController.GetParentModelNumbers);
+router.post('/api/admin/get-all-model-nos',adminAuth,productController.GetAllModelNumbers);
 // Faq Tab's Api's
 router.post('/api/admin/create-faq-tab',adminAuth,faqController.createFaqTab);
 router.get('/api/admin/get-faq-tab',faqController.getFaqTab);

@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 
 const TextInputSuggestion = (props) => {
 
- const [suggestions,setSuggestions] = useState([])
+ const [suggestions,setSuggestions] = useState(props.suggestionList)
  const [isSg,setIsSg] = useState(false)
 
  const handleTxt = (e) => {
@@ -10,9 +10,14 @@ const TextInputSuggestion = (props) => {
     props.setState({...props.values,modelNo:searchText})
 
     // Filter the array to find partial matches
-    const matchedSuggestions = props.suggestionList.filter(item =>
-      item.toLowerCase().includes(searchText.toLowerCase())
-    );
+    let matchedSuggestions;
+    if(e.target.value === ''){
+      matchedSuggestions = props.suggestionList;
+    }else{
+       matchedSuggestions = props.suggestionList.filter(item =>
+        item.toLowerCase().includes(searchText.toLowerCase())
+      );
+    }
 
     // Update the suggestions stat
     setIsSg(true)

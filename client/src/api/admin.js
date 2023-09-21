@@ -208,6 +208,16 @@ export const getModelNos = async (data) => {
     }
     return response;
 }
+export const getAllModelNos = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/get-all-model-nos',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const createFaqTab = async (data) => {
     let response;
     
