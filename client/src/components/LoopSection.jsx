@@ -4,6 +4,7 @@ import { BsArrowRightShort } from 'react-icons/bs'
 import { getVideoMedia } from '../api/admin/videoMedia'
 import { Link } from 'react-router-dom'
 import Iframe from '../components/Reusable/Ifram';
+import IframeSkelton from '../components/Reusable/IframeSkelton';
 
 
 const LoopSection = () => {
@@ -45,6 +46,7 @@ const LoopSection = () => {
       </div>
 
       <div className='py-10 lg:py-16 lg:mb-0' >
+        {loopVideo.length === 0 ? <IframeSkelton style="col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]" /> : null}
         {loopVideo.length > 0 && type !== 'iframe' ? <video controls className='col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]' src={video} /> : null}
           {loopVideo.length > 0 && type === 'iframe' ? <Iframe thumbnail={video.thumb} genState={genFrame} setGenState={setGenFrame} divId="main-loop-div" frameId="loop-main-frame" icon="text-8xl" style="col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]" src={video.url} title={video.url} /> : null}
         <div>

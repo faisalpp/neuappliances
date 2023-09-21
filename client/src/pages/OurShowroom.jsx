@@ -7,6 +7,7 @@ import SatisfiedSection from '../components/SatisfiedSection'
 import MassiveAppliance from '../components/OurStory/MassiveAppliance';
 import NewsLetterSection from '../components/NewsLetterSection';
 import { getSingleVideoMedia } from '../api/frontEnd'
+import Iframe from '../components/Reusable/Ifram'
 
 const OurShowroom = () => {
 
@@ -42,9 +43,9 @@ const OurShowroom = () => {
 
                 {/* Video Section */}
                 <div className='w-full 3xl:max-w-1680px mx-auto'>
-                    {video && video.type === 'iframe' ? <iframe className='w-full h-[250px] md:h-[700px] 2xl:h-[920px]' src={video.url} title="Introducing our Next Generation of High End Kitchen Appliances | Miele" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> : null}
-                    {video && video.type !== 'iframe' ? <video controls autoPlay className='w-full h-[250px] md:h-[700px] object-cover 2xl:h-[920px]' src={video.url} /> : null}
-                </div>
+          {video && video.type === 'iframe' ? <Iframe icon="text-8xl" thumbnail={video.thumbnail} thumbRounded="false" divId={`our-show-room-${video.type}`} frameId="showroom-section-video" style='w-full h-[250px] md:h-[700px] 2xl:h-[920px]' src={video.url} title="Introducing our Next Generation of High End Kitchen Appliances | Miele" /> : null}
+          {video && video.type !== 'iframe' ? <video controls autoPlay className='w-full h-[250px] md:h-[700px] object-cover 2xl:h-[920px]' src={video.url} /> : null}
+        </div>
 
                 <MassiveAppliance sliderstyle="mx-2 3xl:mx-5" />
                 {/* Shop Austin Section */}

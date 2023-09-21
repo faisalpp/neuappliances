@@ -65,9 +65,6 @@ const CreateProduct = () => {
           formData.append('media',data);
           formData.append('location',`product/images/`);
           const res = await uploadMedia(formData)
-          if(res.data.message === 'jwt expired'){
-            console.log('login again')
-          }
           if(res.status === 200){
           setImageMediaLoader(false)
           setValues({...values,media:[...values.media,{file:file,type:type,data:res.data.url}]})
@@ -109,9 +106,6 @@ const CreateProduct = () => {
           formData.append('media',data);
           formData.append('location',`product/videos/`);
           const res = await uploadMedia(formData)
-          if(res.data.message === 'jwt expired'){
-            console.log('login again')
-          }
          if(res.status === 200){
           setVideoMediaLoader(false)
           setValues({...values,media:[...values.media,{file:file,type:type,data:res.data.url}]})
@@ -371,13 +365,11 @@ const CreateProduct = () => {
       property(data[0].sectionItemsId);
       let value = data[0].sectionItemsId[0].title.toLowerCase().replace(/\s/g,'-');
       setValues((prev)=>({...prev,[state]:value}))
-      console.log({...values,[state]:value})
     }
   };
 
   const GetCategoryData = async () => {
     const res = await getCategoryData({categorySlug:values.category})
-    console.log(res)
     if(res.status === 200){
       setData(setFeatures, res.data.features,'feature');
       setData(setTypes, res.data.types,'type');
@@ -475,7 +467,6 @@ const CreateProduct = () => {
     e.preventDefault()
     const data = values.keyFeatures.filter((item,indx)=> indx !== index )
     const delData = values.keyFeatures.filter((item,indx)=> indx === index )
-    console.log(delData[0].media.type)
     if(delData[0].media.type !== 'upload'){
       setValues({...values,keyFeatures:[...data]})
     }else{
@@ -542,6 +533,7 @@ const CreateProduct = () => {
      setIsModelNos(true)
      const res = await getModelNos({category:parentCategory});
      let AMS = res.data.allModelNos;
+     console.log(AMS)
      let AM = res.data.modelNos;
       if(res.status === 200){
         setIsModelNos(false)
@@ -551,6 +543,7 @@ const CreateProduct = () => {
         setIsModelNos(false)
       }
    }
+
    const navigate = useNavigate();
   // Create Product
   const CreateProduct = async (e) => {
@@ -613,7 +606,6 @@ const CreateProduct = () => {
       });
      }
     }catch(error){
-      console.log(error)
       if (error) {
         let errors = error.errors;
         setErrors(errors)
@@ -752,7 +744,7 @@ const handleTitle = (e) => {
      <div className="flex items-center space-x-5 w-full" >
       <SelectInput name="categor" title="Rating" iscompulsory="true" onChange={e =>handleInputChange(e,'rating')} options={['3','4','5']} />
       <TextInput name="stock" title="Stock" iscompulsory="true" type="text" value={values.stock} onChange={(e) =>handleInputChange(e,'stock')} error={errors && errors.includes('Stock is Required!') ? true : false} errormessage="Stock is Required!" placeholder="Total Stock: 12" />
-      {/* <TextInput name="model-no" title="Model No" iscompulsory="true" type="text" value={values.modelNo} onChange={(e) =>handleInputChange(e,'modelNo')} error={errors && errors.includes('Model No is Required!') ? true : false} errormessage="Model No is Required!" placeholder="Model No : #9088324885" /> */}
+      {values.productType}
       <TextInputSuggestion state={values.modelNo} setState={setValues} values={values} suggestionList={values.productType === 'variant' ? parentModels : allModelNos} iscompulsory="true" title="Model No" placeholder="#12334" />
       <TextInput name="item-id" title="Item Id" iscompulsory="true" type="text" value={values.itemId} onChange={(e) =>handleInputChange(e,'itemId')} error={errors && errors.includes('Item Id is Required!') ? true : false} errormessage="Item Id is Required!" placeholder="Item Id: 234532455" />
      </div>

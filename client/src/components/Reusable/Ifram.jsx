@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {AiFillPlayCircle,AiOutlineLoading3Quarters} from 'react-icons/ai'
 
-const Ifram = ({style,src,title,icon,frameId,divId,genState, setGenState,thumbnail}) => {
+const Ifram = ({style,src,title,icon,frameId,divId,genState, setGenState,thumbnail,thumbRounded}) => {
 
   const [isIframe,setIsIframe] = useState(true)
   const [trigger,setTrigger] = useState(false)
@@ -18,9 +18,9 @@ const Ifram = ({style,src,title,icon,frameId,divId,genState, setGenState,thumbna
 
   const handleLoader = () => {
     // Create a new iframe elemen
-      
-      if(document.getElementById(frameId)){
-        document.getElementById(frameId).remove()
+      const oldFrame = document.getElementById(frameId);
+      if(oldFrame){
+        oldFrame.remove()
       }
       setTrigger(false)
       setIsIframeLoader(true)
@@ -32,7 +32,9 @@ const Ifram = ({style,src,title,icon,frameId,divId,genState, setGenState,thumbna
       var container = document.getElementById(divId);
       container.appendChild(iframe);
       setIsIframe(false)
-      setGenState(false)
+      if(oldFrame){
+        setGenState(false)
+      }
   }
 
   useEffect(()=>{
@@ -46,7 +48,7 @@ const Ifram = ({style,src,title,icon,frameId,divId,genState, setGenState,thumbna
       <div className={`relative ${isIframe || isIframeLoader ? 'flex items-center justify-center h-full w-full' : 'hidden'}`} >
        {isIframe ? <AiFillPlayCircle onClick={()=>setTrigger(true)} className={`${icon ? icon : 'hidden'} absolute cursor-pointer ${icon} text-b6`} />:null}
        {isIframeLoader ? <AiOutlineLoading3Quarters className={`absolute cursor-wait ${icon ? icon : 'hidden'} ${icon} text-b6 animate-spin`} />:null}
-       {isIframeLoader || isIframe ? <img alt="thumbnail" title="thumbnail" src={thumbnail} className='h-full w-full rounded-2xl' />:null}
+       {isIframeLoader || isIframe ? <img alt="thumbnail" title="thumbnail" src={thumbnail} className={`h-full w-full ${thumbRounded === 'false' ? null : 'rounded-2xl'}`} />:null}
       </div>
     </div>
   )
