@@ -1,21 +1,24 @@
-import React, { useEffect, useState, lazy, Suspense } from 'react'
+import React, { useEffect, useState } from 'react'
 import StayLoopSlider from './StayLoopSlider'
 import { BsArrowRightShort } from 'react-icons/bs'
 import { getVideoMedia } from '../api/admin/videoMedia'
 import { Link } from 'react-router-dom'
-import IframeLoader from '../components/Loader/IframeLoader'
-const Iframe = lazy(() => import('../components/Reusable/Ifram'));
+import Iframe from '../components/Reusable/Ifram';
 
 
 const LoopSection = () => {
 
   const [loopVideo, setLoopVideo] = useState([])
-  const [video, setVideo] = useState('');
+  const [video, setVideo] = useState({url:'',thumb:''});
   const [type, setType] = useState('');
+  const [thumbnail, setThumbnail] = useState('');
 
   const [page, setPage] = useState(1)
   const [limit, setLimit] = useState(10)
   const [totalPages, setTotalPages] = useState(0)
+
+  // Regenerate iframe
+  const [genFrame,setGenFrame] = useState(false)
 
   useEffect(() => {
     const GetSingleVideoMedia = async () => {
@@ -25,7 +28,7 @@ const LoopSection = () => {
       // console.log(res)
       if (res.status === 200) {
         setLoopVideo(res.data.media)
-        setVideo(res.data.media[0].url)
+        setVideo({url:res.data.media[0].url,thumb:res.data.media[0].thumbnail})
         setType(res.data.media[0].type)
         setTotalPages(Math.ceil(res.data.totalCount / limit))
       }
@@ -43,12 +46,9 @@ const LoopSection = () => {
 
       <div className='py-10 lg:py-16 lg:mb-0' >
         {loopVideo.length > 0 && type !== 'iframe' ? <video controls className='col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]' src={video} /> : null}
-        {/* <IframeLoader/> */}
-        <Suspense fallback={<IframeLoader />} >
-          {loopVideo.length > 0 && type === 'iframe' ? <Iframe style="col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]" src={video} title={video} /> : null}
-        </Suspense>
+          {loopVideo.length > 0 && type === 'iframe' ? <Iframe thumbnail={video.thumb} genState={genFrame} setGenState={setGenFrame} divId="main-loop-div" frameId="loop-main-frame" icon="text-8xl" style="col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]" src={video.url} title={video.url} /> : null}
         <div>
-          <StayLoopSlider page={page} setPage={setPage} totalPages={totalPages} loopVideo={loopVideo} setLoopVideo={setLoopVideo} setVideo={setVideo} video={video} />
+          <StayLoopSlider setGenState={setGenFrame} page={page} setPage={setPage} totalPages={totalPages} loopVideo={loopVideo} setLoopVideo={setLoopVideo} setVideo={setVideo} video={video} />
         </div>
         <div className='flex justify-center mt-10 lg:mt-16' ><Link to='/stay-in-loop' className='flex items-center border-[1px] border-b3 w-fit px-4 py-2 rounded-md text-b3 font-semibold' ><span className='text-sm' >View All Videos</span><BsArrowRightShort className='text-2xl' /></Link></div>
       </div>

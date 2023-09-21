@@ -35,13 +35,17 @@ const videoMediaController = {
 
           if(type === "iframe"){
             // Construct the new embedded URL
+            let id =  uploadMedia.split('/').pop();
+            const thumbnail = `https://img.youtube.com/vi/${id}/mqdefault.jpg`
             const updateUrl = uploadMedia.replace('youtu.be/','youtube.com/embed/')
+            
 
             try {  
               const mediaToUpload = new VideoMedia({
                   url:updateUrl,
                   type,
                   section,
+                  thumbnail:thumbnail
                 });
 
                const data = await mediaToUpload.save();
@@ -60,6 +64,7 @@ const videoMediaController = {
                   url:updateImg,
                   type,
                   section,
+                  thumbnail:''
                 });
 
                const data = await mediaToUpload.save();
