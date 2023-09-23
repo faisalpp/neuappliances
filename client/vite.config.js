@@ -6,5 +6,6 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'build', // Change this to your desired output directory name
+    minify:true
   },
 })

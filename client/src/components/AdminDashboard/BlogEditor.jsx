@@ -2,17 +2,23 @@
 // import { CKEditor } from '@ckeditor/ckeditor5-react';
 
 // eslint-disable-next-line react/prop-types
-const BlogEditor = ({ state, setState }) => {
+const BlogEditor = ({ state, setState,property }) => {
 
   const handleChange = (e, editor) => {
-    setState(editor.getData())
+    // console.log(property)
+    if(property !== '' ){
+      // console.log({...state,[property]:editor.getData()})
+      setState({...state,[property]:editor.getData()})
+    }else{
+      setState(editor.getData())
+    }
   }
 
   return (
     <>
       {/* <CKEditor
         editor={Editor}
-        data={state}
+        data={property !== '' ? state.property :  state}
         onChange={(e, editor) => { handleChange(e, editor) }}
         config={{
           height: '300px', // Set the initial height

@@ -2,58 +2,46 @@ import React,{useEffect, useRef} from 'react';
 import AdminAccount from '../../layout/AdminAccount';
 import {BsArrowRightShort,BsFillTrashFill} from 'react-icons/bs'
 import {AiOutlinePlusSquare,AiFillPlusCircle,AiFillCloseCircle} from 'react-icons/ai'
-import {BiSolidVideos} from 'react-icons/bi'
-import {FaImage,FaPhotoVideo,FaFileVideo} from 'react-icons/fa'
+import {FaImage,FaPhotoVideo,FaRedoAlt} from 'react-icons/fa'
+import {GoVideo} from 'react-icons/go'
 import {TiTick} from 'react-icons/ti'
 import {Tb360View} from 'react-icons/tb'
-import {HiPencil} from 'react-icons/hi'
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getCategoryData,createProduct} from '../../api/admin'
+import { getCategoryData,createProduct,getModelNos,uploadMedia,deleteMedia,getAllModelNos} from '../../api/admin'
 import {GetCategories} from '../../api/admin/category'
 import createProductSchema from '../../schemas/createProductSchema';
-import Loader2 from '../../components/Loader/Loader2'
 import TextInput from '../../components/TextInput/TextInput'
+import TextInputSuggestion from '../../components/TextInput/TextInputSuggestion'
 import SelectInput from '../../components/TextInput/SelectInput'
 import TextArea from '../../components/TextInput/TextAreaInput'
 import Iframe from '../../components/Reusable/Ifram'
 import BlogEditor from '../../components/AdminDashboard/BlogEditor'
 import Popup from '../../components/AdminDashboard/Popup'
 import Accordion from '../../components/FaqAccordion2'
+import { useNavigate } from 'react-router-dom';
 
 const CreateProduct = () => {
 
   const [submit,setSubmit] = useState(false)
 
+  const [values,setValues] = useState({productType:'parent',title:'',slug:'',category:'',feature:'',type:'',color:'',brand:'',fuelType:'',regPrice:'',salePrice:'',lowPrice:'',highPrice:'',rating:'',stock:'',modelNo:'',itemId:'',keyFeatures:[],featureVideo:{type:'',data:''},threeSixty:{type:'',data:''},media:[],description:'',specification:'',deliveryInfo:'',metaTitle:'',metaDescription:'',metaKeywords:[]})
+
   // Form States Start
    const [errors,setErrors] = useState([])
-   const [title,setTitle] = useState('')
-   const [slug,setSlug] = useState('')
-   const [regPrice,setRegPrice] = useState('')
-   const [salePrice,setSalePrice] = useState('')
-   const [rating,setRating] = useState('')
-   const [stock,setStock] = useState('')
-   const [modelNo,setModelNo] = useState('')
-   const [itemId,setItemId] = useState('')
-   const [category,setCategory] = useState('')
-   const [type,setType] = useState('')
-   const [feature,setFeature] = useState('')
-   const [color,setColor] = useState('')
-   const [brand,setBrand] = useState('')
-   const [fuelType,setFuelType] = useState('')
-   const [keyFeatures,setKeyFeatures] = useState([])
-   const [featureVideo,setFeatureVideo] = useState({type:'',data:''})
-   const [description,setDescription] = useState('')
-   const [specification,setSpecification] = useState('')
-   const [deliveryInfo,setDeliveryInfo] = useState('')
    // Form States End
    
    // Controller States Start
-   const [media,setMedia] = useState([])
+   
    const [featureVideoField,setFeatureVideoField] = useState('')
+   const [featureVideoLoader,setFeatureVideoLoader] = useState(false)
+   const [delFeatureVideoLoader,setDelFeatureVideoLoader] = useState(false)
+   const [threeSixtyField,setThreeSixtyField] = useState('')
    const [imageField,setImageField] = useState('')
+   const [videoMediaLoader,setVideoMediaLoader] = useState(false)
+   const [imageMediaLoader,setImageMediaLoader] = useState(false)
+   const [mediaDelLoader,setMediaDelLoader] = useState('')
    const [videoField,setVideoField] = useState('')
    const [categories,setCategories] = useState([])
    const [brands,setBrands] = useState([])
@@ -62,8 +50,122 @@ const CreateProduct = () => {
    const [colors,setColors] = useState([])
    const [fuelTypes,setFuelTypes] = useState([])
   const imageSelectRef = useRef(null)
+  const videoSelectRef = useRef(null)
   const featureVideoRef = useRef(null)
   // Controller States End
+
+  // Handle Single Image url
+  const handleMedia = async (e,file,type) => {
+    if(file === 'image'){
+       if(type === 'upload'){
+         const data = e.target.files[0]
+         if(data){
+          setImageMediaLoader(true)
+          const formData = new FormData()
+          formData.append('media',data);
+          formData.append('location',`product/images/`);
+          const res = await uploadMedia(formData)
+          if(res.status === 200){
+          setImageMediaLoader(false)
+          setValues({...values,media:[...values.media,{file:file,type:type,data:res.data.url}]})
+          setImageField('')
+          imageSelectRef.current.value = '';
+         }else{
+          setImageMediaLoader(false)
+          setImageField('')
+          toast.error(res.data.message, {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+       }
+       }else{
+        if(imageField !== ''){
+          setValues({...values,media:[...values.media,{file:file,type:type,data:imageField,preview: imageField}]})
+          setImageField('')
+        }   
+       }
+
+     }else if(file === 'video'){
+      if(type === 'url' && videoField !== ''){
+        let id =  videoField.split('/').pop();
+        const preview = `https://img.youtube.com/vi/${id}/mqdefault.jpg`
+        setValues({...values,media:[...values.media,{file:file,type:type,data:videoField.replace('youtu.be/','youtube.com/embed/'),preview:preview}]})
+        setVideoField('')
+      }else{
+        const data = e.target.files[0]
+         if(data){
+          setVideoMediaLoader(true)
+          const formData = new FormData()
+          formData.append('media',data);
+          formData.append('location',`product/videos/`);
+          const res = await uploadMedia(formData)
+         if(res.status === 200){
+          setVideoMediaLoader(false)
+          setValues({...values,media:[...values.media,{file:file,type:type,data:res.data.url}]})
+          setVideoField('')
+          videoSelectRef.current.value = '';
+         }else{
+          setImageMediaLoader(false)
+          setVideoField('')
+          toast.error(res.data.message, {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+         }
+      }
+     }
+  }
+  
+  const DeleteMedia = async (e,indx) => {
+    const delMedia = values.media.filter((item,index)=> index === indx)
+    const updatedMedia = values.media.filter((item,index)=> index !== indx)
+    if(delMedia.length && delMedia[0].type === 'upload'){
+      setMediaDelLoader(indx)
+      const res = await deleteMedia({url:delMedia[0].data})
+     if(res.status === 200){
+      setValues({...values,media:[...updatedMedia]})
+      setMediaDelLoader('')
+      toast.success(res.data.msg, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }else{
+      setMediaDelLoader('')
+      toast.error(res.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+   }else{
+    setValues({...values,media:[...updatedMedia]})
+   }
+  }
 
   const handleTagClick = (e,id) => {
     e.preventDefault()
@@ -142,46 +244,113 @@ const CreateProduct = () => {
     {id:48,icon:'/water-dispanser',name:'WATER DISPANSER',selected:false},
   ])
 
-  
+  const deleteFeatureVideo = async (e) => {
+    let emptyObj = {type:'',data:''};
+    if(values.featureVideo.type === 'url'){
+      setValues({...values,featureVideo:emptyObj})
+    }else{
+      setDelFeatureVideoLoader(true)
+    const res = await deleteMedia({url:values.featureVideo.data})
+     if(res.status === 200){
+      setValues({...values,featureVideo:emptyObj})
+      setDelFeatureVideoLoader(false)
+      toast.success(res.data.msg, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }else{
+      setDelFeatureVideoLoader(false)
+      toast.error(res.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
+}
 
-  const handleVideoClick = () => {
-    imageSelectRef.current.click();
-  };
-
-  const handleFeatureVideo = (e,type) => {
+  const handleFeatureVideo = async (e,type) => {
     if(type === 'upload'){
       e.preventDefault()
+      setFeatureVideoLoader(true)
       setFeatureVideoField('')
       const file = e.target.files[0]
       if(file){
-        console.log(file)
-      setFeatureVideo({type:'upload',data:file});
-     }
+        setKeyFeatureUpload(true)
+        const formData = new FormData()
+        formData.append('media',file);
+        formData.append('location',`product/featureVideos/`);
+        const res = await uploadMedia(formData)
+        if(res.status === 200){
+          setFeatureVideoLoader(false)
+          setValues({...values,featureVideo:{type:'upload',data:res.data.url}})
+          setFeatureVideoField('')
+        }else{
+          setFeatureVideoLoader(false)
+          setFeatureVideoField('')
+          toast.error(res.data.message, {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      }
     }else if(type === 'url'){
       if(featureVideoField === ''){
-        setFeatureVideo({type:'',data:'',prevImg:''})  
+        setValues({...values,featureVideo:{type:'',data:'',prevImg:''}})
       }else{
         let id =  featureVideoField.split('/').pop();
       const preview = `https://img.youtube.com/vi/${id}/mqdefault.jpg`
-      console.log(preview)
-      setFeatureVideo({type:'url',data:featureVideoField.replace('youtu.be/','youtube.com/embed/'),prevImg:preview})
+      setValues({...values,featureVideo:{type:'url',data:featureVideoField.replace('youtu.be/','youtube.com/embed/'),prevImg:preview}})
       setFeatureVideoField('')
     }
     }
-  }
-  
 
-  const CreateProduct = (e) => {
-     e.preventDefault()
-     console.log(tags)
+  }
+
+  const handleThreeSixty = (e,type) => {
+    if(type === 'upload'){
+      e.preventDefault()
+      setThreeSixtyField('')
+      const file = e.target.files[0]
+      if(file){
+      setValues({...values,threeSixty:{type:'upload',data:file}})
+     }
+    }else if(type === 'url'){
+      if(threeSixtyField !== ''){
+      let id =  threeSixtyField.split('/').pop();
+      const preview = `https://img.youtube.com/vi/${id}/mqdefault.jpg`
+      setValues({...values,threeSixty:{type:'url',data:threeSixtyField.replace('youtu.be/','youtube.com/embed/'),prevImg:preview}})
+      setThreeSixtyField('')
+    }
+    }
+
   }
 
 
   const GetCategoriess = async () => {
     const res = await GetCategories();
     if(res.status === 200){
+      let cat = res.data.categories[0].slug;
       setCategories(res.data.categories);
-      setCategory(res.data.categories[0].slug)
+      setValues({...values,category:cat})
+      setParentCategory(res.data.categories[0].slug)
     }else{
       setCategories([])
     }
@@ -191,90 +360,313 @@ const CreateProduct = () => {
     GetCategoriess()
   },[])
 
-  const setData = (property, data,setState) => {
+  const setData = (property, data,state) => {
     if (data.length > 0) {
       property(data[0].sectionItemsId);
-      setState(data[0].sectionItemsId[0].slug)
-    } else {
-      property([]);
+      let value = data[0].sectionItemsId[0].title.toLowerCase().replace(/\s/g,'-');
+      setValues((prev)=>({...prev,[state]:value}))
     }
   };
 
   const GetCategoryData = async () => {
-    const res = await getCategoryData({categorySlug:category})
+    const res = await getCategoryData({categorySlug:values.category})
     if(res.status === 200){
-      setData(setFeatures, res.data.features,setFeature);
-      setData(setTypes, res.data.types,setType);
-      setData(setColors, res.data.colors,setColor);
-      setData(setBrands, res.data.brands,setBrand);
-      setData(setFuelTypes, res.data.fuelTypes,setFuelType);
+      setData(setFeatures, res.data.features,'feature');
+      setData(setTypes, res.data.types,'type');
+      setData(setColors, res.data.colors,'color');
+      setData(setBrands, res.data.brands,'brand');
+      setData(setFuelTypes, res.data.fuelTypes,'fuelType');
     }
   }
 
   useEffect(()=>{
     GetCategoryData()
-  },[category])
+  },[values.category])
 
 
   // Product Highlighted Features Popup
   const [fPopup,setFpopup] = useState(false)
   const [fTitle,setFtitle] = useState('')
   const [fDescription,setFdescription] = useState('')
-  const [fMedia,setFmedia] = useState({})
+  const [fMedia,setFmedia] = useState({file:'',type:'',data:'',preview:''})
   const [fImageField,setFimageField] = useState('')
   const [fVideoField,setFvideoField] = useState('')
+  const [keyFeatureUpload,setKeyFeatureUpload] = useState(false)
   const fVideoRef = useRef(null)
   const fImageRef = useRef(null)
 
-  const hanldeKeyFeatures = (e,type,media) => {
-    if(type === 'upload'){
-      e.preventDefault()
-      setFvideoField('')
-      const file = e.target.files[0]
-      if(file){
-      setFmedia({file:media,type:'upload',data:file});
-     }
-    }else if(type === 'url'){
-      if(featureVideoField === ''){
-        setFmedia({file:media,type:'',data:''})  
+  const hanldeKeyFeatures = async (e,type,media) => {
+     if(media === 'image'){
+       if(type === 'upload'){
+         const file = e.target.files[0]
+         if(file){
+           setFmedia({file:media,type:type,data: file,preview:window.URL.createObjectURL(file)});
+           setFimageField('')
+         }
+       }else{
+        setFmedia({file:media,type:type,data:fImageField,preview:'' });
+        setFimageField('')
+       }
+
+     }else if(media === 'video'){
+      if(type === 'url'){
+        let id =  fVideoField.split('/').pop();
+        const preview = `https://img.youtube.com/vi/${id}/mqdefault.jpg`
+        setFmedia({file:media,type:type,data:fVideoField.replace('youtu.be/','youtube.com/embed/'),prevImg:preview})
+        setFvideoField('')
       }else{
-        if(media === 'video'){
-          let id =  fVideoField.split('/').pop();
-          const preview = `https://img.youtube.com/vi/${id}/mqdefault.jpg`
-          setFmedia({file:media,type:'url',data:fVideoField.replace('youtu.be/','youtube.com/embed/'),prevImg:preview})
-          setFvideoField('')
-        }else{
-          setFmedia({file:media,type:'url',data:fImageField})
-          setFimageField('')
-        }
+        const file = e.target.files[0]
+         if(file){
+           setFmedia({file:media,type:type,data:file});
+           setFvideoField('')
+         }
+      }
+     }
     }
+
+  const saveKeyFeature = async () => {
+    if(fMedia.type === 'upload'){
+      setKeyFeatureUpload(true)
+      const formData = new FormData()
+      formData.append('media',fMedia.data);
+      formData.append('location',`product/${fMedia.file}s/`);
+      const res = await uploadMedia(formData)
+      if(res.status === 200){
+        const data2 = {title:fTitle,description:fDescription,media:{...fMedia,data:res.data.url}}
+        setValues({...values,keyFeatures:[...values.keyFeatures,data2]})
+        setFmedia({file:'',type:'',data:'',preview:''})
+        setFtitle('')
+        setFdescription('')
+        setKeyFeatureUpload(false)
+        setFpopup(false)
+      }else{
+        setKeyFeatureUpload(false)
+        setFpopup(false)
+        toast.error(res.data.message, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }else{
+      const data = {title:fTitle,description:fDescription,media:{...fMedia}}
+      setValues({...values,keyFeatures:[...values.keyFeatures,data]})
+      setFmedia({file:'',type:'',data:'',preview:''})
+      setFtitle('')
+      setFdescription('')
+      setFpopup(false)
     }
   }
-
-  const saveKeyFeature = () => {
-    const data = {title:fTitle,description:fDescription,media:{file:fMedia.file,type:fMedia.type,data:fMedia.data}}
-    setKeyFeatures([...keyFeatures,data])
-    setFpopup(false)
+  const [delFeatureCardLoader,setDelFeatureCardLoader] = useState(false)
+  const deleteFeatureCard = async (e,index) => {
+    e.preventDefault()
+    const data = values.keyFeatures.filter((item,indx)=> indx !== index )
+    const delData = values.keyFeatures.filter((item,indx)=> indx === index )
+    if(delData[0].media.type !== 'upload'){
+      setValues({...values,keyFeatures:[...data]})
+    }else{
+      setDelFeatureCardLoader(true)
+      const res = await deleteMedia({url:delData[0].media.data})
+      if(res.status === 200){
+        setValues({...values,keyFeatures:[...data]})
+        toast.success(res.data.msg, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }else{
+        toast.error(res.data.message, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
   }
 
   // Product Seo
-  const [metaTitle,setMetaTitle] = useState('')
-  const [metaDescription,setDscription] = useState('')
   const [keywordField,setKeywordField] = useState('')
-  const [keywords,setKeywords] = useState([])
+  const keywordRef = useRef()
 
-  const handleEnterKey = async (e) => {
-    if (e.key === 'Enter') {
-      setKeywords([...keywords,keywordField])
-      setKeywordField('')
+  const handleEnterKey = (e) => {
+    if (e.key === ' ' && keywordField.length > 0) {
+      setValues({...values,metaKeywords:[...values.metaKeywords,keywordField]})
+      setTimeout(() => {
+        setKeywordField('')
+        keywordRef.current.focus();
+        keywordRef.current.setSelectionRange(0, 0);
+      }, 0);
     }
   }
 
   const deleteKeyword = (e,index) => {
     e.preventDefault()
-     const data = keywords.filter((item,indx)=> indx !== index)
-     setKeywords(data)
+     const updateMetaKeywords = values.metaKeywords.filter((item,indx)=> indx !== index)
+     setValues({...values,metaKeywords:[...updateMetaKeywords]})
   }
+
+  // Initial popup
+  const [initPopup,setInitPopup] = useState(true)
+  const [parentModels,setParentModels] = useState([])
+  const [allModelNos,setAllModelNos] = useState([])
+  const [parentModel,setParentModel] = useState('')
+  const [parentCategory,setParentCategory] = useState('')
+  const [isModelNos,setIsModelNos] = useState(false)
+
+   const handleProductType = async (e) => {
+     handleInputChange(e,'productType')
+     setIsModelNos(true)
+     const res = await getModelNos({category:parentCategory});
+      if(res.status === 200){
+        setIsModelNos(false)
+        setParentModels(res.data.modelNos)
+        setParentModel(res.data.modelNos[0])
+        setIsModelNos(false)
+      }
+   }
+
+   const handleAllModelNos = async () => {
+     const res = await getAllModelNos({category:values.category});
+      if(res.status === 200){
+        setAllModelNos(res.data.allModelNos)
+      }
+   }
+
+   useEffect(()=>{
+     if(values.category !== ''){
+       handleAllModelNos()
+      }
+   },[values.category])
+
+   const navigate = useNavigate();
+  // Create Product
+  const CreateProduct = async (e) => {
+    e.preventDefault()
+    try{
+     const data = {
+      productType:values.productType,
+      title:values.title,
+      slug:values.slug,
+      category:values.category,
+      feature:values.feature,
+      type:values.type,
+      color:values.color,
+      brand:values.brand,
+      fuelType:values.fuelType,
+      regPrice:parseFloat(values.regPrice).toFixed(2),
+      salePrice:parseFloat(values.salePrice).toFixed(2),
+      lowPrice:parseFloat(values.lowPrice).toFixed(2),
+      highPrice:parseFloat(values.highPrice).toFixed(2),
+      rating:parseInt(values.rating),
+      stock:parseInt(values.stock),
+      modelNo:values.modelNo,
+      itemId:values.itemId,
+      keyFeatures:values.keyFeatures,
+      featureVideo:values.featureVideo,
+      threeSixty:values.threeSixty,
+      media:values.media,
+      tags:JSON.stringify(tags),
+      description:values.description,
+      specification:values.specification,
+      deliveryInfo:values.deliveryInfo,
+      metaTitle:values.metaTitle,
+      metaDescription:values.metaDescription,
+      metaKeywords:values.metaKeywords
+    }
+     await createProductSchema.validate(data, { abortEarly: false }); 
+     const res = await createProduct(data)
+     if(res.status === 200){
+      toast.success(res.data.msg, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      navigate('/admin/manage-products')
+     }else{
+      toast.error(res.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+     }
+    }catch(error){
+      if (error) {
+        let errors = error.errors;
+        setErrors(errors)
+        errors.forEach((item)=>{
+          toast.error(item, {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        })
+      } else {
+        setErrors([])
+      }
+    }
+ }
+
+//  Capitalize first Character
+const Cap1Char = (str) => {
+  if(str){
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  } else{
+    return str
+  }
+}
+
+const handleInputChange = (e,name) => {
+  const { value } = e.target;
+  if(name === 'slug'){
+    setValues({
+      ...values,
+      [name]: value.toLowerCase().replace(/\s/g,'-'), // Update the property based on the input's 'name' attribute
+    });
+  }else{
+    setValues({
+      ...values,
+      [name]: value, // Update the property based on the input's 'name' attribute
+    });
+  }
+};
+
+const handleTitle = (e) => {
+ setValues({
+  ...values,
+  title: e.target.value, // Update the property based on the input's 'name' attribute
+  slug: e.target.value.toLowerCase().replace(/\s/g,'-')
+});
+}
 
   return (
    <>
@@ -285,26 +677,35 @@ const CreateProduct = () => {
           {/* Media Start */}
            <div className='flex flex-col items-center justify-center border-[1px] border-[0,0,0,0,0.15] w-1/2 h-52 px-2 py-2 rounded-md' >
              <div className='relative h-full flex items-center justify-center' >
-              {fImageField === '' ? <FaPhotoVideo className='text-7xl' />
-              :fMedia.type === 'url' ? <img src={fImageField} /> : <img src={window.URL.createObjectURL(fImageField)} className='w-20 h-20' />}
+              {fMedia.file === 'image' ? <img src={fMedia.preview !== '' ? fMedia.preview : fMedia.data} className='h-36 rounded-md' /> : <FaPhotoVideo className='text-7xl' />}
              </div>
              <div className='flex items-center justify-center pt-1 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
+             {fMedia.file === 'image' ? <button type='button' onClick={e=>setFmedia({file:'',type:'',data:'',preview:''})} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-sm' /></a></button>    
+              :
+              <>
               <input type="text" value={fImageField} onChange={e=>setFimageField(e.target.value)} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Image Url' />
-              <button  onClick={e=>hanldeKeyFeatures(e,'url','image')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
-              <input  type="file" accept='video/*' ref={fImageRef} onChange={e=>hanldeKeyFeatures(e,'upload','image')} className='hidden' />
-              <button type='button' onClick={()=>fImageRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><FaImage className='text-lg' /></a>}</button>    
+              <button  onClick={e=>hanldeKeyFeatures(e,'url','image')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-sm' /></a></button>    
+              <input  type="file" accept='image/*' ref={fImageRef} onChange={e=>hanldeKeyFeatures(e,'upload','image')} className='hidden' />
+              <button type='button' onClick={()=>fImageRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><FaImage className='text-sm' /></a></button>
+              </>}
              </div>
            </div>
+           <div className='flex h-full justify-center items-center font-semibold' ><h5>OR</h5></div>
            <div className='flex flex-col items-center justify-center border-[1px] border-[0,0,0,0,0.15] w-1/2 h-52 px-2 py-2 rounded-md' >
              <div className='h-full flex items-center justify-center' >
-              {fVideoField === '' ?<BiSolidVideos className='text-7xl' />
-              :fMedia.type === 'upload' ? <video src={fMedia.data} /> : <iframe src={fMedia.data} ></iframe>}
+             {fMedia.file !== 'video' ? <FaPhotoVideo className='text-7xl' />:null}
+             {fMedia.file === 'video' && fMedia.type === 'url' ? <iframe src={fMedia.data} className='h-36 w-11/12 rounded-md' />:null}
+             {fMedia.file === 'video' && fMedia.type === 'upload' ? <div><h5>{fMedia.data.name}</h5></div>:null}
              </div>
              <div className='flex items-center justify-center pt-1 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
-              <input type="text" value={featureVideoField} onChange={e=>setFeatureVideoField(e.target.value.replace('youtu.be/','youtube.com/embed/'))} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url' />
-              <button  onClick={e=>hanldeKeyFeatures(e,'url','video')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
+              <input type="text" value={fVideoField} onChange={e=>setFvideoField(e.target.value.replace('youtu.be/','youtube.com/embed/'))} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url' />
+              {fMedia.file === 'video' ? <button type='button' onClick={e=>setFmedia({file:'',type:'',data:'',preview:''})} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-sm' /></a></button>    
+              :
+              <>
+              <button  onClick={e=>hanldeKeyFeatures(e,'url','video')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-sm' /></a></button>    
               <input  type="file" accept='video/*' ref={fVideoRef} onChange={e=>hanldeKeyFeatures(e,'upload','video')} className='hidden' />
-              <button type='button' onClick={()=>fVideoRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><FaFileVideo className='text-lg' /></a>}</button>    
+              <button type='button' onClick={()=>fVideoRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><GoVideo className='text-sm' /></a></button>    
+              </>}
              </div>
            </div>
           {/* Media End */}
@@ -312,55 +713,64 @@ const CreateProduct = () => {
           <div className='flex flex-col space-y-2 items-center px-2 mt-2 w-full' >
           <TextInput width="full" value={fTitle} onChange={e=>setFtitle(e.target.value)} placeholder="Enter Feature Title" />
           <TextArea value={fDescription} onChange={e=>setFdescription(e.target.value)} placeholder="Write Feature Description Here.." /> 
-          <button type='button' onClick={saveKeyFeature} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-3 py-2 rounded-md text-white font-semibold text-xs' >Create</a></button>    
+          {keyFeatureUpload?<button type='button' className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-3 py-2 rounded-md text-white font-semibold text-xs' ><img src='/loader-bg.gif' className='w-5' /></a></button>:<button type='button' onClick={saveKeyFeature} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-3 py-2 rounded-md text-white font-semibold text-xs' >Create</a></button>}    
           </div>
         </div>
     </Popup>
+    <Popup state={initPopup} >
+      <div className="flex flex-col space-y-2" >
+       <h5 className="font-bold" >Select Product Type</h5>
+       <SelectInput widthFull="true" name="categor" title="Product Type" iscompulsory="true" onChange={e =>handleProductType(e) } options={['Parent','Variant']} />
+       {values.productType === 'variant'? <SelectInput widthFull="true" name="categor" title="Product Category" iscompulsory="true" onChange={e => setParentCategory(e.target.value)} options={categories} /> :null}
+       {values.productType === 'variant' ? <div className='flex items-center space-x-3 w-full' ><SelectInput widthFull="true" name="categor" title="Model #" iscompulsory="true" onChange={e => setParentModel(e.target.value)} options={parentModels} />{isModelNos ? <img src='/loader-bg.gif' className='w-5 mt-5' />:null}</div>:null}
+       <button type='button' onClick={()=>{values.productType === 'variant' ? setValues({...values,modelNo:parentModel}) :null ;setInitPopup(false)}} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-3 py-2 rounded-md text-white font-semibold text-xs' >Prosseed</a></button> 
+      </div>
+    </Popup>
     <AdminAccount>
     <form onSubmit={CreateProduct} encType='multipart/form-data' className='flex flex-col justify-center space-y-5 w-full py-10' >
-     
+     <h5 className="font-semibold text-center text-2xl" >{Cap1Char(values.productType)} Product</h5>
      <div className="flex items-center space-x-5 w-full" >
-      <TextInput name="title" title="Title" iscompulsory="true" type="text" value={title} onChange={(e) => { setTitle(e.target.value); setSlug(e.target.value.toLowerCase().replace(/\s/g, '-').replace(/\./g, '')) }} error={errors && errors.includes('Product Title is Required!') ? true : false} errormessage="Product Title is Required!" placeholder="Enter Product Title" />
-      <TextInput name="slug" readOnly title="Slug" iscompulsory="true" type="text" value={slug} error={errors && errors.includes('Product Slug is Required!') ? true : false} errormessage="Product Slug is Required!" placeholder="Enter Product Slug" />
-      <SelectInput name="categor" title="Product Category" iscompulsory="true" onChange={e => setCategory(e.target.value)} options={categories} />
+      <TextInput name="title" title="Title" iscompulsory="true" type="text" value={values.title} onChange={(e)=>handleTitle(e)} error={errors && errors.includes('Title is Required!') ? true : false} errormessage="Title is Required!" placeholder="Enter Product Title" />
+      <TextInput name="slug" readOnly title="Slug" iscompulsory="true" type="text" value={values.slug} error={errors && errors.includes('Product Slug is Required!') ? true : false} errormessage="Slug is Required!" placeholder="Slug is Required!" />
+      <SelectInput name="categor" title="Product Category" iscompulsory="true" onChange={e =>handleInputChange(e,'category')} options={categories} />
      </div>
      <div className="flex space-x-5 items-center w-full" >
-      {features.length > 0 ? <SelectInput name="categor" title="Product Feature" iscompulsory="true" onChange={e => setFeature(e.target.value)} options={features} />:null}
-      {types.length > 0 ? <SelectInput name="categor" title="Product Type" iscompulsory="true" onChange={e => setType(e.target.value)} options={types} />:null}
-      {colors.length > 0 ? <SelectInput name="categor" title="Product Color" iscompulsory="true" onChange={e => setColor(e.target.value)} options={colors} />:null}
-      {fuelTypes.length > 0 ? <SelectInput name="categor" title="Product Fuel Type" iscompulsory="true" onChange={e => setFuelType(e.target.value)} options={fuelTypes} />:null}
-      {brands.length > 0 ? <SelectInput name="categor" title="Product Brand" iscompulsory="true" onChange={e => setBrand(e.target.value)} options={brands} />:null}
+      {features.length > 0 ? <SelectInput name="categor" title="Product Feature" iscompulsory="true" onChange={e =>handleInputChange(e,'feature')} options={features} />:null}
+      {types.length > 0 ? <SelectInput name="categor" title="Product Type" iscompulsory="true" onChange={e =>handleInputChange(e,'type')} options={types} />:null}
+      {colors.length > 0 ? <SelectInput name="categor" title="Product Color" iscompulsory="true" onChange={e =>handleInputChange(e,'color')} options={colors} />:null}
+      {fuelTypes.length > 0 ? <SelectInput name="categor" title="Product Fuel Type" iscompulsory="true" onChange={e =>handleInputChange(e,'fuelType')} options={fuelTypes} />:null}
+      {brands.length > 0 ? <SelectInput name="categor" title="Product Brand" iscompulsory="true" onChange={e =>handleInputChange(e,'brand')} options={brands} />:null}
      </div>
      <div className="flex items-center space-x-5 w-full" >
-      <TextInput name="regPrice" title="Regular Price" iscompulsory="true" type="text" value={regPrice} onChange={(e) => setRegPrice(e.target.value)} error={errors && errors.includes('Regular Price is Required!') ? true : false} errormessage="Sale Price is Required!" placeholder="Enter Sale Price" />
-      <TextInput name="salePrice" title="Sale Price" iscompulsory="true" type="text" value={salePrice} onChange={(e) => setSalePrice(e.target.value)} error={errors && errors.includes('Sale Price is Required!') ? true : false} errormessage="Sale Price is Required!" placeholder="Enter Sale Price" />
-      <TextInput name="regPrice" title="Lower Installment" iscompulsory="true" type="text" value={regPrice} onChange={(e) => setRegPrice(e.target.value)} error={errors && errors.includes('Regular Price is Required!') ? true : false} errormessage="Sale Price is Required!" placeholder="Enter Sale Price" />
-      <TextInput name="salePrice" title="Higher Installment" iscompulsory="true" type="text" value={salePrice} onChange={(e) => setSalePrice(e.target.value)} error={errors && errors.includes('Sale Price is Required!') ? true : false} errormessage="Sale Price is Required!" placeholder="Enter Sale Price" />
+      <TextInput name="regPrice" title="Regular Price" iscompulsory="true" type="text" value={values.regPrice} onChange={(e) =>handleInputChange(e,'regPrice')} error={errors && errors.includes('Regular Price is Required!') ? true : false} errormessage="Regular Price is Required!" placeholder="Regular Price is Required!" />
+      <TextInput name="salePrice" title="Sale Price" iscompulsory="false" type="text" value={values.salePrice} onChange={(e) =>handleInputChange(e,'salePrice')} error={errors && errors.includes('Sale Price is Required!') ? true : false} errormessage="Sale Price is Required!" placeholder="Sale Price is Required!" />
+      <TextInput name="lowPrice" title="Lower Installment" iscompulsory="true" type="text" value={values.lowPrice} onChange={(e) =>handleInputChange(e,'lowPrice')} error={errors && errors.includes('Lower Installment Price is Required!') ? true : false} errormessage="Lower Installment Price is Required!" placeholder="Enter Lower Installment" />
+      <TextInput name="highPrice" title="Higher Installment" iscompulsory="true" type="text" value={values.highPrice} onChange={(e) =>handleInputChange(e,'highPrice')} error={errors && errors.includes('Higher Installment Price is Required!') ? true : false} errormessage="Higher Installment Price is Required!" placeholder="Enter Higher Installment" />
      </div>
      <div className="flex items-center space-x-5 w-full" >
-      <TextInput name="rating" title="Rating" iscompulsory="true" type="text" value={rating} onChange={(e) => setRating(e.target.value)} error={errors && errors.includes('Product Rating is Required!') ? true : false} errormessage="Product Rating is Required!" placeholder="Cosmetic Rating : 3" />
-      <TextInput name="stock" title="Stock" iscompulsory="true" type="text" value={stock} onChange={(e) => setStock(e.target.value)} error={errors && errors.includes('Product Stock is Required!') ? true : false} errormessage="Product Stock is Required!" placeholder="Total Stock: 12" />
-      <TextInput name="model-no" title="Model No" iscompulsory="true" type="text" value={modelNo} onChange={(e) => setModelNo(e.target.value)} error={errors && errors.includes('Model No is Required!') ? true : false} errormessage="Model No is Required!" placeholder="Model No : #9088324885" />
-      <TextInput name="item-id" title="Item Id" iscompulsory="true" type="text" value={itemId} onChange={(e) => setItemId(e.target.value)} error={errors && errors.includes('Item Id is Required!') ? true : false} errormessage="Item Id is Required!" placeholder="Item Id: 234532455" />
+      <SelectInput name="categor" title="Rating" iscompulsory="true" onChange={e =>handleInputChange(e,'rating')} options={['3','4','5']} />
+      <TextInput name="stock" title="Stock" iscompulsory="true" type="text" value={values.stock} onChange={(e) =>handleInputChange(e,'stock')} error={errors && errors.includes('Stock is Required!') ? true : false} errormessage="Stock is Required!" placeholder="Total Stock: 12" />
+      <TextInputSuggestion state={values.modelNo} setState={setValues} values={values} suggestionList={allModelNos} iscompulsory="true" title="Model No" placeholder="#12334" />
+      <TextInput name="item-id" title="Item Id" iscompulsory="true" type="text" value={values.itemId} onChange={(e) =>handleInputChange(e,'itemId')} error={errors && errors.includes('Item Id is Required!') ? true : false} errormessage="Item Id is Required!" placeholder="Item Id: 234532455" />
      </div>
 
-     <Accordion title="Main Key Features" answer={
+     {values.productType === 'parent' ? <Accordion title="Main Key Features" answer={
       <div className='flex flex-col border-[1px] border-[0,0,0,0,0.15] rounded-md h-96 overflow-x-hidden overflow-y-scroll w-full' >
       <div className='grid grid-cols-3 mt-2 gap-x-2 gap-y-2 justify-center w-full' >
        {/* Card Start */}
-       {keyFeatures.length > 0 ? keyFeatures.map((item,index)=><div key={index} className='flex flex-col  py-2 items-center h-auto  bg-b5 ml-2 rounded-md w-11/12' >
+       {values.keyFeatures.length > 0 ? values.keyFeatures.map((item,index)=><div key={index} className='flex flex-col  py-2 items-center h-60  bg-b5 ml-2 rounded-md w-11/12' >
          <div className='flex items-center justify-center border-[1px] border-[0,0,0,0,0.15] w-11/12 h-32 px-2 py-2 rounded-md' >
-           {item.media.file === 'image' ? <img src={item.media.data} className='w-20 h-20' />:
-           item.media.type === 'url' ? <iframe src={item.media.data} /> : <video src={item.media.data} />
-           }
+         {/* {item.media.file} */}
+           {item.media.file === 'image' ? <img src={item.media.data} className='h-28 rounded-md' />:null }
+           {item.media.file === 'video' && item.media.type === 'url' ?  <iframe src={item.media.data} className="w-40 h-28 rounded-md " /> :null  }
+           {item.media.file === 'video' && item.media.type === 'upload' ? <h5>{item.media.data.name}</h5>:null  }
          </div> 
          <div className='flex space-x-2 items-center justify-center w-full s mt-2' >
-          <button type='button' onClick={handleVideoClick} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><HiPencil className='text-lg' /></a></button>    
-          <button type='button' onClick={handleVideoClick} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-lg' /></a></button>    
+          {delFeatureCardLoader?<button type='button' className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><img src='/loader-bg.gif' className='w-3' /></a></button>:<button type='button' onClick={e=>deleteFeatureCard(e,index)} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-sm' /></a></button>}    
          </div>
          <div className='flex flex-col px-2 mt-2 w-full' >
-         <h5 className='font-bold text-sm' >{item.data}</h5>
-         <p className='h-32 text-xs overflow-x-hidden overflow-y-scroll' >{item.description}</p>
+         <h5 className='font-bold text-sm' >{item.title}</h5>
+         <p className='h-16 overflow-hidden text-xs ' >{item.description}</p>
          </div>
        </div>):null}
        {/* Card End */}
@@ -373,57 +783,65 @@ const CreateProduct = () => {
        {/* Add More Card End */}
       </div>
      </div>
-     } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child=' w-full [&>p]:text-sm !mt-0' />
+     } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child=' w-full [&>p]:text-sm !mt-0' />:null}
 
       <Accordion title="Product Media" answer={<div className="flex flex-col space-y-5" >
              <div className='flex items-center justify-center space-x-2' >
             <div className="flex flex-col justify-center items-center py-3 border-[1px] border-[0,0,0,0,0.15] rounded-md w-1/2" >
              <h5 className='text-center font-bold text-xs mb-2' >Upload Features Video</h5>
-              {featureVideo.type === 'url' ? <iframe src={featureVideo.data} className='h-52 rounded-md' />:null}
-              {featureVideo.type === 'upload' ? <div className="flex justify-center items-center h-52" ><h5>Video File: {featureVideo.data.name}</h5></div> :null}
-              {featureVideo.type === '' && featureVideo.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' ><FaPhotoVideo className='text-7xl' /></div>:null}
+              {values.featureVideo.type === 'url' ? <iframe src={values.featureVideo.data} className='h-52 rounded-md' />:null}
+              {values.featureVideo.type === 'upload' ? <video src={values.featureVideo.data} controls className=' w-11/12 rounded-xl' /> :null}
+              {values.featureVideo.type === '' && values.featureVideo.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' >{featureVideoLoader ? <img src="/file-loader.gif" className='w-32' /> : <FaPhotoVideo className='text-7xl' />}</div>:null}
               <div className='flex items-center justify-center pt-3 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
-                  <input type="text" value={featureVideoField} onChange={e=>setFeatureVideoField(e.target.value.replace('youtu.be/','youtube.com/embed/'))} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Image Url' />
-                  <button  onClick={e=>handleFeatureVideo(e,'url')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
                   <input  type="file" accept='video/*' ref={featureVideoRef} onChange={e=>handleFeatureVideo(e,'upload')} className='hidden' />
-                  <button type='button' onClick={()=>featureVideoRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><FaFileVideo className='text-lg' /></a>}</button>    
+                  {values.featureVideo.data !== '' ? <>{delFeatureVideoLoader?<button type='button' className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><img src='/loader-bg.gif' className='w-3' /></a></button>:<button type='button' onClick={e=>deleteFeatureVideo(e)} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-sm' /></a></button>}</>
+                  :<><input type="text" value={featureVideoField} onChange={e=>setFeatureVideoField(e.target.value)} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url' /><button  onClick={e=>handleFeatureVideo(e,'url')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-sm' /></a></button>    
+                     <>{featureVideoLoader?<button type='button' onClick={()=>featureVideoRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><img src='/loader-bg.gif' className='w-3' /></a></button>:<button type='button' onClick={()=>featureVideoRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><GoVideo className='text-sm' /></a></button>}</></>      
+                     }
               </div>
             </div>
             <div className="flex flex-col justify-center items-center py-3 border-[1px] border-[0,0,0,0,0.15] rounded-md w-1/2" >
              <h5 className='text-center font-bold text-xs mb-2' >Insert 360 Iframe</h5>
-              {featureVideo.type === 'url' ? <iframe src={featureVideo.data} className='h-52 rounded-md' />:null}
-              {featureVideo.type === '' && featureVideo.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' ><Tb360View className='text-7xl' /></div>:null}
+              {values.threeSixty.type === 'url' ? <iframe src={values.threeSixty.data} className='h-52 rounded-md' />:null}
+              {values.threeSixty.type === '' && values.threeSixty.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' ><Tb360View className='text-7xl' /></div>:null}
               <div className='flex items-center justify-center pt-3 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
-                  <input type="text" value={featureVideoField} onChange={e=>setFeatureVideoField(e.target.value.replace('youtu.be/','youtube.com/embed/'))} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url Only' />
-                  <button  onClick={e=>handleFeatureVideo(e,'url')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
+                  <input type="text" value={threeSixtyField} onChange={e=>setThreeSixtyField(e.target.value)} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url Only' />
+                  {values.threeSixty.type !== '' && values.threeSixty.data !== '' ? <button  onClick={()=> setValues({...values,threeSixty:{type:'',data:''}})} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><FaRedoAlt className='text-sm' /></a></button> : <button  onClick={e=>handleThreeSixty(e,'url')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-sm' /></a></button>}    
               </div>
             </div>
        
             </div>
        <div className='flex flex-col border-[1px] border-[rgba(0,0,0,0.15)] rounded-lg h-52' >
-       <div className='flex items-center justify-between px-2 border-b-[1px] border-b-[rgba(0,0,0,0.15)] h-10 w-full' >
+       <div className='flex items-center space-x-2 justify-between px-2 border-b-[1px] border-b-[rgba(0,0,0,0.15)] h-10 w-full' >
         
-        <div className='flex items-center space-x-2' >
+        <div className='flex items-center space-x-1' >
           <h5 className='font-bold text-xs' >Upload Images</h5>
           <input type="text" value={imageField} onChange={e=>setImageField(e.target.value)} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Image Url' />
-          <button  onClick={e=>{e.preventDefault();setMedia(prev=>[...prev,{type:'image',url:imageField}]);setImageField('');console.log([...media,{type:'image',url:imageField}])}} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
-          <input ref={imageSelectRef} onChange={e=>{e.preventDefault();setMedia(prev=>[...prev,{type:'image',url: window.URL.createObjectURL(e.target.files[0]) }]);setImageField('');}} type="file" accept='image/webp' className='hidden' />
-          <button type='button' onClick={handleVideoClick} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><FaImage className='text-lg' /></a>}</button>    
+          <button  onClick={e=>{imageMediaLoader ? null : handleMedia(e,'image','url')}} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-sm' /></a></button>    
+          <input ref={imageSelectRef} onChange={e=>handleMedia(e,'image','upload')} type="file" accept='image/*' className='hidden' />
+          {imageMediaLoader?<button type='button' className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b6' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><img src='/loader-bg.gif' className='w-4' /></a></button>:<button type='button' onClick={()=>imageSelectRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><FaImage className='text-sm' /></a></button>}    
         </div>
         
-        <div className='flex items-center space-x-2' >
+        <div className='flex items-center space-x-1 border-l-[1px] pl-2 border-[rgba(0,0,0,0.15)]' >
           <h5 className='font-bold text-xs' >Upload Video's</h5>
           <input type="text" value={videoField} onChange={e=>setVideoField(e.target.value)} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Video Url' />
-          <button onClick={e=>{e.preventDefault();setMedia(prev=>[...prev,{type:'video',url:videoField.replace('youtu.be/','youtube.com/embed/')}]);setVideoField('');}} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-lg' /></a>}</button>    
+          <button onClick={e=>{videoMediaLoader ? null : handleMedia(e,'video','url')}} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-sm' /></a></button>    
+          <input ref={videoSelectRef} onChange={e=>handleMedia(e,'video','upload')} type="file" accept='video/*' className='hidden' />
+          {videoMediaLoader?<button type='button' className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b6' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><img src='/loader-bg.gif' className='w-4' /></a></button>:<button type='button' onClick={()=>videoSelectRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><GoVideo className='text-sm' /></a></button>}
         </div>
        
        </div>
        {/* Media Data Placeholder Start */}
-       <div className={`px-2 py-2 ${media.length > 0 ? 'flex flex-wrap' : 'flex items-center justify-center'} h-full overflow-x-hidden overflow-y-scroll`} >
+       <div className={`px-2 py-2 ${values.media.length > 0 ? 'flex flex-wrap space-x-2' : 'flex items-center justify-center'} h-full overflow-x-hidden overflow-y-scroll`} >
         {/* Image Container Start */}
-        {media.length > 0 ? media.map((item,index)=> (<div key={index} className='relative px-1 py-1 rounded-lg h-fit w-fit border-[1px] border-[rgba(0,0,0,0.15)]' >
-         <div className='absolute -right-1 -top-2' ><div onClick={e=>{e.preventDefault();const newMedia = [...media];newMedia.splice(index, 1);setMedia(newMedia);}} className='flex justify-end w-full bg-white rounded-full' ><AiFillPlusCircle className='text-red-500 text-lg shadow-xl rounded-full cursor-pointer' /></div></div>
-         {item.type === 'image' ? <img src={item.url} className='w-28 h-28' />: <Iframe src={item.url} title={item.url} style="w-32 h-32" /> }
+        {values.media.length > 0 ? values.media.map((item,index)=> (<div key={index} className='relative px-1 py-1 rounded-lg h-fit w-fit border-[1px] border-[rgba(0,0,0,0.15)]' >
+         {mediaDelLoader === index ? <div className='relative w-32 h-32' ><div className='absolute w-32 h-32 bg-black/40' ></div><img src="/del-loader.gif" /></div>:
+         <>
+         <div className='absolute -right-1 -top-2' ><div onClick={e=>DeleteMedia(e,index)} className='flex justify-end w-full bg-white rounded-full' ><AiFillPlusCircle className='text-red-500 text-lg shadow-xl rounded-full cursor-pointer' /></div></div>
+         {item.file === 'image' ? <img src={item.data} className='w-32 h-32' />:null}
+         {item.file === 'video' && item.type === 'url' ? <Iframe src={item.data} title={item.data} style="w-32 h-32" />:null }
+         {item.file === 'video' && item.type === 'upload' ? <div className='flex items-center justify-center text-center w-32 h-32' ><h5>{item.data.name}</h5></div>:null }
+         </>}
         </div>)):<div><img src="/not-found.webp" className='w-28 h-28' /></div>}
         {/* Image Container End */}
        
@@ -448,42 +866,42 @@ const CreateProduct = () => {
 
       {/* Product Description Start */}
       <Accordion title="Description" answer={
-       <BlogEditor state={description} setState={setDescription} />
+       <BlogEditor state={values} setState={setValues} property="description" />
       } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Product Description End */}
 
       {/* Product Specification Start */}
       <Accordion title="Specification" answer={
-       <BlogEditor state={specification} setState={setSpecification} />
+       <BlogEditor state={values} setState={setValues} property="specification"/>
       } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Product Specification End */}
 
       {/* Product DeliveryInfo Start */}
       <Accordion title="Delivery Info" answer={
-       <BlogEditor state={deliveryInfo} setState={setDeliveryInfo} />
+       <BlogEditor state={values} setState={setValues} property="deliveryInfo" />
       } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Product DeliveryInfo End */}
 
       {/* Seo Start */}
       <Accordion title="Product Seo" answer={
        <div className='flex flex-col space-y-2 w-full' > 
-         <TextInput width="full" name="title" title="Meta Title" type="text" value={metaTitle} onChange={(e) =>setMetaTitle(e.target.value)} error={errors && errors.includes('Product Title is Required!') ? true : false} errormessage="Product Title is Required!" placeholder="Enter Meta Title" />
-         <TextArea title="Meta Description" value={metaDescription} onChange={e=>setMetaDescription(e.target.value)} placeholder="Write Meta Description Here.." /> 
+         <TextInput width="full" name="title" title="Meta Title" type="text" value={values.metaTitle} onChange={e =>handleInputChange(e,'metaTitle')} error={errors && errors.includes('Product Title is Required!') ? true : false} errormessage="Product Title is Required!" placeholder="Enter Meta Title" />
+         <TextArea title="Meta Description" value={values.metaDescription} onChange={e =>handleInputChange(e,'metaDescription')} placeholder="Write Meta Description Here.." /> 
         {/* Seo Keyword */}
         <h5 className='text-xs font-semibold' >Meta Keywords</h5>
         <div className='flex flex-wrap w-full py-3 px-2 rounded-xl border-[1px] borders-[0,0,0,0,0.15]' >
-        <div className="flex items-center space-x-2" >
-         {keywords.map((item,index)=><span key={index} className="flex items-center bg-b6 text-sm px-2 py-1 text-white rounded-2xl" >{item}<AiFillCloseCircle onClick={e=>deleteKeyword(e,index)} className='text-white bg-red-500 ml-1 text-xs cursor-pointer rounded-full' /></span>)}
+        <div className="flex flex-wrap gap-y-2 items-center gap-x-2 w-full h-auto " >
+         {values.metaKeywords.map((item,index)=><span key={index} className="flex items-center bg-b6 text-sm px-2 py-1 text-white rounded-2xl" >{item}<AiFillCloseCircle onClick={e=>deleteKeyword(e,index)} className='text-white bg-red-500 ml-1 text-xs cursor-pointer rounded-full' /></span>)}
         <div/>
-        <input placeholder='Enter Meta Keywords' value={keywordField} onKeyDown={e => handleEnterKey(e)} onChange={e=>setKeywordField(e.target.value)} className='border-none outline-none mx-5 text-sm' />
+        <input ref={keywordRef} placeholder='Hit Space To Insert' value={keywordField} onKeyDown={e => handleEnterKey(e)} onChange={e=>setKeywordField(e.target.value)} className='border-none outline-none mx-5 text-sm' />
        </div>
        </div>
       </div>
       } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Seo End */}
       
-
       <button type="submit" className='flex justify-center self-center items-center cursor-pointer rounded-md py-1 w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a>}</button>
+     
      </form>
     </AdminAccount>
    </>
@@ -491,3 +909,4 @@ const CreateProduct = () => {
 }
 
 export default CreateProduct
+

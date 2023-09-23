@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import MainLayout from '../layout/MainLayout';
-import Pagination from '../Pagination/Pagination';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { getVideoMediaAll } from '../api/frontEnd'
 import Pagination2 from '../components/Pagination/Pagination2';
-import Loader from '../components/Loader/Loader'
-
+import Iframe from '../components/Reusable/Ifram'
 
 const StayInLoop = () => {
 
@@ -22,14 +20,14 @@ const StayInLoop = () => {
             const params = { page: page, limit: limit };
             const data = { section: 'stay-in-loop-videos' }
             const res = await getVideoMediaAll(params, data);
-            console.log(res)
+            console.log(res.data.media)
             if (res.status === 200) {
-                setMedia(res.data.loops)
+                setIsLoading(false)
+                setMedia(res.data.media)
                 setTotalPages(Math.ceil(res.data.totalCount / limit))
-                setIsLoading(false)
             } else {
+                setMedia([])
                 setIsLoading(false)
-                console.log(res)
             }
         }
         GetLoopMedia()
@@ -50,20 +48,20 @@ const StayInLoop = () => {
                 </div>
 
                 <div className='pb-10 lg:pb-16 xl:pb-20 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
-                    {isLoading ? <div className='flex items-center justify-center' ><img src="/loader-bg.gif" /></div> :
-                        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-6'>
-                            {media.map((item, Index) => (
-                                <div className='w-fit' key={Index}>
-                                    {item.type === 'iframe' ? <iframe src={item.url} title={item.url} className='h-[250px] object-cover w-full rounded-2xl' ></iframe> : <video src={item.url} className='h-[300px] object-cover w-full rounded-2xl' controls />}
-                                </div>
-                            ))}
-                        </div>}
+                    {isLoading ? <div className='flex items-center justify-center' ><img src="/loader-bg.gif" /></div> : null}
+                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-6'>
+                        {media.length > 0 && media.map((item, index) => (
+                            <div className='w-fit' key={index}>
+                                {item.type === 'iframe' ? <Iframe divId={`loop-main-${index}`} frameId={`loop-frame-main-${index}`} thumbnail={item.thumbnail} icon="text-5xl" style="h-[250px] object-cover w-full rounded-2xl" src={item.url} title={item.url} /> : <video src={item.url} className='h-[300px] object-cover w-full rounded-2xl' controls />}
+                            </div>
+                        ))}
+                    </div>
                     <div>
                         <Pagination2 page={page} setPage={setPage} totalPages={totalPages} />
                     </div>
-                </div>
+                </div >
 
-            </MainLayout>
+            </MainLayout >
         </>
     )
 }

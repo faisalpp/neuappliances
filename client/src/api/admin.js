@@ -198,6 +198,26 @@ export const getCategoryData = async (data) => {
     }
     return response;
 }
+export const getModelNos = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/get-model-nos',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const getAllModelNos = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/get-all-model-nos',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const createFaqTab = async (data) => {
     let response;
     
@@ -269,27 +289,17 @@ export const deleteFaq = async (data) => {
     return response;
 }
 
-export const uploadImage = async (data) => {
+export const uploadMedia = async (data) => {
     let response;
     
     try{
-        response = await AdminMultiApi.post('/api/admin/image-upload',data,{validateStatus: () => true});
+        response = await AdminMultiApi.post('/api/admin/upload-media',data,{validateStatus: () => true});
     }catch (error){
         return error;
     }
     return response;
 }
 
-export const getMedia = async (data) => {
-    let response;
-    
-    try{
-        response = await AdminApi.post('/api/admin/get-uploaded-media',data,{validateStatus: () => true});
-    }catch (error){
-        return error;
-    }
-    return response;
-}
 export const deleteMedia = async (data) => {
     let response;
     
