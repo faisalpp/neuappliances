@@ -297,3 +297,8 @@ h6.ce-header {
 .testimonialreviews .carousel__prev svg {
   @apply text-black;
 }
+
+.loop-slider .slick-dots li {
+  margin: 0px !important;
+  width: 14px !important;
+}
