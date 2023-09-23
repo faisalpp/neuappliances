@@ -279,3 +279,21 @@ h5.ce-header {
 h6.ce-header {
   @apply text-base font-semibold;
 }
+
+/* testimonials */
+
+.testimonialreviews h2 {
+  @apply lg:text-3xl xl:text-4xl text-white text-center;
+}
+.testimonialreviews .maincard {
+  @apply !bg-white;
+}
+.testimonialreviews .carousel__next,
+.testimonialreviews .carousel__prev {
+  @apply !bg-[#b2e0e2];
+}
+
+.testimonialreviews .carousel__next svg,
+.testimonialreviews .carousel__prev svg {
+  @apply text-black;
+}

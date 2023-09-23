@@ -97,7 +97,7 @@ const Appliances = () => {
           {/* Shop Austin Section */}
           <ShopAustinSection />
           {/* Recentky Added Section */}
-          <RecentlyAddedSection />
+          <RecentlyAddedSection title="Recently Added Refrigerators" buttonname="Shop All 3 Star Cosmetic Rating Appliances" />
           {/* End */}
 
           {/* Reviews Section */}

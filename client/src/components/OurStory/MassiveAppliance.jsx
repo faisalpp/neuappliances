@@ -3,14 +3,14 @@ import CosmaticSlider from '../CosmaticSlider';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
-const MassiveAppliance = ({ sliderstyle }) => {
+const MassiveAppliance = ({ sliderstyle, title, customstyle }) => {
 
 
     return (
         <>
             <div className='bg-b8'>
-                <div className='py-10 lg:py-16 xl:py-20 2xl:py-120px maincontainer'>
-                    <h2 className='font-bold text-2xl xl:text-32px text-center mb-5 lg:mb-10 xl:mb-[60px]'>Shop Massive Discount Appliances</h2>
+                <div className={'py-10 lg:py-16 xl:py-20 2xl:py-120px maincontainer ' + customstyle}>
+                    <h2 className='font-bold text-2xl xl:text-32px text-center mb-5 lg:mb-10 xl:mb-[60px]'>{title}</h2>
 
                     <CosmaticSlider sliderstyle={sliderstyle} />
 
