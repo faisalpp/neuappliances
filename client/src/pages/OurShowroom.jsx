@@ -47,7 +47,7 @@ const OurShowroom = () => {
           {video && video.type !== 'iframe' ? <video controls autoPlay className='w-full h-[250px] md:h-[700px] object-cover 2xl:h-[920px]' src={video.url} /> : null}
         </div>
 
-                <MassiveAppliance sliderstyle="mx-2 3xl:mx-5" />
+                <MassiveAppliance title="Shop Massive Discount Appliances" sliderstyle="mx-2 3xl:mx-5" />
                 {/* Shop Austin Section */}
                 <ShopAustinSection />
                 {/* Client Reviews */}

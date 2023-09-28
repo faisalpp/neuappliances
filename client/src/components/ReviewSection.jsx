@@ -5,7 +5,7 @@ import { BsArrowRightShort } from 'react-icons/bs'
 import { GetGoogleReviews, getYelpReviews } from '../api/frontEnd'
 import axios from 'axios'
 
-const ReviewSection = () => {
+const ReviewSection = ({ buttonactive }) => {
 
 
   const [reviews, setReviews] = useState([]);
@@ -44,7 +44,7 @@ const ReviewSection = () => {
 
   return (
     <div className='flex flex-col justify-center maincontainer pb-10 lg:pb-16' >
-      <h4 className='text-2xl font-extrabold mb-12' >Saving Austinites Money on Appliances Since 2015</h4>
+      <h2 className='text-2xl font-extrabold mb-12'>Saving Austinites Money on Appliances Since 2015</h2>
       <div className='space-y-8'>
         <script src="https://static.elfsight.com/platform/platform.js" data-use-service-core defer></script>
         {/* <div class="elfsight-app-e353e15d-00c0-408e-a088-0d639b57d70f"></div> */}
@@ -52,7 +52,8 @@ const ReviewSection = () => {
         <ReviewSlider color="#F5F5F5" clientreviews={reviews} icon="google.webp" />
         <ReviewSlider color="#ff9b3e14" clientreviews={yelpReviews} icon="yelp.webp" />
       </div>
-      <div className='flex justify-center mt-5' ><a href='/' className='flex items-center border-[1px] border-b3 w-fit px-4 py-3 rounded-md text-b3 font-semibold' ><span className='text-sm' >Shop Austin's Best Appliance Deals</span><BsArrowRightShort className='text-2xl' /></a></div>
+      {buttonactive ?
+        '' : <div className='flex justify-center mt-5' ><a href='/' className='flex items-center border-[1px] border-b3 w-fit px-4 py-3 rounded-md text-b3 font-semibold' ><span className='text-sm' >Shop Austin's Best Appliance Deals</span><BsArrowRightShort className='text-2xl' /></a></div>}
     </div>
   )
 }

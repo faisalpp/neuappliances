@@ -39,7 +39,7 @@ const ReviewSlider = ({ color, clientreviews, icon }) => {
 
     const PrevButton = ({ onClick }) => (
         <button onClick={onClick} className='hidden sm:block prev-button absolute top-0 -left-3 z-40 h-full pointer-events-none'>
-            <div className='flex bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group pointer-events-auto'>
+            <div className='flex carousel__prev bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group pointer-events-auto'>
                 <BsArrowLeftShort className='text-xl' />
             </div>
         </button>
@@ -47,7 +47,7 @@ const ReviewSlider = ({ color, clientreviews, icon }) => {
 
     const NextButton = ({ onClick }) => (
         <button onClick={onClick} className='hidden sm:block next-button absolute top-0 -right-3 z-40 h-full pointer-events-none'>
-            <div className='flex bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group pointer-events-auto'>
+            <div className='flex carousel__next bg-black/30 hover:bg-cyan-500 cursor-pointer px-2 py-2 rounded-full text-white group pointer-events-auto'>
                 <BsArrowRightShort className='text-xl' />
             </div>
         </button>
@@ -74,7 +74,7 @@ const ReviewSlider = ({ color, clientreviews, icon }) => {
             {clientreviews.length > 0 ? <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative'>
                 {clientreviews.map((clientreview, index) => (
                     <div key={index} className='maxsm:px-2'>
-                        <div style={{ backgroundColor: color }} className="flex flex-col shadow-sm px-5 py-3 rounded-xl xl:h-[170px] sm:mx-2">
+                        <div style={{ backgroundColor: color }} className="flex flex-col maincard shadow-sm px-5 py-3 rounded-xl xl:h-[170px] sm:mx-2">
                             <div className="flex mt-2">
                                 <StarIconPrinter numberOfTimes={clientreview.rating} />
                                 <StarIconPrinter2 numberOfTimes={5 - clientreview.rating} />

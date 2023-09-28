@@ -56,7 +56,7 @@ const OurStory = () => {
                 {/* Team */}
                 <MeetTeam />
 
-                <MassiveAppliance sliderstyle="sm:mx-2 3xl:mx-5" />
+                <MassiveAppliance title="Shop Massive Discount Appliances" sliderstyle="sm:mx-2 3xl:mx-5" />
 
                 {/* Client Reviews */}
 
