@@ -1,28 +1,76 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {BsPencil,BsFillTrashFill} from 'react-icons/bs'
 import { NavLink } from 'react-router-dom'
 import {AiFillStar} from 'react-icons/ai'
+import {HiOutlineDocumentDuplicate} from 'react-icons/hi'
+import TxtTransform from '../../../utils/TextTransform';
+import {deleteProduct,duplicateProduct} from '../../../api/admin'
+import Toast from '../../../utils/Toast'
 
-const ProductRow = ({img,title,salePrice,regularPrice,rating}) => {
+const ProductRow = ({data,getProductss}) => {
+
+    const [dupLoading,setDupLoading] = useState(false)
+    const [delLoading,setDelLoading] = useState(false)
 
     const StarIconPrinter = ({ numberOfTimes }) => {
       const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
-        <AiFillStar className='text-b7 text-base' /> // Render the star icon component for each iteration
+        <AiFillStar key={index} className='text-b7 text-base' /> // Render the star icon component for each iteration
       ));
 
       return <div className='flex justify-center items-center mt-2' >{starIcons}</div>; // Render the array of star icons
     };
 
+    const firstImg = data.media.find(item => item.file === 'image');
+    
+    const DeleteProduct = async (e,slug) => {
+     setDelLoading(true)
+     try{
+       const res = await deleteProduct({pSlug:slug})
+       if(res.status === 200){
+       Toast(res.data.msg,'success',1000)
+       getProductss()
+       setDelLoading(false)
+      }else{
+        Toast(res.data.message,'error',1000)
+        setDelLoading(false)
+      }
+     }catch(error){
+      setDelLoading(false)
+      Toast('Internal Server Error!','error',1000)
+     }
+    }
+
+    const DuplicateProduct = async (e,slug) => {
+      setDupLoading(true)
+     try{
+       const res = await duplicateProduct({pSlug:slug})
+       if(res.status === 200){
+       Toast(res.data.msg,'success',1000)
+       getProductss()
+       setDupLoading(false)
+      }else{
+        Toast(res.data.message,'error',1000)
+        setDupLoading(false)
+      }
+     }catch(error){
+      setDupLoading(false)
+      Toast('Internal Server Error!','error',1000)
+     }
+    }
+
   return (
     <tr className="border-b border-l border-r border-b6 text-xs">
-        <td className="px-5 py-3 capitalize"><img src={img} className='w-14' /></td>
-        <td className="whitespace-nowrap px-5 py-3 capitalize">{title}</td>
-        <td className="whitespace-nowrap  px-5 py-4 font-medium"><strike>${salePrice}</strike></td>
-        <td className="whitespace-nowrap  px-5 py-4 font-medium">${regularPrice}</td>
-        <td className="whitespace-nowrap  px-5 py-4 text-b6 font-medium"><StarIconPrinter numberOfTimes={rating} /></td>
-        <td className="flex items-center justify-center mt-3 space-x-1 px-5 py-4">
-         <NavLink title="View Section Item" to={`/admin/update-customer`} className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-sm px-2 w-fit rounded-full cursor-pointer py-2' ><BsPencil className="text-base" /></NavLink>
-         <NavLink title="View Section Item" to={`/admin/delete-section`} className='flex items-center justify-center bg-red-500/30 text-red-500 hover:bg-white hover:text-red-500 border-2 border-white hover:border-red-500 text-sm px-2 w-fit rounded-full cursor-pointer py-2' ><BsFillTrashFill className="text-base" /></NavLink>
+        <td className="py-3 capitalize"><img src={firstImg.data} className='h-32' /></td>
+        <td className=" px-2 capitalize">{data.title}</td>
+        <td className=" px-5 py-4 font-medium"><strike>${data.salePrice}</strike></td>
+        <td className=" px-5 py-4 font-medium">${data.regPrice}</td>
+        <td className=" px-5 py-4 font-semibold text-red-500">{TxtTransform.Cap1Char(data.productType)}</td>
+        <td className=" px-5 py-4 text-b6 font-medium"><StarIconPrinter numberOfTimes={data.rating} /></td>
+        <td className="px-5 py-4 space-y-1">
+         <NavLink title="Update Product" to={`/admin/update-product/${data.slug}`} className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-sm px-2 w-fit rounded-full cursor-pointer py-2' ><BsPencil className="text-base" /></NavLink>
+         <span title="Delete Product" onClick={e=>{!delLoading ? DeleteProduct(e,data.slug):null}} className='flex items-center justify-center bg-red-500/30 text-red-500 hover:bg-white hover:text-red-500 border-2 border-white hover:border-red-500 text-sm px-2 w-fit rounded-full cursor-pointer py-2' >{delLoading ? <img src="/loader-bg.gif" className='w-4 h-4' />:<BsFillTrashFill className="text-base" />}</span>
+         {/* {data.productType === 'parent' ? null :<span title="Duplicate Product" onClick={e=>{!dupLoading ? DuplicateProduct(e,data.slug) : null}} className='flex items-center justify-center bg-b7 text-white hover:bg-white hover:text-b7 border-2 border-white hover:border-b7 text-sm px-2 w-fit rounded-full cursor-pointer py-2' >{dupLoading ? <img src="/loader-bg.gif" className='w-4 h-4' />:<HiOutlineDocumentDuplicate className="text-lg" />}</span>} */}
+         <span title="Duplicate Product" onClick={e=>{!dupLoading ? DuplicateProduct(e,data.slug) : null}} className='flex items-center justify-center bg-b7 text-white hover:bg-white hover:text-b7 border-2 border-white hover:border-b7 text-sm px-2 w-fit rounded-full cursor-pointer py-2' >{dupLoading ? <img src="/loader-bg.gif" className='w-4 h-4' />:<HiOutlineDocumentDuplicate className="text-lg" />}</span>
         </td>
       </tr>
   )

@@ -26,7 +26,7 @@ const CreateProduct = () => {
 
   const [submit,setSubmit] = useState(false)
 
-  const [values,setValues] = useState({productType:'parent',title:'',slug:'',category:'',feature:'',type:'',color:'',brand:'',fuelType:'',regPrice:'',salePrice:'',lowPrice:'',highPrice:'',rating:'',stock:'',modelNo:'',itemId:'',keyFeatures:[],featureVideo:{type:'',data:''},threeSixty:{type:'',data:''},media:[],description:'',specification:'',deliveryInfo:'',metaTitle:'',metaDescription:'',metaKeywords:[]})
+  const [values,setValues] = useState({productType:'parent',title:'',slug:'',category:'',feature:'',type:'',color:'',brand:'',fuelType:'',regPrice:'',salePrice:'',lowPrice:'',highPrice:'',rating:'3',stock:'',modelNo:'',itemId:'',keyFeatures:[],featureVideo:{type:'',data:''},threeSixty:{type:'',data:''},media:[],description:'',specification:'',deliveryInfo:'',metaTitle:'',metaDescription:'',metaKeywords:[],tags:''})
 
   // Form States Start
    const [errors,setErrors] = useState([])
@@ -178,6 +178,7 @@ const CreateProduct = () => {
     });
 
     // Update the state with the new array
+    setValues({...values,tags:JSON.stringify(updatedArray)})
     setTags(updatedArray);
   }
 
@@ -425,6 +426,7 @@ const CreateProduct = () => {
     }
 
   const saveKeyFeature = async () => {
+    
     if(fMedia.type === 'upload'){
       setKeyFeatureUpload(true)
       const formData = new FormData()
@@ -462,7 +464,7 @@ const CreateProduct = () => {
       setFpopup(false)
     }
   }
-  const [delFeatureCardLoader,setDelFeatureCardLoader] = useState(false)
+  const [delFeatureCardLoader,setDelFeatureCardLoader] = useState(null)
   const deleteFeatureCard = async (e,index) => {
     e.preventDefault()
     const data = values.keyFeatures.filter((item,indx)=> indx !== index )
@@ -470,7 +472,7 @@ const CreateProduct = () => {
     if(delData[0].media.type !== 'upload'){
       setValues({...values,keyFeatures:[...data]})
     }else{
-      setDelFeatureCardLoader(true)
+      setDelFeatureCardLoader(index)
       const res = await deleteMedia({url:delData[0].media.data})
       if(res.status === 200){
         setValues({...values,keyFeatures:[...data]})
@@ -558,6 +560,7 @@ const CreateProduct = () => {
   const CreateProduct = async (e) => {
     e.preventDefault()
     try{
+      setSubmit(true)
      const data = {
       productType:values.productType,
       title:values.title,
@@ -576,21 +579,22 @@ const CreateProduct = () => {
       stock:parseInt(values.stock),
       modelNo:values.modelNo,
       itemId:values.itemId,
-      keyFeatures:values.keyFeatures,
-      featureVideo:values.featureVideo,
-      threeSixty:values.threeSixty,
-      media:values.media,
-      tags:JSON.stringify(tags),
+      metaKeywords:JSON.stringify(values.metaKeywords),
+      keyFeatures:JSON.stringify(values.keyFeatures),
+      featureVideo:JSON.stringify(values.featureVideo),
+      threeSixty:JSON.stringify(values.threeSixty),
+      media:JSON.stringify(values.media),
+      tags:values.tags,
       description:values.description,
       specification:values.specification,
       deliveryInfo:values.deliveryInfo,
       metaTitle:values.metaTitle,
       metaDescription:values.metaDescription,
-      metaKeywords:values.metaKeywords
     }
-     await createProductSchema.validate(data, { abortEarly: false }); 
+     await createProductSchema.validate(values, { abortEarly: false }); 
      const res = await createProduct(data)
      if(res.status === 200){
+      setSubmit(false)
       toast.success(res.data.msg, {
         position: "top-right",
         autoClose: 1000,
@@ -603,6 +607,7 @@ const CreateProduct = () => {
       });
       navigate('/admin/manage-products')
      }else{
+      setSubmit(false)
       toast.error(res.data.message, {
         position: "top-right",
         autoClose: 1000,
@@ -694,14 +699,14 @@ const handleTitle = (e) => {
            <div className='flex flex-col items-center justify-center border-[1px] border-[0,0,0,0,0.15] w-1/2 h-52 px-2 py-2 rounded-md' >
              <div className='h-full flex items-center justify-center' >
              {fMedia.file !== 'video' ? <FaPhotoVideo className='text-7xl' />:null}
-             {fMedia.file === 'video' && fMedia.type === 'url' ? <iframe src={fMedia.data} className='h-36 w-11/12 rounded-md' />:null}
+             {fMedia.file === 'video' && fMedia.type === 'url' ? <Iframe thumbnail={fMedia.prevImg} title={fMedia.data} divId={`media-video-wrapper-${fMedia.type}`} frameId={`media-video-${fMedia.type}`} src={fMedia.data} icon="text-5xl" style='h-36 w-11/12 rounded-md' />:null}
              {fMedia.file === 'video' && fMedia.type === 'upload' ? <div><h5>{fMedia.data.name}</h5></div>:null}
              </div>
              <div className='flex items-center justify-center pt-1 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
-              <input type="text" value={fVideoField} onChange={e=>setFvideoField(e.target.value.replace('youtu.be/','youtube.com/embed/'))} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url' />
               {fMedia.file === 'video' ? <button type='button' onClick={e=>setFmedia({file:'',type:'',data:'',preview:''})} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-sm' /></a></button>    
               :
               <>
+              <input type="text" value={fVideoField} onChange={e=>setFvideoField(e.target.value.replace('youtu.be/','youtube.com/embed/'))} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url' />
               <button  onClick={e=>hanldeKeyFeatures(e,'url','video')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-sm' /></a></button>    
               <input  type="file" accept='video/*' ref={fVideoRef} onChange={e=>hanldeKeyFeatures(e,'upload','video')} className='hidden' />
               <button type='button' onClick={()=>fVideoRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><GoVideo className='text-sm' /></a></button>    
@@ -762,11 +767,11 @@ const handleTitle = (e) => {
          <div className='flex items-center justify-center border-[1px] border-[0,0,0,0,0.15] w-11/12 h-32 px-2 py-2 rounded-md' >
          {/* {item.media.file} */}
            {item.media.file === 'image' ? <img src={item.media.data} className='h-28 rounded-md' />:null }
-           {item.media.file === 'video' && item.media.type === 'url' ?  <iframe src={item.media.data} className="w-40 h-28 rounded-md " /> :null  }
-           {item.media.file === 'video' && item.media.type === 'upload' ? <h5>{item.media.data.name}</h5>:null  }
+           {item.media.file === 'video' && item.media.type === 'url' ?  <Iframe thumbnail={item.media.prevImg} frameId={`${index}-wrapper-${item.media.data}`} divId={`${index}-${item.media.data}`} icon="text-5xl" src={item.media.data} style="w-40 h-28 rounded-md" /> :null  }
+           {item.media.file === 'video' && item.media.type === 'upload' ? <video src={item.media.data} className="w-40 h-28 rounded-md " />:null  }
          </div> 
          <div className='flex space-x-2 items-center justify-center w-full s mt-2' >
-          {delFeatureCardLoader?<button type='button' className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><img src='/loader-bg.gif' className='w-3' /></a></button>:<button type='button' onClick={e=>deleteFeatureCard(e,index)} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-sm' /></a></button>}    
+          {delFeatureCardLoader === index?<button type='button' className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><img src='/loader-bg.gif' className='w-3' /></a></button>:<button type='button' onClick={e=>deleteFeatureCard(e,index)} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-sm' /></a></button>}    
          </div>
          <div className='flex flex-col px-2 mt-2 w-full' >
          <h5 className='font-bold text-sm' >{item.title}</h5>
@@ -789,7 +794,7 @@ const handleTitle = (e) => {
              <div className='flex items-center justify-center space-x-2' >
             <div className="flex flex-col justify-center items-center py-3 border-[1px] border-[0,0,0,0,0.15] rounded-md w-1/2" >
              <h5 className='text-center font-bold text-xs mb-2' >Upload Features Video</h5>
-              {values.featureVideo.type === 'url' ? <iframe src={values.featureVideo.data} className='h-52 rounded-md' />:null}
+              {values.featureVideo.type === 'url' ? <Iframe thumbnail={values.featureVideo.prevImg} title={values.featureVideo.data} icon="text-5xl" frameId={`feature-video-wrapper-${values.featureVideo.type}`} divId={`feature-video-${values.featureVideo.type}`} src={values.featureVideo.data} style='h-52 w-11/12 rounded-md' />:null}
               {values.featureVideo.type === 'upload' ? <video src={values.featureVideo.data} controls className=' w-11/12 rounded-xl' /> :null}
               {values.featureVideo.type === '' && values.featureVideo.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' >{featureVideoLoader ? <img src="/file-loader.gif" className='w-32' /> : <FaPhotoVideo className='text-7xl' />}</div>:null}
               <div className='flex items-center justify-center pt-3 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
@@ -802,11 +807,12 @@ const handleTitle = (e) => {
             </div>
             <div className="flex flex-col justify-center items-center py-3 border-[1px] border-[0,0,0,0,0.15] rounded-md w-1/2" >
              <h5 className='text-center font-bold text-xs mb-2' >Insert 360 Iframe</h5>
-              {values.threeSixty.type === 'url' ? <iframe src={values.threeSixty.data} className='h-52 rounded-md' />:null}
+              {values.threeSixty.type === 'url' ? <Iframe icon="text-5xl" thumbnail={values.threeSixty.prevImg} title={values.threeSixty.data} divId={`360-wrapper-${values.threeSixty.type}`} frameId={`360-video-${values.threeSixty.type}`} src={values.threeSixty.data} style='h-52 w-11/12 rounded-md' />:null}
               {values.threeSixty.type === '' && values.threeSixty.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' ><Tb360View className='text-7xl' /></div>:null}
               <div className='flex items-center justify-center pt-3 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
-                  <input type="text" value={threeSixtyField} onChange={e=>setThreeSixtyField(e.target.value)} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url Only' />
-                  {values.threeSixty.type !== '' && values.threeSixty.data !== '' ? <button  onClick={()=> setValues({...values,threeSixty:{type:'',data:''}})} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><FaRedoAlt className='text-sm' /></a></button> : <button  onClick={e=>handleThreeSixty(e,'url')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-sm' /></a></button>}    
+                  {values.threeSixty.data !== '' ? <><button type='button' onClick={()=> setValues({...values,threeSixty:{type:'',data:''}})} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-sm' /></a></button></>
+                  :<><input type="text" value={threeSixtyField} onChange={e=>setThreeSixtyField(e.target.value)} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url' /><button  onClick={e=>handleThreeSixty(e,'url')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-sm' /></a></button></>      
+                     }
               </div>
             </div>
        
@@ -832,15 +838,15 @@ const handleTitle = (e) => {
        
        </div>
        {/* Media Data Placeholder Start */}
-       <div className={`px-2 py-2 ${values.media.length > 0 ? 'flex flex-wrap space-x-2' : 'flex items-center justify-center'} h-full overflow-x-hidden overflow-y-scroll`} >
+       <div className={`px-2 py-2 ${values.media.length > 0 ? 'flex flex-wrap gap-x-2 gap-y-2' : 'flex items-center justify-center'} h-full overflow-x-hidden overflow-y-scroll`} >
         {/* Image Container Start */}
         {values.media.length > 0 ? values.media.map((item,index)=> (<div key={index} className='relative px-1 py-1 rounded-lg h-fit w-fit border-[1px] border-[rgba(0,0,0,0.15)]' >
          {mediaDelLoader === index ? <div className='relative w-32 h-32' ><div className='absolute w-32 h-32 bg-black/40' ></div><img src="/del-loader.gif" /></div>:
          <>
          <div className='absolute -right-1 -top-2' ><div onClick={e=>DeleteMedia(e,index)} className='flex justify-end w-full bg-white rounded-full' ><AiFillPlusCircle className='text-red-500 text-lg shadow-xl rounded-full cursor-pointer' /></div></div>
          {item.file === 'image' ? <img src={item.data} className='w-32 h-32' />:null}
-         {item.file === 'video' && item.type === 'url' ? <Iframe src={item.data} title={item.data} style="w-32 h-32" />:null }
-         {item.file === 'video' && item.type === 'upload' ? <div className='flex items-center justify-center text-center w-32 h-32' ><h5>{item.data.name}</h5></div>:null }
+         {item.file === 'video' && item.type === 'url' ? <Iframe thumbnail={item.preview} icon="text-5xl" frameId={`frame-${index}-${item.data}`} divId={`${index}-wrapper-${item.data}`} src={item.data} title={item.data} style="w-32 h-32" />:null }
+         {item.file === 'video' && item.type === 'upload' ? <video src={item.data} className="w-32 h-32" controls />:null }
          </>}
         </div>)):<div><img src="/not-found.webp" className='w-28 h-28' /></div>}
         {/* Image Container End */}

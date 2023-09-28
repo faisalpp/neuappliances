@@ -1,24 +1,19 @@
-// import Editor from 'ckeditor5-custom-build/build/ckeditor'
-// import { CKEditor } from '@ckeditor/ckeditor5-react';
+import Editor from 'ckeditor5-custom-build/build/ckeditor'
+import { CKEditor } from '@ckeditor/ckeditor5-react';
 
 // eslint-disable-next-line react/prop-types
-const BlogEditor = ({ state, setState,property }) => {
+const BlogEditor = ({ state, setState }) => {
 
   const handleChange = (e, editor) => {
-    // console.log(property)
-    if(property !== '' ){
-      // console.log({...state,[property]:editor.getData()})
-      setState({...state,[property]:editor.getData()})
-    }else{
+    e.preventDefault()
       setState(editor.getData())
-    }
   }
 
   return (
     <>
-      {/* <CKEditor
+      <CKEditor
         editor={Editor}
-        data={property !== '' ? state.property :  state}
+        data={state}
         onChange={(e, editor) => { handleChange(e, editor) }}
         config={{
           height: '300px', // Set the initial height
@@ -57,7 +52,7 @@ const BlogEditor = ({ state, setState,property }) => {
         onFocus={(event, editor) => {
           editor.ui.view.editable.element.style.minHeight = "300px";
         }}
-      /> */}
+      />
     </>
   )
 }

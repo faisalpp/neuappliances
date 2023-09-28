@@ -64,6 +64,9 @@ router.post('/api/admin/section-item-by-id',adminAuth,categorySection.GetSection
 router.post('/api/admin/section-items',adminAuth,categorySection.GetSectionItems);
 // Product Api's
 router.post('/api/admin/create-product',adminAuth,productController.CreateProduct);
+router.post('/api/admin/update-product',adminAuth,productController.UpdateProduct);
+router.post('/api/admin/delete-product',adminAuth,productController.DeleteProduct);
+router.post('/api/admin/duplicate-product',adminAuth,productController.DuplicateProduct);
 router.get('/api/admin/get-products',adminAuth,productController.GetProducts);
 router.post('/api/admin/get-category-data',adminAuth,productController.GetCategoryData);
 router.post('/api/admin/get-model-nos',adminAuth,productController.GetParentModelNumbers);

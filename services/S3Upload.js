@@ -27,11 +27,9 @@ class AWSService{
         };
         const command = new AWS3.DeleteObjectCommand(params);
         const resp = await s3.send(command)
-        // console.log(resp)
         return {resp}
     }
     static async deleteMultiFiles(images){
-        console.log(images)
         let imgKeys = [];
         let searchString = "amazonaws.com/";
         images.forEach(item=>{
@@ -39,7 +37,6 @@ class AWSService{
           const substring = item.substring(startIndex + searchString.length);
           imgKeys.push({Key:substring})
         })
-        console.log(imgKeys)
         
         const s3 = new AWS3.S3Client({credentials:{accessKeyId:AWS_S3_USER_ACCESS_KEY,secretAccessKey:AWS_S3_USER_SECRET_ACCESS_KEY},region:AWS_S3_REGION})
         const params = {
@@ -57,9 +54,11 @@ class AWSService{
         const searchString = "amazonaws.com/";
         const startIndex = url.indexOf(searchString)
         const sourceUrl = url.substring(startIndex + searchString.length);
-
+      
         const s3 = new AWS3.S3Client({credentials:{accessKeyId:AWS_S3_USER_ACCESS_KEY,secretAccessKey:AWS_S3_USER_SECRET_ACCESS_KEY},region:AWS_S3_REGION})
-        const newImageName = prefix + Date.now() + '-' + '(dup)'
+        const filename = url.split('/').pop(); // Extract the filename from the URL
+        const fileExtension = filename.split('.').pop();
+        const newImageName = prefix + Date.now() + '-' + '(dup)' + '.' + fileExtension;
         const updateImg = `https://${AWS_S3_BUCKET_NAME}.s3.${AWS_S3_REGION}.amazonaws.com/` + newImageName;
 
         const copyParams = {
@@ -69,7 +68,6 @@ class AWSService{
         };
         const command = new AWS3.CopyObjectCommand(copyParams);
         const resp = await s3.send(command)
-        // console.log(resp)
         return {resp,updateImg}
     }
 }

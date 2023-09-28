@@ -23,7 +23,7 @@ const productSchema = new mongoose.Schema({
     featureVideo: {type: Object,required:true},
     threeSixty: {type: Object,required:true},
     media: {type: Array,required:true},
-    tags: {type: String,required:true},
+    tags: {type: Array,required:true},
     description: {type: String,required:true},
     specification: {type: String,required:true},
     deliveryInfo: {type: String,required:true},

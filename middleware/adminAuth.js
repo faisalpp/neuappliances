@@ -23,8 +23,8 @@ const adminAuth = async (req,res,next) => {
 
     try{
         _id = JWTService.verifyAccessToken(accessToken)._id;
-    }catch(error){
-        // console.log('jwt wala error')
+    }catch(err){
+        const error = {status:401,message:'Session Expired!'}
         return next(error);
     }
 

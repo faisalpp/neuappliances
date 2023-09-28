@@ -191,10 +191,10 @@ function App() {
         <Route path="/admin/manage-section-items/:style/:sectionId" element={<ProtectedAdmin><ManageSectionItems /></ProtectedAdmin>} />
         <Route path="/admin/update-section-item/:id" element={<ProtectedAdmin><UpdateSectionItem /></ProtectedAdmin>} />
         {/* Product Update */}
-        <Route path="/admin/create-product" element={<CreateProduct />} />
+        <Route path="/admin/create-product" element={<ProtectedAdmin><CreateProduct /></ProtectedAdmin>} />
         {/* <Route path="/admin/create-product" element={<ProtectedAdmin><CreateProduct /></ProtectedAdmin>} /> */}
         <Route path="/admin/manage-products" element={<ProtectedAdmin><ManageProducts /></ProtectedAdmin>} />
-        <Route path="/admin/update-product/:id" element={<ProtectedAdmin><UpdateProduct /></ProtectedAdmin>} />
+        <Route path="/admin/update-product/:slug" element={<ProtectedAdmin><UpdateProduct /></ProtectedAdmin>} />
         {/* {FAQ Routes} */}
         <Route path="/admin/faq" element={<ProtectedAdmin><ManageFaq /></ProtectedAdmin>} />
         <Route path="/admin/create-faq/:slug" element={<ProtectedAdmin><CreateFaq /></ProtectedAdmin>} />
@@ -230,7 +230,7 @@ function App() {
         {/* Admin Update Customer */}
         <Route path="/admin/update-customer" element={<ProtectedAdmin><UpdateCustomer /></ProtectedAdmin>} />
 
-        <Route path="/test" element={<Test />} />
+        <Route path="/test/:slug" element={<Test />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/isr" element={<Isr />} />
       </Routes>

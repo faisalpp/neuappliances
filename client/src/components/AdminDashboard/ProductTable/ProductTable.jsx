@@ -2,7 +2,7 @@ import React from 'react'
 import ProductRow from './ProductRow'
 import {BsImage} from 'react-icons/bs'
 
-const ProductTable = ({data}) => {
+const ProductTable = ({data,getProducts}) => {
   return (
     <div className="flex flex-col">
   <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -14,14 +14,15 @@ const ProductTable = ({data}) => {
             <tr>
               <th scope="col" className="px-6 py-4"><BsImage/></th>
               <th scope="col" className="px-6 py-4">Title</th>
-              <th scope="col" className="px-6 py-4">Sale&nbsp;Price</th>
+              <th scope="col" className="px-6 py-4">Sale Price</th>
               <th scope="col" className="px-6 py-4">Reguler Price</th>
+              <th scope="col" className="px-6 py-4">Product Type</th>
               <th scope="col" className="px-6 py-4">Rating</th>
               <th scope="col" className="px-6 py-4">Action</th>
             </tr>
           </thead>
           <tbody>
-            {data.map((item)=><ProductRow img={item.images[0]} title={item.title} salePrice={item.salePrice} regularPrice={item.regularPrice} rating={item.rating} />)}
+            {data.map((item)=><ProductRow data={item} getProductss={getProducts} />)}
           </tbody>
         </table>
       </div>

@@ -170,7 +170,38 @@ export const createProduct = async (data) => {
     let response;
     
     try{
-        response = await AdminMultiApi.post('/api/admin/create-product',data);
+        response = await AdminApi.post('/api/admin/create-product',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const updateProduct = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/update-product',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const deleteProduct = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/delete-product',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const duplicateProduct = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/duplicate-product',data);
     }catch (error){
         return error;
     }
@@ -422,7 +453,7 @@ AdminApi.interceptors.response.use(
       const originalReq = error.config;
   
       if (
-        (error.response.status === 401 || error.response.status === 500) &&
+        (error.response.status === 401) &&
         originalReq &&
         !originalReq._isRetry
       ) {
@@ -435,6 +466,7 @@ AdminApi.interceptors.response.use(
   
           return AdminApi.request(originalReq);
         } catch (error) {
+          console.log('jwt issue')
           return error;
         }
       }
@@ -449,7 +481,7 @@ AdminApi.interceptors.response.use(
       const originalReq = error.config;
   
       if (
-        (error.response.status === 401 || error.response.status === 500) &&
+        (error.response.status === 401) &&
         originalReq &&
         !originalReq._isRetry
       ) {
@@ -462,6 +494,7 @@ AdminApi.interceptors.response.use(
   
           return AdminMultiApi.request(originalReq);
         } catch (error) {
+            console.log('jwt issue')
           return error;
         }
       }

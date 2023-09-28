@@ -26,9 +26,8 @@ app.use(express.json());
 app.use(cors(corsOptions))
 
 app.use(router);
-
-
-if(process.env.NODE_ENV === "production"){
+  
+  if(process.env.NODE_ENV === "production"){
   app.use(express.static(path.join(__dirname,"client/build")))
   app.use("*", (req,res) => {
     res.sendFile(path.resolve(__dirname,'client','build','index.html'),function (err){res.status(500).send(err)});
@@ -40,7 +39,6 @@ app.use(errorHandler);
 
 dbconnect().then(()=>{
   app.listen(PORT,()=>{
-      console.log(`Server Started on port: ${PORT}`)
+    console.log(`Server Started on port: ${PORT}`)
   });
 })
-
