@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import "./multiRangeSlider.css";
 import DropDown from "../../DeskComp/Filter/DropDown";
 
-const MultiRangeSlider = ({ min, max, onChange }) => {
-    const defaultMinval = 999;
+const MultiRangeSlider = ({ min, max,setFilt }) => {
+    const defaultMinval = 200;
     const defaultMaxval = 8000;
     const [minVal, setMinVal] = useState(defaultMinval);
     const [maxVal, setMaxVal] = useState(defaultMaxval);
@@ -46,19 +46,22 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
 
     // Get min and max values when their state changes
     useEffect(() => {
-        onChange({ min: minVal, max: maxVal });
-    }, [minVal, maxVal, onChange]);
+       setTimeout(()=>{
+           setFilt(prev=>{return {...prev,salePrice:{$gte:minVal},regPrice:{$lte:maxVal}}})
+       },1500)
+    }, [minVal,maxVal]);
 
     return (
         <DropDown title="Price">
             <div className="w-full pb-8 relative" id="priceSlider">
                 <div className="flex items-center gap-2 w-full mb-5">
-                    <input type="number" value={minVal} onChange={(event) => {
+                    <input type="number" value={minVal} onKeyDown={(event) => {
                         const value = Math.min(Math.max(+event.target.value, min), max);
                         setMinVal(value);
+                        setFilt(prev=>{return {...prev,range:{min:value}}})
                     }} className="w-[45%] m-0 rounded-md text-b16 px-4 py-2 outline-none border border-[#C9C9C9]" />
                     <span>-</span>
-                    <input type="number" value={maxVal} onChange={(event) => {
+                    <input type="number" value={maxVal} onKeyDown={(event) => {
                         const value = Math.min(Math.max(+event.target.value, min), max);
                         setMaxVal(value);
                     }} className="w-[45%] m-0 rounded-md text-b16 px-4 py-2 outline-none border border-[#C9C9C9]" />
@@ -67,6 +70,7 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
                     type="range"
                     min={min}
                     max={max}
+                    step={5}
                     value={minVal}
                     ref={minValRef}
                     onChange={(event) => {

@@ -1,4 +1,5 @@
 import React,{useEffect, useRef} from 'react';
+import Loader2 from '../../components/Loader/Loader2'
 import AdminAccount from '../../layout/AdminAccount';
 import {BsArrowRightShort,BsFillTrashFill} from 'react-icons/bs'
 import {AiOutlinePlusSquare,AiFillPlusCircle,AiFillCloseCircle} from 'react-icons/ai'
@@ -58,7 +59,7 @@ const UpdateProduct = () => {
       setLoader(true)  
       const res = await GetAppliancesBySlug({slug:pSlug})
       const res2 = await GetCategories();
-      if(res2.status === 200 && res2.status === 200){
+      if(res.status === 200 && res2.status === 200){
       const res3 = await getCategoryData({categorySlug:res.data.product.category})
       if(res3.status === 200){
         setData(setFeatures, res3.data.features,'feature',res.data.product.feature);
@@ -532,7 +533,7 @@ const handleTitle = (e) => {
           </div>
         </div>
     </Popup>
-    {/* {loader ? <Loader2/> : */}
+    {loader ? <Loader2/> :
     <AdminAccount>
     <form onSubmit={UpdateProduct} encType='multipart/form-data' className='flex flex-col justify-center space-y-5 w-full py-10' >
      <h5 className="font-semibold text-center text-2xl" >{TxtTransform.Cap1Char(values.productType)} Product</h5>     
@@ -714,8 +715,7 @@ const handleTitle = (e) => {
       <button type="submit" className='flex justify-center self-center items-center cursor-pointer rounded-md py-1 w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Update</span><BsArrowRightShort className='text-2xl' /></a>}</button>
      
      </form>
-    </AdminAccount>
-    {/* } */}
+    </AdminAccount>}
    </>
   )
 }

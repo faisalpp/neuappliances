@@ -7,13 +7,16 @@ import { RiArrowDropRightLine } from 'react-icons/ri';
 import { FaBars } from 'react-icons/fa';
 import { BsGrid, BsChevronDown } from 'react-icons/bs';
 import { useParams, useLocation } from 'react-router-dom';
-import { GetAppliancesByFilter, getAppliancesFilters } from '../api/frontEnd'
+import { GetAppliancesBySection, getAppliancesFilters,GetAppliancesByFilter } from '../api/frontEnd'
 import Loader from '../components/Loader/Loader'
+import Toast from '../utils/Toast'
 
 const Products = () => {
 
   const [categoriesFilters, setCategoriesFilters] = useState([])
   const [ratingFilters, setRatingFilters] = useState([])
+  const [saleFilter, setSaleFilter] = useState({})
+  const [regularFilter, setRegularFilter] = useState({})
   const [products, setProducts] = useState([])
   const [isGrid, setIsGrid] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
@@ -33,20 +36,17 @@ const Products = () => {
     for (const [key, value] of queryParams.entries()) {
       queryParamsObject[key] = value;
     }
-    console.log(queryParamsObject)
     setParams(queryParamsObject)
-
-
   }, []);
 
 
   useEffect(() => {
-    getAppliancesByFilter()
+    getAppliancesBySection()
   }, [params])
 
-  const getAppliancesByFilter = async () => {
+  const getAppliancesBySection = async () => {
     setLoading(true)
-    const res = await GetAppliancesByFilter(params)
+    const res = await GetAppliancesBySection(params)
     if (res.status === 200) {
       setProducts(res.data.products)
       setLoading(false)
@@ -62,10 +62,11 @@ const Products = () => {
 
   const GetAppliancesFilter = async () => {
     const res = await getAppliancesFilters()
-    console.log(res)
     if (res.status === 200) {
       setRatingFilters(res.data.ratingFilters)
       setCategoriesFilters(res.data.categoryFilters)
+      setSaleFilter(res.data.saleFilter)
+      setRegularFilter(res.data.regularFilter)
     } else {
       setRatingFilters([]);
       setCategoriesFilters([]);
@@ -76,6 +77,29 @@ const Products = () => {
   const handleCloseFilter = () => {
     setIsFilter(false);
   };
+
+  const [query,setQuery] = useState({})
+  const [loading2,setLoading2] = useState(false)
+  
+  const GetApplianceByFilter = async () => {
+    setLoading2(true)
+    // if(params.category ){
+    //   if(!query.category){
+    //     query.category = params.category
+    //   }
+    // }
+    const resp = await GetAppliancesByFilter(query)
+    if(resp.status === 200){
+    setProducts(resp.data.products)
+    setLoading2(false)
+   }else{
+    Toast(resp.data.message,'error',1000)
+    setLoading2(false)
+   }
+  }
+  useEffect(()=>{
+    GetApplianceByFilter()
+  },[query])
 
   return (
     <>
@@ -95,14 +119,13 @@ const Products = () => {
           <div className='flex justify-center gap-12 xl:gap-x-60px maincontainer' >
 
             {/* Filters Start */}
-            <ProductFilter categoriesFilters={categoriesFilters} ratingFilters={ratingFilters} onClose={handleCloseFilter} isFilter={isFilter} />
+            <ProductFilter query={query} setQuery={setQuery} saleFilter={saleFilter} regularFilter={regularFilter} categoriesFilters={categoriesFilters} ratingFilters={ratingFilters} onClose={handleCloseFilter} isFilter={isFilter} />
             {/* Filters End */}
 
             <div className={`grid ${isGrid ? 'lg:grid-cols-3 grid-cols-1 lg:gap-x-2' : 'grid-cols-1'} gap-y-5 mb-10 w-full`} >
-
-              {products.length > 0 ? products.map((product, index) => <ProductCard3 key={index} product={product} isGrid={isGrid} />) :
-                <h1>No Product Founds!</h1>
-              }
+               {loading2 ? <div className='flex items-center justify-center w-full' ><img src="/loader2.gif" className="w-24 h-24" /></div> :null}
+               {products.length > 0 && !loading2 ? products.map((product, index) => <ProductCard3 key={index} product={product} isGrid={isGrid} />) :null}
+               {products.length === 0 ? <div className='flex items-center justify-center w-full' ><img src="/not-found.webp" className='w-52 h-52' /></div> : null}
 
             </div>
 

@@ -1,0 +1,1 @@
+class i{static capitalizeWords(e){return e.split(" ").map(t=>t.length>0?t.charAt(0).toUpperCase()+t.slice(1):t).join(" ")}static Cap1Char(e){return e&&e.charAt(0).toUpperCase()+e.slice(1)}}export{i as J};

@@ -253,10 +253,10 @@ const productController = {
         newFeatureVideo.type = product.featureVideo.type
         newFeatureVideo.data = updateImg
         newFeatureVideo.prevImg = ''
+       }
+      }else{
+       newFeatureVideo = product.featureVideo
       }
-     }else{
-      newFeatureVideo = product.featureVideo
-     }
 
      const medias = product.media
      for(let j=0;j < medias.length;j++){

@@ -158,7 +158,8 @@ router.post('/api/user/save-order-address',auth,orderController.saveOrderAddress
 // Front-End Api's
 
 
-router.post('/api/get-product-by-filter',applianceController.GetApplianceBySectionType);
+router.post('/api/get-product-by-section',applianceController.GetApplianceBySectionType);
+router.post('/api/get-product-by-filter',applianceController.GetApplianceByFilter);
 router.post('/api/get-product-by-slug',applianceController.GetApplianceBySlug);
 router.get('/api/get-appliances',applianceController.GetAppliances);
 router.get('/api/get-navbar-appliances',applianceController.GetNavbarAppliances);

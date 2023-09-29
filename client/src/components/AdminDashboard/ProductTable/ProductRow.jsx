@@ -62,8 +62,8 @@ const ProductRow = ({data,getProductss}) => {
     <tr className="border-b border-l border-r border-b6 text-xs">
         <td className="py-3 capitalize"><img src={firstImg.data} className='h-32' /></td>
         <td className=" px-2 capitalize">{data.title}</td>
-        <td className=" px-5 py-4 font-medium"><strike>${data.salePrice}</strike></td>
-        <td className=" px-5 py-4 font-medium">${data.regPrice}</td>
+        <td className=" px-5 py-4 font-medium">${data.salePrice}</td>
+        <td className=" px-5 py-4 font-medium"><strike>${data.regPrice}</strike></td>
         <td className=" px-5 py-4 font-semibold text-red-500">{TxtTransform.Cap1Char(data.productType)}</td>
         <td className=" px-5 py-4 text-b6 font-medium"><StarIconPrinter numberOfTimes={data.rating} /></td>
         <td className="px-5 py-4 space-y-1">

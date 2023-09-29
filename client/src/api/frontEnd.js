@@ -41,6 +41,16 @@ export const GetApplianceSections = async (data) => {
     }
     return response;
 }
+export const GetAppliancesBySection = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/get-product-by-section',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const GetAppliancesByFilter = async (data) => {
     let response;
 

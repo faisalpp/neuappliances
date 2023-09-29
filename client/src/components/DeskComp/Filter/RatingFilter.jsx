@@ -4,18 +4,21 @@ import { Checkbox } from '@material-tailwind/react'
 import { AiFillStar } from 'react-icons/ai'
 import axios from 'axios'
 
-const TypeFilter = ({filters}) => {
+const TypeFilter = ({filters,setFilt,filt}) => {
   const [f1,setF1] = useState()
   const [f2,setF2] = useState()
   const [f3,setF3] = useState()
 
-  const [check1,setCheck1] = useState(false);
-  const [check2,setCheck2] = useState(false);
-  const [check3,setCheck3] = useState(false);
+  const [check1,setCheck1] = useState(filt.rating === 3 ? true : false);
+  const [check2,setCheck2] = useState(filt.rating === 4 ? true : false);
+  const [check3,setCheck3] = useState(filt.rating === 5 ? true : false);
 
   const getRatingProducts = async (check,rating) => {
     if(check){
-      console.log(`${rating} is ${check}`)
+      setFilt(prev=>{return {...prev,rating:rating}})
+    }else{
+      delete filt.rating;
+      setFilt(prev=>{return {...prev}})
     }
   }
 
@@ -58,22 +61,22 @@ const TypeFilter = ({filters}) => {
     <>
       <DropDown title="Comatic Rating" >
         {/* Item Start */}
-        <div className='flex items-center' >
+        {f1 ? <div className='flex items-center' >
           <div className='flex items-center space-x-2' ><Checkbox ripple={false} checked={check1} onChange={(e) => handleCheckboxChange(1, e.target.checked,5)} className='checked:bg-b3 checked:text-white' /><span className='flex' ><AiFillStar className='text-b7' /><AiFillStar className='text-b7' /><AiFillStar className='text-b7' /><AiFillStar className='text-b7' /><AiFillStar className='text-b7' /></span></div>
           <div className="flex justify-end w-full text-xs" ><span>({f1 ? f1?.count : 0})</span></div>
-        </div>
+        </div>:null}
         {/* Item End */}
         {/* Item Start */}
-        <div className='flex items-center' >
+        {f2?<div className='flex items-center' >
           <div className='flex items-center space-x-2' ><Checkbox ripple={false} checked={check2} onChange={(e) => handleCheckboxChange(2, e.target.checked,4)} className='checked:bg-b3 checked:text-white' /><span className='flex' ><AiFillStar className='text-b7' /><AiFillStar className='text-b7' /><AiFillStar className='text-b7' /><AiFillStar className='text-b7' /></span></div>
           <div className="flex justify-end w-full text-xs" ><span>({f2 ? f2?.count : 0})</span></div>
-        </div>
+        </div>:null}
         {/* Item End */}
         {/* Item Start */}
-        <div className='flex items-center' >
+        {f3 ? <div className='flex items-center' >
           <div className='flex items-center space-x-2' ><Checkbox ripple={false} checked={check3} onChange={(e) => handleCheckboxChange(3, e.target.checked,3)} className='checked:bg-b3 checked:text-white' /><span className='flex' ><AiFillStar className='text-b7' /><AiFillStar className='text-b7' /><AiFillStar className='text-b7' /></span></div>
           <div className="flex justify-end w-full text-xs" ><span>({f3 ? f3?.count : 0})</span></div>
-        </div>
+        </div>:null}
         {/* Item End */}
       </DropDown>
     </>

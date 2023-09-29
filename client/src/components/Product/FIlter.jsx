@@ -5,7 +5,7 @@ import HeaderFilter from '../../components/DeskComp/Filter/HeaderFilter';
 import SaleFilter from '../../components/DeskComp/Filter/SaleFilter';
 import MultiRangeSlider from './MultiRangeSlider/MultiRangeSlider';
 
-const Filter = ({ onClose, isFilter, categoriesFilters, ratingFilters }) => {
+const Filter = ({ onClose,isFilter, categoriesFilters, ratingFilters,saleFilter,regularFilter,setQuery,query }) => {
     const handleFilterClick = (event) => {
         event.stopPropagation();
     };
@@ -19,17 +19,17 @@ const Filter = ({ onClose, isFilter, categoriesFilters, ratingFilters }) => {
                     <p className='text-base font-bold'>
                         Filters
                     </p>
-                    <button className='text-sm lg:text-xs text-[#22A6AB] underline'>
+                    <span onClick={()=>setQuery({salePrice: { '$gte': 200 }, regPrice: { '$lte': 8000 } })} className='cursor-pointer text-sm lg:text-xs text-[#22A6AB] underline'>
                         Reset Filters
-                    </button>
+                    </span>
                     <button onClick={onClose} className='text-sm font-semibold lg:hidden px-2 py-1 hover:bg-black/5 rounded duration-300'>
                         Close
                     </button>
                 </div>
-                <TypeFilter filters={categoriesFilters} />
-                <RatingFilter filters={ratingFilters} />
-                <MultiRangeSlider min={9} max={9999} onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)} />
-                <SaleFilter />
+                <TypeFilter filt={query} setFilt={setQuery} filters={categoriesFilters} />
+                <RatingFilter filt={query} setFilt={setQuery} filters={ratingFilters} />
+                <MultiRangeSlider setFilt={setQuery} min={9} max={9999} />
+                <SaleFilter filt={query} setFilt={setQuery} sale={saleFilter} reg={regularFilter} />
                 {/* <HeaderFilter /> */}
             </div>
         </div>

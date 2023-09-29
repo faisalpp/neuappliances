@@ -55,7 +55,6 @@ const applianceController = {
       }      
     },
     async GetApplianceBySectionType(req,res,next){
-      console.log(req.body)
       let query = {};
       query.category = req.body.category
       // Get the keys of the object as an array
@@ -82,8 +81,6 @@ const applianceController = {
         break;
       }
 
-      console.log(query)
-
       try{
         const products = await Product.find(query);
         return res.status(200).json({status:200,products:products});
@@ -94,9 +91,52 @@ const applianceController = {
            
     },
 
+    async GetApplianceByFilter(req,res,next){
+      console.log(req.body)
+      try{
+       const products = await Product.find(req.body);
+       return res.status(200).json({status:200,products:products});
+      }catch(error){
+        return next(error)
+      }      
+    },
+
+    // if(query.type === 'range'){
+
+    //   const minPrice = query.min; // Your minimum price value
+    //   const maxPrice = query.max; // Your maximum price value
+      
+    //   await Product.find({
+    //     $or: [
+    //       {
+    //         $and: [
+    //           { salePrice: { $gte: minPrice } },
+    //           { salePrice: { $lte: maxPrice } }
+    //         ]
+    //       },
+    //       {
+    //         $and: [
+    //           { salePrice: null },
+    //           { regPrice: { $gte: minPrice } },
+    //           { regPrice: { $lte: maxPrice } }
+    //         ]
+    //       }
+    //     ]
+    //   })
+    //   .exec()
+    //   .then(products => {
+    //     // console.log(products)
+    //     return res.status(200).json({status:200,products:products});
+    //   })
+    //   .catch(err => {
+    //     return res.status(500).json({status:500,massage:"Internal Server Error!"});
+    //   });
+
     async GetAppliancesFilters(req,res,next){
       let categoryFilters;
       let ratingFilters;
+      let onSale;
+      let regular;
       try {
       categoryFilters = await Category.aggregate([
           {
@@ -129,7 +169,37 @@ const applianceController = {
               }
             }
           ]);
-       return res.status(200).json({status:200,categoryFilters:categoryFilters,ratingFilters:ratingFilters});
+
+
+          onSale = await Product.aggregate([
+            {
+              $match: {
+                salePrice: { $ne: null } // Match products with a non-empty salePrice
+              }
+            },
+            {
+              $group: {
+                _id:'$salePrice',
+                count: { $sum: 1 } // Count the number of products in each group
+              }
+            }
+          ]);
+          
+          regular = await Product.aggregate([
+            {
+              $match: {
+                salePrice: null  // Match products with a non-empty salePrice
+              }
+            },
+            {
+              $group: {
+                _id: '$regPrice',
+                count: { $sum: 1 } // Count the number of products in each group
+              }
+            }
+          ]);
+
+       return res.status(200).json({status:200,categoryFilters:categoryFilters,ratingFilters:ratingFilters,regularFilter:regular,saleFilter:onSale});
 
       }catch(error){
         return next(error)
