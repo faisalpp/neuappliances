@@ -2,8 +2,9 @@ import React from 'react'
 import { useState } from 'react'
 import { AiOutlineArrowDown } from 'react-icons/ai'
 import { FiChevronDown } from 'react-icons/fi'
+import Parser from "html-react-parser"
 
-const FaqAccordion = ({ activeBg, activeText, title, textStyle, answer, parent, child, icon, chevrown, isExpand }) => {
+const FaqAccordion = ({ activeBg, activeText,parser, title, textStyle, answer, parent, child, icon, chevrown, isExpand }) => {
   const [drp, setDrp] = useState(isExpand ? true : false);
   return (
     <>
@@ -18,7 +19,7 @@ const FaqAccordion = ({ activeBg, activeText, title, textStyle, answer, parent, 
           </div>
         </div>
         <div className={` ${drp ? `flex ${activeText}` : 'hidden'} ${child} mt-1 duration-200`} >
-          <p>{answer}</p>
+          <p>{parser === 'true' ? Parser(answer):answer}</p>
         </div>
       </div>
     </>

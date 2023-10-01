@@ -32,91 +32,55 @@ import StickyNavbar from '../components/DeskComp/Navbar/StickyNavbar'
 import CustomModal from '../components/Modal/CustomModal'
 import TruckSvg from '../svgs/TruckSvg'
 import { GetAppliancesBySlug } from '../api/frontEnd'
-import { addToCart } from '../api/cart'
 import Loader from '../components/Loader/Loader'
-import { React360Viewer } from 'react-360-product-viewer'
-import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import { resetUser } from "../store/userSlice";
-import { showSCart } from "../store/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Iframe from '../components/Reusable/Ifram'
+import {AddToCart} from '../store/cartSlice'
+import Toast from '../utils/Toast'
 
 const Product = () => {
   // Get slug form url
   const { slug } = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const location = useLocation();
 
-  const [orderType, setOrderType] = useState('pickup');
+  const [orderInfo, setOrderInfo] = useState({type:'pickup',location:'Georgetown, Tx'});
   const [zip, setZip] = useState('');
-  const [pickupLocation, setPickupLocation] = useState('Georgetown, Tx');
   const [changeZip, setChangeZip] = useState(true);
+
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false)
   const [loading2, setLoading2] = useState(false)
 
   const [product, setProduct] = useState([])
 
-  // Auth State
-  const id = useSelector((state) => state.user._id);
+  const cartId = useSelector((state)=>state.cart.cartId)
 
-  const AddToCart = async () => {
+  const addToCart = async (e) => {
+    e.preventDefault()
     setLoading2(true)
-    const data = { userId: id, productId: product._id, orderType: orderType, deliveryLocation: zip, pickupLocation: pickupLocation }
-    const res = await addToCart(data)
-    if (res.status === 200) {
-      toast.success("Product Add To Cart!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      setLoading2(false)
-      dispatch(showSCart())
+    const data = {cartId:cartId ,productId: product._id, orderInfo: orderInfo, }
+    const res = await dispatch(AddToCart(data));
+    if(res.payload.status === 409){
       GetProduct()
+      Toast(res.payload.message,'error',1000)
     }
-    if (res.code === 'ERR_BAD_REQUEST') {
-      setLoading(false)
-      toast.error("Login Required!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      const callback = location.pathname
-      dispatch(resetUser());
-      navigate(`/login/?callback=${callback}`)
-    }
-    if (res.status === 404) {
-      setLoading(false)
-      toast.error(res.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+    if (res.payload.status === 200) {
+      Toast(res.payload.msg,'success',1000)
+      setLoading2(false)
+      GetProduct()
+    }else {
+      setLoading2(false)
+      Toast(res.payload.message,'error',1000)
     }
   }
-
-
 
   useEffect(() => {
     GetProduct()
   }, [])
 
+  const [mediaViewer,setMediaViewer] = useState({})
 
   const GetProduct = async () => {
     const data = { slug }
@@ -124,12 +88,13 @@ const Product = () => {
     const res = await GetAppliancesBySlug(data);
     if (res.status === 200) {
       setProduct(res.data.product)
+      setMediaViewer({file:res.data.product.media[0].file,type:res.data.product.media[0].type,data:res.data.product.media[0].data,thumbnail:res.data.product.media[0].preview })
       setLoading(false)
     } else {
       setLoading(false)
       toast.error('Internal Server Error!', {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -148,6 +113,7 @@ const Product = () => {
     if (response) {
       setError(false);
       setChangeZip(false);
+      setOrderInfo(prev=>{return {...prev,location:response}})
       console.log(response)
     } else {
       setChangeZip(false);
@@ -196,6 +162,19 @@ const Product = () => {
     return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
   };
 
+  const moreImg = product.media ? product.media.find(item => item.file === 'image') : null;
+
+    // Tags Elements Extended Start
+    const ExtendTag = ({name,selected}) => {
+      return (
+          <>
+          {name === "top-refrigerator-bottom-freezer" ? <div className='flex flex-col hover:shadow-md cursor-pointer items-center border-[1px] border-[rgba(0,0,0,0.15)] rounded-md px-2 py-2 w-fit h-fit' ><h5 className='text-[9px] font-medium' >TOP REFRIGERAOTR</h5><span className='flex h-[1px] w-full bg-[rgba(0,0,0,0.15)]' ></span><h5 className='text-[9px] font-medium' >BOTTOM FREEZER</h5></div>:null}
+          {name === "top-freezer-bottom-refrigerator"?<div className='flex flex-col hover:shadow-md cursor-pointer items-center border-[1px] border-[rgba(0,0,0,0.15)] rounded-md px-2 py-2 w-fit h-fit' ><h5 className='text-[9px] font-medium' >TOP FREEZER</h5><span className='flex h-[1px] w-full bg-[rgba(0,0,0,0.15)]' ></span><h5 className='text-[9px] font-medium' >BOTTOM REFRIGERAOTR</h5></div>:null}
+          </>
+          )
+     }
+     // Tags Elements Extended End
+  
 
   return (
     <>
@@ -205,7 +184,7 @@ const Product = () => {
           <StickyNavbar product={product} state={showNavbar} />
 
 
-          <MoreImagesModal images={product.images} state={imgModal} setState={setImgModal} />
+          <MoreImagesModal medias={product.media} state={imgModal} setState={setImgModal} />
 
           {/* All Modal */}
           <CustomModal openmodal={openModal} closeModal={handleCloseModal} />
@@ -219,47 +198,38 @@ const Product = () => {
             <div className='lg:col-span-5 lg:sticky lg:top-44' >
               <div className='flex gap-2 md:gap-5' >
                 <div className='flex flex-col space-y-2 min-w-[70px] 2xl:min-w-[100px] h-full' >
-                  {product.images ? product.images.slice(0, 4).map((image, index) =>
-                    <div key={index} className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' ><img src={`${import.meta.env.REACT_APP_INTERNAL_PATH}/${image}`} className='w-10 2xl:w-20' alt='product' /></div>
+                  {product.media ? product.media.slice(0, 4).map((media, index) => 
+                    <>
+                    <div key={index} className='border-[1px] border-gray-300 rounded-lg px-2 py-1 w-fit' >
+                     {media.file === 'image' ? <><div onClick={() => setMediaViewer({file:media.file,type:media.type,data:media.data,thumbnail:media.preview ? media.preview : '' })} className="absolute cursor-pointer bg-transparent w-10 h-16" ></div><img src={media.data} className='w-10 2xl:w-20' alt='product' /></>:null}
+                     {media.file === 'video' && media.type === 'url' ? <><div onClick={() => setMediaViewer({file:media.file,type:media.type,data:media.data,thumbnail:media.preview ? media.preview : '' })} className="absolute cursor-pointer z-10 bg-transparent w-10 h-10" ></div><Iframe style="w-10 2xl:w-20 h-10" thumbRounded="false" src={media.data} title="Modal Video" icon="text-xl" frameId={`video-frame-general-modal-${Math.random()*100/5}`} divId={`general-video-frame-modal-wrapper-${Math.random()*100/5}`} thumbnail={media.preview} /></>:null}
+                     {media.file === 'video' && media.type === 'upload' ? <><div onClick={() => setMediaViewer({file:media.file,type:media.type,data:media.data,thumbnail:media.preview ? media.preview : '' })} className="absolute cursor-pointer bg-transparent w-10 h-10" ></div><video className="w-10 2xl:w-20 rounded-2xl" controls  src={media.data} /></>:null}
+                    </div>
+                    </>
                   ) : null}
-                  <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+4</div><img src={product.images ? `${import.meta.env.REACT_APP_INTERNAL_PATH}/${product.images[0]}` : ''} className='w-10 h-16 2xl:w-20' alt='product' /></div>
+                  <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+4</div><img src={moreImg ? moreImg.data : null} className='w-10 h-16 2xl:w-20' alt='product' /></div>
                 </div>
-                <div className='flex relative justify-center items-center border-[1px] border-gray-300 rounded-lg lg:h-96 2xl:h-auto 2xl:py-14 w-full' >
-                  {product.threeSixty ? <React360Viewer
-                    imagesBaseUrl={`${import.meta.env.REACT_APP_DEV ? import.meta.env.REACT_APP_INTERNAL_PATH : null}/${product.threeSixty}`}
-                    imagesCount={36}
-                    imagesFiletype="jpg"
-                    mouseDragSpeed={5}
-                    width={350}
-                    height={350}
-                  /> : null}
+                <div className='flex relative justify-center px-2 py-10 items-center border-[1px] border-gray-300 rounded-lg lg:h-96 2xl:h-auto 2xl:py-14 w-full' >
+                  {mediaViewer.file === 'image' ? <img  src={mediaViewer.data} alt='' className='w-48' />:null}
+                  {mediaViewer.file === 'video' && mediaViewer.type === 'url' ? <Iframe style="w-full h-full" src={mediaViewer.data} title="Modal Video" icon="text-5xl" frameId={`video-frame-modal-${Math.random()*100/5}`} divId={`video-frame-modal-wrapper-${Math.random()*100/5}`} thumbnail={mediaViewer.thumbnail} />:null}
+                  {mediaViewer.file === 'video' && mediaViewer.type === 'upload' ? <video className="w-11/12 h-2/3 rounded-2xl" controls  src={mediaViewer.data} />:null}      
                   {product.rating === 3 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><AiOutlineDollarCircle />Best Value</div></div> : null}
                   {product.rating === 4 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/local_fire_department.webp" alt="" />Most Popular</div></div> : null}
                   {product.rating === 5 ? <div className='absolute top-0 left-4'><div className=' px-3 py-[5px] bg-b9 text-white font-bold text-sm 3xl:text-base rounded-[0px_0px_24px_24px] flex gap-2 items-center'><img src="/svgs/star_rate_half.webp.webp" alt="" /> Premium Condition </div></div> : null}
                 </div>
               </div>
               <div className='flex flex-col space-y-5 mt-10' >
-                <div className='flex items-center space-x-10' ><h5 className='text-sm font-semibold' >Model Number</h5><h5 className='text-sm' >{product.modelNo}</h5></div>
+                <div className='flex items-center space-x-10' ><h5 className='text-sm font-semibold' >Model Number</h5><h5 className='text-sm' >#{product.modelNo}</h5></div>
                 <div className='flex items-center space-x-24' ><h5 className='text-sm font-semibold' >Item ID</h5><h5 className='text-sm' >{product.itemId}</h5></div>
                 <div className='flex flex-col' >
                   <h5 className='text-sm font-semibold' >Fuel Type</h5>
                   <div className='flex flex-wrap gap-2 whitespace-nowrap mt-2' >
-                    {product.fuelType === 'electric' && product ? <div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><MdElectricBolt /><h5 className='text-xs' >240v Electric</h5><AiOutlineQuestionCircle /></div> : null}
-                    {product.fuelType === 'gas' ? <div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><GiFlame /><h5 className='text-xs' >Gas</h5><AiOutlineQuestionCircle /></div> : null}
-                    <div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><MdOutlinePropane /><h5 className='text-xs' >Propane</h5><AiOutlineQuestionCircle /></div>
-                    <div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><MdOutlinePropane /><h5 className='text-xs' >Dual Fuel</h5><AiOutlineQuestionCircle /></div>
+                   {product.tags ? product.tags.map((item,index)=> <> 
+                      {item.selected?<ExtendTag id={item.id} name={item.el} selected={item.selected} />:null}
+                      {item.selected ? <div key={index} className={`flex items-center cursor-pointer hover:shadow-md space-x-1 border-[1px] border-[rgba(0,0,0,0.15)]} rounded-md px-3 py-2 w-fit h-fit`} >{item.icon !== '' ?<img src={`/tags/${item.icon}.png`} className='h-6 w-6' />:null}<span><h5 className='text-[10px] font-medium' >{item.name}</h5></span></div>:null}
+                    </>):null}     
                   </div>
                 </div>
-
-                {product.dryerOption ? <div className='flex flex-col' >
-                  <h5 className='text-sm font-semibold' >Dryer Options</h5>
-                  <div className='flex space-x-2 mt-2' >
-                    {product.dryerOption === 'STACKABLE' ? <div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><RiStackLine /><h5 className='text-xs' >STACKABLE</h5></div> : null}
-                    {product.dryerOption === 'STEAM' ? <div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><GiThermometerHot /><h5 className='text-xs' >STEAM</h5></div> : null}
-                    {product.dryerOption === 'BOTH' ? <><div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><RiStackLine /><h5 className='text-xs' >STACKABLE</h5></div><div className='flex items-center space-x-2 border-[1px] border-gray-300 w-fit rounded-lg px-3 py-2' ><GiThermometerHot /><h5 className='text-xs' >STEAM</h5></div></> : null}
-                  </div>
-                </div> : null}
-
               </div>
             </div>
 
@@ -276,11 +246,11 @@ const Product = () => {
               </div>
               <div className='flex maxsm:flex-col sm:items-center gap-5 whitespace-nowrap' >
                 <div className='flex items-center gap-5'>
-                  <h4 className='font-bold lg:text-3xl text-xl text-b3 ' >${product.salePrice ? product.salePrice : product.regularPrice}</h4>
-                  {product.salePrice ? <strike className="text-lg" >${product.salePrice}</strike> : null}
+                  <h4 className='font-bold lg:text-3xl text-xl text-b3 ' >${product.salePrice ? product.salePrice : product.regPrice}</h4>
+                  {product.salePrice ? <strike className="text-lg" >${product.regPrice}</strike> : null}
                 </div>
                 <div className='flex items-center sm:justify-between sm:w-full gap-5 lg:flex-wrap'>
-                  {product.salePrice ? <span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >${product.regularPrice - product.salePrice} Savings</span> : null}
+                  {product.salePrice ? <span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >${product.regPrice - product.salePrice} Savings</span> : null}
                   <button className="flex justify-end items-center hover:underline text-b3" ><AiOutlineHeart /><span>Add to favorites</span></button>
                 </div>
               </div>
@@ -324,8 +294,8 @@ const Product = () => {
               {/* Delivery Card */}
               <div className='flex lg:flex-row flex-col lg:space-x-5 lg:space-y-0 space-y-3 w-full' >
 
-                <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${orderType === 'pickup' ? 'border-b10' : 'border-gray-300'} `} >
-                  <div className='flex items-center space-x-3' ><BsShopWindow className='text-xl' /><h6 className='font-bold text-sm' >Pickup</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderType('pickup')} className={`px-1 py-1 rounded-full cursor-pointer ${orderType === 'pickup' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderType === 'pickup' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
+                <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${orderInfo.type === 'pickup' ? 'border-b10' : 'border-gray-300'} `} >
+                  <div className='flex items-center space-x-3' ><BsShopWindow className='text-xl' /><h6 className='font-bold text-sm' >Pickup</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderInfo({type:'pickup',location:'store'})} className={`px-1 py-1 rounded-full cursor-pointer ${orderInfo.type === 'pickup' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderInfo.type === 'pickup' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
                   <div className='flex flex-col space-y-2 mt-2 text-sm' >
                     <h6 className='text-b10' >Ready Fri, April 26th (EST).</h6>
                     <h6 className='text-gray-500' >Georgetown, Tx</h6>
@@ -333,8 +303,8 @@ const Product = () => {
                   </div>
                 </div>
 
-                <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${orderType === 'home' ? 'border-b10' : 'border-gray-300'} `} >
-                  <div className='flex items-center space-x-2' ><BsTruck className='text-3xl' /><h6 className='font-bold text-sm' >Delivery</h6><h6 onClick={() => setChangeZip(true)} className='text-xs w-max text-blue-400 hover:underline cursor-pointer' >Change ZIP</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderType('delivery')} className={`px-1 py-1 rounded-full cursor-pointer ${orderType === 'delivery' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderType === 'delivery' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
+                <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${orderInfo.type === 'delivery' ? 'border-b10' : 'border-gray-300'} `} >
+                  <div className='flex items-center space-x-2' ><BsTruck className='text-3xl' /><h6 className='font-bold text-sm' >Delivery</h6><h6 onClick={() => setChangeZip(true)} className='text-xs w-max text-blue-400 hover:underline cursor-pointer' >Change ZIP</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderInfo({type:'delivery',location:zip})} className={`px-1 py-1 rounded-full cursor-pointer ${orderInfo.type === 'delivery' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderInfo.type === 'delivery' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
 
                   <div className={` ${changeZip ? 'flex' : 'hidden'} flex-col items-center justify-center h-full space-y-2 mt-2 text-sm`} >
                     <div className='flex items-center bg-white border-[1px] h-10 px-2 rounded-lg space-x-2 w-10/12 ' ><AiOutlineSearch className='text-blue-400 text-lg' /><input type="search" value={zip} onChange={e => setZip(e.target.value)} placeholder='Enter ZIP Code' className="w-full text-xs outline-none" /></div>
@@ -351,7 +321,7 @@ const Product = () => {
 
               </div>
               {/* Buttons */}
-              <button type="button" disabled={product.stock > 0 ? false : true} onClick={AddToCart} className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><span className="flex items-center font-bold ml-2" >Add To Cart {loading2 ? <img src="/loader-bg.gif" className='w-4 h-4 ml-2' /> : null}</span></button>
+              <button type="button" disabled={product.stock >0 ? false : true} onClick={addToCart} className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><span className="flex items-center font-bold ml-2" >Add To Cart {loading2 ? <img src="/loader-bg.gif" className='w-4 h-4 ml-2' /> : null}</span></button>
               {product.category === 'washer-&-dryer' ? <button type='button' onClick={() => handleOpenModal("2")} className='flex justify-center items-center bg-b3 text-sm text-white py-3 rounded-lg' ><span className="font-bold ml-2" >Complete Your Laundry Set</span></button> : null}
 
               {/* Quicl FAQs */}
@@ -395,9 +365,9 @@ const Product = () => {
               <div className=' rounded-lg bg-[#F8F8F8] p-5'>
                 <div class="flex justify-between items-center mb-3" ><h6 className="font-bold" >Other Product Options</h6><Link to="/buying-optionsv1" className="flex items-center hover:underline text-sm text-b3" >View All <BsArrowRightShort /></Link></div>
                 <div className='lg:grid grid-cols-3 flex flex-col items-center lg:mt-0 mt-4 lg:space-y-0 space-y-4 lg:gap-x-5' >
-                  <OtherProductCard rating={3} />
+                  <OtherProductCard  rating={3} />
                   <OtherProductCard rating={4} />
-                  <OtherProductCard rating={5} />
+                  <OtherProductCard disabled="true" rating={5} />
                 </div>
               </div>
 
@@ -405,12 +375,12 @@ const Product = () => {
 
           </div>
           {/* New Product Cards */}
-          <NewProductCards />
+          <NewProductCards keyFeatures={product.keyFeatures} />
           {/* Faq Accrodions */}
           <div className='flex flex-col items-center mb-5 justify-center pt-14 xl:pt-10 gap-y-3 maincontainer' >
-            <FaqAccordion title="Appliance Description" parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm !mt-0' answer={product.description} chevrown />
-            <FaqAccordion title="Specifications" parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm !mt-0' answer={product.specification} chevrown />
-            <FaqAccordion title="Delivery Info" parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm !mt-0' answer={product.deliveryInfo} chevrown />
+            {product.description ? <FaqAccordion parser="true" title="Appliance Description" parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm !mt-0' answer={product.description} chevrown />:null}
+            {product.specification ? <FaqAccordion parser="true" title="Specifications" parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm !mt-0' answer={product.specification} chevrown />:null}
+            {product.deliveryInfo ? <FaqAccordion parser="true" title="Delivery Info" parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm !mt-0' answer={product.deliveryInfo} chevrown />:null}
           </div>
 
           {/* 360 Degree Product Section */}
@@ -418,16 +388,8 @@ const Product = () => {
             <div id='360-view' className='flex flex-col gap-5 items-center py-10 lg:py-14 xl:py-20 maincontainer ' >
               <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' >360° View of This Appliance</h4>
               <div className='mt-5 relative flex justify-center w-full mb-5' >
-                {/* <img src="/360appliance.webp" alt='product' className='w-[17rem] mx-auto' /> */}
-                <React360Viewer
-                  imagesBaseUrl={`${import.meta.env.REACT_APP_INTERNAL_PATH}/${product.threeSixty}`}
-                  imagesCount={36}
-                  imagesFiletype="jpg"
-                  mouseDragSpeed={5}
-                  width={350}
-                  height={350}
-                />
-                <div className='absolute -bottom-5 left-0 right-0'>
+                {product.threeSixty ? <iframe className="w-[17rem] mx-auto" src={product.threeSixty.data} title="Modal Video"   />:null}
+                <div className='absolute -bottom-10 left-0 right-0'>
                   <img src="/360angle.webp" alt='product' className='w-72 mx-auto' />
                 </div>
               </div>
@@ -463,7 +425,7 @@ const Product = () => {
           <div className='bg-b8'>
             <div className='flex flex-col py-10 md:py-14 xl:py-20 maincontainer' >
               <h4 className='font-bold text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-center mb-10 md:mb-14 xl:mb-20' >Payment Options</h4>
-              <PaymentOptions item={product} />
+              <PaymentOptions salePrice={product ? product.salePrice : null} regPrice={product ? product.regPrice : null} />
             </div>
           </div>
 
@@ -488,7 +450,7 @@ const Product = () => {
           <SatisfiedSection title="Our Customers LOVE our Scratch and Dent Discounts!" dots={true} />
 
           {/* Prodcut Features */}
-          <ProductFeatures video={product.featuresVideo} />
+          {product.featureVideo ? <ProductFeatures video={product.featureVideo} />:null}
 
           {/* Complete Your Laundery Set */}
           {product.category === 'washer-&-dryer' ? <LaunderySet /> : null}

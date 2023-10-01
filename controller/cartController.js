@@ -1,18 +1,18 @@
 const Joi = require("joi");
 const Product = require('../models/product');
 const Cart = require('../models/cart')
+const JWTService = require('../services/JwtService')
+const mongoose = require('mongoose')
 
 const cartController = {
     async addToCart(req, res, next) {
        // 1. validate user input
-    const categoryRegisterSchema = Joi.object({
-      userId: Joi.string().allow(null).empty(''),
-      orderType: Joi.string().allow(null).empty(''),
-      productId: Joi.string().allow(null).empty(''),
-      deliveryLocation: Joi.string().allow(null).empty(''),
-      pickupLocation: Joi.string().allow(null).empty(''),
-      });
-      const { error } = categoryRegisterSchema.validate(req.body);
+    const cartRegisterSchema = Joi.object({
+      cartId: Joi.string().allow(null).empty(''),
+      productId: Joi.string().required(),
+      orderInfo: Joi.object().required()
+    });
+      const { error } = cartRegisterSchema.validate(req.body);
   
       // 2. if error in validation -> return error via middleware
       if (error) {
@@ -20,121 +20,116 @@ const cartController = {
       }
 
       
-      const {userId,productId,orderType,deliveryLocation,pickupLocation} = req.body;
-      
-      // 1.Get product by id
-      let product;
-      product = await Product.find({_id:productId,stock:{$gt:0}})
-      if(product.length === 0){
-        const error = {
-           status: 404,
-           message:'Product Not Found!'
-          }
-          return  next(error);
-        }
-        // 2. Find User Cart
-        const userCart = await Cart.find({userId:userId});
+      const {cartId,productId,orderInfo} = req.body;
+
+      // Find PRoduct to be added in both type of cart
+      const product = await Product.findOne({_id:productId,stock:{$gt:0}});
+      if(!product){
+        return res.status(500).json({status:500,message:'Product Out of Stock!'});  
+      }
+      let PRODUCT_PRICE;
+      if(product.count === 0){
+        return res.status(409).json({status:409,message:'Product Out of Stock!'});  
+      }else{
+        const PRODUCT_STOCK = product.stock - 1;
+        PRODUCT_PRICE = product.salePrice ? product.salePrice : product.regPrice;
+        await Product.findOneAndUpdate({_id:productId},{stock:PRODUCT_STOCK},{ new: true })
+      }
     
-        let newCart;
-        if(userCart.length === 0){
-          try{
-          
-          const cartToCreate = new Cart({
-            userId:userId
-          });
-          
-          newCart = await cartToCreate.save();
+      let CART_ID = cartId;
+      if(!CART_ID){
+        // Create new Cart 
+        try{
+          const newCart = new Cart({});
+          await newCart.save();
+          CART_ID = newCart._id;
         }catch(err){
-          const error = {
-            status: 500,
-            message: "Internal Server Error!a"
-          }
+          const error = {status:500,message:"Internal Server Error!"}
           return next(error)
         }
       }
-      
-      let cartId;
-      if(newCart){
-        cartId = newCart._id;
-      }else{
-        cartId = userCart[0]._id
+
+      const getProductCount = async (cId,pId,pType,pPrice) => {
+        const cart = await Cart.findOne({_id:cId});
+        let result;
+        if(pType === 'delivery'){
+          result = cart.deliveryOrders.find(order => new mongoose.Types.ObjectId(item.pid).equals(pId));
+        }else{
+         result = cart.pickupOrders.find(item => new mongoose.Types.ObjectId(item.pid).equals(pId) )
+        }
+        if(!result){
+          return {NEW:true,COUNT: 1, TOTAL:(cart.total + pPrice)};
+        }else{
+          return {NEW:false,COUNT:result.count + 1 , TOTAL: (cart.total + pPrice)};
+        }
       }
 
-      // 3. Create cart Expiry
-      const now = new Date();
-      const expiry = new Date(now.getTime() + 10 * 60000);
-      try{
+      const frstImg = product.media.find(item => item.file === 'image');
 
-        // 3. if new cart created then use newCart Id else use userCart Id
-        let updatedCart;
-        if(orderType === 'delivery'){
-          updatedCart = await Cart.findByIdAndUpdate(
-            cartId,
-            {
-              userId:userId,
-              $push: {
-                deliveryOrders: {
-                  $each: [{
-                    pid: product[0]._id,
-                    title: product[0].title,
-                    image: product[0].images[0],
-                    salePrice: product[0].salePrice,
-                    regularPrice: product[0].regularPrice,
-                    rating: product[0].rating,
-                  }],
-                  $position: 0
-                }
-              },
-              $inc: { cartCount: 1 },
-              deliveryLocation,
-              expiry:expiry
+      const cartToken = JWTService.signAccessToken({ _id: CART_ID }, "10m");
+      let CART = [];
+      if(orderInfo.type === 'delivery'){
+        CART = await Cart.findByIdAndUpdate(
+          CART_ID,
+          {
+            $push: {
+              deliveryOrders: {
+                $each: [{
+                  pid: product._id,
+                  title: product.title,
+                  image: frstImg.data,
+                  salePrice: product.salePrice,
+                  regPrice: product.regPrice,
+                  rating: product.rating,
+                  count: COUNT,
+                }],
+                $position: 0
+              }
+             },
+             $inc: { cartCount: 1 },
+             expiry:cartToken,
+             total: TOTAL
             },
+          { new: true }
+        );
+      }else{
+        const {NEW,COUNT,TOTAL} = await getProductCount(CART_ID,product._id,orderInfo.type,PRODUCT_PRICE);
+        if(!NEW){
+            await Cart.findOneAndUpdate(
+            { _id: CART_ID, 'pickupOrders.pid': product._id },
+            { $set: { 'pickupOrders.$.count': COUNT },$inc: { cartCount: 1 },total:TOTAL },
             { new: true }
           );
         }else{
-          updatedCart = await Cart.findByIdAndUpdate(
-            cartId,
-            {
-              userId:userId,
-              $push: {
-                pickupOrders: {
-                  $each: [{
-                    pid: product[0]._id,
-                    title: product[0].title,
-                    image: product[0].images[0],
-                    salePrice: product[0].salePrice,
-                    regularPrice: product[0].regularPrice,
-                    rating: product[0].rating,
-                  }],
-                  $position: 0
-                }
-              },
-              $inc: { cartCount: 1 },
-              pickupLocation,
-              expiry:expiry
-            },
-            { new: true }
-          );
-        }
-        
-        // Update Product Stock Status
-        try{
-          const product = await Product.findById(productId);
-           product.stock -= 1;
-           await product.save();
-        }catch(err){
-          const error={
-            status:500,
-            message: 'Internal Server Error!aa'
-          }
-          return next(error)
-        } 
-          
-        res.status(200).json({status: 200, cart:updatedCart});
-        
-      }catch(error){
-        return next(error)
+         CART = await Cart.findByIdAndUpdate(
+           CART_ID,
+           {
+             $push: {
+               pickupOrders: {
+                 $each: [{
+                   pid: product._id,
+                   title: product.title,
+                   image: frstImg.data,
+                   salePrice: product.salePrice,
+                   regPrice: product.regPrice,
+                   rating: product.rating,
+                   count: COUNT,
+                 }],
+                 $position: 0
+               }
+             },
+             $inc: { cartCount: 1 },
+             expiry:cartToken,
+             total: TOTAL
+           },
+           { new: true }
+         );
       }
+    
+    }
+
+      return res.status(200).json({status:200,cart:CART,msg:'Product Added To Cart!'});
+
     },
     async updateCart(req, res, next) {
       // 1. validate user input
@@ -176,7 +171,7 @@ const cartController = {
   async getCart(req, res, next) {
     // 1. validate user input
    const getCartSchema = Joi.object({
-     userId: Joi.string().required(),
+     cartId: Joi.string().required(),
    });
    const { error } = getCartSchema.validate(req.body);
 
@@ -187,14 +182,15 @@ const cartController = {
 
    
    try{
-     const {userId} = req.body;
+     const {cartId} = req.body;
      
-     const cart = await Cart.find({userId:userId})
+     const cart = await Cart.findOne({_id:cartId})
      
-     res.status(200).json({status: 200,cart:cart});
+     return res.status(200).json({status: 200,cart:cart});
 
    }catch(err){
     const error = {status:500,message:'Internal Server Error!'}
+    return next(error)
    }
 
 },

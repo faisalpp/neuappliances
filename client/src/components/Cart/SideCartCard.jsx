@@ -34,7 +34,7 @@ const SideCartCard = (props) => {
                     </div>
                     <div className='space-x-1'>
                         <strike className='text-b25 text-xs'>
-                            ${props.item.regularPrice}
+                            ${props.item.regPrice}
                         </strike>
                         <span className='font-semibold text-b3 text-sm'>
                             ${props.item.salePrice}

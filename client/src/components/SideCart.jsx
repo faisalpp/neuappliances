@@ -6,19 +6,20 @@ import SideCartCard from './Cart/SideCartCard'
 import { useSelector } from 'react-redux';
 import { GoDotFill } from 'react-icons/go'
 import SelectTimeSlot from './Cart/SelectTimeSlot'
-import { getCart, removeFromCart, updateCartData } from '../api/cart'
+import { removeFromCart, updateCartData } from '../api/cart'
 import { resetUser } from "../store/userSlice";
 import { showSCart, hideSCart } from "../store/cartSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { BsCart3 } from 'react-icons/bs'
+import {GetCart} from '../store/cartSlice'
+import Toast from '../utils/Toast'
 
 const SideCart = () => {
   const [cartCount, setCartCount] = useState('')
   const userId = useSelector((state) => state.user._id)
-  const [pickupOrders, setPickupOrders] = useState([]);
-  const [deliveryOrders, setDeliveryOrders] = useState([]);
+  const [cart, setCart] = useState({});
   const [pickupLocation, setPickupLocation] = useState('')
   const sCart = useSelector((state) => state.cart.sCart);
   const [total, setTotal] = useState(0)
@@ -107,51 +108,29 @@ const SideCart = () => {
     setTimeSlot(`${currentMonthName} ${currentDate} - 8am - 12am`)
   }, [])
 
-  const GetCart = async () => {
+  const cartId = useSelector((state)=>state.cart.cartId)
+
+  const GetCartData = async () => {
     setLoading(true)
-    const res = await getCart({ userId })
-    console.log(res)
-    if (res.status === 200) {
-      if (res.data.cart.length > 0) {
-        setPickupOrders(res.data.cart[0].pickupOrders)
-        setDeliveryOrders(res.data.cart[0].deliveryOrders)
-        setZip(res.data.cart[0].deliveryLocation)
-        setPickupLocation(res.data.cart[0].pickupLocation)
-        setCartCount(res.data.cart[0].cartCount)
-      }
+    const data = {cartId:cartId}
+    const res = await dispatch(GetCart(data));
+    console.log(res);
+    if (res.payload.status === 200) {
+      setCart(res.payload.cart)
+      setTotal(res.payload.cart.total)
+      setCartCount(res.payload.cart.cartCount)
       setLoading(false)
-    } else if (res.code === 'ERR_BAD_REQUEST') {
+    }else {
       setLoading(false)
-      dispatch(resetUser());
-      toast.error('Please Login To Proceed!', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    } else {
-      setLoading(false)
-      toast.error(res.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
     }
   }
+
+
   useEffect(() => {
-    if (sCart) {
-      GetCart()
+    if (sCart && cartId) {
+      GetCartData()
     }
-  }, [sCart])
+  }, [sCart,cartId])
 
   const RemoveFromCart = async (e, proId, type) => {
     e.preventDefault()
@@ -169,7 +148,7 @@ const SideCart = () => {
         progress: undefined,
         theme: "light",
       });
-      GetCart()
+      GetCartData()
     } else if (res.code === 'ERR_BAD_REQUEST') {
       dispatch(resetUser());
       toast.error('Session Expired!', {
@@ -198,32 +177,14 @@ const SideCart = () => {
   }
 
 
-  const calculateTotalPrice = (orders) => {
-    let totalPrice = 0;
-    for (const order of orders) {
-      if (order.salePrice !== undefined) {
-        totalPrice += order.salePrice;
-      } else if (order.regularPrice !== undefined) {
-        totalPrice += order.regularPrice;
-      }
-    }
-    return totalPrice;
-  }
-  useEffect(() => {
-    const deliveryOrdersTotal = calculateTotalPrice(deliveryOrders)
-    const pickupOrdersTotal = calculateTotalPrice(pickupOrders)
-    setTotal(pickupOrdersTotal + deliveryOrdersTotal)
-  }, [deliveryOrders, pickupOrders])
-
-
   return (
     <div className={` ${sCart ? 'top-0 lg:right-0' : 'maxlg:-top-[200vh] lg:-right-[200%]'} maxlg:pt-28 duration-500 fixed  z-[999] bg-black/60 w-full h-screen`} >
 
       <div className={` ${sCart ? '' : 'hidden'} relative mx-auto lg:float-right bg-white w-[90%] maxlg:rounded-t-2xl sm:w-[80%] lg:max-w-[420px] lg:w-full h-full`} >
         <button onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='maxlg:w-10 maxlg:h-10 bg-white maxlg:hover:bg-b3 maxlg:hover:text-white duration-200 maxlg:rounded-full absolute -top-14 right-0 lg:top-5 lg:right-6 z-40  xy-center'><AiOutlineClose className='text-xl' /></button>
         <div className='flex flex-col overflow-y-auto w-full h-full'>
-          <div className='flex items-center sticky top-0 bg-white maxlg:rounded-t-2xl py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{pickupOrders.length === 0 && deliveryOrders.length === 0 ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 xy-center' >{cartCount}</span>}</div></div>
-          {loading ? <div className='xy-center h-full w-full' ><img src="/loader-bg.gif" className='w-10 h-10 ml-2' /></div> : pickupOrders.length === 0 && deliveryOrders.length === 0 ?
+          <div className='flex items-center sticky top-0 bg-white maxlg:rounded-t-2xl py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{cart.pickupOrders?.length === 0 && cart.deliveryOrders.length === 0 ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 xy-center' >{cartCount}</span>}</div></div>
+          {loading ? <div className='xy-center h-full w-full' ><img src="/loader-bg.gif" className='w-10 h-10 ml-2' /></div> :  cart.pickupOrders?.length === 0 && cart.deliveryOrders?.length === 0 ?
             <div className='flex flex-col px-2 space-y-5 w-full justify-center items-center h-full' >
               <img src="/bag.webp" />
               <h1 className='font-extrabold' >Your Cart is Empty</h1>
@@ -233,11 +194,11 @@ const SideCart = () => {
             :
             <>
               <div style={{ 'height': 'calc(100vh - 200px)' }} className='flex flex-col overflow-y-auto' >
-                {deliveryOrders.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
+                {cart.deliveryOrders?.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
                   <h4 className='font-semibold' >Delivery Orders</h4>
                   {/* Cart Product */}
                   <div className='flex flex-col gap-6 space-y-2 mb-3 w-full'>
-                    {deliveryOrders.map((item, index) => <SideCartCard key={index} item={item} RemoveFromCart={RemoveFromCart} type="delivery" />)}
+                    {cart.deliveryOrders.map((item, index) => <SideCartCard key={index} item={item} RemoveFromCart={RemoveFromCart} type="delivery" />)}
                   </div>
                   {/* Cart Product End */}
 
@@ -270,11 +231,11 @@ const SideCart = () => {
 
                 </div> : null}
 
-                {pickupOrders.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
+                {cart.pickupOrders?.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
                   <h4 className='font-semibold' >Pickup Orders</h4>
                   {/* Cart Product */}
                   <div className='flex flex-col gap-6 space-y-2 mb-3'>
-                    {pickupOrders.map((item, index) => <SideCartCard key={index} item={item} RemoveFromCart={RemoveFromCart} type="pickup" />)}
+                    {cart.pickupOrders.map((item, index) => <SideCartCard key={index} item={item} RemoveFromCart={RemoveFromCart} type="pickup" />)}
                   </div>
                   {/* Cart Product End */}
 
