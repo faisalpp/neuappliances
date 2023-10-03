@@ -7,13 +7,11 @@ import CustomSelect from '../../components/Reusable/CustomSelect';
 import TextInput from '../../components/TextInput/TextInput';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { saveOrderAddress } from '../../api/order'
-import { toast } from 'react-toastify'
-import { useLocation, useNavigate } from 'react-router-dom';
-import { resetUser } from '../../store/userSlice';
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { setOrder } from '../../store/orderSlice';
+import { Link,useParams } from 'react-router-dom'
 import LeftArrowSvg from '../../svgs/LeftArrowSvg'
+import Toast from '../../utils/Toast'
 
 const Information = () => {
     const Countrys = [
@@ -29,7 +27,8 @@ const Information = () => {
         { name: 'Alberta', value: 'alberta' }
     ]
 
-    const orderAddressValidationSchema = Yup.object().shape({
+ 
+    const orderValidationSchema = Yup.object().shape({
         email: Yup.string().required('Email is Required!'),
         firstName: Yup.string().nullable(),
         lastName: Yup.string().required('Last Name is Required!'),
@@ -42,89 +41,70 @@ const Information = () => {
         phone: Yup.string().required('Phone is Required!'),
     });
 
-    const initialValues = {
-        userId: '',
-        email: '',
-        keepUpdates: false,
-        firstName: '',
-        lastName: '',
-        address: '',
-        appartment: '',
-        city: '',
-        country: 'canada',
-        province: 'alberta',
-        postalCode: '',
-        phone: '',
-        saveAddress: false,
+    const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo);
+
+
+    const [email,setEmail] = useState('')
+    const [keepUpdates,setKeepUpdates] = useState(false)
+    const [firstName,setFirstName] = useState('')
+    const [lastName,setLastName] = useState('')
+    const [address,setAddress] = useState('')
+    const [appartment,setAppartment] = useState('')
+    const [city,setCity] = useState('')
+    const [country,setCountry] = useState('Canada')
+    const [province,setProvince] = useState('Alberta')
+    const [postalCode,setPostalCode] = useState(deliveryInfo.location ? deliveryInfo.location : '')
+    const [phone,setPhone] = useState('')
+    const [saveAddress,setSaveAddress] = useState(false)
+
+    const getParam = useParams(callback)
+
+    const GetOrderInfo = () => {
+        
     }
 
-    const [values, setValues] = useState(initialValues);
+    useEffect(()=>{
+       if(getParam && getParam === 'change-info'){
+        
+       }
+    },[getParam])
+
+
     const [errors, setErrors] = useState([])
     const [loading, setLoading] = useState(false)
-    const id = useSelector((state) => state.user._id)
     const navigate = useNavigate()
     const dispatch = useDispatch();
-    const location = useLocation();
 
-    useEffect(() => {
-        setValues((prev) => ({ ...prev, userId: id }))
-    }, [id])
-
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setValues((prevValues) => ({ ...prevValues, [name]: value }));
-    };
-
-    const handleCheckbox = (event) => {
-        const { name, checked } = event.target;
-        setValues((prevValues) => ({ ...prevValues, [name]: checked }))
-    }
-
-    const SubmitAddress = async (e) => {
-        e.preventDefault()
-        console.log(e)
-        setLoading(true)
-        // try {
-        //  const err = await orderAddressValidationSchema.validate(values, { abortEarly: false });
-        const res = await saveOrderAddress(values)
-        console.log(res)
-        if (res.status === 200) {
-            setLoading(false)
-            navigate('/mycart/shipping')
-        } else if (res.code === 'ERR_BAD_REQUEST') {
-            setLoading(false)
-            dispatch(resetUser());
-            toast.error('Please Login To Proceed!', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-            const callback = location.pathname
-            dispatch(resetUser());
-            navigate(`/login/?callback=${callback}`)
-        } else {
-            setLoading(false)
-            toast.error(res.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
+    const handleCheckbox = (e) => {
+        const { name, checked } = e.target;
+        if(name === 'keepUpdates'){
+            setKeepUpdates(checked)
         }
-        // } catch (error) {
-        //  setErrors(error.errors)
-        //  setLoading(false)
-        //   }
+        if(name === 'saveAddress'){
+            setSaveAddress(checked)
+        }
     }
+
+    const SubmitInformation = async (e) => {
+     e.preventDefault()
+     const data = {email:email,firstName:firstName,lastName:lastName,address:address,appartment:appartment,city:city,country:country,postalCode:postalCode,phone:phone,saveAddress:saveAddress,keepUpdates:keepUpdates,province:province}
+     try{
+        await orderValidationSchema.validate(data, { abortEarly: false }); 
+        dispatch(setOrder(data))  
+        navigate('/mycart/shipping')
+     }catch(error){ 
+        if (error) {
+            let errors = error.errors;
+            setErrors(errors)
+            errors.forEach((item)=>{
+              Toast(item,'error',1000)
+            })
+          } else {
+            setErrors([])
+          }
+     }
+    }
+
 
 
     return (
@@ -154,38 +134,38 @@ const Information = () => {
                 </fieldset>
                 {/* Bread Crumbs End */}
                 <div className='text_between_line my-8'>OR</div>
-                <form onSubmit={SubmitAddress} >
+                <form onSubmit={SubmitInformation} >
                     {/* Conatct Information */}
                     <div className='space-y-14px [&>*]:text-b16 [&>*]:text-sm'>
                         <h3 className='text-sm font-medium text-b16'>Contact information</h3>
-                        <TextInput name="email" title="" iscompulsory="false" type="text" value={values.email} onChange={handleChange} error={errors.length > 0 && errors.includes('Email is Required!') ? true : false} errormessage="Email is Required!" placeholder="Email" />
-                        <Checkbox name="keepUpdates" onChange={handleCheckbox} id='keep-me-update' label="Keep me up to date on news and exclusive offers" className='checked:bg-black border-b31' ripple={false} />
+                        <TextInput width="full" name="Email" title="Email" iscompulsory="false" type="text" value={email} onChange={(e) =>setEmail(e.target.value)} error={errors && errors.includes('Email is Required!') ? true : false} errormessage="Email is Required!" placeholder="abc@gmail.com" />
+                        <Checkbox onChange={e=>handleCheckbox(e)} defaultChecked={keepUpdates ? true : false} name="keepUpdates" id='keep-me-update' label="Keep me up to date on news and exclusive offers" className='checked:bg-black border-b31' ripple={false} />
                     </div>
                     {/* Shipping */}
                     <div className='space-y-14px mt-8'>
                         <h3 className='text-lg font-medium text-b16'>Shipping address</h3>
                         <div className='grid grid-cols-2 gap-3'>
-                            <TextInput name="firstName" title="" iscompulsory="false" type="text" value={values.firstName} onChange={handleChange} error={errors.length > 0 && errors.includes('First Name is Required!') ? true : false} errormessage="First Name is Required!" placeholder="First Name (optional)" />
-                            <TextInput name="lastName" title="" iscompulsory="false" type="text" value={values.lastName} onChange={handleChange} error={errors.length > 0 && errors.includes('Last Name is Required!') ? true : false} errormessage="Last Name is Required!" placeholder="Last Name" />
+                            <TextInput width="full" name="firstName" title="" iscompulsory="false" type="text" value={firstName} onChange={(e)=>setFirstName(e.target.value)} error={errors && errors.includes('First Name is Required!') ? true : false} errormessage="First Name is Required!" placeholder="First Name (optional)" />
+                            <TextInput width="full" name="lastName" title="" iscompulsory="false" type="text" value={lastName} onChange={(e)=>setLastName(e.target.value)} error={errors && errors.includes('Last Name is Required!') ? true : false} errormessage="Last Name is Required!" placeholder="Last Name" />
                             <div className="col-span-2 space-y-3">
-                                <TextInput name="address" title="" iscompulsory="false" type="text" value={values.address} onChange={handleChange} error={errors.length > 0 && errors.includes('Address is Required!') ? true : false} errormessage="Address is Required!" placeholder="Address" />
-                                <TextInput name="appartment" title="" iscompulsory="false" type="text" value={values.appartment} onChange={handleChange} error={errors.length > 0 && errors.includes('Apartment, suite is Required!') ? true : false} errormessage="Apartment, suite is Required!" placeholder="Apartment, suite, etc. (optional)" />
-                                <TextInput name="city" title="" iscompulsory="false" type="text" value={values.city} onChange={handleChange} error={errors.length > 0 && errors.includes('City is Required!') ? true : false} errormessage="City is Required!" placeholder="City" />
+                                <TextInput width="full" name="address" title="" iscompulsory="false" type="text" value={address} onChange={(e)=>setAddress(e.target.value)} error={errors && errors.includes('Address is Required!') ? true : false} errormessage="Address is Required!" placeholder="Address" />
+                                <TextInput width="full" name="appartment" title="" iscompulsory="false" type="text" value={appartment} onChange={(e)=>setAppartment(e.target.value)} error={errors && errors.includes('Apartment, suite is Required!') ? true : false} errormessage="Apartment, suite is Required!" placeholder="Apartment, suite, etc. (optional)" />
+                                <TextInput width="full" name="city" title="" iscompulsory="false" type="text" value={city} onChange={(e)=>setCity(e.target.value)} error={errors && errors.includes('City is Required!') ? true : false} errormessage="City is Required!" placeholder="City" />
                                 <div className='grid grid-cols-2 md:grid-cols-3 gap-14px'>
-                                    <CustomSelect id="country_region" label="Country / region" Options={Countrys} />
-                                    <CustomSelect id="province" label="Province" Options={Province} />
+                                    <CustomSelect setState={setCountry} id="country_region" label="Country / region" Options={Countrys} />
+                                    <CustomSelect setState={setProvince} id="province" label="Province" Options={Province} />
                                     <div className='col-span-2 md:col-span-1 [&>*]:h-full'>
-                                        <TextInput name="postalCode" title="" iscompulsory="false" type="text" value={values.postalCode} onChange={handleChange} error={errors.length > 0 && errors.includes('Postal Code is Required!') ? true : false} errormessage="Postal Code is Required!" placeholder="Postal Code" />
+                                        <TextInput width="full" name="postalCode" title="" iscompulsory="false" type="text" value={postalCode} onChange={(e)=>setPostalCode(e.target.value)} error={errors && errors.includes('Postal Code is Required!') ? true : false} errormessage="Postal Code is Required!" placeholder="Postal Code" />
                                     </div>
                                 </div>
                                 <div className='relative'>
-                                    <TextInput name="phone" title="" iscompulsory="false" type="text" value={values.phone} onChange={handleChange} error={errors.length > 0 && errors.includes('Phone is Required!') ? true : false} errormessage="Phone is Required!" placeholder="Phone" />
+                                    <TextInput width="full" name="phone" title="" iscompulsory="false" type="text" value={phone} onChange={(e)=>setPhone(e.target.value)} error={errors && errors.includes('Phone is Required!') ? true : false} errormessage="Phone is Required!" placeholder="Phone" />
                                     <div className='absolute right-3 top-3'>
                                         <RiQuestionFill className='text-2xl text-b3' />
                                     </div>
                                 </div>
                                 <div className='[&>*]:text-b16 [&>*]:text-sm'>
-                                    <Checkbox id='save-information' name="saveAddress" onChange={handleCheckbox} label="Save this information for next time" className='checked:bg-black border-b31' ripple={false} />
+                                    <Checkbox onChange={e=>handleCheckbox(e)} id='save-information' name="saveAddress" defaultChecked={saveAddress ? true : false} label="Save this information for next time" className='checked:bg-black border-b31' ripple={false} />
                                 </div>
                             </div>
                         </div>

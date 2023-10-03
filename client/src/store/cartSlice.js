@@ -8,6 +8,9 @@ const initialState = {
   total:0,
   orderInfo:{},
   cartCount:0,
+  shipping:0,
+  tax:40,
+  grandTotal:0,
   status:'INIT',
   sCart:false,
 };

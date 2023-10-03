@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const ReviewDetail = ({ title, detail, subtitle, textStyle }) => {
 
@@ -21,9 +22,9 @@ const ReviewDetail = ({ title, detail, subtitle, textStyle }) => {
                     }
                 </div>
             </div>
-            <button type='button' className='text-xs text-b3 font-semibold'>
+            <Link to="/mycart/information/?callback=change-info" className='text-xs text-b3 hover:underline font-semibold'>
                 Change
-            </button>
+            </Link>
         </div>
     )
 }

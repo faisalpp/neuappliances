@@ -38,6 +38,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Iframe from '../components/Reusable/Ifram'
 import {AddToCart} from '../store/cartSlice'
 import Toast from '../utils/Toast'
+import DateFormat from '../utils/DateFormat'
+import axios from 'axios'
 
 const Product = () => {
   // Get slug form url
@@ -106,18 +108,32 @@ const Product = () => {
     }
   }
 
+// POSTMAN_API_HOST=https://neulink.neuappliances.com
+// POSTMAN_API_KEY=lkMkl$enjJKbwhbY7857NnknnW
 
 
   const Submit = async () => {
-    const response = await getCords(zip);
-    if (response) {
-      setError(false);
-      setChangeZip(false);
-      setOrderInfo({type:'delivery',location:zip})
-    } else {
-      setChangeZip(false);
-      setError(true);
-    }
+    const current_date = DateFormat()
+    const API_URL = `${import.meta.env.VITE_POSTMAN_API_HOST}/web-api/delivery/slots?start_date=${current_date}&zip=${zip}`
+    const TOKEN = `Bearer ${import.meta.env.VITE_POSTMAN_API_KEY}` 
+    console.log(TOKEN)
+    axios.get(API_URL, { headers: {'Authorization': TOKEN}, })
+    .then((response) => {
+      // Handle the successful response here
+      console.log('Response:', response.data);
+    })
+    .catch((error) => {
+      // Handle errors here
+      console.error('Error:', error);
+    });
+    // if (response) {
+    //   setError(false);
+    //   setChangeZip(false);
+    //   setOrderInfo({type:'delivery',location:zip})
+    // } else {
+    //   setChangeZip(false);
+    //   setError(true);
+    // }
   };
 
   useEffect(() => {

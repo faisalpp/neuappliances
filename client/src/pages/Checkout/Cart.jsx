@@ -3,91 +3,99 @@ import CustomInput from '../../components/Reusable/CustomInput';
 import CartCard from '../../components/Checkout/CartCard';
 import { HiOutlineTruck } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
-import { getCart } from '../../api/cart'
-import { resetUser } from "../../store/userSlice";
+import { GetCart } from '../../store/cartSlice'
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import Toast from '../../utils/Toast'
 
 const Cart = () => {
 
-    const userId = useSelector((state) => state.user._id)
-    const [pickupOrders, setPickupOrders] = useState([]);
-    const [deliveryOrders, setDeliveryOrders] = useState([]);
-    const [cartId, setCartId] = useState(null);
     const pickupLocation = useSelector((state) => state.cart.pickupLocation)
     const deliveryLocation = useSelector((state) => state.cart.deliveryLocation)
 
-    const [subTotal, setSubTotal] = useState(0)
-    const [tax, setTax] = useState(5)
-    const [total, setTotal] = useState(0)
 
-    const navigate = useNavigate()
+
     const dispatch = useDispatch()
 
-    const GetCart = async () => {
-        const res = await getCart({ userId })
-        if (res.status === 200) {
-            setPickupOrders(res.data.cart[0].pickupOrders)
-            setDeliveryOrders(res.data.cart[0].deliveryOrders)
-            setCartId(res.data.cart[0]._id)
-            setSubTotal(res.data.cart[0].total)
-            setTotal(res.data.cart[0].total + tax)
-        } else if (res.code === 'ERR_BAD_REQUEST') {
-            dispatch(resetUser());
-            toast.error('Please Login To Proceed!', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-            navigate('/login')
-        } else {
-            toast.error(res.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-        }
-    }
+    const cartId = useSelector((state)=>state.cart.cartId)
+    const tax = useSelector((state)=>state.cart.tax)
+    const total = useSelector((state)=>state.cart.total)
+    const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
+    const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
+    const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo)
 
-    useEffect(() => {
-        GetCart()
-    }, [])
+    const [grandTotal, setGrandTotal] = useState(tax ? total + tax : total)
+
+    function removeDuplicateObjectsAndGetCount(arr) {
+        let seen = new Set();
+        let uniqueArr = [];
+        let deletedDuplicates = new Set();
+        let deletedCount = 0;
+      
+        for (const item of arr) {
+          if (!seen.has(item.pid)) {
+            seen.add(item.pid);
+            uniqueArr.push(item);
+          } else {
+            deletedDuplicates.add(item.pid);
+            deletedCount++;
+          }
+        }
+        if(deletedCount >= 1){
+            deletedCount = deletedCount+1
+        }else{
+            deletedCount = 1
+        }
+        return { uniqueArr, deletedCount, deletedDuplicates };
+      }
+
+      const updatedPickupOrders = removeDuplicateObjectsAndGetCount(pickupOrders)
+      const updatedDeliveryOrders = removeDuplicateObjectsAndGetCount(deliveryOrders)
+
+    const [loading,setLoading] = useState(false)
+
+    const GetCartData = async () => {
+        setLoading(true)
+        const data = {cartId:cartId}
+        const res = await dispatch(GetCart(data));
+        if (res.payload.status === 200) {
+          setLoading(false)
+        }else {
+          setLoading(false)
+        }
+      }
+    
+    
+      useEffect(() => {
+        if (cartId) {
+          GetCartData()
+        }
+      }, [cartId])
 
     return (
         <>
             <div className='max-w-full w-full h-full px-4 sm:px-11 py-14 bg-[#F9F9F9]'>
                 <div className='max-w-[418px] 3xl:max-w-xl mr-auto w-full flex flex-col gap-5'>
 
-                    {deliveryOrders.length > 0 ? <div className='flex w-full flex-col gap-6 bg-white px-4 sm:px-6 py-4'>
-                        {deliveryOrders.map((item, index) => <CartCard key={index} item={item} />)}
+                    <div className='flex w-full flex-col gap-6 bg-white px-4 sm:px-6 py-4'>
+                        {updatedDeliveryOrders && updatedDeliveryOrders.uniqueArr.map((item, index) => <CartCard key={index} item={item} count={updatedDeliveryOrders.deletedCount} />)}
                         <div className='border border-b31 text-b32 flex gap-2 items-center p-4 text-sm'>
                             <HiOutlineTruck className='text-xl text-b25 rounded-lg' />
                             <span>
-                                Delivering To {deliveryLocation}
+                                Delivering To {deliveryInfo.location}
                             </span>
                         </div>
-                    </div> : null}
+                    </div>
 
-                    {pickupLocation.length > 0 ? <div className='bg-white px-6 py-4 flex flex-col gap-5'>
-                        {pickupOrders.map((item, index) => <CartCard key={index} item={item} />)}
+                    <div className='bg-white px-6 py-4 flex flex-col gap-5'>
+                        {updatedPickupOrders && updatedPickupOrders.uniqueArr.map((item, index) => <CartCard key={index} item={item} count={updatedPickupOrders.deletedCount} />)}
                         <div className='border border-b31 text-b32 flex gap-2 items-center p-4 text-sm'>
                             <img src="/svgs/Pick-up.webp" alt="Pick-up" />
                             <span>
-                                Pick up in store {pickupLocation}.
+                                Pick up in store George Town, Tx
                             </span>
                         </div>
-                    </div> : null}
+                    </div>
 
                     <hr />
                     <div className='flex gap-14px items-center w-full'>
@@ -103,7 +111,7 @@ const Cart = () => {
                                 Subtotal
                             </span>
                             <span className='text-b16 font-medium'>
-                                ${subTotal}
+                                ${total}
                             </span>
                         </div>
                         <div className='flex justify-between'>
@@ -119,7 +127,7 @@ const Cart = () => {
                                 Taxes
                             </span>
                             <span className='text-b16 font-medium'>
-                                ${tax}
+                                ${tax?tax:0}
                             </span>
                         </div>
                     </div>
@@ -133,7 +141,7 @@ const Cart = () => {
                                 USD
                             </span>
                             <span className='text-b3 font-semibold tracking-032 text-2xl'>
-                                ${total}
+                                ${grandTotal}
                             </span>
                         </div>
                     </div>

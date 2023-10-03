@@ -4,8 +4,14 @@ import UpdateButton from '../../components/Checkout/UpdateButton';
 import BreadCrumb from '../../components/Checkout/BreadCrumb';
 import ReviewDetail from '../../components/Checkout/Shipping/ReviewDetail';
 import ShippingMethod from '../../components/Checkout/Shipping/ShippingMethod';
+import { useSelector } from 'react-redux';
 
 const Shipping = () => {
+
+    const email = useSelector((state)=>state.order.email)
+    const address = useSelector((state)=>state.order.address)
+    const province = useSelector((state)=>state.order.province)
+    const country = useSelector((state)=>state.order.country)
 
     return (
         <>
@@ -19,9 +25,9 @@ const Shipping = () => {
                 {/* Shipping */}
 
                 <div className='border border-b31 p-3 flex flex-col gap-3 rounded-md'>
-                    <ReviewDetail title="Contact" detail="name@example.com" />
+                    <ReviewDetail title="Contact" detail={email} />
                     <hr />
-                    <ReviewDetail title="Ship to" detail="151 O’Connor St Ground floor, Ottawa ON K2P 2L8, Canada" />
+                    <ReviewDetail title="Ship to" detail={`${address}, ${province}, ${country}`} />
                 </div>
 
                 {/* Shipping Method */}

@@ -3,7 +3,6 @@ import Iframe from '../components/Reusable/Ifram'
 
 
 const NewProductCards = ({keyFeatures}) => {
-    console.log(keyFeatures && keyFeatures)
     return (
         <div className='py-10 lg:py-14 xl:py-20 maincontainer grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 2xl:gap-20'>
             {keyFeatures ? keyFeatures.map((item,indx)=>
