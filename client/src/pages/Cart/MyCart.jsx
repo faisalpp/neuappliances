@@ -1,14 +1,47 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import MainLayout from '../../layout/MainLayout';
 import { RiArrowDropRightLine } from 'react-icons/ri';
+import { BsCart3 } from 'react-icons/bs';
 import Checkout from '../../components/Cart/Checkout';
 import DeliveryOrder from '../../components/Cart/DeliveryOrder';
 import PickUpOrder from '../../components/Cart/PickUpOrder';
+import { useDispatch,useSelector } from 'react-redux';
+import { GetCart } from '../../store/cartSlice';
+import Loader2 from '../../components/Loader/Loader2';
 
 const MyCart = () => {
 
+    const cartId = useSelector((state)=>state.cart.cartId)
+    const cartCount = useSelector((state)=>state.cart.cartCount)
+    const total = useSelector((state)=>state.cart.total)
+    const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
+    const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
+    const dispatch = useDispatch()
+
+    const [loading,setLoading] = useState(false)
+
+    const GetCartData = async () => {
+        setLoading(true)
+        const data = {cartId:cartId}
+        const res = await dispatch(GetCart(data));
+        console.log(res)
+        if (res.payload.status === 200) {
+          setLoading(false)
+        }else {
+          setLoading(false)
+        }
+      }
+    
+    
+      useEffect(() => {
+        if (cartId) {
+          GetCartData()
+        }
+      }, [cartId])
+
     return (
         <>
+           {loading ? <Loader2/> :
             <MainLayout>
                 {/* Bread Crumbs Start */}
                 <div className='pt-10 pb-10 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
@@ -17,29 +50,37 @@ const MyCart = () => {
                         My Cart
                     </h1>
                 </div>
-
+                {deliveryOrders.length > 0 || pickupOrders.length > 0 ? 
                 <div className='pb-10 lg:pb-16 xl:pb-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
                     <div className='grid grid-cols-1 coxxl:grid-cols-[1fr_360px] 3xl:grid-cols-[1fr_440px] gap-10'>
                         <div className='order-2 coxxl:order-none'>
-                            <DeliveryOrder />
-                            <PickUpOrder />
+                            {deliveryOrders && deliveryOrders.length > 0 ?<DeliveryOrder orders={deliveryOrders} refresh={GetCartData} />:null}
+                            {pickupOrders && pickupOrders.length > 0 ? <PickUpOrder orders={pickupOrders} refresh={GetCartData} /> : null}
                             <hr className='my-6 border-[rgba(0,0,0,0.08)]' />
                             <div className='w-full flex justify-between items-center'>
                                 <span className='text-base sm:text-xl text-black font-semibold'>
-                                    Subtotal (4 Items):
+                                    Subtotal ({cartCount} Items):
                                 </span>
                                 <div className='text-2xl sm:text-32px font-semibold'>
-                                    $2,279.00
+                                    ${total}
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <Checkout />
+                            <Checkout cartCount={cartCount} total={total} />
                         </div>
                     </div>
-                </div>
+                </div>:
+                <div className='flex flex-col px-2 mt-10 mb-24 space-y-5 w-full justify-center items-center h-full' >
+                <img src="/bag.webp" />
+                <h1 className='font-extrabold' >Your Cart is Empty</h1>
+                <h2 className='text-center' >Lorem Ipsum Doller Sit Amet, Consecture Audipicsing Elit</h2>
+                <button type='button' className='xy-center rounded-lg bg-b3 py-3 text-white font-medium w-2/12 text-sm'><BsCart3 className='mr-2' /> Start Shopping</button>
+              </div>
+                
+                }
 
-            </MainLayout>
+            </MainLayout>}
         </>
     )
 }

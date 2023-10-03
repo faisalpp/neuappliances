@@ -1,9 +1,14 @@
-import React from 'react'
+import React,{useState} from 'react'
 import ToolTip from '../ToolTip'
 import { AiFillStar } from 'react-icons/ai';
 import { RiDeleteBin6Line } from 'react-icons/ri';
+import { useSelector } from 'react-redux';
+
 
 const SideCartCard = (props) => {
+
+    const total = useSelector((state)=>state.cart.total)
+    const cartCount = useSelector((state)=>state.cart.cartCount)
 
     const StarIconPrinter = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
@@ -12,10 +17,12 @@ const SideCartCard = (props) => {
 
         return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
     };
-
+    
+    const [price,setPrice] = useState(props.item.salePrice ? props.item.salePrice : props.item.regPrice )
+    
     return (
         <div className='flex justify-start mt-3 gap-3 w-full' >
-            <img src={import.meta.env.REACT_APP_DEV === 'dev' ? `${import.meta.env.REACT_APP_INTERNAL_PATH}/${props.item.image}` : `${props.item.image}`} className='w-16 h-16' alt='' />
+            <img src={props.item.image} className='w-16 h-16' alt='' />
             <div className='flex flex-col justify-center gap-2 w-full' >
                 <p className='text-sm font-semibold line-clamp-2' >{props.item.title}</p>
                 <div className='flex items-center space-x-5'>
@@ -43,8 +50,9 @@ const SideCartCard = (props) => {
                 </div>
             </div>
             <div>
-                <button type='button' onClick={(e) => props.RemoveFromCart(e, props.item._id, props.type)} >
-                    <RiDeleteBin6Line className='text-xl text-b3' />
+                
+                <button type='button' onClick={(e) => props.RemoveFromCart(e,{index:props.indx,type:props.type},props.cartId ,props.item.pid,props.item._id, props.type,price,cartCount,total)} >
+                    {props.delState.index === props.indx && props.delState.type === props.type ? <RiDeleteBin6Line className='text-xl text-red-500 animate-pulse' /> : <RiDeleteBin6Line className='text-xl text-b3' />}
                 </button>
             </div>
         </div>

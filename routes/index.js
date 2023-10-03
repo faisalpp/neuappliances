@@ -147,9 +147,10 @@ router.get('/api/get-yelp-reviews',reviewController.getYelpReviews);
 
 // User Cart Api's
 router.post('/api/user/add-to-cart',cartController.addToCart);
-router.post('/api/user/get-cart',cartController.getCart);
-router.post('/api/user/update-cart',cartController.updateCart);
 router.post('/api/user/remove-cart-item',cartController.removeFromCart);
+router.post('/api/user/update-cart',cartController.updateCart);
+router.post('/api/user/change-cart-item-type',cartController.changeCartProductType);
+router.post('/api/user/get-cart',cartController.getCart);
 
 // User Order Processing Api's
 router.post('/api/user/save-order-address',auth,orderController.saveOrderAddress);

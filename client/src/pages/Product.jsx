@@ -113,8 +113,7 @@ const Product = () => {
     if (response) {
       setError(false);
       setChangeZip(false);
-      setOrderInfo(prev=>{return {...prev,location:response}})
-      console.log(response)
+      setOrderInfo({type:'delivery',location:zip})
     } else {
       setChangeZip(false);
       setError(true);
@@ -181,7 +180,7 @@ const Product = () => {
       {loading ? <Loader /> :
         <MainLayout>
           {/* StickyNavabr */}
-          <StickyNavbar product={product} state={showNavbar} />
+          <StickyNavbar addCart={addToCart} product={product} state={showNavbar} />
 
 
           <MoreImagesModal medias={product.media} state={imgModal} setState={setImgModal} />
@@ -295,7 +294,7 @@ const Product = () => {
               <div className='flex lg:flex-row flex-col lg:space-x-5 lg:space-y-0 space-y-3 w-full' >
 
                 <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${orderInfo.type === 'pickup' ? 'border-b10' : 'border-gray-300'} `} >
-                  <div className='flex items-center space-x-3' ><BsShopWindow className='text-xl' /><h6 className='font-bold text-sm' >Pickup</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderInfo({type:'pickup',location:'store'})} className={`px-1 py-1 rounded-full cursor-pointer ${orderInfo.type === 'pickup' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderInfo.type === 'pickup' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
+                  <div className='flex items-center space-x-3' ><BsShopWindow className='text-xl' /><h6 className='font-bold text-sm' >Pickup</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderInfo({type:'pickup',location:'Georgetown, Tx'})} className={`px-1 py-1 rounded-full cursor-pointer ${orderInfo.type === 'pickup' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderInfo.type === 'pickup' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
                   <div className='flex flex-col space-y-2 mt-2 text-sm' >
                     <h6 className='text-b10' >Ready Fri, April 26th (EST).</h6>
                     <h6 className='text-gray-500' >Georgetown, Tx</h6>

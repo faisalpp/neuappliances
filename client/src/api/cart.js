@@ -20,6 +20,16 @@ export const addToCart = async (data) => {
     }
     return response;
 }
+export const changeCartItemType = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/user/change-cart-item-type',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const getCart = async (data) => {
     let response;
 

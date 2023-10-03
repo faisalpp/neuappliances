@@ -5,7 +5,7 @@ import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { Link, NavLink } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 
-const StickyNavbar = ({ state, product }) => {
+const StickyNavbar = ({ state, product,addCart }) => {
   // Scroll Sticky Navbar Item to Sections
   const scrollToSection = (sectionId) => {
     const targetSection = document.getElementById(sectionId);
@@ -41,7 +41,7 @@ const StickyNavbar = ({ state, product }) => {
                   <span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >Save ${product.regPrice - product.salePrice}</span>
                 </div> : null}
               </div>
-              <div className='flex justify-center items-center bg-b7 text-sm text-white px-2 lg:px-10 py-3 cursor-pointer  rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><h6 className="font-bold ml-2" >Add To Cart</h6></div>
+              <div onClick={addCart} className='flex justify-center items-center bg-b7 text-sm text-white px-2 lg:px-10 py-3 cursor-pointer  rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><h6 className="font-bold ml-2" >Add To Cart</h6></div>
             </div>
 
           </div>

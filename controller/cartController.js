@@ -49,26 +49,15 @@ const cartController = {
         }
       }
 
-      const getProductCount = async (cId,pId,pType,pPrice) => {
-        const cart = await Cart.findOne({_id:cId});
-        let result;
-        if(pType === 'delivery'){
-          result = cart.deliveryOrders.find(order => new mongoose.Types.ObjectId(item.pid).equals(pId));
-        }else{
-         result = cart.pickupOrders.find(item => new mongoose.Types.ObjectId(item.pid).equals(pId) )
-        }
-        if(!result){
-          return {NEW:true,COUNT: 1, TOTAL:(cart.total + pPrice)};
-        }else{
-          return {NEW:false,COUNT:result.count + 1 , TOTAL: (cart.total + pPrice)};
-        }
-      }
-
       const frstImg = product.media.find(item => item.file === 'image');
 
       const cartToken = JWTService.signAccessToken({ _id: CART_ID }, "10m");
+      const cart = await Cart.findOne({_id:CART_ID});
+      const TOTAL = PRODUCT_PRICE + cart.total;
       let CART = [];
       if(orderInfo.type === 'delivery'){
+        try{
+        //Code Block
         CART = await Cart.findByIdAndUpdate(
           CART_ID,
           {
@@ -81,26 +70,21 @@ const cartController = {
                   salePrice: product.salePrice,
                   regPrice: product.regPrice,
                   rating: product.rating,
-                  count: COUNT,
                 }],
                 $position: 0
               }
-             },
+            },
+             deliveryInfo: orderInfo,
              $inc: { cartCount: 1 },
              expiry:cartToken,
-             total: TOTAL
+             total: TOTAL.toFixed(2),
+             status:'INIT'
             },
           { new: true }
         );
+      }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
       }else{
-        const {NEW,COUNT,TOTAL} = await getProductCount(CART_ID,product._id,orderInfo.type,PRODUCT_PRICE);
-        if(!NEW){
-            await Cart.findOneAndUpdate(
-            { _id: CART_ID, 'pickupOrders.pid': product._id },
-            { $set: { 'pickupOrders.$.count': COUNT },$inc: { cartCount: 1 },total:TOTAL },
-            { new: true }
-          );
-        }else{
+        try{
          CART = await Cart.findByIdAndUpdate(
            CART_ID,
            {
@@ -113,19 +97,19 @@ const cartController = {
                    salePrice: product.salePrice,
                    regPrice: product.regPrice,
                    rating: product.rating,
-                   count: COUNT,
-                 }],
-                 $position: 0
+                  }],
+                  $position: 0
                }
              },
+             pickupInfo: orderInfo,
              $inc: { cartCount: 1 },
              expiry:cartToken,
-             total: TOTAL
+             total: TOTAL.toFixed(2),
+             status:'INIT'
            },
            { new: true }
          );
-      }
-    
+        }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
     }
 
       return res.status(200).json({status:200,cart:CART,msg:'Product Added To Cart!'});
@@ -183,58 +167,156 @@ const cartController = {
    
    try{
      const {cartId} = req.body;
-     
      const cart = await Cart.findOne({_id:cartId})
-     
      return res.status(200).json({status: 200,cart:cart});
-
    }catch(err){
     const error = {status:500,message:'Internal Server Error!'}
     return next(error)
    }
+   
+  },
+  async changeCartProductType(req, res, next) {
+    // 1. validate user input
+   const getCartSchema = Joi.object({
+     cartId: Joi.string().required(),
+     objId: Joi.string().required(),
+     type: Joi.string().required(),
+   });
+   const { error } = getCartSchema.validate(req.body);
 
-},
+   // 2. if error in validation -> return error via middleware
+   if (error) {
+     return next(error)
+   }
+
+    const {cartId,objId,type} = req.body;
+
+    const OBJID = new mongoose.Types.ObjectId(objId);
+    const CART = await Cart.findOne({_id:cartId});
+    
+    let REMOVED_ORDER;
+    let UPDATED_ORDER;
+
+    if(type === 'pickup'){
+      const pickupOrders = CART.pickupOrders.find((item)=> item._id.equals(OBJID))
+      try{
+        REMOVED_ORDER = await Cart.updateOne(
+          { _id: cartId },
+        { $pull: { pickupOrders: { _id: objId } } }
+        );
+        }catch(error){
+          return res.status(500).json({ status: 500, message:'Internal Server Error!' });
+        }
+        try{
+        UPDATED_ORDER = await Cart.findByIdAndUpdate(
+          cartId,
+          {
+            $push: {
+              deliveryOrders: {
+                $each: [{
+                  pid: pickupOrders.pid,
+                  title: pickupOrders.title,
+                  image: pickupOrders.image,
+                  salePrice: pickupOrders.salePrice,
+                  regPrice: pickupOrders.regPrice,
+                  rating: pickupOrders.rating,
+                }],
+                $position: 0
+              }
+             },
+            },
+          { new: true }
+        );
+        }catch(error){
+          return res.status(500).json({ status: 500, message:'Internal Server Error!' });
+        }
+    }else{
+      const deliveryOrders = CART.deliveryOrders.find((item)=> item._id.equals(OBJID))
+      try{
+      REMOVED_ORDER = await Cart.updateOne(
+        { _id: cartId },
+        { $pull: { deliveryOrders: { _id: objId } } }
+        );
+       }catch(error){
+        return res.status(500).json({ status: 500, message:'Internal Server Error!' });
+       }
+       try{
+        UPDATED_ORDER = await Cart.findByIdAndUpdate(
+          cartId,
+          {
+            $push: {
+              pickupOrders: {
+                $each: [{
+                  pid: deliveryOrders.pid,
+                  title: deliveryOrders.title,
+                  image: deliveryOrders.image,
+                  salePrice: deliveryOrders.salePrice,
+                  regPrice: deliveryOrders.regPrice,
+                  rating: deliveryOrders.rating,
+                }],
+                $position: 0
+              }
+             },
+            },
+          { new: true }
+        );
+      }catch(error){
+        return res.status(500).json({ status: 500, message:'Internal Server Error!' });
+      }
+    }
+    
+    if(REMOVED_ORDER && UPDATED_ORDER){
+      const CART = await Cart.findOne({_id:cartId});
+      return res.status(200).json({ status: 200,cart:CART, });
+    }else{
+      return res.status(500).json({ status: 500, message:'Internal Server Error!' });
+    }
+      
+    
+  },
 async removeFromCart(req, res, next) {
   // 1. validate user input
  const getCartSchema = Joi.object({
-   id: Joi.string().required(),
-   userId: Joi.string().required(),
+   cartId: Joi.string().required(),
+   pId: Joi.string().required(),
+   objId: Joi.string().required(),
    type: Joi.string().required(),
+   price: Joi.number().required(),
+   total: Joi.number().required(),
+   count: Joi.number().required(),
  });
  const { error } = getCartSchema.validate(req.body);
-
  // 2. if error in validation -> return error via middleware
  if (error) {
    return next(error)
  }
 
- 
- try {
-  const { id, userId,type } = req.body;
+
+  const { cartId,pId,objId,type,price,count,total } = req.body;
   
+  const resp =  await Product.findOneAndUpdate({_id:pId},{$inc: { stock: 1 }},{ new: true })
+  const newTotal = total - price;
+  const newCount = count - 1;
   let result
   if(type === 'delivery'){
     result = await Cart.updateOne(
-      { userId: userId }, // Match the cart based on its _id
-      { $pull: { deliveryOrders: { _id: id } } } // Remove the order from the deliveryOrders array
+      { _id: cartId }, // Match the cart based on its _id
+      { $pull: { deliveryOrders: { _id: objId } }, total: newTotal,cartCount: newCount } // Remove the order from the deliveryOrders array
       );
   }else{
     result = await Cart.updateOne(
-      { userId: userId }, // Match the cart based on its _id
-      { $pull: { pickupOrders: { _id: id } } } // Remove the order from the deliveryOrders array
+      { _id: cartId }, // Match the cart based on its _id
+      { $pull: { pickupOrders: { _id: objId } } ,total: newTotal,cartCount: newCount},
       );
   }
-  
   if (result.modifiedCount === 0) {
     // If no document was modified, handle the scenario where the order was not found
     return res.status(404).json({ status: 404, message: 'Order not found' });
   }
+   
+  const cart = await Cart.findOne({_id:cartId});
+  return res.status(200).json({ status: 200, cart:cart,msg:'Product Removed!' });
 
-  res.status(200).json({ status: 200, message: 'Product Removed!' });
-} catch (err) {
-  // Handle any other errors that occur during the update operation
-  res.status(500).json({ status: 500, message: 'Internal Server Error!' });
-}
 
 },
 

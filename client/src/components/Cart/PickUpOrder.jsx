@@ -1,12 +1,12 @@
 import React from 'react';
 import CartCard from './CartCard';
 
-const PickUpOrder = () => {
+const PickUpOrder = ({orders,refresh}) => {
 
     return (
         <div className='border border-b26 rounded p-5 md:p-10 grid grid-cols-1 gap-8'>
             <h2 className='text-b16 font-bold text-xl'>Pickup Orders</h2>
-            <CartCard />
+            {orders.map((item,indx)=><CartCard key={indx} indx={indx} order={item} type="pickup" changeType={refresh} />)}
             <div className='w-full border border-[#D9D9D9] p-4 rounded-lg flex justify-between items-center'>
                 <div className='flex gap-2 items-center'>
                     <span className='w-[18px] h-[18px]'>

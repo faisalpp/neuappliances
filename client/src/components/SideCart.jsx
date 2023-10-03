@@ -1,28 +1,23 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { AiOutlineArrowRight, AiOutlineClose, AiOutlineShop } from 'react-icons/ai'
+import { AiOutlineArrowRight, AiOutlineClose, AiOutlineShop,AiOutlineShoppingCart } from 'react-icons/ai'
 import { HiOutlineTruck } from 'react-icons/hi'
 import { FaDotCircle } from 'react-icons/fa'
 import SideCartCard from './Cart/SideCartCard'
 import { useSelector } from 'react-redux';
 import { GoDotFill } from 'react-icons/go'
 import SelectTimeSlot from './Cart/SelectTimeSlot'
-import { removeFromCart, updateCartData } from '../api/cart'
 import { resetUser } from "../store/userSlice";
 import { showSCart, hideSCart } from "../store/cartSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { BsCart3 } from 'react-icons/bs'
-import {GetCart} from '../store/cartSlice'
+import {GetCart,RemoveFromCart} from '../store/cartSlice'
 import Toast from '../utils/Toast'
 
 const SideCart = () => {
-  const [cartCount, setCartCount] = useState('')
-  const userId = useSelector((state) => state.user._id)
-  const [cart, setCart] = useState({});
-  const [pickupLocation, setPickupLocation] = useState('')
+  const [pickupLocation, setPickupLocation] = useState('Austin, Tx')
   const sCart = useSelector((state) => state.cart.sCart);
-  const [total, setTotal] = useState(0)
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,16 +49,14 @@ const SideCart = () => {
   // Select Time Slot Data 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [timeSlot, setTimeSlot] = useState('')
-  // Zip Code Location
-  const [zip, setZip] = useState('')
-
+  
   // checkout loader
   const [chkLoader, setChkLoader] = useState(false)
 
   const UpdateCart = async () => {
     setChkLoader(true)
-    const data = { userId: userId, pickupLocation: pickupLocation, deliveryLocation: zip, deliveryDate: selectedDate, deliveryTime: timeSlot, total: total }
-    const res = await updateCartData(data)
+    // const data = { userId: userId, pickupLocation: pickupLocation, deliveryLocation: zip, deliveryDate: selectedDate, deliveryTime: timeSlot, total: total }
+    // const res = await updateCartData(data)
     console.log(res)
     if (res.status === 200) {
       setChkLoader(false)
@@ -109,16 +102,21 @@ const SideCart = () => {
   }, [])
 
   const cartId = useSelector((state)=>state.cart.cartId)
+  const total = useSelector((state)=>state.cart.total)
+  const cartCount = useSelector((state)=>state.cart.cartCount)
+  const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
+  const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
+  const pickupInfo = useSelector((state)=>state.cart.pickupInfo)
+  const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo)
+
+  // Zip Code Location
+  const [zip, setZip] = useState(deliveryOrders.length > 0 ? deliveryInfo?.location : null)
 
   const GetCartData = async () => {
     setLoading(true)
     const data = {cartId:cartId}
     const res = await dispatch(GetCart(data));
-    console.log(res);
     if (res.payload.status === 200) {
-      setCart(res.payload.cart)
-      setTotal(res.payload.cart.total)
-      setCartCount(res.payload.cart.cartCount)
       setLoading(false)
     }else {
       setLoading(false)
@@ -132,47 +130,19 @@ const SideCart = () => {
     }
   }, [sCart,cartId])
 
-  const RemoveFromCart = async (e, proId, type) => {
+  const [delLoading,setDelLoading] = useState({index:'',type:''})
+
+  const RemoveCartItemData = async (e, indx,cId,pId,oId ,type,pPrice,cCount,cTotal) => {
     e.preventDefault()
-    const data = { id: proId, userId, type }
-    const res = await removeFromCart(data)
-    console.log(data)
-    if (res.status === 200) {
-      toast.success("Product Removed From Cart!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      GetCartData()
-    } else if (res.code === 'ERR_BAD_REQUEST') {
-      dispatch(resetUser());
-      toast.error('Session Expired!', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      navigate('/');
-    } else {
-      toast.error(res.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+    setDelLoading({index:indx,type:type})
+    const data = { cartId:cId ,pId,type,price:pPrice,count:cCount,total:cTotal,objId:oId}
+    const res = await dispatch(RemoveFromCart(data));
+    if (res.payload.status === 200) {
+      setDelLoading({index:'',type:''})
+      Toast(res.payload.msg,'success',1000)
+    }else {
+      setDelLoading({index:'',type:''})
+      Toast(res.payload.message,'error',1000)
     }
   }
 
@@ -183,8 +153,8 @@ const SideCart = () => {
       <div className={` ${sCart ? '' : 'hidden'} relative mx-auto lg:float-right bg-white w-[90%] maxlg:rounded-t-2xl sm:w-[80%] lg:max-w-[420px] lg:w-full h-full`} >
         <button onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='maxlg:w-10 maxlg:h-10 bg-white maxlg:hover:bg-b3 maxlg:hover:text-white duration-200 maxlg:rounded-full absolute -top-14 right-0 lg:top-5 lg:right-6 z-40  xy-center'><AiOutlineClose className='text-xl' /></button>
         <div className='flex flex-col overflow-y-auto w-full h-full'>
-          <div className='flex items-center sticky top-0 bg-white maxlg:rounded-t-2xl py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{cart.pickupOrders?.length === 0 && cart.deliveryOrders.length === 0 ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 xy-center' >{cartCount}</span>}</div></div>
-          {loading ? <div className='xy-center h-full w-full' ><img src="/loader-bg.gif" className='w-10 h-10 ml-2' /></div> :  cart.pickupOrders?.length === 0 && cart.deliveryOrders?.length === 0 ?
+          <div className='flex items-center sticky top-0 bg-white maxlg:rounded-t-2xl py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{cartCount === 0 ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 xy-center' >{cartCount}</span>}</div></div>
+          {loading ? <div className='xy-center h-full w-full' ><img src="/loader-bg.gif" className='w-10 h-10 ml-2' /></div> : pickupOrders.length === 0 && deliveryOrders.length === 0 ?
             <div className='flex flex-col px-2 space-y-5 w-full justify-center items-center h-full' >
               <img src="/bag.webp" />
               <h1 className='font-extrabold' >Your Cart is Empty</h1>
@@ -194,11 +164,11 @@ const SideCart = () => {
             :
             <>
               <div style={{ 'height': 'calc(100vh - 200px)' }} className='flex flex-col overflow-y-auto' >
-                {cart.deliveryOrders?.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
+                {deliveryOrders.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
                   <h4 className='font-semibold' >Delivery Orders</h4>
                   {/* Cart Product */}
                   <div className='flex flex-col gap-6 space-y-2 mb-3 w-full'>
-                    {cart.deliveryOrders.map((item, index) => <SideCartCard key={index} item={item} RemoveFromCart={RemoveFromCart} type="delivery" />)}
+                    {deliveryOrders.map((item, index) => <SideCartCard indx={index} key={index} cartId={cartId} item={item} RemoveFromCart={RemoveCartItemData} delState={delLoading} setDelState={setDelLoading} type="delivery" />)}
                   </div>
                   {/* Cart Product End */}
 
@@ -231,23 +201,23 @@ const SideCart = () => {
 
                 </div> : null}
 
-                {cart.pickupOrders?.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
+                {pickupOrders.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
                   <h4 className='font-semibold' >Pickup Orders</h4>
                   {/* Cart Product */}
                   <div className='flex flex-col gap-6 space-y-2 mb-3'>
-                    {cart.pickupOrders.map((item, index) => <SideCartCard key={index} item={item} RemoveFromCart={RemoveFromCart} type="pickup" />)}
+                    {pickupOrders.map((item, index) => <SideCartCard type="pickup" indx={index} key={index} item={item} cartId={cartId} RemoveFromCart={RemoveCartItemData} delState={delLoading} setDelState={setDelLoading} />)}
                   </div>
                   {/* Cart Product End */}
 
                   <div className='border flex flex-col lg:mt-0 mt-3 border-gray-200 rounded-md py-3 px-1' >
                     <div className='flex flex-col space-y-2' >
 
-                      <div className='flex items-center px-2 space-x-2' >
+                      {/* <div className='flex items-center px-2 space-x-2' >
                         <div className='flex' ><span onClick={() => setPickupLocation('Georgetown Warehouse')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupLocation === 'Georgetown Warehouse' || '' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${pickupLocation === 'Georgetown Warehouse' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
                         <AiOutlineShop className='text-3xl text-gray-400' />
                         <h4 className='text-sm font-normal text-gray-400 w-full' >Pickup in the store Georgetown Warehouse</h4>
                         <h4 className='text-sm font-normal text-gray-400' >Free</h4>
-                      </div>
+                      </div> */}
                       <div className='flex items-center px-2 pt-2 space-x-2 border-t-[1px] border-gray-200' >
                         <div className='flex' ><span onClick={() => setPickupLocation('Austin, Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupLocation === 'Austin, Tx' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${pickupLocation === 'Austin, Tx' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
                         <AiOutlineShop className='text-3xl text-gray-400' />
@@ -271,6 +241,10 @@ const SideCart = () => {
                   </span>
                 </div>
 
+                <button type='button' onClick={()=>{dispatch(hideSCart());navigate('/mycart')}} className='text-xs text-white rounded-lg bg-b7 px-4 py-3 flex gap-2 justify-center'>
+                  View Cart
+                  <AiOutlineShoppingCart className='text-base' />
+                </button>
                 <button type='button' onClick={UpdateCart} className='text-xs text-white rounded-lg bg-b3 px-4 py-3 flex gap-2 justify-center'>
                   Proceed to Checkout
                   <AiOutlineArrowRight className='text-base' />
