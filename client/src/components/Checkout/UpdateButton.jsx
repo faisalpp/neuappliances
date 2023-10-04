@@ -12,9 +12,9 @@ const UpdateButton = ({ prevTitle, nextTitle, prevLink, nextLink,loading }) => {
                     Return to {prevTitle}
                 </span>
             </Link>
-            <button type='submit' className='flex items-center py-3 px-6 text-xs rounded-lg bg-b3 text-white'>
+            <Link to={nextLink} className='flex items-center py-3 px-6 text-xs rounded-lg bg-b3 text-white'>
                 Continue to {nextTitle} {loading ? <img src="/loader-bg.gif" className="ml-2 w-4 h-4" />:null}
-            </button>
+            </Link>
         </div>
     )
 }

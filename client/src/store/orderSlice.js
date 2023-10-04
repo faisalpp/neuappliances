@@ -1,58 +1,45 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  email:'',
-  firstName:'',
-  lastName:'',
-  address:'',
-  appartment:'',
-  city:'',
-  country:'',
-  postalCode:'',
-  phone:'',
-  saveAddress:null,
-  keepUpdates:null,
-  province:'',
+  orderInfo:null,
+  shippingInfo:null,
+  paymentInfo:null,
+  billingInfo:null,
+  tax:0,
+  grandTotal:0,
 }
 
 export const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
-   setOrder: (state, action) => {
-     const {email,firstName,lastName,address,appartment,city,country,postalCode,phone,saveAddress,keepUpdates,province } = action.payload;   
-     state.email=email
-     state.firstName=firstName
-     state.lastName=lastName
-     state.address=address
-     state.appartment=appartment
-     state.city=city
-     state.country=country
-     state.postalCode=postalCode
-     state.phone=phone
-     state.saveAddress=saveAddress
-     state.keepUpdates=keepUpdates
-     state.province=province
+   setGrandTotal: (state, action) => {
+     const data = action.payload;   
+     state.grandTotal = data
    },
-   resetOrder: (state) => {
-     state.email=''
-     state.firstName=''
-     state.lastName=''
-     state.address=''
-     state.appartment=''
-     state.city=''
-     state.country=''
-     state.postalCode=''
-     state.phone=''
-     state.saveAddress=null
-     state.keepUpdates=null
-     state.province=''
+   setOrder: (state, action) => {
+     const data = action.payload;   
+     state.orderInfo = data
+   },
+   setShipping: (state, action) => {
+     const data = action.payload;   
+     state.shippingInfo = data
+   },
+   setPayment: (state, action) => {
+     const data = action.payload;   
+     state.paymentInfo = data
+   },
+   setBilling: (state, action) => {
+     const data = action.payload;   
+     state.billingInfo = data
+   },
+   setShippingFee: (state, action) => {
+     const {fee} = action.payload;   
+     state.shippingFee = fee
    },
   },
-//   extraReducers: (builder) => {
-//   },
 });
 
-export const { setOrder, resetOrder } = orderSlice.actions;
+export const { setOrder,setShipping ,setPayment,setBilling,setShippingFee,setGrandTotal} = orderSlice.actions;
 
 export default orderSlice.reducer;

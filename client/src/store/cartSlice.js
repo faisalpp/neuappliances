@@ -5,12 +5,9 @@ const initialState = {
   cartId:null,
   pickupOrders:[],
   deliveryOrders:[],
-  total:0,
   orderInfo:{},
   cartCount:0,
-  shipping:0,
-  tax:40,
-  grandTotal:0,
+  total:0,
   status:'INIT',
   sCart:false,
 };
@@ -110,6 +107,7 @@ export const cartSlice = createSlice({
     })
     .addCase(GetCart.fulfilled, (state, action) => {
       const { cart } = action.payload;
+      if(cart){
       state.cartId = cart._id,
       state.pickupOrders = cart.pickupOrders,
       state.deliveryOrders = cart.deliveryOrders,
@@ -118,6 +116,7 @@ export const cartSlice = createSlice({
       state.pickupInfo = cart.pickupInfo,
       state.cartCount = cart.cartCount
       state.status = cart.status
+      }
     })
     .addCase(RemoveFromCart.fulfilled, (state, action) => {
       const { cart } = action.payload;
@@ -147,6 +146,6 @@ export const cartSlice = createSlice({
   
 });
 
-export const { showSCart,hideSCart,resetCart } = cartSlice.actions;
+export const { showSCart,hideSCart,resetCart,setGrandTotal } = cartSlice.actions;
 
 export default cartSlice.reducer;

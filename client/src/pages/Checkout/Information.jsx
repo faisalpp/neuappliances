@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { RiQuestionFill } from 'react-icons/ri';
 import { Checkbox } from "@material-tailwind/react";
 import Checkout from './Checkout';
@@ -8,8 +8,8 @@ import TextInput from '../../components/TextInput/TextInput';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setOrder } from '../../store/orderSlice';
-import { Link,useParams } from 'react-router-dom'
+import { setOrder} from '../../store/orderSlice';
+import { Link} from 'react-router-dom'
 import LeftArrowSvg from '../../svgs/LeftArrowSvg'
 import Toast from '../../utils/Toast'
 
@@ -41,6 +41,18 @@ const Information = () => {
         phone: Yup.string().required('Phone is Required!'),
     });
 
+    const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
+    const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
+    const orderInfo = useSelector((state)=>state.order.orderInfo)
+
+    const navigate = useNavigate()
+
+    if(deliveryOrders.length === 0 && pickupOrders.length === 0){
+        navigate('/mycart')
+    }
+
+    
+
     const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo);
 
 
@@ -53,26 +65,48 @@ const Information = () => {
     const [city,setCity] = useState('')
     const [country,setCountry] = useState('Canada')
     const [province,setProvince] = useState('Alberta')
-    const [postalCode,setPostalCode] = useState(deliveryInfo.location ? deliveryInfo.location : '')
+    const [postalCode,setPostalCode] = useState(deliveryInfo?.location ? deliveryInfo?.location : '')
     const [phone,setPhone] = useState('')
     const [saveAddress,setSaveAddress] = useState(false)
 
-    const getParam = useParams(callback)
-
-    const GetOrderInfo = () => {
-        
-    }
+    const [callBack,setCallBack] = useState('')
 
     useEffect(()=>{
-       if(getParam && getParam === 'change-info'){
-        
-       }
-    },[getParam])
+    // Create a URLSearchParams object from the query string
+    const queryParams = new URLSearchParams(location.search);
 
+    // Create an object to store the query parameters
+    const queryParamsObject = {};
+
+     // Iterate through the query parameters and store them in the object
+     for (const [key, value] of queryParams.entries()) {
+       queryParamsObject[key] = value;
+     }
+
+     setCallBack(queryParamsObject.callback)
+    },[])
+
+    useEffect(()=>{
+     if(callBack === 'change-info'){
+       setEmail(orderInfo.email)
+       setKeepUpdates(orderInfo.keepUpdates)
+       setFirstName(orderInfo.firstName)
+       setLastName(orderInfo.lastName)
+       setAddress(orderInfo.address)
+       setAppartment(orderInfo.appartment)
+       setCity(orderInfo.city)
+       setCountry(orderInfo.country)
+       setProvince(orderInfo.province)
+       setPostalCode(orderInfo.postalCode)
+       setPhone(orderInfo.phone)
+       setSaveAddress(orderInfo.saveAddress?true:false)
+       console.log(orderInfo.saveAddress)
+      }   
+    },[callBack])
 
     const [errors, setErrors] = useState([])
     const [loading, setLoading] = useState(false)
-    const navigate = useNavigate()
+    
     const dispatch = useDispatch();
 
     const handleCheckbox = (e) => {

@@ -108,35 +108,20 @@ const Product = () => {
     }
   }
 
-// POSTMAN_API_HOST=https://neulink.neuappliances.com
-// POSTMAN_API_KEY=lkMkl$enjJKbwhbY7857NnknnW
-
-
   const Submit = async () => {
-    const current_date = DateFormat()
-    const API_URL = `${import.meta.env.VITE_POSTMAN_API_HOST}/web-api/delivery/slots?start_date=${current_date}&zip=${zip}`
-    const TOKEN = `Bearer ${import.meta.env.VITE_POSTMAN_API_KEY}` 
-    console.log(TOKEN)
-    axios.get(API_URL, { headers: {'Authorization': TOKEN}, })
-    .then((response) => {
-      // Handle the successful response here
-      console.log('Response:', response.data);
-    })
-    .catch((error) => {
-      // Handle errors here
-      console.error('Error:', error);
-    });
-    // if (response) {
-    //   setError(false);
-    //   setChangeZip(false);
-    //   setOrderInfo({type:'delivery',location:zip})
-    // } else {
-    //   setChangeZip(false);
-    //   setError(true);
-    // }
+    const response = await getCords(zip)
+    if (response) {
+      setError(false);
+      setChangeZip(false);
+      setOrderInfo({type:'delivery',location:zip})
+    } else {
+      setChangeZip(false);
+      setError(true);
+    }
   };
 
   useEffect(() => {
+    console.log(zip)
     if (zip.length === 5) {
       Submit();
     }
@@ -322,7 +307,7 @@ const Product = () => {
                   <div className='flex items-center space-x-2' ><BsTruck className='text-3xl' /><h6 className='font-bold text-sm' >Delivery</h6><h6 onClick={() => setChangeZip(true)} className='text-xs w-max text-blue-400 hover:underline cursor-pointer' >Change ZIP</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderInfo({type:'delivery',location:zip})} className={`px-1 py-1 rounded-full cursor-pointer ${orderInfo.type === 'delivery' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderInfo.type === 'delivery' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
 
                   <div className={` ${changeZip ? 'flex' : 'hidden'} flex-col items-center justify-center h-full space-y-2 mt-2 text-sm`} >
-                    <div className='flex items-center bg-white border-[1px] h-10 px-2 rounded-lg space-x-2 w-10/12 ' ><AiOutlineSearch className='text-blue-400 text-lg' /><input type="search" value={zip} onChange={e => setZip(e.target.value)} placeholder='Enter ZIP Code' className="w-full text-xs outline-none" /></div>
+                    <div className='flex items-center bg-white border-[1px] h-10 px-2 rounded-lg space-x-2 w-10/12 ' ><AiOutlineSearch className='text-blue-400 text-lg' /><input type="search" readOnly={orderInfo.type === 'delivery'?false:true} value={zip} onChange={e => setZip(e.target.value)} placeholder='Enter ZIP Code' className="w-full text-xs outline-none" /></div>
                   </div>
 
                   <div className={` ${changeZip ? 'hidden' : 'flex'} flex-col space-y-2 mt-2 text-sm`} >

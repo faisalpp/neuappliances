@@ -91,6 +91,7 @@ const ManageTeam = lazy(() => import('./pages/AdminAccount/ManageTeam'));
 const UpdateHelp = lazy(() => import('./pages/AdminAccount/UpdateHelp'));
 const UpdateApplianceTips = lazy(() => import('./pages/AdminAccount/UpdateApplianceTips'));
 const BuyingOptionsV1 = lazy(() => import('./pages/BuyingOptionsV1'));
+const OrderSuccess = lazy(() => import('./pages/Checkout/orderSuccess'));
 
 import Loader from "./components/Loader/Loader";
 import useAutoLoginAdmin from './hooks/useAutoLoginAdmin'
@@ -176,6 +177,7 @@ function App() {
           <Route path="/mycart/information" element={<CheckoutInformation />} />
           <Route path="/mycart/shipping" element={<CheckoutShipping />} />
           <Route path="/mycart/payment" element={<CheckoutPayment />} />
+          <Route path="/mycart/order-success" element={<OrderSuccess />} />
 
           <Route path="/stay-in-loop" element={<StayInLoop />} />
 

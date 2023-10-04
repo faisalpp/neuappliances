@@ -4,27 +4,27 @@ import CartCard from '../../components/Checkout/CartCard';
 import { HiOutlineTruck } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
 import { GetCart } from '../../store/cartSlice'
+import {setGrandTotal } from '../../store/orderSlice'
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom'
 import Toast from '../../utils/Toast'
 
 const Cart = () => {
-
-    const pickupLocation = useSelector((state) => state.cart.pickupLocation)
-    const deliveryLocation = useSelector((state) => state.cart.deliveryLocation)
-
-
-
     const dispatch = useDispatch()
 
     const cartId = useSelector((state)=>state.cart.cartId)
-    const tax = useSelector((state)=>state.cart.tax)
+    const tax = useSelector((state)=>state.order.tax)
     const total = useSelector((state)=>state.cart.total)
     const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
     const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
     const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo)
+    const shippingInfo = useSelector((state)=>state.order.shippingInfo)
+    const grandTotal = useSelector((state)=>state.order.grandTotal)
 
-    const [grandTotal, setGrandTotal] = useState(tax ? total + tax : total)
+    useEffect(()=>{
+       dispatch(setGrandTotal(total))
+       console.log(tax)
+    },[shippingInfo,total,shippingInfo?.price])
 
     function removeDuplicateObjectsAndGetCount(arr) {
         let seen = new Set();
@@ -51,8 +51,8 @@ const Cart = () => {
 
       const updatedPickupOrders = removeDuplicateObjectsAndGetCount(pickupOrders)
       const updatedDeliveryOrders = removeDuplicateObjectsAndGetCount(deliveryOrders)
-
-    const [loading,setLoading] = useState(false)
+      const orderInfo = useSelector((state)=>state.order.orderInfo)
+      const [loading,setLoading] = useState(false)
 
     const GetCartData = async () => {
         setLoading(true)
@@ -82,7 +82,7 @@ const Cart = () => {
                         <div className='border border-b31 text-b32 flex gap-2 items-center p-4 text-sm'>
                             <HiOutlineTruck className='text-xl text-b25 rounded-lg' />
                             <span>
-                                Delivering To {deliveryInfo.location}
+                                Delivering To {orderInfo?.email ? `${orderInfo.address}, ${orderInfo.city}, ${orderInfo.province}, ${orderInfo.country}, ${orderInfo.postalCode}` : deliveryInfo?.location}
                             </span>
                         </div>
                     </div>
@@ -119,7 +119,7 @@ const Cart = () => {
                                 Shipping
                             </span>
                             <span className='text-b16 font-medium'>
-                                *Calculated at next step
+                                {shippingInfo?shippingInfo?.price:'*Shipping Calculated At Next Step'}
                             </span>
                         </div>
                         <div className='flex justify-between'>
