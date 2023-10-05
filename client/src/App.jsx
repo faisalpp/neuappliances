@@ -77,7 +77,8 @@ const CreateBlog = lazy(() => import('./pages/AdminAccount/CreateBlog'));
 const ManageVideos = lazy(() => import('./pages/AdminAccount/ManageVideos'));
 const AdminChangePassword = lazy(() => import('./pages/AdminAccount/AdminChangePassword'));
 const ManageReviews = lazy(() => import('./pages/AdminAccount/ManageReviews'));
-const ShippingTax = lazy(() => import('./pages/AdminAccount/ShippingTax'));
+const ManageShippingTax = lazy(() => import('./pages/AdminAccount/ManageShippingTax'));
+const ManageShippingClass = lazy(() => import('./pages/AdminAccount/ManageShippingClass'));
 const ManageGallery = lazy(() => import('./pages/AdminAccount/ManageGallery'));
 const ManageOrders = lazy(() => import('./pages/AdminAccount/ManageOrders'));
 const ManageCustomers = lazy(() => import('./pages/AdminAccount/ManageCustomers'));
@@ -241,7 +242,9 @@ function App() {
           {/* Admin Password Change */}
           <Route path="/admin/change-password" element={<ProtectedAdmin><AdminChangePassword /></ProtectedAdmin>} />
           {/* Admin Shipping & Tax */}
-          <Route path="/admin/manage-shipping" element={<ProtectedAdmin><ShippingTax /></ProtectedAdmin>} />
+          <Route path="/admin/manage-shipping" element={<ProtectedAdmin><ManageShippingTax /></ProtectedAdmin>} />
+          {/* Admin Shipping Classes */}
+          <Route path="/admin/manage-shipping-classes" element={<ProtectedAdmin><ManageShippingClass /></ProtectedAdmin>} />
           {/* Admin Manage Gallery */}
           <Route path="/admin/manage-gallery" element={<ProtectedAdmin><ManageGallery /></ProtectedAdmin>} />
           {/* Admin Manage Gallery */}

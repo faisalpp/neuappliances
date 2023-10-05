@@ -6,7 +6,7 @@ import MainLayout from '../layout/MainLayout';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { FaBars } from 'react-icons/fa';
 import { BsGrid, BsChevronDown } from 'react-icons/bs';
-import { useParams, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { GetAppliancesBySection, getAppliancesFilters,GetAppliancesByFilter } from '../api/frontEnd'
 import Loader from '../components/Loader/Loader'
 import Toast from '../utils/Toast'
@@ -24,6 +24,7 @@ const Products = () => {
 
   const location = useLocation();
   const [params, setParams] = useState({})
+  const [query,setQuery] = useState({})
 
   useEffect(() => {
     // Create a URLSearchParams object from the query string
@@ -37,10 +38,12 @@ const Products = () => {
       queryParamsObject[key] = value;
     }
     setParams(queryParamsObject)
+    setQuery({...queryParamsObject,...query})
   }, []);
 
 
   useEffect(() => {
+    console.log(params)
     getAppliancesBySection()
   }, [params])
 
@@ -78,16 +81,12 @@ const Products = () => {
     setIsFilter(false);
   };
 
-  const [query,setQuery] = useState({})
+  
   const [loading2,setLoading2] = useState(false)
   
   const GetApplianceByFilter = async () => {
     setLoading2(true)
-    // if(params.category ){
-    //   if(!query.category){
-    //     query.category = params.category
-    //   }
-    // }
+    console.log(query)
     const resp = await GetAppliancesByFilter(query)
     if(resp.status === 200){
     setProducts(resp.data.products)

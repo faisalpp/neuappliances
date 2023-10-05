@@ -3,7 +3,6 @@ import DropDown from './DropDown/DropDown'
 import { Link } from 'react-router-dom';
 
 const ProductSection = ({ productstype, onClose, isFilter }) => {
-    // console.log(productstype)
     const handleFilterClick = (event) => {
         event.stopPropagation();
     };

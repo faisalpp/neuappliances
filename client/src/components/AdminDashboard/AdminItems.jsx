@@ -20,6 +20,14 @@ const AdminItems = ({ onClose, isItems }) => {
             link: '/admin/manage-customers',
         },
         {
+            title: "Shipping & Tax",
+            link: '/admin/manage-shipping',
+        },
+        {
+            title: "Coupens",
+            link: '/admin/manage-coupens',
+        },
+        {
             title: 'Products',
             link: '/admin/manage-products',
         },
@@ -62,11 +70,7 @@ const AdminItems = ({ onClose, isItems }) => {
         {
             title: 'Change Password ',
             link: '/admin/change-password',
-        },
-        {
-            title: 'Shipping & Tax',
-            link: '/admin/manage-shipping',
-        },
+        }
     ]
 
     const handleFilterClick = (event) => {

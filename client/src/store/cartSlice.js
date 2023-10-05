@@ -5,12 +5,13 @@ const initialState = {
   cartId:null,
   pickupOrders:[],
   deliveryOrders:[],
-  orderInfo:{},
+  deliveryInfo:{},
+  pickupInfo:{},
   cartCount:0,
   total:0,
   status:'INIT',
   sCart:false,
-};
+}
 
 // Create an async thunk for the Add To Cart
 export const AddToCart = createAsyncThunk("cart/add", async (data) => {
@@ -89,6 +90,10 @@ export const cartSlice = createSlice({
     hideSCart: (state, action) => {
       state.sCart = false 
     },
+    setTotal: (state, action) => {
+      const data = action.payload;
+      state.total =  data;
+    },
   },
 
   extraReducers: (builder) => {
@@ -146,6 +151,6 @@ export const cartSlice = createSlice({
   
 });
 
-export const { showSCart,hideSCart,resetCart,setGrandTotal } = cartSlice.actions;
+export const { showSCart,hideSCart,resetCart,setGrandTotal,setTotal } = cartSlice.actions;
 
 export default cartSlice.reducer;

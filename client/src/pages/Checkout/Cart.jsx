@@ -3,7 +3,7 @@ import CustomInput from '../../components/Reusable/CustomInput';
 import CartCard from '../../components/Checkout/CartCard';
 import { HiOutlineTruck } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
-import { GetCart } from '../../store/cartSlice'
+import { GetCart,setTotal } from '../../store/cartSlice'
 import {setGrandTotal } from '../../store/orderSlice'
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom'
@@ -72,6 +72,15 @@ const Cart = () => {
         }
       }, [cartId])
 
+      const [coupen,setCoupen] = useState('')
+
+      const handleCoupen = () => {
+        if(coupen === 'c12'){
+         const data = parseFloat(total)-20;
+         dispatch(setTotal(data))
+        }
+      }
+
     return (
         <>
             <div className='max-w-full w-full h-full px-4 sm:px-11 py-14 bg-[#F9F9F9]'>
@@ -99,8 +108,8 @@ const Cart = () => {
 
                     <hr />
                     <div className='flex gap-14px items-center w-full'>
-                        <CustomInput colorStyle="border-b31 placeholder:text-b25" placeholder="Discount code" />
-                        <button type='buttton' className='px-4 p-3 bg-b3 text-sm text-white font-medium rounded-lg'>
+                        <CustomInput type="text" state={coupen} setState={setCoupen} colorStyle="border-b31 placeholder:text-b25" placeholder="Discount code" />
+                        <button onClick={handleCoupen} type='buttton' className='px-4 p-3 bg-b3 text-sm text-white font-medium rounded-lg'>
                             Apply
                         </button>
                     </div>
@@ -127,7 +136,7 @@ const Cart = () => {
                                 Taxes
                             </span>
                             <span className='text-b16 font-medium'>
-                                ${tax?tax:0}
+                                ${tax}
                             </span>
                         </div>
                     </div>

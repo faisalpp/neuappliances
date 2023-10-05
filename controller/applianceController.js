@@ -92,45 +92,15 @@ const applianceController = {
     },
 
     async GetApplianceByFilter(req,res,next){
-      console.log(req.body)
       try{
+       console.log(req.body)
        const products = await Product.find(req.body);
+      //  console.log(products)
        return res.status(200).json({status:200,products:products});
       }catch(error){
         return next(error)
       }      
     },
-
-    // if(query.type === 'range'){
-
-    //   const minPrice = query.min; // Your minimum price value
-    //   const maxPrice = query.max; // Your maximum price value
-      
-    //   await Product.find({
-    //     $or: [
-    //       {
-    //         $and: [
-    //           { salePrice: { $gte: minPrice } },
-    //           { salePrice: { $lte: maxPrice } }
-    //         ]
-    //       },
-    //       {
-    //         $and: [
-    //           { salePrice: null },
-    //           { regPrice: { $gte: minPrice } },
-    //           { regPrice: { $lte: maxPrice } }
-    //         ]
-    //       }
-    //     ]
-    //   })
-    //   .exec()
-    //   .then(products => {
-    //     // console.log(products)
-    //     return res.status(200).json({status:200,products:products});
-    //   })
-    //   .catch(err => {
-    //     return res.status(500).json({status:500,massage:"Internal Server Error!"});
-    //   });
 
     async GetAppliancesFilters(req,res,next){
       let categoryFilters;

@@ -37,9 +37,14 @@ export const orderSlice = createSlice({
      const {fee} = action.payload;   
      state.shippingFee = fee
    },
+   setTax: (state, action) => {
+     const data = action.payload;   
+     state.tax = (state.grandTotal*(data/100)).toFixed(2)
+     state.grandTotal = (parseFloat(state.grandTotal) + (parseFloat(state.grandTotal)*(data/100))).toFixed(2)
+   },
   },
 });
 
-export const { setOrder,setShipping ,setPayment,setBilling,setShippingFee,setGrandTotal} = orderSlice.actions;
+export const { setOrder,setShipping ,setPayment,setBilling,setShippingFee,setGrandTotal,setTax} = orderSlice.actions;
 
 export default orderSlice.reducer;

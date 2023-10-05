@@ -11,7 +11,7 @@ const SaleFilter = ({sale,reg,setFilt,filt}) => {
    e.preventDefault()
    setSaleChk(e.target.checked)
     if(e.target.checked){
-     setFilt(prev=>{return {...prev,salePrice: { $exists: true }}})
+     setFilt(prev=>{return {...prev,salePrice: { $ne: null }}})
     }else{
       delete filt.salePrice;
       setFilt(prev=>{return {...prev}})

@@ -8,7 +8,7 @@ import TextInput from '../../components/TextInput/TextInput';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setOrder} from '../../store/orderSlice';
+import { setOrder,setTax} from '../../store/orderSlice';
 import { Link} from 'react-router-dom'
 import LeftArrowSvg from '../../svgs/LeftArrowSvg'
 import Toast from '../../utils/Toast'
@@ -138,6 +138,14 @@ const Information = () => {
           }
      }
     }
+
+    const AddTaxInTotal = () => {
+        dispatch(setTax(8.25))
+    }
+    
+    useEffect(()=>{
+      AddTaxInTotal()
+    },[])
 
 
 
