@@ -100,6 +100,7 @@ import useAutoLoginUser from './hooks/useAutoLoginUser'
 import { useSelector } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import ManageCopons from './pages/AdminAccount/ManageCopons';
 
 function App() {
 
@@ -245,6 +246,8 @@ function App() {
           <Route path="/admin/manage-shipping" element={<ProtectedAdmin><ManageShippingTax /></ProtectedAdmin>} />
           {/* Admin Shipping Classes */}
           <Route path="/admin/manage-shipping-classes" element={<ProtectedAdmin><ManageShippingClass /></ProtectedAdmin>} />
+          {/* Admin Copons */}
+          <Route path="/admin/manage-copons" element={<ProtectedAdmin><ManageCopons /></ProtectedAdmin>} />
           {/* Admin Manage Gallery */}
           <Route path="/admin/manage-gallery" element={<ProtectedAdmin><ManageGallery /></ProtectedAdmin>} />
           {/* Admin Manage Gallery */}

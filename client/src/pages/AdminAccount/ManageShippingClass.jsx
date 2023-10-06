@@ -4,8 +4,6 @@ import ClassTable from '../../components/AdminDashboard/ShippingClasses/ClassesT
 
 const ManageShippingClass = () => {
   
-  const [tax,setTax] = useState(0);
-  
   return (
     <AdminAccount>
     <h3 className='text-center font-semibold text-xl mb-5' >Manage Shipping Classes</h3>

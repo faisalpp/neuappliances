@@ -2,7 +2,7 @@ import React from 'react'
 import ShippingRow from './ShippingRow'
 
 
-const ShippingTable = () => {
+const ShippingTable = ({setEditor}) => {
   return (
     <div className="flex flex-col">
   <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -20,7 +20,7 @@ const ShippingTable = () => {
             </tr>
           </thead>
           <tbody>
-            <ShippingRow />
+            <ShippingRow setEditor2={setEditor} />
             <ShippingRow />
             <ShippingRow />
             <ShippingRow />

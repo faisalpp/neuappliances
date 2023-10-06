@@ -24,8 +24,8 @@ const AdminItems = ({ onClose, isItems }) => {
             link: '/admin/manage-shipping',
         },
         {
-            title: "Coupens",
-            link: '/admin/manage-coupens',
+            title: "Coupons",
+            link: '/admin/manage-copons',
         },
         {
             title: 'Products',
