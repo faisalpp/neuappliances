@@ -1,5 +1,5 @@
 import React from 'react'
-import ShippingRow from './ShippingRow'
+import Row from './Row'
 
 
 const ShippingTable = () => {
@@ -12,18 +12,16 @@ const ShippingTable = () => {
           <thead
             className="border-b border-l border-b3 bg-b3 font-medium text-white">
             <tr>
-              <th scope="col" className="px-3 py-4">Zone Name</th>
-              <th scope="col" className="px-3 py-4">Zip Codes</th>
-              <th scope="col" className="px-3 py-4">Description</th>
-              <th scope="col" className="px-3 py-4">Methods</th>
+              <th scope="col" className="px-3 py-4">Zip Code</th>
+              <th scope="col" className="px-3 py-4">Direction</th>
               <th scope="col" className="px-3 py-4">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <ShippingRow />
-            <ShippingRow />
-            <ShippingRow />
-            <ShippingRow />
+            <Row />
+            <Row />
+            <Row />
+            <Row />
           </tbody>
         </table>
       </div>

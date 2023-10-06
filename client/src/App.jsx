@@ -101,6 +101,8 @@ import { useSelector } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import ManageCopons from './pages/AdminAccount/ManageCopons';
+import UpdateShippingZone from './pages/AdminAccount/UpdateShippingZone';
+import ManageZipCods from './pages/AdminAccount/ManageZipCods';
 
 function App() {
 
@@ -244,6 +246,10 @@ function App() {
           <Route path="/admin/change-password" element={<ProtectedAdmin><AdminChangePassword /></ProtectedAdmin>} />
           {/* Admin Shipping & Tax */}
           <Route path="/admin/manage-shipping" element={<ProtectedAdmin><ManageShippingTax /></ProtectedAdmin>} />
+          {/* Admin Update Shipping Zone */}
+          <Route path="/admin/update-shipping-zone/:id" element={<ProtectedAdmin><UpdateShippingZone /></ProtectedAdmin>} />
+          {/* Admin Manage Zip Codes */}
+          <Route path="/admin/manage-zip-codes/:id" element={<ProtectedAdmin><ManageZipCods /></ProtectedAdmin>} />
           {/* Admin Shipping Classes */}
           <Route path="/admin/manage-shipping-classes" element={<ProtectedAdmin><ManageShippingClass /></ProtectedAdmin>} />
           {/* Admin Copons */}
