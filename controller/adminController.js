@@ -5,10 +5,47 @@ const RefreshToken = require('../models/token');
 const JWTService = require("../services/JwtService");
 const AdminDTO = require('../dto/admin')
 const mongoose = require('mongoose')
+const axios = require('axios')
 
 const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$/;
 
 const adminController = {
+  async affirm(req, res, next) {
+    const publicKey = "KXB67DEZZ0DZ6DLX"
+    const secretKey = "wYk8suh3mtC4uGnSOlbWMIMRbiDTuJb4"
+    
+    // Define the API endpoint for Affirm's estimate
+    const apiUrl = 'https://api.affirm.com/api/v2/estimate';
+    
+    // Set the parameters for the request (these may vary)
+    const params = {
+      public_api_key: publicKey,
+      amount: 1000,  // The purchase amount for which you want to estimate installments
+      term: 12,      // The desired loan term (in months)
+    };
+    
+    // Create a basic authentication header using your secret key
+    const authHeader = {
+      username: publicKey,
+      password: secretKey,
+    };
+    
+    // Make the API request
+    await axios.get(apiUrl, { params, auth: authHeader })
+      .then(response => {
+        // Handle the response
+        if (response.status === 200) {
+          const data = response.data;
+          // Extract and process installment pricing data from the response
+          console.log(data);
+        } else {
+          console.error('Error:', response.status);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  },
   async register(req, res, next) {
     // 1. validate user input
     // const userRegisterSchema = Joi.object({

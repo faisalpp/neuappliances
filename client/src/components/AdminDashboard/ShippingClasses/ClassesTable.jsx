@@ -19,18 +19,7 @@ const ClassesTable = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className='border-b border-l border-r border-b6 text-xs' >
-              <td className='whitespace-nowrap px-5 py-3 capitalize font-semibold' >
-              <input type="text" className="border-[1px] border-black" placeholder="Shipping Class" />
-              </td>
-              <td className='whitespace-nowrap px-5 py-3 capitalize font-semibold' >
-              <input type="text" className="border-[1px] border-black" placeholder="Description" />
-              </td>
-              <td className='whitespace-nowrap px-5 py-3 capitalize font-semibold' >
-                0
-              </td>
-            </tr>
-            {/* <ClassesRow /> */}
+            <ClassesRow />
           </tbody>
         </table>
       </div>

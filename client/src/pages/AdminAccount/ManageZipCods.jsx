@@ -21,9 +21,12 @@ const ManageZipCods = () => {
       <div className='flex flex-col px-3 space-y-5 border-[1px] mt-2 w-full h-[600px]' >
         <h4 className='px-2 py-2 text-red-500 text-sm ' >No Zip Code Selected!</h4>
         <TextInput width="full" title="Zip Code" iscompulsory="true" type="number" value={uZipCode} onChange={(e)=>setUzipCode(e.target.value)}  />
+        <div className='flex space-x-2' >
+        <TextInput width="full" title="Fee" iscompulsory="true" type="number" value="100" onChange={(e)=>setUzipCode(e.target.value)}  />
+        <SelectInput name="categor" widthFull="true" title="Select Direction" iscompulsory="true" onChange={e =>setUdirection(e.target.value)} options={directions} />
+        </div>
         <div className='flex space-x-2 w-full h-2/3' >
          <div className='flex flex-col items-center space-y-5 w-1/2 ' >
-          <SelectInput name="categor" widthFull="true" title="Select Direction" iscompulsory="true" onChange={e =>setUdirection(e.target.value)} options={directions} />
           <Calander/>
           <button className='bg-b6 rounded-2xl font-semibold text-white py-1 w-6/12' >Save</button>
          </div>

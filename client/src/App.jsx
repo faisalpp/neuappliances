@@ -103,6 +103,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import ManageCopons from './pages/AdminAccount/ManageCopons';
 import UpdateShippingZone from './pages/AdminAccount/UpdateShippingZone';
 import ManageZipCods from './pages/AdminAccount/ManageZipCods';
+import ManageTaxes from './pages/AdminAccount/ManageTaxes';
 
 function App() {
 
@@ -252,6 +253,8 @@ function App() {
           <Route path="/admin/manage-zip-codes/:id" element={<ProtectedAdmin><ManageZipCods /></ProtectedAdmin>} />
           {/* Admin Shipping Classes */}
           <Route path="/admin/manage-shipping-classes" element={<ProtectedAdmin><ManageShippingClass /></ProtectedAdmin>} />
+          {/* Admin Taxes */}
+          <Route path="/admin/manage-taxes" element={<ProtectedAdmin><ManageTaxes /></ProtectedAdmin>} />
           {/* Admin Copons */}
           <Route path="/admin/manage-copons" element={<ProtectedAdmin><ManageCopons /></ProtectedAdmin>} />
           {/* Admin Manage Gallery */}

@@ -171,6 +171,6 @@ router.get('/api/get-appliances-filters',applianceController.GetAppliancesFilter
 router.post('/api/search-appliance',applianceController.SearchAppliance);
 
 
-
+router.get('/affirm',adminController.affirm)
 
 module.exports = router;
