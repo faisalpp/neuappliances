@@ -1,8 +1,9 @@
-import React,{useState,useRef} from 'react'
+import {useState,useRef} from 'react'
 import TextAreaInput from '../../TextInput/TextAreaInput'
 import Popup from '../../AdminDashboard/Popup'
 import {AiFillCloseCircle} from 'react-icons/ai'
 import TextInput from '../../TextInput/TextInput'
+import {createZone} from '../../../api/admin/Shipping/ShippingZone'
 
 const CreateZone = ({popup,setPopup}) => {
 
@@ -11,7 +12,6 @@ const CreateZone = ({popup,setPopup}) => {
     const [description,setDescription] = useState('')
   
     const [zipField,setZipField] = useState('')
-    const [zipsData,setZipsData] = useState(['1234,5678,91011'])
     const [zips,setZips] = useState([])
     const zipRef = useRef()
   
@@ -33,16 +33,22 @@ const CreateZone = ({popup,setPopup}) => {
        setZips([...updateMetaKeywords])
     }
 
+    const CreateZone = async (e) => {
+     e.preventDefault()
+     console.log({title:zoneName,description:description,zipCodes:zips})
+     const res = await createZone({title:zoneName,description:description,zipCodes:zips})
+    }
+
 
   return (
     <>
     <Popup state={popup} setState={setPopup} width="w-8/12" zindex="z-[99]" >
-    <form className='flex flex-col space-y-3 w-full' >
+    <form onSubmit={CreateZone} className='flex flex-col space-y-3 w-full' >
      <h1 className="font-semibold text-center" >Create Shipping Zone</h1>
      <div className='flex space-x-5 w-full' >
       <div className='flex flex-col space-y-5 w-1/2' >
        <TextInput width="full" title="Zone Name" iscompulsory="true" type="text" value={zoneName} onChange={(e)=>setZoneName(e.target.value)}  placeholder="Enter Shipping Zone Name"  />
-       <TextAreaInput width="full" title="Description" type="text" value={description} change={(e)=>setDescription(e.target.value)} placeholder="Enter Zone Description..."  />       
+       <TextAreaInput width="full" title="Description" type="text" value={description} onChange={(e)=>setDescription(e.target.value)} placeholder="Enter Zone Description..."  />       
       </div>
       {/* Auto Suggest Multi Input Start */}
      <div className='flex flex-col w-1/2' >
@@ -52,7 +58,7 @@ const CreateZone = ({popup,setPopup}) => {
      </div>
      <h5 className='text-xs font-semibold my-1' >Selected Zip Cods</h5>
      <div className="flex flex-wrap mb-2 gap-y-2 gap-x-2 px-2 py-2 w-full rounded-md h-28 border-[1px] border-[0,0,0,0,0.15]" >
-       {zips.length > 0 ? zips.map((item,index)=><span key={index} className="flex items-center bg-b6 text-xs px-2 py-1 text-white rounded-2xl" >{item}<AiFillCloseCircle onClick={e=>deleteKeyword(e,index)} className='text-white bg-red-500 ml-1 text-xs cursor-pointer rounded-full' /></span>):<h5 className='text-red-500 text-xs' >No Zip Codes Selected</h5>}
+       {zips.length > 0 ? zips.map((item,index)=><span key={index} className="flex items-center bg-b6 text-xs px-2 py-1 text-white rounded-2xl h-fit" >{item}<AiFillCloseCircle onClick={e=>deleteKeyword(e,index)} className='text-white bg-red-500 ml-1 text-xs cursor-pointer rounded-full' /></span>):<h5 className='text-red-500 text-xs' >No Zip Codes Selected</h5>}
       </div>
      </div>
      {/* Auto Suggest Multi Input End */}

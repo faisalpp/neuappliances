@@ -18,6 +18,7 @@ const videoMediaController = require('../controller/videoMediaController');
 const cartController = require('../controller/cartController');
 const orderController = require('../controller/orderController');
 const reviewController = require('../controller/reviewController');
+const zoneController = require('../controller/zoneController');
 const galleryController = require('../controller/galleryController');
 const teamController = require('../controller/admin/teamController');
 const uploader = require('express-fileupload');
@@ -142,7 +143,8 @@ router.post('/api/get-reviews',reviewController.getUserReviews);
 router.get('/api/get-google-reviews',reviewController.getGoogleReviews);
 router.get('/api/get-yelp-reviews',reviewController.getYelpReviews);
 
-
+// Shipping Api's
+router.post('/api/admin/create-shipping-zone',zoneController.createZoneMedia);
 
 
 // User Cart Api's
