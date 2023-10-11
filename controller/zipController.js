@@ -146,22 +146,22 @@ const zipController = {
       for (const pair of data) {
         transformedData.push({ "lat": pair[0], "lng": pair[1] });
       }
+      try{
+       await ZipCode.findByIdAndUpdate(
+       id,
+       {zipCode:zipCode,country:country,state:state,city:city,cords:JSON.stringify(transformedData),raw:raw,zoom:zoom},
+       { new: true }
+       );
+       return res.status(200).send({msg:'ZipCode Updated!'})
+       }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})} 
       }
 
       try{
-        if(isRaw){
-          await ZipCode.findByIdAndUpdate(
-          id,
-          {zipCode:zipCode,country:country,state:state,city:city,cords:JSON.stringify(transformedData),raw:raw,zoom:zoom},
-          { new: true }
-        );
-      }else{
           await ZipCode.findByIdAndUpdate(
           id,
           {zipCode:zipCode,country:country,state:state,city:city,zoom:zoom},
           { new: true }
         );
-        }
         return res.status(200).send({msg:'ZipCode Updated!'})
       }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})} 
     }
