@@ -18,7 +18,7 @@ const videoMediaController = require('../controller/videoMediaController');
 const cartController = require('../controller/cartController');
 const orderController = require('../controller/orderController');
 const reviewController = require('../controller/reviewController');
-const zoneController = require('../controller/zoneController');
+const zipController = require('../controller/zipController');
 const galleryController = require('../controller/galleryController');
 const teamController = require('../controller/admin/teamController');
 const uploader = require('express-fileupload');
@@ -144,7 +144,12 @@ router.get('/api/get-google-reviews',reviewController.getGoogleReviews);
 router.get('/api/get-yelp-reviews',reviewController.getYelpReviews);
 
 // Shipping Api's
-router.post('/api/admin/create-shipping-zone',zoneController.createZoneMedia);
+router.get('/api/get-zip-cords',zipController.getZipCords);
+router.get('/api/get-single-zip-cords',zipController.getSingleZipCords);
+router.get('/api/admin/get-all-zip-cords',zipController.getAllZipCords);
+router.post('/api/admin/create-zip-cords',zipController.createZipCords);
+router.get('/api/admin/delete-zip-cords',zipController.deleteZipCords);
+router.post('/api/admin/update-zip-cords',zipController.updateZipCords);
 
 
 // User Cart Api's

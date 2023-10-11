@@ -70,6 +70,10 @@ const AdminItems = ({ onClose, isItems }) => {
         {
             title: 'Change Password ',
             link: '/admin/change-password',
+        },
+        {
+            title: 'Map Zip Codes',
+            link: '/admin/manage-zip-cordinates',
         }
     ]
 

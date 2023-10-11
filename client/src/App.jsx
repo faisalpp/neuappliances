@@ -104,6 +104,7 @@ import ManageCopons from './pages/AdminAccount/ManageCopons';
 import UpdateShippingZone from './pages/AdminAccount/UpdateShippingZone';
 import ManageZipCods from './pages/AdminAccount/ManageZipCods';
 import ManageTaxes from './pages/AdminAccount/ManageTaxes';
+import ManageZipCordinates from './pages/AdminAccount/ManageZipCordinates';
 
 function App() {
 
@@ -265,6 +266,8 @@ function App() {
           <Route path="/admin/manage-customers" element={<ProtectedAdmin><ManageCustomers /></ProtectedAdmin>} />
           {/* Admin Update Customer */}
           <Route path="/admin/update-customer" element={<ProtectedAdmin><UpdateCustomer /></ProtectedAdmin>} />
+          {/* Admin Update Customer */}
+          <Route path="/admin/manage-zip-cordinates" element={<ProtectedAdmin><ManageZipCordinates /></ProtectedAdmin>} />
 
         <Route path="/test" element={<Test />} />
         <Route path="*" element={<NotFound />} />

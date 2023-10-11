@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState} from 'react'
 import DropDown from '../Filter/DropDown'
 import { Checkbox } from '@material-tailwind/react'
 
@@ -14,7 +14,7 @@ const SaleFilter = ({sale,reg,setFilt,filt}) => {
      setFilt(prev=>{return {...prev,salePrice: { $ne: null }}})
     }else{
       delete filt.salePrice;
-      setFilt(prev=>{return {...prev}})
+      setFilt(prev=>{return {...prev}});
     }
   }
 

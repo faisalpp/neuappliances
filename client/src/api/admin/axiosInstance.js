@@ -3,6 +3,14 @@ import axios from 'axios'
 const isDev = import.meta.env.VITE_APP_DEV === "dev";
 const baseUrl = isDev ? import.meta.env.VITE_APP_INTERNAL_PATH : "";
 
+
+export const UserApi = axios.create({
+  baseURL: baseUrl,
+  headers: {
+      "Content-Type":"application/json",
+  },
+});
+
 export const AdminApi = axios.create({
     baseURL: baseUrl,
     withCredentials: true,

@@ -1,30 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai'
 import { Loader } from "@googlemaps/js-api-loader"
-import { getCords } from '../../api'
 import MobMapForm from '../MobMapForm'
 import MapForm from '../MapForm'
+import {GetZipCords} from '../../api/frontEnd'
+import Toast from '../../utils/Toast'
 
 const DeliveryMap = ({ customStyle }) => {
     const [zip, setZip] = useState(78602);
     const [success, setSuccess] = useState(false);
-    const [error, setError] = useState(false);
+    const [error, setError] = useState(false)
 
     function geocodeAddress(geocoder, map, key) {
         var address = key; // Replace with your searched location
 
         geocoder.geocode({ address: address }, function (results, status) {
+            console.log(results)
             if (status === "OK") {
                 map.setCenter(results[0].geometry.location);
-                var marker = new window.google.maps.Marker({
-                    map: map,
-                    position: results[0].geometry.location,
-                });
             }
         });
     }
 
-    const loadMap = async (result) => {
+    const loadMap = async (result,zipZoom) => {
         const loader = new Loader({
             apiKey: import.meta.env.VITE_GOOGLE_API_KEY, // Replace with your own API key
             version: 'weekly', // or specify a specific version (e.g., 'weekly', 'weekly.next', 'beta')
@@ -48,7 +46,7 @@ const DeliveryMap = ({ customStyle }) => {
         });
 
         // Define the polygon coordinates
-        const polygonCoordinates = [result];
+        const polygonCoordinates = result;
 
         // Create the polygon
         const polygon = new window.google.maps.Polygon({
@@ -60,25 +58,39 @@ const DeliveryMap = ({ customStyle }) => {
             fillOpacity: 0.35,
         });
         var geocoder = new window.google.maps.Geocoder();
-        const keys = Object.keys(zip);
-        const key = keys[0];
-        geocodeAddress(geocoder, map, key);
+        // const keys = Object.keys(zip);
+        // const key = keys[0];
+        geocodeAddress(geocoder, map, zip.toString());
         // Set the polygon on the map
         polygon.setMap(map);
+        zipZoom ? map.setZoom(zipZoom): map.setZoom(10)
     };
+
+    const [loader,setLoader] = useState(false)
 
 
     const Submit = async () => {
-        const response = await getCords(zip);
-        if (response) {
-            loadMap(response); // Call the loadMap function with the received data
-            setSuccess(true);
-            setError(false);
-        } else {
-            // loadMap2(cords);
-            setSuccess(false);
-            setError(true);
-            // Handle error or display a message
+        setLoader(true)
+        const res = await GetZipCords({zip:zip});
+        if(res.status === 401){
+          Toast(res.data.message,'error',1000)   
+          setSuccess(false);
+          setError(true);
+          setLoader(false)
+        }
+        if (res.status === 200) {
+          const cords = res.data.cords
+          loadMap(cords,res.data.zoom); 
+          setSuccess(true);
+          setError(false);
+          setLoader(false)
+        }else{
+         if(res.status === 500 && res.data.message){
+          Toast(res.data.message,'error',1000)   
+         }
+         setSuccess(false);
+         setError(true);
+         setLoader(false)
         }
     };
 
@@ -103,7 +115,7 @@ const DeliveryMap = ({ customStyle }) => {
 
             <MobMapForm zip={zip} setZip={setZip} Submit={Submit} />
 
-            <MapForm zip={zip} setZip={setZip} error={error} success={success} Submit={Submit} />
+            <MapForm zip={zip} setZip={setZip} error={error} success={success} Submit={Submit} loading={loader} />
 
             {/* Map Section Start */}
             <div id="map" className='w-full xl:h-[686px] lg:h-[490px] md:h-[300px] h-52 rounded-2xl' ></div>

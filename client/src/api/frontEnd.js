@@ -10,6 +10,16 @@ const api = axios.create({
     },
 });
 
+export const GetZipCords = async (params) => {
+    let response;
+
+    try{
+        response = await api.get(`/api/get-zip-cords/?zip=${params.zip}`,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const GetAppliances = async (params) => {
     let response;
 
