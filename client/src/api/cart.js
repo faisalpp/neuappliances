@@ -61,3 +61,25 @@ export const removeFromCart = async (data) => {
     }
     return response;
 }
+
+export const UpdateTimeSlot = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/user/change-time-slot',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const UpdatePickupLocation = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/user/change-pickup-location',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}

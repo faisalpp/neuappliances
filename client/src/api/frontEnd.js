@@ -20,6 +20,36 @@ export const GetZipCords = async (params) => {
     }
     return response;
 }
+export const CheckZip = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/check-zip',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const GetZipWithSlots = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/user/get-zip-with-slots',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const GetZipMeta = async (data) => {
+    let response;
+
+    try{
+        response = await api.get('/api/user/get-zip-meta',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const GetAppliances = async (params) => {
     let response;
 

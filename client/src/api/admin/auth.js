@@ -5,7 +5,7 @@ export const Signin = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/login',data);
+        response = await AdminApi.post('/api/admin/login',data,{validateStatus: () => true});
     }catch (error){
         return error;
     }
@@ -16,7 +16,7 @@ export const AdminSignout = async () => {
     let response;
 
     try{
-        response = await AdminApi.get('/api/admin/logout');
+        response = await AdminApi.get('/api/admin/logout',{validateStatus: () => true});
     }catch (error){
         return error;
     }
@@ -27,7 +27,7 @@ export const ChangePassword = async (data) => {
     let response;
 
     try{
-        response = await AdminApi.post('/api/admin/change-password',data);
+        response = await AdminApi.post('/api/admin/change-password',data,{validateStatus: () => true});
     }catch (error){
         return error;
     }

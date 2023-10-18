@@ -37,7 +37,7 @@ const Navbar = () => {
     if (res.status === 200) {
       toast.success(res.msg, {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -51,7 +51,7 @@ const Navbar = () => {
       dispatch(resetUser());
       toast.error('Session Expired!', {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -63,7 +63,7 @@ const Navbar = () => {
     } else {
       toast.error(res.message, {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -78,10 +78,11 @@ const Navbar = () => {
     e.preventDefault();
 
     const res = await Signout();
+    console.log(res)
     if (res.status === 200) {
       toast.success(res.msg, {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -93,7 +94,7 @@ const Navbar = () => {
       dispatch(resetUser());
       toast.error('Session Expired!', {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -105,7 +106,7 @@ const Navbar = () => {
     } else {
       toast.error(res.message, {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

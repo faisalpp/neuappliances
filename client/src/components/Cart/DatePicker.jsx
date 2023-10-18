@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DayPicker, useNavigation } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { format } from 'date-fns';
@@ -29,25 +29,33 @@ const CustomCaption = ({ CaptionProps, displayMonth }) => {
 
 }
 
-const DatePIcker = ({selectDate,setSelectDate}) => {
+const DatePIcker = ({selectDate,setSelectDate,dates}) => {
 
-    const handleDayClick = (date) => {
-        // if (isBefore(date, new Date())) {
-        //     // Disable selection of previous dates
-        //     return;
-        // }
-        console.log(date)
+    const handleDayClick = (date,modifiers,e) => {
+        if (!modifiers.booked) {
+            e.preventDefault(); // Prevent default action if the day is booked
+            e.stopPropagation(); // Stop event propagation if the day is booked
+            return;
+        }
         setSelectDate(date);
     };
 
-    const disabledDays = {
-        before: new Date()
-    };
+    
+
+    const fromDate = new Date(dates[0].getFullYear(), dates[0].getMonth()+1, 1); // Example fromDate
+    const toDate = new Date(dates[dates.length -1].getFullYear(), dates[dates.length -1].getMonth(), 31); // Example toDate
+
     return (
         <DayPicker
             selected={selectDate}
             onDayClick={handleDayClick}
-            disabledDays={disabledDays}
+            modifiers={{ booked: dates,}}
+            modifiersStyles={{ booked: { color: 'black' } }}
+            styles={{
+                day:{color:'gray'}
+            }}
+            fromMonth={fromDate}
+            toDate={toDate}
             components={{
                 Caption: CustomCaption
             }}

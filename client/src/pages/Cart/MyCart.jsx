@@ -16,6 +16,7 @@ const MyCart = () => {
     const total = useSelector((state)=>state.cart.total)
     const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
     const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
+    const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo)
     const dispatch = useDispatch()
 
     const [loading,setLoading] = useState(false)

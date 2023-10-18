@@ -8,17 +8,26 @@ import TextInput from '../../components/TextInput/TextInput';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setOrder,setTax} from '../../store/orderSlice';
+import { setOrder} from '../../store/orderSlice';
+import { setDeliveryInfo} from '../../store/cartSlice';
 import { Link} from 'react-router-dom'
 import LeftArrowSvg from '../../svgs/LeftArrowSvg'
 import Toast from '../../utils/Toast'
+import {GetZipMeta,CheckZip} from '../../api/frontEnd'
 
 const Information = () => {
+
+    const GetMeta = async () => {
+     const res = await GetZipMeta()
+     console.log(res)
+    }
+    
+    useEffect(()=>{
+      GetMeta()
+    },[])
+
     const Countrys = [
-        { name: 'Canada', value: 'canada' },
-        { name: 'China', value: 'china' },
-        { name: 'Japan', value: 'japan' },
-        { name: 'Pakistan', value: 'pakistan' }
+        { name: 'USA', value: 'usa' },
     ]
     const Province = [
         { name: 'Alberta', value: 'alberta' },
@@ -44,7 +53,7 @@ const Information = () => {
     const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
     const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
     const orderInfo = useSelector((state)=>state.order.orderInfo)
-
+    // console.log(orderInfo)
     const navigate = useNavigate()
 
     if(deliveryOrders.length === 0 && pickupOrders.length === 0){
@@ -63,46 +72,51 @@ const Information = () => {
     const [address,setAddress] = useState('')
     const [appartment,setAppartment] = useState('')
     const [city,setCity] = useState('')
-    const [country,setCountry] = useState('Canada')
+    const [country,setCountry] = useState('USA')
     const [province,setProvince] = useState('Alberta')
-    const [postalCode,setPostalCode] = useState(deliveryInfo?.location ? deliveryInfo?.location : '')
+    const [postalCode,setPostalCode] = useState('')
     const [phone,setPhone] = useState('')
     const [saveAddress,setSaveAddress] = useState(false)
 
-    const [callBack,setCallBack] = useState('')
+    const isAuth = useSelector((state)=>state.user.auth)
 
+    const getPrevAddress = () => {
+      const prev_address = JSON.parse(localStorage.getItem('neu_customer_address'))
+    //   console.log(typeof(prev_address.keepUpdates))
+      if(!isAuth && prev_address){
+        console.log('pre')
+        setEmail(prev_address.email)
+        setKeepUpdates(prev_address.keepUpdates)
+        setFirstName(prev_address.firstName)
+        setLastName(prev_address.lastName)
+        setAddress(prev_address.address)
+        setAppartment(prev_address.appartment)
+        setCity(prev_address.city)
+        setCountry(prev_address.country)
+        setProvince(prev_address.province)
+        setPostalCode(prev_address.postalCode)
+        setPhone(prev_address.phone)
+        setSaveAddress(prev_address.saveAddress)
+      }else{
+        console.log(orderInfo?.keepUpdates?true:false)
+        setEmail(orderInfo?.email)
+        setKeepUpdates(true)
+        setFirstName(orderInfo?.firstName)
+        setLastName(orderInfo?.lastName)
+        setAddress(orderInfo?.address)
+        setAppartment(orderInfo?.appartment)
+        setCity(orderInfo?.city)
+        setCountry(orderInfo?.country)
+        setProvince(orderInfo?.province)
+        setPostalCode(orderInfo?.postalCode)
+        setPhone(orderInfo?.phone)
+        setSaveAddress(orderInfo?.saveAddress?orderInfo.saveAddress:false)
+      }
+    }
+    
     useEffect(()=>{
-    // Create a URLSearchParams object from the query string
-    const queryParams = new URLSearchParams(location.search);
-
-    // Create an object to store the query parameters
-    const queryParamsObject = {};
-
-     // Iterate through the query parameters and store them in the object
-     for (const [key, value] of queryParams.entries()) {
-       queryParamsObject[key] = value;
-     }
-
-     setCallBack(queryParamsObject.callback)
+      getPrevAddress()
     },[])
-
-    useEffect(()=>{
-     if(callBack === 'change-info'){
-       setEmail(orderInfo.email)
-       setKeepUpdates(orderInfo.keepUpdates)
-       setFirstName(orderInfo.firstName)
-       setLastName(orderInfo.lastName)
-       setAddress(orderInfo.address)
-       setAppartment(orderInfo.appartment)
-       setCity(orderInfo.city)
-       setCountry(orderInfo.country)
-       setProvince(orderInfo.province)
-       setPostalCode(orderInfo.postalCode)
-       setPhone(orderInfo.phone)
-       setSaveAddress(orderInfo.saveAddress?true:false)
-       console.log(orderInfo.saveAddress)
-      }   
-    },[callBack])
 
     const [errors, setErrors] = useState([])
     const [loading, setLoading] = useState(false)
@@ -119,9 +133,21 @@ const Information = () => {
         }
     }
 
+    
+
     const SubmitInformation = async (e) => {
      e.preventDefault()
+    //  alert(deliveryInfo.shipping)
+     if(deliveryInfo.shipping === 'No Shipping Available!'){
+        Toast('Shipping Not Available!','error',1000)
+        return true
+     }
      const data = {email:email,firstName:firstName,lastName:lastName,address:address,appartment:appartment,city:city,country:country,postalCode:postalCode,phone:phone,saveAddress:saveAddress,keepUpdates:keepUpdates,province:province}
+     if(saveAddress){
+        if(!isAuth){
+          localStorage.setItem('neu_customer_address',JSON.stringify(data))
+        }
+     }
      try{
         await orderValidationSchema.validate(data, { abortEarly: false }); 
         dispatch(setOrder(data))  
@@ -139,15 +165,26 @@ const Information = () => {
      }
     }
 
-    const AddTaxInTotal = () => {
-        dispatch(setTax(8.25))
-    }
+    const [changeZip,setChangeZip] = useState(false)
+
+    const Submit = async () => {
+        setChangeZip(true);
+        const res = await CheckZip({zip:postalCode})
+        console.log(res)
+        if (res.status == 200) {
+          setChangeZip(false);
+          dispatch(setDeliveryInfo({...deliveryInfo,location:postalCode,shipping:res.data.zip.location.rate}))
+        } else {
+          dispatch(setDeliveryInfo({...deliveryInfo,location:postalCode,shipping:'No Shipping Available!'}))
+          setChangeZip(false);
+        }
+      };
     
-    useEffect(()=>{
-      AddTaxInTotal()
-    },[])
-
-
+      useEffect(() => {
+       if (postalCode.length === 5 && deliveryOrders.length > 0) {
+         Submit();
+       }
+      }, [postalCode])
 
     return (
         <>
@@ -196,8 +233,9 @@ const Information = () => {
                                 <div className='grid grid-cols-2 md:grid-cols-3 gap-14px'>
                                     <CustomSelect setState={setCountry} id="country_region" label="Country / region" Options={Countrys} />
                                     <CustomSelect setState={setProvince} id="province" label="Province" Options={Province} />
-                                    <div className='col-span-2 md:col-span-1 [&>*]:h-full'>
-                                        <TextInput width="full" name="postalCode" title="" iscompulsory="false" type="text" value={postalCode} onChange={(e)=>setPostalCode(e.target.value)} error={errors && errors.includes('Postal Code is Required!') ? true : false} errormessage="Postal Code is Required!" placeholder="Postal Code" />
+                                    <div className='relative  col-span-2 md:col-span-1 [&>*]:h-full'>
+                                     {changeZip?<div className='absolute flex rounded-lg items-center w-full justify-end px-2' ><img src="/loader-bg.gif" className='w-4 h-4' /></div>:null}
+                                     <TextInput width="full" name="postalCode" title="" iscompulsory="false" type="text" value={postalCode} onChange={(e)=>setPostalCode(e.target.value)} error={errors && errors.includes('Postal Code is Required!') ? true : false} errormessage="Postal Code is Required!" placeholder="Postal Code" />
                                     </div>
                                 </div>
                                 <div className='relative'>

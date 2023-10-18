@@ -39,7 +39,7 @@ router.post('/api/user/update-profile',auth,userProfileController.UpdateProfile)
 // Admin Related Routes
 router.get('/api/admin/register', adminController.register);
 router.post('/api/admin/login', adminController.login);
-router.get('/api/admin/logout', adminController.logout);
+router.get('/api/admin/logout',adminAuth, adminController.logout);
 router.get('/api/admin/refresh', adminController.refresh);
 router.post('/api/admin/change-password', adminAuth,adminController.changePassword);
 // Categories Related Routes
@@ -147,16 +147,20 @@ router.get('/api/get-yelp-reviews',reviewController.getYelpReviews);
 router.get('/api/get-zip-cords',zipController.getZipCords);
 router.get('/api/get-single-zip-cords',zipController.getSingleZipCords);
 router.get('/api/admin/get-all-zip-cords',zipController.getAllZipCords);
-router.post('/api/admin/create-zip-cords',zipController.createZipCords);
-router.get('/api/admin/delete-zip-cords',zipController.deleteZipCords);
-router.post('/api/admin/update-zip-cords',zipController.updateZipCords);
-
+router.post('/api/admin/create-zip-cords',adminAuth,zipController.createZipCords);
+router.get('/api/admin/delete-zip-cords',adminAuth,zipController.deleteZipCords);
+router.post('/api/admin/update-zip-cords',adminAuth,zipController.updateZipCords);
+router.post('/api/check-zip',zipController.checkZip);
+router.post('/api/user/get-zip-with-slots',zipController.getZipSlots);
+router.get('/api/user/get-zip-meta',zipController.getCheckoutMetaData);
 
 // User Cart Api's
 router.post('/api/user/add-to-cart',cartController.addToCart);
 router.post('/api/user/remove-cart-item',cartController.removeFromCart);
 router.post('/api/user/update-cart',cartController.updateCart);
 router.post('/api/user/change-cart-item-type',cartController.changeCartProductType);
+router.post('/api/user/change-time-slot',cartController.updateDeliveryTimeSlot);
+router.post('/api/user/change-pickup-location',cartController.updatePickupLocation);
 router.post('/api/user/get-cart',cartController.getCart);
 
 // User Order Processing Api's

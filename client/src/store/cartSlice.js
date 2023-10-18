@@ -1,15 +1,16 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import {addToCart,getCart,removeFromCart,changeCartItemType} from '../api/cart'
+import {addToCart,getCart,removeFromCart,changeCartItemType,UpdateTimeSlot,UpdatePickupLocation} from '../api/cart'
 
 const initialState = {
   cartId:null,
   pickupOrders:[],
   deliveryOrders:[],
   deliveryInfo:{},
-  pickupInfo:{},
+  pickupInfo:{ type:'pickup',location:'Georgetown Warehouse'},
   cartCount:0,
+  tax:0,
   total:0,
-  status:'INIT',
+  grandTotal:0,
   sCart:false,
 }
 
@@ -69,6 +70,32 @@ export const ChangeCartItemType = createAsyncThunk("cart/change", async (data) =
   }
 });
 
+export const ChangeTimeSlot = createAsyncThunk("cart/time-slot", async (data) => {
+  try{
+    const response = await UpdateTimeSlot(data); // Call your login API with the provided data
+    if(response.data.status === 200){
+      return response.data; // Assuming your API response contains the user data
+    }else{
+      return response.data
+    }
+  }catch(error){
+    return { payload: error.response?.data, error: true };
+  }
+});
+
+export const ChangePickupLocation = createAsyncThunk("cart/change-location", async (data) => {
+  try{
+    const response = await UpdatePickupLocation(data); // Call your login API with the provided data
+    if(response.data.status === 200){
+      return response.data; // Assuming your API response contains the user data
+    }else{
+      return response.data
+    }
+  }catch(error){
+    return { payload: error.response?.data, error: true };
+  }
+});
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -90,9 +117,25 @@ export const cartSlice = createSlice({
     hideSCart: (state, action) => {
       state.sCart = false 
     },
+    setTax: (state, action) => {
+      const data = action.payload;
+      state.tax =  data;
+    },
     setTotal: (state, action) => {
       const data = action.payload;
       state.total =  data;
+    },
+    setGrandTotal: (state, action) => {
+      const data = action.payload;
+      state.grandTotal =  data;
+    },
+    setDeliveryInfo: (state, action) => {
+      const data = action.payload;
+      state.deliveryInfo =  data;
+    },
+    resetDeliveryInfo: (state, action) => {
+      const data = action.payload;
+      state.deliveryInfo =  {};
     },
   },
 
@@ -137,7 +180,28 @@ export const cartSlice = createSlice({
     })
     .addCase(ChangeCartItemType.fulfilled, (state, action) => {
       const { cart } = action.payload;
-      console.log(cart)
+      state.cartId = cart._id,
+      state.pickupOrders = cart.pickupOrders,
+      state.deliveryOrders = cart.deliveryOrders,
+      state.total = cart.total,
+      state.deliveryInfo = cart.deliveryInfo,
+      state.pickupInfo = cart.pickupInfo,
+      state.cartCount = cart.cartCount
+      state.status = cart.status
+    })
+    .addCase(ChangeTimeSlot.fulfilled, (state, action) => {
+      const { cart } = action.payload;
+      state.cartId = cart._id,
+      state.pickupOrders = cart.pickupOrders,
+      state.deliveryOrders = cart.deliveryOrders,
+      state.total = cart.total,
+      state.deliveryInfo = cart.deliveryInfo,
+      state.pickupInfo = cart.pickupInfo,
+      state.cartCount = cart.cartCount
+      state.status = cart.status
+    })
+    .addCase(ChangePickupLocation.fulfilled, (state, action) => {
+      const { cart } = action.payload;
       state.cartId = cart._id,
       state.pickupOrders = cart.pickupOrders,
       state.deliveryOrders = cart.deliveryOrders,
@@ -151,6 +215,6 @@ export const cartSlice = createSlice({
   
 });
 
-export const { showSCart,hideSCart,resetCart,setGrandTotal,setTotal } = cartSlice.actions;
+export const { showSCart,hideSCart,resetCart,setTotal,setDeliveryInfo,setGrandTotal,setTax,resetDeliveryInfo } = cartSlice.actions;
 
 export default cartSlice.reducer;

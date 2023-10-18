@@ -20,8 +20,8 @@ const AdminItems = ({ onClose, isItems }) => {
             link: '/admin/manage-customers',
         },
         // {
-        //     title: "Shipping & Tax",
-        //     link: '/admin/manage-shipping',
+        //     title: "Manage Tax",
+        //     link: '/admin/manage-taxes',
         // },
         {
             title: "Coupons",

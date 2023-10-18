@@ -5,18 +5,12 @@ const initialState = {
   shippingInfo:null,
   paymentInfo:null,
   billingInfo:null,
-  tax:0,
-  grandTotal:0,
 }
 
 export const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
-   setGrandTotal: (state, action) => {
-     const data = action.payload;   
-     state.grandTotal = data
-   },
    setOrder: (state, action) => {
      const data = action.payload;   
      state.orderInfo = data
@@ -33,18 +27,9 @@ export const orderSlice = createSlice({
      const data = action.payload;   
      state.billingInfo = data
    },
-   setShippingFee: (state, action) => {
-     const {fee} = action.payload;   
-     state.shippingFee = fee
-   },
-   setTax: (state, action) => {
-     const data = action.payload;   
-     state.tax = (state.grandTotal*(data/100)).toFixed(2)
-     state.grandTotal = (parseFloat(state.grandTotal) + (parseFloat(state.grandTotal)*(data/100))).toFixed(2)
-   },
   },
 });
 
-export const { setOrder,setShipping ,setPayment,setBilling,setShippingFee,setGrandTotal,setTax} = orderSlice.actions;
+export const { setOrder,setPayment,setBilling,setShipping} = orderSlice.actions;
 
 export default orderSlice.reducer;

@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const cartController = {
     async addToCart(req, res, next) {
        // 1. validate user input
+       
     const cartRegisterSchema = Joi.object({
       cartId: Joi.string().allow(null).empty(''),
       productId: Joi.string().required(),
@@ -318,6 +319,58 @@ async removeFromCart(req, res, next) {
   return res.status(200).json({ status: 200, cart:cart,msg:'Product Removed!' });
 
 
+},
+
+async updateDeliveryTimeSlot(req, res, next) {
+  // 1. validate user input
+ const getCartSchema = Joi.object({
+   cartId: Joi.string().required(),
+   deliveryInfo: Joi.object().required(),
+ });
+ const { error } = getCartSchema.validate(req.body);
+ // 2. if error in validation -> return error via middleware
+ if (error) {
+   return next(error)
+ }
+
+
+  const { cartId,deliveryInfo } = req.body;
+   try{
+     const CART = await Cart.findOneAndUpdate(
+       { _id: cartId }, 
+       { deliveryInfo:deliveryInfo },
+       {new:true}
+     );
+     return res.status(200).json({ status: 200, cart:CART });
+   }catch(error){
+    return res.status(500).json({ status: 500, message:'Internal Server Error!' });
+   }
+},
+
+async updatePickupLocation(req, res, next) {
+  // 1. validate user input
+ const getCartSchema = Joi.object({
+   cartId: Joi.string().required(),
+   pickupInfo: Joi.object().required(),
+ });
+ const { error } = getCartSchema.validate(req.body);
+ // 2. if error in validation -> return error via middleware
+ if (error) {
+   return next(error)
+ }
+
+  const { cartId,pickupInfo } = req.body;
+  
+   try{
+     const CART = await Cart.findOneAndUpdate(
+       { _id: cartId }, 
+       { pickupInfo:pickupInfo },
+       {new:true}
+     );
+     return res.status(200).json({ status: 200, cart:CART });
+   }catch(error){
+    return res.status(500).json({ status: 500, message:'Internal Server Error!' });
+   }
 },
 
 }

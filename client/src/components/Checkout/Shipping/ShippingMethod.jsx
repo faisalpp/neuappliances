@@ -24,17 +24,12 @@ const ShippingRadio = ({ id, title, subtitle, price,checked,handleChange }) => {
 }
 
 const ShippingMethod = ({data,radioOnChange,state}) => {
-
-    const shippingInfo = useSelector((state)=>state.order.shippingInfo)
-
+    const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo)
     return (
         <div className='space-y-14px mt-8'>
             <h3 className='text-lg font-medium text-b16'>Shipping method</h3>
             <div className='[&>*]:border-b [&>*]:border-b31 [&>*:last-child]:border-0 border border-b31 rounded-md'>
-             {data && data.map((item,index)=><>
-                 <ShippingRadio key={index} handleChange={radioOnChange} id={item._id} title={item.title} subtitle={item.days} price={item.price} checked={item._id === shippingInfo._id ? true : false} />
-             </>
-             )}
+             <ShippingRadio handleChange={radioOnChange} id="home_delivery" title="Home Delivery" subtitle="1 to 3 Business Days" price={deliveryInfo.shipping} checked={true} />
             </div>
         </div>
 

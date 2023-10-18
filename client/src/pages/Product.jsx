@@ -1,18 +1,13 @@
 import { useEffect } from 'react'
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import MainLayout from '../layout/MainLayout'
-import { RiStackLine } from 'react-icons/ri'
-import { GiThermometerHot } from 'react-icons/gi'
-import { GiFlame } from 'react-icons/gi'
 import { RiArrowDropRightLine } from 'react-icons/ri';
-import { MdElectricBolt, MdOutlinePropane } from 'react-icons/md';
-import { AiOutlineDollarCircle, AiFillStar, AiOutlineQuestionCircle, AiOutlineSearch, AiFillCloseCircle, AiOutlineShoppingCart, AiOutlineHeart } from 'react-icons/ai';
+import { AiFillStar, AiOutlineQuestionCircle,AiOutlineDollarCircle, AiOutlineSearch, AiFillCloseCircle, AiOutlineShoppingCart, AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { IoBagCheckOutline, IoCloseOutline } from 'react-icons/io5';
-import { BsArrowRightShort, BsShopWindow, BsStarHalf } from 'react-icons/bs';
 import { GoDotFill } from 'react-icons/go';
-import { BsTruck } from 'react-icons/bs';
+import { BsTruck,BsShopWindow,BsStarHalf,BsArrowRightShort } from 'react-icons/bs';
 import { useState } from 'react'
-import { getCords } from '../api'
+import { CheckZip } from '../api/frontEnd'
 import OtherProductCard from '../components/OtherProductCard'
 import FaqAccordion from '../components/FaqAccordion'
 import HiwSection from '../components/HiwSection'
@@ -40,6 +35,7 @@ import {AddToCart} from '../store/cartSlice'
 import Toast from '../utils/Toast'
 import DateFormat from '../utils/DateFormat'
 import axios from 'axios'
+import { format, getDay, getDate, getMonth, getYear } from 'date-fns';
 
 const Product = () => {
   // Get slug form url
@@ -47,7 +43,7 @@ const Product = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch();
 
-  const [orderInfo, setOrderInfo] = useState({type:'pickup',location:'Georgetown, Tx'});
+  const [orderInfo, setOrderInfo] = useState({type:'pickup',location:'Austin, Tx'});
   const [zip, setZip] = useState('');
   const [changeZip, setChangeZip] = useState(true);
 
@@ -108,23 +104,27 @@ const Product = () => {
     }
   }
 
+  const [zipLoading,setZipLoading] = useState(false)
+
   const Submit = async () => {
-    const response = await getCords(zip)
-    if (response) {
+    setZipLoading(true)
+    const res = await CheckZip({zip:zip})
+    if (res.status == 200) {
+      setZipLoading(false)
       setError(false);
       setChangeZip(false);
-      setOrderInfo({type:'delivery',location:zip})
+      setOrderInfo({type:'delivery',location:zip,shipping:res.data.zip.location.rate})
     } else {
+      setZipLoading(false)
       setChangeZip(false);
       setError(true);
     }
   };
 
   useEffect(() => {
-    console.log(zip)
-    if (zip.length === 5) {
-      Submit();
-    }
+   if (zip.length === 5) {
+     Submit();
+   }
   }, [zip])
 
   const [showNavbar, setShowNavbar] = useState(false);
@@ -174,6 +174,55 @@ const Product = () => {
           )
      }
      // Tags Elements Extended End
+
+     const [date,setDate] = useState({})
+
+     const handlePickupDate = () => {
+      const currentDate = new Date();
+      const dayOfWeek = format(currentDate, 'EEEE')
+      const date = getDate(currentDate);
+      const month = format(currentDate, 'MMMM');
+      setDate({day:dayOfWeek,date:date,month:month})
+     }
+
+     useEffect(()=>{
+      // if(pickupInfo.location !== pickupLocation){
+        handlePickupDate()
+      // }
+     },[])
+
+     const [isFav,setIsFav] = useState(false)
+
+     const getFavProduct = () => {
+      const fav_items = JSON.parse(localStorage.getItem('favoriteProducts'));
+      console.log(fav_items)
+      if(fav_items){
+        const fav_item = fav_items.find((item)=>item === product._id)
+        console.log(fav_item)
+        if(fav_item){
+          setIsFav(true)
+        }
+      }
+     }
+
+     useEffect(()=>{
+      getFavProduct()
+     },[])
+
+     const isAuth = useSelector((state)=>state.user.auth)
+     const handleFavorites = (e) => {
+      e.preventDefault()
+      const fid = product._id
+      if(!isAuth){
+        const fav_items = [];
+        fav_items.push(fid)
+        localStorage.setItem('favoriteProducts',JSON.stringify(fav_items))
+        getFavProduct()
+      }
+     }
+
+
+
   
 
   return (
@@ -251,7 +300,7 @@ const Product = () => {
                 </div>
                 <div className='flex items-center sm:justify-between sm:w-full gap-5 lg:flex-wrap'>
                   {product.salePrice ? <span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >${product.regPrice - product.salePrice} Savings</span> : null}
-                  <button className="flex justify-end items-center hover:underline text-b3" ><AiOutlineHeart /><span>Add to favorites</span></button>
+                  {isFav?<div className="flex justify-end items-center hover:underline text-b3" ><AiFillHeart /><span>Added to favorites</span></div>:<button onClick={e=>handleFavorites(e)} className="flex justify-end items-center hover:underline text-b3" ><AiOutlineHeart /><span>Add to favorites</span></button>}
                 </div>
               </div>
               <div className='flex border justify-between px-3 py-1 w-[250px] rounded-lg'>
@@ -297,23 +346,23 @@ const Product = () => {
                 <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${orderInfo.type === 'pickup' ? 'border-b10' : 'border-gray-300'} `} >
                   <div className='flex items-center space-x-3' ><BsShopWindow className='text-xl' /><h6 className='font-bold text-sm' >Pickup</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderInfo({type:'pickup',location:'Georgetown, Tx'})} className={`px-1 py-1 rounded-full cursor-pointer ${orderInfo.type === 'pickup' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderInfo.type === 'pickup' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
                   <div className='flex flex-col space-y-2 mt-2 text-sm' >
-                    <h6 className='text-b10' >Ready Fri, April 26th (EST).</h6>
+                    <h6 className='text-b10' >Ready {date.day}, {date.month} {date.date} (EST).</h6>
                     <h6 className='text-gray-500' >Georgetown, Tx</h6>
                     <h6 className='font-bold' >Free</h6>
                   </div>
                 </div>
 
-                <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${orderInfo.type === 'delivery' ? 'border-b10' : 'border-gray-300'} `} >
-                  <div className='flex items-center space-x-2' ><BsTruck className='text-3xl' /><h6 className='font-bold text-sm' >Delivery</h6><h6 onClick={() => setChangeZip(true)} className='text-xs w-max text-blue-400 hover:underline cursor-pointer' >Change ZIP</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderInfo({type:'delivery',location:zip})} className={`px-1 py-1 rounded-full cursor-pointer ${orderInfo.type === 'delivery' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderInfo.type === 'delivery' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
+                <div className={`flex flex-col px-5 py-2 w-full rounded-lg border-2 ${orderInfo.type === 'delivery' ? 'border-b10' : 'border-gray-300'} `} >
+                  <div className='flex items-center space-x-2' ><BsTruck className='text-5xl' /><h6 className='font-bold text-sm' >Delivery&nbsp;<span>{changeZip ? null : zip}</span></h6><h6 onClick={() => setChangeZip(true)} className='text-xs w-max text-blue-400 hover:underline cursor-pointer' >Change&nbsp;ZIP</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderInfo({type:'delivery',location:zip})} className={`px-1 py-1 rounded-full cursor-pointer ${orderInfo.type === 'delivery' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderInfo.type === 'delivery' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
 
-                  <div className={` ${changeZip ? 'flex' : 'hidden'} flex-col items-center justify-center h-full space-y-2 mt-2 text-sm`} >
-                    <div className='flex items-center bg-white border-[1px] h-10 px-2 rounded-lg space-x-2 w-10/12 ' ><AiOutlineSearch className='text-blue-400 text-lg' /><input type="search" readOnly={orderInfo.type === 'delivery'?false:true} value={zip} onChange={e => setZip(e.target.value)} placeholder='Enter ZIP Code' className="w-full text-xs outline-none" /></div>
+                   <div className={` ${changeZip ? 'flex' : 'hidden'} flex-col justify-center items-center h-full text-sm`} >
+                    <div className='flex items-center bg-white border-[1px] px-2 py-1 rounded-lg space-x-2 w-10/12 ' ><AiOutlineSearch className='text-blue-400 text-lg' /><input type="search" readOnly={orderInfo.type === 'delivery'?false:true} value={zip} onChange={e => setZip(e.target.value)} placeholder='Enter ZIP Code' className="w-full text-xs outline-none" />{zipLoading ? <div className="flex w-fit h-full justify-center items-center" ><img src="/loader-bg.gif" className="w-4 h-4" /></div> :null}</div>
                   </div>
 
-                  <div className={` ${changeZip ? 'hidden' : 'flex'} flex-col space-y-2 mt-2 text-sm`} >
-                    <h6 className='text-b10' >Ready Fri, April 26th (EST).</h6>
-                    <h6 className='text-gray-500' >Georgetown, Tx</h6>
-                    {error ? <span className='flex items-center bg-gray-400 text-white text-xs w-fit px-2 py-1 rounded-xl' ><AiFillCloseCircle className='mr-1' />Delivery Not Available</span> : <h6 className='font-bold' >Free</h6>}
+                  <div className={` ${changeZip ? 'hidden' : 'flex'} flex-col space-y-2 text-sm`} >
+                    <h6 className='text-b10' >{date.day}, {date.month} {date.date} (EST).</h6>
+                    <h6 className='text-gray-500' >Schedule Delivery in Checkout.</h6>
+                    {error ? <span className='flex items-center bg-gray-500 text-white text-xs w-fit px-2 py-1 rounded-xl' ><AiFillCloseCircle className='mr-1' />Delivery Not Available</span> : <h6 className='font-bold' >${orderInfo.shipping}</h6>}
                   </div>
 
                 </div>

@@ -5,8 +5,6 @@ import BreadCrumb from '../../components/Checkout/BreadCrumb';
 import ReviewDetail from '../../components/Checkout/Shipping/ReviewDetail';
 import ShippingMethod from '../../components/Checkout/Shipping/ShippingMethod';
 import { useSelector,useDispatch } from 'react-redux';
-import {setShipping,setShippingFee} from '../../store/orderSlice'
-import { setGrandTotal } from '../../store/cartSlice';
 
 const Shipping = () => {
 
@@ -25,22 +23,6 @@ const Shipping = () => {
     const handlePaymentMethod = (id,title,days,price,checked) => {
         setShippingMethod({_id:id,title:title,days:days,price:price,checked:checked})
     }
-
-    const shippingInfo = useSelector((state)=>state.order.shippingInfo)
-    const grandTotal = useSelector((state)=>state.cart.grandTotal)
-    
-    useEffect(()=>{
-     if(shippingInfo._id !== shippingMethod._id){
-         setShippingMethod({_id:shippingInfo._id,title:shippingInfo.title,days:shippingInfo.days,price:shippingInfo.price,checked:shippingInfo.checked})
-      }else{
-          setShippingMethod({_id:payments[0]._id,title:payments[0].title,days:payments[0].days,price:payments[0].price,checked:payments[0].checked})
-      }
-      },[])
-    useEffect(()=>{
-      dispatch(setShipping(shippingMethod))
-      dispatch(setShippingFee({fee:shippingMethod.price}))
-      dispatch(setGrandTotal({grandTotal:grandTotal}))
-    },[shippingMethod])
 
     return (
         <>
