@@ -138,7 +138,7 @@ const Information = () => {
     const SubmitInformation = async (e) => {
      e.preventDefault()
     //  alert(deliveryInfo.shipping)
-     if(deliveryInfo.shipping === 'No Shipping Available!'){
+     if(deliveryInfo?.shipping === 'No Shipping Available!'){
         Toast('Shipping Not Available!','error',1000)
         return true
      }
