@@ -1,4 +1,4 @@
-import {AdminApi} from './axiosInstance'
+import {AdminApi,api} from './axiosInstance'
 
 
 export const Signin = async (data) => {
@@ -16,7 +16,7 @@ export const AdminSignout = async () => {
     let response;
 
     try{
-        response = await AdminApi.get('/api/admin/logout',{validateStatus: () => true});
+        response = await api.get('/api/admin/logout',{validateStatus: () => true});
     }catch (error){
         return error;
     }

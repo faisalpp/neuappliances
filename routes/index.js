@@ -26,8 +26,8 @@ const uploader = require('express-fileupload');
 const router = express.Router();
 
 router.use(uploader())
-router.get('/api/admin/logout', adminAuth ,authController.logout);
-router.get('/api/logout', auth,authController.logout);
+router.get('/api/admin/logout',authController.logout);
+router.get('/api/logout',authController.logout);
 
 // User Related Routes
 router.post('/api/register', authController.register);
@@ -164,7 +164,7 @@ router.post('/api/user/change-pickup-location',cartController.updatePickupLocati
 router.post('/api/user/get-cart',cartController.getCart);
 
 // User Order Processing Api's
-router.post('/api/user/save-order-address',auth,orderController.saveOrderAddress);
+router.post('/api/user/process-order',orderController.processOrder);
 
 
 // Front-End Api's

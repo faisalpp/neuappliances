@@ -11,6 +11,14 @@ export const UserApi = axios.create({
   },
 });
 
+export const api = axios.create({
+  baseURL: baseUrl,
+  withCredentials: true,
+  headers: {
+      "Content-Type":"application/json",
+  },
+});
+
 export const AdminApi = axios.create({
     baseURL: baseUrl,
     withCredentials: true,

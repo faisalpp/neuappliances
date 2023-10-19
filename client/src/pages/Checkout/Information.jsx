@@ -82,7 +82,7 @@ const Information = () => {
 
     const getPrevAddress = () => {
       const prev_address = JSON.parse(localStorage.getItem('neu_customer_address'))
-    //   console.log(typeof(prev_address.keepUpdates))
+      
       if(!isAuth && prev_address){
         console.log('pre')
         setEmail(prev_address.email)
@@ -110,7 +110,7 @@ const Information = () => {
         setProvince(orderInfo?.province)
         setPostalCode(orderInfo?.postalCode)
         setPhone(orderInfo?.phone)
-        setSaveAddress(orderInfo?.saveAddress?orderInfo.saveAddress:false)
+        setSaveAddress(true)
       }
     }
     
@@ -218,7 +218,7 @@ const Information = () => {
                     <div className='space-y-14px [&>*]:text-b16 [&>*]:text-sm'>
                         <h3 className='text-sm font-medium text-b16'>Contact information</h3>
                         <TextInput width="full" name="Email" title="Email" iscompulsory="false" type="text" value={email} onChange={(e) =>setEmail(e.target.value)} error={errors && errors.includes('Email is Required!') ? true : false} errormessage="Email is Required!" placeholder="abc@gmail.com" />
-                        <Checkbox onChange={e=>handleCheckbox(e)} defaultChecked={keepUpdates ? true : false} name="keepUpdates" id='keep-me-update' label="Keep me up to date on news and exclusive offers" className='checked:bg-black border-b31' ripple={false} />
+                        <Checkbox onChange={e=>handleCheckbox(e)} checked={keepUpdates} defaultChecked={false} name="keepUpdates" id='keep-me-update' label="Keep me up to date on news and exclusive offers" className='checked:bg-black border-b31' ripple={false} />
                     </div>
                     {/* Shipping */}
                     <div className='space-y-14px mt-8'>
@@ -245,7 +245,7 @@ const Information = () => {
                                     </div>
                                 </div>
                                 <div className='[&>*]:text-b16 [&>*]:text-sm'>
-                                    <Checkbox onChange={e=>handleCheckbox(e)} id='save-information' name="saveAddress" defaultChecked={saveAddress ? true : false} label="Save this information for next time" className='checked:bg-black border-b31' ripple={false} />
+                                    <Checkbox onChange={e=>handleCheckbox(e)} id='save-information' name="saveAddress" checked={saveAddress} defaultChecked={false} label="Save this information for next time" className='checked:bg-black border-b31' ripple={false} />
                                 </div>
                             </div>
                         </div>
