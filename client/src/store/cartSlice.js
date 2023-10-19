@@ -110,8 +110,7 @@ export const cartSlice = createSlice({
       state.deliveryInfo = {},
       state.pickupInfo = {},
       state.cartCount = 0,
-      state.status = 'INIT',
-      state.sCart = true
+      state.status = 'INIT'
     },
     showSCart: (state, action) => {
       state.sCart = true 

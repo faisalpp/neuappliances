@@ -72,8 +72,8 @@ const Information = () => {
     const [address,setAddress] = useState('')
     const [appartment,setAppartment] = useState('')
     const [city,setCity] = useState('')
-    const [country,setCountry] = useState('USA')
-    const [province,setProvince] = useState('Alberta')
+    const [country,setCountry] = useState('usa')
+    const [province,setProvince] = useState('alberta')
     const [postalCode,setPostalCode] = useState('')
     const [phone,setPhone] = useState('')
     const [saveAddress,setSaveAddress] = useState(false)
@@ -97,7 +97,7 @@ const Information = () => {
         setPostalCode(prev_address.postalCode)
         setPhone(prev_address.phone)
         setSaveAddress(prev_address.saveAddress)
-      }else{
+      }if (orderInfo?.email){
         console.log(orderInfo?.keepUpdates?true:false)
         setEmail(orderInfo?.email)
         setKeepUpdates(true)
@@ -194,7 +194,7 @@ const Information = () => {
                     <img src="/login_logo.webp" alt="" />
                 </Link>
                 {/* Bread Crumbs Start */}
-                <BreadCrumb />
+                <BreadCrumb />{country}
                 {/* Bread Crumbs End */}
 
                 <fieldset className='border border-b31 rounded-md pb-5 px-5 pt-2'>
