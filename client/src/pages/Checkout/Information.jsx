@@ -56,7 +56,7 @@ const Information = () => {
     // console.log(orderInfo)
     const navigate = useNavigate()
 
-    if(deliveryOrders.length === 0 && pickupOrders.length === 0){
+    if(deliveryOrders?.length === 0 && pickupOrders?.length === 0){
         navigate('/mycart')
     }
 
@@ -181,7 +181,7 @@ const Information = () => {
       };
     
       useEffect(() => {
-       if (postalCode.length === 5 && deliveryOrders?.length > 0) {
+       if (postalCode?.length === 5 && deliveryOrders?.length > 0) {
          Submit();
        }
       }, [postalCode])
