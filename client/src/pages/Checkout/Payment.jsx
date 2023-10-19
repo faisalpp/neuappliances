@@ -143,7 +143,7 @@ const Payment = () => {
               break;
           }
         // After Payment Submit Order
-        console.log(PAY_STATUS)
+        
         if(PAY_STATUS){
          const data = {paymentInfo:paymentInfo}
          const res = await processOrder(data);
@@ -174,7 +174,8 @@ const Payment = () => {
                     <hr />
                     <ReviewDetail title="Ship to" detail={`${address},${city} ,${province}, ${country},${postalCode}`} textStyle="font-medium" />
                     <hr />
-                    <ReviewDetail title="Method" detail={`Home Delivery · $${deliveryInfo.shipping}`} subtitle="1 to 3 Business Days" textStyle="font-medium" />
+                    {deliveryOrders?.length > 0 ? <ReviewDetail title="Method" detail={`Home Delivery · $${deliveryInfo.shipping}`} subtitle="1 to 3 Business Days" textStyle="font-medium" />:null}
+                    {pickupOrders?.length > 0 ? <ReviewDetail title="Method" detail="Self Pickup · Free" subtitle="Always Ready!" textStyle="font-medium" />:null}
                 </div>
 
                 {/* Payment Method */}

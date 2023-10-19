@@ -137,7 +137,7 @@ const Cart = () => {
                                 Shipping
                             </span>
                             <span className='text-b16 font-medium'>
-                                {deliveryInfo?.shipping ? `$${deliveryInfo.shipping}`:'Free'}
+                                {deliveryOrders?.length > 0 ? `$${deliveryInfo.shipping}`:'Free'}
                             </span>
                         </div>
                         <div className='flex justify-between'>

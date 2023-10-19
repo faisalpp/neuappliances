@@ -13,7 +13,7 @@ import { showSCart, hideSCart,ChangePickupLocation} from "../store/cartSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom'
 import { BsCart3 } from 'react-icons/bs'
-import {GetCart,RemoveFromCart,setDeliveryInfo} from '../store/cartSlice'
+import {GetCart,RemoveFromCart,setDeliveryInfo,resetCart} from '../store/cartSlice'
 import Toast from '../utils/Toast'
 import { GetZipWithSlots } from '../api/frontEnd'
 
@@ -67,7 +67,11 @@ const SideCart = () => {
     setLoading(true)
     const data = {cartId:cartId}
     const res = await dispatch(GetCart(data));
+    console.log(res)
     if (res.payload.status === 200) {
+      if(!res.payload.cart){
+        dispatch(resetCart())
+      }
       setLoading(false)
     }else {
       setLoading(false)
@@ -76,10 +80,8 @@ const SideCart = () => {
 
 
   useEffect(() => {
-    if (sCart && cartId) {
       GetCartData()
-    }
-  }, [sCart,cartId])
+  }, [])
 
   const [delLoading,setDelLoading] = useState({index:'',type:''})
 

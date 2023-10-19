@@ -102,13 +102,15 @@ export const cartSlice = createSlice({
   reducers: {
     resetCart: (state, action) => {
       state.cartId = null,
-      state.pickupOrders = cart.pickupOrders,
-      state.deliveryOrders = cart.deliveryOrders,
-      state.total = cart.total,
-      state.deliveryInfo = cart.deliveryInfo,
-      state.pickupInfo = cart.pickupInfo,
-      state.cartCount = cart.cartCount,
-      state.status = cart.status,
+      state.pickupOrders = [],
+      state.deliveryOrders = [],
+      state.total = 0,
+      state.grandTotal = 0,
+      state.tax = 0,
+      state.deliveryInfo = {},
+      state.pickupInfo = {},
+      state.cartCount = 0,
+      state.status = 'INIT',
       state.sCart = true
     },
     showSCart: (state, action) => {
