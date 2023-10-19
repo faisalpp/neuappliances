@@ -1,1 +1,0 @@
-import{b8 as r,b9 as s}from"./index-3f5a1aa3.js";const n="",o=r.create({baseURL:n,headers:{"Content-Type":"application/json"}}),c=async t=>{let e;try{e=await s.post("/api/admin/create-help-tab",t)}catch(a){return a}return e},i=async t=>{let e;try{e=await o.get("/api/get-help-tab",t)}catch(a){return a}return e};export{c,i as g};

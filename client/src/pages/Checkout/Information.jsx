@@ -181,7 +181,7 @@ const Information = () => {
       };
     
       useEffect(() => {
-       if (postalCode.length === 5 && deliveryOrders.length > 0) {
+       if (postalCode.length === 5 && deliveryOrders?.length > 0) {
          Submit();
        }
       }, [postalCode])
