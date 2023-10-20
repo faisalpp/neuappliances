@@ -9,11 +9,10 @@ import { GoDotFill } from 'react-icons/go'
 import { TiTick } from 'react-icons/ti'
 import { BiSearchAlt2 } from 'react-icons/bi'
 import SelectTimeSlot from './Cart/SelectTimeSlot'
-import { showSCart, hideSCart,ChangePickupLocation} from "../store/cartSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom'
 import { BsCart3 } from 'react-icons/bs'
-import {GetCart,RemoveFromCart,setDeliveryInfo,resetCart} from '../store/cartSlice'
+import {showSCart, hideSCart,ChangePickupLocation, GetCart,RemoveFromCart,resetCart,ChangeDeliveryInfo} from '../store/cartSlice'
 import Toast from '../utils/Toast'
 import { GetZipWithSlots } from '../api/frontEnd'
 
@@ -67,7 +66,6 @@ const SideCart = () => {
     setLoading(true)
     const data = {cartId:cartId}
     const res = await dispatch(GetCart(data));
-    console.log(res)
     if (res.payload.status === 200) {
       if(!res.payload.cart){
         dispatch(resetCart())
@@ -80,7 +78,9 @@ const SideCart = () => {
 
 
   useEffect(() => {
+    if(sCart){
       GetCartData()
+    }
   }, [])
 
   const [delLoading,setDelLoading] = useState({index:'',type:''})
@@ -135,7 +135,7 @@ const SideCart = () => {
       })
       setDates(onlyDays)
       setFrames(timeFrames)
-      dispatch(setDeliveryInfo({...deliveryInfo,location:zip,shipping:res.data.zip.location.rate}))
+      dispatch(ChangeDeliveryInfo({cartId:cartId,deliveryInfo:{...deliveryInfo,location:zip,shipping:res.data.zip.location.rate}}))
     } else {
       setZipChange(false);
       setZipSuccess(false);
@@ -172,7 +172,8 @@ const SideCart = () => {
         
       {isOpen && (
         <SelectTimeSlot frames={frames} timeSlot={timeSlot} setTimeSlot={setTimeSlot} selectDate={selectedDate} setSelectDate={setSelectedDate} dates={dates} />
-      )}
+        )}
+        
         
         <button onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='maxlg:w-10 maxlg:h-10 bg-white maxlg:hover:bg-b3 maxlg:hover:text-white duration-200 maxlg:rounded-full absolute -top-14 right-0 lg:top-5 lg:right-6 z-40  xy-center'><AiOutlineClose className='text-xl' /></button>
         <div className='flex flex-col overflow-y-auto w-full h-full'>
@@ -242,13 +243,13 @@ const SideCart = () => {
                     <div className='relative flex flex-col space-y-2' >
                       {locLoading ? <div className='absolute flex items-center justify-center bg-gray-500/50 w-full h-full' ><BiLoaderAlt className='animate-spin text-4xl' /></div>:null}
                       <div className='flex items-center px-2 space-x-2' >
-                        <div className='flex' ><span onClick={e=>UpdatePickupLocation(e,'Georgetown Warehouse')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupInfo.location === 'Georgetown Warehouse' || '' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${pickupInfo.location === 'Georgetown Warehouse' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
+                        <div className='flex' ><span onClick={e=>UpdatePickupLocation(e,'Warehouse Georgetown,Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupInfo?.location === 'Georgetown Warehouse' || '' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${pickupInfo?.location === 'Georgetown Warehouse' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
                         <AiOutlineShop className='text-3xl text-gray-400' />
-                        <h4 className='text-sm font-normal text-gray-400 w-full' >Pickup in the store Georgetown Warehouse</h4>
+                        <h4 className='text-sm font-normal text-gray-400 w-full' >Pickup in the Warehouse Georgetown,Tx</h4>
                         <h4 className='text-sm font-normal text-gray-400' >Free</h4>
                       </div>
                       <div className='flex items-center px-2 pt-2 space-x-2 border-t-[1px] border-gray-200' >
-                        <div className='flex' ><span onClick={e=>UpdatePickupLocation(e,'Austin, Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupInfo.location === 'Austin, Tx' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${pickupInfo.location === 'Austin, Tx' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
+                        <div className='flex' ><span onClick={e=>UpdatePickupLocation(e,'Austin, Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupInfo?.location === 'Austin, Tx' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${pickupInfo?.location === 'Austin, Tx' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
                         <AiOutlineShop className='text-3xl text-gray-400' />
                         <h4 className='text-sm font-normal text-gray-400 w-full' >Pickup in the store Austin, Tx</h4>
                         <h4 className='text-sm font-normal text-gray-400' >Free</h4>

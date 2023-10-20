@@ -83,3 +83,24 @@ export const UpdatePickupLocation = async (data) => {
     }
     return response;
 }
+
+export const UpdateDeliveryInfo = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/user/change-delivery-info',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const UpdateCartFinance = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/user/change-cart-finance',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}

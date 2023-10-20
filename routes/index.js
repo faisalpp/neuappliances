@@ -161,6 +161,8 @@ router.post('/api/user/update-cart',cartController.updateCart);
 router.post('/api/user/change-cart-item-type',cartController.changeCartProductType);
 router.post('/api/user/change-time-slot',cartController.updateDeliveryTimeSlot);
 router.post('/api/user/change-pickup-location',cartController.updatePickupLocation);
+router.post('/api/user/change-delivery-info',cartController.updateDeliveryInfo);
+router.post('/api/user/change-cart-finance',cartController.updateCartFinance);
 router.post('/api/user/get-cart',cartController.getCart);
 
 // User Order Processing Api's

@@ -20,9 +20,10 @@ const cartSchema = new mongoose.Schema({
   deliveryInfo: { type: Object},
   pickupInfo: { type: Object },
   cartCount:{type: Number,default:0},
-  total:{type: Number,default:0},
   expiry: {type:String},
-  status: {type:String},
+  tax:{type: Number,default:0},
+  total:{type: Number,default:0},
+  grandTotal:{type: Number,default:0}
 });
 
 module.exports = mongoose.model('Cart',cartSchema,'carts');

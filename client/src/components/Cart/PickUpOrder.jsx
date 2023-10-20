@@ -13,7 +13,7 @@ const PickUpOrder = ({orders,refresh}) => {
                         <img src="/svgs/Pick-up.webp" alt="Pick-up" />
                     </span>
                     <span className='text-sm text-[#545454]'>
-                        Georgetown, Tx
+                       Warehouse Georgetown, Tx
                     </span>
                 </div>
                 <div className='leading-[-0.2px] text-sm text-b3'>

@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const OrderAddress = require('../models/orderAddress')
+// const OrderAddress = require('../models/billingAddress')
 const Cart = require('../models/cart')
 
 const orderController = {
@@ -28,7 +28,7 @@ const orderController = {
   //  // 2. if error in validation -> return error via middleware
   //  if (error) {
   //    return next(error)
-  //  }
+  //  };
   },
 
 }

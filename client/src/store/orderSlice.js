@@ -1,10 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  orderInfo:null,
-  shippingInfo:null,
-  paymentInfo:null,
-  billingInfo:null,
+  orderInfo:null
 }
 
 export const orderSlice = createSlice({
@@ -14,22 +11,10 @@ export const orderSlice = createSlice({
    setOrder: (state, action) => {
      const data = action.payload;   
      state.orderInfo = data
-   },
-   setShipping: (state, action) => {
-     const data = action.payload;   
-     state.shippingInfo = data
-   },
-   setPayment: (state, action) => {
-     const data = action.payload;   
-     state.paymentInfo = data
-   },
-   setBilling: (state, action) => {
-     const data = action.payload;   
-     state.billingInfo = data
-   },
+   }
   },
 });
 
-export const { setOrder,setPayment,setBilling,setShipping} = orderSlice.actions;
+export const { setOrder} = orderSlice.actions;
 
 export default orderSlice.reducer;

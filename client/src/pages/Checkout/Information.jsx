@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setOrder} from '../../store/orderSlice';
-import { setDeliveryInfo} from '../../store/cartSlice';
+import { ChangeDeliveryInfo } from '../../store/cartSlice';
 import { Link} from 'react-router-dom'
 import LeftArrowSvg from '../../svgs/LeftArrowSvg'
 import Toast from '../../utils/Toast'
@@ -84,7 +84,6 @@ const Information = () => {
       const prev_address = JSON.parse(localStorage.getItem('neu_customer_address'))
       
       if(!isAuth && prev_address){
-        console.log('pre')
         setEmail(prev_address.email)
         setKeepUpdates(prev_address.keepUpdates)
         setFirstName(prev_address.firstName)
@@ -97,8 +96,7 @@ const Information = () => {
         setPostalCode(prev_address.postalCode)
         setPhone(prev_address.phone)
         setSaveAddress(prev_address.saveAddress)
-      }if (orderInfo?.email){
-        console.log(orderInfo?.keepUpdates?true:false)
+      }else if (orderInfo?.email){
         setEmail(orderInfo?.email)
         setKeepUpdates(true)
         setFirstName(orderInfo?.firstName)
@@ -111,6 +109,8 @@ const Information = () => {
         setPostalCode(orderInfo?.postalCode)
         setPhone(orderInfo?.phone)
         setSaveAddress(true)
+      }else {
+        setPostalCode(deliveryInfo.location)
       }
     }
     
@@ -140,7 +140,7 @@ const Information = () => {
     //  alert(deliveryInfo.shipping)
      if(deliveryInfo?.shipping === 'No Shipping Available!'){
         Toast('Shipping Not Available!','error',1000)
-        return true
+        return;
      }
      const data = {email:email,firstName:firstName,lastName:lastName,address:address,appartment:appartment,city:city,country:country,postalCode:postalCode,phone:phone,saveAddress:saveAddress,keepUpdates:keepUpdates,province:province}
      if(saveAddress){
@@ -167,16 +167,25 @@ const Information = () => {
 
     const [changeZip,setChangeZip] = useState(false)
 
+    const cartId = useSelector((state)=>state.cart.cartId)
+
     const Submit = async () => {
         setChangeZip(true);
         const res = await CheckZip({zip:postalCode})
-        console.log(res)
-        if (res.status == 200) {
-          setChangeZip(false);
-          dispatch(setDeliveryInfo({...deliveryInfo,location:postalCode,shipping:res.data.zip.location.rate}))
+        if (res.status == 200) {   
+            const res2 = await dispatch(ChangeDeliveryInfo({cartId:cartId,deliveryInfo:{...deliveryInfo,location:postalCode,shipping:res.data.zip.location.rate}}))
+         if(res2?.payload?.status === 200){
+            setChangeZip(false);
+        }else{
+             setChangeZip(false);
+         }
         } else {
-          dispatch(setDeliveryInfo({...deliveryInfo,location:postalCode,shipping:'No Shipping Available!'}))
-          setChangeZip(false);
+          const res3 = dispatch(ChangeDeliveryInfo({cartId:cartId,deliveryInfo:{...deliveryInfo,location:postalCode,shipping:false}}))
+          if(res3?.payload?.status === 200){
+            setChangeZip(false);
+          }else{
+              setChangeZip(false);
+          }
         }
       };
     
@@ -194,7 +203,7 @@ const Information = () => {
                     <img src="/login_logo.webp" alt="" />
                 </Link>
                 {/* Bread Crumbs Start */}
-                <BreadCrumb />{country}
+                <BreadCrumb />
                 {/* Bread Crumbs End */}
 
                 <fieldset className='border border-b31 rounded-md pb-5 px-5 pt-2'>
@@ -234,7 +243,7 @@ const Information = () => {
                                     <CustomSelect setState={setCountry} id="country_region" label="Country / region" Options={Countrys} />
                                     <CustomSelect setState={setProvince} id="province" label="Province" Options={Province} />
                                     <div className='relative  col-span-2 md:col-span-1 [&>*]:h-full'>
-                                     {changeZip?<div className='absolute flex rounded-lg items-center w-full justify-end px-2' ><img src="/loader-bg.gif" className='w-4 h-4' /></div>:null}
+                                     {changeZip?<div className='absolute z-40 flex rounded-lg items-center w-full justify-end px-2' ><img src="/loader-bg.gif" className='w-4 h-4' /></div>:null}
                                      <TextInput width="full" name="postalCode" title="" iscompulsory="false" type="text" value={postalCode} onChange={(e)=>setPostalCode(e.target.value)} error={errors && errors.includes('Postal Code is Required!') ? true : false} errormessage="Postal Code is Required!" placeholder="Postal Code" />
                                     </div>
                                 </div>

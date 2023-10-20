@@ -1,12 +1,12 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import {addToCart,getCart,removeFromCart,changeCartItemType,UpdateTimeSlot,UpdatePickupLocation} from '../api/cart'
+import {addToCart,getCart,removeFromCart,changeCartItemType,UpdateTimeSlot,UpdatePickupLocation,UpdateDeliveryInfo,UpdateCartFinance} from '../api/cart'
 
 const initialState = {
-  cartId:null,
+  cartId:false,
   pickupOrders:[],
   deliveryOrders:[],
   deliveryInfo:{},
-  pickupInfo:{ type:'pickup',location:'Georgetown Warehouse'},
+  pickupInfo:{ type:'pickup',location:'Warehouse Georgetown,Tx'},
   cartCount:0,
   tax:0,
   total:0,
@@ -96,12 +96,38 @@ export const ChangePickupLocation = createAsyncThunk("cart/change-location", asy
   }
 });
 
+export const ChangeDeliveryInfo = createAsyncThunk("cart/change-delivery", async (data) => {
+  try{
+    const response = await UpdateDeliveryInfo(data); // Call your login API with the provided data
+    if(response.data.status === 200){
+      return response.data; // Assuming your API response contains the user data
+    }else{
+      return response.data
+    }
+  }catch(error){
+    return { payload: error.response?.data, error: true };
+  }
+});
+
+export const ChangeCartFinance = createAsyncThunk("cart/change-finance", async (data) => {
+  try{
+    const response = await UpdateCartFinance(data); // Call your login API with the provided data
+    if(response.data.status === 200){
+      return response.data; // Assuming your API response contains the user data
+    }else{
+      return response.data
+    }
+  }catch(error){
+    return { payload: error.response?.data, error: true };
+  }
+});
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     resetCart: (state, action) => {
-      state.cartId = null,
+      state.cartId = false,
       state.pickupOrders = [],
       state.deliveryOrders = [],
       state.total = 0,
@@ -109,8 +135,7 @@ export const cartSlice = createSlice({
       state.tax = 0,
       state.deliveryInfo = {},
       state.pickupInfo = {},
-      state.cartCount = 0,
-      state.status = 'INIT'
+      state.cartCount = 0
     },
     showSCart: (state, action) => {
       state.sCart = true 
@@ -130,10 +155,6 @@ export const cartSlice = createSlice({
       const data = action.payload;
       state.grandTotal =  data;
     },
-    setDeliveryInfo: (state, action) => {
-      const data = action.payload;
-      state.deliveryInfo =  data;
-    },
     resetDeliveryInfo: (state, action) => {
       const data = action.payload;
       state.deliveryInfo =  {};
@@ -151,7 +172,8 @@ export const cartSlice = createSlice({
       state.deliveryInfo = cart.deliveryInfo,
       state.pickupInfo = cart.pickupInfo,
       state.cartCount = cart.cartCount,
-      state.status = cart.status,
+      state.tax = cart.tax,
+      state.grandTotal = cart.grandTotal,
       state.sCart = true
     })
     .addCase(GetCart.fulfilled, (state, action) => {
@@ -163,8 +185,9 @@ export const cartSlice = createSlice({
       state.total = cart.total,
       state.deliveryInfo = cart.deliveryInfo,
       state.pickupInfo = cart.pickupInfo,
-      state.cartCount = cart.cartCount
-      state.status = cart.status
+      state.cartCount = cart.cartCount,
+      state.tax = cart.tax,
+      state.grandTotal = cart.grandTotal
       }
     })
     .addCase(RemoveFromCart.fulfilled, (state, action) => {
@@ -176,8 +199,9 @@ export const cartSlice = createSlice({
       state.total = cart.total,
       state.deliveryInfo = cart.deliveryInfo,
       state.pickupInfo = cart.pickupInfo,
-      state.cartCount = cart.cartCount
-      state.status = cart.status
+      state.cartCount = cart.cartCount,
+      state.tax = cart.tax,
+      state.grandTotal = cart.grandTotal
     })
     .addCase(ChangeCartItemType.fulfilled, (state, action) => {
       const { cart } = action.payload;
@@ -187,8 +211,9 @@ export const cartSlice = createSlice({
       state.total = cart.total,
       state.deliveryInfo = cart.deliveryInfo,
       state.pickupInfo = cart.pickupInfo,
-      state.cartCount = cart.cartCount
-      state.status = cart.status
+      state.cartCount = cart.cartCount,
+      state.tax = cart.tax,
+      state.grandTotal = cart.grandTotal
     })
     .addCase(ChangeTimeSlot.fulfilled, (state, action) => {
       const { cart } = action.payload;
@@ -198,8 +223,9 @@ export const cartSlice = createSlice({
       state.total = cart.total,
       state.deliveryInfo = cart.deliveryInfo,
       state.pickupInfo = cart.pickupInfo,
-      state.cartCount = cart.cartCount
-      state.status = cart.status
+      state.cartCount = cart.cartCount,
+      state.tax = cart.tax,
+      state.grandTotal = cart.grandTotal
     })
     .addCase(ChangePickupLocation.fulfilled, (state, action) => {
       const { cart } = action.payload;
@@ -209,13 +235,38 @@ export const cartSlice = createSlice({
       state.total = cart.total,
       state.deliveryInfo = cart.deliveryInfo,
       state.pickupInfo = cart.pickupInfo,
-      state.cartCount = cart.cartCount
-      state.status = cart.status
+      state.cartCount = cart.cartCount,
+      state.tax = cart.tax,
+      state.grandTotal = cart.grandTotal
+    })
+    .addCase(ChangeDeliveryInfo.fulfilled, (state, action) => {
+      const { cart } = action.payload;
+      state.cartId = cart._id,
+      state.pickupOrders = cart.pickupOrders,
+      state.deliveryOrders = cart.deliveryOrders,
+      state.total = cart.total,
+      state.deliveryInfo = cart.deliveryInfo,
+      state.pickupInfo = cart.pickupInfo,
+      state.cartCount = cart.cartCount,
+      state.tax = cart.tax,
+      state.grandTotal = cart.grandTotal
+    })
+    .addCase(ChangeCartFinance.fulfilled, (state, action) => {
+      const { cart } = action.payload;
+      state.cartId = cart._id,
+      state.pickupOrders = cart.pickupOrders,
+      state.deliveryOrders = cart.deliveryOrders,
+      state.total = cart.total,
+      state.deliveryInfo = cart.deliveryInfo,
+      state.pickupInfo = cart.pickupInfo,
+      state.cartCount = cart.cartCount,
+      state.tax = cart.tax,
+      state.grandTotal = cart.grandTotal
     });
   },
   
 });
 
-export const { showSCart,hideSCart,resetCart,setTotal,setDeliveryInfo,setGrandTotal,setTax,resetDeliveryInfo } = cartSlice.actions;
+export const { showSCart,hideSCart,resetCart,setTotal,setGrandTotal,setTax,resetDeliveryInfo } = cartSlice.actions;
 
 export default cartSlice.reducer;
