@@ -156,14 +156,8 @@ const cartController = {
   },
   async getCart(req, res, next) {
     // 1. validate user input
-   const getCartSchema = Joi.object({
-     cartId: Joi.string().required(),
-   });
-   const { error } = getCartSchema.validate(req.body);
-
-   // 2. if error in validation -> return error via middleware
-   if (error) {
-     return next(error)
+   if(!req.body.cartId){
+    return res.status(200).json({status: 200,cart:false});
    }
 
    
@@ -442,16 +436,16 @@ async updateCartFinance(req, res, next) {
 
   const { cartId,total,grandTotal,tax } = req.body;
   
-  //  try{
+   try{
      const CART = await Cart.findOneAndUpdate(
        { _id: cartId }, 
        { total:total,grandTotal:grandTotal,tax:tax },
        {new:true}
      );
      return res.status(200).json({ status: 200, cart:CART });
-  //  }catch(error){
-  //   return res.status(500).json({ status: 500, message:'Internal Server Error!' });
-  //  }
+   }catch(error){
+    return res.status(500).json({ status: 500, message:'Internal Server Error!' });
+   }
 },
 
 }

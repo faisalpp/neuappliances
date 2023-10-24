@@ -1,27 +1,25 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import Checkout from './Checkout';
 import UpdateButton from '../../components/Checkout/UpdateButton';
 import BreadCrumb from '../../components/Checkout/BreadCrumb';
 import ReviewDetail from '../../components/Checkout/Shipping/ReviewDetail';
 import ShippingMethod from '../../components/Checkout/Shipping/ShippingMethod';
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector} from 'react-redux';
 
 const Shipping = () => {
 
-    const dispatch = useDispatch()
-
     const orderInfo = useSelector((state)=>state.order.orderInfo)
-
-    const payments = [
-        {_id:1,title:'Canada Post Expedited Parcel',days:'1 to 7 business days',price:10.00,checked:true},
-        {_id:2,title:'Canada Post Xpresspost',days:'1 to 3 business days',price:15.00,checked:false},
-        {_id:3,title:'Canada Post Priority',days:'1 to 3 business days',price:20.00,checked:false}
-    ]
+    const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
+    const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
     
-    const [shippingMethod,setShippingMethod] = useState({_id:payments[0]._id,title:payments[0].title,days:payments[0].days,price:payments[0].price,checked:payments[0].checked})
+    const [shippingMethod,setShippingMethod] = useState({})
     
     const handlePaymentMethod = (id,title,days,price,checked) => {
         setShippingMethod({_id:id,title:title,days:days,price:price,checked:checked})
+    }
+
+    if(deliveryOrders?.length === 0 && pickupOrders?.length === 0){
+        navigate('/mycart')
     }
 
     return (
@@ -42,7 +40,7 @@ const Shipping = () => {
                 </div>
 
                 {/* Shipping Method */}
-                <ShippingMethod state={shippingMethod} data={payments} radioOnChange={handlePaymentMethod} />
+                <ShippingMethod state={shippingMethod} radioOnChange={handlePaymentMethod} />
 
 
                 {/* Next Step */}

@@ -12,7 +12,8 @@ import SelectTimeSlot from './Cart/SelectTimeSlot'
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom'
 import { BsCart3 } from 'react-icons/bs'
-import {showSCart, hideSCart,ChangePickupLocation, GetCart,RemoveFromCart,resetCart,ChangeDeliveryInfo} from '../store/cartSlice'
+import {showSCart, hideSCart,ChangePickupLocation, GetCart,RemoveFromCart,resetCart,ChangeDeliveryInfo,} from '../store/cartSlice'
+import {resetOrder} from '../store/orderSlice'
 import Toast from '../utils/Toast'
 import { GetZipWithSlots } from '../api/frontEnd'
 
@@ -66,9 +67,11 @@ const SideCart = () => {
     setLoading(true)
     const data = {cartId:cartId}
     const res = await dispatch(GetCart(data));
+    console.log(res)
     if (res.payload.status === 200) {
       if(!res.payload.cart){
         dispatch(resetCart())
+        dispatch(resetOrder())
       }
       setLoading(false)
     }else {
@@ -81,7 +84,7 @@ const SideCart = () => {
     if(sCart){
       GetCartData()
     }
-  }, [])
+  }, [sCart])
 
   const [delLoading,setDelLoading] = useState({index:'',type:''})
 
@@ -243,13 +246,13 @@ const SideCart = () => {
                     <div className='relative flex flex-col space-y-2' >
                       {locLoading ? <div className='absolute flex items-center justify-center bg-gray-500/50 w-full h-full' ><BiLoaderAlt className='animate-spin text-4xl' /></div>:null}
                       <div className='flex items-center px-2 space-x-2' >
-                        <div className='flex' ><span onClick={e=>UpdatePickupLocation(e,'Warehouse Georgetown,Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupInfo?.location === 'Georgetown Warehouse' || '' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${pickupInfo?.location === 'Georgetown Warehouse' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
+                        <div className='flex' ><button type="button" onClick={e=>UpdatePickupLocation(e,'Warehouse Georgetown,Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupInfo?.location === 'Georgetown Warehouse' || '' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${pickupInfo?.location === 'Georgetown Warehouse' ? 'text-b6' : 'text-gray-200'} `} /></button></div>
                         <AiOutlineShop className='text-3xl text-gray-400' />
                         <h4 className='text-sm font-normal text-gray-400 w-full' >Pickup in the Warehouse Georgetown,Tx</h4>
                         <h4 className='text-sm font-normal text-gray-400' >Free</h4>
                       </div>
                       <div className='flex items-center px-2 pt-2 space-x-2 border-t-[1px] border-gray-200' >
-                        <div className='flex' ><span onClick={e=>UpdatePickupLocation(e,'Austin, Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupInfo?.location === 'Austin, Tx' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${pickupInfo?.location === 'Austin, Tx' ? 'text-b6' : 'text-gray-200'} `} /></span></div>
+                        <div className='flex' ><button type="button" onClick={e=>UpdatePickupLocation(e,'Austin, Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupInfo?.location === 'Austin, Tx' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${pickupInfo?.location === 'Austin, Tx' ? 'text-b6' : 'text-gray-200'} `} /></button></div>
                         <AiOutlineShop className='text-3xl text-gray-400' />
                         <h4 className='text-sm font-normal text-gray-400 w-full' >Pickup in the store Austin, Tx</h4>
                         <h4 className='text-sm font-normal text-gray-400' >Free</h4>

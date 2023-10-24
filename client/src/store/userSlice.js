@@ -7,7 +7,7 @@ const initialState = {
   firstName: "",
   lastName: "",
   auth: false,
-  isAdmin: null,
+  isAdmin: false,
 };
 
 // Create an async thunk for the login action
@@ -44,7 +44,7 @@ export const userSlice = createSlice({
       state.firstName = "";
       state.lastName = "";
       state.auth = false;
-      state.isAdmin = null;
+      state.isAdmin = false;
     },
   },
   extraReducers: (builder) => {

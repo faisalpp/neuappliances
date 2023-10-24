@@ -6,8 +6,10 @@ import Checkout from '../../components/Cart/Checkout';
 import DeliveryOrder from '../../components/Cart/DeliveryOrder';
 import PickUpOrder from '../../components/Cart/PickUpOrder';
 import { useDispatch,useSelector } from 'react-redux';
-import { GetCart } from '../../store/cartSlice';
+import { GetCart,resetCart } from '../../store/cartSlice';
+import { resetOrder } from '../../store/orderSlice';
 import Loader2 from '../../components/Loader/Loader2';
+
 
 const MyCart = () => {
 
@@ -25,10 +27,15 @@ const MyCart = () => {
         setLoading(true)
         const data = {cartId:cartId}
         const res = await dispatch(GetCart(data));
-        console.log(res)
         if (res.payload.status === 200) {
+          if(!res.payload.cart){
+              dispatch(resetCart())
+              dispatch(resetOrder())
+          }
           setLoading(false)
         }else {
+          dispatch(resetCart())
+          dispatch(resetOrder())
           setLoading(false)
         }
       }

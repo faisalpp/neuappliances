@@ -75,14 +75,14 @@ const Cart = () => {
 
       const CalculateGrandTotal = () => {
           const TAX = ((8.25/100) * total)
-        //   dispatch(setTax(TAX.toFixed(2)))
-        if(deliveryOrders && deliveryOrders.length > 0){
+          dispatch(setTax(TAX.toFixed(2)))
+        if(deliveryOrders?.length > 0 && pickupOrders?.length === 0){
          const GRAND_TOTAL = total + TAX + deliveryInfo.shipping
          dispatch(ChangeCartFinance({cartId:cartId,grandTotal:GRAND_TOTAL.toFixed(2),total:total,tax:TAX.toFixed(2)}))
         }else{
          dispatch(resetDeliveryInfo())
          const GRAND_TOTAL = total + TAX
-         dispatch(ChangeCartFinance({cartId:cartId,grandTotal:GRAND_TOTAL.toFixed(2),total:total,tax:tax.toFixed(2)}))
+         dispatch(ChangeCartFinance({cartId:cartId,grandTotal:GRAND_TOTAL.toFixed(2),total:total,tax:TAX.toFixed(2)}))
         }
       }
 
@@ -137,8 +137,8 @@ const Cart = () => {
                                 Shipping
                             </span>
                             <span className='text-b16 font-medium'>
-                             {deliveryOrders?.length > 0 && deliveryInfo?.shipping ? `$${deliveryInfo.shipping}`:'No Shipping Available!'}
-                             {pickupOrders?.length > 0 ? 'Free': null }
+                             {deliveryOrders?.length > 0 ? `$${deliveryInfo.shipping}`: pickupOrders?.length > 0 ?   'Free' :  'No Shipping Available!'}
+                             {/* {pickupOrders?.length > 0 && deliveryOrders?.length === 0 ? 'Free': null }/ */}
                             </span>
                         </div>
                         <div className='flex justify-between'>

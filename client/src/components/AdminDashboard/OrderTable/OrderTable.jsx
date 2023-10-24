@@ -1,8 +1,11 @@
 import React from 'react'
 import OrderRow from './OrderRow'
+import moment from 'moment'
 
+const OrderTable = ({orders}) => {
 
-const OrderTable = ({sections,categoryTitle}) => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+
   return (
     <div className="flex flex-col">
   <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -20,10 +23,7 @@ const OrderTable = ({sections,categoryTitle}) => {
             </tr>
           </thead>
           <tbody>
-            <OrderRow orderNo='12345' date='July 13, 2023' status='Pending' id='1' />
-            <OrderRow orderNo='12345' date='July 13, 2023' status='Processing' id='1' />
-            <OrderRow orderNo='12345' date='July 13, 2023' status='Completed' id='1' />
-            <OrderRow orderNo='12345' date='July 13, 2023' status='Rejected' id='1' />
+            {orders?.length ? orders.map((order)=><OrderRow orderNo={order.orderNo} date={moment(order.createdAt).format('DD MMMM YYYY')} status={order.orderStatus} total={order.grandTotal} />) : null}
           </tbody>
         </table>
       </div>

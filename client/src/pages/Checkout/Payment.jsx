@@ -14,6 +14,8 @@ import {RiQuestionFill} from 'react-icons/ri'
 import * as Yup from 'yup';
 import Toast from '../../utils/Toast'
 import {processOrder} from '../../api/order'
+import {resetOrder, setPaymentInfo} from '../../store/orderSlice'
+import { resetCart } from '../../store/cartSlice';
 
 const Payment = () => {
 
@@ -111,41 +113,38 @@ const Payment = () => {
         code: Yup.string().required('Security Code is Required!'),
       });
 
-      // const [paymentInfo,setPaymentInfo] = useState('')
-      // const [billingInfo,setBillingInfo] = useState(null)
+
       const [billingErrors,setBillingErrors] = useState(false)
       const [newsEmail,setNewsEmail] = useState([])
       const [orderType,setOrderType] = useState(deliveryOrders?.length > 0 ? 'delivery':'pickup')
+      const [isPayment,setPayment] = useState(false)
 
       const handleCardPayment = async () => {
         try{
             await cardValidationSchema.validate(cardInfo, { abortEarly: false });   
             // Card Payment Should be Implemented Here
-            return {status:true,data:'card'};
+            dispatch(setPaymentInfo({name:'card'}))
+            setPayment(true)
         }catch(error){ 
-            if (error) {
-              let errors = error.errors;
-                setCardErrors(errors)
-                errors.forEach((item)=>{
-                  Toast(item,'error',1000)
-                })
-                return {status:true};
-              } else {
-                setCardErrors([])
-              }
+          if (error) {
+          let errors = error.errors;
+            setCardErrors(errors)
+            errors.forEach((item)=>{
+              Toast(item,'error',1000)
+            })
+            dispatch(setPaymentInfo(null))
+          } else {
+            setCardErrors([])
+          }
          }
       }
       
-      const handleAffirmPayment = async () => {
-        return {status:true,data:'affirm'};
-      }
-      const handlePaypalPayment = async () => {
-        return {status:true,data:'paypal'};
-      }
+      const handleAffirmPayment = async () => {dispatch(setPaymentInfo({name:'affirm'}));setPayment(true)}
+      const handlePaypalPayment = async () => {dispatch(setPaymentInfo({name:'paypal'}));setPayment(true)}
 
       const handleBillingAddress = async () => {
         try{
-          const data = {email:bemail,firstName:firstName,lastName:lastName,address:baddress,appartment:appartment,city:bcity,country:bcountry,province:bprovince,postalCode:postalCode,phone:bphone}
+          const data = {email:bemail,firstName:firstName,lastName:lastName,address:baddress,appartment:appartment,city:bcity,country:bcountry,state:bprovince,postalCode:postalCode,phone:bphone}
           await billingValidationSchema.validate(data, { abortEarly: false });   
           // Card Payment Should be Implemented Here
           if(keepUpdates){
@@ -167,16 +166,28 @@ const Payment = () => {
       }
 
       const orderInfo = useSelector((state)=>state.order.orderInfo)
-      const pickupInfo = useSelector((state)=>state.cart.pickupInfo)
-      const tax = useSelector((state)=>state.cart.tax)
-      const total = useSelector((state)=>state.cart.total)
-      const grandTotal = useSelector((state)=>state.cart.grandTotal)
+      const paymentInfo = useSelector((state)=>state.order.paymentInfo)
       const cartId = useSelector((state)=>state.cart.cartId)
-      const dd = useSelector((state)=>state.user.cartId)
- 
-      const SubmitOrder = async (e) => {
-         e.preventDefault()
-         setProcessing(true)
+      const userId = useSelector((state)=>state.user._id)
+      const isAuth = useSelector((state)=>state.user.auth)
+      const isAdmin = useSelector((state)=>state.user.isAdmin)
+
+      const handlePayment = async (e) => {
+        setProcessing(true)
+        switch(paymentMod){
+         case 'card_payment':
+          await handleCardPayment();
+           break;
+         case 'affirm_payment':
+          await handleAffirmPayment();
+           break;
+         case 'paypal_payment':
+          await handlePaypalPayment();
+           break;
+        }
+       }
+
+      const HandleOrder = async (e) => {
          let billingAddress = {status:false};
          if(isBilling){
             if(orderInfo?.keepUpdates){
@@ -189,45 +200,35 @@ const Payment = () => {
             }
             billingAddress = {status:true,data:{...orderInfo}}
           }
-          let PAYMENT;
           if(billingAddress.status){
-           switch(paymentMod){
-             case 'card_payment':
-              PAYMENT = await handleCardPayment();
-               break;
-             case 'affirm_payment':
-              PAYMENT = await handleAffirmPayment();
-               break;
-             case 'paypal_payment':
-              PAYMENT = await handlePaypalPayment();
-               break;
-           }
-           // After Payment Submit Order
-           if(PAYMENT.status){
-             let data;
-             if(orderType === 'delivery'){
-               data = {cartId:cartId,orderType:orderType,paymentInfo:PAYMENT.data,shippingAddress:orderInfo,billingInfo:billingAddress.data,newsEmail:newsEmail}
-             }else{
-               data = {cartId:cartId,orderType:orderType,paymentInfo:PAYMENT.data,shippingAddress:orderInfo,billingInfo:billingAddress.data,newsEmail:newsEmail}
-             }
-            const res = await processOrder(data);
-            if(res.status === 200){
-              Toast('Order Successfully Placed!','success',1000)
-               setProcessing(false)
-               navigate('/mycart/order-success')
+            let data;
+            if(orderType === 'delivery'){
+              data = {userId:userId,isAdmin:isAdmin,isAuth:isAuth,cartId:cartId,orderType:orderType,shippingAddress:orderInfo,billingInfo:billingAddress.data,paymentInfo:paymentInfo,newsEmail:newsEmail}
             }else{
-              Toast('Order Processing Error!','error',1000)
-              setProcessing(false)
+              data = {userId:userId,isAdmin:isAdmin,isAuth:isAuth,cartId:cartId,orderType:orderType,shippingAddress:orderInfo,billingInfo:billingAddress.data,paymentInfo:paymentInfo,newsEmail:newsEmail}
             }
+           const res = await processOrder(data);
+           if(res.status === 200){
+             Toast(res.data.msg,'success',1000)
+             dispatch(resetCart())
+             dispatch(resetOrder())
+             setProcessing(false)
+             navigate('/mycart/order-success')
           }else{
-            Toast("Payment Processor Error!",'error',1000)
+            Toast(res.data.message,'error',1000)
             setProcessing(false)
-          }
+         }
         }else{
-          Toast("Billing Address Error!",'error',1000)
-          setProcessing(false)
+            Toast("Billing Address Not Found!",'error',1000)
+            setProcessing(false)
         }
       }
+
+      useEffect(()=>{
+        if(isPayment){
+          HandleOrder()
+        }
+      },[isPayment])
 
     return (
         <>  {isProcessing ? <ChkLoader /> :
@@ -303,7 +304,7 @@ const Payment = () => {
                             Return to shipping
                         </span>
                     </Link>
-                    <button type="button" onClick={e=>SubmitOrder(e)} className='py-3 px-6 text-xs rounded-lg bg-b3 text-white' >
+                    <button type="button" onClick={e=>handlePayment(e)} className='cursor-pointer py-3 px-6 text-xs rounded-lg bg-b3 text-white' >
                         Pay Now
                     </button>
                 </div>

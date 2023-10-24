@@ -12,7 +12,7 @@ import { loginAdmin } from '../../store/adminSlice'
 const Login = () => {
 
   const navigate = useNavigate();
-  const auth = useSelector((state) => state.user.auth);
+  const auth = useSelector((state) => state.admin.auth);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

@@ -165,6 +165,9 @@ router.post('/api/user/change-delivery-info',cartController.updateDeliveryInfo);
 router.post('/api/user/change-cart-finance',cartController.updateCartFinance);
 router.post('/api/user/get-cart',cartController.getCart);
 
+// Admin Order Api's
+router.get('/api/admin/get-orders',adminAuth,orderController.getOrders);
+
 // User Order Processing Api's
 router.post('/api/user/process-order',orderController.processOrder);
 

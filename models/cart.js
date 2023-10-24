@@ -24,6 +24,6 @@ const cartSchema = new mongoose.Schema({
   tax:{type: Number,default:0},
   total:{type: Number,default:0},
   grandTotal:{type: Number,default:0}
-});
+},{timestamps: true});
 
 module.exports = mongoose.model('Cart',cartSchema,'carts');

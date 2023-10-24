@@ -184,7 +184,7 @@ const Navbar = () => {
                   <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/my-favourites" className={`${({ isActive }) => isActive ? 'bg-b5' : ''} top__menu_item`} >Favorites</NavLink></Menu.Item>
                   <Menu.Item as="div" className="px-4" ><div onClick={handleLogout} className='top__menu_item' >Logout</div></Menu.Item>
                 </Menu.Items>
-              </Menu>) : (isAdmin === null ? <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-1 font-medium text-xs' >My Account</span></div></NavLink> : null)}
+              </Menu>) : <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-1 font-medium text-xs' >My Account</span></div></NavLink>}
 
             {/* {isAuth ? <NavLink to="/my-account/profile" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink> : <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink>} */}
             <div onClick={() => { megMenu ? setMegMenu(false) : setMegMenu(true) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><IoMenu /><span className='ml-2 font-medium text-xs' >Menu</span></div>

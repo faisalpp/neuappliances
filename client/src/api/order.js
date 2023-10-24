@@ -20,3 +20,14 @@ export const processOrder = async (data) => {
     }
     return response;
 }
+
+export const confirmOrder = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/user/confirm-order',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}

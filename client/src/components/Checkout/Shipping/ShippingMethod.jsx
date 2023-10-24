@@ -23,10 +23,9 @@ const ShippingRadio = ({ id, title, subtitle, price,checked,handleChange }) => {
     )
 }
 
-const ShippingMethod = ({data,radioOnChange,state}) => {
+const ShippingMethod = ({radioOnChange}) => {
     const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
     const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo)
-    const pickupInfo = useSelector((state)=>state.cart.pickupInfo)
     const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
     
     return (

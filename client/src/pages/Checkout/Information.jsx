@@ -60,8 +60,6 @@ const Information = () => {
         navigate('/mycart')
     }
 
-    
-
     const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo);
 
 
@@ -119,7 +117,6 @@ const Information = () => {
     },[])
 
     const [errors, setErrors] = useState([])
-    const [loading, setLoading] = useState(false)
     
     const dispatch = useDispatch();
 
@@ -137,12 +134,12 @@ const Information = () => {
 
     const SubmitInformation = async (e) => {
      e.preventDefault()
-    //  alert(deliveryInfo.shipping)
-     if(deliveryInfo?.shipping === 'No Shipping Available!'){
+     
+     if(!deliveryInfo?.shipping){
         Toast('Shipping Not Available!','error',1000)
         return;
      }
-     const data = {email:email,firstName:firstName,lastName:lastName,address:address,appartment:appartment,city:city,country:country,postalCode:postalCode,phone:phone,saveAddress:saveAddress,keepUpdates:keepUpdates,province:province}
+     const data = {email:email,firstName:firstName,lastName:lastName,address:address,appartment:appartment,city:city,country:country,state:province,postalCode:postalCode,phone:phone,saveAddress:saveAddress,keepUpdates:keepUpdates,province:province}
      if(saveAddress){
         if(!isAuth){
           localStorage.setItem('neu_customer_address',JSON.stringify(data))
@@ -267,8 +264,8 @@ const Information = () => {
                                 Return to Cart
                             </span>
                         </Link>
-                        <button type='submit' disabled={loading ? true : false} className='flex items-center py-3 px-6 text-xs rounded-lg bg-b3 text-white'>
-                            Continue to Shipping {loading ? <img src="/loader-bg.gif" className="ml-2 w-4 h-4" /> : null}
+                        <button type='submit' className='flex items-center py-3 px-6 text-xs rounded-lg bg-b3 text-white'>
+                            Continue to Shipping 
                         </button>
                     </div>
                 </form>

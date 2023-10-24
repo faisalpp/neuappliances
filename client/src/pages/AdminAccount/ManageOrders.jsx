@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AdminAccount from '../../layout/AdminAccount';
 import OrderTable from '../../components/AdminDashboard/OrderTable/OrderTable'
 import { NavLink } from 'react-router-dom';
 import Pagination2 from '../../components/Pagination/Pagination2';
+import {getOrders} from '../../api/admin/order'
+import { useEffect } from 'react';
 
 const ManageOrders = () => {
-    
+
+    const [orders,setOrders] = useState([])
+
+    const GetOrders = async () => {
+     const res = await getOrders();
+     if(res.data.orders){
+        setOrders(res.data.orders)
+    }else{
+     setOrders([])
+     }
+    }
+
+    useEffect(()=>{
+     GetOrders()
+    },[])
 
     return (
         <>
@@ -17,7 +33,7 @@ const ManageOrders = () => {
            <NavLink to="/admin/create-product" className='border border-b3 text-b3 text-xs px-2 rounded-md cursor-pointer py-1' >Search</NavLink>
           </div>
          </div>
-         <OrderTable/>
+         <OrderTable orders={orders} />
          <Pagination2 page={1} totalPages={10} />
         </AdminAccount>
         </>
