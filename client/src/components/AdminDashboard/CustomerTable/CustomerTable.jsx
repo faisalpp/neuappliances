@@ -12,7 +12,7 @@ const CustomerTable = () => {
             className="border-b border-l border-r border-b3 bg-b3 font-medium text-white">
             <tr>
               <th scope="col" className=" px-6 py-4">Name</th>
-              <th scope="col" className=" px-6 py-4">Last&nbsp;Active</th>
+              <th scope="col" className=" px-6 py-4">Last&nbsp;Order</th>
               <th scope="col" className=" px-6 py-4">Date Registered</th>
               <th scope="col" className=" px-6 py-4">Email</th>
               <th scope="col" className=" px-6 py-4">Orders</th>

@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react'
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, NavLink } from "react-router-dom";
 
-import Home from "./pages/Home"
+const Home = lazy(() => import("./pages/Home"))
 const Landing = lazy(() => import('./pages/Landing'));
 const Register = lazy(() => import('./pages/Register'));
 const Products = lazy(() => import('./pages/Products'));
@@ -100,14 +100,16 @@ import useAutoLoginUser from './hooks/useAutoLoginUser'
 import { useSelector } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import ManageCopons from './pages/AdminAccount/ManageCopons';
-import UpdateShippingZone from './pages/AdminAccount/UpdateShippingZone';
-import ManageZipCods from './pages/AdminAccount/ManageZipCods';
-import ManageTaxes from './pages/AdminAccount/ManageTaxes';
-import ManageZipCordinates from './pages/AdminAccount/ManageZipCordinates';
-import UpdateOrder from './pages/AdminAccount/UpdateOrder';
+const ManageCopons = lazy(() => import('./pages/AdminAccount/ManageCopons'));
+const UpdateShippingZone = lazy(() => import('./pages/AdminAccount/UpdateShippingZone'));
+const ManageZipCods = lazy(() => import('./pages/AdminAccount/ManageZipCods'));
+const ManageTaxes = lazy(() => import('./pages/AdminAccount/ManageTaxes'));
+const ManageZipCordinates = lazy(() => import('./pages/AdminAccount/ManageZipCordinates'));
+const UpdateOrder = lazy(() => import('./pages/AdminAccount/UpdateOrder'));
 
 function App() {
+
+  const navigate = useNavigate()
 
   const ProtectedAdmin = ({ children }) => {
     const loading = useAutoLoginAdmin();
@@ -120,14 +122,32 @@ function App() {
   }
 
   const AuthRoute = ({ children }) => {
-    const isAuth = useSelector((state) => state.user.isAuth)
-    const navigate = useNavigate()
-    return isAuth ? navigate(-1) : <>{children}</>;
+    const isAdmin = useSelector((state) => state.admin.auth)
+    const isUser = useSelector((state) => state.user.auth)
+    if(!isAdmin && !isUser){
+      return <>{children}</>
+    }else{
+     if(isAdmin){
+       navigate('/admin/dashboard')
+       return <NavLink to={'/admin/dashboard'} />
+      }else{
+       return <NavLink to={'/my-account/profile'} />
+     }
+    }
   }
   const AuthAdminRoute = ({ children }) => {
-    const isAuth = useSelector((state) => state.admin.isAuth)
-    const navigate = useNavigate()
-    return isAuth ? navigate('/admin/dashboard') : <>{children}</>;
+    const isAdmin = useSelector((state) => state.admin.auth)
+    const isUser = useSelector((state) => state.user.auth)
+    if(!isAdmin && !isUser){
+      return <>{children}</>
+    }else{
+     if(isAdmin){
+       return <NavLink to={'/admin/dashboard'} />
+     }else{
+       navigate('/myaccount/profile')
+       return <NavLink to={'/myaccount/profile'} />
+     }
+    }
   }
 
 
@@ -153,7 +173,7 @@ function App() {
           <Route path="/buying-optionsv1" element={<BuyingOptionsV1 />} />
           {/* ===== */}
           <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
-          <Route path="/register" element={<AuthRoute><Register /></AuthRoute>} />
+          <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<AuthRoute><ForgotPassword /></AuthRoute>} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/:slug" element={<Product />} />

@@ -17,6 +17,7 @@ const tipsController = require('../controller/admin/appTipsController');
 const videoMediaController = require('../controller/videoMediaController');
 const cartController = require('../controller/cartController');
 const orderController = require('../controller/orderController');
+const customerController = require('../controller/customerController');
 const reviewController = require('../controller/reviewController');
 const zipController = require('../controller/zipController');
 const galleryController = require('../controller/galleryController');
@@ -167,7 +168,10 @@ router.post('/api/user/get-cart',cartController.getCart);
 
 // Admin Order Api's
 router.get('/api/admin/get-orders',adminAuth,orderController.getOrders);
+router.post('/api/admin/get-customers',adminAuth,customerController.getAllCustomers);
+// Admin Customer Api's
 router.post('/api/admin/get-order-by-id',adminAuth,orderController.getOrderById);
+
 
 // User Order Processing Api's
 router.post('/api/user/process-order',orderController.processOrder);

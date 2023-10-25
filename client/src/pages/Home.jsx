@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import HeroSection from '../components/HeroSection'
 import BrandsSlider from'../components/BrandsSlider';
 import WwslSection from'../components/WwslSection';
@@ -7,11 +8,11 @@ import HiwSection from'../components/HiwSection';
 import AustinLoveSection from'../components/AustinLoveSection';
 import D3CardSection from'../components/D3CardSection';
 import ReviewSection from'../components/ReviewSection';
-import LoopSection from'../components/LoopSection';
+const LoopSection = lazy(() => import('../components/LoopSection'));
 import ApplianceSection from'../components/ApplianceSection';
-import MapSection from'../components/MapSection';
+const MapSection = lazy(() => import('../components/MapSection'));
 import TourSection from'../components/TourSection';
-import GallerySection from'../components/GallerySection';
+const GallerySection = lazy(() => import('../components/GallerySection'));
 import SatisfiedSection from'../components/SatisfiedSection';
 import NewsLetterSection from'../components/NewsLetterSection';
 import MainLayout from '../layout/MainLayout';

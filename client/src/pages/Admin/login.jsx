@@ -3,17 +3,16 @@ import MainLayout from '../../layout/MainLayout'
 import { BsArrowRightShort } from 'react-icons/bs'
 import { NavLink, Navigate, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import { useSelector } from "react-redux"
 import { loginAdmin } from '../../store/adminSlice'
+import Toast from '../../utils/Toast'
 
 const Login = () => {
 
   const navigate = useNavigate();
-  const auth = useSelector((state) => state.admin.auth);
-  console.log(auth)
+  const isAdmin = useSelector((state) => state.admin.auth);
+  const isUser = useSelector((state) => state.user.auth);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,36 +27,17 @@ const Login = () => {
     const res = await dispatch(loginAdmin(data));
 
     if (res.payload.status === 200) {
-      toast.success(res.payload.msg, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.payload.msg,'success',1000)
       navigate('/admin/dashboard');
     }
     if (res.payload.code === 'ERR_BAD_REQUEST') {
-      toast.error('Invalid Credentials!', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast('Invalid Credentials!','error',1000)
     }
 
   }
 
   return (
     <>
-      {!auth ?
         <MainLayout>
           <div className='flex flex-col space-y-10 items-center pt-20 py-32 w-full' >
             <div><img src="login_logo.webp" alt="login_logo" /></div>
@@ -75,7 +55,7 @@ const Login = () => {
               <div className='flex w-full justify-center' ><h5 className='text-sm' >New customer? <NavLink to="/register" ><span className='text-b3 hover:underline cursor-pointer' >Create an Account</span></NavLink></h5></div>
             </form>
           </div>
-        </MainLayout> : <Navigate to="/admin/dashboard" />}
+        </MainLayout>
 
     </>
   )

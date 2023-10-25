@@ -1,0 +1,1 @@
+import{j as r}from"./index-6f024e59.js";import{M as t}from"./MyAccount-e67fd79a.js";import"./MainLayout-7db25bd6.js";import"./ScrollToTop-c496a034.js";import"./index.esm-07b601df.js";import"./index-38501678.js";const p=()=>r.jsx(r.Fragment,{children:r.jsx(t,{children:r.jsx(o,{})})}),o=()=>r.jsx(r.Fragment,{});export{o as OrderHistoryData,p as default};
