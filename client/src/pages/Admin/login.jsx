@@ -13,6 +13,7 @@ const Login = () => {
 
   const navigate = useNavigate();
   const auth = useSelector((state) => state.admin.auth);
+  console.log(auth)
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

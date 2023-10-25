@@ -35,7 +35,7 @@ const AdminAccount = ({ children }) => {
             theme: "light",
           });
           dispatch(resetAdmin());
-          navigate('/');
+          navigate('/nu-admin');
         } else {
           toast.error(res.message, {
             position: "top-right",

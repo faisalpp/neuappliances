@@ -84,8 +84,8 @@ const adminController = {
 
       const adminToRegister = new Admin({
         firstName:'admin',
-        lastName:'nup',
-        email:'muhammadfaisal522@gmail.com',
+        lastName:'gagan',
+        email:'gaganvirkpta1@gmail.com',
         password: hashedPassword,
       });
 
@@ -157,7 +157,7 @@ const adminController = {
 
     const adminDto = new AdminDTO(admin);
 
-    return res.status(200).json({status:200,user: adminDto,msg:'Login Successful!',auth:true});
+    return res.status(200).json({status:200,admin: adminDto,msg:'Login Successful!',auth:true});
 
   },
 

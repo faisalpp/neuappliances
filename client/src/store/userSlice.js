@@ -7,7 +7,6 @@ const initialState = {
   firstName: "",
   lastName: "",
   auth: false,
-  isAdmin: false,
 };
 
 // Create an async thunk for the login action
@@ -29,14 +28,13 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      const { _id, email, firstName, lastName,auth,isAdmin } = action.payload;
+      const { _id, email, firstName, lastName,auth } = action.payload;
 
       state._id = _id;
       state.email = email;
       state.firstName = firstName;
       state.lastName = lastName;
       state.auth = auth;
-      state.isAdmin = isAdmin;
     },
     resetUser: (state) => {
       state._id = "";
@@ -44,19 +42,17 @@ export const userSlice = createSlice({
       state.firstName = "";
       state.lastName = "";
       state.auth = false;
-      state.isAdmin = false;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
-      const { _id, email, firstName, lastName, auth, isAdmin } = action.payload;
+      const { _id, email, firstName, lastName, auth } = action.payload;
 
       state._id = _id;
       state.email = email;
       state.firstName = firstName;
       state.lastName = lastName;
       state.auth = auth;
-      state.isAdmin = isAdmin;
     });
   },
 });

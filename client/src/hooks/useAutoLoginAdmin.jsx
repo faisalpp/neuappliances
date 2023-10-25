@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { resetUser, setUser } from "../store/userSlice";
+import { resetAdmin, setAdmin } from "../store/adminSlice";
 import { useDispatch } from "react-redux";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,7 @@ function useAutoLoginAdmin() {
         {withCredentials: true,})
         .then((response) => {
          // 1. setUser
+         console.log(response)
          const user = {
           _id: response.data.user._id,
           email: response.data.user.email,
@@ -25,7 +26,7 @@ function useAutoLoginAdmin() {
           auth: response.data.auth,
           isAdmin: response.data.user.isAdmin
         };
-          dispatch(setUser(user));
+          dispatch(setAdmin(user));
           setLoading(false);
           // Process the response data here
         })
@@ -34,7 +35,7 @@ function useAutoLoginAdmin() {
           console.log(error)
           if (error.response && error.response.status === 401) {
             // Unauthorized, redirect the user to the login page
-            dispatch(resetUser());
+            dispatch(resetAdmin());
             navigate('/nu-admin')
           } else {
             // Handle other error scenarios

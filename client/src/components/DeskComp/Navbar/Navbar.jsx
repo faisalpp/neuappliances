@@ -8,23 +8,24 @@ import { TfiHeadphoneAlt } from 'react-icons/tfi';
 import NavDropDown from '../Navbar/NavDropDown';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import { resetUser } from '../../../store/userSlice'
+import { resetAdmin } from '../../../store/adminSlice'
 import { Menu } from '@headlessui/react'
 import { AdminSignout } from '../../../api/admin/auth';
 import { Signout } from '../../../api/user/auth';
 import { showSCart, hideSCart } from '../../../store/cartSlice'
 import { getNabarAppliances, searchAppliance } from '../../../api/frontEnd'
+import Toast from '../../../utils/Toast'
 
 const Navbar = () => {
   const [megMenu, setMegMenu] = useState(false);
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.user.auth);
-  const isAdmin = useSelector((state) => state.user.isAdmin);
+  const isUser = useSelector((state) => state.user.auth);
+  const isAdmin = useSelector((state) => state.admin.auth);
   const navigate = useNavigate();
-  const firstName = useSelector((state) => state.user.firstName);
+  const UserfirstName = useSelector((state) => state.user.firstName);
+  const AdminfirstName = useSelector((state) => state.admin.firstName);
 
   const cartCount = useSelector((state) => state.cart.cartCount);
   const sCart = useSelector((state) => state.cart.sCart);
@@ -35,42 +36,15 @@ const Navbar = () => {
 
     const res = await AdminSignout();
     if (res.status === 200) {
-      toast.success(res.msg, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      dispatch(resetUser());
+      Toast(res.data.msg,'success',1000)
+      dispatch(resetAdmin());
       navigate('/');
     } else if (res.code === 'ERR_BAD_REQUEST') {
-      dispatch(resetUser());
-      toast.error('Session Expired!', {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      dispatch(resetAdmin());
+      Toast('Session Expired!','error',1000)
       navigate('/');
     } else {
-      toast.error(res.message, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.message,'error',1000)
     }
   }
 
@@ -78,42 +52,14 @@ const Navbar = () => {
     e.preventDefault();
 
     const res = await Signout();
-    console.log(res)
     if (res.status === 200) {
-      toast.success(res.msg, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.msg,'success',1000)
     } else if (res.code === 'ERR_BAD_REQUEST') {
       dispatch(resetUser());
-      toast.error('Session Expired!', {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast('Session Expired!','error',1000)
       navigate('/');
     } else {
-      toast.error(res.message, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.message,'error',1000)
     }
   }
 
@@ -164,19 +110,19 @@ const Navbar = () => {
 
           <div className='col-start-9 col-end-13 flex justify-end space-x-2 w-full' >
             <div onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><AiOutlineShoppingCart /><span className='ml-2 font-medium text-xs' >Cart</span><span className='ml-2 bg-b3 rounded-full text-xs h-4 w-4 text-center' >{cartCount}</span></div>
-
-            {isAuth ? (isAdmin ? <Menu as="div" className="relative" >
-              <Menu.Button className='top__menu_button'><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs' >Hello {firstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>
+            
+            {isAdmin ? <Menu as="div" className="relative" >
+              <Menu.Button className='top__menu_button'><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs capitalize' >Hello {AdminfirstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>
               {/* Mark this component as `static` */}
               <Menu.Items as="div" className="absolute z-[100] top-12 -right-24 shadow-lg rounded-sm py-5 bg-white w-56 h-auto text-black">
                 <Menu.Item as="div" className="px-4" ><NavLink to="/admin/dashboard" className={`${({ isActive }) => isActive ? 'bg-b5' : ''} top__menu_item`} >Dashboard</NavLink></Menu.Item>
-                <Menu.Item as="div" className="px-4" ><NavLink to="" className={`${({ isActive }) => isActive ? 'bg-b5' : ''} top__menu_item`} >Order History</NavLink></Menu.Item>
-                <Menu.Item as="div" className="px-4" ><NavLink to="" className={`${({ isActive }) => isActive ? 'bg-b5' : ''} top__menu_item`} >Favorites</NavLink></Menu.Item>
+                <Menu.Item as="div" className="px-4" ><NavLink to="" className={`${({ isActive }) => isActive ? 'bg-b5' : ''} top__menu_item`} >Orders</NavLink></Menu.Item>
+                <Menu.Item as="div" className="px-4" ><NavLink to="" className={`${({ isActive }) => isActive ? 'bg-b5' : ''} top__menu_item`} >Change Password</NavLink></Menu.Item>
                 <Menu.Item as="div" className="px-4" ><div onClick={handleAdminLogout} className='top__menu_item' >Logout</div></Menu.Item>
               </Menu.Items>
-            </Menu>
-              : <Menu as="div" className="relative" >
-                <Menu.Button className='top__menu_button'><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs' >Hello {firstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>
+            </Menu>:null}
+              {isUser ?  <Menu as="div" className="relative" >
+                <Menu.Button className='top__menu_button'><BiUserCircle className='text-lg' /><span className='ml-1 font-medium text-xs capitalize' >Hello {UserfirstName}</span><RiArrowDropDownLine className='text-xl' /></Menu.Button>
                 {/* Mark this component as `static` */}
                 <Menu.Items as="div" className="absolute z-[100] top-12 -right-24 shadow-lg rounded-sm py-5 bg-white w-56 h-auto text-black">
                   <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/profile" className={`${({ isActive }) => isActive ? 'bg-b5' : ''} top__menu_item`} >My Account</NavLink></Menu.Item>
@@ -184,7 +130,8 @@ const Navbar = () => {
                   <Menu.Item as="div" className="px-4" ><NavLink to="/my-account/my-favourites" className={`${({ isActive }) => isActive ? 'bg-b5' : ''} top__menu_item`} >Favorites</NavLink></Menu.Item>
                   <Menu.Item as="div" className="px-4" ><div onClick={handleLogout} className='top__menu_item' >Logout</div></Menu.Item>
                 </Menu.Items>
-              </Menu>) : <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-1 font-medium text-xs' >My Account</span></div></NavLink>}
+              </Menu> : null}
+              {isAdmin || isUser ? null : <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-1 font-medium text-xs' >My Account</span></div></NavLink>}
 
             {/* {isAuth ? <NavLink to="/my-account/profile" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink> : <NavLink to="/login" ><div className='flex items-center px-2 bg-b2 h-10 w-32 cursor-pointer rounded-md text-white' ><BiUserCircle /><span className='ml-2 font-reg font-normal text-sm' >My Account</span></div></NavLink>} */}
             <div onClick={() => { megMenu ? setMegMenu(false) : setMegMenu(true) }} className='flex items-center cursor-pointer px-4 bg-b2 h-10 w-max rounded-md text-white' ><IoMenu /><span className='ml-2 font-medium text-xs' >Menu</span></div>

@@ -7,7 +7,6 @@ const initialState = {
   firstName: "",
   lastName: "",
   auth: false,
-  isAdmin: false,
 };
 
 // Create an async thunk for the login action
@@ -15,7 +14,19 @@ export const loginAdmin = createAsyncThunk("admin/login", async (data) => {
     try{
       const response = await Signin(data); // Call your login API with the provided data
       if(response.status === 200){
-        console.log(response)
+        return response.data; // Assuming your API response contains the user data
+      }else{
+        return response
+      }
+    }catch(error){
+      return { payload: error.response?.data, error: true };
+    }
+});
+
+export const refreshAdmin = createAsyncThunk("admin/login", async (data) => {
+    try{
+      const response = await Signin(data); // Call your login API with the provided data
+      if(response.status === 200){
         return response.data; // Assuming your API response contains the user data
       }else{
         return response
@@ -37,7 +48,6 @@ export const adminSlice = createSlice({
       state.firstName = firstName;
       state.lastName = lastName;
       state.auth = auth;
-      state.isAdmin = isAdmin;
     },
     resetAdmin: (state) => {
       state._id = "";
@@ -45,19 +55,16 @@ export const adminSlice = createSlice({
       state.firstName = "";
       state.lastName = "";
       state.auth = false;
-      state.isAdmin = false;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(loginAdmin.fulfilled, (state, action) => {
-      const { _id, email, firstName, lastName, auth, isAdmin } = action.payload;
-
+      const { _id, email, firstName, lastName, auth } = action.payload;
       state._id = _id;
       state.email = email;
       state.firstName = firstName;
       state.lastName = lastName;
       state.auth = auth;
-      state.isAdmin = isAdmin;
     });
   },
 });

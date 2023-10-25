@@ -124,6 +124,11 @@ function App() {
     const navigate = useNavigate()
     return isAuth ? navigate(-1) : <>{children}</>;
   }
+  const AuthAdminRoute = ({ children }) => {
+    const isAuth = useSelector((state) => state.admin.isAuth)
+    const navigate = useNavigate()
+    return isAuth ? navigate('/admin/dashboard') : <>{children}</>;
+  }
 
 
   return (
@@ -201,7 +206,7 @@ function App() {
           <Route path="/do-i-have-electric-or-gas" element={<DoIHaveElectricGas />} />
 
           {/* Admin Related Routes */}
-          <Route path="/nu-admin" element={<AuthRoute><AdminLogin /></AuthRoute>} />
+          <Route path="/nu-admin" element={<AuthAdminRoute><AdminLogin /></AuthAdminRoute>} />
           <Route path="/admin/dashboard" element={<ProtectedAdmin><Dashboard /></ProtectedAdmin>} />
           {/* Categories Related Routes */}
           {/* Category Section Related Routes */}
