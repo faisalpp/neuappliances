@@ -219,6 +219,13 @@ const orderController = {
      return res.status(200).json({status: 200,orders:orders});
     }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
   },
+  
+  async getOrderById(req, res, next) {
+    // try{
+     const order = await Order.findOne({orderNo:req.body.orderNo}).populate('shippingAddress').populate('billingAddress');
+     return res.status(200).json({status: 200,order:order});
+    // }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
+  },
 
 }
 

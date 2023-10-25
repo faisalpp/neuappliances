@@ -167,6 +167,7 @@ router.post('/api/user/get-cart',cartController.getCart);
 
 // Admin Order Api's
 router.get('/api/admin/get-orders',adminAuth,orderController.getOrders);
+router.post('/api/admin/get-order-by-id',adminAuth,orderController.getOrderById);
 
 // User Order Processing Api's
 router.post('/api/user/process-order',orderController.processOrder);
