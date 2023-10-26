@@ -296,7 +296,7 @@ function App() {
           {/* Admin Manage Customers */}
           <Route path="/admin/manage-customers" element={<ProtectedAdmin><ManageCustomers /></ProtectedAdmin>} />
           {/* Admin Update Customer */}
-          <Route path="/admin/update-customer" element={<ProtectedAdmin><UpdateCustomer /></ProtectedAdmin>} />
+          <Route path="/admin/update-customer/:id" element={<ProtectedAdmin><UpdateCustomer /></ProtectedAdmin>} />
           {/* Admin Update Customer */}
           <Route path="/admin/manage-zip-cordinates" element={<ProtectedAdmin><ManageZipCordinates /></ProtectedAdmin>} />
 

@@ -1,7 +1,6 @@
 const UserProfileDTO = require('../dto/profile')
 const User = require("../models/user");
-const RefreshToken = require('../models/token');
-const JWTService = require("../services/JwtService");
+const OrderAddress = require("../models/orderAddress");
 
 const userProfileController = {
     
@@ -46,6 +45,49 @@ const userProfileController = {
     }
 
  },
+
+ async getShippingAddresses(req,res,next){
+  const {_id} = req.body;
+  try {
+    
+    const isUser = await User.findOne({_id:_id});
+
+      if(!isUser){
+        const error = {status: 401,message: "Unauthorized!"}
+        return next(error);
+      }
+
+      try{
+       const shippingAddresses = await OrderAddress.find({userId:_id,type:'shipping'})
+       return res.status(200).json({status:200,shippingAddresses:shippingAddresses});
+      }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
+
+  } catch (error) {
+    return next(error);
+  }
+
+},
+ async getBillingAddresses(req,res,next){
+  const {_id} = req.body;
+  try {
+    
+    const isUser = await User.findOne({_id:_id});
+
+      if(!isUser){
+        const error = {status: 401,message: "Unauthorized!"}
+        return next(error);
+      }
+
+      try{
+       const billingAddress = await OrderAddress.findOne({userId:_id,type:'billing'})
+       return res.status(200).json({status:200,billingAddress:billingAddress});
+      }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
+
+  } catch (error) {
+    return next(error);
+  }
+
+},
 
 }
 

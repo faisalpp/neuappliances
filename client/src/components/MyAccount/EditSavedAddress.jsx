@@ -2,20 +2,20 @@ import React from 'react';
 import EditSvg from '../../svgs/EditSvg';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 
-const EditSavedAddress = ({ name, phoneno }) => {
+const EditSavedAddress = ({addr}) => {
 
     return (
         <>
             <div className='flex items-center justify-between gap-3'>
                 <div className='flex flex-col gap-4'>
-                    <h3 className=' font-semibold'>John Doe</h3>
+                    <h3 className=' font-semibold'>{addr?.firstName} {addr?.lastName}</h3>
                     <span className='font-medium text-sm'>
-                        +1 234 567 8900
+                        +1 {addr?.phone}
                     </span>
                     <div className='text-sm flex flex-col'>
-                        <span>225 Wall Street</span>
-                        <span>Brooklyn New York 00234</span>
-                        <span>United States</span>
+                        <span>{addr?.address}</span>
+                        <span>{addr?.city} {addr?.state} {addr?.postalCode}</span>
+                        <span>{addr?.country.toUpperCase()}</span>
                     </div>
                 </div>
                 <div className='flex gap-5 sm:gap-10 items-center'>

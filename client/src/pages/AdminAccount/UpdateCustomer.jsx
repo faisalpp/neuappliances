@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AdminAccount from '../../layout/AdminAccount';
 import 'react-toastify/dist/ReactToastify.css';
 import TextInput from '../../components/TextInput/TextInput';
 import SelectInput from '../../components/TextInput/SelectInput';
+import { useParams } from 'react-router-dom';
 
 const UpdateCustomer = () => {
-    // value={values.title} onChange={handleTitleChange} error={errors.length > 0 && errors.includes('Product Title is Required!') ? true : false} errormessage="Product Title is Required!"
+      const params = useParams()
+
+      const GetCustomerDetails = () => {
+        console.log(params.id)
+      }
+
+      useEffect(()=>{
+        GetCustomerDetails()
+      },[params])
+
       return (
         <>
         <AdminAccount>

@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const Admin = require('../models/admin')
 const Order = require('../models/order')
+const OrderAddress = require('../models/orderAddress')
 
 const customerController = {
   async getAllCustomers(req, res, next) {
@@ -47,6 +48,10 @@ const customerController = {
     })();
     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
   },
+
+  // async getCustomerDetails(req,res,next) {
+  //   const customer = 
+  // }
 
 }
 

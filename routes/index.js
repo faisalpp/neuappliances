@@ -36,6 +36,8 @@ router.post('/api/login', authController.login);
 router.get('/api/user/refresh', authController.refresh);
 router.post('/api/user/get-profile',auth,userProfileController.getUserProfile);
 router.post('/api/user/update-profile',auth,userProfileController.UpdateProfile);
+router.post('/api/user/get-shipping-addresses',auth,userProfileController.getShippingAddresses);
+router.post('/api/user/get-billing-address',auth,userProfileController.getBillingAddresses);
 
 // Admin Related Routes
 router.get('/api/admin/register', adminController.register);

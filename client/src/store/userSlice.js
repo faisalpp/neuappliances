@@ -1,5 +1,6 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import {Signin} from "../api/user/auth"
+import axios from "axios";
 
 const initialState = {
   _id: "",
@@ -22,6 +23,24 @@ export const loginUser = createAsyncThunk("user/login", async (data) => {
       return { payload: error.response?.data, error: true };
     }
 });
+
+export const refreshUser = createAsyncThunk("user/refresh", async () => {
+    const isDev = import.meta.env.VITE_APP_DEV === "dev";
+    const url = isDev ? `${import.meta.env.VITE_APP_INTERNAL_PATH}/api/user/refresh` : "/api/user/refresh";
+    try{
+    const response = await axios.get(url,{withCredentials: true});
+      if(response.status === 200){
+        return response.data;
+      }else{
+        return response;
+      }
+    }catch(error){
+      return { payload: error.response?.data, error: true };
+    }
+});
+
+
+
 
 export const userSlice = createSlice({
   name: "user",
@@ -46,14 +65,22 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
-      const { _id, email, firstName, lastName, auth } = action.payload;
-
-      state._id = _id;
-      state.email = email;
-      state.firstName = firstName;
-      state.lastName = lastName;
+      const { user, auth } = action.payload;
+      state._id = user._id;
+      state.email = user.email;
+      state.firstName = user.firstName;
+      state.lastName = user.lastName;
       state.auth = auth;
-    });
+    })
+    .addCase(refreshUser.fulfilled, (state, action) => {
+      const {user,auth} = action.payload;
+       console.log(`slice ${user}`)
+       state._id = user._id;
+      state.email = user.email;
+      state.firstName = user.firstName;
+      state.lastName = user.lastName;
+      state.auth = auth;
+    })
   },
 });
 

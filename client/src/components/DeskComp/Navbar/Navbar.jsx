@@ -54,10 +54,12 @@ const Navbar = () => {
     const res = await Signout();
     if (res.status === 200) {
       Toast(res.data.msg,'success',1000)
+      dispatch(resetUser());
+      navigate('/login');
     } else if (res.code === 'ERR_BAD_REQUEST') {
       dispatch(resetUser());
       Toast('Session Expired!','error',1000)
-      navigate('/');
+      navigate('/login');
     } else {
       Toast(res.data.message,'error',1000)
     }

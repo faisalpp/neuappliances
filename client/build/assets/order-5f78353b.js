@@ -1,0 +1,1 @@
+import{I as t}from"./index-4f7bd113.js";const n=async()=>{let r;try{r=await t.get("/api/admin/get-orders")}catch(e){return e}return r},o=async r=>{let e;try{e=await t.post("/api/admin/get-order-by-id",r)}catch(a){return a}return e};export{o as a,n as g};

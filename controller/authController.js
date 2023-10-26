@@ -37,14 +37,11 @@ const authController = {
           status: 409,
           message: "Email Already Exits!",
         };
-
         return next(error);
       }
 
     // 4. password hash
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    let user;
 
       const userToRegister = new User({
         firstName,
@@ -55,10 +52,10 @@ const authController = {
         password: hashedPassword,
       });
 
-      user = await userToRegister.save();
+      await userToRegister.save();
 
     } catch (error) {
-      return next(error);
+      return res.status(500).json({ status: 500,msg:"Internal Server Error!" });
     }
 
     return res.status(200).json({ status: 200,msg:"Signup Successfull!" });
@@ -83,7 +80,7 @@ const authController = {
     let user;
     
     try{
-      user = await User.findOne({email});
+      user = await User.findOne({email:email});
       if(!user){
          const error = {
           status: 401,
@@ -126,6 +123,7 @@ const authController = {
     res.cookie('refreshToken',refreshToken,{httpOnly:false,maxAge: 24 * 60 * 60 * 1000});
     
     const userDto = new UserDTO(user);
+    console.log(userDto)
     
     return res.status(200).json({status:200,user: userDto,msg:'Login Successful!',auth:true});
 

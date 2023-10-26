@@ -26,7 +26,7 @@ const ManageCustomers = () => {
     },[])
 
 
-    const Row = ({name,lastOrder,dateRegisterd,email, totalOrders,totalAmount}) => {
+    const Row = ({id,name,lastOrder,dateRegisterd,email, totalOrders,totalAmount}) => {
         return (
           <tr className="border-b border-l border-r border-b6 text-xs font-medium">
           <td className="px-2 py-3">{name}</td>
@@ -37,8 +37,8 @@ const ManageCustomers = () => {
           <td className="px-5 py-3 text-b7">${totalAmount}</td>
           <td>
            <div className='flex items-center justify-center space-x-2 h-full' >
-            <NavLink title="View Customer" to={`/admin/update-order`} className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-b3 hover:border-b3 text-xs px-1 w-fit h-fit rounded-full cursor-pointer py-1' ><BsPencil className="text-sm" /></NavLink>
-            <NavLink title="Block Customer" to={`/admin/update-order`} className='flex items-center justify-center bg-red-500 text-white hover:bg-white hover:text-red-500 border-[1px] border-red-500 hover:border-red-500 text-sm w-fit h-fit rounded-full cursor-pointer px-1 py-1' ><BiBlock className="text-base" /></NavLink>
+            <NavLink title="View Customer" to={`/admin/update-customer/${id}`} className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-b3 hover:border-b3 text-xs px-1 w-fit h-fit rounded-full cursor-pointer py-1' ><BsPencil className="text-sm" /></NavLink>
+            <NavLink title="Block Customer" to={`/admin/block-customer/:id`} className='flex items-center justify-center bg-red-500 text-white hover:bg-white hover:text-red-500 border-[1px] border-red-500 hover:border-red-500 text-sm w-fit h-fit rounded-full cursor-pointer px-1 py-1' ><BiBlock className="text-base" /></NavLink>
            </div>
           </td>
         </tr>
@@ -54,9 +54,8 @@ const ManageCustomers = () => {
            <NavLink to="/admin/create-product" className='border border-b3 text-b3 text-xs px-2 rounded-md cursor-pointer py-1' >Search</NavLink>
           </div>
          </div>
-         <CustomerTable/>
          <Table head={['Name','Last Order','Date Registerd','Email','Orders','Total Spend','Action']} >
-          { customers?.length > 0 ? customers?.map((item)=><Row name={`${item.customer.firstName} ${item.customer.lastName}`} lastOrder={item.lastOrder} dateRegisterd={item.customer.createdAt} email={item.customer.email} totalOrders={item.orderCount} totalAmount={item.totalAmount} /> ) : null}
+          { customers?.length > 0 ? customers?.map((item)=><Row id={item.customer._id} name={`${item.customer.firstName} ${item.customer.lastName}`} lastOrder={item.lastOrder} dateRegisterd={item.customer.createdAt} email={item.customer.email} totalOrders={item.orderCount} totalAmount={item.totalAmount} /> ) : null}
          </Table>
          <Pagination2 page={1} totalPages={10} />
         </AdminAccount>

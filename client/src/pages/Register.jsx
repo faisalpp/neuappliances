@@ -1,61 +1,42 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState} from 'react'
 import MainLayout from '../layout/MainLayout'
 import { BsArrowRightShort } from 'react-icons/bs'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import countries from '../services/countries';
 import { FiChevronDown } from 'react-icons/fi';
 import { Signup } from '../api/user/auth';
+import Toast from '../utils/Toast'
 
 const Register = () => {
 
   const navigate = useNavigate();
 
-  const [firstName, setFirstName] = useState('faisal');
-  const [lastName, setLastName] = useState('qayyum');
-  const [email, setEmail] = useState('muhammadfaisal522@gmail.com');
-  const [country, setCountry] = useState('');
-  const [phone, setPhone] = useState('03036542828');
-  const [password, setPassword] = useState('Tenda522');
-  const [confirmPassword, setConfirmPassword] = useState('Tenda522');
-  const [countryList, setCountryList] = useState([]);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [country, setCountry] = useState(countries[0]);
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [countryList, setCountryList] = useState(countries);
 
-  useEffect(() => {
-    setCountryList(countries)
-    setCountry(countries[0].country)
-  }, [])
+  // useEffect(() => {
+  //   setCountryList(countries)
+  //   setCountry(countries[0].country)
+  // }, [])
 
 
 
   const Submit = async (e) => {
+    e.preventDefault()
     const data = { firstName, lastName, email, country, phone, password, confirmPassword }
-    e.preventDefault();
-
     const res = await Signup(data);
+    console.log(res)
     if (res.status === 200) {
-      toast.success('Signup Successfull!', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast('Signup Successfull!','success',1000)
       navigate('/login')
     } else {
-      toast.error(res.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.message,'error',1000)
     }
 
   }
@@ -64,10 +45,9 @@ const Register = () => {
     <>
 
       <MainLayout>
-        <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
         <div className='flex flex-col space-y-10 items-center pt-20 py-32 w-full px-5' >
           <div><img src="login_logo.webp" alt="login_logo" /></div>
-          <form onSubmit={Submit} className='flex flex-col space-y-5 max-w-[633px] w-full px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >
+          <form onSubmit={e=>Submit(e)} className='flex flex-col space-y-8 xl:w-[512px] lg:w-[512px] md:w-7/12 px-10 py-10 rounded-2xl bg-white border-[1px] border-gray-200' >
             <h4 className='text-xl font-bold' >Register</h4>
             <div className='flex flex-col space-y-1' >
               <h5 className='text-xs font-semibold' >First Name</h5>
@@ -85,6 +65,7 @@ const Register = () => {
               <div>
                 <label className='text-b16 font-semibold text-xs block mb-2'>Country</label>
                 <div className='relative'>
+                  
                   <select value={country} onChange={e => setCountry(e.target.value)} className='border border-[rgba(0,0,0,0.16)] rounded-lg h-10 text-sm px-4 w-full outline-none appearance-none'>
                     {countryList.length > 0 ? countryList.map((country, index) => <option key={index} >{country}</option>) : <option>No Country Data Found!</option>}
                   </select>
@@ -94,7 +75,7 @@ const Register = () => {
             </div>
             <div className='flex flex-col space-y-1' >
               <h5 className='text-xs font-semibold' >Phone</h5>
-              <input type="text" value={phone} onChange={e => setPhone(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='+1 000-000-0000' />
+              <input type="number" value={phone} onChange={e => setPhone(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='+1 000-000-0000' />
             </div>
             <div className='flex flex-col space-y-1' >
               <h5 className='text-xs font-semibold' >Password</h5>
@@ -108,8 +89,7 @@ const Register = () => {
             <div className='flex w-full justify-center' ><h5 className='text-sm' >Have an Account? <NavLink to="/login" ><span className='text-b3 hover:underline cursor-pointer' >Login</span></NavLink></h5></div>
           </form>
         </div>
-
-        <ToastContainer />
+        <div className='flex items-center justify-center w-full text-xs font-normal ' ><div className='flex text-black/70 py-4 coxxl:w-5/12 xl:w-5/12 lg-to-xl:w-6/12  xs-to-sm:w-7/12 md:w-7/12 xss-to-xs:w-10/12 text-[9px]' ><h3 className='lg-to-xl:w-8/12 w-1/2 coxxl:w-8/12 xl:w-8/12' >© 2023 Neu Appliances</h3><h3 className='text-end' >Terms&nbsp;of&nbsp;Use&nbsp;•&nbsp;Privacy&nbsp;Policy&nbsp;•&nbsp;Help&nbsp;Center</h3></div></div>
       </MainLayout>
 
     </>

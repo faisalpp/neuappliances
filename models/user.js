@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     phone: {type:String},
     country: {type:String,},
     password: {type:String,required:true},
+    isBlocked: {type:Boolean,default:false}
 },{timestamps: true});
 
 module.exports = mongoose.model('User',userSchema,'users');
