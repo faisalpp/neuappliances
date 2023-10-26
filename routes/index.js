@@ -178,6 +178,10 @@ router.post('/api/admin/get-order-by-id',adminAuth,orderController.getOrderById)
 // User Order Processing Api's
 router.post('/api/user/process-order',orderController.processOrder);
 
+// Stripe Api's
+router.get('/api/stripe/get-publish-key',orderController.getStripePublishableKey);
+router.post('/api/stripe/create-checkout-session',orderController.createCheckoutSession);
+
 
 // Front-End Api's
 

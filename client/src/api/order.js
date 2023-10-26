@@ -31,3 +31,27 @@ export const confirmOrder = async (data) => {
     }
     return response;
 }
+
+export const GetStripePublishKey = async () => {
+    let response;
+
+    try{
+      response = await api.get('/api/stripe/get-publish-key');
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const createCheckoutSession = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/stripe/create-checkout-session',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+

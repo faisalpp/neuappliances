@@ -16,6 +16,10 @@ import Toast from '../../utils/Toast'
 import {processOrder} from '../../api/order'
 import {resetOrder, setPaymentInfo} from '../../store/orderSlice'
 import { resetCart } from '../../store/cartSlice';
+import {loadStripe} from '@stripe/stripe-js'
+import { GetStripePublishKey,createCheckoutSession } from '../../api/order';
+
+
 
 const Payment = () => {
 
@@ -101,9 +105,9 @@ const Payment = () => {
     }
 
       const [isBilling,setIsBilling] = useState(false)
-      const [paymentMod,setPaymentMod] = useState('card_payment')
+      const [paymentMod,setPaymentMod] = useState('card')
 
-      const [cardInfo,setCardInfo] = useState({cardNo:'',name:'',expDate:'',code:''})
+      // const [cardInfo,setCardInfo] = useState({cardNo:'',name:'',expDate:'',code:''})
       const [cardErrors,setCardErrors] = useState([])
 
       const cardValidationSchema = Yup.object().shape({
@@ -172,63 +176,88 @@ const Payment = () => {
       const isAuth = useSelector((state)=>state.user.auth)
       const isAdmin = useSelector((state)=>state.user.isAdmin)
 
-      const handlePayment = async (e) => {
-        setProcessing(true)
-        switch(paymentMod){
-         case 'card_payment':
-          await handleCardPayment();
-           break;
-         case 'affirm_payment':
-          await handleAffirmPayment();
-           break;
-         case 'paypal_payment':
-          await handlePaypalPayment();
-           break;
-        }
-       }
+      // const handlePayment = async (e) => {
+      //   setProcessing(true)
+      //   switch(paymentMod){
+      //    case 'card_payment':
+      //     await handleCardPayment();
+      //      break;
+      //    case 'affirm_payment':
+      //     await handleAffirmPayment();
+      //      break;
+      //    case 'paypal_payment':
+      //     await handlePaypalPayment();
+      //      break;
+      //   }
+      //  }
 
-      const HandleOrder = async (e) => {
-         let billingAddress = {status:false};
-         if(isBilling){
-            if(orderInfo?.keepUpdates){
-             newsEmail.push(orderInfo.email)
+      // const HandleOrder = async (e) => {
+      //    let billingAddress = {status:false};
+      //    if(isBilling){
+      //       if(orderInfo?.keepUpdates){
+      //        newsEmail.push(orderInfo.email)
+      //       }
+      //      billingAddress = await handleBillingAddress()
+      //     }else{
+      //       if(orderInfo?.keepUpdates){
+      //         newsEmail.push(orderInfo.email)
+      //       }
+      //       billingAddress = {status:true,data:{...orderInfo}}
+      //     }
+      //     if(billingAddress.status){
+      //       let data;
+      //       if(orderType === 'delivery'){
+      //         data = {userId:userId,isAdmin:isAdmin,isAuth:isAuth,cartId:cartId,orderType:orderType,shippingAddress:orderInfo,billingInfo:billingAddress.data,paymentInfo:paymentInfo,newsEmail:newsEmail}
+      //       }else{
+      //         data = {userId:userId,isAdmin:isAdmin,isAuth:isAuth,cartId:cartId,orderType:orderType,shippingAddress:orderInfo,billingInfo:billingAddress.data,paymentInfo:paymentInfo,newsEmail:newsEmail}
+      //       }
+      //      const res = await processOrder(data);
+      //      if(res.status === 200){
+      //        Toast(res.data.msg,'success',1000)
+      //        dispatch(resetCart())
+      //        dispatch(resetOrder())
+      //        setProcessing(false)
+      //        navigate('/mycart/order-success')
+      //     }else{
+      //       Toast(res.data.message,'error',1000)
+      //       setProcessing(false)
+      //    }
+      //   }else{
+      //       Toast("Billing Address Not Found!",'error',1000)
+      //       setProcessing(false)
+      //   }
+      // }
+
+      // useEffect(()=>{
+      //   if(isPayment){
+      //     HandleOrder()
+      //   }
+      // },[isPayment])
+
+      const handlePayment = async (e) => {
+        // e.preventDefault()
+        const res = await GetStripePublishKey()
+        if(res.status === 200){
+          const stripe = await loadStripe(res.data.stripePublishKey)
+          if(stripe){
+            const data = {cartId:cartId,orderType:orderType,paymentMod:paymentMod,customerEmail:orderInfo.email}
+            const getSession = await createCheckoutSession(data)
+            if(getSession.status === 200){
+              // console.log(getSession)
+              const result = stripe.redirectToCheckout({
+                sessionId:getSession.data.id
+              })
+              if(result.error){
+                console.log(result.error)
+                Toast(result.error,'error',2000)
+              }
             }
-           billingAddress = await handleBillingAddress()
-          }else{
-            if(orderInfo?.keepUpdates){
-              newsEmail.push(orderInfo.email)
-            }
-            billingAddress = {status:true,data:{...orderInfo}}
           }
-          if(billingAddress.status){
-            let data;
-            if(orderType === 'delivery'){
-              data = {userId:userId,isAdmin:isAdmin,isAuth:isAuth,cartId:cartId,orderType:orderType,shippingAddress:orderInfo,billingInfo:billingAddress.data,paymentInfo:paymentInfo,newsEmail:newsEmail}
-            }else{
-              data = {userId:userId,isAdmin:isAdmin,isAuth:isAuth,cartId:cartId,orderType:orderType,shippingAddress:orderInfo,billingInfo:billingAddress.data,paymentInfo:paymentInfo,newsEmail:newsEmail}
-            }
-           const res = await processOrder(data);
-           if(res.status === 200){
-             Toast(res.data.msg,'success',1000)
-             dispatch(resetCart())
-             dispatch(resetOrder())
-             setProcessing(false)
-             navigate('/mycart/order-success')
-          }else{
-            Toast(res.data.message,'error',1000)
-            setProcessing(false)
-         }
         }else{
-            Toast("Billing Address Not Found!",'error',1000)
-            setProcessing(false)
+          Toast('Stripe Payment Not Available!','error',2000)
         }
       }
 
-      useEffect(()=>{
-        if(isPayment){
-          HandleOrder()
-        }
-      },[isPayment])
 
     return (
         <>  {isProcessing ? <ChkLoader /> :
@@ -252,7 +281,7 @@ const Payment = () => {
 
                 {/* Payment Method */}
 
-                <PaymentMethod card={cardInfo} setCard={setCardInfo} cardErrors={cardErrors} payment={paymentMod} setPayment={setPaymentMod} billing={isBilling} setBilling={setIsBilling} />
+                <PaymentMethod payment={paymentMod} setPayment={setPaymentMod} billing={isBilling} setBilling={setIsBilling} />
 
                 {/* Billing Form Start */}
                 <div className={`${isBilling ? 'flex flex-col' : 'hidden'} duration-300  border-[1px] border-b31 rounded-md mt-3 px-4 py-4`} >
@@ -304,7 +333,7 @@ const Payment = () => {
                             Return to shipping
                         </span>
                     </Link>
-                    <button type="button" onClick={e=>handlePayment(e)} className='cursor-pointer py-3 px-6 text-xs rounded-lg bg-b3 text-white' >
+                    <button type="button" onClick={handlePayment} className='cursor-pointer py-3 px-6 text-xs rounded-lg bg-b3 text-white' >
                         Pay Now
                     </button>
                 </div>

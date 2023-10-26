@@ -4,6 +4,9 @@ import RadioSvg from '../../../svgs/RadioSvg';
 import { FaLock } from 'react-icons/fa';
 import CustomInput from '../../Reusable/CustomInput';
 import TextInput from '../../TextInput/TextInput';
+import CreditCard from './CreditCard';
+import {SiAmericanexpress} from 'react-icons/si'
+import {FaCcMastercard} from 'react-icons/fa'
 
 const PaymentRadio = ({ id, title, labelImage, checked, name, customStyle,change}) => {
     return (
@@ -26,15 +29,15 @@ const PaymentRadio = ({ id, title, labelImage, checked, name, customStyle,change
     )
 }
 
-const PaymentRadio2 = ({ id, title, labelImage, checked, name, customStyle,change}) => {
+const PaymentRadio2 = ({ id, title,labelImage, checked, name, customStyle,change}) => {
     return (
         <div className='flex justify-between w-full gap-3 p-4'>
             <Radio id={id} onChange={(e)=>change(e)} icon={<RadioSvg className="w-[18px] h-[18px]" />} className='border border-[#D9D9D9] bg-white p-0 w-[18px] h-[18px]' ripple={false} name={name} label={
                 <div>
                     <Typography className="font-medium tracking-032 flex items-center gap-1 text-sm text-b16">
                         {
-                            labelImage ?
-                                <img src={'/payment/' + labelImage} className='h-[23px] object-contain' alt={title} />
+                            labelImage?.length > 0 ?
+                                labelImage.map((img)=><img src={'/payment/' + img} className='h-[23px] object-contain' alt={title} />)
                                 : null
                         }
                         <span className={customStyle}>
@@ -47,7 +50,7 @@ const PaymentRadio2 = ({ id, title, labelImage, checked, name, customStyle,chang
     )
 }
 
-const PaymentMethod = ({payment,setPayment,setBilling,billing,card,setCard,cardErrors}) => {
+const PaymentMethod = ({payment,setPayment,setBilling,billing}) => {
 
     const [sameAddress,setSameAddress] = useState(true)
 
@@ -95,19 +98,22 @@ const PaymentMethod = ({payment,setPayment,setBilling,billing,card,setCard,cardE
                     <FaLock className='text-b3 text-xs' /> All transactions are secure and encrypted.
                 </p>
                 <div className='[&>*]:border-b [&>*]:border-b31 [&>*:last-child]:border-0 border border-b31 rounded-md'>
-                    <PaymentRadio2 customStyle="font-medium" change={handlePaymentMod} name="card_payment" id="credit_card" title="Credit card" checked={payment} />
-                    <div className='p-4 bg-[#F9F9F9] grid grid-cols-1 gap-14px'>
+                    <PaymentRadio2 customStyle="font-medium" change={handlePaymentMod} name="card" id="credit_card" checked={payment} labelImage={['visa.png','master.png','express.png']} />
+                    
+                    {/* <CreditCard/> */}
+                    {/* <div className='p-4 bg-[#F9F9F9] grid grid-cols-1 gap-14px'>
                     <TextInput icon="lock.webp" width="full" name="cardNumber" iscompulsory="false" type="text" value={addSpacesToCreditCardNumber(card.cardNo)} onChange={(e)=>setCard({...card,cardNo:card.cardNo.length > 15 ? card.cardNo.replace(/\s/g, '').slice(0, 16) : e.target.value.replace(/\s/g, '').slice(0, 16)})} error={cardErrors && cardErrors.includes('Card Number is Required!') ? true : false} errormessage="Card Number is Required!" placeholder="Card number" />
                     <TextInput width="full" name="cardName" iscompulsory="false" type="text" value={card.name} onChange={(e)=>setCard({...card,name:e.target.value})} error={cardErrors && cardErrors.includes('Card Holder Name is Required!') ? true : false} errormessage="Card Holder Name is Required!" placeholder="Name on card" />
                         <div className='grid grid-cols-2 gap-14px'>
                          <TextInput width="full" name="expDate" iscompulsory="false" type="text" value={card.expDate} onChange={(e)=>setCard({...card,expDate:addSlashesToNumber(e.target.value)})} error={cardErrors && cardErrors.includes('Card Expiry Date is Required!') ? true : false} errormessage="Card Expiry Date is Required!" placeholder="Expiration date (MM / YY)" />
                          <TextInput icon="question-fill.webp" width="full" name="code" iscompulsory="false" type="text" value={card.code} onChange={(e)=>setCard({...card,code:card.code.length > 6 ?card.code :e.target.value})} error={cardErrors && cardErrors.includes('Security Code is Required!') ? true : false} errormessage="Security Code is Required!" placeholder="Security code" />
                         </div>
-                    </div>
-                    <PaymentRadio2 name="paypal_payment" change={handlePaymentMod} checked={payment} labelImage="pay_paypal.webp" id="paypal" />
-                    <PaymentRadio2 name="affirm_payment" change={handlePaymentMod} checked={payment} id="affirm" labelImage="affirm.webp" />
+                    </div> */}
+                    <PaymentRadio2 name="paypal" change={handlePaymentMod} checked={payment} labelImage={["pay_paypal.webp"]} id="paypal" />
+                    <PaymentRadio2 name="affirm" change={handlePaymentMod} checked={payment} id="affirm" labelImage={["affirm.webp"]} />
                 </div>
             </div>
+
             {/* Billing Address */}
             <div className='mt-8'>
                 <h3 className='text-lg font-medium text-b16'>Billing address</h3>

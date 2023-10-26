@@ -28,6 +28,7 @@
     "mongoose": "^7.2.2",
     "nodemailer": "^6.9.7",
     "nodemon": "^2.0.22",
-    "randexp": "^0.5.3"
+    "randexp": "^0.5.3",
+    "stripe": "^14.1.0"
   }
 }

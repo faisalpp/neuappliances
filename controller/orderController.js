@@ -1,3 +1,4 @@
+const {STRIPE_PUBLISHABLE_KEY,STRIPE_PRIVATE_KEY,WEBSITE_HOST_ADDRESS} = require('../config/index')
 const Joi = require("joi");
 const OrderAddress = require('../models/orderAddress')
 const Cart = require('../models/cart')
@@ -8,6 +9,7 @@ const Order = require('../models/order')
 const bcrypt = require("bcryptjs");
 const RandExp = require('randexp');
 const SendMail = require('../services/NeuMailer')
+const Stripe = require('stripe')(STRIPE_PRIVATE_KEY)
 
 const orderController = {
 
@@ -209,8 +211,87 @@ const orderController = {
 
   },
 
-  async createOrderIntent(req, res, next) {
-    //  
+  async getStripePublishableKey(req, res, next) {
+    const stripePublishKey = STRIPE_PUBLISHABLE_KEY;
+    // console.log(stripePublishKey)
+    return res.status(200).json({stripePublishKey:stripePublishKey})
+  },
+
+  async createCheckoutSession(req, res, next) {
+    const {cartId,orderType,paymentMod,customerEmail} = req.body;
+    
+    let orders = [];
+    const CART = await Cart.findOne({_id:cartId})
+    if(orderType === 'delivery'){
+      orders = CART.deliveryOrders
+    }else{
+      orders = CART.pickupOrders
+    }
+    let lineItems = [];
+    if(orders.length > 0){
+      orders.forEach((order)=>{
+      const existingProductIndex = lineItems.findIndex(p => p.product.pid === order.pid);
+      // If product exists, increment its quantity
+      if (existingProductIndex !== -1) {
+        lineItems[existingProductIndex].quantity += 1;
+    } else {
+      // If product doesn't exist, add it to the array
+      lineItems.push({product:{pid:order.pid,name:order.title,price:order.salePrice?order.salePrice:order.regPrice}, quantity: 1 });
+    }
+  })
+ }
+
+    // console.log(lineItems)
+
+    const line_items = lineItems.map((order)=>({
+      price_data: {
+        currency: "usd",
+        product_data:{
+          name:order.product.name,
+        },
+        unit_amount:order.product.price * 100
+      },
+      quantity:order.quantity,
+    }));
+
+    // console.log(line_items)
+
+    if(line_items.length > 0){   
+      const WEBSITE_HOST = WEBSITE_HOST_ADDRESS
+      // const WEBSITE_HOST = "http://localhost:5173"
+      const session = await Stripe.checkout.sessions.create({
+        payment_method_types:[paymentMod],
+        line_items:line_items,
+        mode: 'payment',
+        customer_email:customerEmail,
+        success_url: `${WEBSITE_HOST}/mycart/order-success`,
+        cancel_url: `${WEBSITE_HOST}/mycart/order-failed`,
+        shipping_options:[
+          {
+            shipping_rate_data: {
+              type: 'fixed_amount',
+              fixed_amount: {
+                amount: 45 * 100,
+                currency: 'usd',
+              },
+              display_name: 'Home Delivery',
+              delivery_estimate: {
+                minimum: {
+                  unit: 'business_day',
+                  value: 2,
+                },
+                maximum: {
+                  unit: 'business_day',
+                  value: 3,
+                },
+              },
+            },
+          },
+        ]
+      });
+      return res.status(200).json({id:session.id})
+    } 
+
   },
 
   async getOrders(req, res, next) {
@@ -221,10 +302,10 @@ const orderController = {
   },
   
   async getOrderById(req, res, next) {
-    // try{
+    try{
      const order = await Order.findOne({orderNo:req.body.orderNo}).populate('shippingAddress').populate('billingAddress');
      return res.status(200).json({status: 200,order:order});
-    // }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
+    }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
   },
 
 }
