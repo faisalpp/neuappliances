@@ -54,4 +54,15 @@ export const createCheckoutSession = async (data) => {
     return response;
 }
 
+export const createPaymentIntent = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/stripe/create-payment-intent',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
 

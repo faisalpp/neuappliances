@@ -221,12 +221,42 @@ const orderController = {
     const {cartId,orderType,paymentMod,customerEmail} = req.body;
     
     let orders = [];
+    let shipping = {name:'',fee:0};
     const CART = await Cart.findOne({_id:cartId})
     if(orderType === 'delivery'){
       orders = CART.deliveryOrders
+      shipping = {
+        shipping_rate_data: {
+          type: 'fixed_amount',
+          fixed_amount: {
+            amount: CART.deliveryInfo.shipping * 100,
+            currency: 'usd',
+          },
+          display_name: 'Home Delivery',
+          delivery_estimate: {
+            minimum: {
+              unit: 'business_day',
+              value: 2,
+            },
+            maximum: {
+              unit: 'business_day',
+              value: 3,
+            },
+          },
+        },
+      } 
     }else{
       orders = CART.pickupOrders
+      shipping = {shipping_rate_data: {
+        type: 'fixed_amount',
+        fixed_amount: {
+          amount: 0,
+          currency: 'usd',
+        },
+        display_name: shipping.name,
+      }, 
     }
+  }
     let lineItems = [];
     if(orders.length > 0){
       orders.forEach((order)=>{
@@ -241,6 +271,13 @@ const orderController = {
   })
  }
 
+       // create tax id 
+       const taxRate = await Stripe.taxRates.create({ // Here
+        display_name: 'GST',
+        percentage: 8.25,
+        inclusive: false
+      });
+
     // console.log(lineItems)
 
     const line_items = lineItems.map((order)=>({
@@ -252,13 +289,16 @@ const orderController = {
         unit_amount:order.product.price * 100
       },
       quantity:order.quantity,
+      tax_rates:[taxRate.id]
     }));
 
     // console.log(line_items)
 
+
     if(line_items.length > 0){   
-      const WEBSITE_HOST = WEBSITE_HOST_ADDRESS
-      // const WEBSITE_HOST = "http://localhost:5173"
+
+      // const WEBSITE_HOST = WEBSITE_HOST_ADDRESS
+      const WEBSITE_HOST = "http://localhost:5173"
       const session = await Stripe.checkout.sessions.create({
         payment_method_types:[paymentMod],
         line_items:line_items,
@@ -266,32 +306,24 @@ const orderController = {
         customer_email:customerEmail,
         success_url: `${WEBSITE_HOST}/mycart/order-success`,
         cancel_url: `${WEBSITE_HOST}/mycart/order-failed`,
-        shipping_options:[
-          {
-            shipping_rate_data: {
-              type: 'fixed_amount',
-              fixed_amount: {
-                amount: 45 * 100,
-                currency: 'usd',
-              },
-              display_name: 'Home Delivery',
-              delivery_estimate: {
-                minimum: {
-                  unit: 'business_day',
-                  value: 2,
-                },
-                maximum: {
-                  unit: 'business_day',
-                  value: 3,
-                },
-              },
-            },
-          },
-        ]
+        shipping_options:[shipping],
       });
       return res.status(200).json({id:session.id})
     } 
 
+  },
+
+  async createPaymentIntent(req, res, next) {
+    const {price,mode,currency,description} = req.body;
+    try{
+      const paymentIntent = await Stripe.paymentIntents.create({
+        amount: price,
+        currency: currency,
+        payment_method_types: [...mode],
+        description: description
+      });
+      return res.status(200).json({payIntent:paymentIntent})
+    }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
   },
 
   async getOrders(req, res, next) {

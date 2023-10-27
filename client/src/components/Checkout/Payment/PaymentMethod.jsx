@@ -8,6 +8,7 @@ import CreditCard from './CreditCard';
 import {SiAmericanexpress} from 'react-icons/si'
 import {FaCcMastercard} from 'react-icons/fa'
 
+
 const PaymentRadio = ({ id, title, labelImage, checked, name, customStyle,change}) => {
     return (
         <div className='flex justify-between w-full gap-3 p-4'>
@@ -50,7 +51,7 @@ const PaymentRadio2 = ({ id, title,labelImage, checked, name, customStyle,change
     )
 }
 
-const PaymentMethod = ({payment,setPayment,setBilling,billing}) => {
+const PaymentMethod = ({CardNumber,CardExpiry,CardCvc,handleCardPayment,cardErrors,card,setCard,payment,setPayment,setBilling,billing}) => {
 
     const [sameAddress,setSameAddress] = useState(true)
 
@@ -70,25 +71,6 @@ const PaymentMethod = ({payment,setPayment,setBilling,billing}) => {
       setPayment(e.target.name)
     }
 
-    const addSpacesToCreditCardNumber = (creditCardNumber) => {
-        // First, remove any existing spaces from the credit card number
-        const trimmedNumber = creditCardNumber.replace(/\s/g, '').slice(0, 16);
-        // Then, add a space after every 4 characters
-        const formattedNumber = trimmedNumber.replace(/\d{4}(?!$)/g, '$& ');
-        return formattedNumber;
-      };
-      const addSlashesToNumber = (number) => {
-        const trimmedNumber = number.replace(/[^0-9]/g, '').slice(0, 6);
-        let formattedNumber = '';
-        for (let i = 0; i < trimmedNumber.length; i += 2) {
-          if (i !== 0) {
-            formattedNumber += '/';
-          }
-          formattedNumber += trimmedNumber.substr(i, 2);
-        }
-        return formattedNumber;
-      };
-
     return (
         <div>
             {/* Payment */}
@@ -98,17 +80,34 @@ const PaymentMethod = ({payment,setPayment,setBilling,billing}) => {
                     <FaLock className='text-b3 text-xs' /> All transactions are secure and encrypted.
                 </p>
                 <div className='[&>*]:border-b [&>*]:border-b31 [&>*:last-child]:border-0 border border-b31 rounded-md'>
-                    <PaymentRadio2 customStyle="font-medium" change={handlePaymentMod} name="card" id="credit_card" checked={payment} labelImage={['visa.png','master.png','express.png']} />
-                    
+                    <PaymentRadio2 customStyle="font-medium" change={handlePaymentMod} name="card" id="credit_card" checked={payment} labelImage={['visa.png','master.png','express.png']} />                    
                     {/* <CreditCard/> */}
-                    {/* <div className='p-4 bg-[#F9F9F9] grid grid-cols-1 gap-14px'>
-                    <TextInput icon="lock.webp" width="full" name="cardNumber" iscompulsory="false" type="text" value={addSpacesToCreditCardNumber(card.cardNo)} onChange={(e)=>setCard({...card,cardNo:card.cardNo.length > 15 ? card.cardNo.replace(/\s/g, '').slice(0, 16) : e.target.value.replace(/\s/g, '').slice(0, 16)})} error={cardErrors && cardErrors.includes('Card Number is Required!') ? true : false} errormessage="Card Number is Required!" placeholder="Card number" />
-                    <TextInput width="full" name="cardName" iscompulsory="false" type="text" value={card.name} onChange={(e)=>setCard({...card,name:e.target.value})} error={cardErrors && cardErrors.includes('Card Holder Name is Required!') ? true : false} errormessage="Card Holder Name is Required!" placeholder="Name on card" />
-                        <div className='grid grid-cols-2 gap-14px'>
-                         <TextInput width="full" name="expDate" iscompulsory="false" type="text" value={card.expDate} onChange={(e)=>setCard({...card,expDate:addSlashesToNumber(e.target.value)})} error={cardErrors && cardErrors.includes('Card Expiry Date is Required!') ? true : false} errormessage="Card Expiry Date is Required!" placeholder="Expiration date (MM / YY)" />
-                         <TextInput icon="question-fill.webp" width="full" name="code" iscompulsory="false" type="text" value={card.code} onChange={(e)=>setCard({...card,code:card.code.length > 6 ?card.code :e.target.value})} error={cardErrors && cardErrors.includes('Security Code is Required!') ? true : false} errormessage="Security Code is Required!" placeholder="Security code" />
-                        </div>
-                    </div> */}
+                    <form onSubmit={handleCardPayment} className='p-4 bg-[#F9F9F9] grid grid-cols-1 gap-14px'>
+                    
+                    <div className='relative flex justify-center items-center h-10 bg-[#F9F9F9]' >
+                    <div className={`bg-white text-sm outline-none border-[1px] border-b31 w-full px-4 h-10 rounded-lg`} >
+                      <CardNumber className='py-3' />
+                      <div className='absolute right-4 top-0 h-full flex items-center' ><img className='w-[18px] h-[18px]' src="/svgs/lock.webp" /></div>
+                    </div>
+                    </div>
+                    {/* <TextInput icon="lock.webp" width="full" name="cardNumber" iscompulsory="false" type="text" value={addSpacesToCreditCardNumber(card.cardNo)} onChange={(e)=>setCard({...card,cardNo:card.cardNo.length > 15 ? card.cardNo.replace(/\s/g, '').slice(0, 16) : e.target.value.replace(/\s/g, '').slice(0, 16)})} error={cardErrors && cardErrors.includes('Card Number is Required!') ? true : false} errormessage="Card Number is Required!" placeholder="Card number" /> */}
+                    {/* <TextInput width="full" name="cardName" iscompulsory="false" type="text" value={card.name} onChange={(e)=>setCard({...card,name:e.target.value})} error={cardErrors && cardErrors.includes('Card Holder Name is Required!') ? true : false} errormessage="Card Holder Name is Required!" placeholder="Name on card" /> */}
+                    <div className='grid grid-cols-2 gap-14px'>
+                     <div className='relative flex justify-center items-center h-10 bg-[#F9F9F9]' >
+                     <div className={`bg-white text-sm outline-none border-[1px] border-b31 w-full px-4 h-10 rounded-lg`} >
+                       <CardExpiry className='py-3' />
+                     </div>
+                     </div>
+                     <div className='relative flex justify-center items-center h-10 bg-[#F9F9F9]' >
+                     <div className={`bg-white text-sm outline-none border-[1px] border-b31 w-full px-4 h-10 rounded-lg`} >
+                       <CardCvc className='py-3' />
+                     </div>
+                     </div>
+                     
+                     {/* <TextInput width="full" name="expDate" iscompulsory="false" type="text" value={card.expDate} onChange={(e)=>setCard({...card,expDate:addSlashesToNumber(e.target.value)})} error={cardErrors && cardErrors.includes('Card Expiry Date is Required!') ? true : false} errormessage="Card Expiry Date is Required!" placeholder="Expiration date (MM / YY)" /> */}
+                     {/* <TextInput icon="question-fill.webp" width="full" name="code" iscompulsory="false" type="text" value={card.code} onChange={(e)=>setCard({...card,code:card.code.length > 6 ?card.code :e.target.value})} error={cardErrors && cardErrors.includes('Security Code is Required!') ? true : false} errormessage="Security Code is Required!" placeholder="Security code" /> */}
+                    </div>
+                    </form>
                     <PaymentRadio2 name="paypal" change={handlePaymentMod} checked={payment} labelImage={["pay_paypal.webp"]} id="paypal" />
                     <PaymentRadio2 name="affirm" change={handlePaymentMod} checked={payment} id="affirm" labelImage={["affirm.webp"]} />
                 </div>

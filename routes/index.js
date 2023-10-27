@@ -181,6 +181,7 @@ router.post('/api/user/process-order',orderController.processOrder);
 // Stripe Api's
 router.get('/api/stripe/get-publish-key',orderController.getStripePublishableKey);
 router.post('/api/stripe/create-checkout-session',orderController.createCheckoutSession);
+router.post('/api/stripe/create-payment-intent',orderController.createPaymentIntent);
 
 
 // Front-End Api's

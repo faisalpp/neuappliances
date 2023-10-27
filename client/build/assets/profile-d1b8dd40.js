@@ -1,0 +1,1 @@
+import{m as t}from"./index-9086772f.js";const n=async e=>{let r;try{r=await t.post("/api/user/get-profile",e)}catch(s){return s}return r},i=async e=>{let r;try{r=await t.post("/api/user/get-shipping-addresses",e)}catch(s){return s}return r},o=async e=>{let r;try{r=await t.post("/api/user/get-billing-address",e)}catch(s){return s}return r};export{n as G,i as a,o as b};

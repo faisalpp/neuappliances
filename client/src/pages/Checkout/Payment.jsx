@@ -17,7 +17,9 @@ import {processOrder} from '../../api/order'
 import {resetOrder, setPaymentInfo} from '../../store/orderSlice'
 import { resetCart } from '../../store/cartSlice';
 import {loadStripe} from '@stripe/stripe-js'
-import { GetStripePublishKey,createCheckoutSession } from '../../api/order';
+import { GetStripePublishKey,createPaymentIntent } from '../../api/order';
+import { useElements, useStripe } from '@stripe/react-stripe-js';
+import {CardNumberElement,CardExpiryElement,CardCvcElement} from '@stripe/react-stripe-js'
 
 
 
@@ -40,7 +42,7 @@ const Payment = () => {
     const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo)
 
     const Countrys = [
-        { name: 'USA', value: 'usa' },
+        { name: 'USA', value: 'us' },
     ]
     const Province = [
         { name: 'Alberta', value: 'alberta' },
@@ -107,7 +109,7 @@ const Payment = () => {
       const [isBilling,setIsBilling] = useState(false)
       const [paymentMod,setPaymentMod] = useState('card')
 
-      // const [cardInfo,setCardInfo] = useState({cardNo:'',name:'',expDate:'',code:''})
+      const [cardInfo,setCardInfo] = useState({cardNo:'',name:'',expDate:'',code:''})
       const [cardErrors,setCardErrors] = useState([])
 
       const cardValidationSchema = Yup.object().shape({
@@ -122,29 +124,9 @@ const Payment = () => {
       const [newsEmail,setNewsEmail] = useState([])
       const [orderType,setOrderType] = useState(deliveryOrders?.length > 0 ? 'delivery':'pickup')
       const [isPayment,setPayment] = useState(false)
-
-      const handleCardPayment = async () => {
-        try{
-            await cardValidationSchema.validate(cardInfo, { abortEarly: false });   
-            // Card Payment Should be Implemented Here
-            dispatch(setPaymentInfo({name:'card'}))
-            setPayment(true)
-        }catch(error){ 
-          if (error) {
-          let errors = error.errors;
-            setCardErrors(errors)
-            errors.forEach((item)=>{
-              Toast(item,'error',1000)
-            })
-            dispatch(setPaymentInfo(null))
-          } else {
-            setCardErrors([])
-          }
-         }
-      }
       
-      const handleAffirmPayment = async () => {dispatch(setPaymentInfo({name:'affirm'}));setPayment(true)}
-      const handlePaypalPayment = async () => {dispatch(setPaymentInfo({name:'paypal'}));setPayment(true)}
+      // const handleAffirmPayment = async () => {dispatch(setPaymentInfo({name:'affirm'}));setPayment(true)}
+      // const handlePaypalPayment = async () => {dispatch(setPaymentInfo({name:'paypal'}));setPayment(true)}
 
       const handleBillingAddress = async () => {
         try{
@@ -234,28 +216,83 @@ const Payment = () => {
       //   }
       // },[isPayment])
 
-      const handlePayment = async (e) => {
+      const elements = useElements()
+      const stripe = useStripe()
+
+      const handlePaypalPayment = async (e) => {
         // e.preventDefault()
-        const res = await GetStripePublishKey()
-        if(res.status === 200){
-          const stripe = await loadStripe(res.data.stripePublishKey)
-          if(stripe){
-            const data = {cartId:cartId,orderType:orderType,paymentMod:paymentMod,customerEmail:orderInfo.email}
-            const getSession = await createCheckoutSession(data)
-            if(getSession.status === 200){
-              // console.log(getSession)
-              const result = stripe.redirectToCheckout({
-                sessionId:getSession.data.id
-              })
-              if(result.error){
-                console.log(result.error)
-                Toast(result.error,'error',2000)
-              }
+        const getPayIntent = await createPaymentIntent({price:200*100,mode:['card'],currency:'usd',description:"Neuappliance Outlet Card Transaction"}) 
+         
+        if(getPayIntent){
+          const paymentIntent =  await stripe.confirmPayPalPayment(getPayIntent.data.payIntent,{
+            payment_method:{
+
             }
-          }
-        }else{
-          Toast('Stripe Payment Not Available!','error',2000)
+          })
         }
+
+        Toast('Paypal Transaction!','success',1000)
+      }
+      const handleAffirmPayment = async (e) => {
+        // e.preventDefault()
+         Toast('Affirm Transaction!','success',1000)
+      }
+      const handleCardPayment = async (e) => {
+        // e.preventDefault()
+         const CardNumber = elements.getElement(CardNumberElement)
+         const CardExpiry = elements.getElement(CardExpiryElement)
+         const CardCvc = elements.getElement(CardCvcElement)
+         const getPayIntent = await createPaymentIntent({price:200*100,mode:['card'],currency:'usd',description:"Neuappliance Outlet Card Transaction"}) 
+         
+         if(getPayIntent){
+           const paymentIntent =  await stripe.confirmCardPayment(getPayIntent.data.payIntent.client_secret,{
+             payment_method:{
+               card: CardNumber,
+               billing_details:{
+                name: `${orderInfo.firstName} ${orderInfo.lastName}`,
+                email:orderInfo.email,
+                address:{line1:orderInfo.address,city:orderInfo.city,country:'us',postal_code:orderInfo.postalCode,state:orderInfo.state}
+               },
+              },
+            })
+            return paymentIntent
+            
+         }else{
+            Toast('Payment Intent Error!','error',1000)
+         }
+      }
+
+      const handlePayment = async (e) => {
+        e.preventDefault()
+        if(!stripe && !elements){
+         Toast('Stripe Not Loaded!','error',100)
+         return
+        }
+
+        let PAYMENT_INTENT;
+        switch(paymentMod){
+          case 'card':
+           PAYMENT_INTENT = await handleCardPayment();
+            break;
+          case 'paypal':
+            await handlePaypalPayment();
+            break;
+          case 'affirm':
+            await handleAffirmPayment();
+            break;
+        }
+        if(PAYMENT_INTENT?.error){
+          Toast(PAYMENT_INTENT.error.type,'error',1000)
+        }else{
+          console.log(PAYMENT_INTENT)
+        }
+
+        // if(PAYMENT_INTENT){
+        //   console.log(`Payment Intent ${PAYMENT_INTENT.id} : ${PAYMENT_INTENT.status}`)
+        // }else{
+        //   console.log(`Payment Intent ${PAYMENT_INTENT.id} : ${PAYMENT_INTENT.status}`)
+        // }
+
       }
 
 
@@ -281,8 +318,8 @@ const Payment = () => {
 
                 {/* Payment Method */}
 
-                <PaymentMethod payment={paymentMod} setPayment={setPaymentMod} billing={isBilling} setBilling={setIsBilling} />
 
+                <PaymentMethod CardNumber={CardNumberElement} CardExpiry={CardExpiryElement} CardCvc={CardCvcElement} handleCardPayment={handleCardPayment} cardErrors={cardErrors} card={cardInfo} setCard={setCardInfo} payment={paymentMod} setPayment={setPaymentMod} billing={isBilling} setBilling={setIsBilling} />
                 {/* Billing Form Start */}
                 <div className={`${isBilling ? 'flex flex-col' : 'hidden'} duration-300  border-[1px] border-b31 rounded-md mt-3 px-4 py-4`} >
                     {/* Conatct Information */}
