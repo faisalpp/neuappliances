@@ -11,7 +11,7 @@ const app = express();
 
 const corsOptions = {
   credentials: true,
-  origin: ["http://localhost:5173","https://neuoutletapp-03ffb1b9719f.herokuapp.com"],
+  origin: ["http://localhost:5173","https://neuoutletapp-03ffb1b9719f.herokuapp.com","https://8bbd-182-176-84-108.ngrok-free.app/"],
 };
 
 app.use(compression())

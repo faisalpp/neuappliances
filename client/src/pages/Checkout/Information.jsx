@@ -14,6 +14,7 @@ import { Link} from 'react-router-dom'
 import LeftArrowSvg from '../../svgs/LeftArrowSvg'
 import Toast from '../../utils/Toast'
 import {GetZipMeta,CheckZip} from '../../api/frontEnd'
+import ExpressCheckout from '../../components/Checkout/ExpressCheckout'
 
 const Information = () => {
 
@@ -202,21 +203,7 @@ const Information = () => {
                 {/* Bread Crumbs Start */}
                 <BreadCrumb />
                 {/* Bread Crumbs End */}
-
-                <fieldset className='border border-b31 rounded-md pb-5 px-5 pt-2'>
-                    <legend className='mx-auto text-b16 font-medium text-sm px-3'>Express checkout</legend>
-                    <div className='grid grid-cols-3 gap-2'>
-                        <button className='rounded text-white flex justify-center p-3 bg-[#5A31F4]'>
-                            <img src="/payment/shoppay.webp" alt="shoppay" className='h-[23px] object-contain' />
-                        </button>
-                        <button className='rounded text-white flex justify-center p-3 bg-[#113984]'>
-                            <img src="/payment/paypal.webp" alt="shoppay" className='h-[23px] object-contain' />
-                        </button>
-                        <button className='rounded text-white flex justify-center p-3 bg-black'>
-                            <img src="/payment/pay.webp" alt="shoppay" className='h-[23px] object-contain' />
-                        </button>
-                    </div>
-                </fieldset>
+                <ExpressCheckout/>
                 {/* Bread Crumbs End */}
                 <div className='text_between_line my-8'>OR</div>
                 <form onSubmit={SubmitInformation} >

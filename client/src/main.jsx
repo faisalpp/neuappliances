@@ -11,8 +11,9 @@ import {Elements} from '@stripe/react-stripe-js'
 import {loadStripe} from '@stripe/stripe-js'
 import {GetStripePublishKey} from './api/order.js'
  
+
+ document.addEventListener('DOMContentLoaded',async function(){
  // Redux Stor Persistor
- (async () => {
   const getPublicKey = await GetStripePublishKey()
   const SPK = getPublicKey.data.stripePublishKey;
   const STRIPE_PROMISE = await loadStripe(SPK)
@@ -32,4 +33,4 @@ import {GetStripePublishKey} from './api/order.js'
    // {/* </React.StrictMode> */}
  );
 
-})()
+});
