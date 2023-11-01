@@ -51,7 +51,7 @@ const PaymentRadio2 = ({ id, title,labelImage, checked, name, customStyle,change
     )
 }
 
-const PaymentMethod = ({CardNumber,CardExpiry,CardCvc,handleCardPayment,cardErrors,card,setCard,payment,setPayment,setBilling,billing}) => {
+const PaymentMethod = ({CardNumber,CardExpiry,CardCvc,handleCardPayment,payment,setPayment,setBilling,billing}) => {
 
     const [sameAddress,setSameAddress] = useState(true)
 
@@ -90,8 +90,6 @@ const PaymentMethod = ({CardNumber,CardExpiry,CardCvc,handleCardPayment,cardErro
                       <div className='absolute right-4 top-0 h-full flex items-center' ><img className='w-[18px] h-[18px]' src="/svgs/lock.webp" /></div>
                     </div>
                     </div>
-                    {/* <TextInput icon="lock.webp" width="full" name="cardNumber" iscompulsory="false" type="text" value={addSpacesToCreditCardNumber(card.cardNo)} onChange={(e)=>setCard({...card,cardNo:card.cardNo.length > 15 ? card.cardNo.replace(/\s/g, '').slice(0, 16) : e.target.value.replace(/\s/g, '').slice(0, 16)})} error={cardErrors && cardErrors.includes('Card Number is Required!') ? true : false} errormessage="Card Number is Required!" placeholder="Card number" /> */}
-                    {/* <TextInput width="full" name="cardName" iscompulsory="false" type="text" value={card.name} onChange={(e)=>setCard({...card,name:e.target.value})} error={cardErrors && cardErrors.includes('Card Holder Name is Required!') ? true : false} errormessage="Card Holder Name is Required!" placeholder="Name on card" /> */}
                     <div className='grid grid-cols-2 gap-14px'>
                      <div className='relative flex justify-center items-center h-10 bg-[#F9F9F9]' >
                      <div className={`bg-white text-sm outline-none border-[1px] border-b31 w-full px-4 h-10 rounded-lg`} >
@@ -103,9 +101,6 @@ const PaymentMethod = ({CardNumber,CardExpiry,CardCvc,handleCardPayment,cardErro
                        <CardCvc className='py-3' />
                      </div>
                      </div>
-                     
-                     {/* <TextInput width="full" name="expDate" iscompulsory="false" type="text" value={card.expDate} onChange={(e)=>setCard({...card,expDate:addSlashesToNumber(e.target.value)})} error={cardErrors && cardErrors.includes('Card Expiry Date is Required!') ? true : false} errormessage="Card Expiry Date is Required!" placeholder="Expiration date (MM / YY)" /> */}
-                     {/* <TextInput icon="question-fill.webp" width="full" name="code" iscompulsory="false" type="text" value={card.code} onChange={(e)=>setCard({...card,code:card.code.length > 6 ?card.code :e.target.value})} error={cardErrors && cardErrors.includes('Security Code is Required!') ? true : false} errormessage="Security Code is Required!" placeholder="Security code" /> */}
                     </div>
                     </form>
                     <PaymentRadio2 name="paypal" change={handlePaymentMod} checked={payment} labelImage={["pay_paypal.webp"]} id="paypal" />

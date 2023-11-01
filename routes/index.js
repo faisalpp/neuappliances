@@ -191,6 +191,7 @@ router.post('/api/admin/delete-order-by-id',adminAuth,orderController.deleteOrde
 
 // User Order Processing Api's
 router.post('/api/user/process-order',orderController.processOrder);
+router.post('/api/user/confirm-order',orderController.confirmOrder);
 
 // Stripe Api's
 router.get('/api/stripe/get-publish-key',orderController.getStripePublishableKey);

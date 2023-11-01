@@ -21,7 +21,7 @@ const orderSchema = new mongoose.Schema({
   }],
   shippingAddress: {type: mongoose.SchemaTypes.ObjectId, ref: 'OrderAddress',required:true},
   billingAddress:  {type: mongoose.SchemaTypes.ObjectId, ref: 'OrderAddress',required:true},
-  paymentInfo: { type: Object,required:true},
+  paymentInfo: { type: Object},
   shipping: { type: String, required: true },
   tax: { type: Number, required: true },
   total: { type: Number, required: true },
@@ -29,6 +29,7 @@ const orderSchema = new mongoose.Schema({
   cartCount: { type: Number, required: true },
   orderType: { type: String, required:true },
   orderStatus: { type: String, default: 'Pending' },
+  paymentStatus: { type: String, default: 'Pending' },
 },{timestamps: true});
 
 module.exports = mongoose.model('Order', orderSchema, 'orders');

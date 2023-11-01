@@ -6,10 +6,10 @@ const isAdmin = () => {
     const admin = useSelector((state)=>state.admin._id)
     const user = useSelector((state)=>state.user._id)
   if(admin){
-    return admin
+    return true
   }
-  if(user){
-    return user
+  if(user && !admin ){
+    return false
   }
   if(!admin && !user){
     return false

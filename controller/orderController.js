@@ -9,12 +9,15 @@ const Order = require('../models/order')
 const bcrypt = require("bcryptjs");
 const RandExp = require('randexp');
 const SendMail = require('../services/NeuMailer')
+const ManageOrder = require('../services/ManageOrder')
 const EmailTemplates = require('../services/EmailTemplates')
 const Stripe = require('stripe')(STRIPE_PRIVATE_KEY)
+const crypto = require('crypto')
 
 const orderController = {
 
  async processOrder(req, res, next) {
+  // console.log(req.body)
   // 1. validate user input
    const orderSchema = Joi.object({
      userId: Joi.string().allow('').allow(null),
@@ -24,7 +27,6 @@ const orderController = {
      orderType: Joi.string().required(),
      shippingAddress:Joi.object().required(),
      billingInfo:Joi.object().required(),
-     paymentInfo:Joi.object().required(),
      newsEmail:Joi.array().required(),
    });
    const { error } = orderSchema.validate(req.body);
@@ -34,7 +36,7 @@ const orderController = {
      return next(error)
    };
 
-   const {userId,cartId,isAdmin,isAuth,orderType,shippingAddress,billingInfo,paymentInfo,newsEmail} = req.body;
+   const {userId,cartId,isAdmin,isAuth,orderType,shippingAddress,billingInfo,newsEmail} = req.body;
 
 
   // // 3. now find the cart by cartId and store in variabel cart.
@@ -67,6 +69,7 @@ const orderController = {
       }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})} 
      }
   }
+
   let oldUser;
   let newUser;
   let newUserPass;
@@ -93,11 +96,11 @@ const orderController = {
 
 
   // Send New User Credential in mail
-  if(newUser){
-    const loginUrl = NODE_ENV === 'production' ?  `${WEBSITE_HOST_ADDRESS}/login` : 'http://localhost:5173/login'
-    const body = EmailTemplates.NewAccountTemplate(`${shippingAddress.firstName} ${shippingAddress.lastName}`,shippingAddress.email,loginUrl)
-    SendMail.NodeMailer(body,`Your New Account Details for ${WEBSITE_NAME}`,shippingAddress.email)
-  }
+  // if(newUser){
+  //   const loginUrl = NODE_ENV === 'production' ?  `${WEBSITE_HOST_ADDRESS}/login` : 'http://localhost:5173/login'
+  //   const body = EmailTemplates.NewAccountTemplate(`${shippingAddress.firstName} ${shippingAddress.lastName}`,shippingAddress.email,loginUrl,newUserPass)
+  //   SendMail.NodeMailer(body,`Your New Account Details for ${WEBSITE_NAME}`,shippingAddress.email)
+  // }
 
   
 
@@ -174,72 +177,53 @@ const orderController = {
    await bulkCreateNewsEmail(newsEmail)
   }
 
-  async function createOrderNumber() {
-    try {
-        const lastOrder = await Order.findOne().sort({ createdAt: -1 }); // Find the last order
-        let lastOrderNumber = lastOrder ? parseInt(lastOrder.orderNo.split('-')[1]) : 0; // Extract the last order number
-        const newOrderNumber = `NEU-${lastOrderNumber + 1}`; // Generate the new order number
-        return newOrderNumber;
-    } catch (error) {
-        console.error('Error in creating order number:', error);
+
+//   8. create new order and save it in database.
+  const date = new Date();
+  let orderNumber = `${crypto.randomBytes(2).toString('hex')}-D${date.getDay()}M${date.getMonth()}Y${date.getFullYear()}`;
+   try{
+   const createOrder = new Order({
+     orderNo:orderNumber,
+     customerId: USER,
+     userType: USER_TYPE,
+     orders: orderProducts,
+     shippingAddress: shippingAddressId,
+     billingAddress:  billingAddressId,
+     shipping: shipping.toString(),
+     cartCount: cartCount,
+     tax: tax,
+     total: total,
+     grandTotal: grandTotal,
+     orderType: orderType,
     }
-}
-
-  // 8. create new order and save it in database.
-  let newOrder;
-  const orderNumber = await createOrderNumber();
-  try{
-  const createOrder = new Order({
-    orderNo:orderNumber,
-    customerId: USER,
-    userType: USER_TYPE,
-    orders: orderProducts,
-    shippingAddress: shippingAddressId,
-    billingAddress:  billingAddressId,
-    shipping: shipping.toString(),
-    cartCount: cartCount,
-    paymentInfo:paymentInfo,
-    tax: tax,
-    total: total,
-    grandTotal: grandTotal,
-    orderType: orderType,
-   },{new:true}
-  );
+   );
   
-  newOrder = await createOrder.save();
-}catch(error){
-  return res.status(500).json({status: 500,message:'Internal Server Error!'});
-}
+   newOrder = await createOrder.save();
+   return res.status(200).json({status: 200,orderNo:orderNumber});
+   }catch(error){
+    return res.status(500).json({status: 500,message:'Internal Server Error!'});
+   }
 
+  },
 
-
-if(newOrder){
-  const shippingAddress = `${newOrder.shippingAddress.address} ${newOrder.shippingAddress.city} ${newOrder.shippingAddress.state} ${newOrder.shippingAddress.postalCode} ${newOrder.shippingAddress.country}`
-  const billingAddress = `${newOrder.billingAddress.address} ${newOrder.billingAddress.city} ${newOrder.billingAddress.state} ${newOrder.billingAddress.postalCode} ${newOrder.billingAddress.country}`
-  const getOrders = newOrder.orders;
-  const cartCount = newOrder.cartCount;
-  const grandTotal = newOrder.grandTotal;
-  const orders = Object.values(getOrders.reduce((acc, { pid, title ,image,salePrice,regPrice,rating}) => {
-    if (!acc[pid]) {
-      acc[pid] = { pid, title,image,salePrice,regPrice,rating, count: 1 };
-    } else {
-      acc[pid].count++;
-    }
-    return acc;
-  }, {}));
+  async confirmOrder(req, res, next) {
+      // 1. validate user input
+    const orderSchema = Joi.object({
+     orderNo: Joi.string().required(),
+     intent: Joi.object().required(),
+     status: Joi.string().required(),
+   });
+   const { error } = orderSchema.validate(req.body);
   
-  const body = EmailTemplates.NewOrderTemplate(orderNumber,WEBSITE_HOST_ADDRESS,shippingAddress,billingAddress,orders,cartCount,grandTotal)
-  if(body !== ''){
-    const result = SendMail.NodeMailer(body,'Order Confirmation!',shippingAddress.email)
-    return res.status(200).json({status: 200,msg:'Order Placed Successfully!'});
-  }
-}
-
-  // 9. send order completed email to customer with template.
-
-  // 10. send temprorary password with email to customer so he can login to view order details.
-
-
+   // 2. if error in validation -> return error via middleware
+   if (error) {
+     return next(error)
+   };
+ 
+   const {orderNo,intent,status} = req.body;
+   
+   await Order.findOneAndUpdate({orderNo:orderNo},{paymentInfo:intent,paymentStatus:status})
+   return res.status(200).json({status:200,msg:'Order Placed Successfully!'})
   },
 
   async getStripePublishableKey(req, res, next) {
