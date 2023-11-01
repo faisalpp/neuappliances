@@ -34,7 +34,7 @@ const UpdateOrder = () => {
 
   const GetOrder = async () => {
    const res = await getOrderById({orderNo:params.id})
-   console.log(res.data)
+  //  console.log(res.data)
    if(res.status === 200){
      setOrder(res.data.order)
      setProducts(AddRedundentProductCount(res.data.order.orders))

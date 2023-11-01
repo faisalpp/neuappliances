@@ -384,7 +384,7 @@ const sectionController = {
 
     async GetCategorySections(req,res,next){
       const {slug} = req.body;
-      console.log(slug)
+      // console.log(slug)
   
       try{
         const categorySections = await categorySection.find({categorySlug: slug}).sort({ index: 1 });

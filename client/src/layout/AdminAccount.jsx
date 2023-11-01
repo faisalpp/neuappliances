@@ -5,10 +5,10 @@ import { BsChevronDown } from 'react-icons/bs';
 import AdminItems from '../components/AdminDashboard/AdminItems';
 import { FiLogOut } from 'react-icons/fi';
 import { AdminSignout } from '../api/admin/auth';
-import {toast} from 'react-toastify'
 import { useDispatch } from 'react-redux'
-import { resetAdmin } from '../store/adminSlice'
 import { useNavigate } from 'react-router-dom';
+import { resetAdmin } from '../store/adminSlice'
+import Toast from '../utils/Toast'
 
 const AdminAccount = ({ children }) => {
     const [isItems, setIsItems] = useState(false);
@@ -24,29 +24,11 @@ const AdminAccount = ({ children }) => {
     
         const res = await AdminSignout();
         if (res.status === 200) {
-          toast.success(res.msg, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          Toast(res.data.msg,'success',1000)
           dispatch(resetAdmin());
           navigate('/nu-admin');
         } else {
-          toast.error(res.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          Toast(res.data.message,'error',1000)
         }
       }
 

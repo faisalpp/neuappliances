@@ -18,7 +18,7 @@ const HelpCardPage = () => {
         setLoading(true)
         const data = { slug: slug }
         const res = await getHelpBySlug(data)
-        console.log(res)
+        // console.log(res)
         if (res.status === 200) {
             setLoading(false)
             setBlog(res.data.help)

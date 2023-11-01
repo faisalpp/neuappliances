@@ -192,7 +192,7 @@ export const cartSlice = createSlice({
     })
     .addCase(RemoveFromCart.fulfilled, (state, action) => {
       const { cart } = action.payload;
-      console.log(cart)
+      // console.log(cart)
       state.cartId = cart._id,
       state.pickupOrders = cart.pickupOrders,
       state.deliveryOrders = cart.deliveryOrders,

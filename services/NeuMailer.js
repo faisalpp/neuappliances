@@ -24,12 +24,12 @@ class NeuMailer{
     //3. send email
     try {
        const result = await transporter.sendMail(mailOptions);
-       console.log('Eamil sent successfully')
     } catch (error) {
         console.log('Email send failed with error:', error)
     }
 
  }
+
 
 }
 

@@ -16,8 +16,7 @@ import Toast from '../../utils/Toast'
 import {processOrder} from '../../api/order'
 import {resetOrder, setPaymentInfo} from '../../store/orderSlice'
 import { resetCart } from '../../store/cartSlice';
-import {loadStripe} from '@stripe/stripe-js'
-import { GetStripePublishKey,createPaymentIntent } from '../../api/order';
+import { createPaymentIntent } from '../../api/order';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
 import {CardNumberElement,CardExpiryElement,CardCvcElement} from '@stripe/react-stripe-js'
 
@@ -34,11 +33,14 @@ const Payment = () => {
     const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
     const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
 
-    if(deliveryOrders.length === 0 && pickupOrders.length === 0){
-         navigate('/mycart')
-    }
+    useEffect(()=>{
+      if(deliveryOrders?.length === 0 && pickupOrders?.length === 0){
+        Toast('Cart is Empty','error',1000)
+        navigate('/mycart')
+      }
+     },[])
 
-    const {email,address,postalCode,city,country,province} = useSelector((state)=>state.order.orderInfo)
+    const {email,address,postalCode,city,country,province} = useSelector((state)=>state.order.orderInfo) || {};
     const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo)
 
     const Countrys = [
@@ -284,7 +286,7 @@ const Payment = () => {
         if(PAYMENT_INTENT?.error){
           Toast(PAYMENT_INTENT.error.type,'error',1000)
         }else{
-          console.log(PAYMENT_INTENT)
+          // console.log(PAYMENT_INTENT)
         }
 
         // if(PAYMENT_INTENT){

@@ -2,7 +2,6 @@ const Category = require("../models/category");
 const categorySection = require("../models/categorySection");
 const sectionItem = require("../models/sectionItem");
 const Joi = require("joi");
-const fs = require("fs");
 const AWSService = require('../services/S3Upload')
 
 

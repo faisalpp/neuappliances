@@ -9,6 +9,7 @@ const Product = lazy(() => import('./pages/Product'));
 const Login = lazy(() => import('./pages/Login'));
 const AdminLogin = lazy(() => import('./pages/Admin/login'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 const Appliances = lazy(() => import('./pages/Appliances'));
 const ApplianceTypes = lazy(() => import('./pages/ApplianceTypes'));
 const GeneralFaqs = lazy(() => import('./pages/GeneralFaqs'));
@@ -176,6 +177,7 @@ function App() {
           <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<AuthRoute><ForgotPassword /></AuthRoute>} />
+          <Route path="/reset-password/:token" element={<AuthRoute><ResetPassword /></AuthRoute>} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/:slug" element={<Product />} />
           <Route path="/appliances/:categorySlug" element={<Appliances />} />

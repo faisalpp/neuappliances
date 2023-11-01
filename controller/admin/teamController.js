@@ -78,7 +78,7 @@ const teamController = {
         }
       }else{
         const {resp} = await AWSService.deleteFile(oldImg)
-        console.log(resp)
+        // console.log(resp)
         if(resp.$metadata.httpStatusCode !== 204){
           const error = {
             status: 500,
@@ -120,7 +120,7 @@ const teamController = {
           
       // 2. if error in validation -> return error via middleware
       if (error) {
-        console.log(error)
+        // console.log(error)
         return next(error)
       }
 

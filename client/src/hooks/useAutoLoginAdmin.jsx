@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { resetAdmin, setAdmin } from "../store/adminSlice";
+import { resetAdmin } from "../store/adminSlice";
 import { useDispatch } from "react-redux";
-import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import {refreshAdmin} from '../store/adminSlice'
+import {RefreshAdmin} from '../store/adminSlice'
 import Toast from '../utils/Toast'
 
 function useAutoLoginAdmin() {
@@ -14,16 +13,17 @@ function useAutoLoginAdmin() {
 
 
   const autoLoginApiCall = async () => {
-    const res = await dispatch(refreshAdmin())
-    if(res.payload.status === 200){
+    const res = await dispatch(RefreshAdmin())
+    // console.log(res)
+    if(res.payload.auth){
       setLoading(false);
     }else{
       if (res && res.status === 401) {
-        dispatch(resetUser());
+        dispatch(resetAdmin());
         Toast('Session Expired!','error',1000)
         navigate('/nu-admin')
       } else {
-        Toast('Internal Server Error!','error',1000)
+        Toast('Internal Server Error2!','error',1000)
       }
       // Set loading to false in case of any error
       setLoading(false);

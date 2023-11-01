@@ -37,7 +37,7 @@ const adminController = {
         if (response.status === 200) {
           const data = response.data;
           // Extract and process installment pricing data from the response
-          console.log(data);
+          // console.log(data);
         } else {
           console.error('Error:', response.status);
         }
@@ -241,7 +241,7 @@ const adminController = {
     
     const AdminDto = new AdminDTO(user);
 
-    return res.status(200).json({ user: AdminDto, auth: true });
+    return res.status(200).json({ admin: AdminDto, auth: true });
   },
 
   async changePassword(req, res, next) {

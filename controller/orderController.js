@@ -1,4 +1,4 @@
-const {STRIPE_PUBLISHABLE_KEY,STRIPE_PRIVATE_KEY,WEBSITE_HOST_ADDRESS} = require('../config/index')
+const {STRIPE_PUBLISHABLE_KEY,STRIPE_PRIVATE_KEY,WEBSITE_HOST_ADDRESS,NODE_ENV,WEBSITE_NAME} = require('../config/index')
 const Joi = require("joi");
 const OrderAddress = require('../models/orderAddress')
 const Cart = require('../models/cart')
@@ -9,6 +9,7 @@ const Order = require('../models/order')
 const bcrypt = require("bcryptjs");
 const RandExp = require('randexp');
 const SendMail = require('../services/NeuMailer')
+const EmailTemplates = require('../services/EmailTemplates')
 const Stripe = require('stripe')(STRIPE_PRIVATE_KEY)
 
 const orderController = {
@@ -35,6 +36,14 @@ const orderController = {
 
    const {userId,cartId,isAdmin,isAuth,orderType,shippingAddress,billingInfo,paymentInfo,newsEmail} = req.body;
 
+
+  // // 3. now find the cart by cartId and store in variabel cart.
+
+  const CART = await Cart.findOne({_id:cartId})
+  if(!CART){
+    return res.status(500).json({status:500,message:'Cart Not Found!'})
+  }
+
   //  1. Check is customer or admin logged in
   let USER_TYPE = 'User';
   if(isAdmin){
@@ -50,12 +59,12 @@ const orderController = {
       try{
        const getAdmin = await Admin.findOne({_id:userId});
        USER = getAdmin._id;
-      }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
+      }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
     }else{
       try{
        const getUser = await User.findOne({_id:userId});
        USER = getUser._id;
-      }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})} 
+      }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})} 
      }
   }
   let oldUser;
@@ -65,7 +74,7 @@ const orderController = {
    try{
     const getUser = await User.findOne({email:shippingAddress.email});
     oldUser = getUser; 
-  }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})} 
+  }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})} 
    if(oldUser){ 
      USER = oldUser._id;
    }else{
@@ -82,17 +91,15 @@ const orderController = {
    }
   }
 
+
   // Send New User Credential in mail
-  // if(newUser){
-  //   SendMail.NodeMailer(`Your accont password ${newUserPass} `,'Account Credentials',`${newUser.email}`)
-  // }
-
-  // // 3. now find the cart by cartId and store in variabel cart.
-
-  const CART = await Cart.findOne({_id:cartId})
-  if(!CART){
-    return res.send(500).json({status:500,message:'Cart Not Found!'})
+  if(newUser){
+    const loginUrl = NODE_ENV === 'production' ?  `${WEBSITE_HOST_ADDRESS}/login` : 'http://localhost:5173/login'
+    const body = EmailTemplates.NewAccountTemplate(`${shippingAddress.firstName} ${shippingAddress.lastName}`,shippingAddress.email,loginUrl)
+    SendMail.NodeMailer(body,`Your New Account Details for ${WEBSITE_NAME}`,shippingAddress.email)
   }
+
+  
 
   // 4. get order products from cart (orderType = 'delivery'?deliveryOrders:pickupOrders)
   let orderProducts;
@@ -109,7 +116,7 @@ const orderController = {
   let isShippingAddress;
   try{
     isShippingAddress = await OrderAddress.findOne({type:'shipping',email: email,firstName:firstName,lastName: lastName,address: address,appartment: appartment,country: country,state: state,city: city,postalCode: postalCode,phone: phone});
-  }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
+  }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
   try{
    if(!isShippingAddress){
     const newShippingAddress = new OrderAddress({userId:USER,type:'shipping',email: email,firstName:firstName,lastName: lastName,address: address,appartment: appartment,country: country,state: state,city: city,postalCode: postalCode,phone: phone});
@@ -118,7 +125,7 @@ const orderController = {
    }else{
     shippingAddressId = isShippingAddress._id;
    }
-  }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
+  }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
    
   // 6. check entire billingInfo object against orderAddress with type billing and 
   //  if found do nothing else create new address with the userId.
@@ -134,7 +141,7 @@ const orderController = {
    }else{
     billingAddressId = isBillingAddress._id
    }
-  }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
+  }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
 
   // 7. get orders finance (total,tax,grandTotal)
   const total = CART.total;
@@ -156,9 +163,9 @@ const orderController = {
         });
 
         await Promise.all(promises);
-        console.log("Bulk creation successful.");
+        // console.log("Bulk creation successful.");
     } catch (error) {
-        console.error("Already Exist!");
+        // console.error("Already Exist!");
     }
   }
 
@@ -179,6 +186,7 @@ const orderController = {
 }
 
   // 8. create new order and save it in database.
+  let newOrder;
   const orderNumber = await createOrderNumber();
   try{
   const createOrder = new Order({
@@ -195,14 +203,37 @@ const orderController = {
     total: total,
     grandTotal: grandTotal,
     orderType: orderType,
-   }
+   },{new:true}
   );
   
-  const newOrder = await createOrder.save();
-  return res.status(200).json({status: 200,msg:'Order Placed Successfully!'});
- }catch(error){
-   return res.status(500).json({status: 500,message:'Internal Server Error!'});
+  newOrder = await createOrder.save();
+}catch(error){
+  return res.status(500).json({status: 500,message:'Internal Server Error!'});
+}
+
+
+
+if(newOrder){
+  const shippingAddress = `${newOrder.shippingAddress.address} ${newOrder.shippingAddress.city} ${newOrder.shippingAddress.state} ${newOrder.shippingAddress.postalCode} ${newOrder.shippingAddress.country}`
+  const billingAddress = `${newOrder.billingAddress.address} ${newOrder.billingAddress.city} ${newOrder.billingAddress.state} ${newOrder.billingAddress.postalCode} ${newOrder.billingAddress.country}`
+  const getOrders = newOrder.orders;
+  const cartCount = newOrder.cartCount;
+  const grandTotal = newOrder.grandTotal;
+  const orders = Object.values(getOrders.reduce((acc, { pid, title ,image,salePrice,regPrice,rating}) => {
+    if (!acc[pid]) {
+      acc[pid] = { pid, title,image,salePrice,regPrice,rating, count: 1 };
+    } else {
+      acc[pid].count++;
+    }
+    return acc;
+  }, {}));
+  
+  const body = EmailTemplates.NewOrderTemplate(orderNumber,WEBSITE_HOST_ADDRESS,shippingAddress,billingAddress,orders,cartCount,grandTotal)
+  if(body !== ''){
+    const result = SendMail.NodeMailer(body,'Order Confirmation!',shippingAddress.email)
+    return res.status(200).json({status: 200,msg:'Order Placed Successfully!'});
   }
+}
 
   // 9. send order completed email to customer with template.
 
@@ -315,29 +346,58 @@ const orderController = {
 
   async createPaymentIntent(req, res, next) {
     const {price,mode,currency,description} = req.body;
-    try{
-      const paymentIntent = await Stripe.paymentIntents.create({
-        amount: price,
-        currency: currency,
-        payment_method_types: [...mode],
-        description: description
-      });
-      return res.status(200).json({payIntent:paymentIntent})
-    }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
+      try{
+        const paymentIntent = await Stripe.paymentIntents.create({
+          amount: price,
+          currency: currency,
+          payment_method_types: mode,
+          description: description
+        });
+        if(paymentIntent){
+          return res.status(200).json({payIntent:paymentIntent})
+        }
+      }catch(err){
+        return res.status(500).json({status:500,message:'Internal Server Error!'})
+      }
   },
 
   async getOrders(req, res, next) {
+    let page = Number(req.query.page) || 1;
+    let limit = Number(req.query.limit) || 3;
+    
+    let skip = (page - 1) * limit;
+    
     try{
-     const orders = await Order.find({})
-     return res.status(200).json({status: 200,orders:orders});
-    }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
+     const orders = await Order.find({orderType:req.body.orderType}).skip(skip).limit(limit);
+    //  console.log(orders)
+     const totalCount = await Order.countDocuments({});
+     return res.status(200).json({status: 200,orders:orders,totalCount:totalCount});
+    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
   },
   
   async getOrderById(req, res, next) {
     try{
      const order = await Order.findOne({orderNo:req.body.orderNo}).populate('shippingAddress').populate('billingAddress');
      return res.status(200).json({status: 200,order:order});
-    }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
+    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+  },
+  async deleteOrderById(req, res, next) {
+    const orderSchema = Joi.object({
+     orderId: Joi.string().required(),
+    });
+    const { error } = orderSchema.validate(req.body);
+   
+    // 2. if error in validation -> return error via middleware
+    if (error) {
+      return next(error)
+    };
+ 
+    const {orderId} = req.body;
+
+    try{
+     await Order.findOneAndDelete({_id:orderId})
+     return res.status(200).json({status: 200,msg:'Order Deleted Successfully!'});
+    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
   },
 
 }

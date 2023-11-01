@@ -2,11 +2,11 @@
 
 import {AdminApi} from './axiosInstance'
 
-export const getAllOrders = async (data) => {
+export const getAllCustomers = async (params,data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/get-customers',data,{validateStatus:()=>true});
+        response = await AdminApi.post(`/api/admin/get-customers/?page=${params.page}&limit=${params.limit}`,data);
     }catch (error){
         return error;
     }

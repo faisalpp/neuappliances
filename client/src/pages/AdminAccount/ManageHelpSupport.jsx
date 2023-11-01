@@ -45,7 +45,7 @@ const ManageHelpSupport = () => {
     }
     const data = { category: category }
     const res = await GetHelpByCateogry(data, params)
-    console.log(res)
+    // console.log(res)
     if (res.status === 200) {
       setLoading(false)
       setBlogs(res.data.helps)
@@ -93,7 +93,7 @@ const ManageHelpSupport = () => {
       const data = { title: tabTitle }
       await helpTabCreationValidationSchema.validate(data, { abortEarly: false });
       const res = await createHelpTab(data);
-      console.log(res)
+      // console.log(res)
       if (res.status === 200) {
         setSubmitTab(false)
         toast.success(res.data.msg, {
@@ -124,7 +124,7 @@ const ManageHelpSupport = () => {
         setTabPopup(false)
       }
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       if (error) {
         setSubmitTab(false)
         setTabTitle('');

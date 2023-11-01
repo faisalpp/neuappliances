@@ -35,7 +35,7 @@ class JWTService{
             await newToken.save();
         }
         catch(error){
-            console.log(error);
+            // console.log( error);
         }
     }
 

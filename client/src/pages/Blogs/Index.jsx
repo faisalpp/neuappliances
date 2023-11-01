@@ -28,7 +28,7 @@ const Index = () => {
         setLoading(true)
         const params = { page: page, limit: limit }
         const res = await GetRecentBlog(params);
-        console.log(res)
+        // console.log(res)
         if (res.status === 200) {
             setCount(Math.ceil(res.data.totalCount / limit))
             setBlogs(res.data.blogs)
@@ -43,7 +43,7 @@ const Index = () => {
         setLoad(true)
         const params = { page: nextPage, limit: limit }
         const res = await GetRecentBlog(params);
-        console.log(res)
+        // console.log(res)
         if (res.status === 200) {
             setCount(Math.ceil(res.data.totalCount / limit))
             setBlogs(prevBlogs => [...prevBlogs, ...res.data.blogs])

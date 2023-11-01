@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { GetCart,setTotal,setTax,setGrandTotal,resetDeliveryInfo,ChangeCartFinance } from '../../store/cartSlice'
 import { useDispatch } from "react-redux";
 
+
 const Cart = () => {
     const dispatch = useDispatch()
 
@@ -87,7 +88,9 @@ const Cart = () => {
       }
 
       useEffect(()=>{
-        CalculateGrandTotal()
+        if(cartId){
+            CalculateGrandTotal()
+        }
       },[])
 
     return (

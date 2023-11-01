@@ -1,0 +1,1 @@
+import{j as t,L as s}from"./index-10a6e95b.js";import{P as o}from"./ScrollToTop-0126eb0a.js";const a=({className:e})=>t.jsxs(s,{to:"/",className:"flex gap-2 font-semibold text-sm items-center text-b3 "+e,children:[t.jsx(o,{}),t.jsx("span",{children:"Back to Home"})]});export{a as B};

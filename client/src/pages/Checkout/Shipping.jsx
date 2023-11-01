@@ -1,10 +1,12 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import Checkout from './Checkout';
 import UpdateButton from '../../components/Checkout/UpdateButton';
 import BreadCrumb from '../../components/Checkout/BreadCrumb';
 import ReviewDetail from '../../components/Checkout/Shipping/ReviewDetail';
 import ShippingMethod from '../../components/Checkout/Shipping/ShippingMethod';
 import { useSelector} from 'react-redux';
+import Toast from '../../utils/Toast'
+import { useNavigate } from 'react-router-dom';
 
 const Shipping = () => {
 
@@ -13,14 +15,18 @@ const Shipping = () => {
     const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
     
     const [shippingMethod,setShippingMethod] = useState({})
+
+    const navigate = useNavigate()
     
     const handlePaymentMethod = (id,title,days,price,checked) => {
         setShippingMethod({_id:id,title:title,days:days,price:price,checked:checked})
     }
-
-    if(deliveryOrders?.length === 0 && pickupOrders?.length === 0){
-        navigate('/mycart')
-    }
+    useEffect(()=>{
+        if(deliveryOrders?.length === 0 && pickupOrders?.length === 0){
+          Toast('Cart is Empty','error',1000)
+          navigate('/mycart')
+        }
+       },[])
 
     return (
         <>
@@ -34,9 +40,9 @@ const Shipping = () => {
                 {/* Shipping */}
 
                 <div className='border border-b31 p-3 flex flex-col gap-3 rounded-md'>
-                    <ReviewDetail title="Contact" detail={orderInfo.email} />
+                    <ReviewDetail title="Contact" detail={orderInfo?.email} />
                     <hr />
-                    <ReviewDetail title="Ship to" detail={`${orderInfo.address}, ${orderInfo.province}, ${orderInfo.postalCode}, ${orderInfo.country}`} />
+                    <ReviewDetail title="Ship to" detail={`${orderInfo?.address}, ${orderInfo?.province}, ${orderInfo?.postalCode}, ${orderInfo?.country}`} />
                 </div>
 
                 {/* Shipping Method */}

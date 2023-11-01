@@ -33,3 +33,14 @@ export const ChangePassword = async (data) => {
     }
     return response;
 }
+
+export const refreshAdmin = async () => {
+    let response;
+
+    try{
+        response = await AdminApi.get('/api/admin/refresh',{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}

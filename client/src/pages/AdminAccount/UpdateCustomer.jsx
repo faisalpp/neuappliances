@@ -9,7 +9,7 @@ const UpdateCustomer = () => {
       const params = useParams()
 
       const GetCustomerDetails = () => {
-        console.log(params.id)
+        // console.log(params.id)
       }
 
       useEffect(()=>{

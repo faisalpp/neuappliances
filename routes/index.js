@@ -1,4 +1,5 @@
 const express = require('express');
+const forgotPasswordController = require('../controller/forgotPasswordController')
 const authController = require('../controller/authController')
 const auth = require('../middleware/auth');
 const adminAuth = require('../middleware/adminAuth');
@@ -33,11 +34,23 @@ router.get('/api/logout',authController.logout);
 // User Related Routes
 router.post('/api/register', authController.register);
 router.post('/api/login', authController.login);
+router.post('/api/user/forgot-password',forgotPasswordController.createPasswordToken);
+router.post('/api/user/reset-password',forgotPasswordController.resetPassword);
+router.post('/api/user/validate-reset-password-token',forgotPasswordController.validatePasswordToken);
+
 router.get('/api/user/refresh', authController.refresh);
 router.post('/api/user/get-profile',auth,userProfileController.getUserProfile);
 router.post('/api/user/update-profile',auth,userProfileController.UpdateProfile);
 router.post('/api/user/get-shipping-addresses',auth,userProfileController.getShippingAddresses);
+router.post('/api/user/get-shipping-addr-by-id',auth,userProfileController.getShippingAddrById);
+router.post('/api/user/create-shipping-address',auth,userProfileController.createShippingAddresses);
+router.post('/api/user/update-shipping-address',auth,userProfileController.updateShippingAddresses);
+router.post('/api/user/delete-shipping-address',auth,userProfileController.deleteShippingAddresses);
 router.post('/api/user/get-billing-address',auth,userProfileController.getBillingAddresses);
+router.post('/api/user/update-billing-address',auth,userProfileController.updateBillingAddresses);
+router.post('/api/user/change-password',auth,userProfileController.changePassword);
+router.post('/api/user/get-prefrences',auth,userProfileController.getPreferences);
+router.post('/api/user/change-prefrences',auth,userProfileController.updateNewsLetter);
 
 // Admin Related Routes
 router.get('/api/admin/register', adminController.register);
@@ -169,10 +182,11 @@ router.post('/api/user/change-cart-finance',cartController.updateCartFinance);
 router.post('/api/user/get-cart',cartController.getCart);
 
 // Admin Order Api's
-router.get('/api/admin/get-orders',adminAuth,orderController.getOrders);
+router.post('/api/admin/get-orders',adminAuth,orderController.getOrders);
 router.post('/api/admin/get-customers',adminAuth,customerController.getAllCustomers);
-// Admin Customer Api's
 router.post('/api/admin/get-order-by-id',adminAuth,orderController.getOrderById);
+router.post('/api/admin/delete-order-by-id',adminAuth,orderController.deleteOrderById);
+// Admin Customer Api's
 
 
 // User Order Processing Api's

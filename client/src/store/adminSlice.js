@@ -1,5 +1,5 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import {Signin} from "../api/admin/auth"
+import {Signin,refreshAdmin} from "../api/admin/auth"
 
 const initialState = {
   _id: "",
@@ -23,11 +23,10 @@ export const loginAdmin = createAsyncThunk("admin/login", async (data) => {
     }
 });
 
-export const refreshAdmin = createAsyncThunk("admin/refresh", async () => {
-  const isDev = import.meta.env.VITE_APP_DEV === "dev";
-  const url = isDev ? `${import.meta.env.VITE_APP_INTERNAL_PATH}/api/admin/refresh` : "/api/admin/refresh";
+export const RefreshAdmin = createAsyncThunk("admin/refresh", async () => {
   try{
-  const response = await axios.get(url,{withCredentials: true});
+  const response = await refreshAdmin();
+    // console.log(response)
     if(response.status === 200){
       return response.data;
     }else{
@@ -62,14 +61,16 @@ export const adminSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loginAdmin.fulfilled, (state, action) => {
-      const { _id, email, firstName, lastName, auth } = action.payload;
-      state._id = _id;
-      state.email = email;
-      state.firstName = firstName;
-      state.lastName = lastName;
-      state.auth = auth;
-    }).addCase(refreshAdmin.fulfilled, (state, action) => {
       const { admin, auth } = action.payload;
+      
+      state._id = admin._id;
+      state.email = admin.email;
+      state.firstName = admin.firstName;
+      state.lastName = admin.lastName;
+      state.auth = auth;
+    }).addCase(RefreshAdmin.fulfilled, (state, action) => {
+      const { admin, auth } = action.payload;
+      // console.log(action.payload)
       state._id = admin._id;
       state.email = admin.email;
       state.firstName = admin.firstName;

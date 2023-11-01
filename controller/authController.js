@@ -123,7 +123,7 @@ const authController = {
     res.cookie('refreshToken',refreshToken,{httpOnly:false,maxAge: 24 * 60 * 60 * 1000});
     
     const userDto = new UserDTO(user);
-    console.log(userDto)
+    // console.log(userDto)
     
     return res.status(200).json({status:200,user: userDto,msg:'Login Successful!',auth:true});
 

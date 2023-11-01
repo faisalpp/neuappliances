@@ -35,13 +35,13 @@ const UpdateCategory = () => {
       const data = { id };
       const res = await getCategoryById(data);
       if (res.status === 200) {
-        console.log(res)
+        // console.log(res)
         setTitle(res.data.category[0].title);
         setDescription(res.data.category[0].description);
         setSlug(res.data.category[0].slug);
         setImagePrev(res.data.category[0].image);
         setInMenu(res.data.category[0].inMenu);
-        console.log(res.data.category[0].inMenu)
+        // console.log(res.data.category[0].inMenu)
       } else {
         toast.error(res.message, {
           position: "top-right",

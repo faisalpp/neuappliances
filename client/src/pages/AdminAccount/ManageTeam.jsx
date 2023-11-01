@@ -216,7 +216,7 @@ const ManageTeam = () => {
 
   const UpdateMemberIndex = async () => {
     const res = await updateMemberIndex(members);
-    console.log(res)
+    // console.log(res)
     if (res.status === 200) {
       setIloading(false)
       toast.success(res.data.msg, {

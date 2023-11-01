@@ -13,19 +13,11 @@ import { ChangeDeliveryInfo } from '../../store/cartSlice';
 import { Link} from 'react-router-dom'
 import LeftArrowSvg from '../../svgs/LeftArrowSvg'
 import Toast from '../../utils/Toast'
-import {GetZipMeta,CheckZip} from '../../api/frontEnd'
+import {CheckZip} from '../../api/frontEnd'
 import ExpressCheckout from '../../components/Checkout/ExpressCheckout'
+import isAdmin from '../../services/isAdmin'
 
 const Information = () => {
-
-    const GetMeta = async () => {
-     const res = await GetZipMeta()
-     console.log(res)
-    }
-    
-    useEffect(()=>{
-      GetMeta()
-    },[])
 
     const Countrys = [
         { name: 'USA', value: 'usa' },
@@ -54,12 +46,16 @@ const Information = () => {
     const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
     const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
     const orderInfo = useSelector((state)=>state.order.orderInfo)
-    // console.log(orderInfo)
+    
     const navigate = useNavigate()
 
-    if(deliveryOrders?.length === 0 && pickupOrders?.length === 0){
-        navigate('/mycart')
-    }
+    useEffect(()=>{
+     if(deliveryOrders?.length === 0 && pickupOrders?.length === 0){
+       Toast('Cart is Empty','error',1000)
+       navigate('/mycart')
+     }
+    },[])
+
 
     const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo);
 
@@ -79,38 +75,35 @@ const Information = () => {
 
     const isAuth = useSelector((state)=>state.user.auth)
 
+    const SetShippingAddress = (data) => {
+     setEmail(data.email)
+     setKeepUpdates(data.keepUpdates)
+     setFirstName(data.firstName)
+     setLastName(data.lastName)
+     setAddress(data.address)
+     setAppartment(data.appartment)
+     setCity(data.city)
+     setCountry(data.country)
+     setProvince(data.province)
+     setPostalCode(data.postalCode)
+     setPhone(data.phone)
+     setSaveAddress(data.saveAddress)
+    }
+
     const getPrevAddress = () => {
-      const prev_address = JSON.parse(localStorage.getItem('neu_customer_address'))
+
+    //   const isAuth = isAdmin()
+    //   console.log(isAuth)
+     
+        //   const prev_address = JSON.parse(localStorage.getItem('neu_customer_address'))
       
-      if(!isAuth && prev_address){
-        setEmail(prev_address.email)
-        setKeepUpdates(prev_address.keepUpdates)
-        setFirstName(prev_address.firstName)
-        setLastName(prev_address.lastName)
-        setAddress(prev_address.address)
-        setAppartment(prev_address.appartment)
-        setCity(prev_address.city)
-        setCountry(prev_address.country)
-        setProvince(prev_address.province)
-        setPostalCode(prev_address.postalCode)
-        setPhone(prev_address.phone)
-        setSaveAddress(prev_address.saveAddress)
-      }else if (orderInfo?.email){
-        setEmail(orderInfo?.email)
-        setKeepUpdates(true)
-        setFirstName(orderInfo?.firstName)
-        setLastName(orderInfo?.lastName)
-        setAddress(orderInfo?.address)
-        setAppartment(orderInfo?.appartment)
-        setCity(orderInfo?.city)
-        setCountry(orderInfo?.country)
-        setProvince(orderInfo?.province)
-        setPostalCode(orderInfo?.postalCode)
-        setPhone(orderInfo?.phone)
-        setSaveAddress(true)
-      }else {
-        setPostalCode(deliveryInfo.location)
-      }
+    //   if(!isAuth && prev_address){
+    //     SetShippingAddress({email:prev_address.email,keepUpdates:prev_address.keepUpdates,firstName:prev_address.firstName,lastName:prev_address.lastName,address:prev_address.address,appartment:prev_address.appartment,city:prev_address.city,country:prev_address.country,province:prev_address.province,postalCode:prev_address.postalCode,phone:prev_address.phone,saveAddress:prev_address.saveAddress})
+    //   }else if (orderInfo?.email){
+    //     SetShippingAddress({email:orderInfo.email,keepUpdates:orderInfo.keepUpdates,firstName:orderInfo.firstName,lastName:orderInfo.lastName,address:orderInfo.address,appartment:orderInfo.appartment,city:orderInfo.city,country:orderInfo.country,province:orderInfo.province,postalCode:orderInfo.postalCode,phone:orderInfo.phone,saveAddress:orderInfo.saveAddress})
+    //   }else {
+    //     setPostalCode(deliveryInfo.location)
+    //   }
     }
     
     useEffect(()=>{

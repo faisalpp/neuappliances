@@ -345,7 +345,7 @@ const productController = {
        delMedia.push(keyFeatures[i].media.data)
      }
    }
-   console.log(product)
+  //  console.log(product)
    if(product.featureVideo.type === 'upload'){
      delMedia.push(product.featureVideo.data)
    }

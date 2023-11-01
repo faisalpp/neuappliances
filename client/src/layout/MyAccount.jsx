@@ -4,6 +4,11 @@ import { RiArrowDropRightLine } from 'react-icons/ri';
 import { BsChevronDown } from 'react-icons/bs';
 import AccountItems from '../components/MyAccount/AccountItems';
 import { FiLogOut } from 'react-icons/fi';
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
+import { resetUser } from '../store/userSlice';
+import {Signout} from '../api/user/auth'
+import Toast from '../utils/Toast'
 
 const MyAccount = ({ children }) => {
     const [isItems, setIsItems] = useState(false);
@@ -11,6 +16,23 @@ const MyAccount = ({ children }) => {
     const handleCloseItems = () => {
         setIsItems(false);
     };
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+
+    const handleUserLogout = async (e) => {
+        e.preventDefault();
+    
+        const res = await Signout();
+        if (res.status === 200) {
+          Toast(res.data.msg,'success',1000)
+          dispatch(resetUser());
+          navigate('/login');
+        } else {
+          Toast(res.data.message,'error',1000)
+        }
+      }
 
     return (
         <>
@@ -23,7 +45,7 @@ const MyAccount = ({ children }) => {
                     <h1 className='font-bold text-2xl md:text-3xl xl:text-4xl 2xl:text-[40px]'>My Account</h1>
 
                     {/* 992px Up Screen Logout */}
-                    <button className='hidden lg:flex gap-4 items-center py-4 px-6 rounded-lg font-bold border border-[rgba(0,0,0,0.15)] text-[#B20B0B]'>
+                    <button type='button' onClick={handleUserLogout} className='hidden lg:flex gap-4 items-center py-4 px-6 rounded-lg font-bold border border-[rgba(0,0,0,0.15)] text-[#B20B0B]'>
                         <span>
                             Logout
                         </span>

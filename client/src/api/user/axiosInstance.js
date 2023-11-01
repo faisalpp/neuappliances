@@ -28,7 +28,7 @@ api.interceptors.response.use(
       const originalReq = error.config;
   
       if (
-        (error.response.status === 401 || error.response.status === 500) &&
+        (error.response.status === 401) &&
         originalReq &&
         !originalReq._isRetry
       ) {
@@ -41,29 +41,7 @@ api.interceptors.response.use(
   
           return api.request(originalReq);
         } catch (error) {
-          return error;
-        }
-      }
-    }
-  );
-
-  regApi.interceptors.response.use(
-    (config) => config,
-    async (error) => {
-      const originalReq = error.config;
-  
-      if (
-        (error.response.status === 401 || error.response.status === 500) &&
-        originalReq &&
-        !originalReq._isRetry
-      ) {
-        originalReq._isRetry = true;
-  
-        try {
-          await axios.get(refreshUrl);
-  
-          return api.request(originalReq);
-        } catch (error) {
+          console.log(error)
           return error;
         }
       }

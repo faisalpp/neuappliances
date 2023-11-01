@@ -1,5 +1,7 @@
 const dotenv = require('dotenv').config();
 
+
+const NODE_ENV=process.env.NODE_ENV;
 const PORT = process.env.PORT || 5000;
 const MONGODB_CONNECTION_STRING= process.env.MONGODB_CONNECTION_STRING;
 const ACCESS_TOKEN_SECRET= process.env.ACCESS_TOKEN_SECRET;
@@ -36,8 +38,11 @@ const SMTP_HOST = process.env.SMTP_HOST
 const STRIPE_PUBLISHABLE_KEY = process.env.STRIPE_PUBLISHABLE_KEY
 const STRIPE_PRIVATE_KEY = process.env.STRIPE_PRIVATE_KEY
 const WEBSITE_HOST_ADDRESS = process.env.WEBSITE_HOST_ADDRESS
+const WEBSITE_NAME = process.env.WEBSITE_NAME
 
 module.exports = {
+    WEBSITE_NAME,
+ NODE_ENV,
  WEBSITE_HOST_ADDRESS,
  STRIPE_PRIVATE_KEY,
  STRIPE_PUBLISHABLE_KEY,

@@ -15,7 +15,7 @@ function useAutoLoginUser() {
   const autoLoginApiCall = async () => {
     
     const res = await dispatch(refreshUser())
-    if(res.payload.status === 200){
+    if(res.payload.auth){
       setLoading(false);
     }else{
       if (res && res.status === 401) {

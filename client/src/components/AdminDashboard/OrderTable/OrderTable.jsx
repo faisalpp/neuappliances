@@ -2,7 +2,7 @@ import React from 'react'
 import OrderRow from './OrderRow'
 import moment from 'moment'
 
-const OrderTable = ({orders}) => {
+const OrderTable = ({orders,refreshOrders}) => {
 
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -23,7 +23,7 @@ const OrderTable = ({orders}) => {
             </tr>
           </thead>
           <tbody>
-            {orders?.length ? orders.map((order)=><OrderRow orderNo={order.orderNo} date={moment(order.createdAt).format('DD MMMM YYYY')} status={order.orderStatus} total={order.grandTotal} />) : null}
+            {orders?.length ? orders.map((order)=><OrderRow refreshOrders={refreshOrders} id={order._id} orderNo={order.orderNo} date={moment(order.createdAt).format('DD MMMM YYYY')} status={order.orderStatus} total={order.grandTotal} />) : null}
           </tbody>
         </table>
       </div>

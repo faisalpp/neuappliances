@@ -28,12 +28,12 @@ const HelpAndSupport = () => {
         const params = { page: page, limit: limit }
         const data = { category: activeTab }
         const res = await GetHelpByCateogry(data, params)
-        console.log(res)
+        // console.log(res)
         if (res.status === 200) {
             setLoading(false)
             setBlogs(res.data.helps)
             setTotalCount(Math.ceil(res.data.totalCount / limit))
-            console.log(Math.ceil(res.data.totalCount / limit))
+            // console.log(Math.ceil(res.data.totalCount / limit))
         } else {
             setBlogs([])
             setLoading(false)

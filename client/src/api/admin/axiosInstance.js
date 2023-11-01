@@ -46,7 +46,7 @@ AdminApi.interceptors.response.use(
       const originalReq = error.config;
   
       if (
-        (error.response.status === 401 || error.response.status === 500) &&
+        (error.response.status === 401) &&
         originalReq &&
         !originalReq._isRetry
       ) {
@@ -73,7 +73,7 @@ AdminApi.interceptors.response.use(
       const originalReq = error.config;
   
       if (
-        (error.response.status === 401 || error.response.status === 500) &&
+        (error.response.status === 401) &&
         originalReq &&
         !originalReq._isRetry
       ) {

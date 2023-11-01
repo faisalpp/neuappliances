@@ -200,7 +200,7 @@ const helpController = {
             const helps = await Help.find(queryObject).skip(skip).limit(limit); 
             
             const totalCount = await Help.countDocuments();
-            console.log(totalCount)
+            // console.log(totalCount)
             return res.status(200).json({status: 200, helps:helps,totalCount:totalCount});
           }catch(error){
             return next(error)

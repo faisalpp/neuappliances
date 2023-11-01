@@ -29,11 +29,12 @@ export const refreshUser = createAsyncThunk("user/refresh", async () => {
     const url = isDev ? `${import.meta.env.VITE_APP_INTERNAL_PATH}/api/user/refresh` : "/api/user/refresh";
     try{
     const response = await axios.get(url,{withCredentials: true});
-      if(response.status === 200){
-        return response.data;
-      }else{
-        return response;
-      }
+    console.log(response)
+    if(response.status === 200){
+      return response.data;
+    }else{
+      return response;
+    }
     }catch(error){
       return { payload: error.response?.data, error: true };
     }
@@ -74,7 +75,7 @@ export const userSlice = createSlice({
     })
     .addCase(refreshUser.fulfilled, (state, action) => {
       const {user,auth} = action.payload;
-       console.log(`slice ${user}`)
+      //  console.log(`slice ${user}`)
        state._id = user._id;
       state.email = user.email;
       state.firstName = user.firstName;

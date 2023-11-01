@@ -93,7 +93,7 @@ const applianceController = {
 
     async GetApplianceByFilter(req,res,next){
       try{
-       console.log(req.body)
+      //  console.log(req.body)
        const products = await Product.find(req.body);
       //  console.log(products)
        return res.status(200).json({status:200,products:products});

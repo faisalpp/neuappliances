@@ -55,7 +55,7 @@ const ManageReviews = () => {
     setIsLoading(true)
     const params = { page: page, limit: limit };
     const data = { pageType: selectedSection }
-    console.log(selectedSection)
+    // console.log(selectedSection)
     const res = await getReviews(params, data);
     if (res.status === 200) {
       setReviews(res.data.reviews)
@@ -138,7 +138,7 @@ const ManageReviews = () => {
     try {
       const err = await upateReviewValidationSchema.validate({ uId, author: uAuthor, pageType: uPageType, content: uContent, rating: uRating }, { abortEarly: false });
       const data = { id: uId, author: uAuthor, pageType: uPageType, content: uContent, rating: uRating }
-      console.log(data)
+      // console.log(data)
       const res = await updateReview(data);
       if (res.status === 200) {
         setPage(1)
