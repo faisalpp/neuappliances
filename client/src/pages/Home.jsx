@@ -23,6 +23,8 @@ const Home = () => {
   return (
     <>
       <MainLayout>
+        {/* <h3 style={{'fontFamily':'Century Gothic'}} >Test</h3> */}
+        {/* <h3 >Test</h3> */}
         <HeroSection />
          <BrandsSlider />  
          <WwslSection />

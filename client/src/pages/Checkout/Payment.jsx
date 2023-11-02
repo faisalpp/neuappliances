@@ -187,7 +187,7 @@ const Payment = () => {
       // const orderNo = useSelector((state)=>state.order.orderNo)
       const ConfirmOrder = async (intent,ordNo) => {
        if(orderErrors.confirm || !orderStatus.confirm){
-        const res = await confirmOrder({orderNo:ordNo,intent:intent,status:'Completed'})
+        const res = await confirmOrder({orderNo:ordNo,intent:intent,status:'Completed',cartId})
         console.log(res)
         if(res.status === 200){
           setOrderErrors({confirm:false})
@@ -294,10 +294,12 @@ const Payment = () => {
       }
 
     return (
-        <>  {isProcessing ? <ChkLoader /> :null}
+        <>  
+        {isProcessing ? <ChkLoader /> :null} 
             <Checkout>
                 {/* Logo */}
                 <img src="/login_logo.webp" alt="" />
+                
                 {/* Bread Crumbs Start */}
                 <BreadCrumb />
                 {/* Bread Crumbs End */}

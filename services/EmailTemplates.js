@@ -35,7 +35,7 @@ class EmailTemplates{
    `
    return body;
  }
- static NewAccountTemplate({fullName,email,password,loginUrl}){
+ static async NewAccountTemplate(fullName,email,loginUrl,password){
    const body = `
    <!DOCTYPE html>
    <html>
@@ -62,9 +62,9 @@ class EmailTemplates{
     let cardHtml = '';
     for (let i=0;i<orders?.length;i++) {
         cardHtml += `
-        <div style=" display: flex; gap: 14px ">
+        <div id="card" style=" display: flex; gap: 14px ">
         <div style=" min-width: 64px; position: relative ">
-            <img src="${item[i].image}" style=" width: 64px; height: 64px; object-fit: contain " alt="" />
+            <img src="${orders[i].image}" style=" width: 64px; height: 64px; object-fit: contain " alt="" />
             <span style=" position: absolute; width: 21px; height: 21px; color: white; font-weight: 500; display: flex; justify-content: center; align-items: center; top: -10px; right: -10px; font-size: 12px; border-radius: 100%; padding: 2px; backgroundColor: #22A6AB ">
                 1
             </span>
@@ -73,11 +73,11 @@ class EmailTemplates{
             <div>
                 <h3 style=" font-size: 14px; font-weight: 500; color: #333; letter-spacing: -0.2px ">White GE 1.7 cu. ft. Over the Range Microwave with Convenience</h3>
                 <p style=" color: #737373; font-size: 12px; letter-spacing: -0.2px ">
-                    ${item[i].rating} Stars (Flawless Cosmetic Rating)
+                    ${orders[i].rating} Stars (Flawless Cosmetic Rating)
                 </p>
             </div>
             <div style=" color: #22A6AB; font-size: 14px; font-weight: 500 ">
-                ${item[i].salePrice ? item[i].salePrice : item[i].regPrice}
+                ${orders[i].salePrice ? orders[i].salePrice : orders[i].regPrice}
             </div>
         </div>
      </div>   
@@ -85,67 +85,83 @@ class EmailTemplates{
     }
    return cardHtml;
  }
- static NewOrderTemplate(orderNo,host,shippingAddress,billingAddress,cartCount,grandTotal,orders,date){
-   const body = `
-   <!DOCTYPE html>
-   <html>
-   <head>
-   </head>
-   <body>
-   <div style="display:flex;display-direction:column; max-width: 960px; margin: 0 auto ">
-   <nav style=" background-color: #071822; padding: calc(25px) ">
-       <img src='${host}/email/neu.webp' alt="" style=" margin: 0 auto; height: 40px; object-fit: contain " />
-   </nav>
-   <div style=" padding: 40px calc(5vw); display: flex; flex-direction: column; gap: 40px ">
-       <img src="${host}/email/email_banner.webp" alt="" style=" margin: 0 auto " />
-       <div style=" color: #242424; font-size: 20px ">
-           <h3>Dear User</h3>
-           <p style=" margin-top: 40px ">
-               Your Neu Appliance order #${orderNo} has successfully been placed; You will find all the details about your order below; and we’ll send you a shipping confirmation email as soon as your order ships; In the meantime; you can shared Neu Appliance and earn store credit.
+ static NewOrderTemplate(orders,orderNo,host,shippingAddress,billingAddress,cartCount,grandTotal,date){
+   let htm = '';
+   for (let i=0;i<orders.length;i++) {
+   htm += `<div style=" display: flex; gap: 14px ">
+   <div style=" min-width: 64px; position: relative ">
+       <img src="${orders[i].image}" style=" width: 64px; height: 64px; object-fit: contain " alt="" />
+       <span style=" position: absolute; width: 21px; height: 21px; color: white; font-weight: 500; display: flex; justify-content: center; align-items: center; top: -10px; right: -10px; font-size: 12px; border-radius: 100%; padding: 2px; background-color: #22A6AB ">
+           1
+       </span>
+   </div>
+   <div style="gap: 14px; justify-content: space-between; align-items: center; flex-wrap: wrap; width: 100% ">
+       <div>
+           <h3 style=" font-size: 14px; font-weight: 500; color: #333; letter-spacing: -0.2px ">White GE 1.7 cu. ft. Over the Range Microwave with Convenience</h3>
+           <p style=" color: #737373; font-size: 12px; letter-spacing: -0.2px ">
+               ${orders[i].rating} Stars (Flawless Cosmetic Rating)
            </p>
        </div>
-       <h2 style=" font-size: 20px; color: #242424 ">Questions? Suggestions? Insights show thoughts? Shoot us an email</h2>
+       <div style=" color: #22A6AB; font-size: 14px; font-weight: 500 ">
+           ${orders[i].salePrice ? orders[i].salePrice : orders[i].regPrice}
+       </div>
+   </div>
+</div>`
+   }
+   
+    const body = `
+   <div style="max-width: 960px; margin: 0 auto;padding-right:3px ">
+   <div style="display:flex;width:100%;margin:auto; background-color: black;padding-top:12px;padding-bottom:12px">
+       <img src='${host}/email/neu.webp' alt="" style=" margin: auto; height: 30px; object-fit: contain " />
+   </div>
+   <div style="gap: 40px;margin-top:40px ">
+       <div style="display:flex;width:100%;margin:auto;" ><img src="${host}/email/email_banner.webp" alt="" style="text-align:center; margin: 0 auto ;border-radius:20px" /></div>
+       <div style="style=" margin-top: 30p"x; color: #242424; font-size: 1.19vw ">
+           <h3 style="font-size: 1.19vw" >Dear User</h3>
+           <p style=" margin-top: 40px ">
+               Your Neu Appliance order #${orderNo} has successfully been placed, You will find all the details about your order below, and we’ll send you a shipping confirmation email as soon as your order ships. In the meantime, you can shared Neu Appliance and earn store credit.
+           </p>
+       </div>
+       <h2 style=" font-size: 1.19vw; color: #242424 ">Questions? Suggestions? Insights show thoughts? Shoot us an email</h2>
        <div style=" border: 1px solid #D9D9D9; border-radius: 8px; padding: 0 16px ">
-           <div style=" font-size: 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 24px; padding: 12px 0px; border-bottom: 1px solid #D9D9D9 ">
-               <h3 style=" color: #737373; min-width: 123px ">Order Number</h3>
-               <span style=" color: #111010; font-weight: 500 ">#${orderNo}</span>
+           <div style=" font-size: 0.83vw;display:flex;gap-x: 44px;padding-bottom:10px;padding-top:10px">
+               <h3 style="color: #737373; min-width: 123px;">Order Number</h3>
+               <span style=" color: #111010;font-size: 1vw;margin-top:7px;margin-bottom:7px; "><b>${orderNo}</b></span>
            </div>
-           <div style=" font-size: 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 24px; padding: 12px 0px; border-bottom: 1px solid #D9D9D9 ">
-               <h3 style=" color: #737373; min-width: 123px ">Order Date</h3>
-               <span style=" color: #111010; font-weight: 500 ">${date}</span>
+           <div style=" font-size: 0.83vw;display:flex;gap-x: 44px;padding-bottom:10px;padding-top:10px">
+               <h3 style="color: #737373; min-width: 123px;">Order Date</h3>
+               <span style=" color: #111010;font-size: 1vw;margin-top:7px;margin-bottom:7px; "><b>${date}</b></span>
            </div>
-           <div style=" font-size: 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 24px; padding: 12px 0px; border-bottom: 1px solid #D9D9D9 ">
-               <h3 style=" color: #737373; min-width: 123px ">Shipping Address</h3>
-               <span style=" color: #111010; font-weight: 500 ">${shippingAddress}</span>
+           <div style=" font-size: 0.83vw;display:flex;gap-x: 44px;padding-bottom:10px;padding-top:10px">
+               <h3 style="color: #737373; min-width: 123px;">Shipping&nbsp;Address</h3>
+               <span style=" color: #111010;font-size: 1vw;margin-top:7px;margin-bottom:7px; "><b>${shippingAddress}</b></span>
            </div>
-           <div style=" font-size: 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 24px; padding: 12px 0px; border-bottom: 1px solid #D9D9D9 ">
-               <h3 style=" color: #737373; min-width: 123px ">Billing Address</h3>
-               <span style=" color: #111010; font-weight: 500 ">${billingAddress}</span>
+           <div style=" font-size: 0.83vw;display:flex;gap-x: 44px;padding-bottom:10px;padding-top:10px">
+               <h3 style="color: #737373; min-width: 123px;">Billing&nbsp;Address</h3>
+               <span style=" color: #111010;font-family: Georgia;font-size: 1vw;margin-top:7px;margin-bottom:7px; ">${billingAddress}</span>
            </div>
        </div>
-       <div style=" border: 1px solid #D9D9D9; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 16px; width: 100% ">
+       <div style=" border: 1px solid #D9D9D9; border-radius: 8px;margin-top:10px;width: 100% ">
            <h3 style=" font-size: 16px; color: #242424; font-weight: 500; letter-spacing: -0.2px ">Here’s what you ordered.</h3>
-           <div style=" padding: 16px calc(1.89vw) ">
-            ${this.NewOrderCardTemplate(orders)}
-           </div>
+           <div style="">
+             ${htm}
+            </div>
            <hr />
            <div style=" display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap ">
-               <h3 style=" font-size: 20px; font-weight: 600 ">Subtotal (${cartCount} Items):</h3>
+               <h3 style=" font-size: 1.19vw; font-weight: 600;width:100% ">Subtotal (${cartCount} Items):</h3>
                <span style=" font-size: 32px; font-weight: 600 ">
                    $${grandTotal}
                </span>
            </div>
        </div>
    </div>
-   <div style=" background-color: #071822; padding: 20px; color: white; font-size: 12px; display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap ">
+   <div style=" background-color: #071822; padding: 20px; color: white; font-size: 12px;gap: 40px;display:flex;margin-top:20px">
        <span>&#169; 2023 Neu Appliances</span>
-       <div style=" display: flex; align-items: center; gap: 6px ">
+       <div style="gap: 6px ">
            <a href="${host}/terms" >Terms of Use</a>   •   <a href="${host}/privacy-policy">Privacy Policy</a>   •   <a href="${host}/help-and-support">Help Center</a>
        </div>
    </div>
 </div>
-   </body>
-   </html>   
    `;
    return body;
  }

@@ -72,7 +72,6 @@ const orderController = {
 
   let oldUser;
   let newUser;
-  let newUserPass;
   if(!isAuth){
    try{
     const getUser = await User.findOne({email:shippingAddress.email});
@@ -84,24 +83,26 @@ const orderController = {
       try{
        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$/;
        const securePassword = new RandExp(regex).gen();
-       newUserPass = await bcrypt.hash(securePassword, 10);
-       const createUser = new User({email:shippingAddress.email,password:newUserPass});
+       const newUserPass = await bcrypt.hash(securePassword, 10);
+       const createUser = new User({firstName:shippingAddress.firstName,lastName:shippingAddress.lastName,email:shippingAddress.email,password:newUserPass});
        const getUsr = await createUser.save();
        USER = getUsr._id
        newUser = getUsr;
+       if(newUser){
+        const loginUrl = NODE_ENV === 'production' ?  `${WEBSITE_HOST_ADDRESS}/login` : 'http://localhost:5173/login'
+        const body = await EmailTemplates.NewAccountTemplate(`${newUser.firstName} ${newUser.lastName}`,newUser.email,loginUrl,securePassword)
+        SendMail.NodeMailer(body,`Your New Account Details for ${WEBSITE_NAME}`,newUser.email)
+       }
       }catch(error){console.log(error)}
    }
   }
 
 
   // Send New User Credential in mail
-  if(newUser){
-    const loginUrl = NODE_ENV === 'production' ?  `${WEBSITE_HOST_ADDRESS}/login` : 'http://localhost:5173/login'
-    const body = EmailTemplates.NewAccountTemplate(`${newUser.firstName} ${newUser.lastName}`,newUser.email,loginUrl,newUserPass)
-    if(body){
-      SendMail.NodeMailer(body,`Your New Account Details for ${WEBSITE_NAME}`,newUser.email)
-    }
-  }
+  // console.log(newUser)
+  // if(newUser){
+
+  // }
 
   
 
@@ -214,6 +215,7 @@ const orderController = {
      orderNo: Joi.string().required(),
      intent: Joi.object().required(),
      status: Joi.string().required(),
+     cartId: Joi.string().required(),
    });
    const { error } = orderSchema.validate(req.body);
   
@@ -224,26 +226,26 @@ const orderController = {
 
    let HOST = NODE_ENV === "production" ?  WEBSITE_HOST_ADDRESS : 'http://localhost:5173';
  
-   const {orderNo,intent,status} = req.body;
+   const {orderNo,intent,status,cartId} = req.body;
     let updateOrder; 
     try{
      updateOrder = await Order.findOneAndUpdate({orderNo:orderNo},{paymentInfo:intent,paymentStatus:status},{new:true}).populate('shippingAddress').populate('billingAddress');
     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+    
+    try{
+     await Cart.findOneAndDelete(cartId)
+    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
 
     if(updateOrder){
      const {orderNo,createdAt,shippingAddress,billingAddress,orders,cartCount,grandTotal} = updateOrder;
-     const ORDERS_OBJECTS = EmailTemplates.NewOrderCardTemplate(orders)
-     if(ORDERS_OBJECTS){
       let ShippingAddress = `${shippingAddress.address}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.postalCode} ${shippingAddress.country}`
       let BillingAddress = `${billingAddress.address}, ${billingAddress.city}, ${billingAddress.state}, ${billingAddress.postalCode} ${billingAddress.country}`
-      const ORDERS_TEMPLATE = EmailTemplates.NewOrderTemplate(orderNo,HOST,ShippingAddress,BillingAddress,cartCount,grandTotal,ORDERS_OBJECTS,createdAt)
+      const ORDERS_TEMPLATE = EmailTemplates.NewOrderTemplate(orders,orderNo,HOST,ShippingAddress,BillingAddress,cartCount,grandTotal,createdAt)
       if(ORDERS_TEMPLATE){
-      console.log(ORDERS_TEMPLATE)
-      SendMail.NodeMailer(ORDERS_TEMPLATE,`Order Confirmation Email->${WEBSITE_NAME}`,shippingAddress.email)
+       SendMail.NodeMailer(ORDERS_TEMPLATE,`Order Confirmation Email->${WEBSITE_NAME}`,shippingAddress.email)
       return res.status(200).json({status:200,msg:'Order Placed Successfully!'})
      }
     }
-   }
   },
 
   async getStripePublishableKey(req, res, next) {
@@ -403,6 +405,24 @@ const orderController = {
      return res.status(200).json({status: 200,msg:'Order Deleted Successfully!'});
     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
   },
+
+  async test(req, res, next) {
+    const orders = [
+      {image:'https://neu-appliance-outlet.s3.eu-north-1.amazonaws.com/product/images/1695467409506-rffeature2.webp',salePrice:'200',regPrice:'230',rating:3},
+      {image:'https://neu-appliance-outlet.s3.eu-north-1.amazonaws.com/product/images/1695467409506-rffeature2.webp',salePrice:'200',regPrice:'230',rating:3},
+      {image:'https://neu-appliance-outlet.s3.eu-north-1.amazonaws.com/product/images/1695467409506-rffeature2.webp',salePrice:'200',regPrice:'230',rating:3},
+    ]
+    let HOST = NODE_ENV === "production" ?  WEBSITE_HOST_ADDRESS : 'http://localhost:5173';
+    let ShippingAddress = 'shippingAddress.address shippingAddress.city, shippingAddress.state, shippingAddress.postalCode shippingAddress.country'
+     let BillingAddress = 'billingAddress.address, billingAddress.city, billingAddress.state, billingAddress.postalCode billingAddress.country'
+     const ORDERS_TEMPLATE = EmailTemplates.NewOrderTemplate(orders,'123',HOST,ShippingAddress,BillingAddress,'1','200','date')
+    //  console.log(ORDERS_TEMPLATE)
+      if(ORDERS_TEMPLATE){
+      SendMail.NodeMailer(ORDERS_TEMPLATE,`Order Confirmation Email->${WEBSITE_NAME}`,'muhammadfaisal522@gmail.com')
+      return res.status(200).json({status:200,msg:'Order Placed Successfully!'})
+     }
+
+  }
 
 }
 

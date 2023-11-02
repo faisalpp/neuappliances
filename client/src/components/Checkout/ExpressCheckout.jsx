@@ -5,35 +5,35 @@ import Toast from '../../utils/Toast'
 
 const ExpressCheckout = () => {
   const [paymentReq, setPaymentReq] = useState(null);
-  const stripe = useStripe();
-  const elements = useElements();
+  // const stripe = useStripe();
+  // const elements = useElements();
 
-  const handleCardPayment = async (e) => {
-    e.preventDefault()
-        if(!stripe && !elements){
-         Toast('Stripe Not Loaded!','error',100)
-         return
-        }
-     const getPayIntent = await createPaymentIntent({price:200*100,mode:['card'],currency:'usd',description:"Neuappliance Outlet Card Transaction"}) 
-     console.log(getPayIntent.data)
-     if(getPayIntent.status === 200){
-        stripe
-        .confirmPayPalPayment(getPayIntent.data.payIntent.client_secret, {
-          // Return URL where the customer should be redirected after
-          // the authorization.
-          return_url: "https://example.com/setup/complete",
-        })
-        .then(function(result) {
-          if (result.error) {
-            // Inform the customer that there was an error.
-          }
-          console.log(result)
-        });
+  // const handleCardPayment = async (e) => {
+  //   e.preventDefault()
+  //       if(!stripe && !elements){
+  //        Toast('Stripe Not Loaded!','error',100)
+  //        return
+  //       }
+  //    const getPayIntent = await createPaymentIntent({price:200*100,mode:['card'],currency:'usd',description:"Neuappliance Outlet Card Transaction"}) 
+  //    console.log(getPayIntent.data)
+  //    if(getPayIntent.status === 200){
+  //       stripe
+  //       .confirmPayPalPayment(getPayIntent.data.payIntent.client_secret, {
+  //         // Return URL where the customer should be redirected after
+  //         // the authorization.
+  //         return_url: "https://example.com/setup/complete",
+  //       })
+  //       .then(function(result) {
+  //         if (result.error) {
+  //           // Inform the customer that there was an error.
+  //         }
+  //         console.log(result)
+  //       });
         
-     }else{
-        Toast('Payment Intent Error!','error',1000)
-     }
-  }
+  //    }else{
+  //       Toast('Payment Intent Error!','error',1000)
+  //    }
+  // }
 
 
   return (
@@ -43,10 +43,10 @@ const ExpressCheckout = () => {
         <button className='rounded text-white flex justify-center p-3 bg-[#5A31F4]'>
           <img src='/payment/shoppay.webp' alt='shoppay' className='h-[23px] object-contain' />
         </button>
-        <button onClick={handleCardPayment} className='rounded text-white flex justify-center p-3 bg-[#113984]'>
+        <button className='rounded text-white flex justify-center p-3 bg-[#113984]'>
           <img src='/payment/paypal.webp' alt='shoppay' className='h-[23px] object-contain' />
         </button>
-        {paymentReq && <PaymentRequestButtonElement options={{ paymentRequest: paymentReq }} />}
+        {/* {paymentReq && <PaymentRequestButtonElement options={{ paymentRequest: paymentReq }} />} */}
       </div>
     </fieldset>
   );
