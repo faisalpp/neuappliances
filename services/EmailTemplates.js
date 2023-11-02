@@ -58,11 +58,11 @@ class EmailTemplates{
 
  static NewOrderCardTemplate(orders){
     let cardHtml = '';
-    for (let item of orders) {
+    for (let i=0;i<orders?.length;i++) {
         cardHtml += `
         <div style=" display: flex; gap: 14px ">
         <div style=" min-width: 64px; position: relative ">
-            <img src="${item.image}" style=" width: 64px; height: 64px; object-fit: contain " alt="" />
+            <img src="${item[i].image}" style=" width: 64px; height: 64px; object-fit: contain " alt="" />
             <span style=" position: absolute; width: 21px; height: 21px; color: white; font-weight: 500; display: flex; justify-content: center; align-items: center; top: -10px; right: -10px; font-size: 12px; border-radius: 100%; padding: 2px; backgroundColor: #22A6AB ">
                 1
             </span>
@@ -71,11 +71,11 @@ class EmailTemplates{
             <div>
                 <h3 style=" font-size: 14px; font-weight: 500; color: #333; letter-spacing: -0.2px ">White GE 1.7 cu. ft. Over the Range Microwave with Convenience</h3>
                 <p style=" color: #737373; font-size: 12px; letter-spacing: -0.2px ">
-                    ${item.rating} Stars (Flawless Cosmetic Rating)
+                    ${item[i].rating} Stars (Flawless Cosmetic Rating)
                 </p>
             </div>
             <div style=" color: #22A6AB; font-size: 14px; font-weight: 500 ">
-                ${item.salePrice ? item.salePrcie : item.regPrice}
+                ${item[i].salePrice ? item[i].salePrcie : item[i].regPrice}
             </div>
         </div>
      </div>   
@@ -90,7 +90,7 @@ class EmailTemplates{
    <head>
    </head>
    <body>
-   <div style="display:flex; max-width: 960px; margin: 0 auto ">
+   <div style="display:flex;display-direction:column; max-width: 960px; margin: 0 auto ">
    <nav style=" background-color: #071822; padding: calc(25px) ">
        <img src='${host}/email/neu.webp' alt="" style=" margin: 0 auto; height: 40px; object-fit: contain " />
    </nav>
