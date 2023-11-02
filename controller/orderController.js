@@ -84,9 +84,8 @@ const orderController = {
       try{
        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$/;
        const securePassword = new RandExp(regex).gen();
-       const hashedPassword = await bcrypt.hash(securePassword, 10);
-       newUserPass = hashedPassword;
-       const createUser = new User({email:shippingAddress.email,password:hashedPassword});
+       newUserPass = await bcrypt.hash(securePassword, 10);
+       const createUser = new User({email:shippingAddress.email,password:newUserPass});
        const getUsr = await createUser.save();
        USER = getUsr._id
        newUser = getUsr;
@@ -99,7 +98,9 @@ const orderController = {
   if(newUser){
     const loginUrl = NODE_ENV === 'production' ?  `${WEBSITE_HOST_ADDRESS}/login` : 'http://localhost:5173/login'
     const body = EmailTemplates.NewAccountTemplate(`${shippingAddress.firstName} ${shippingAddress.lastName}`,shippingAddress.email,loginUrl,newUserPass)
-    SendMail.NodeMailer(body,`Your New Account Details for ${WEBSITE_NAME}`,shippingAddress.email)
+    if(body){
+      SendMail.NodeMailer(body,`Your New Account Details for ${WEBSITE_NAME}`,shippingAddress.email)
+    }
   }
 
   

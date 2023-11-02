@@ -1,3 +1,5 @@
+const {WEBSITE_NAME} = require('../config/index')
+
 class EmailTemplates{
  
     static ForgotPasswordTemplate(tokenUrl){
@@ -43,7 +45,7 @@ class EmailTemplates{
        <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
            <h2>Your New Account Details for [Ecommerce Store Name]</h2>
            <p>Dear ${fullName},</p>
-           <p>Thank you for shopping with us at [Ecommerce Store Name]. We have created a new account for you based on your recent purchase. Below are the details you will need to access your account:</p>
+           <p>Thank you for shopping with us at ${WEBSITE_NAME}. We have created a new account for you based on your recent purchase. Below are the details you will need to access your account:</p>
            <p><strong>Email:</strong> ${email}<br>
            <strong>Temporary Password:</strong> ${password}</p>
            <p>To ensure the security of your account, we recommend that you change your password upon logging in for the first time. You can access your account and manage your orders, view your order history, and update your personal information through the following link:</p>
