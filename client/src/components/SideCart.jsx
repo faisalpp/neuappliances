@@ -148,7 +148,7 @@ const SideCart = () => {
   };
 
   useEffect(() => {
-    if (sCart &&zip && zip.length === 5) {
+    if (sCart &&zip && zip?.length === 5) {
      Submit();
    }
   }, [zip])
@@ -192,7 +192,7 @@ const SideCart = () => {
             :
             <>
               <div style={{ 'height': 'calc(100vh - 200px)' }} className='flex flex-col overflow-y-auto' >
-                {deliveryOrders.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
+                {deliveryOrders?.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
                   <h4 className='font-semibold' >Delivery Orders</h4>
                   {/* Cart Product */}
                   <div className='flex flex-col gap-6 space-y-2 mb-3 w-full'>
@@ -235,7 +235,7 @@ const SideCart = () => {
                 </div> : null}
 
 
-                {pickupOrders.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
+                {pickupOrders?.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
                   <h4 className='font-semibold' >Pickup Orders</h4>
                   {/* Cart Product */}
                   <div className='flex flex-col gap-6 space-y-2 mb-3'>

@@ -97,9 +97,9 @@ const orderController = {
   // Send New User Credential in mail
   if(newUser){
     const loginUrl = NODE_ENV === 'production' ?  `${WEBSITE_HOST_ADDRESS}/login` : 'http://localhost:5173/login'
-    const body = EmailTemplates.NewAccountTemplate(`${shippingAddress.firstName} ${shippingAddress.lastName}`,shippingAddress.email,loginUrl,newUserPass)
+    const body = EmailTemplates.NewAccountTemplate(`${newUser.firstName} ${newUser.lastName}`,newUser.email,loginUrl,newUserPass)
     if(body){
-      SendMail.NodeMailer(body,`Your New Account Details for ${WEBSITE_NAME}`,shippingAddress.email)
+      SendMail.NodeMailer(body,`Your New Account Details for ${WEBSITE_NAME}`,newUser.email)
     }
   }
 

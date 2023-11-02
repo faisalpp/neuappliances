@@ -58,12 +58,12 @@ const MyCart = () => {
                         My Cart
                     </h1>
                 </div>
-                {deliveryOrders.length > 0 || pickupOrders.length > 0 ? 
+                {deliveryOrders?.length > 0 || pickupOrders?.length > 0 ? 
                 <div className='pb-10 lg:pb-16 xl:pb-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
                     <div className='grid grid-cols-1 coxxl:grid-cols-[1fr_360px] 3xl:grid-cols-[1fr_440px] gap-10'>
                         <div className='order-2 coxxl:order-none'>
-                            {deliveryOrders && deliveryOrders.length > 0 ?<DeliveryOrder orders={deliveryOrders} refresh={GetCartData} />:null}
-                            {pickupOrders && pickupOrders.length > 0 ? <PickUpOrder orders={pickupOrders} refresh={GetCartData} /> : null}
+                            {deliveryOrders && deliveryOrders?.length > 0 ?<DeliveryOrder orders={deliveryOrders} refresh={GetCartData} />:null}
+                            {pickupOrders && pickupOrders?.length > 0 ? <PickUpOrder orders={pickupOrders} refresh={GetCartData} /> : null}
                             <hr className='my-6 border-[rgba(0,0,0,0.08)]' />
                             <div className='w-full flex justify-between items-center'>
                                 <span className='text-base sm:text-xl text-black font-semibold'>

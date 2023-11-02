@@ -77,7 +77,7 @@ class EmailTemplates{
                 </p>
             </div>
             <div style=" color: #22A6AB; font-size: 14px; font-weight: 500 ">
-                ${item[i].salePrice ? item[i].salePrcie : item[i].regPrice}
+                ${item[i].salePrice ? item[i].salePrice : item[i].regPrice}
             </div>
         </div>
      </div>   
