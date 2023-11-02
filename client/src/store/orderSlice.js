@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   orderNo:null,
   orderInfo:null,
+  orderStatus:{order:false,payment:false,confirm:false},
   orderErrors:{order:false,payment:false,confirm:false},
   paymentIntent:null
 }
@@ -14,6 +15,10 @@ export const orderSlice = createSlice({
    setPaymentIntent: (state, action) => {
      const data = action.payload;   
      state.paymentIntent = data
+   },
+   setOrderStatus: (state, action) => {
+     const data = action.payload;   
+     state.orderStatus = {...state.orderStatus,...data}
    },
    setOrderErrors: (state, action) => {
      const data = action.payload;   
@@ -29,7 +34,8 @@ export const orderSlice = createSlice({
    },
    resetOrder: (state, action) => {
      state.orderInfo = null
-     state.orderNo = null
+     state.orderNo = null 
+     state.orderStatus = {order:false,payment:false,confirm:false},
      state.orderErrors = {order:false,payment:false,confirm:false},
      state.paymentIntent = null
    },

@@ -413,6 +413,7 @@ async updateDeliveryInfo(req, res, next) {
        { deliveryInfo:deliveryInfo },
        {new:true}
      );
+     console.log(CART)
      return res.status(200).json({ status: 200, cart:CART });
    }catch(error){
     return res.status(500).json({ status: 500, message:'Internal Server Error!' });

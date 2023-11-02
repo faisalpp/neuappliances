@@ -109,6 +109,7 @@ const SideCart = () => {
   const [frames,setFrames] = useState([])
 
   const Submit = async () => {
+    console.log('m')
     setZipChange(true)
     const res = await GetZipWithSlots({zip:zip})
     if (res.status == 200) {
@@ -147,7 +148,7 @@ const SideCart = () => {
   };
 
   useEffect(() => {
-    if (zip && zip.length === 5) {
+    if (sCart &&zip && zip.length === 5) {
      Submit();
    }
   }, [zip])

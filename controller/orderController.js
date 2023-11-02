@@ -96,11 +96,11 @@ const orderController = {
 
 
   // Send New User Credential in mail
-  // if(newUser){
-  //   const loginUrl = NODE_ENV === 'production' ?  `${WEBSITE_HOST_ADDRESS}/login` : 'http://localhost:5173/login'
-  //   const body = EmailTemplates.NewAccountTemplate(`${shippingAddress.firstName} ${shippingAddress.lastName}`,shippingAddress.email,loginUrl,newUserPass)
-  //   SendMail.NodeMailer(body,`Your New Account Details for ${WEBSITE_NAME}`,shippingAddress.email)
-  // }
+  if(newUser){
+    const loginUrl = NODE_ENV === 'production' ?  `${WEBSITE_HOST_ADDRESS}/login` : 'http://localhost:5173/login'
+    const body = EmailTemplates.NewAccountTemplate(`${shippingAddress.firstName} ${shippingAddress.lastName}`,shippingAddress.email,loginUrl,newUserPass)
+    SendMail.NodeMailer(body,`Your New Account Details for ${WEBSITE_NAME}`,shippingAddress.email)
+  }
 
   
 
@@ -207,6 +207,7 @@ const orderController = {
   },
 
   async confirmOrder(req, res, next) {
+     console.log(req.body)
       // 1. validate user input
     const orderSchema = Joi.object({
      orderNo: Joi.string().required(),
@@ -219,11 +220,29 @@ const orderController = {
    if (error) {
      return next(error)
    };
+
+   let HOST = NODE_ENV === "production" ?  WEBSITE_HOST_ADDRESS : 'http://localhost:5173';
  
    const {orderNo,intent,status} = req.body;
-   
-   await Order.findOneAndUpdate({orderNo:orderNo},{paymentInfo:intent,paymentStatus:status})
-   return res.status(200).json({status:200,msg:'Order Placed Successfully!'})
+    let updateOrder; 
+    try{
+     updateOrder = await Order.findOneAndUpdate({orderNo:orderNo},{paymentInfo:intent,paymentStatus:status},{new:true}).populate('shippingAddress').populate('billingAddress');
+    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+
+    if(updateOrder){
+     const {orderNo,createdAt,shippingAddress,billingAddress,orders,cartCount,grandTotal} = updateOrder;
+     const ORDERS_OBJECTS = EmailTemplates.NewOrderCardTemplate(orders)
+     if(ORDERS_OBJECTS){
+      let ShippingAddress = `${shippingAddress.address}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.postalCode} ${shippingAddress.country}`
+      let BillingAddress = `${billingAddress.address}, ${billingAddress.city}, ${billingAddress.state}, ${billingAddress.postalCode} ${billingAddress.country}`
+      const ORDERS_TEMPLATE = EmailTemplates.NewOrderTemplate(orderNo,HOST,ShippingAddress,BillingAddress,cartCount,grandTotal,ORDERS_OBJECTS,createdAt)
+      if(ORDERS_TEMPLATE){
+      console.log(ORDERS_TEMPLATE)
+      SendMail.NodeMailer(ORDERS_TEMPLATE,`Order Confirmation Email->${WEBSITE_NAME}`,shippingAddress.email)
+      return res.status(200).json({status:200,msg:'Order Placed Successfully!'})
+     }
+    }
+   }
   },
 
   async getStripePublishableKey(req, res, next) {

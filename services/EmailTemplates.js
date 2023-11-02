@@ -56,7 +56,7 @@ class EmailTemplates{
    return body;
  }
 
- static NewOrderCardTemplate({orders}){
+ static NewOrderCardTemplate(orders){
     let cardHtml = '';
     for (let item of orders) {
         cardHtml += `
@@ -64,7 +64,7 @@ class EmailTemplates{
         <div style=" min-width: 64px; position: relative ">
             <img src="${item.image}" style=" width: 64px; height: 64px; object-fit: contain " alt="" />
             <span style=" position: absolute; width: 21px; height: 21px; color: white; font-weight: 500; display: flex; justify-content: center; align-items: center; top: -10px; right: -10px; font-size: 12px; border-radius: 100%; padding: 2px; backgroundColor: #22A6AB ">
-                ${item.count}
+                1
             </span>
         </div>
         <div style=" display: flex; gap: 14px; justify-content: space-between; align-items: center; flex-wrap: wrap; width: 100% ">
@@ -83,14 +83,14 @@ class EmailTemplates{
     }
    return cardHtml;
  }
- static NewOrderTemplate({orderNo,host,shippingAddress,billingAddress,cartCount,grandTotal,orders,date}){
+ static NewOrderTemplate(orderNo,host,shippingAddress,billingAddress,cartCount,grandTotal,orders,date){
    const body = `
    <!DOCTYPE html>
    <html>
    <head>
    </head>
    <body>
-   <div style=" max-width: 960px; margin: 0 auto ">
+   <div style="display:flex; max-width: 960px; margin: 0 auto ">
    <nav style=" background-color: #071822; padding: calc(25px) ">
        <img src='${host}/email/neu.webp' alt="" style=" margin: 0 auto; height: 40px; object-fit: contain " />
    </nav>

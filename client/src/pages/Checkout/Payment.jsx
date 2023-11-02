@@ -11,11 +11,11 @@ import TextInput from '../../components/TextInput/TextInput';
 import { Checkbox } from "@material-tailwind/react";
 import CustomSelect from '../../components/Reusable/CustomSelect';
 import {RiQuestionFill} from 'react-icons/ri'
-import {BiTransferAlt} from 'react-icons/bi'
+import {FiAlertTriangle} from 'react-icons/fi'
 import * as Yup from 'yup';
 import Toast from '../../utils/Toast'
 import {processOrder,confirmOrder} from '../../api/order'
-import {resetOrder, setOrderNo,setOrderErrors,setPaymentIntent} from '../../store/orderSlice'
+import {resetOrder, setOrderNo,setOrderErrors,setPaymentIntent,setOrderStatus} from '../../store/orderSlice'
 import { resetCart } from '../../store/cartSlice';
 import { createPaymentIntent } from '../../api/order';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
@@ -146,6 +146,7 @@ const Payment = () => {
       const userId = useSelector((state)=>state.user._id)
       const isAuth = useSelector((state)=>state.user.auth)
       const orderErrors = useSelector((state)=>state.order.orderErrors)
+      const orderStatus = useSelector((state)=>state.order.orderStatus)
       const isAdmin2 = isAdmin()
       const elements = useElements()
       const stripe = useStripe()
@@ -183,37 +184,42 @@ const Payment = () => {
          }
       }
       
-      const orderNo = useSelector((state)=>state.order.orderNo)
-      const ConfirmOrder = async (intent) => {
-       if(orderErrors.confirm){
-        const res = await confirmOrder({orderNo:orderNo,intent:intent,status:'Completed'})
+      // const orderNo = useSelector((state)=>state.order.orderNo)
+      const ConfirmOrder = async (intent,ordNo) => {
+       if(orderErrors.confirm || !orderStatus.confirm){
+        const res = await confirmOrder({orderNo:ordNo,intent:intent,status:'Completed'})
+        console.log(res)
         if(res.status === 200){
           setOrderErrors({confirm:false})
+          setOrderStatus({confirm:true})
           Toast(res.data.msg,'success',1000)
-          // dispatch(resetCart())
-          // dispatch(resetOrder())
+          dispatch(resetCart())
+          dispatch(resetOrder())
           setProcessing(false)
-          // navigate('/')
+          navigate('/')
         }else{
           setOrderErrors({confirm:true})
+          setOrderStatus({confirm:false})
           Toast(res.data.message,'error',1000)
           setProcessing(false)
         }
       }else{
         Toast('Order Already Complete!','success',1000)
-        // dispatch(resetCart())
-        // dispatch(resetOrder())
+        dispatch(resetCart())
+        dispatch(resetOrder())
         setProcessing(false)
-        // navigate('/')
+        navigate('/')
        }
       }
 
       const paymentIntent = useSelector((state)=>state.order.paymentIntent)
       
-      const handlePayment = async () => {
-       if(orderErrors.payment){
+      const handlePayment = async (oNo) => {
+       if(orderErrors.payment || !orderStatus.payment ){
         if(!stripe && !elements){
          Toast('Stripe Not Loaded!','error',100)
+         dispatch(setOrderErrors({payment:true}))
+         dispatch(setOrderStatus({payment:false}))
          setProcessing(false)
          return
         }
@@ -232,12 +238,14 @@ const Payment = () => {
         }
         if(PAYMENT_INTENT?.error){
           dispatch(setOrderErrors({payment:true}))
+          dispatch(setOrderStatus({payment:false}))
           setProcessing(false)
           Toast(PAYMENT_INTENT.error.type,'error',1000)
         }else{
           dispatch(setOrderErrors({payment:false}))
-          setPaymentIntent(PAYMENT_INTENT.paymentIntent)
-          ConfirmOrder(PAYMENT_INTENT.paymentIntent)
+          dispatch(setOrderStatus({payment:true}))
+          dispatch(setPaymentIntent(PAYMENT_INTENT.paymentIntent))
+          ConfirmOrder(PAYMENT_INTENT.paymentIntent,oNo)
         }
        }else{
         ConfirmOrder(paymentIntent)
@@ -247,7 +255,7 @@ const Payment = () => {
       const HandleOrder = async (e) => {
         e.preventDefault()
          setProcessing(true)
-        if(orderErrors.order){
+        if(orderErrors.order || !orderStatus.order){
          let billingAddress = {status:false};
          if(isBilling){
             if(orderInfo?.keepUpdates){
@@ -266,11 +274,12 @@ const Payment = () => {
            console.log(res.data)
            if(res.status === 200){
             dispatch(setOrderErrors({order:false}))
-             dispatch(setOrderNo(res.data.orderNo))
-             //  Toast(res.data.msg,'success',1000)
-             handlePayment()
+            dispatch(setOrderStatus({order:true}))
+            dispatch(setOrderNo(res.data.orderNo))
+            handlePayment(res.data.orderNo)
            }else{
             dispatch(setOrderErrors({order:true}))
+            dispatch(setOrderStatus({order:false}))
             Toast(res.data.message,'error',1000)
             setProcessing(false)
          }
@@ -358,8 +367,8 @@ const Payment = () => {
                             Return to shipping
                         </span>
                     </Link>
-                    <button type="button" onClick={HandleOrder} className='flex space-x-1 cursor-pointer py-3 px-6 text-xs rounded-lg bg-b3 text-white' >
-                      <span>Pay Now</span >
+                    <button type="button" onClick={HandleOrder} className={`flex space-x-1 cursor-pointer py-3 px-6 text-xs rounded-lg ${orderErrors.order || orderErrors.payment || orderErrors.confirm ? 'bg-red-500' : 'bg-b3'} text-white`} >
+                      {orderErrors.order || orderErrors.payment || orderErrors.confirm ? <div className='flex space-x-1 items-center' ><span>Try Again</span> <FiAlertTriangle className="text-white text-sm" /></div> : <span>Pay Now</span >}
                     </button>
                 </div>
             </Checkout>
