@@ -6,7 +6,8 @@ import {resetPassword,validatePasswordToken} from '../api/user/auth'
 import TextInput from '../components/TextInput/TextInput'
 import * as Yup from 'yup';
 import Toast from '../utils/Toast'
-import BtnLoader from '../components/Loader/btnLoader'
+import BtnLoader from '../components/Loader/BtnLoader'
+import { useSelector } from 'react-redux'
 
 const resetPasswordSchema = Yup.object().shape({
   password: Yup.string().required('Password is Required!'),
@@ -18,6 +19,18 @@ const ResetPassword = () => {
   const params = useParams()
 
   const navigate = useNavigate()
+
+  const isAdmin = useSelector((state) => state.admin.auth)
+    const isUser = useSelector((state) => state.user.auth)
+    if(!isAdmin && !isUser){
+      return <>{children}</>
+    }else{
+     if(isAdmin){
+       navigate('/admin/dashboard')
+      }else{
+       navigate('/my-account/profile')
+     }
+    }
 
   const [password,setPassword] = useState('')
   const [confirmPassword,setConfirmPassword] = useState('')

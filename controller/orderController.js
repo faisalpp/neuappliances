@@ -209,7 +209,7 @@ const orderController = {
   },
 
   async confirmOrder(req, res, next) {
-     console.log(req.body)
+    let ip = req?.ip;
       // 1. validate user input
     const orderSchema = Joi.object({
      orderNo: Joi.string().required(),
@@ -229,7 +229,7 @@ const orderController = {
    const {orderNo,intent,status,cartId} = req.body;
     let updateOrder; 
     try{
-     updateOrder = await Order.findOneAndUpdate({orderNo:orderNo},{paymentInfo:intent,paymentStatus:status},{new:true}).populate('shippingAddress').populate('billingAddress');
+     updateOrder = await Order.findOneAndUpdate({orderNo:orderNo},{paymentInfo:intent,paymentStatus:status,orderStatus:'completed',customerIp:ip},{new:true}).populate('shippingAddress').populate('billingAddress');
     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
     
     try{
@@ -237,14 +237,13 @@ const orderController = {
     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
 
     if(updateOrder){
-     const {orderNo,createdAt,shippingAddress,billingAddress,orders,cartCount,grandTotal} = updateOrder;
-      let ShippingAddress = `${shippingAddress.address}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.postalCode} ${shippingAddress.country}`
-      let BillingAddress = `${billingAddress.address}, ${billingAddress.city}, ${billingAddress.state}, ${billingAddress.postalCode} ${billingAddress.country}`
-      const ORDERS_TEMPLATE = EmailTemplates.NewOrderTemplate(orders,orderNo,HOST,ShippingAddress,BillingAddress,cartCount,grandTotal,createdAt)
-      if(ORDERS_TEMPLATE){
-       SendMail.NodeMailer(ORDERS_TEMPLATE,`Order Confirmation Email->${WEBSITE_NAME}`,shippingAddress.email)
-      return res.status(200).json({status:200,msg:'Order Placed Successfully!'})
-     }
+      let ShippingAddress = `${updateOrder.shippingAddress.address} ${updateOrder.shippingAddress.city}, ${updateOrder.shippingAddress.state}, ${updateOrder.shippingAddress.postalCode} ${updateOrder.shippingAddress.country}`
+      let BillingAddress = `${updateOrder.billingAddress.address}, ${updateOrder.billingAddress.city}, ${updateOrder.billingAddress.state}, ${updateOrder.billingAddress.postalCode} ${updateOrder.billingAddress.country}`
+      const ORDERS_TEMPLATE = EmailTemplates.NewOrderTemplate(updateOrder.orders,updateOrder.orderNo,HOST,ShippingAddress,BillingAddress,updateOrder.cartCount,updateOrder.grandTotal,updateOrder.createdAt)
+       if(ORDERS_TEMPLATE){
+       SendMail.NodeMailer(ORDERS_TEMPLATE,`Order Confirmation Email->${WEBSITE_NAME}`,updateOrder.shippingAddress.email)
+       return res.status(200).json({status:200,msg:'Order Placed Successfully!'})
+      }
     }
   },
 
@@ -368,22 +367,50 @@ const orderController = {
   },
 
   async getOrders(req, res, next) {
+    
     let page = Number(req.query.page) || 1;
     let limit = Number(req.query.limit) || 3;
     
     let skip = (page - 1) * limit;
     
     try{
-     const orders = await Order.find({orderType:req.body.orderType}).skip(skip).limit(limit);
+     let orders;
+     let totalCount;
+     if(req.body.orderType === 'all-orders'){
+       orders = await Order.find().skip(skip).limit(limit);
+       totalCount = await Order.countDocuments({});
+     }else{
+       orders = await Order.find({orderType:req.body.orderType}).skip(skip).limit(limit);
+       totalCount = await Order.countDocuments({orderType:req.body.orderType});
+      }
+      return res.status(200).json({status: 200,orders:orders,totalCount:totalCount});
+    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+  },
+
+  async searchOrder(req, res, next) {
+     console.log(req.body)
+     // 1. validate user input
+     const orderSchema = Joi.object({
+      orderNo: Joi.string().required(),
+    });
+    const { error } = orderSchema.validate(req.body);
+   
+    // 2. if error in validation -> return error via middleware
+    if (error) {
+      return next(error)
+    };
+
+    try{
+     const orders = await Order.find({ orderNo: { $regex: req.body.orderNo, $options: 'i' } })
     //  console.log(orders)
-     const totalCount = await Order.countDocuments({});
+     const totalCount = orders.length;
      return res.status(200).json({status: 200,orders:orders,totalCount:totalCount});
     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
   },
   
   async getOrderById(req, res, next) {
     try{
-     const order = await Order.findOne({orderNo:req.body.orderNo}).populate('shippingAddress').populate('billingAddress');
+     const order = await Order.findOne({orderNo:req.body.orderNo}).populate('shippingAddress').populate('billingAddress').populate('customerId');
      return res.status(200).json({status: 200,order:order});
     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
   },
@@ -405,23 +432,72 @@ const orderController = {
      return res.status(200).json({status: 200,msg:'Order Deleted Successfully!'});
     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
   },
+  async updateOrderStatus(req, res, next) {
+    const orderSchema = Joi.object({
+     orderId: Joi.string().required(),
+     type: Joi.string().required(),
+     status: Joi.string().required(),
+    });
+    const { error } = orderSchema.validate(req.body);
+   
+    // 2. if error in validation -> return error via middleware
+    if (error) {
+      return next(error)
+    };
+ 
+    const {type,status,orderId} = req.body;
+
+    let query = {}
+    
+    switch(type){
+      case 'order':
+       query.orderStatus = status
+       break;
+      case 'payment':
+        query.paymentStatus = status
+        break; 
+    }
+
+    try{
+     await Order.findOneAndUpdate({_id:orderId},query)
+     return res.status(200).json({status: 200,msg:'Order Updated Successfully!'});
+    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+  },
+
+  async updateOrderAddresses(req, res, next) {
+    const orderSchema = Joi.object({
+     orderId: Joi.string().required(),
+     type: Joi.string().required(),
+     status: Joi.string().required(),
+    });
+    const { error } = orderSchema.validate(req.body);
+   
+    // 2. if error in validation -> return error via middleware
+    if (error) {
+      return next(error)
+    };
+ 
+    const {type,status,orderId} = req.body;
+
+    let query = {}
+    
+    switch(type){
+      case 'order':
+       query.orderStatus = status
+       break;
+      case 'payment':
+        query.paymentStatus = status
+        break; 
+    }
+
+    try{
+     await Order.findOneAndUpdate({_id:orderId},query)
+     return res.status(200).json({status: 200,msg:'Order Updated Successfully!'});
+    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+  },
 
   async test(req, res, next) {
-    const orders = [
-      {image:'https://neu-appliance-outlet.s3.eu-north-1.amazonaws.com/product/images/1695467409506-rffeature2.webp',salePrice:'200',regPrice:'230',rating:3},
-      {image:'https://neu-appliance-outlet.s3.eu-north-1.amazonaws.com/product/images/1695467409506-rffeature2.webp',salePrice:'200',regPrice:'230',rating:3},
-      {image:'https://neu-appliance-outlet.s3.eu-north-1.amazonaws.com/product/images/1695467409506-rffeature2.webp',salePrice:'200',regPrice:'230',rating:3},
-    ]
-    let HOST = NODE_ENV === "production" ?  WEBSITE_HOST_ADDRESS : 'http://localhost:5173';
-    let ShippingAddress = 'shippingAddress.address shippingAddress.city, shippingAddress.state, shippingAddress.postalCode shippingAddress.country'
-     let BillingAddress = 'billingAddress.address, billingAddress.city, billingAddress.state, billingAddress.postalCode billingAddress.country'
-     const ORDERS_TEMPLATE = EmailTemplates.NewOrderTemplate(orders,'123',HOST,ShippingAddress,BillingAddress,'1','200','date')
-    //  console.log(ORDERS_TEMPLATE)
-      if(ORDERS_TEMPLATE){
-      SendMail.NodeMailer(ORDERS_TEMPLATE,`Order Confirmation Email->${WEBSITE_NAME}`,'muhammadfaisal522@gmail.com')
-      return res.status(200).json({status:200,msg:'Order Placed Successfully!'})
-     }
-
+    console.log(req.ip)
   }
 
 }

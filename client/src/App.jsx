@@ -123,35 +123,6 @@ function App() {
     return loading ? <Loader /> : <>{children}</>;
   }
 
-  const AuthRoute = ({ children }) => {
-    const isAdmin = useSelector((state) => state.admin.auth)
-    const isUser = useSelector((state) => state.user.auth)
-    if(!isAdmin && !isUser){
-      return <>{children}</>
-    }else{
-     if(isAdmin){
-       navigate('/admin/dashboard')
-       return <NavLink to={'/admin/dashboard'} />
-      }else{
-       return <NavLink to={'/my-account/profile'} />
-     }
-    }
-  }
-  const AuthAdminRoute = ({ children }) => {
-    const isAdmin = useSelector((state) => state.admin.auth)
-    const isUser = useSelector((state) => state.user.auth)
-    if(!isAdmin && !isUser){
-      return <>{children}</>
-    }else{
-     if(isAdmin){
-       return <NavLink to={'/admin/dashboard'} />
-     }else{
-       navigate('/myaccount/profile')
-       return <NavLink to={'/myaccount/profile'} />
-     }
-    }
-  }
-
 
   return (
     <>
@@ -174,10 +145,10 @@ function App() {
 
           <Route path="/buying-optionsv1" element={<BuyingOptionsV1 />} />
           {/* ===== */}
-          <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<AuthRoute><ForgotPassword /></AuthRoute>} />
-          <Route path="/reset-password/:token" element={<AuthRoute><ResetPassword /></AuthRoute>} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/:slug" element={<Product />} />
           <Route path="/appliances/:categorySlug" element={<Appliances />} />
@@ -230,8 +201,8 @@ function App() {
           <Route path="/do-i-have-electric-or-gas" element={<DoIHaveElectricGas />} />
 
           {/* Admin Related Routes */}
-          <Route path="/nu-admin" element={<AuthAdminRoute><AdminLogin /></AuthAdminRoute>} />
-          <Route path="/admin/dashboard" element={<ProtectedAdmin><Dashboard /></ProtectedAdmin>} />
+          <Route path="/nu-admin" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
           {/* Categories Related Routes */}
           {/* Category Section Related Routes */}
           <Route path="/admin/create-section/:slug" element={<ProtectedAdmin><CreateSection /></ProtectedAdmin>} />

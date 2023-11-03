@@ -1,7 +1,7 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import MainLayout from '../../layout/MainLayout'
 import { BsArrowRightShort } from 'react-icons/bs'
-import { NavLink, Navigate, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from "react-redux"
@@ -11,8 +11,20 @@ import Toast from '../../utils/Toast'
 const Login = () => {
 
   const navigate = useNavigate();
-  const isAdmin = useSelector((state) => state.admin.auth);
-  const isUser = useSelector((state) => state.user.auth);
+  const isAdmin = useSelector((state) => state.admin.auth)
+  const isUser = useSelector((state) => state.user.auth)
+
+  useEffect(()=>{
+    if(!isAdmin && !isUser){
+      return <>{children}</>
+    }else{
+     if(isAdmin){
+       navigate('/admin/dashboard')
+     }else{
+       navigate('/myaccount/profile')
+     }
+    }
+  },[])
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -52,7 +64,7 @@ const Login = () => {
                 <input type="password" value={password} onChange={e => setPassword(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Enter Your Password' />
               </div>
               <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><span className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Login</span><BsArrowRightShort className='text-2xl' /></span></button>
-              <div className='flex w-full justify-center' ><h5 className='text-sm' >New customer? <NavLink to="/register" ><span className='text-b3 hover:underline cursor-pointer' >Create an Account</span></NavLink></h5></div>
+              {/* <div className='flex w-full justify-center' ><h5 className='text-sm' >New customer? <NavLink to="/register" ><span className='text-b3 hover:underline cursor-pointer' >Create an Account</span></NavLink></h5></div> */}
             </form>
           </div>
         </MainLayout>

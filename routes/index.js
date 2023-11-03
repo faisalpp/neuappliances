@@ -183,6 +183,8 @@ router.post('/api/user/get-cart',cartController.getCart);
 
 // Admin Order Api's
 router.post('/api/admin/get-orders',adminAuth,orderController.getOrders);
+router.post('/api/admin/search-order',adminAuth,orderController.searchOrder);
+router.post('/api/admin/update-order-status',adminAuth,orderController.updateOrderStatus);
 router.post('/api/admin/get-customers',adminAuth,customerController.getAllCustomers);
 router.post('/api/admin/get-order-by-id',adminAuth,orderController.getOrderById);
 router.post('/api/admin/delete-order-by-id',adminAuth,orderController.deleteOrderById);

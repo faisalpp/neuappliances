@@ -1,4 +1,5 @@
 const {WEBSITE_NAME} = require('../config/index')
+const moment = require('moment')
 
 class EmailTemplates{
  
@@ -88,29 +89,29 @@ class EmailTemplates{
  static NewOrderTemplate(orders,orderNo,host,shippingAddress,billingAddress,cartCount,grandTotal,date){
    let htm = '';
    for (let i=0;i<orders.length;i++) {
-   htm += `<div style=" display: flex; gap: 14px ">
-   <div style=" min-width: 64px; position: relative ">
+   htm += `<div style=" display: flex; gap: 14px;width:100%">
+   <div style=" min-width: 64px; position: relative;">
        <img src="${orders[i].image}" style=" width: 64px; height: 64px; object-fit: contain " alt="" />
        <span style=" position: absolute; width: 21px; height: 21px; color: white; font-weight: 500; display: flex; justify-content: center; align-items: center; top: -10px; right: -10px; font-size: 12px; border-radius: 100%; padding: 2px; background-color: #22A6AB ">
            1
        </span>
    </div>
-   <div style="gap: 14px; justify-content: space-between; align-items: center; flex-wrap: wrap; width: 100% ">
-       <div>
+   <div style="gap-x: 14px;gap-y:7px;display:flex; justify-content: space-between; align-items: center;width:70%  ">
+       <div >
            <h3 style=" font-size: 14px; font-weight: 500; color: #333; letter-spacing: -0.2px ">White GE 1.7 cu. ft. Over the Range Microwave with Convenience</h3>
            <p style=" color: #737373; font-size: 12px; letter-spacing: -0.2px ">
                ${orders[i].rating} Stars (Flawless Cosmetic Rating)
            </p>
        </div>
        <div style=" color: #22A6AB; font-size: 14px; font-weight: 500 ">
-           ${orders[i].salePrice ? orders[i].salePrice : orders[i].regPrice}
+          <b> $${orders[i].salePrice ? orders[i].salePrice : orders[i].regPrice}</b>
        </div>
    </div>
 </div>`
    }
    
     const body = `
-   <div style="max-width: 960px; margin: 0 auto;padding-right:3px ">
+   <div style="font-family: Verdana;max-width: 960px; margin: 0 auto;margin-right:3px ">
    <div style="display:flex;width:100%;margin:auto; background-color: black;padding-top:12px;padding-bottom:12px">
        <img src='${host}/email/neu.webp' alt="" style=" margin: auto; height: 30px; object-fit: contain " />
    </div>
@@ -124,42 +125,44 @@ class EmailTemplates{
        </div>
        <h2 style=" font-size: 1.19vw; color: #242424 ">Questions? Suggestions? Insights show thoughts? Shoot us an email</h2>
        <div style=" border: 1px solid #D9D9D9; border-radius: 8px; padding: 0 16px ">
-           <div style=" font-size: 0.83vw;display:flex;gap-x: 44px;padding-bottom:10px;padding-top:10px">
+           <div style=" font-size: 0.83vw;display:flex;gap-x: 50px;padding-bottom:10px;padding-top:10px">
                <h3 style="color: #737373; min-width: 123px;">Order Number</h3>
-               <span style=" color: #111010;font-size: 1vw;margin-top:7px;margin-bottom:7px; "><b>${orderNo}</b></span>
+               <span style=" color: #111010;font-size: 1vw;margin-top:7px;margin-bottom:7px; ">${orderNo}</span>
            </div>
-           <div style=" font-size: 0.83vw;display:flex;gap-x: 44px;padding-bottom:10px;padding-top:10px">
+           <div style=" font-size: 0.83vw;display:flex;gap-x: 50px;padding-bottom:10px;padding-top:10px">
                <h3 style="color: #737373; min-width: 123px;">Order Date</h3>
-               <span style=" color: #111010;font-size: 1vw;margin-top:7px;margin-bottom:7px; "><b>${date}</b></span>
+               <span style=" color: #111010;font-size: 1vw;margin-top:7px;margin-bottom:7px; ">${date}</span>
            </div>
-           <div style=" font-size: 0.83vw;display:flex;gap-x: 44px;padding-bottom:10px;padding-top:10px">
+           <div style=" font-size: 0.83vw;display:flex;gap-x: 50px;padding-bottom:10px;padding-top:10px">
                <h3 style="color: #737373; min-width: 123px;">Shipping&nbsp;Address</h3>
-               <span style=" color: #111010;font-size: 1vw;margin-top:7px;margin-bottom:7px; "><b>${shippingAddress}</b></span>
+               <span style=" color: #111010;font-size: 1vw;margin-top:7px;margin-bottom:7px; ">${shippingAddress}</span>
            </div>
-           <div style=" font-size: 0.83vw;display:flex;gap-x: 44px;padding-bottom:10px;padding-top:10px">
+           <div style=" font-size: 0.83vw;display:flex;gap-x: 50px;padding-bottom:10px;padding-top:10px">
                <h3 style="color: #737373; min-width: 123px;">Billing&nbsp;Address</h3>
-               <span style=" color: #111010;font-family: Georgia;font-size: 1vw;margin-top:7px;margin-bottom:7px; ">${billingAddress}</span>
+               <span style=" color: #111010;font-size: 1vw;margin-top:7px;margin-bottom:7px; ">${billingAddress}</span>
            </div>
        </div>
-       <div style=" border: 1px solid #D9D9D9; border-radius: 8px;margin-top:10px;width: 100% ">
+       <div style=" border: 1px solid #D9D9D9; border-radius: 8px;margin-top:10px;padding-left:16px;width: 100%">
            <h3 style=" font-size: 16px; color: #242424; font-weight: 500; letter-spacing: -0.2px ">Here’s what you ordered.</h3>
            <div style="">
              ${htm}
             </div>
-           <hr />
+           <hr style="color:#D9D9D9;margin-right:10px;margin-left:10px" />
            <div style=" display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap ">
-               <h3 style=" font-size: 1.19vw; font-weight: 600;width:100% ">Subtotal (${cartCount} Items):</h3>
-               <span style=" font-size: 32px; font-weight: 600 ">
+               <h3 style=" font-size: 1.19vw; font-weight: 600;width:100%;padding-left:12px">Subtotal (${cartCount} Items):</h3>
+               <span style=" font-size: 32px; font-weight: 600;padding-right:12px ">
                    $${grandTotal}
                </span>
            </div>
        </div>
    </div>
-   <div style=" background-color: #071822; padding: 20px; color: white; font-size: 12px;gap: 40px;display:flex;margin-top:20px">
-       <span>&#169; 2023 Neu Appliances</span>
-       <div style="gap: 6px ">
-           <a href="${host}/terms" >Terms of Use</a>   •   <a href="${host}/privacy-policy">Privacy Policy</a>   •   <a href="${host}/help-and-support">Help Center</a>
+   <div style=" background-color: #071822; padding: 20px; color: white; font-size: 12px;gap: 40px;display:flex;width:100%;margin:auto">
+    <div style="display:flex;margin-left:20px;margin-right:20px" >   
+     <span style="with:100%" >&#169; 2023 Neu Appliances</span>
+       <div style="gap: 6px;">
+         <a style="color:white" href="${host}/terms" >Terms of Use</a>   •   <a style="color:white" href="${host}/privacy-policy">Privacy Policy</a>   •   <a style="color:white" href="${host}/help-and-support">Help Center</a>
        </div>
+     </div>
    </div>
 </div>
    `;

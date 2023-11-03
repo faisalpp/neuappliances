@@ -5,7 +5,7 @@ import {BsPencil} from 'react-icons/bs'
 import {deleteOrderById} from '../../../api/admin/order'
 import Toast from '../../../utils/Toast'
 
-const OrderRow = ({id,orderNo,date,status,total,refreshOrders}) => {
+const OrderRow = ({id,orderNo,date,orderStatus,paymentStatus,total,refreshOrders}) => {
 
   const [delOrder,setDelOrder] = useState(false)
 
@@ -29,10 +29,16 @@ const OrderRow = ({id,orderNo,date,status,total,refreshOrders}) => {
         <td className="whitespace-nowrap px-5 py-3">{orderNo}</td>
         <td className="whitespace-nowrap px-5 py-3 capitalize">{date}</td>
         <td className="whitespace-nowrap px-5 py-3 capitalize">
-          { status === 'pending' ? <span className='bg-yellow-500/20 text-yellow-700 px-2 rounded-2xl py-1' >Pending</span>:null}
-          { status === 'rejected' ? <span className='bg-red-500/20 text-red-500 px-2 rounded-2xl py-1' >Rejected</span>:null}
-          { status === 'completed' ? <span className='bg-b6/20 text-b6 px-2 rounded-2xl py-1' >Completed</span>:null}
-          { status === 'processing' ? <span className='bg-b10/20 text-b10 px-2 rounded-2xl py-1' >Processing</span>:null}
+          { orderStatus === 'pending' ? <span className='bg-yellow-500/20 text-yellow-700 px-2 rounded-2xl py-1' >Pending</span>:null}
+          { orderStatus === 'canceled' ? <span className='bg-red-500/20 text-red-500 px-2 rounded-2xl py-1' >Rejected</span>:null}
+          { orderStatus === 'completed' ? <span className='bg-b6/20 text-b6 px-2 rounded-2xl py-1' >Completed</span>:null}
+          { orderStatus === 'processing' ? <span className='bg-b10/20 text-b10 px-2 rounded-2xl py-1' >Processing</span>:null}
+          { orderStatus === 'shipping' ? <span className='bg-b10/20 text-b10 px-2 rounded-2xl py-1' >Processing</span>:null}
+        </td>
+        <td className="whitespace-nowrap px-5 py-3 capitalize">
+          { paymentStatus === 'pending' ? <span className='bg-yellow-500/20 text-yellow-700 px-2 rounded-2xl py-1' >Pending</span>:null}
+          { paymentStatus === 'declined' ? <span className='bg-red-500/20 text-red-500 px-2 rounded-2xl py-1' >Rejected</span>:null}
+          { paymentStatus === 'completed' ? <span className='bg-b6/20 text-b6 px-2 rounded-2xl py-1' >Completed</span>:null}
         </td>
         <td className="whitespace-nowrap  px-5 py-4 text-b6 font-medium">${total}</td>
         <td className="flex items-center justify-center whitespace-nowrap space-x-1 px-5 py-4">

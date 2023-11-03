@@ -28,8 +28,9 @@ const orderSchema = new mongoose.Schema({
   grandTotal: { type: Number, required: true },
   cartCount: { type: Number, required: true },
   orderType: { type: String, required:true },
-  orderStatus: { type: String, default: 'Pending' },
-  paymentStatus: { type: String, default: 'Pending' },
+  orderStatus: { type: String, default: 'pending' },
+  paymentStatus: { type: String, default: 'pending' },
+  customerIp: { type: String, default: 'N/A' },
 },{timestamps: true});
 
 module.exports = mongoose.model('Order', orderSchema, 'orders');

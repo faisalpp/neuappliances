@@ -1,13 +1,31 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import MainLayout from '../layout/MainLayout'
 import { BsArrowRightShort } from 'react-icons/bs'
 import {forgotPassword} from '../api/user/auth'
 import Toast from '../utils/Toast'
 import * as Yup from 'yup';
 import TextInput from '../components/TextInput/TextInput'
-import BtnLoader from '../components/Loader/btnLoader'
+import BtnLoader from '../components/Loader/BtnLoader'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const ForgotPassword = () => {
+
+  const navigate = useNavigate();
+  const isUser = useSelector((state) => state.user.auth)
+  const isAdmin = useSelector((state) => state.admin.auth)
+
+useEffect(()=>{
+  if(!isAdmin && !isUser){
+    return <>{children}</>
+  }else{
+   if(isAdmin){
+     navigate('/admin/dashboard')
+    }else{
+      navigate('/my-account/profile')
+   }
+  }
+},[])
 
   const [email,setEmail] = useState('')
   const [errors,setErrors] = useState([])

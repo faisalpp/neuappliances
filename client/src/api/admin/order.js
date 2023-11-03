@@ -12,6 +12,28 @@ export const getOrders = async (params,data) => {
     return response;
 }
 
+export const searchOrder = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/search-order',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const updateOrderStatus = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/update-order-status',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
 export const getOrderById = async (data) => {
     let response;
     

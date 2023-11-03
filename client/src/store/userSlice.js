@@ -1,6 +1,7 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import {Signin} from "../api/user/auth"
 import axios from "axios";
+import Toast from '../utils/Toast'
 
 const initialState = {
   _id: "",
@@ -14,12 +15,15 @@ const initialState = {
 export const loginUser = createAsyncThunk("user/login", async (data) => {
     try{
       const response = await Signin(data); // Call your login API with the provided data
+      console.log(response)
       if(response.status === 200){
         return response.data; // Assuming your API response contains the user data
       }else{
-        return response
+        return response.data
       }
     }catch(error){
+      console.log(error)
+      Toast(error.response.message,'error',1000)
       return { payload: error.response?.data, error: true };
     }
 });
@@ -67,11 +71,13 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
       const { user, auth } = action.payload;
-      state._id = user._id;
-      state.email = user.email;
-      state.firstName = user.firstName;
-      state.lastName = user.lastName;
-      state.auth = auth;
+      if(user){
+        state._id = user._id;
+        state.email = user.email;
+        state.firstName = user.firstName;
+        state.lastName = user.lastName;
+        state.auth = auth;
+      }
     })
     .addCase(refreshUser.fulfilled, (state, action) => {
       const {user,auth} = action.payload;

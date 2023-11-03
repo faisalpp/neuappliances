@@ -3,13 +3,27 @@ import MainLayout from '../layout/MainLayout'
 import { BsArrowRightShort } from 'react-icons/bs'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 import { loginUser } from '../store/userSlice'
 import Toast from '../utils/Toast'
 
 const Login = () => {
 
   const navigate = useNavigate();
+    const isUser = useSelector((state) => state.user.auth)
+    const isAdmin = useSelector((state) => state.admin.auth)
+
+  useEffect(()=>{
+    if(!isAdmin && !isUser){
+      return <>{children}</>
+    }else{
+     if(isAdmin){
+       navigate('/admin/dashboard')
+      }else{
+        navigate('/my-account/profile')
+     }
+    }
+  },[])
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,13 +37,15 @@ const Login = () => {
 
     const res = await dispatch(loginUser(data));
     console.log(res)
+    if (res.payload.code === 'ERR_BAD_REQUEST') {
+      Toast('Invalid Credentials!','error',1000)
+    }
     if (res.payload.status === 200) {
-      Toast(res.payload.msg,'success',1000)
-        navigate('/my-account/profile');
-      }
-      if (res.payload.code === 'ERR_BAD_REQUEST') {
-        Toast('Invalid Credentials!','error',1000)
-      }
+     Toast(res.payload.msg,'success',1000)
+     navigate('/my-account/profile');
+    }else{
+      Toast(res.payload.message,'success',1000)
+     }
     }
 
   return (

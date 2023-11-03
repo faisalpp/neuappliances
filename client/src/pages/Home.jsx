@@ -23,7 +23,9 @@ const Home = () => {
   return (
     <>
       <MainLayout>
-        {/* <h3 style={{'fontFamily':'Century Gothic'}} >Test</h3> */}
+        {/* <h3 style={{'fontFamily':'Verdana'}} >Test</h3> */}
+        {/* <h3 style={{'fontFamily':'Tahoma'}} >Test</h3> */}
+        {/* <h3 style={{'fontFamily':'Helvetica'}} >Test</h3> */}
         {/* <h3 >Test</h3> */}
         <HeroSection />
          <BrandsSlider />  
