@@ -23,10 +23,10 @@ const AdminItems = ({ onClose, isItems }) => {
         //     title: "Manage Tax",
         //     link: '/admin/manage-taxes',
         // },
-        {
-            title: "Coupons",
-            link: '/admin/manage-copons',
-        },
+        // {
+        //     title: "Coupons",
+        //     link: '/admin/manage-copons',
+        // },
         {
             title: 'Products',
             link: '/admin/manage-products',
