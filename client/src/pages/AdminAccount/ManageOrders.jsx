@@ -48,7 +48,6 @@ const ManageOrders = () => {
      e.preventDefault()
      setLoading(true)
      const res = await searchOrder({orderNo:search})
-     console.log(res)
      if(res.status === 200){
         setLoading(false)
         setOrders(res.data.orders)
@@ -63,8 +62,8 @@ const ManageOrders = () => {
         <>
         <AdminAccount>
          <div className='flex space-x-5 items-center mb-2 bg-white py-3 px-5 w-full' >
-          <NavLink to="/admin/create-product" className='bg-b3 text-white text-xs px-3 rounded-2xl cursor-pointer py-2' >Create&nbsp;Order</NavLink>
-          <div className='w-96' ><SelectInput onChange={e=>setOrderType(e.target.value)} options={['All Orders','Delivery','Pickup']} /></div>
+          <NavLink to="/admin/create-order" className='bg-b3 text-white text-xs px-3 rounded-2xl cursor-pointer py-2' >Create&nbsp;Order</NavLink>
+          <div className='w-96' ><SelectInput onChange={e=>setOrderType(e.target.value)} options={['All Orders','Delivery','Pickup','Archived']} /></div>
           <form onSubmit={SearchOrder} className='flex w-full justify-end space-x-3' >
            <input name="search" placeholder='Search #12345' value={search} onChange={e=>setSearch(e.target.value)} className='text-xs px-2 outline-none border border-b3 rounded-md' />
            <button className='border border-b3 text-b3 text-xs px-2 rounded-md cursor-pointer py-1' >Search</button>

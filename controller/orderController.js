@@ -6,6 +6,7 @@ const Admin = require('../models/admin')
 const User = require('../models/user')
 const NewsEmail = require('../models/newsEmail')
 const Order = require('../models/order')
+const Product = require('../models/product')
 const bcrypt = require("bcryptjs");
 const RandExp = require('randexp');
 const SendMail = require('../services/NeuMailer')
@@ -379,6 +380,9 @@ const orderController = {
      if(req.body.orderType === 'all-orders'){
        orders = await Order.find().skip(skip).limit(limit);
        totalCount = await Order.countDocuments({});
+     }else if (req.body.orderType === 'archived'){
+       orders = await Order.find({isArchived:true}).skip(skip).limit(limit);
+       totalCount = await Order.countDocuments({isArchived:true});
      }else{
        orders = await Order.find({orderType:req.body.orderType}).skip(skip).limit(limit);
        totalCount = await Order.countDocuments({orderType:req.body.orderType});
@@ -414,7 +418,7 @@ const orderController = {
      return res.status(200).json({status: 200,order:order});
     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
   },
-  async deleteOrderById(req, res, next) {
+  async archiveOrderById(req, res, next) {
     const orderSchema = Joi.object({
      orderId: Joi.string().required(),
     });
@@ -428,8 +432,26 @@ const orderController = {
     const {orderId} = req.body;
 
     try{
-     await Order.findOneAndDelete({_id:orderId})
-     return res.status(200).json({status: 200,msg:'Order Deleted Successfully!'});
+     await Order.findOneAndUpdate({_id:orderId},{isArchived:true})
+     return res.status(200).json({status: 200,msg:'Order Archived Successfully!'});
+    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+  },
+  async unArchiveOrderById(req, res, next) {
+    const orderSchema = Joi.object({
+     orderId: Joi.string().required(),
+    });
+    const { error } = orderSchema.validate(req.body);
+   
+    // 2. if error in validation -> return error via middleware
+    if (error) {
+      return next(error)
+    };
+ 
+    const {orderId} = req.body;
+
+    try{
+     await Order.findOneAndUpdate({_id:orderId},{isArchived:false})
+     return res.status(200).json({status: 200,msg:'Order UnArchived Successfully!'});
     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
   },
   async updateOrderStatus(req, res, next) {
@@ -459,16 +481,24 @@ const orderController = {
     }
 
     try{
-     await Order.findOneAndUpdate({_id:orderId},query)
-     return res.status(200).json({status: 200,msg:'Order Updated Successfully!'});
+     const updatedOrder = await Order.findOneAndUpdate({_id:orderId},query,{new:true}).populate('shippingAddress').populate('billingAddress').populate('customerId')
+     return res.status(200).json({status: 200,order:updatedOrder,msg:'Order Updated Successfully!'});
     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
   },
 
   async updateOrderAddresses(req, res, next) {
     const orderSchema = Joi.object({
-     orderId: Joi.string().required(),
-     type: Joi.string().required(),
-     status: Joi.string().required(),
+     id: Joi.string().required(),
+     email:Joi.string().required(),
+     firstName:Joi.string().required(),
+     lastName:Joi.string().required(),
+     address:Joi.string().required(),
+     appartment:Joi.string().allow('').allow(null),
+     city:Joi.string().required(),
+     country:Joi.string().required(),
+     state:Joi.string().required(),
+     postalCode:Joi.string().required(),
+     phone:Joi.string().required(),
     });
     const { error } = orderSchema.validate(req.body);
    
@@ -477,23 +507,39 @@ const orderController = {
       return next(error)
     };
  
-    const {type,status,orderId} = req.body;
-
-    let query = {}
-    
-    switch(type){
-      case 'order':
-       query.orderStatus = status
-       break;
-      case 'payment':
-        query.paymentStatus = status
-        break; 
-    }
+    const {id,email,firstName,lastName,address,appartment,city,country,state,postalCode,phone} = req.body;
 
     try{
-     await Order.findOneAndUpdate({_id:orderId},query)
-     return res.status(200).json({status: 200,msg:'Order Updated Successfully!'});
+     const updatedAddress = await OrderAddress.findOneAndUpdate({_id:id},{email,firstName,lastName,address,appartment,city,country,state,postalCode,phone},{new:true})
+     return res.status(200).json({status: 200,address:updatedAddress,msg:'Order Updated Successfully!'});
     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+  },
+
+  async searchOrderByTitleOrModel(req, res, next) {
+    const orderSchema = Joi.object({
+     query: Joi.string().required(),
+     type: Joi.string().required(),
+    });
+    const { error } = orderSchema.validate(req.body);
+   
+    // 2. if error in validation -> return error via middleware
+    if (error) {
+      return next(error)
+    };
+ 
+    const {type,query} = req.body;
+
+    if(type === 'title'){
+     try{
+     const result2 = await Product.find({ title: { $regex: query, $options: 'i' } }).select('media').select('title').select('salePrice').select('regPrice').select('stock').select('modelNo').select('productType')
+      return res.status(200).json({status: 200,result:result2});
+     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+    }else{
+     try{
+      const result = await Product.find({ modelNo: { $regex: query, $options: 'i' } }).select('media').select('title').select('salePrice').select('regPrice').select('stock').select('modelNo').select('productType')
+      return res.status(200).json({status: 200,result:result});
+     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+    }
   },
 
   async test(req, res, next) {

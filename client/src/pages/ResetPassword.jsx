@@ -23,7 +23,7 @@ const ResetPassword = () => {
   const isAdmin = useSelector((state) => state.admin.auth)
     const isUser = useSelector((state) => state.user.auth)
     if(!isAdmin && !isUser){
-      return <>{children}</>
+      return
     }else{
      if(isAdmin){
        navigate('/admin/dashboard')

@@ -102,6 +102,8 @@ import useAutoLoginUser from './hooks/useAutoLoginUser'
 import { useSelector } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import CreateOrder from './pages/AdminAccount/CreateOrder';
+import CreateCoupon from './pages/AdminAccount/CreateCoupon';
 const ManageCopons = lazy(() => import('./pages/AdminAccount/ManageCopons'));
 const UpdateShippingZone = lazy(() => import('./pages/AdminAccount/UpdateShippingZone'));
 const ManageZipCods = lazy(() => import('./pages/AdminAccount/ManageZipCods'));
@@ -259,14 +261,13 @@ function App() {
           <Route path="/admin/manage-taxes" element={<ProtectedAdmin><ManageTaxes /></ProtectedAdmin>} />
           {/* Admin Copons */}
           <Route path="/admin/manage-copons" element={<ProtectedAdmin><ManageCopons /></ProtectedAdmin>} />
+          <Route path="/admin/create-coupon" element={<ProtectedAdmin><CreateCoupon /></ProtectedAdmin>} />
           {/* Admin Manage Gallery */}
           <Route path="/admin/manage-gallery" element={<ProtectedAdmin><ManageGallery /></ProtectedAdmin>} />
           {/* Admin Manage Orders */}
-           <Route path="/admin/manage-orders" element={<ManageOrders />} />
-           <Route path="/admin/update-order/:id" element={<UpdateOrder />} />
-           {/* <Route path="/admin/manage-orders" element={<ProtectedAdmin><ManageOrders /></ProtectedAdmin>} />
-           <Route path="/admin/update-order" element={<ProtectedAdmin><UpdateOrder /></ProtectedAdmin>} /> */}
-            
+           <Route path="/admin/create-order" element={<ProtectedAdmin><CreateOrder /></ProtectedAdmin>} />
+           <Route path="/admin/manage-orders" element={<ProtectedAdmin><ManageOrders /></ProtectedAdmin>} />
+           <Route path="/admin/update-order/:id" element={<ProtectedAdmin><UpdateOrder /></ProtectedAdmin>} />
 
           {/* Admin Manage Customers */}
           <Route path="/admin/manage-customers" element={<ProtectedAdmin><ManageCustomers /></ProtectedAdmin>} />

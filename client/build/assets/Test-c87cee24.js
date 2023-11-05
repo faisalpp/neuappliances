@@ -1,1 +1,0 @@
-import{j as r}from"./index-51d5f935.js";import{C as t}from"./Calander-78f4cc56.js";import"./index.esm-3769a322.js";import"./index-a38f3315.js";const a=()=>r.jsx(r.Fragment,{children:r.jsx(t,{})});export{a as default};

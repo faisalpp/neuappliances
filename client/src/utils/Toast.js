@@ -36,4 +36,16 @@ export default function Toast(msg,type,speed){
     theme: "light",
   });
  }
+   if(type === 'info'){
+   toast.info(msg, {
+    position: "top-right",
+    autoClose: speed,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+ }
 }

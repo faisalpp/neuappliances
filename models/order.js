@@ -31,6 +31,7 @@ const orderSchema = new mongoose.Schema({
   orderStatus: { type: String, default: 'pending' },
   paymentStatus: { type: String, default: 'pending' },
   customerIp: { type: String, default: 'N/A' },
+  isArchived: { type: Boolean, default: false },
 },{timestamps: true});
 
 module.exports = mongoose.model('Order', orderSchema, 'orders');

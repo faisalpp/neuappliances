@@ -16,7 +16,7 @@ const Login = () => {
 
   useEffect(()=>{
     if(!isAdmin && !isUser){
-      return <>{children}</>
+      return
     }else{
      if(isAdmin){
        navigate('/admin/dashboard')

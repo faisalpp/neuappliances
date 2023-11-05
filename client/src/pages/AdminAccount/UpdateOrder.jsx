@@ -1,16 +1,18 @@
 import React, { useEffect,useState } from 'react'
 import AdminAccount from '../../layout/AdminAccount'
-// import TextInput from '../../components/TextInput/TextInput'
 import { Link, useParams } from 'react-router-dom'
-import {getOrderById,updateOrderStatus} from '../../api/admin/order'
+import {getOrderById,updateOrderStatus,updateOrderAddresses} from '../../api/admin/order'
 import Table from '../../components/AdminDashboard/Table/Table'
-import SelectInput from '../../components/TextInput/SelectInput'
+// import SelectInput from '../../components/TextInput/SelectInput'
 import {BsPencil} from 'react-icons/bs'
+import {RiQuestionFill} from 'react-icons/ri'
 import moment from 'moment'
 import BtnLoader from '../../components/Loader/BtnLoader'
 import Toast from '../../utils/Toast'
 import Popup from '../../components/AdminDashboard/Popup'
 import * as Yup from 'yup';
+import TextInput from '../../components/TextInput/TextInput'
+import SelectInput from '../../components/TextInput/SelectInput'
 
 const UpdateOrder = () => {
 
@@ -19,8 +21,7 @@ const UpdateOrder = () => {
   const [orderId,setOrderId] = useState('')
   const [order,setOrder] = useState({})
   const [products,setProducts] = useState([])
-  const [shippingInfo,setShippingInfo] = useState({})
-  const [billingInfo,setBillingInfo] = useState({})
+  
 
   const AddRedundentProductCount = (arr) => {
     let i;
@@ -43,22 +44,28 @@ const UpdateOrder = () => {
   const [orderStatus,setOrderStatus] = useState('')
   const [paymentStatuses,setPaymentStatuses] = useState([])
   const [paymentStatus,setPaymentStatus] = useState('')
+  const [paymentInfo,setPaymentInfo] = useState('')
+
+  // Order Shipping Address States
+  const [shippingAddress,setShippingAddress] = useState({id:'',email:'',firstName:'',lastName:'',address:'',appartment:'',city:'',country:'usa',state:'alberta',postalCode:'',phone:''})
+  const [billingAddress,setBillingAddress] = useState({id:'',email:'',firstName:'',lastName:'',address:'',appartment:'',city:'',country:'usa',state:'alberta',postalCode:'',phone:''})
 
   const GetOrder = async () => {
    const res = await getOrderById({orderNo:params.id})
-  //  console.log(res.data)
    if(res.status === 200){
      setOrderId(res.data.order._id)
      setOrder(res.data.order)
      setProducts(AddRedundentProductCount(res.data.order.orders))
-     setShippingInfo(res.data.order.shippingAddress)
-     setBillingInfo(res.data.order.billingAddress)
      setPaymentInfo(res.data.order.paymentInfo)
      const filt = ordStatus.filter((item)=>item !== res?.data?.order?.orderStatus)
      setOrderStatuses([res?.data?.order?.orderStatus,...filt])
      const filt2 = pymStatus.filter((item)=>item !== res?.data?.order?.paymentStatus)
      setPaymentStatuses([res?.data?.order?.paymentStatus,...filt2])
-   }
+     setShippingAddress({id:res.data.order?.shippingAddress?._id,email:res.data.order?.shippingAddress?.email,firstName:res.data.order?.shippingAddress?.firstName,lastName:res.data.order?.shippingAddress?.lastName,address:res.data.order?.shippingAddress?.address,appartment:res.data.order?.shippingAddress?.appartment,city:res.data.order?.shippingAddress?.city,country:res.data.order?.shippingAddress?.country,state:res.data.order?.shippingAddress?.state,postalCode:res.data.order?.shippingAddress?.postalCode,phone:res.data.order?.shippingAddress?.phone})
+     setBillingAddress({id:res.data.order?.billingAddress?._id,email:res.data.order?.billingAddress?.email,firstName:res.data.order?.billingAddress?.firstName,lastName:res.data.order?.billingAddress?.lastName,address:res.data.order?.billingAddress?.address,appartment:res.data.order?.billingAddress?.appartment,city:res.data.order?.billingAddress?.city,country:res.data.order?.billingAddress?.country,state:res.data.order?.billingAddress?.state,postalCode:res.data.order?.billingAddress?.postalCode,phone:res.data.order?.billingAddress?.phone})
+    }else{
+      Toast(res.data.message,'error',1000)
+    }
   }
 
   useEffect(()=>{
@@ -75,7 +82,16 @@ const UpdateOrder = () => {
     if(res.status === 200){
       setUload(false)
       Toast(res.data.msg,'success',1000)
-      GetOrder()
+      setOrderId(res.data.order._id)
+      setOrder(res.data.order)
+      setProducts(AddRedundentProductCount(res.data.order.orders))
+      setPaymentInfo(res.data.order.paymentInfo)
+      const filt = ordStatus.filter((item)=>item !== res?.data?.order?.orderStatus)
+      setOrderStatuses([res?.data?.order?.orderStatus,...filt])
+      const filt2 = pymStatus.filter((item)=>item !== res?.data?.order?.paymentStatus)
+      setPaymentStatuses([res?.data?.order?.paymentStatus,...filt2])
+      setShippingAddress({id:res.data.order?.shippingAddress?._id,email:res.data.order?.shippingAddress?.email,firstName:res.data.order?.shippingAddress?.firstName,lastName:res.data.order?.shippingAddress?.lastName,address:res.data.order?.shippingAddress?.address,appartment:res.data.order?.shippingAddress?.appartment,city:res.data.order?.shippingAddress?.city,country:res.data.order?.shippingAddress?.country,state:res.data.order?.shippingAddress?.state,postalCode:res.data.order?.shippingAddress?.postalCode,phone:res.data.order?.shippingAddress?.phone})
+      setBillingAddress({id:res.data.order?.billingAddress?._id,email:res.data.order?.billingAddress?.email,firstName:res.data.order?.billingAddress?.firstName,lastName:res.data.order?.billingAddress?.lastName,address:res.data.order?.billingAddress?.address,appartment:res.data.order?.billingAddress?.appartment,city:res.data.order?.billingAddress?.city,country:res.data.order?.billingAddress?.country,state:res.data.order?.billingAddress?.state,postalCode:res.data.order?.billingAddress?.postalCode,phone:res.data.order?.billingAddress?.phone})
     }else{
       setUload(false)
       Toast(res.data.message,'error',1000)
@@ -93,7 +109,16 @@ const UpdateOrder = () => {
     if(res.status === 200){
       setPload(false)
       Toast(res.data.msg,'success',1000)
-      GetOrder()
+      setOrderId(res.data.order._id)
+      setOrder(res.data.order)
+      setProducts(AddRedundentProductCount(res.data.order.orders))
+      setPaymentInfo(res.data.order.paymentInfo)
+      const filt = ordStatus.filter((item)=>item !== res?.data?.order?.orderStatus)
+      setOrderStatuses([res?.data?.order?.orderStatus,...filt])
+      const filt2 = pymStatus.filter((item)=>item !== res?.data?.order?.paymentStatus)
+      setPaymentStatuses([res?.data?.order?.paymentStatus,...filt2])
+      setShippingAddress({id:res.data.order?.shippingAddress?._id,email:res.data.order?.shippingAddress?.email,firstName:res.data.order?.shippingAddress?.firstName,lastName:res.data.order?.shippingAddress?.lastName,address:res.data.order?.shippingAddress?.address,appartment:res.data.order?.shippingAddress?.appartment,city:res.data.order?.shippingAddress?.city,country:res.data.order?.shippingAddress?.country,state:res.data.order?.shippingAddress?.state,postalCode:res.data.order?.shippingAddress?.postalCode,phone:res.data.order?.shippingAddress?.phone})
+      setBillingAddress({id:res.data.order?.billingAddress?._id,email:res.data.order?.billingAddress?.email,firstName:res.data.order?.billingAddress?.firstName,lastName:res.data.order?.billingAddress?.lastName,address:res.data.order?.billingAddress?.address,appartment:res.data.order?.billingAddress?.appartment,city:res.data.order?.billingAddress?.city,country:res.data.order?.billingAddress?.country,state:res.data.order?.billingAddress?.state,postalCode:res.data.order?.billingAddress?.postalCode,phone:res.data.order?.billingAddress?.phone})
     }else{
       setPload(false)
       Toast(res.data.message,'error',1000)
@@ -130,46 +155,36 @@ const UpdateOrder = () => {
   }
 
   const updateShippingSchema = Yup.object().shape({
-    addressId: Yup.string().required('Address Id is Required!'),
+    id: Yup.string().required('Id is Required!'),
     email: Yup.string().required('Email is Required!'),
     firstName: Yup.string().nullable(),
     lastName: Yup.string().required('Last Name is Required!'),
     address: Yup.string().required('Address is Required!'),
     appartment: Yup.string().nullable(),
+    state: Yup.string().required('State is Required!'),
     city: Yup.string().required('City is Required!'),
     country: Yup.string().required('Country is Required!'),
-    state: Yup.string().required('Province is Required!'),
     postalCode: Yup.string().required('Postal Code is Required!'),
     phone: Yup.string().required('Phone is Required!'),
   });
 
   // console.log(window)
 
+  const [errors,setErrors] = useState([])
   const [sLoading,setSloading] = useState(false)
   const [shippingPopup,setShippingPopup] = useState(false)
+  const [billingPopup,setBillingPopup] = useState(false)
 
-  const [addressId,setAddressId] = useState(order.shippingAddress ? order?.shippingAddress?._id : '')
-  const [email,setEmail] = useState(order.shippingAddress ? order?.shippingAddress?.email : '')
-  const [firstName,setFirstName] = useState(order.shippingAddress ? order?.shippingAddress?.firstName : '')
-  const [lastName,setLastName] = useState(order.shippingAddress ? order?.shippingAddress?.lastName : '')
-  const [address,setAddress] = useState(order.shippingAddress ? order?.shippingAddress?.address : '')
-  const [appartment,setAppartment] = useState(order.shippingAddress ? order?.shippingAddress?.appartment : '')
-  const [city,setCity] = useState(order.shippingAddress ? order?.shippingAddress?.city : '')
-  const [country,setCountry] = useState(order.shippingAddress ? order?.shippingAddress?.country : 'usa')
-  const [province,setProvince] = useState(order.shippingAddress ? order?.shippingAddress?.province : 'alberta')
-  const [postalCode,setPostalCode] = useState(order.shippingAddress ? order?.shippingAddress?.postalCode : '')
-  const [phone,setPhone] = useState(order.shippingAddress ? order?.shippingAddress?.phone : '')
-
-  const UpdateAddress = async (e) => {
+  const UpdateAddress = async (e,address) => {
     e.preventDefault()
     setSloading(true)
    try{
-    const data = {addressId:addressId,email:email,firstName:firstName,lastName:lastName,address:address,appartment:appartment,city:city,country:country,state:province,postalCode:postalCode,phone:phone}
-    await updateShippingSchema.validate(data, { abortEarly: false });
-    const res = await updateShippingAddress({...data,id:uiD})
+    await updateShippingSchema.validate(address, { abortEarly: false });
+    const res = await updateOrderAddresses(address)
     if(res.status === 200){
-     GetOrder()
+     setShippingAddress({id:res?.data?.address?._id,email:res?.data?.address?.email,firstName:res?.data?.address?.firstName,lastName:res?.data?.address?.lastName,address:res?.data?.address?.address,appartment:res?.data?.address?.appartment,city:res?.data?.address?.city,country:res?.data?.address?.country,state:res?.data?.address?.state,postalCode:res?.data?.address?.postalCode,phone:res?.data?.address?.phone})
      setShippingPopup(false)
+     setBillingPopup(false)
      setSloading(false)
      Toast(res.data.msg,'success',1000)
     }else{
@@ -180,86 +195,43 @@ const UpdateOrder = () => {
     setSloading(false)
     if (error) {
      let errors = error.errors;
-     setuErrors(errors)
+     setErrors(errors)
      errors.forEach((item)=>{Toast(item,'error',1000)})
     } else {
-     setuErrors([])
-    }
-   } 
-  }
-  
-  const [pLoading,setPloading] = useState(false)
-  const [paymentPopup,setPaymentPopup] = useState(false)
-
-  const [paddressId,setpAddressId] = useState(order?.billingAddress ? order?.billingAddress?._id : '')
-  const [pemail,setpEmail] = useState(order?.billingAddress ? order?.billingAddress?.email : '')
-  const [pfirstName,setpFirstName] = useState(order?.billingAddress ? order?.billingAddress?.firstName : '')
-  const [plastName,setpLastName] = useState(order?.billingAddress ? order?.billingAddress?.lastName : '')
-  const [paddress,setpAddress] = useState(order?.billingAddress ? order?.billingAddress?.address : '')
-  const [pappartment,setpAppartment] = useState(order?.billingAddress ? order?.billingAddress?.appartment : '')
-  const [pcity,setpCity] = useState(order?.billingAddress ? order?.billingAddress?.city : '')
-  const [pcountry,setpCountry] = useState(order?.billingAddress ? order?.billingAddress?.country : 'usa')
-  const [pprovince,setpProvince] = useState(order?.billingAddress ? order?.billingAddress?.province : 'alberta')
-  const [ppostalCode,setpPostalCode] = useState(order?.billingAddress ? order?.billingAddress?.postalCode : '')
-  const [pphone,setpPhone] = useState(order?.billingAddress ? order?.billingAddress?.phone : '')
-
-  const UpdatePaddress = async (e) => {
-    e.preventDefault()
-    setPloading(true)
-   try{
-    const data = {addressId:paddressId,email:pemail,firstName:pfirstName,lastName:plastName,address:paddress,appartment:pappartment,city:pcity,country:pcountry,state:pprovince,postalCode:ppostalCode,phone:pphone}
-    await updateShippingSchema.validate(data, { abortEarly: false });
-    const res = await updateShippingAddress({...data,id:uiD})
-    if(res.status === 200){
-     GetOrder()
-     setPaymentPopup(false)
-     setPloading(false)
-     Toast(res.data.msg,'success',1000)
-    }else{
-     setPloading(false)
-     Toast(res.data.message,'error',1000)
-    }
-   }catch(error){ 
-    setPloading(false)
-    if (error) {
-     let errors = error.errors;
-     setuErrors(errors)
-     errors.forEach((item)=>{Toast(item,'error',1000)})
-    } else {
-     setuErrors([])
+     setErrors([])
     }
    } 
   }
   
   return (
    <>
-    <Popup state={shippingPopup} setState={setShippingPopup} >
-    <form onSubmit={UpdateAddress} >
-     <h3 className='font-semibold text-center' >Create Shipping Address</h3>
+    <Popup state={shippingPopup} setState={setShippingPopup} zindex="z-[99]" >
+    <div >
+     <h3 className='font-semibold text-center' >Update Shipping Address</h3>
       {/* Conatct Information */}
       <div className='space-y-14px [&>*]:text-b16 [&>*]:text-sm'>
        <h3 className='text-sm font-medium text-b16'>Contact information</h3>
-       <TextInput width="full" name="Email" title="Email" iscompulsory="false" type="text" value={email} onChange={(e) =>setEmail(e.target.value)} error={errors && errors.includes('Email is Required!') ? true : false} errormessage="Email is Required!" placeholder="abc@gmail.com" />
+       <TextInput width="full" name="Email" title="Email" iscompulsory="false" type="text" value={shippingAddress.email} onChange={(e) =>setShippingAddress({...shippingAddress,email:e.target.value})} error={errors && errors.includes('Email is Required!') ? true : false} errormessage="Email is Required!" placeholder="abc@gmail.com" />
       </div>
       {/* Shipping */}
       <div className='space-y-14px mt-8'>
        <h3 className='text-lg font-medium text-b16'>Shipping address</h3>
        <div className='grid grid-cols-2 gap-3'>
-        <TextInput width="full" name="firstName" title="" iscompulsory="false" type="text" value={firstName} onChange={(e)=>setFirstName(e.target.value)} error={errors && errors.includes('First Name is Required!') ? true : false} errormessage="First Name is Required!" placeholder="First Name (optional)" />
-        <TextInput width="full" name="lastName" title="" iscompulsory="false" type="text" value={lastName} onChange={(e)=>setLastName(e.target.value)} error={errors && errors.includes('Last Name is Required!') ? true : false} errormessage="Last Name is Required!" placeholder="Last Name" />
+        <TextInput width="full" name="firstName" title="" iscompulsory="false" type="text" value={shippingAddress.firstName} onChange={(e) =>setShippingAddress({...shippingAddress,firstName:e.target.value})} error={errors && errors.includes('First Name is Required!') ? true : false} errormessage="First Name is Required!" placeholder="First Name (optional)" />
+        <TextInput width="full" name="lastName" title="" iscompulsory="false" type="text" value={shippingAddress.lastName} onChange={(e) =>setShippingAddress({...shippingAddress,lastName:e.target.value})} error={errors && errors.includes('Last Name is Required!') ? true : false} errormessage="Last Name is Required!" placeholder="Last Name" />
         <div className="col-span-2 space-y-3">
-         <TextInput width="full" name="address" title="" iscompulsory="false" type="text" value={address} onChange={(e)=>setAddress(e.target.value)} error={errors && errors.includes('Address is Required!') ? true : false} errormessage="Address is Required!" placeholder="Address" />
-         <TextInput width="full" name="appartment" title="" iscompulsory="false" type="text" value={appartment} onChange={(e)=>setAppartment(e.target.value)} error={errors && errors.includes('Apartment, suite is Required!') ? true : false} errormessage="Apartment, suite is Required!" placeholder="Apartment, suite, etc. (optional)" />
-         <TextInput width="full" name="city" title="" iscompulsory="false" type="text" value={city} onChange={(e)=>setCity(e.target.value)} error={errors && errors.includes('City is Required!') ? true : false} errormessage="City is Required!" placeholder="City" />
-         <div className='grid grid-cols-2 md:grid-cols-3 gap-14px'>
-          <CustomSelect setState={setCountry} id="country_region" label="Country / region" Options={Countrys} />
-          <CustomSelect setState={setProvince} id="province" label="Province" Options={Province} />
+         <TextInput width="full" name="address" title="" iscompulsory="false" type="text" value={shippingAddress.address} onChange={(e) =>setShippingAddress({...shippingAddress,address:e.target.value})} error={errors && errors.includes('Address is Required!') ? true : false} errormessage="Address is Required!" placeholder="Address" />
+         <TextInput width="full" name="appartment" title="" iscompulsory="false" type="text" value={shippingAddress.appartment} onChange={(e) =>setShippingAddress({...shippingAddress,apparment:e.target.value})} error={errors && errors.includes('Apartment, suite is Required!') ? true : false} errormessage="Apartment, suite is Required!" placeholder="Apartment, suite, etc. (optional)" />
+         <TextInput width="full" name="city" title="" iscompulsory="false" type="text" value={shippingAddress.city} onChange={(e) =>setShippingAddress({...shippingAddress,city:e.target.value})}error={errors && errors.includes('City is Required!') ? true : false} errormessage="City is Required!" placeholder="City" />
+         <div className='grid grid-cols-2 md:grid-cols-3 items-center gap-14px'>
+          <SelectInput widthFull="true" onChange={(e) =>setShippingAddress({...shippingAddress,state:e.target.value})} id="province" label="Province" options={['Alberta']} />
+          <SelectInput widthFull="true" onChange={(e) =>setShippingAddress({...shippingAddress,country:e.target.value})} id="country_region" label="Country / region" options={['USA']} />
           <div className='relative flex items-center col-span-2 md:col-span-1 [&>*]:h-full'>
-           <TextInput width="full" name="postalCode" title="" iscompulsory="false" type="text" value={postalCode} onChange={(e)=>setPostalCode(e.target.value)} error={errors && errors.includes('Postal Code is Required!') ? true : false} errormessage="Postal Code is Required!" placeholder="Postal Code" />
+           <TextInput width="full" name="postalCode" title="" iscompulsory="false" type="text" value={shippingAddress.postalCode} onChange={(e) =>setShippingAddress({...shippingAddress,postalCode:e.target.value})} error={errors && errors.includes('Postal Code is Required!') ? true : false} errormessage="Postal Code is Required!" placeholder="Postal Code" />
           </div>
          </div>
          <div className='relative'>
-          <TextInput width="full" name="phone" title="" iscompulsory="false" type="text" value={phone} onChange={(e)=>setPhone(e.target.value)} error={errors && errors.includes('Phone is Required!') ? true : false} errormessage="Phone is Required!" placeholder="Phone" />
+          <TextInput width="full" name="phone" title="" iscompulsory="false" type="text" value={shippingAddress.phone} onChange={(e) =>setShippingAddress({...shippingAddress,phone:e.target.value})} error={errors && errors.includes('Phone is Required!') ? true : false} errormessage="Phone is Required!" placeholder="Phone" />
           <div className='absolute right-3 top-3'>
            <RiQuestionFill className='text-2xl text-b3' />
           </div>
@@ -268,40 +240,40 @@ const UpdateOrder = () => {
        </div>
        <div className='flex w-full justify-center' >
        {sLoading ? <BtnLoader style="w-5" />
-         :<button type='submit' className='bg-b6 text-white px-3 text-sm py-2 rounded-2xl' >Save Addresss</button>
+         :<button type='button' onClick={e=>UpdateAddress(e,shippingAddress)} className='bg-b6 text-white px-3 text-sm py-2 rounded-2xl' >Save Addresss</button>
           }
        </div>
       
       </div>
-     </form>
+     </div>
     </Popup>
-    <Popup state={paymentPopup} setState={setPaymentPopup} >
-    <form onSubmit={UpdatePaddress} >
-     <h3 className='font-semibold text-center' >Create Shipping Address</h3>
+    <Popup state={billingPopup} setState={setBillingPopup} zindex="z-[99]" >
+    <div >
+     <h3 className='font-semibold text-center' >Update Billing Address</h3>
       {/* Conatct Information */}
       <div className='space-y-14px [&>*]:text-b16 [&>*]:text-sm'>
        <h3 className='text-sm font-medium text-b16'>Contact information</h3>
-       <TextInput width="full" name="Email" title="Email" iscompulsory="false" type="text" value={pemail} onChange={(e) =>setpEmail(e.target.value)} error={errors && errors.includes('Email is Required!') ? true : false} errormessage="Email is Required!" placeholder="abc@gmail.com" />
+       <TextInput width="full" name="Email" title="Email" iscompulsory="false" type="text" value={billingAddress.email} onChange={(e) =>setBillingAddress({...billingAddress,email:e.target.value})} error={errors && errors.includes('Email is Required!') ? true : false} errormessage="Email is Required!" placeholder="abc@gmail.com" />
       </div>
       {/* Shipping */}
       <div className='space-y-14px mt-8'>
-       <h3 className='text-lg font-medium text-b16'>Shipping address</h3>
+       <h3 className='text-lg font-medium text-b16'>Billing address</h3>
        <div className='grid grid-cols-2 gap-3'>
-        <TextInput width="full" name="firstName" title="" iscompulsory="false" type="text" value={pfirstName} onChange={(e)=>setpFirstName(e.target.value)} error={errors && errors.includes('First Name is Required!') ? true : false} errormessage="First Name is Required!" placeholder="First Name (optional)" />
-        <TextInput width="full" name="lastName" title="" iscompulsory="false" type="text" value={plastName} onChange={(e)=>setpLastName(e.target.value)} error={errors && errors.includes('Last Name is Required!') ? true : false} errormessage="Last Name is Required!" placeholder="Last Name" />
+        <TextInput width="full" name="firstName" title="" iscompulsory="false" type="text" value={billingAddress.firstName} onChange={(e) =>setBillingAddress({...billingAddress,firstName:e.target.value})} error={errors && errors.includes('First Name is Required!') ? true : false} errormessage="First Name is Required!" placeholder="First Name (optional)" />
+        <TextInput width="full" name="lastName" title="" iscompulsory="false" type="text" value={billingAddress.lastName} onChange={(e) =>setBillingAddress({...billingAddress,lastName:e.target.value})} error={errors && errors.includes('Last Name is Required!') ? true : false} errormessage="Last Name is Required!" placeholder="Last Name" />
         <div className="col-span-2 space-y-3">
-         <TextInput width="full" name="address" title="" iscompulsory="false" type="text" value={paddress} onChange={(e)=>setpAddress(e.target.value)} error={errors && errors.includes('Address is Required!') ? true : false} errormessage="Address is Required!" placeholder="Address" />
-         <TextInput width="full" name="appartment" title="" iscompulsory="false" type="text" value={pappartment} onChange={(e)=>setpAppartment(e.target.value)} error={errors && errors.includes('Apartment, suite is Required!') ? true : false} errormessage="Apartment, suite is Required!" placeholder="Apartment, suite, etc. (optional)" />
-         <TextInput width="full" name="city" title="" iscompulsory="false" type="text" value={pcity} onChange={(e)=>setpCity(e.target.value)} error={errors && errors.includes('City is Required!') ? true : false} errormessage="City is Required!" placeholder="City" />
-         <div className='grid grid-cols-2 md:grid-cols-3 gap-14px'>
-          <CustomSelect setState={setpCountry} id="country_region" label="Country / region" Options={Countrys} />
-          <CustomSelect setState={setpProvince} id="province" label="Province" Options={Province} />
+         <TextInput width="full" name="address" title="" iscompulsory="false" type="text" value={billingAddress.address} onChange={(e) =>setBillingAddress({...billingAddress,address:e.target.value})} error={errors && errors.includes('Address is Required!') ? true : false} errormessage="Address is Required!" placeholder="Address" />
+         <TextInput width="full" name="appartment" title="" iscompulsory="false" type="text" value={billingAddress.appartment} onChange={(e) =>setBillingAddress({...billingAddress,apparment:e.target.value})} error={errors && errors.includes('Apartment, suite is Required!') ? true : false} errormessage="Apartment, suite is Required!" placeholder="Apartment, suite, etc. (optional)" />
+         <TextInput width="full" name="city" title="" iscompulsory="false" type="text" value={billingAddress.city} onChange={(e) =>setBillingAddress({...billingAddress,city:e.target.value})}error={errors && errors.includes('City is Required!') ? true : false} errormessage="City is Required!" placeholder="City" />
+         <div className='grid grid-cols-2 md:grid-cols-3 items-center gap-14px'>
+          <SelectInput widthFull="true" onChange={(e) =>setBillingAddress({...billingAddress,state:e.target.value})} id="province" label="Province" options={['Alberta']} />
+          <SelectInput widthFull="true" onChange={(e) =>setBillingAddress({...billingAddress,country:e.target.value})} id="country_region" label="Country / region" options={['USA']} />
           <div className='relative flex items-center col-span-2 md:col-span-1 [&>*]:h-full'>
-           <TextInput width="full" name="postalCode" title="" iscompulsory="false" type="text" value={ppostalCode} onChange={(e)=>setpPostalCode(e.target.value)} error={errors && errors.includes('Postal Code is Required!') ? true : false} errormessage="Postal Code is Required!" placeholder="Postal Code" />
+           <TextInput width="full" name="postalCode" title="" iscompulsory="false" type="text" value={billingAddress.postalCode} onChange={(e) =>setBillingAddress({...billingAddress,postalCode:e.target.value})} error={errors && errors.includes('Postal Code is Required!') ? true : false} errormessage="Postal Code is Required!" placeholder="Postal Code" />
           </div>
          </div>
          <div className='relative'>
-          <TextInput width="full" name="phone" title="" iscompulsory="false" type="text" value={pphone} onChange={(e)=>setpPhone(e.target.value)} error={errors && errors.includes('Phone is Required!') ? true : false} errormessage="Phone is Required!" placeholder="Phone" />
+          <TextInput width="full" name="phone" title="" iscompulsory="false" type="text" value={billingAddress.phone} onChange={(e) =>setBillingAddress({...billingAddress,phone:e.target.value})} error={errors && errors.includes('Phone is Required!') ? true : false} errormessage="Phone is Required!" placeholder="Phone" />
           <div className='absolute right-3 top-3'>
            <RiQuestionFill className='text-2xl text-b3' />
           </div>
@@ -309,15 +281,14 @@ const UpdateOrder = () => {
         </div>
        </div>
        <div className='flex w-full justify-center' >
-       {pLoading ? <BtnLoader style="w-5" />
-         :<button type='submit' className='bg-b6 text-white px-3 text-sm py-2 rounded-2xl' >Save Addresss</button>
+       {sLoading ? <BtnLoader style="w-5" />
+         :<button type='button' onClick={e=>UpdateAddress(e,billingAddress)} className='bg-b6 text-white px-3 text-sm py-2 rounded-2xl' >Save Addresss</button>
           }
        </div>
       
       </div>
-     </form>
+     </div>
     </Popup>
-
 
     <AdminAccount>
       {/* Order Meta Data */}
@@ -372,8 +343,8 @@ const UpdateOrder = () => {
         <div className='flex flex-col space-y-2 px-5 py-5 rounded-lg border-[1px]' >
           <h3 className='text-xs text-gray-500' ><span className='text-black' >Payment Method:&nbsp;</span>Card</h3>
           {/* <h3 className='text-xs text-gray-500' ><span className='text-black' >Customer IP:&nbsp;</span>{order?.customerIp}</h3> */}
-          <h3 className='text-xs text-gray-500' ><span className='text-black' >Paid On:&nbsp;</span>{moment(moment.unix(order?.paymentInfo?.created)).format('DD MMMM YYYY')}</h3>
-          <h3 className='text-xs text-gray-500' ><span className='text-black' >Payment Intent:&nbsp;</span><a target='_blank' href={`https://dashboard.stripe.com/test/payments/${order?.paymentInfo?.id}`} className='underline text-b6 cursor-pointer ' >{order?.paymentInfo?.id}</a></h3>
+          <h3 className='text-xs text-gray-500' ><span className='text-black' >Paid On:&nbsp;</span>{moment(moment.unix(paymentInfo?.created)).format('DD MMMM YYYY')}</h3>
+          <h3 className='text-xs text-gray-500' ><span className='text-black' >Payment Intent:&nbsp;</span><a target='_blank' href={`https://dashboard.stripe.com/test/payments/${paymentInfo?.id}`} className='underline text-b6 cursor-pointer ' >{paymentInfo?.id}</a></h3>
           <form onSubmit={UpdatePaymentStatus} className='flex space-x-4 items-center' >
            <h3 className='text-xs ' >Payment&nbsp;Status:</h3>
            <SelectInput height="h-8" onChange={e=>setPaymentStatus(e.target.value)} textSize="text-xs capitalize" options={paymentStatuses} />
@@ -388,38 +359,38 @@ const UpdateOrder = () => {
       {/* Customer Details */}
       <div className='flex space-x-5 mt-5 w-full' >
         {/* Shipping Address */}
-        {shippingInfo ? <div className='flex flex-col space-y-2 w-1/2' >
+        {shippingAddress ? <div className='flex flex-col space-y-2 w-1/2' >
         <h3 className='text-sm font-semibold' >Shipping Address</h3>
          <div className='relative border-[1px] rounded-lg px-4 py-4 w-full' >
-         <button type="button" title="Edit Shipping Info" className='absolute right-2 flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-xs px-2 w-fit rounded-full cursor-pointer py-2' ><BsPencil className="text-sm" /></button>
-           <h4 className='text-xs text-gray-500' >{shippingInfo.firstName} {shippingInfo.lastName}</h4>
-           <p className='text-xs flex flex-wrap' >{shippingInfo.address} {shippingInfo.city} {shippingInfo.state} {shippingInfo.country}</p>
-           <p className='text-xs flex flex-wrap' >{shippingInfo.postalCode}</p>
+         <button type="button" onClick={()=>setShippingPopup(true)} title="Edit Shipping Info" className='absolute right-2 flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-xs px-2 w-fit rounded-full cursor-pointer py-2' ><BsPencil className="text-sm" /></button>
+           <h4 className='text-xs text-gray-500' >{shippingAddress.firstName} {shippingAddress.lastName}</h4>
+           <p className='text-xs flex flex-wrap' >{shippingAddress.address} {shippingAddress.city} {shippingAddress.state} {shippingAddress.country}</p>
+           <p className='text-xs flex flex-wrap' >{shippingAddress.postalCode}</p>
            <div className='flex flex-col mt-2' >
             <h3 className="text-xs" >Email Address:</h3>
-            <a href={`mailto:${shippingInfo.email}`} className="text-xs underline text-b6" >{shippingInfo.email}</a>
+            <a href={`mailto:${shippingAddress.email}`} className="text-xs underline text-b6" >{shippingAddress.email}</a>
            </div>
            <div className='flex flex-col mt-2' >
             <h3 className="text-xs" >Phone:</h3>
-            <a href={`tel:${shippingInfo.phone}`} className="text-xs underline text-b6" >{shippingInfo.phone}</a>
+            <a href={`tel:${shippingAddress.phone}`} className="text-xs underline text-b6" >{shippingAddress.phone}</a>
            </div>
          </div>
         </div>:null}
         {/* Billing Address */}
-        {billingInfo ? <div className='flex flex-col space-y-2 w-1/2' >
+        {billingAddress ? <div className='flex flex-col space-y-2 w-1/2' >
         <h3 className='text-sm font-semibold' >Billing Address</h3>
          <div className='relative border-[1px] rounded-lg px-4 py-4 w-full' >
-           <button type="button" title="Edit Billing Info" className='absolute right-2 flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-xs px-2 w-fit rounded-full cursor-pointer py-2' ><BsPencil className="text-sm" /></button>
-           <h4 className='text-xs text-gray-500' >{billingInfo.firstName} {billingInfo.lastName}</h4>
-           <p className='text-xs flex flex-wrap' >{billingInfo.address} {billingInfo.city} {billingInfo.state} {shippingInfo.country}</p>
-           <p className='text-xs flex flex-wrap' >{billingInfo.postalCode}</p>
+           <button type="button" onClick={()=>setBillingPopup(true)} title="Edit Billing Info" className='absolute right-2 flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-xs px-2 w-fit rounded-full cursor-pointer py-2' ><BsPencil className="text-sm" /></button>
+           <h4 className='text-xs text-gray-500' >{billingAddress.firstName} {billingAddress.lastName}</h4>
+           <p className='text-xs flex flex-wrap' >{billingAddress.address} {billingAddress.city} {billingAddress.state} {billingAddress.country}</p>
+           <p className='text-xs flex flex-wrap' >{billingAddress.postalCode}</p>
            <div className='flex flex-col mt-2' >
             <h3 className="text-xs" >Email Address:</h3>
-            <a href={`mailto:${billingInfo.email}`} className="text-xs underline text-b6" >{billingInfo.email}</a>
+            <a href={`mailto:${billingAddress.email}`} className="text-xs underline text-b6" >{billingAddress.email}</a>
            </div>
            <div className='flex flex-col mt-2' >
             <h3 className="text-xs" >Phone:</h3>
-            <a href={`tel:${billingInfo.phone}`} className="text-xs underline text-b6" >{billingInfo.phone}</a>
+            <a href={`tel:${billingAddress.phone}`} className="text-xs underline text-b6" >{billingAddress.phone}</a>
            </div>
          </div>
         </div>:null}

@@ -24,7 +24,7 @@ const OrderTable = ({orders,refreshOrders}) => {
             </tr>
           </thead>
           <tbody>
-            {orders?.length ? orders.map((order)=><OrderRow orderStatus={order.orderStatus} paymentStatus={order.paymentStatus} refreshOrders={refreshOrders} id={order._id} orderNo={order.orderNo} date={moment(order.createdAt).format('DD MMMM YYYY')} status={order.orderStatus} total={order.grandTotal} />) : null}
+            {orders?.length ? orders.map((order)=><OrderRow isArchived={order.isArchived} orderStatus={order.orderStatus} paymentStatus={order.paymentStatus} refreshOrders={refreshOrders} id={order._id} orderNo={order.orderNo} date={moment(order.createdAt).format('DD MMMM YYYY')} status={order.orderStatus} total={order.grandTotal} />) : null}
           </tbody>
         </table>
       </div>
