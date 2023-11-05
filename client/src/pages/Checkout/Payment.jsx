@@ -156,8 +156,42 @@ const Payment = () => {
         Toast('Paypal Transaction!','success',1000)
       }
       const handleAffirmPayment = async (e) => {
+        const getPayIntent = await createPaymentIntent({price:200*100,mode:['affirm'],currency:'usd',description:"Neuappliance Outlet Card Transaction"}) 
+        // Redirects away from the client
+        if(getPayIntent){
+       const paymentIntent = await stripe.confirmAffirmPayment(
+          getPayIntent.data.payIntent.client_secret,{
+            payment_method: {
+              billing_details: {
+                email: orderInfo.email,
+                name:orderInfo.firstName,
+                address:{
+                  line1: orderInfo.address,
+                  city: orderInfo.city,
+                  state: orderInfo.state,
+                  postal_code: orderInfo.postalCode,
+                  country: 'US',
+                }
+              }
+            },
+            shipping:{
+              name:"Koner Doe",
+              address:{
+               line1: 'address line 1',
+               line2: 'address line 2',
+               city: 'city',
+               state: 'CA',
+               postal_code: '73301',
+               country: 'US',
+              }
+             },
+            return_url:'http://localhost:5173/mycart/payment/?callback=affirm'
+          })
+        return paymentIntent
+      }else{
+         Toast('Affirm Transaction!','error',1000)
+      }
         // e.preventDefault()
-         Toast('Affirm Transaction!','success',1000)
       }
       const handleCardPayment = async (e) => {
         // e.preventDefault()
@@ -233,14 +267,15 @@ const Payment = () => {
             await handlePaypalPayment();
             break;
           case 'affirm':
-            await handleAffirmPayment();
+          PAYMENT_INTENT = await handleAffirmPayment();
             break;
         }
+        console.log(PAYMENT_INTENT)
         if(PAYMENT_INTENT?.error){
           dispatch(setOrderErrors({payment:true}))
           dispatch(setOrderStatus({payment:false}))
           setProcessing(false)
-          Toast(PAYMENT_INTENT.error.type,'error',1000)
+          Toast(PAYMENT_INTENT.error.code,'error',1000)
         }else{
           dispatch(setOrderErrors({payment:false}))
           dispatch(setOrderStatus({payment:true}))

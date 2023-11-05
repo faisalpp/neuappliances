@@ -352,19 +352,19 @@ const orderController = {
 
   async createPaymentIntent(req, res, next) {
     const {price,mode,currency,description} = req.body;
-      try{
+      // try{
         const paymentIntent = await Stripe.paymentIntents.create({
           amount: price,
           currency: currency,
           payment_method_types: mode,
-          description: description
+          description: description,
         });
         if(paymentIntent){
           return res.status(200).json({payIntent:paymentIntent})
         }
-      }catch(err){
-        return res.status(500).json({status:500,message:'Internal Server Error!'})
-      }
+      // }catch(err){
+      //   return res.status(500).json({status:500,message:'Internal Server Error!'})
+      // }
   },
 
   async getOrders(req, res, next) {
