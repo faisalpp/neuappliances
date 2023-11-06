@@ -13,6 +13,7 @@ const productSchema = new mongoose.Schema({
     fuelType: {type: String},
     regPrice: {type: Number,required:true},
     salePrice: {type: Number},
+    isSale: {type: Boolean,default:false},
     lowPrice: {type: Number,required:true},
     highPrice: {type: Number,required:true},
     rating: {type: Number,required:true},

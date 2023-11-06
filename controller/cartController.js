@@ -29,12 +29,13 @@ const cartController = {
         return res.status(500).json({status:500,message:'Product Out of Stock!'});  
       }
       let PRODUCT_PRICE;
+      let UPDATED_PRODUCT;
       if(product.count === 0){
-        return res.status(409).json({status:409,message:'Product Out of Stock!'});  
+        return res.status(409).json({status:409,update:product,message:'Product Out of Stock!'});  
       }else{
         const PRODUCT_STOCK = product.stock - 1;
         PRODUCT_PRICE = product.salePrice ? product.salePrice : product.regPrice;
-        await Product.findOneAndUpdate({_id:productId},{stock:PRODUCT_STOCK},{ new: true })
+        UPDATED_PRODUCT = await Product.findOneAndUpdate({_id:productId},{stock:PRODUCT_STOCK},{ new: true })
       }
     
       let CART_ID = cartId;
@@ -111,7 +112,7 @@ const cartController = {
            },
            { new: true }
          );
-         return res.status(200).json({status:200,cart:PICKUP_CART,msg:'Product Added To Cart!'});
+         return res.status(200).json({status:200,cart:PICKUP_CART,update:UPDATED_PRODUCT,msg:'Product Added To Cart!'});
         }catch(error){return res.send(500).json({status:500,message:'Internal Server Error!'})}
     }
 

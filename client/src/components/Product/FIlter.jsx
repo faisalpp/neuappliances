@@ -19,7 +19,7 @@ const Filter = ({ onClose,isFilter, categoriesFilters, ratingFilters,saleFilter,
                     <p className='text-base font-bold'>
                         Filters
                     </p>
-                    <span onClick={()=>setQuery({salePrice: { '$gte': 200 }, regPrice: { '$lte': 8000 } })} className='cursor-pointer text-sm lg:text-xs text-[#22A6AB] underline'>
+                    <span onClick={()=>setQuery({salePrice: { '$gte': 200 }, regPrice: { '$lte': 8000 } })} className='cursor-pointer text-sm lg:text-xs text-[#22A6AB] hover:underline'>
                         Reset Filters
                     </span>
                     <button onClick={onClose} className='text-sm font-semibold lg:hidden px-2 py-1 hover:bg-black/5 rounded duration-300'>

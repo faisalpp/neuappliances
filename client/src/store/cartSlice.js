@@ -12,6 +12,7 @@ const initialState = {
   total:0,
   grandTotal:0,
   sCart:false,
+  update:{},
 }
 
 // Create an async thunk for the Add To Cart
@@ -135,7 +136,8 @@ export const cartSlice = createSlice({
       state.tax = 0,
       state.deliveryInfo = {},
       state.pickupInfo = {},
-      state.cartCount = 0
+      state.cartCount = 0,
+      state.update = {}
     },
     showSCart: (state, action) => {
       state.sCart = true 
@@ -164,7 +166,7 @@ export const cartSlice = createSlice({
   extraReducers: (builder) => {
     builder
      .addCase(AddToCart.fulfilled, (state, action) => {
-      const { cart } = action.payload;
+      const { cart,update } = action.payload;
       state.cartId = cart._id,
       state.pickupOrders = cart.pickupOrders,
       state.deliveryOrders = cart.deliveryOrders,
@@ -174,7 +176,8 @@ export const cartSlice = createSlice({
       state.cartCount = cart.cartCount,
       state.tax = cart.tax,
       state.grandTotal = cart.grandTotal,
-      state.sCart = true
+      state.sCart = true,
+      state.update = update
     })
     .addCase(GetCart.fulfilled, (state, action) => {
       const { cart } = action.payload;

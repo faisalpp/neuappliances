@@ -24,6 +24,8 @@ const zipController = require('../controller/zipController');
 const galleryController = require('../controller/galleryController');
 const teamController = require('../controller/admin/teamController');
 const uploader = require('express-fileupload');
+const favoriteController = require('../controller/favoriteController');
+const newsLetterController = require('../controller/newsletterController');
 
 const router = express.Router();
 
@@ -180,6 +182,15 @@ router.post('/api/user/change-pickup-location',cartController.updatePickupLocati
 router.post('/api/user/change-delivery-info',cartController.updateDeliveryInfo);
 router.post('/api/user/change-cart-finance',cartController.updateCartFinance);
 router.post('/api/user/get-cart',cartController.getCart);
+// Usr Favorite
+router.post('/api/user/add-favorite',favoriteController.AddToFavorite);
+router.post('/api/user/get-favorite',favoriteController.GetFavorites);
+router.post('/api/user/remove-favorite',favoriteController.RemoveFromFavorite);
+
+// News Letter Subscribtion
+router.post('/api/newsletter-subscribe',newsLetterController.SubscribeToNewLetter);
+
+
 
 // Admin Order Api's
 router.post('/api/admin/get-orders',adminAuth,orderController.getOrders);

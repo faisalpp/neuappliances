@@ -1,11 +1,26 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { IoLocationOutline, IoSendSharp } from 'react-icons/io5';
 import { FiPhone } from 'react-icons/fi';
 import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-
+import {subscribeNewLetter} from '../../api/frontEnd'
+import Toast from '../../utils/Toast'
 
 const Footer = () => {
+
+  const [email,setEmail] = useState('')
+
+  const SubscribeNews = async (e) => {
+    e.preventDefault()
+      const res = await subscribeNewLetter({email:email})
+      if(res.status === 200){
+        Toast(res.data.msg,'success',1000)
+        setEmail('')
+      }else{
+        Toast(res.data.message,'error',1000)
+      }
+  }
+
   return (
     <div className='flex justify-center bg-b1 w-full 3xl:max-w-1680px px-4 sm:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto' >
       <div className="grid sm:grid-cols-12 gap-5 sm:gap-10 lg:gap-2 bg-b1 py-20" >
@@ -69,10 +84,10 @@ const Footer = () => {
           <Link to='/do-i-have-electric-or-gas'>Do I have Electric or Gas?</Link>
           <Link to='/appliancetypes'>Our Products</Link>
           <Link to='/faqs'>FAQ</Link>
-          <Link to=''>Contact</Link>
-          <Link to=''>Terms</Link>
-          <Link to=''>Refunds</Link>
-          <Link to=''>Privacy Policy</Link>
+          <Link to='/contact-us'>Contact</Link>
+          <Link to='/terms'>Terms</Link>
+          <Link to='/refund'>Refunds</Link>
+          <Link to='/privacy-policy'>Privacy Policy</Link>
         </div>
         {/* Quick Links Section 2 End */}
 
@@ -81,7 +96,7 @@ const Footer = () => {
           {/* Email Address */}
           <div>
             <h4 className='font-bold text-lg' >Get Latest Discount Offers</h4>
-            <div className='col-start-4 col-end-8 mt-3 flex items-center bg-b2 h-10 px-3 rounded-lg space-x-2 w-full ' ><input type="text" placeholder='Email Address' className="bg-b2 w-full text-xs text-white/90 outline-none" /><IoSendSharp className='text-white' /></div>
+            <form onSubmit={SubscribeNews} className='col-start-4 col-end-8 mt-3 flex items-center bg-b2 h-10 px-3 rounded-lg space-x-2 w-full ' ><input value={email} onChange={(e)=>setEmail(e.target.value)} type="email" placeholder='Email Address' className="bg-b2 w-full text-xs text-white/90 outline-none" /><button type='submit' ><IoSendSharp className='text-white' /></button></form>
           </div>
           {/* Follow Us */}
           <div className='flex flex-col py-4 lg:items-start sm:items-center gap-y-3 mt-5' >

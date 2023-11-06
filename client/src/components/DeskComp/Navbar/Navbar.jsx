@@ -21,9 +21,9 @@ import Toast from '../../../utils/Toast'
 const Navbar = () => {
   const [megMenu, setMegMenu] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const isUser = useSelector((state) => state.user.auth);
   const isAdmin = useSelector((state) => state.admin.auth);
-  const navigate = useNavigate();
   const UserfirstName = useSelector((state) => state.user.firstName);
   const AdminfirstName = useSelector((state) => state.admin.firstName);
 
@@ -89,8 +89,7 @@ const Navbar = () => {
 
   const handleEnterKey = async (e) => {
     if (e.key === 'Enter') {
-      const res = await searchAppliance({ query: search });
-      console.log(res)
+      navigate(`/appliances/?query=${search}`)
     }
   }
 

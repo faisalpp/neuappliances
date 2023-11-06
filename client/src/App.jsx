@@ -104,6 +104,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import CreateOrder from './pages/AdminAccount/CreateOrder';
 import CreateCoupon from './pages/AdminAccount/CreateCoupon';
+import SearchProducts from './pages/SearchProducts';
 const ManageCopons = lazy(() => import('./pages/AdminAccount/ManageCopons'));
 const UpdateShippingZone = lazy(() => import('./pages/AdminAccount/UpdateShippingZone'));
 const ManageZipCods = lazy(() => import('./pages/AdminAccount/ManageZipCods'));
@@ -152,6 +153,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/search-products" element={<SearchProducts />} />
           <Route path="/product/:slug" element={<Product />} />
           <Route path="/appliances/:categorySlug" element={<Appliances />} />
           {/* Appliances Filters */}

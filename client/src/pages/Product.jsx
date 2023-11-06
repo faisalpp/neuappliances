@@ -61,13 +61,12 @@ const Product = () => {
     const data = {cartId:cartId ,productId: product._id, orderInfo: orderInfo, }
     const res = await dispatch(AddToCart(data));
     if(res.payload.status === 409){
-      GetProduct()
       Toast(res.payload.message,'error',1000)
     }
     if (res.payload.status === 200) {
+      setProduct(res.payload.update)
       Toast(res.payload.msg,'success',1000)
       setLoading2(false)
-      GetProduct()
     }else {
       setLoading2(false)
       Toast(res.payload.message,'error',1000)
@@ -193,32 +192,9 @@ const Product = () => {
 
      const [isFav,setIsFav] = useState(false)
 
-     const getFavProduct = () => {
-      const fav_items = JSON.parse(localStorage.getItem('favoriteProducts'));
-      console.log(fav_items)
-      if(fav_items){
-        const fav_item = fav_items.find((item)=>item === product._id)
-        console.log(fav_item)
-        if(fav_item){
-          setIsFav(true)
-        }
-      }
-     }
-
-     useEffect(()=>{
-      getFavProduct()
-     },[])
-
-     const isAuth = useSelector((state)=>state.user.auth)
+     const isUser = useSelector((state)=>state.user.auth)
      const handleFavorites = (e) => {
       e.preventDefault()
-      const fid = product._id
-      if(!isAuth){
-        const fav_items = [];
-        fav_items.push(fid)
-        localStorage.setItem('favoriteProducts',JSON.stringify(fav_items))
-        getFavProduct()
-      }
      }
 
 

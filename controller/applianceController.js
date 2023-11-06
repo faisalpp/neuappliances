@@ -55,34 +55,42 @@ const applianceController = {
       }      
     },
     async GetApplianceBySectionType(req,res,next){
+      console.log(req.body)
       let query = {};
-      query.category = req.body.category
-      // Get the keys of the object as an array
-      const keys = Object.keys(req.body);
-      const name = keys[1];
-      switch(name){
+      // console.log(prop + ': ' + data[prop]);
+      const data = req.body;
+      Object.keys(data).forEach(prop => {
+       switch(prop){
+        case 'query':
+         query.title = { $regex: data[prop], $options: "i" };
+        break;
         case 'rating':
-         query.rating = parseInt(req.body[name]);
+         query.rating = parseInt(data[prop]);
         break;
         case 'features':
-         query.feature = req.body[name];
+         query.feature = [data[prop]];
         break;
         case 'types':
-         query.type = req.body[name];
+         query.type = data[prop];
         break;
         case 'finishes-and-colors':
-         query.color = req.body[name];
+         query.color = data[prop];
         break;
         case 'brands':
-         query.brand = req.body[name];
+         query.brand = data[prop];
         break;
         case 'fuel-types':
-         query.fuelType = req.body[name];
+         query.fuelType = data[prop];
+        break;
+        case 'isSale':
+         query.isSale = data[prop];
         break;
       }
-
+      });
+      console.log(query)
       try{
         const products = await Product.find(query);
+        // console.log(products)
         return res.status(200).json({status:200,products:products});
         
       }catch(error){
@@ -95,6 +103,7 @@ const applianceController = {
       try{
       //  console.log(req.body)
        const products = await Product.find(req.body);
+       console.log(products)
       //  console.log(products)
        return res.status(200).json({status:200,products:products});
       }catch(error){

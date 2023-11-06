@@ -243,5 +243,16 @@ export const GetTeamMember = async () => {
     return response;
 }
 
+export const subscribeNewLetter = async (data) => {
+    let response;
+
+    try{
+      response = await api.post('/api/newsletter-subscribe',data,{validationStatus:()=>true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
 
 
