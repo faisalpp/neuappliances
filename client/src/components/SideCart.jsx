@@ -131,7 +131,7 @@ const SideCart = () => {
         const currentMonthName = monthNames[currentMonth];
         let frame = `${currentMonthName}`+" "+ `${currentDay+1}`+" "+'-'+" "+`${item.timeframe}`;
         let getTimeFrame = timeFrames.filter((item)=> item.id.day === currentDay && item.id.month+1 === currentMonthName)
-        if(getTimeFrame.length > 0){
+        if(getTimeFrame?.length > 0){
           timeFrames.push({id:`${getFirstFrame[0].id}`,timeFrame:frame})
         }else{
           timeFrames.push({id:`${currentMonth+1}`+"-"+`${currentDay+1}`,timeFrame:frame})
@@ -182,7 +182,7 @@ const SideCart = () => {
         <button onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='maxlg:w-10 maxlg:h-10 bg-white maxlg:hover:bg-b3 maxlg:hover:text-white duration-200 maxlg:rounded-full absolute -top-14 right-0 lg:top-5 lg:right-6 z-40  xy-center'><AiOutlineClose className='text-xl' /></button>
         <div className='flex flex-col overflow-y-auto w-full h-full'>
           <div className='flex items-center sticky top-0 bg-white maxlg:rounded-t-2xl py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{cartCount === 0 ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 xy-center' >{cartCount}</span>}</div></div>
-          {loading ? <div className='xy-center h-full w-full' ><img src="/loader-bg.gif" className='w-10 h-10 ml-2' /></div> : pickupOrders.length === 0 && deliveryOrders.length === 0 ?
+          {loading ? <div className='xy-center h-full w-full' ><img src="/loader-bg.gif" className='w-10 h-10 ml-2' /></div> : pickupOrders?.length === 0 && deliveryOrders?.length === 0 ?
             <div className='flex flex-col px-2 space-y-5 w-full justify-center items-center h-full' >
               <img src="/bag.webp" />
               <h1 className='font-extrabold' >Your Cart is Empty</h1>
@@ -196,7 +196,7 @@ const SideCart = () => {
                   <h4 className='font-semibold' >Delivery Orders</h4>
                   {/* Cart Product */}
                   <div className='flex flex-col gap-6 space-y-2 mb-3 w-full'>
-                    {deliveryOrders.map((item, index) => <SideCartCard indx={index} key={index} cartId={cartId} item={item} RemoveFromCart={RemoveCartItemData} delState={delLoading} setDelState={setDelLoading} type="delivery" />)}
+                    {deliveryOrders?.map((item, index) => <SideCartCard indx={index} key={index} cartId={cartId} item={item} RemoveFromCart={RemoveCartItemData} delState={delLoading} setDelState={setDelLoading} type="delivery" />)}
                   </div>
                   {/* Cart Product End */}
                   
