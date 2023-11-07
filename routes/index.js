@@ -25,7 +25,7 @@ const galleryController = require('../controller/galleryController');
 const teamController = require('../controller/admin/teamController');
 const uploader = require('express-fileupload');
 const favoriteController = require('../controller/favoriteController');
-const newsLetterController = require('../controller/newsletterController');
+const newsLetterController = require('../controller/newsLetterController');
 
 const router = express.Router();
 

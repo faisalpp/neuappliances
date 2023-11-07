@@ -8,7 +8,6 @@ const cookieParser = require('cookie-parser')
 const path = require('path');
 const compression = require('compression')
 const app = express();
-const HandleCronJobs = require('./cron/index')
 
 const corsOptions = {
   credentials: true,
@@ -42,5 +41,4 @@ dbconnect().then(()=>{
   app.listen(PORT,()=>{
     console.log(`Server Started on port: ${PORT}`)
   });
-  // HandleCronJobs.CheckCartExpiry()
 })
