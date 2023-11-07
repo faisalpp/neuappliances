@@ -19,7 +19,7 @@ import BtnLoader from '../../components/Loader/BtnLoader';
 
 const SavedAddress = () => {
 
-    const _id = useSelector((state)=>state.user._id)
+    const userId = useSelector((state)=>state.user._id)
 
     const [shippingAddresses,setShippingAddresses] = useState([])
 
@@ -27,7 +27,7 @@ const SavedAddress = () => {
 
     const getShippingAddresses = async () => {
       setLoading(true)
-      const res = await GetShippingAddresses({_id:_id})
+      const res = await GetShippingAddresses({_id:userId})
       if(res.status === 200){
         setLoading(false)
         setShippingAddresses(res.data.shippingAddresses)
@@ -106,8 +106,7 @@ const SavedAddress = () => {
         postalCode: Yup.string().required('Postal Code is Required!'),
         phone: Yup.string().required('Phone is Required!'),
       });
-
-      const userId = isAdmin() 
+ 
 
       const CreateShippingAddress = async (e) => {
         e.preventDefault()
@@ -121,6 +120,16 @@ const SavedAddress = () => {
         const res = await createShippingAddress(data)
         if(res.status === 200){
          getShippingAddresses()
+         setEmail('')
+         setFirstName('')
+         setLastName('')
+         setAddress('')
+         setAppartment('')
+         setCity('')
+         setCountry('usa')
+         setProvince('alberta')
+         setPostalCode('')
+         setPhone('')
          setPopup(false)
          setSloading(false)
          Toast(res.data.msg,'success',1000)

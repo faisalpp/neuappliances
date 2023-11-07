@@ -38,12 +38,9 @@ const UpdateOrder = () => {
     return uniqueOrders
   }
 
-  const ordStatus = ['pending','rejected','completed','processing']
-  const pymStatus = ['pending','declined','completed']
+  const ordStatus = ['Pending Payment','Processing','On Hold','Completed','Failed','Cancelled','Refunded']
   const [orderStatuses,setOrderStatuses] = useState([])
   const [orderStatus,setOrderStatus] = useState('')
-  const [paymentStatuses,setPaymentStatuses] = useState([])
-  const [paymentStatus,setPaymentStatus] = useState('')
   const [paymentInfo,setPaymentInfo] = useState('')
 
   // Order Shipping Address States
@@ -58,9 +55,8 @@ const UpdateOrder = () => {
      setProducts(AddRedundentProductCount(res.data.order.orders))
      setPaymentInfo(res.data.order.paymentInfo)
      const filt = ordStatus.filter((item)=>item !== res?.data?.order?.orderStatus)
-     setOrderStatuses([res?.data?.order?.orderStatus,...filt])
-     const filt2 = pymStatus.filter((item)=>item !== res?.data?.order?.paymentStatus)
-     setPaymentStatuses([res?.data?.order?.paymentStatus,...filt2])
+     const filt2 = [res?.data?.order?.orderStatus,...filt]
+     setOrderStatuses(filt2)
      setShippingAddress({id:res.data.order?.shippingAddress?._id,email:res.data.order?.shippingAddress?.email,firstName:res.data.order?.shippingAddress?.firstName,lastName:res.data.order?.shippingAddress?.lastName,address:res.data.order?.shippingAddress?.address,appartment:res.data.order?.shippingAddress?.appartment,city:res.data.order?.shippingAddress?.city,country:res.data.order?.shippingAddress?.country,state:res.data.order?.shippingAddress?.state,postalCode:res.data.order?.shippingAddress?.postalCode,phone:res.data.order?.shippingAddress?.phone})
      setBillingAddress({id:res.data.order?.billingAddress?._id,email:res.data.order?.billingAddress?.email,firstName:res.data.order?.billingAddress?.firstName,lastName:res.data.order?.billingAddress?.lastName,address:res.data.order?.billingAddress?.address,appartment:res.data.order?.billingAddress?.appartment,city:res.data.order?.billingAddress?.city,country:res.data.order?.billingAddress?.country,state:res.data.order?.billingAddress?.state,postalCode:res.data.order?.billingAddress?.postalCode,phone:res.data.order?.billingAddress?.phone})
     }else{
@@ -98,34 +94,6 @@ const UpdateOrder = () => {
     }
    }
   }
-
-  const [pLoad,setPload] = useState(false)
-
-  const UpdatePaymentStatus = async (e) => {
-    if(!pLoad){
-      e.preventDefault()
-      setPload(true)
-    const res = await updateOrderStatus({orderId:orderId,type:'payment',status:paymentStatus})
-    if(res.status === 200){
-      setPload(false)
-      Toast(res.data.msg,'success',1000)
-      setOrderId(res.data.order._id)
-      setOrder(res.data.order)
-      setProducts(AddRedundentProductCount(res.data.order.orders))
-      setPaymentInfo(res.data.order.paymentInfo)
-      const filt = ordStatus.filter((item)=>item !== res?.data?.order?.orderStatus)
-      setOrderStatuses([res?.data?.order?.orderStatus,...filt])
-      const filt2 = pymStatus.filter((item)=>item !== res?.data?.order?.paymentStatus)
-      setPaymentStatuses([res?.data?.order?.paymentStatus,...filt2])
-      setShippingAddress({id:res.data.order?.shippingAddress?._id,email:res.data.order?.shippingAddress?.email,firstName:res.data.order?.shippingAddress?.firstName,lastName:res.data.order?.shippingAddress?.lastName,address:res.data.order?.shippingAddress?.address,appartment:res.data.order?.shippingAddress?.appartment,city:res.data.order?.shippingAddress?.city,country:res.data.order?.shippingAddress?.country,state:res.data.order?.shippingAddress?.state,postalCode:res.data.order?.shippingAddress?.postalCode,phone:res.data.order?.shippingAddress?.phone})
-      setBillingAddress({id:res.data.order?.billingAddress?._id,email:res.data.order?.billingAddress?.email,firstName:res.data.order?.billingAddress?.firstName,lastName:res.data.order?.billingAddress?.lastName,address:res.data.order?.billingAddress?.address,appartment:res.data.order?.billingAddress?.appartment,city:res.data.order?.billingAddress?.city,country:res.data.order?.billingAddress?.country,state:res.data.order?.billingAddress?.state,postalCode:res.data.order?.billingAddress?.postalCode,phone:res.data.order?.billingAddress?.phone})
-    }else{
-      setPload(false)
-      Toast(res.data.message,'error',1000)
-    }
-   }
-  }
-
 
   
   const Row = ({image,title,price,quantity}) => {
@@ -299,20 +267,8 @@ const UpdateOrder = () => {
 
         {/* Order Status */}
         <div className='flex space-x-2 mr-4 justify-center items-center' >
-         <h3 className='text-xs font-semibold mb-2 mt-2' >Order&nbsp;Details:</h3>
-         { order.orderStatus === 'pending' ? <span className='bg-yellow-500/30 text-yellow-700 px-2 rounded-lg py-1 text-xs' >Pending</span>:null}
-         { order.orderStatus === 'rejected' ? <span className='bg-red-500/30 text-red-500 px-2 rounded-lg py-1 text-xs' >Rejected</span>:null}
-         { order.orderStatus === 'completed' ? <span className='bg-b6/30 text-b6 px-2 rounded-lg py-1 text-xs' >Completed</span>:null}
-         { order.orderStatus === 'processing' ? <span className='bg-b10/30 text-b10 px-2 rounded-lg py-1 text-xs' >Processing</span>:null}
+         <span className='bg-b6/30 text-b6 px-2 rounded-md py-1 text-xs font-semibold' >{order.orderStatus}</span>
         </div>
-        {/* Payment Status */}
-        <div className='flex space-x-2 justify-center items-center' >
-         <h3 className='text-xs font-semibold mb-2 mt-2' >Payment&nbsp;Details:</h3>
-         { order.paymentStatus === 'pending' ? <span className='bg-yellow-500/30 text-yellow-700 px-2 rounded-lg py-1 text-xs' >Pending</span>:null}
-         { order.paymentStatus === 'declined' ? <span className='bg-red-500/30 text-red-500 px-2 rounded-lg py-1 text-xs' >Declined</span>:null}
-         { order.paymentStatus === 'completed' ? <span className='bg-b6/30 text-b6 px-2 rounded-lg py-1 text-xs' >Completed</span>:null}
-        </div>
-
       </div>
       
       <div className='flex space-x-3 mt-5' >
@@ -326,7 +282,7 @@ const UpdateOrder = () => {
           <h3 className='text-xs text-gray-500' ><span className='text-black' >Customer IP:&nbsp;</span>{order?.customerIp}</h3>
           <h3 className='text-xs text-gray-500' ><span className='text-black' >Placed On:&nbsp;</span>{moment(order.createdAt).format('DD MMMM YYYY')}</h3>
         <div className='border-[1px] px-2 py-2 rounded-lg space-y-1' >
-           <div className='flex text-xs text-gray-500 w-full' ><span className='text-black w-full' >Customer:&nbsp;</span><div className='flex space-x-2' ><a className='underline text-b6 cursor-pointer' >Customer&nbsp;Profile</a><a className='underline text-b6 cursor-pointer' >View&nbsp;Other&nbsp;Orders</a></div></div>
+           <div className='flex text-xs text-gray-500 w-full' ><span className='text-black w-full' >Customer:&nbsp;</span><div className='flex space-x-2' ><Link to={`/admin/update-customer/${order?.customerId?._id}`} className='underline text-b6 cursor-pointer' >Customer&nbsp;Profile</Link><a className='underline text-b6 cursor-pointer' >View&nbsp;Other&nbsp;Orders</a></div></div>
            <h3 className='text-xs text-gray-500' >{order?.customerId?.firstName} {order?.customerId?.lastName} ({order?.customerId?.email})</h3>
           </div>
           <form onSubmit={UpdateOrderStatus} className='flex space-x-4 items-center' >
@@ -345,11 +301,6 @@ const UpdateOrder = () => {
           {/* <h3 className='text-xs text-gray-500' ><span className='text-black' >Customer IP:&nbsp;</span>{order?.customerIp}</h3> */}
           <h3 className='text-xs text-gray-500' ><span className='text-black' >Paid On:&nbsp;</span>{moment(moment.unix(paymentInfo?.created)).format('DD MMMM YYYY')}</h3>
           <h3 className='text-xs text-gray-500' ><span className='text-black' >Payment Intent:&nbsp;</span><a target='_blank' href={`https://dashboard.stripe.com/test/payments/${paymentInfo?.id}`} className='underline text-b6 cursor-pointer ' >{paymentInfo?.id}</a></h3>
-          <form onSubmit={UpdatePaymentStatus} className='flex space-x-4 items-center' >
-           <h3 className='text-xs ' >Payment&nbsp;Status:</h3>
-           <SelectInput height="h-8" onChange={e=>setPaymentStatus(e.target.value)} textSize="text-xs capitalize" options={paymentStatuses} />
-           <button className='text-xs bg-b6 h-fit w-fit px-3 py-1 rounded-lg text-white' >{pLoad ? <BtnLoader style="w-4" />: <span>Save</span> }</button>
-          </form>
         </div>
        </div>
       

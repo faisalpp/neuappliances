@@ -2,6 +2,7 @@ const User = require('../models/user')
 const Admin = require('../models/admin')
 const Order = require('../models/order')
 const OrderAddress = require('../models/orderAddress')
+const Joi = require("joi");
 
 const customerController = {
   async getAllCustomers(req, res, next) {
@@ -61,9 +62,46 @@ const customerController = {
 
   },
 
-  // async getCustomerDetails(req,res,next) {
-  //   const customer = 
-  // }
+  async getCustomerShippingAddress(req,res,next) {
+    try{
+     const shippingAddress = await OrderAddress.findOne({userId:req.body.userId,type:'shipping'}).sort({ createdAt: -1 })
+     return res.status(200).json({ shippingAddress: shippingAddress });
+    } catch (error) {
+      return res.status(500).json({ message:'Internal Server Error!' });
+    }
+  },
+
+  async getCustomerBillingAddress(req,res,next) {
+    try{
+     const billingAddress = await OrderAddress.findOne({userId:req.body.userId,type:'billing'}).sort({ createdAt: -1 })
+     return res.status(200).json({ billingAddress: billingAddress });
+    } catch (error) {
+      return res.status(500).json({ message:'Internal Server Error!' });
+    }
+  },
+  
+  
+  async searchCustomerWithEmail(req,res,next) {
+    // 1. validate user input
+    const userLoginSchema = Joi.object({
+      email: Joi.string().required(),
+    });
+
+    const { error } = userLoginSchema.validate(req.body);
+    
+    // 2. if error in validation -> return error via middleware
+    if (error) {
+      return next(error)
+    }
+    
+    const { email } = req.body;
+    try{
+     const customers = await User.find({email:{$regex:email}}).select('email')
+     return res.status(200).json({ customers: customers });
+    } catch (error) {
+      return res.status(500).json({ message:'Internal Server Error!' });
+    }
+  }
 
 }
 

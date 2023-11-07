@@ -254,5 +254,27 @@ export const subscribeNewLetter = async (data) => {
     return response;
 }
 
+export const getCustomerShippingAddress = async (data) => {
+    let response;
+
+    try{
+      response = await api.post('/api/user/customer-shipping-address',data,{validationStatus:()=>true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const getCustomerBillingAddress = async (data) => {
+    let response;
+
+    try{
+      response = await api.post('/api/user/customer-billing-address',data,{validationStatus:()=>true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
 
 

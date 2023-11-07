@@ -28,8 +28,7 @@ const orderSchema = new mongoose.Schema({
   grandTotal: { type: Number, required: true },
   cartCount: { type: Number, required: true },
   orderType: { type: String, required:true },
-  orderStatus: { type: String, default: 'pending' },
-  paymentStatus: { type: String, default: 'pending' },
+  orderStatus: { type: String, default: 'pending-payment' },
   customerIp: { type: String, default: 'N/A' },
   isArchived: { type: Boolean, default: false },
 },{timestamps: true});

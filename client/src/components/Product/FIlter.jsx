@@ -28,7 +28,7 @@ const Filter = ({ onClose,isFilter, categoriesFilters, ratingFilters,saleFilter,
                 </div>
                 <TypeFilter filt={query} setFilt={setQuery} filters={categoriesFilters} />
                 <RatingFilter filt={query} setFilt={setQuery} filters={ratingFilters} />
-                <MultiRangeSlider setFilt={setQuery} min={9} max={9999} />
+                <MultiRangeSlider filt={query} setFilt={setQuery} min={9} max={9999} />
                 <SaleFilter filt={query} setFilt={setQuery} sale={saleFilter} reg={regularFilter} />
                 {/* <HeaderFilter /> */}
             </div>

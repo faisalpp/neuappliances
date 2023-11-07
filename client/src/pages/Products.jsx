@@ -23,7 +23,7 @@ const Products = () => {
   const [loading, setLoading] = useState(false);
 
   const location = useLocation();
-  const [params, setParams] = useState({isSale:false,salePrice: { '$gte': 200 }, regPrice: { '$lte': 8000 } })
+  const [params, setParams] = useState({isSale:true,salePrice: { min: 200,max:8000 } })
   
   useEffect(()=>{
     // Create a URLSearchParams object from the query string

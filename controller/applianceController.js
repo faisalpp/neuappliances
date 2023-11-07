@@ -55,7 +55,7 @@ const applianceController = {
       }      
     },
     async GetApplianceBySectionType(req,res,next){
-      console.log(req.body)
+      // console.log(req.body)
       let query = {};
       // console.log(prop + ': ' + data[prop]);
       const data = req.body;
@@ -85,17 +85,27 @@ const applianceController = {
         case 'isSale':
          query.isSale = data[prop];
         break;
+        case 'category':
+         query.category = data[prop];
+        break;
       }
       });
+
       console.log(query)
+      let products;
       try{
-        const products = await Product.find(query);
-        // console.log(products)
-        return res.status(200).json({status:200,products:products});
-        
+        if(req.body.salePrice){
+          products = await Product.find({...query,$and: [{ salePrice: { $lte: req?.body?.salePrice?.max } },{ salePrice: { $gte: req?.body?.salePrice?.min } }]});
+        }else if(req.body.regPrice){
+          products = await Product.find({...query,$and: [{ regPrice: { $lte: req?.body?.regPrice?.max } },{ regPrice: { $gte: req?.body?.regPrice?.min } }]});
+        }else{
+          products = await Product.find(query);
+        }
       }catch(error){
         return next(error)
       }      
+      console.log(products)
+      return res.status(200).json({status:200,products:products});
            
     },
 

@@ -186,6 +186,7 @@ router.post('/api/user/get-cart',cartController.getCart);
 router.post('/api/user/add-favorite',favoriteController.AddToFavorite);
 router.post('/api/user/get-favorite',favoriteController.GetFavorites);
 router.post('/api/user/remove-favorite',favoriteController.RemoveFromFavorite);
+router.post('/api/user/check-favorite',favoriteController.CheckFavorite);
 
 // News Letter Subscribtion
 router.post('/api/newsletter-subscribe',newsLetterController.SubscribeToNewLetter);
@@ -202,10 +203,13 @@ router.post('/api/admin/get-customers',adminAuth,customerController.getAllCustom
 router.post('/api/admin/get-order-by-id',adminAuth,orderController.getOrderById);
 router.post('/api/admin/archive-order-by-id',adminAuth,orderController.archiveOrderById);
 router.post('/api/admin/unarchive-order-by-id',adminAuth,orderController.unArchiveOrderById);
+router.post('/api/admin/search-customer-email',adminAuth,customerController.searchCustomerWithEmail);
 // Admin Customer Api's
 
 
 // User Order Processing Api's
+router.post('/api/user/customer-billing-address',customerController.getCustomerBillingAddress);
+router.post('/api/user/customer-shipping-address',customerController.getCustomerShippingAddress);
 router.post('/api/user/process-order',orderController.processOrder);
 router.post('/api/user/confirm-order',orderController.confirmOrder);
 router.get('/api/test',orderController.test);

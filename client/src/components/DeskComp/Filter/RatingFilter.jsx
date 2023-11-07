@@ -8,6 +8,7 @@ const TypeFilter = ({filters,setFilt,filt}) => {
   const [f1,setF1] = useState()
   const [f2,setF2] = useState()
   const [f3,setF3] = useState()
+  
 
   const [check1,setCheck1] = useState(filt.rating === 3 ? true : false);
   const [check2,setCheck2] = useState(filt.rating === 4 ? true : false);
@@ -56,7 +57,7 @@ const TypeFilter = ({filters,setFilt,filt}) => {
     setF3(filters.find(obj => obj._id === 3));
   },[filters])
 
-
+  
   return (
     <>
       <DropDown title="Comatic Rating" >

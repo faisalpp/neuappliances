@@ -27,8 +27,8 @@ import StickyNavbar from '../components/DeskComp/Navbar/StickyNavbar'
 import CustomModal from '../components/Modal/CustomModal'
 import TruckSvg from '../svgs/TruckSvg'
 import { GetAppliancesBySlug } from '../api/frontEnd'
+import { AddToFavorite,RemoveFromFavorite,checkFavorite } from '../api/user/favorite'
 import Loader from '../components/Loader/Loader'
-import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from "react-redux";
 import Iframe from '../components/Reusable/Ifram'
 import {AddToCart} from '../store/cartSlice'
@@ -78,6 +78,23 @@ const Product = () => {
   }, [])
 
   const [mediaViewer,setMediaViewer] = useState({})
+  const [isFav,setIsFav] = useState(false)
+
+  const CheckFavorite = async () => {
+    let uId = userId;
+    if(!isUser && isAdmin){
+      uId = adminId;
+    }
+    if(!isUser && !isAdmin){
+      return;
+    }else{
+     const res = await checkFavorite({pid:product._id,userId:uId})
+     console.log(res)
+     if(res.status === 200){
+       setIsFav(true)   
+     }
+    }
+   }
 
   const GetProduct = async () => {
     const data = { slug }
@@ -86,22 +103,16 @@ const Product = () => {
     if (res.status === 200) {
       setProduct(res.data.product)
       setMediaViewer({file:res.data.product.media[0].file,type:res.data.product.media[0].type,data:res.data.product.media[0].data,thumbnail:res.data.product.media[0].preview })
+      CheckFavorite()
       setLoading(false)
     } else {
       setLoading(false)
-      toast.error('Internal Server Error!', {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast('Internal Server Error!','error',1000)
       navigate(-1)
     }
   }
+
+    
 
   const [zipLoading,setZipLoading] = useState(false)
 
@@ -190,14 +201,63 @@ const Product = () => {
       // }
      },[])
 
-     const [isFav,setIsFav] = useState(false)
+    //  const [isFav,setIsFav] = useState(false)
+     const [favLoad,setFavLoad] = useState(false)
 
      const isUser = useSelector((state)=>state.user.auth)
-     const handleFavorites = (e) => {
+     const userId = useSelector((state)=>state.user._id)
+     const isAdmin = useSelector((state)=>state.admin.auth)
+     const adminId = useSelector((state)=>state.admin._id)
+     const handleFavorites = async (e) => {
       e.preventDefault()
+      let userType = 'User';
+      let uId = userId;
+      if(!isUser && isAdmin){
+        userType = 'Admin'
+        uId = adminId;
+      }
+      if(!isUser && !isAdmin){
+        Toast('Login Required!','error',1000)
+      }else{
+        setFavLoad(true)
+       const res = await AddToFavorite({userId:uId,pid:product._id,product:JSON.stringify({title:product.title,slug:product.slug,salePrice:product.salePrice,regPrice:product.regPrice,rating:product.rating,isSale:product.isSale,image:product.media.find(item=>item.file === 'image')}),userType:userType})
+       if(res.status === 200){
+        setIsFav(true)
+        setFavLoad(false)
+        Toast(res.data.msg,'success',1000)
+      }else{
+        setFavLoad(false)
+        Toast(res.data.message,'error',1000)
+       }
+      }
+     }
+     
+     const removeFavorite = async (e) => {
+      e.preventDefault()
+      let userType = 'User';
+      let uId = userId;
+      if(!isUser && isAdmin){
+        userType = 'Admin'
+        uId = adminId;
+      }
+      if(!isUser && !isAdmin){
+        Toast('Login Required!','error',1000)
+      }else{
+       setFavLoad(true)
+       const res = await RemoveFromFavorite({pid:product._id,userId:uId})
+       if(res.status === 200){
+        setIsFav(false)
+        setFavLoad(false)
+        Toast(res.data.msg,'success',1000)
+      }else{
+        setFavLoad(false)
+        Toast(res.data.message,'error',1000)
+       }
+      }
      }
 
 
+     
 
   
 
@@ -276,7 +336,7 @@ const Product = () => {
                 </div>
                 <div className='flex items-center sm:justify-between sm:w-full gap-5 lg:flex-wrap'>
                   {product.salePrice ? <span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >${product.regPrice - product.salePrice} Savings</span> : null}
-                  {isFav?<div className="flex justify-end items-center hover:underline text-b3" ><AiFillHeart /><span>Added to favorites</span></div>:<button onClick={e=>handleFavorites(e)} className="flex justify-end items-center hover:underline text-b3" ><AiOutlineHeart /><span>Add to favorites</span></button>}
+                  {isFav ? <button onClick={e=>removeFavorite(e)} className="flex justify-end items-center hover:underline text-b3" ><AiFillHeart className={`${favLoad ?  'animate-bounce':null}`} /><span>Favorite</span></button>:<button onClick={e=>handleFavorites(e)} className="flex justify-end items-center hover:underline text-b3" ><AiOutlineHeart className={`${favLoad ?  'animate-bounce':null}`} /><span>Add to favorites</span></button>}
                 </div>
               </div>
               <div className='flex border justify-between px-3 py-1 w-[250px] rounded-lg'>

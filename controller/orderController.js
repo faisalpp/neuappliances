@@ -117,7 +117,7 @@ const orderController = {
 
   // 5. check entire shippingInfo object against orderAddress with type shipping and 
   //  if found do nothing else create new address with the userId.
-  const {email,firstName,lastName,address,appartment,country,state,city,postalCode,phone} = shippingAddress;
+  const {email,firstName,lastName,address,appartment,country,state,city,postalCode,phone,saveAddress} = shippingAddress;
   let shippingAddressId;
   let isShippingAddress;
   try{
@@ -125,9 +125,15 @@ const orderController = {
   }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
   try{
    if(!isShippingAddress){
-    const newShippingAddress = new OrderAddress({userId:USER,type:'shipping',email: email,firstName:firstName,lastName: lastName,address: address,appartment: appartment,country: country,state: state,city: city,postalCode: postalCode,phone: phone});
-    const getShippingAddress = await newShippingAddress.save();
-    shippingAddressId = getShippingAddress._id;
+    if(saveAddress){
+      const newShippingAddress = new OrderAddress({userId:USER,type:'shipping',email: email,firstName:firstName,lastName: lastName,address: address,appartment: appartment,country: country,state: state,city: city,postalCode: postalCode,phone: phone});
+      const getShippingAddress = await newShippingAddress.save();
+      shippingAddressId = getShippingAddress._id;
+    }else{
+      const newShippingAddress = new OrderAddress({type:'shipping',email: email,firstName:firstName,lastName: lastName,address: address,appartment: appartment,country: country,state: state,city: city,postalCode: postalCode,phone: phone});
+      const getShippingAddress = await newShippingAddress.save();
+      shippingAddressId = getShippingAddress._id;
+    }
    }else{
     shippingAddressId = isShippingAddress._id;
    }
@@ -215,7 +221,6 @@ const orderController = {
     const orderSchema = Joi.object({
      orderNo: Joi.string().required(),
      intent: Joi.object().required(),
-     status: Joi.string().required(),
      cartId: Joi.string().required(),
    });
    const { error } = orderSchema.validate(req.body);
@@ -227,10 +232,10 @@ const orderController = {
 
    let HOST = NODE_ENV === "production" ?  WEBSITE_HOST_ADDRESS : 'http://localhost:5173';
  
-   const {orderNo,intent,status,cartId} = req.body;
+   const {orderNo,intent,cartId} = req.body;
     let updateOrder; 
     try{
-     updateOrder = await Order.findOneAndUpdate({orderNo:orderNo},{paymentInfo:intent,paymentStatus:status,orderStatus:'completed',customerIp:ip},{new:true}).populate('shippingAddress').populate('billingAddress');
+     updateOrder = await Order.findOneAndUpdate({orderNo:orderNo},{paymentInfo:intent,orderStatus:'processing',customerIp:ip},{new:true}).populate('shippingAddress').populate('billingAddress');
     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
     
     try{

@@ -10,7 +10,10 @@ const favouriteProductSchema = new mongoose.Schema({
         required: true,
         enum: ['User', 'Admin']
       },
-    pid: {type: mongoose.SchemaTypes.ObjectId, ref: 'Product',required:true},
+    pid: {type: mongoose.SchemaTypes.ObjectId, ref: 'Product',required:true,unique:true},
+    product: {type: String,required:true},
 },{timestamps: true});
+
+favouriteProductSchema.index({ pid: 1 }, { unique: true });
 
 module.exports = mongoose.model('favouriteProduct',favouriteProductSchema,'favouriteProducts');

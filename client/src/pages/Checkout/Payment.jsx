@@ -221,7 +221,7 @@ const Payment = () => {
       // const orderNo = useSelector((state)=>state.order.orderNo)
       const ConfirmOrder = async (intent,ordNo) => {
        if(orderErrors.confirm || !orderStatus.confirm){
-        const res = await confirmOrder({orderNo:ordNo,intent:intent,status:'completed',cartId})
+        const res = await confirmOrder({orderNo:ordNo,intent:intent,cartId:cartId})
         console.log(res)
         if(res.status === 200){
           setOrderErrors({confirm:false})

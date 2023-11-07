@@ -12,7 +12,6 @@ const initialState = {
   total:0,
   grandTotal:0,
   sCart:false,
-  update:{},
 }
 
 // Create an async thunk for the Add To Cart

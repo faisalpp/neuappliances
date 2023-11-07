@@ -16,15 +16,15 @@ const OrderTable = ({orders,refreshOrders}) => {
             className="border-b border-l border-b3 bg-b3 font-medium text-white">
             <tr>
               <th scope="col" className=" px-6 py-4">Order&nbsp;#</th>
+              <th scope="col" className=" px-6 py-4">Order Type</th>
               <th scope="col" className=" px-6 py-4">Date</th>
               <th scope="col" className=" px-6 py-4">Order&nbsp;Status</th>
-              <th scope="col" className=" px-6 py-4">Payment&nbsp;Status</th>
               <th scope="col" className=" px-6 py-4">Total</th>
               <th scope="col" className=" px-6 py-4">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {orders?.length ? orders.map((order)=><OrderRow isArchived={order.isArchived} orderStatus={order.orderStatus} paymentStatus={order.paymentStatus} refreshOrders={refreshOrders} id={order._id} orderNo={order.orderNo} date={moment(order.createdAt).format('DD MMMM YYYY')} status={order.orderStatus} total={order.grandTotal} />) : null}
+            {orders?.length ? orders.map((order)=><OrderRow orderType={order.orderType} isArchived={order.isArchived} orderStatus={order.orderStatus} paymentStatus={order.paymentStatus} refreshOrders={refreshOrders} id={order._id} orderNo={order.orderNo} date={moment(order.createdAt).format('DD MMMM YYYY')} status={order.orderStatus} total={order.grandTotal} />) : null}
           </tbody>
         </table>
       </div>

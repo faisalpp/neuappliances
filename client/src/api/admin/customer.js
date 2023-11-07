@@ -12,3 +12,14 @@ export const getAllCustomers = async (params,data) => {
     }
     return response;
 }
+
+export const searchCustomerWithEmail = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/search-customer-email',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}

@@ -15,7 +15,7 @@ import LeftArrowSvg from '../../svgs/LeftArrowSvg'
 import Toast from '../../utils/Toast'
 import {CheckZip} from '../../api/frontEnd'
 import ExpressCheckout from '../../components/Checkout/ExpressCheckout'
-import isAdmin from '../../services/isAdmin'
+import {getCustomerShippingAddress} from '../../api/frontEnd'
 
 const Information = () => {
 
@@ -90,24 +90,20 @@ const Information = () => {
      setSaveAddress(data.saveAddress)
     }
 
-    const getPrevAddress = () => {
-
-    //   const isAuth = isAdmin()
-    //   console.log(isAuth)
-     
-        //   const prev_address = JSON.parse(localStorage.getItem('neu_customer_address'))
-      
-    //   if(!isAuth && prev_address){
-    //     SetShippingAddress({email:prev_address.email,keepUpdates:prev_address.keepUpdates,firstName:prev_address.firstName,lastName:prev_address.lastName,address:prev_address.address,appartment:prev_address.appartment,city:prev_address.city,country:prev_address.country,province:prev_address.province,postalCode:prev_address.postalCode,phone:prev_address.phone,saveAddress:prev_address.saveAddress})
-    //   }else if (orderInfo?.email){
-    //     SetShippingAddress({email:orderInfo.email,keepUpdates:orderInfo.keepUpdates,firstName:orderInfo.firstName,lastName:orderInfo.lastName,address:orderInfo.address,appartment:orderInfo.appartment,city:orderInfo.city,country:orderInfo.country,province:orderInfo.province,postalCode:orderInfo.postalCode,phone:orderInfo.phone,saveAddress:orderInfo.saveAddress})
-    //   }else {
-    //     setPostalCode(deliveryInfo.location)
-    //   }
+    const userId = useSelector((state)=>state.user._id)
+    const getUserAddress = async () => {
+     if(isAuth){
+      const res = await getCustomerShippingAddress({userId:userId})
+      if(res.status === 200){
+        if(res.data.shippingAddress){
+            SetShippingAddress(res.data.shippingAddress)
+        }
+      }
+     }
     }
     
     useEffect(()=>{
-      getPrevAddress()
+      getUserAddress()
     },[])
 
     const [errors, setErrors] = useState([])
@@ -128,17 +124,7 @@ const Information = () => {
 
     const SubmitInformation = async (e) => {
      e.preventDefault()
-     
-     if(!deliveryInfo?.shipping){
-        Toast('Shipping Not Available!','error',1000)
-        return;
-     }
      const data = {email:email,firstName:firstName,lastName:lastName,address:address,appartment:appartment,city:city,country:country,state:province,postalCode:postalCode,phone:phone,saveAddress:saveAddress,keepUpdates:keepUpdates,province:province}
-     if(saveAddress){
-        if(!isAuth){
-          localStorage.setItem('neu_customer_address',JSON.stringify(data))
-        }
-     }
      try{
         await orderValidationSchema.validate(data, { abortEarly: false }); 
         dispatch(setOrder(data))  

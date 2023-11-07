@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import "./multiRangeSlider.css";
 import DropDown from "../../DeskComp/Filter/DropDown";
 
-const MultiRangeSlider = ({ min, max,setFilt,tquery }) => {
+const MultiRangeSlider = ({ min, max,setFilt,tquery,filt }) => {
     const defaultMinval = 200;
     const defaultMaxval = 8000;
     const [minVal, setMinVal] = useState(defaultMinval);
@@ -47,8 +47,11 @@ const MultiRangeSlider = ({ min, max,setFilt,tquery }) => {
     // Get min and max values when their state changes
     useEffect(() => {
        setTimeout(()=>{
-        //    if(query.)
-           setFilt(prev=>{return {...prev,salePrice:{$gte:minVal},regPrice:{$lte:maxVal},...tquery}})
+        if(filt.isSale){
+            setFilt(prev=>{return {...prev,salePrice:{min:minVal,max:maxVal},...tquery}})
+        }else{
+            setFilt(prev=>{return {...prev,regPrice:{min:minVal,max:maxVal},...tquery}})
+        }
        },1500)
     }, [minVal,maxVal]);
 

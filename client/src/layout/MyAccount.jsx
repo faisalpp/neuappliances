@@ -64,7 +64,7 @@ const MyAccount = ({ children }) => {
                     <AccountItems onClose={handleCloseItems} isItems={isItems} />
 
                     <div className='w-full'>
-                        <div className='border border-[rgba(0,0,0,0.15)] rounded-2xl p-5 sm:p-7 xl:p-10'>
+                        <div className='border border-[rgba(0,0,0,0.15)] rounded-2xl p-5 sm:p-7 xl:p-10 h-full'>
                             {children}
                         </div>
                     </div>
