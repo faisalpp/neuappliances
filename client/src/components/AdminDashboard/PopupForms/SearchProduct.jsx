@@ -6,14 +6,28 @@ import { Link } from 'react-router-dom'
 import Toast from '../../../utils/Toast'
 import {BiSearchAlt2} from 'react-icons/bi'
 import {searchOrderByTitleOrModel} from '../../../api/admin/order'
+import BtnLoader from '../../Loader/BtnLoader'
 
 const SearchProduct = ({sstate,setsState,SelectProduct}) => {
-
-    const SearchRow = ({id,image,title,model,salePrice,regularPrice,stock,type}) => {
+  const [searchResult,setSearchResult] = useState([])
+    const SearchRow = ({id,image,title,model,salePrice,regularPrice,stock,type,rating,selectedProduct,setSearchResult}) => {
         
         const AddProduct = (e) => {
          e.preventDefault()
-         SelectProduct({pid:id,image:image.find(item=>item.file === 'image').data,title:title,model:model,price:salePrice ? salePrice : regPrice,stock:stock,type:type})
+         const filt = selectedProduct?.find(item=>item.id === pid)
+         console.log(filt)
+         if(filt){
+           if(filt.count <= stock){
+             setSearchResult([])
+             SelectProduct({pid:id,image:image.find(item=>item.file === 'image').data,title:title,model:model,price:salePrice ? salePrice : regPrice,type:type,rating:rating})
+           }else{
+           setSearchResult([])
+           Toast('Product Out of Stock!','error',1000)
+           }
+          }else{
+            setSearchResult([])
+            SelectProduct({pid:id,image:image.find(item=>item.file === 'image').data,title:title,model:model,price:salePrice ? salePrice : regPrice,type:type,rating:rating})
+          }
         }
         
         return (
@@ -38,10 +52,11 @@ const SearchProduct = ({sstate,setsState,SelectProduct}) => {
         )
     }
 
-  const [searchResult,setSearchResult] = useState([])
   const [errors,setErrors] = useState([])
   const [sTitle,setStitle] = useState('')
   const [sModel,setSmodel] = useState('')
+
+  const [loading,setLoading] = useState({type:'',status:false})
 
   const searchProduct = async (e,query,type) => {
     e.preventDefault()
@@ -49,10 +64,13 @@ const SearchProduct = ({sstate,setsState,SelectProduct}) => {
      Toast('Query Required!','error',1000)
      return
     }
+    setLoading({type:type,status:true})
     const res = await searchOrderByTitleOrModel({query:query,type:type})
     if(res.status === 200){
+      setLoading({type:'',status:false})
       setSearchResult(res.data.result)
     }else{
+      setLoading({type:'',status:false})
       Toast(res.data.message,'error',1000)
     }
   }
@@ -66,11 +84,11 @@ const SearchProduct = ({sstate,setsState,SelectProduct}) => {
           <div className='flex w-full space-x-2 items-center' >
            <div className='flex items-center space-x-1 w-full mt-5' >
             <TextInput disabled={sModel !== '' ? true : false } value={sTitle} onChange={(e)=>setStitle(e.target.value)} width="full" title="Search By Title" iscompulsory="false" type="text" error={errors && errors.includes('Title is Required!') ? true : false} errormessage="Title is Required!" placeholder="Whirlpool Refrigerator" />
-            <button type="button" onClick={e=>searchProduct(e,sTitle,'title')} className='bg-b6 text-sm text-white px-2 py-1 h-10 rounded-lg mt-6' ><BiSearchAlt2/></button>
+            <button type="button" onClick={e=>searchProduct(e,sTitle,'title')} className='bg-b6 text-sm text-white px-2 py-1 h-10 rounded-lg mt-6' >{loading.status && loading.type === 'title' ? <BtnLoader style="w-4" />: <BiSearchAlt2/>}</button>
            </div>
            <div className='flex items-center space-x-1 w-full h-fit mt-5' >
             <TextInput disabled={sTitle !== '' ? true : false } width="full" title="Search By Model #" value={sModel} onChange={(e)=>setSmodel(e.target.value)} iscompulsory="false" type="text" error={errors && errors.includes('Title is Required!') ? true : false} errormessage="Title is Required!" placeholder="8342-D10M02Y2024" />
-            <button type="button" onClick={e=>searchProduct(e,sModel,'model')} className='bg-b6 text-sm text-white px-2 py-1 h-10 rounded-lg mt-6' ><BiSearchAlt2/></button>
+            <button type="button" onClick={e=>searchProduct(e,sModel,'model')} className='bg-b6 text-sm text-white px-2 py-1 h-10 rounded-lg mt-6' >{loading.status && loading.type === 'model' ? <BtnLoader style="w-4" />: <BiSearchAlt2/>}</button>
            </div>
           </div>
 
@@ -79,7 +97,7 @@ const SearchProduct = ({sstate,setsState,SelectProduct}) => {
             <div className='flex flex-col px-2 border-[1px] border-b31 h-72 mt-1 rounded-md' >
               {/* Seach Result Card Start */}
               <Table head={['Image','Title','Model #','Type','Sale Price','Regular Price','Stock','Action']} >
-                {searchResult?.length > 0 ? searchResult?.map((product)=><SearchRow id={product._id} image={product.media} title={product.title} model={product.modelNo} regularPrice={product.regPrice} salePrice={product.salePrice} type={product.productType} stock={product.stock} />):
+                {searchResult?.length > 0 ? searchResult?.map((product)=><SearchRow rating={product.rating} id={product._id} image={product.media} title={product.title} model={product.modelNo} regularPrice={product.regPrice} salePrice={product.salePrice} type={product.productType} stock={product.stock} setSearchResult={setSearchResult} />):
                  <NoRow message="No Products Found!" />
                 }
               </Table>

@@ -86,3 +86,13 @@ export const unarchiveOrderById = async (data) => {
     }
     return response;
 }
+export const createAdminOrder = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/create-order',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}

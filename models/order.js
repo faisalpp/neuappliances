@@ -9,15 +9,15 @@ const orderSchema = new mongoose.Schema({
   userType: {
     type: String,
     required: true,
-    enum: ['User', 'Admin']
+    enum: ['User', 'Admin','Guest']
   },
   orders: [{
     pid: { type: String, required: true },
     title: { type: String, required: true },
     image: { type: String, required: true },
-    salePrice: { type: Number, required: true },
-    regPrice: { type: Number, required: true },
+    price: { type: Number, required: true },
     rating: { type: Number, required: true },
+    modelNo: { type: String},
   }],
   shippingAddress: {type: mongoose.SchemaTypes.ObjectId, ref: 'OrderAddress',required:true},
   billingAddress:  {type: mongoose.SchemaTypes.ObjectId, ref: 'OrderAddress',required:true},

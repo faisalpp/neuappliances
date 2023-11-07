@@ -194,6 +194,7 @@ router.post('/api/newsletter-subscribe',newsLetterController.SubscribeToNewLette
 
 
 // Admin Order Api's
+router.post('/api/admin/create-order',adminAuth,orderController.creatAdminOrder);
 router.post('/api/admin/get-orders',adminAuth,orderController.getOrders);
 router.post('/api/admin/search-order',adminAuth,orderController.searchOrder);
 router.post('/api/admin/search-order-by-title-model',adminAuth,orderController.searchOrderByTitleOrModel);

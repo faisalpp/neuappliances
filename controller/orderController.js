@@ -536,15 +536,95 @@ const orderController = {
 
     if(type === 'title'){
      try{
-     const result2 = await Product.find({ title: { $regex: query, $options: 'i' } }).select('media').select('title').select('salePrice').select('regPrice').select('stock').select('modelNo').select('productType')
+     const result2 = await Product.find({ title: { $regex: query, $options: 'i' } }).select('media').select('title').select('salePrice').select('regPrice').select('stock').select('modelNo').select('productType').select('rating')
       return res.status(200).json({status: 200,result:result2});
      }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
     }else{
      try{
-      const result = await Product.find({ modelNo: { $regex: query, $options: 'i' } }).select('media').select('title').select('salePrice').select('regPrice').select('stock').select('modelNo').select('productType')
+      const result = await Product.find({ modelNo: { $regex: query, $options: 'i' } }).select('media').select('title').select('salePrice').select('regPrice').select('stock').select('modelNo').select('productType').select('rating')
       return res.status(200).json({status: 200,result:result});
      }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
     }
+  },
+
+  async creatAdminOrder(req, res, next) {
+    console.log(req.body)
+    const orderSchema = Joi.object({
+     orderDate: Joi.string().required(),
+     orderStatus: Joi.string().required(),
+     orderType: Joi.string().required(),
+     transactionId: Joi.string().required(),
+     paymentMethod: Joi.string().required(),
+     shippingAddress: Joi.object().required(),
+     billingAddress: Joi.object().required(),
+     tax: Joi.object().required(),
+     subTotal: Joi.number().required(),
+     shipping: Joi.number().required(),
+     coupen: Joi.number().required(),
+     grandTotal: Joi.object().required(),
+     selectedProducts: Joi.string().required(),
+     selectedUser: Joi.object().required(),
+    });
+    const { error } = orderSchema.validate(req.body);
+   
+    // 2. if error in validation -> return error via middleware
+    if (error) {
+      return next(error)
+    };
+ 
+    const {orderDate,orderStatus,orderType,transactionId,paymentMethod,shippingAddress,billingAddress,tax,subTotal,shipping,coupen,grandTotal,selectedProducts,selectedUser} = req.body;
+    console.log(orderDate,orderStatus,orderType,transactionId,paymentMethod,shippingAddress,billingAddress,tax,subTotal,shipping,coupen,grandTotal,selectedProducts,selectedUser)
+    
+    let orderNumber;
+    if(selectedUser.email === 'Guest'){
+      orderNumber = `${crypto.randomBytes(2).toString('hex')}-AG-D${date.getDay()}M${date.getMonth()}Y${date.getFullYear()}`;
+    }else{
+      orderNumber = `${crypto.randomBytes(2).toString('hex')}-AU-D${date.getDay()}M${date.getMonth()}Y${date.getFullYear()}`;
+    }
+
+    let cartCount=0;
+    let ip = req?.ip;
+    const PRODUCTS = JSON.parse(selectedProducts)
+
+    for(let i=0;i<PRODUCTS.length;i++){
+      cartCount += PRODUCTS[i].count;
+    }
+
+    const result = await Product.updateMany(
+      { _id: { $in: PRODUCTS.pid } }, // Filter for documents with matching _id values
+      { $inc: { stock: -PRODUCTS.count } }, // Update the stock field with the new value
+      (err, result) => {
+        if (err) {
+          console.error('Error updating products:', err);
+        }
+      }
+    );
+
+    let customerId = selectedUser?._id ? selectedUser._id : '';
+
+    try{
+    const newOrder = new Order({
+      orderNo:orderNumber,
+      userType:selectedUser.email,
+      customerId:customerId,
+      orders: selectedProducts,
+      shippingAddress:shippingAddress,
+      billingAddress:billingAddress,
+      paymentInfo: {id:transactionId},
+      shipping: shipping,
+      tax: tax.amount,
+      total: subTotal,
+      grandTotal: grandTotal,
+      cartCount: cartCount,
+      orderType: orderType,
+      orderStatus: orderStatus,
+      customerIp: ip,
+    })
+
+    await newOrder.save()
+    return res.status(200).json({status: 200,msg:'Order Placed Successfully!'});
+  }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+
   },
 
   async test(req, res, next) {

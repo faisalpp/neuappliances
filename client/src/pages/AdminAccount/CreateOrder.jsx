@@ -13,42 +13,57 @@ import Accordion from '../../components/FaqAccordion2'
 import { searchCustomerWithEmail } from '../../api/admin/customer';
 import { getCustomerBillingAddress, getCustomerShippingAddress } from '../../api/frontEnd';
 import UsStates from '../../services/states'
+import BtnLoader from '../../components/Loader/BtnLoader';
+import {createAdminOrder} from '../../api/admin/order'
 
 
 const CreateOrder = () => {
 
     // Form states
     const [errors,setErrors] = useState([])
-    const [date,setDate] = useState('')
-    const ordStatus = ['pending Payment','processing','on hold','completed','cancelled','refunded','failed','draft']
-    const payStatus = ['card','paypal','affirm','google pay','cash']
-    const [orderStatuses,setOrderStatuses] = useState([])
-    const [payStatuses,setPayStatuses] = useState([])
-    const [orderStatus,setOrderStatus] = useState('')
+    const [orderStatuses,setOrderStatuses] = useState(['pending Payment','processing','on hold','completed','cancelled','refunded','failed','draft'])
+    const [payStatuses,setPayStatuses] = useState(['card','paypal','affirm','google pay','cash'])
+    const [orderStatus,setOrderStatus] = useState('pending-payment')
 
-    useEffect(()=>{
-      setOrderStatuses(ordStatus)
-      setPayStatuses(payStatus)
-    },[])
+    const [orderDate,setOrderDate] = useState(new Date().toJSON().slice(0, 10))
+    const [paymentMethod,setPaymentMethod] = useState('card')
+    const [orderType,setOrderType] = useState('pickup')
+    const [transactionId,setTransactionId] = useState('')
 
     const [addProductPopup,setAddProductPopup] = useState(false)
 
     const [selectedProducts,setSelectedProducts] = useState([])
-    const [tax,setTax] = useState(0)
-    const [subTotal,setSubTotal] = useState(0)
-    const [grandTotal,setGrandTotal] = useState(0)
-    const [shipping,setShipping] = useState(0)
-    const [coupen,setCoupen] = useState(0)
+    const [tax,setTax] = useState({type:'percentage',percent:0,amount:0})
+    const [subTotal,setSubTotal] = useState(Math.abs(0))
+    const [grandTotal,setGrandTotal] = useState(Math.abs(0))
+    const [shipping,setShipping] = useState(Math.abs(0))
+    const [coupen,setCoupen] = useState(Math.abs(0))
+
+    const CalculateGrandTotal = () => {
+      if(tax.type === 'percentage' && tax.amount > 0){
+        let am = parseInt(subTotal) + parseInt(shipping) + parseInt(coupen);
+        const calcTax = (taxAmount * 100)/am
+        setTax({...tax,amount:calcTax.toFixed(2)})
+        const grndTotal1 = parseFloat(subTotal)+parseFloat(coupen)+parseFloat(calcTax)+parseFloat(shipping)
+        setGrandTotal(grndTotal1.toFixed(2))
+      }else{
+        const grndTotal = parseFloat(subTotal)+parseFloat(coupen)+parseFloat(tax.amount)+parseFloat(shipping)
+        setGrandTotal(grndTotal.toFixed(2))
+      }
+      Toast('Grand Total Recalculated!','info',1000)
+    }
     
     const IncQty = (e,id) => {
         e.preventDefault()
         const updatedProducts = selectedProducts.map(item => {
-            if (item.pid === id && item.count < item.stock) {
+            if (item.pid === id && item.count <= item.stock) {
               setSubTotal(subTotal+item.price)
               return {
                 ...item,
                 count: item.count + 1,
               };
+            }else{
+              Toast('Product Out of Stock!','error',1000)
             }
             return item;
           });
@@ -59,7 +74,7 @@ const CreateOrder = () => {
         e.preventDefault();
         const updatedProducts = selectedProducts.map(item => {
           if (item.pid === id && item.count > 0) {
-            setSubTotal(subTotal-item.price)
+            setSubTotal(Math.abs(subTotal-item.price))
             return {
               ...item,
               count: item.count - 1,
@@ -112,9 +127,9 @@ const CreateOrder = () => {
         return (
          <tr className="border-b border-l border-r border-b6 text-xs font-semibold">
           <td className='py-2' ><button type="button" onClick={()=>setAddProductPopup(true)} className='bg-orange-500 px-2 text-white py-1 rounded-xl shadow-lg' >Add Product</button></td>
-          <td className='py-2' ><button type="button" onClick={()=>setCoupenPopup(true)} className='bg-green-500 px-2 text-white py-1 rounded-xl shadow-lg' >Add Coupon</button></td>
-          <td className='py-2' ><button type="button" onClick={()=>setTaxPopup(true)} className='bg-red-500 px-2 text-white py-1 rounded-xl shadow-lg' >Add Tax</button></td>
-          <td className='py-2' ><button type="button" onClick={()=>setShippingPopup(true)} className='bg-black px-2 text-white py-1 rounded-xl shadow-lg' >Add Shipping</button></td>
+          <td className='py-2' ><button type="button" onClick={()=>{subTotal > 0 ? setCoupenPopup(true):null}} className={`${subTotal > 0 ? 'bg-green-500':'bg-green-500/40'} px-2 text-white py-1 rounded-xl shadow-lg`} >Add Coupon</button></td>
+          <td className='py-2' ><button type="button" onClick={()=>{subTotal > 0 ? setTaxPopup(true):null}} className={`${subTotal > 0 ? 'bg-red-500':'bg-red-500/40'} px-2 text-white py-1 rounded-xl shadow-lg`} >Add Tax</button></td>
+          <td className='py-2' ><button type="button" onClick={()=>{subTotal > 0 ? setShippingPopup(true) : null }} className={`${subTotal > 0 ? 'bg-black':'bg-black/40'} px-2 text-white py-1 rounded-xl shadow-lg`} >Add Shipping</button></td>
          </tr>
         )
       }
@@ -122,11 +137,12 @@ const CreateOrder = () => {
     const OrderFinance = ({total,shipping,tax,grandTotal,coupen }) => {
         return (
           <><tr className='border-b border-l border-r border-b6 text-xs' >
-            <td className='px-2 py-3 font-semibold' >${total.toFixed(2)}</td>
+            <td className='px-2 py-3 font-semibold' >${total}</td>
             <td className='px-2 py-3 font-semibold' >{coupen}</td>
-            <td className='px-2 py-3 font-semibold' >{shipping}</td>
-            <td className='px-2 py-3 font-semibold' >${tax}</td>
+            <td className='px-2 py-3 font-semibold' >${shipping}</td>
+            <td className='px-2 py-3 font-semibold' >{tax?.type === 'percentage' ? `${tax?.percent}% / +$${tax.amount}` : `$${tax.amount}` } </td>
             <td className='px-2 py-3 font-semibold' >${grandTotal}</td>
+            <td className='py-3 font-semibold' ><button onClick={CalculateGrandTotal} className='bg-b6 text-white py-1 px-2 rounded-md' >Calculate</button></td>
           </tr>
           </>
         )
@@ -179,7 +195,7 @@ const CreateOrder = () => {
       <div className='space-y-14px mt-2'>
        <div className='grid grid-cols-2 gap-3'>
         <TextInput width="full" name="firstName" title="" iscompulsory="false" type="text" value={billingAddress.firstName} onChange={(e) =>setBillingAddress({...billingAddress,firstName:e.target.value})} error={errors && errors.includes('First Name is Required!') ? true : false} errormessage="First Name is Required!" placeholder="First Name (optional)" />
-        <TextInput width="full" name="lastName" title="" iscompulsory="false" type="text" value={billingAddress.lastName} onChange={(e) =>setBillinggAddress({...billingAddress,lastName:e.target.value})} error={errors && errors.includes('Last Name is Required!') ? true : false} errormessage="Last Name is Required!" placeholder="Last Name" />
+        <TextInput width="full" name="lastName" title="" iscompulsory="false" type="text" value={billingAddress.lastName} onChange={(e) =>setBillingAddress({...billingAddress,lastName:e.target.value})} error={errors && errors.includes('Last Name is Required!') ? true : false} errormessage="Last Name is Required!" placeholder="Last Name" />
         <div className="col-span-2 space-y-3">
          <TextInput width="full" name="address" title="" iscompulsory="false" type="text" value={billingAddress.address} onChange={(e) =>setBillingAddress({...billingAddress,address:e.target.value})} error={errors && errors.includes('Address is Required!') ? true : false} errormessage="Address is Required!" placeholder="Address" />
          <TextInput width="full" name="appartment" title="" iscompulsory="false" type="text" value={billingAddress.appartment} onChange={(e) =>setBillingAddress({...billingAddress,apparment:e.target.value})} error={errors && errors.includes('Apartment, suite is Required!') ? true : false} errormessage="Apartment, suite is Required!" placeholder="Apartment, suite, etc. (optional)" />
@@ -208,13 +224,16 @@ const CreateOrder = () => {
     const [selectUser,setSelectUser] = useState(false)
     const [userList,setUserList] = useState([{email:'Guest'}])
     const [query,setQuery] = useState('')
+    const [custLoader,setCustLoader] = useState(false)
 
     const SearchCustomers = async () => {
+      setCustLoader(true)
       const res = await searchCustomerWithEmail({email:query})
-      console.log(res)
       if(res.status === 200){
+        setCustLoader(false)
         setUserList([{email:'Guest'},...res.data.customers])
       }else{
+        setCustLoader(false)
         Toast(res.data.message,'error',1000)
       }
     }
@@ -228,10 +247,9 @@ const CreateOrder = () => {
 
     const GetShippingAddress = async () => {
       const res = await getCustomerShippingAddress({userId:selectedUser._id})
-      console.log(res)
       if(res.status === 200){
-        if(res.data.shippingAddress){
-          // setShippingAddress({email:res.data.shippingAddress.email,firstName:res.data.shippingAddress.firstName,lastName:res.data.shippingAddress.lastName,address:res.data.shippingAddress.address,appartment:res.data.shippingAddress.appartment,city:res.data.shippingAddress.city,country:res.data.shippingAddress.country,state:res.data.shippingAddress.state,postalCode:res.data.shippingAddress.postalCode,phone:res.data.shippingAddress.phone})
+        if(res?.data?.shippingAddress){
+          setShippingAddress({email:res.data.shippingAddress.email,firstName:res.data.shippingAddress.firstName,lastName:res.data.shippingAddress.lastName,address:res.data.shippingAddress.address,appartment:res.data.shippingAddress.appartment,city:res.data.shippingAddress.city,country:res.data.shippingAddress.country,state:res.data.shippingAddress.state,postalCode:res.data.shippingAddress.postalCode,phone:res.data.shippingAddress.phone})
           Toast('Shipping Address Fetched!','success',1000)
         }else{
           Toast('Shipping Address Not Set!','error',1000)
@@ -245,7 +263,7 @@ const CreateOrder = () => {
       const res = await getCustomerBillingAddress({userId:selectedUser._id})
       console.log(res.data)
       if(res.status === 200){
-        if(res.data.billingAddress){
+        if(res?.data?.billingAddress){
           setBillingAddress({email:res.data.billingAddress.email,firstName:res.data.billingAddress.firstName,lastName:res.data.billingAddress.lastName,address:res.data.billingAddress.address,appartment:res.data.billingAddress.appartment,city:res.data.billingAddress.city,country:res.data.billingAddress.country,state:res.data.billingAddress.state,postalCode:res.data.billingAddress.postalCode,phone:res.data.billingAddress.phone})
           Toast('Shipping Address Fetched!','success',1000)
         }else{
@@ -256,31 +274,75 @@ const CreateOrder = () => {
       }
     }
 
+    const [selectShippingFee,setSelectShippingFee] = useState(0)
+
+    const ApplyShipping = () => {
+      setShipping(selectShippingFee)
+      setSelectShippingFee(0)
+      setShippingPopup(false)
+    }
+
+    const [taxType,setTaxType] = useState('percentage')
+    const [taxAmount,setTaxAmount] = useState(0)
+    const ApplyTax = () => {
+      if(taxType === 'percentage'){
+        let am = parseInt(subTotal) + parseInt(shipping) + parseInt(coupen);
+        const calcTax = (taxAmount * 100)/am
+        setTax({type:taxType,percent:taxAmount,amount:calcTax.toFixed(2)})
+        const grnd1 = parseInt(subTotal)+parseInt(coupen)+parseInt(calcTax)+parseInt(shipping)
+        setGrandTotal(grnd1.toFixed(2))
+      }else{
+        setTax({type:taxType,amount:taxAmount.amount})
+        setGrandTotal(parseInt(subTotal)+parseInt(coupen)+parseInt(tax.amount)+parseInt(shipping))
+      }
+      setTaxPopup(false)
+      Toast('Tax Added!','info',1000)
+      Toast('Grand Total Recalculated!','info',1000)
+    }
+
+    const SubmitOrder = async (e) => {
+      e.preventDefault()
+      const data = {orderDate:orderDate,orderStatus:orderStatus,orderType:orderType,transactionId:transactionId,paymentMethod:paymentMethod,shippingAddress:shippingAddress,billingAddress:billingAddress,tax:tax,subTotal:subTotal,shipping:shipping,coupen:coupen,grandTotal:grandTotal,selectedProducts:JSON.stringify(selectedProducts),selectedUser:selectedUser}
+      console.log(data)
+      const res = await createAdminOrder(data)
+      if(res.status === 200){
+        Toast(res.data.msg,'success',1000)
+      }else{
+        Toast(res.data.message,'error',1000)
+      }
+    }
+
 
     return (
         <>
          {/* Add Product Form Popup */}
          <SearchProduct sstate={addProductPopup} setsState={setAddProductPopup} SelectProduct={SelectedProduct} />
-         <Popup state={shippingPopup} setState={setShippingPopup} >
+         <Popup state={shippingPopup} setState={setShippingPopup} zindex="z-[99]" >
           <div className=' w-full' >
            <h3 className='text-center font-semibold' >Add Shipping</h3>
-           <div className='flex flex-col space-y-2 items-center justify-center space-x-2 mt-2' >
-            <TextInput name="postalCode" title="Tax Rate" iscompulsory="false" type="text" value={billingAddress.postalCode} onChange={(e) =>setBillingAddress({...billingAddress,postalCode:e.target.value})} error={errors && errors.includes('Postal Code is Required!') ? true : false} errormessage="Postal Code is Required!" placeholder="0" /> 
-            <button className='text-xs bg-b6 px-3 py-1 rounded-lg text-white' >Apply</button>
+           <div className='flex space-x-5 w-full' >
+            <div className='flex flex-col w-1/2 space-y-2 items-center justify-center space-x-2 mt-2' >
+             <TextInput width="full" value={selectShippingFee} onChange={(e)=>setSelectShippingFee(e.target.value)} title="Shipping Fee" iscompulsory="false" type="number" placeholder="0" /> 
+             <button onClick={ApplyShipping} className='text-xs bg-b6 px-3 py-1 rounded-lg text-white' >Apply</button>
+            </div>
+            <div className='flex flex-col w-1/2 space-y-2 items-center justify-center space-x-2 mt-2' >
+             <TextInput width="full" value={shipping} disabled title="Current Shipping Fee" iscompulsory="false" type="number" placeholder="0" /> 
+             <button onClick={()=>{setShipping(0);Toast('Shipping Fee Reset Successfully!','info',1000);}} className='text-xs bg-b6 px-3 py-1 rounded-lg text-white' >Reset</button>
+            </div>
            </div>
           </div> 
          </Popup>
-         <Popup state={taxPopup} setState={setTaxPopup} >
+         <Popup state={taxPopup} setState={setTaxPopup} zindex="z-[99]" >
           <div className=' w-full' >
            <h3 className='text-center font-semibold' >Add Tax</h3>
            <div className='flex items-center space-x-2 mt-2' >
-            <SelectInput widthFull="true" title="Tax Type" height="h-8" onChange={e=>setOrderStatus(e.target.value)} textSize="text-xs capitalize" options={['percentage','flat rate']}  />
-            <TextInput width="full" name="postalCode" title="Tax Rate" iscompulsory="false" type="text" value={billingAddress.postalCode} onChange={(e) =>setBillingAddress({...billingAddress,postalCode:e.target.value})} error={errors && errors.includes('Postal Code is Required!') ? true : false} errormessage="Postal Code is Required!" placeholder="0" /> 
+            <SelectInput widthFull="true" title="Tax Type" height="h-8" onChange={e=>setTaxType(e.target.value)} textSize="text-xs capitalize" options={['percentage','flat rate']}  />
+            <TextInput width="full" name="postalCode" title="Tax Rate" iscompulsory="false" type="number" value={taxAmount} onChange={(e) =>setTaxAmount(e.target.value)} placeholder="0" /> 
            </div>
-           <button className='text-xs bg-b6 px-3 py-1 rounded-lg text-white' >Apply</button>
+           <button type="button" onClick={ApplyTax} className='text-xs bg-b6 px-3 py-1 rounded-lg text-white' >Apply</button>
           </div> 
          </Popup>
-         <Popup state={coupenPopup} setState={setCoupenPopup} >
+         <Popup state={coupenPopup} setState={setCoupenPopup} zindex="z-[99]" >
           <div className='w-full' >
            <h3 className='text-center font-semibold' >Add Coupen</h3>
             
@@ -294,7 +356,7 @@ const CreateOrder = () => {
               <h3>Or</h3>
             </div>
             <div className='flex flex-col space-y-2 items-center w-1/2' >
-             <TextInput width="full" name="postalCode" title="Reduce Price" iscompulsory="false" type="text" value={billingAddress.postalCode} onChange={(e) =>setBillingAddress({...billingAddress,postalCode:e.target.value})} error={errors && errors.includes('Postal Code is Required!') ? true : false} errormessage="Postal Code is Required!" placeholder="Postal Code" />
+             <TextInput width="full" name="postalCode" title="Flat Rate" iscompulsory="false" type="text" value={billingAddress.postalCode} onChange={(e) =>setBillingAddress({...billingAddress,postalCode:e.target.value})} error={errors && errors.includes('Postal Code is Required!') ? true : false} errormessage="Postal Code is Required!" placeholder="Postal Code" />
              <button className='text-xs bg-b6 px-3 py-1 rounded-lg text-white' >Apply</button>
             </div>
           
@@ -313,14 +375,14 @@ const CreateOrder = () => {
           <div className='flex flex-col w-1/2' >
            <h3 className='text-sm font-semibold mb-2' >Order Details</h3>
            <div className='flex flex-col space-y-2 px-5 py-5 rounded-lg border-[1px]' >
-           <TextInput width="full" title="Order Date" iscompulsory="false" type="date" error={errors && errors.includes('Date is Required!') ? true : false} errormessage="Date is Required!" />
+           <TextInput value={orderDate} onChange={(e)=>setOrderDate(e.target.value)} width="full" title="Order Date" iscompulsory="false" type="date" error={errors && errors.includes('Date is Required!') ? true : false} errormessage="Date is Required!" />
            <div className='flex space-x-2' >
             <SelectInput title="Order Status" height="h-8" onChange={e=>setOrderStatus(e.target.value)} textSize="text-xs capitalize" options={orderStatuses}  />
             <SelectInput title="Order Type" height="h-8" onChange={e=>setOrderStatus(e.target.value)} textSize="text-xs capitalize" options={['Pickup','Delivery']}  />
            </div>
            <div className='flex items-center space-x-5' >
-            <TextInput title="Transaction Id" iscompulsory="false" type="text" error={errors && errors.includes('Date is Required!') ? true : false} errormessage="Date is Required!" placeholder="pi_emszflwrof349" />
-            <SelectInput title="Payment Method" height="h-8" onChange={e=>setOrderStatus(e.target.value)} textSize="text-xs capitalize" options={payStatuses}  />
+            <TextInput value={transactionId} onChange={(e)=>setTransactionId(e.target.value)} title="Transaction Id" iscompulsory="false" type="text" error={errors && errors.includes('Date is Required!') ? true : false} errormessage="Date is Required!" placeholder="pi_emszflwrof349" />
+            <SelectInput title="Payment Method" height="h-8" onChange={e=>setPaymentMethod(e.target.value)} textSize="text-xs capitalize" options={payStatuses}  />
            </div>
            </div>
           </div>
@@ -333,10 +395,10 @@ const CreateOrder = () => {
               <div className='flex space-x-2' >
                <TextInput value={query} onChange={(e)=>setQuery(e.target.value)} width="full" title="Customer Email" iscompulsory="false" type="text"placeholder="jhon@gmail.com (Type 6 Characters to Search)" />
               </div>
-              <div className='flex flex-col border-[1px] border-b31 rounded-md px-2 py-2 h-auto' >
+              <div className='flex flex-col border-[1px] border-b31 rounded-md px-2 py-2 h-full' >
                 <h3 className='font-semibold text-xs border-b-[1px] border-b31' >Search Result:</h3>
-                <div className='flex flex-col space-y-2 px-2 py-2' >
-                 {userList.map((user)=>
+                <div className='relative flex flex-col space-y-2 px-2 py-2 h-full overflow-x-hidden overflow-y-scroll' >
+                 {custLoader ?  <div className='flex items-center justify-center w-full h-full' ><BtnLoader style="w-5" /></div> : userList.map((user)=>
                  <h3 onClick={()=>{setSelectUser(false);setSelectedUser(user);setQuery('');setUserList([{email:'Guest'}])}} className='font-semibold bg-gray-100 px-2 rounded-sm py-1 hover:bg-gray-200 cursor-pointer text-xs shadow-md w-full' >{user.email}</h3>)}
                 </div>
               </div>
@@ -371,12 +433,12 @@ const CreateOrder = () => {
          </Table>
 
          {/* Product Finance */}
-         <Table head={['Sub Total','Coupen','Shipping','Tax','Grand Total']} >
-          <OrderFinance coupen={`-$${coupen}`} total={subTotal} shipping={shipping} tax={200} grandTotal={grandTotal} />
+         <Table head={['Sub Total','Coupon','Shipping','Tax','Grand Total','Action']} >
+          <OrderFinance coupen={`-$${coupen}`} total={subTotal} shipping={shipping} tax={tax} grandTotal={grandTotal} />
          </Table>
          {/* End */}
                     
-         <button className='bg-b6 w-fit self-center px-2 py-1 text-sm text-white rounded-md' >Place Order</button>
+         <button type="button" onClick={SubmitOrder} className='bg-b6 w-fit self-center px-2 py-1 text-sm text-white rounded-md' >Place Order</button>
         </div>
          </AdminAccount>
         </>
