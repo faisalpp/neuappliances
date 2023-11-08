@@ -15,10 +15,12 @@ import { getCustomerBillingAddress, getCustomerShippingAddress } from '../../api
 import UsStates from '../../services/states'
 import BtnLoader from '../../components/Loader/BtnLoader';
 import {createAdminOrder} from '../../api/admin/order'
+import { useDispatch, useSelector } from 'react-redux';
+import { DecrementCart, IncrementCart,GetCart } from '../../store/adminSlice';
 
 
 const CreateOrder = () => {
-
+     const dispatch = useDispatch()
     // Form states
     const [errors,setErrors] = useState([])
     const [orderStatuses,setOrderStatuses] = useState(['pending Payment','processing','on hold','completed','cancelled','refunded','failed','draft'])
@@ -34,10 +36,11 @@ const CreateOrder = () => {
 
     const [selectedProducts,setSelectedProducts] = useState([])
     const [tax,setTax] = useState({type:'percentage',percent:0,amount:0})
-    const [subTotal,setSubTotal] = useState(Math.abs(0))
-    const [grandTotal,setGrandTotal] = useState(Math.abs(0))
-    const [shipping,setShipping] = useState(Math.abs(0))
-    const [coupen,setCoupen] = useState(Math.abs(0))
+    const [subTotal,setSubTotal] = useState(0)
+    const [grandTotal,setGrandTotal] = useState(0)
+    const [shipping,setShipping] = useState(0)
+    const [coupen,setCoupen] = useState(0)
+    const cartId = useSelector((state)=>state.admin.cart._id)
 
     const CalculateGrandTotal = () => {
       if(tax.type === 'percentage' && tax.amount > 0){
@@ -53,50 +56,32 @@ const CreateOrder = () => {
       Toast('Grand Total Recalculated!','info',1000)
     }
     
-    const IncQty = (e,id) => {
+    const IncQty = async (e,id) => {
         e.preventDefault()
-        const updatedProducts = selectedProducts.map(item => {
-            if (item.pid === id && item.count <= item.stock) {
-              setSubTotal(subTotal+item.price)
-              return {
-                ...item,
-                count: item.count + 1,
-              };
-            }else{
-              Toast('Product Out of Stock!','error',1000)
-            }
-            return item;
-          });
-          setSelectedProducts(updatedProducts)
+       const res = await dispatch(IncrementCart({cartId:cartId,productId:id}))
+      //  console.log(res)
+       if(res.payload.status === 200){
+        Toast('Product Quantity Incremented!','success',1000)
+       }else if(res.payload.status === 500){
+         Toast(res.payload.data.message,'error',1000)
+        } else{
+          Toast('Internal Server Error!','error',1000)
+       }
     }
 
-    const DecQty = (e, id) => {
+    const DecQty = async (e, id,quantity) => {
         e.preventDefault();
-        const updatedProducts = selectedProducts.map(item => {
-          if (item.pid === id && item.count > 0) {
-            setSubTotal(Math.abs(subTotal-item.price))
-            return {
-              ...item,
-              count: item.count - 1,
-            };
-          }
-          return item;
-        }).filter(item => item.count > 0); // Remove the product if the count becomes zero
-        setSelectedProducts(updatedProducts);
+        const res = await dispatch(DecrementCart({cartId:cartId,productId:id,count:quantity}))
+      //  console.log(res)
+       if(res.payload.status === 200){
+        Toast('Product Quantity Decremented!','success',1000)
+       }else if(res.payload.status === 500){
+         Toast(res.payload.data.message,'error',1000)
+        } else{
+          Toast('Internal Server Error!','error',1000)
+       }
       };
 
-      const SelectedProduct = (product) => {
-        const find = selectedProducts.findIndex(item=>item.pid === product.pid)
-        if(find !== -1){
-          const copy = selectedProducts;
-          copy[find].count += 1;
-          setSelectedProducts(copy)
-        }else{
-            setSelectedProducts([...selectedProducts,{...product,count:1}])
-        }
-        setSubTotal(subTotal+product.price)
-        Toast('Product Added!','info',1000)
-      }
 
     const Row = ({id,image,title,price,quantity}) => {
         return (
@@ -105,7 +90,7 @@ const CreateOrder = () => {
           <td className="whitespace-nowrap px-5 py-3"><Link to={`/product/${title.toLowerCase().replace(/\s/g,'-')}`} className='underline text-b6' >{title}</Link></td>
           <td className="whitespace-nowrap px-5 py-3 text-b7 ">${price}</td>
           <td className="whitespace-nowrap px-5 py-3">x</td>
-          <td className="whitespace-nowrap px-1 py-3"><div className='flex justify-between w-12 items-center border-[1px] border-b6 rounded-md ml-5' ><BsFillArrowLeftSquareFill onClick={e=>DecQty(e,id)} className='text-b6 text-lg cursor-pointer' /> {quantity} <BsFillArrowRightSquareFill onClick={e=>IncQty(e,id)} className='cursor-pointer text-lg text-b6' /></div></td>
+          <td className="whitespace-nowrap px-1 py-3"><div className='flex justify-between w-14 items-center border-[1px] border-b6 rounded-md ml-5' ><BsFillArrowLeftSquareFill onClick={e=>DecQty(e,id,quantity)} className='text-b6 text-lg cursor-pointer' /> <span>{quantity}</span> <BsFillArrowRightSquareFill onClick={e=>IncQty(e,id)} className='cursor-pointer text-lg text-b6' /></div></td>
           <td className="whitespace-nowrap px-5 py-3 text-red-500">${(quantity * price).toFixed(2)}</td>
         </tr>
         )
@@ -312,11 +297,49 @@ const CreateOrder = () => {
       }
     }
 
+    const CART = useSelector((state)=>state.admin.cart.products);
+    const CART_ID = useSelector((state)=>state.admin.cart._id);
+    
+    const GetCart1 = async () => {
+      if(CART_ID){
+      const res = await dispatch(GetCart({cartId:CART_ID}))
+      console.log(res)
+      if(res.payload.status === 200){
+        Toast(res.payload.msg,'info',1000)
+      }else if(res.payload.status === 404){
+        Toast(res.payload.data.message,'info',1000)
+      }else{
+        Toast(res.payload.data.message,'error',1000)
+      }
+     }
+    }
+
+    useEffect(()=>{
+      GetCart1() 
+    },[])
+
+    const CalculateSubTotal = () => {
+      if(CART?.length > 0){
+       let sb =0;
+       for(let i=0;i<CART?.length;i++){
+        let stotal = (CART[i].price * CART[i].count)
+        sb = sb+stotal
+      }
+      setSubTotal(sb.toFixed(2))
+    }else{
+      setSubTotal(0)
+    }
+    
+    }
+
+    useEffect(()=>{
+      CalculateSubTotal()
+    },[CART])
 
     return (
         <>
          {/* Add Product Form Popup */}
-         <SearchProduct sstate={addProductPopup} setsState={setAddProductPopup} SelectProduct={SelectedProduct} />
+         <SearchProduct sstate={addProductPopup} setsState={setAddProductPopup} />
          <Popup state={shippingPopup} setState={setShippingPopup} zindex="z-[99]" >
           <div className=' w-full' >
            <h3 className='text-center font-semibold' >Add Shipping</h3>
@@ -426,7 +449,7 @@ const CreateOrder = () => {
          />
 
          <Table head={['Image','Title','Price','','QTY','Total']} >
-          {selectedProducts?.length > 0 ? selectedProducts?.map((product)=><Row id={product.pid} image={product.image} title={product.title} price={product.price} quantity={product.count} />):
+          {CART?.length > 0 ? CART?.map((product)=><Row id={product.pid} image={product.image} title={product.title} price={product.price} quantity={product.count} />):
            <NoRow message="No Product Added!" />
           }
         <AddProduct/>

@@ -536,12 +536,12 @@ const orderController = {
 
     if(type === 'title'){
      try{
-     const result2 = await Product.find({ title: { $regex: query, $options: 'i' } }).select('media').select('title').select('salePrice').select('regPrice').select('stock').select('modelNo').select('productType').select('rating')
+     const result2 = await Product.find({ title: { $regex: query, $options: 'i' } }).select('media').select('title').select('salePrice').select('regPrice').select('stock').select('modelNo').select('productType').select('rating').select('isSale')
       return res.status(200).json({status: 200,result:result2});
      }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
     }else{
      try{
-      const result = await Product.find({ modelNo: { $regex: query, $options: 'i' } }).select('media').select('title').select('salePrice').select('regPrice').select('stock').select('modelNo').select('productType').select('rating')
+      const result = await Product.find({ modelNo: { $regex: query, $options: 'i' } }).select('media').select('title').select('salePrice').select('regPrice').select('stock').select('modelNo').select('productType').select('rating').select('isSale')
       return res.status(200).json({status: 200,result:result});
      }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
     }

@@ -26,6 +26,7 @@ const teamController = require('../controller/admin/teamController');
 const uploader = require('express-fileupload');
 const favoriteController = require('../controller/favoriteController');
 const newsLetterController = require('../controller/newsLetterController');
+const adminCartController = require('../controller/adminCart');
 
 const router = express.Router();
 
@@ -205,6 +206,14 @@ router.post('/api/admin/get-order-by-id',adminAuth,orderController.getOrderById)
 router.post('/api/admin/archive-order-by-id',adminAuth,orderController.archiveOrderById);
 router.post('/api/admin/unarchive-order-by-id',adminAuth,orderController.unArchiveOrderById);
 router.post('/api/admin/search-customer-email',adminAuth,customerController.searchCustomerWithEmail);
+// Admin Cart Api's
+router.post('/api/admin/add-to-cart',adminAuth,adminCartController.addToCart);
+router.post('/api/admin/increment-cart',adminAuth,adminCartController.incCart);
+router.post('/api/admin/decrement-cart',adminAuth,adminCartController.decCart);
+router.post('/api/admin/get-cart',adminAuth,adminCartController.getCart);
+
+
+
 // Admin Customer Api's
 
 

@@ -7,26 +7,28 @@ import Toast from '../../../utils/Toast'
 import {BiSearchAlt2} from 'react-icons/bi'
 import {searchOrderByTitleOrModel} from '../../../api/admin/order'
 import BtnLoader from '../../Loader/BtnLoader'
+import { useDispatch, useSelector } from 'react-redux'
+import {AddToCart} from '../../../store/adminSlice'
 
 const SearchProduct = ({sstate,setsState,SelectProduct}) => {
   const [searchResult,setSearchResult] = useState([])
-    const SearchRow = ({id,image,title,model,salePrice,regularPrice,stock,type,rating,selectedProduct,setSearchResult}) => {
+    const SearchRow = ({id,image,title,model,salePrice,regularPrice,stock,type,rating,isSale}) => {
         
-        const AddProduct = (e) => {
+        const dispatch = useDispatch()
+        const cartId = useSelector((state)=>state?.admin?.cart?._id)
+        // console.log(cartId)
+        const AddProduct = async (e) => {
          e.preventDefault()
-         const filt = selectedProduct?.find(item=>item.id === pid)
-         console.log(filt)
-         if(filt){
-           if(filt.count <= stock){
-             setSearchResult([])
-             SelectProduct({pid:id,image:image.find(item=>item.file === 'image').data,title:title,model:model,price:salePrice ? salePrice : regPrice,type:type,rating:rating})
-           }else{
-           setSearchResult([])
-           Toast('Product Out of Stock!','error',1000)
-           }
-          }else{
+          const res = await dispatch(AddToCart({cartId:cartId,productId:id}))
+          console.log(res)
+          if(res.payload.status === 200){
+            Toast('Product Added!','success',1000)
             setSearchResult([])
-            SelectProduct({pid:id,image:image.find(item=>item.file === 'image').data,title:title,model:model,price:salePrice ? salePrice : regPrice,type:type,rating:rating})
+            setsState(false)
+          }else if(res.payload.status === 500){
+            Toast(res.res.payload.data.message,'error',1000)
+          } else{
+             Toast('Internal Server Error!','error',1000)
           }
         }
         
@@ -39,7 +41,7 @@ const SearchProduct = ({sstate,setsState,SelectProduct}) => {
           <td className="whitespace-nowrap px-5 py-3 text-b7 ">${salePrice}</td>
           <td className="whitespace-nowrap px-5 py-3 text-b7 ">${regularPrice}</td>
           <td className="whitespace-nowrap px-5 py-3">{stock}</td>
-          <td className="whitespace-nowrap px-5 py-3 text-red-500"><button type='button' onClick={e=>AddProduct(e)} className='bg-red-500 text-white px-3 rounded-md py-1' >+</button></td>
+          <td className="whitespace-nowrap px-5 py-3 text-red-500">{stock > 0 ? <button type='button' onClick={e=>AddProduct(e)} className='bg-b6 text-white px-3 rounded-md py-1' >+</button>:<span type='button' className='bg-red-500 text-white px-3 text-[10px] rounded-md py-1' >Out of Stock</span>}</td>
         </tr>
         )
       }
@@ -97,7 +99,7 @@ const SearchProduct = ({sstate,setsState,SelectProduct}) => {
             <div className='flex flex-col px-2 border-[1px] border-b31 h-72 mt-1 rounded-md' >
               {/* Seach Result Card Start */}
               <Table head={['Image','Title','Model #','Type','Sale Price','Regular Price','Stock','Action']} >
-                {searchResult?.length > 0 ? searchResult?.map((product)=><SearchRow rating={product.rating} id={product._id} image={product.media} title={product.title} model={product.modelNo} regularPrice={product.regPrice} salePrice={product.salePrice} type={product.productType} stock={product.stock} setSearchResult={setSearchResult} />):
+                {searchResult?.length > 0 ? searchResult?.map((product)=><SearchRow rating={product.rating} id={product._id} image={product.media} title={product.title} model={product.modelNo} regularPrice={product.regPrice} salePrice={product.salePrice} type={product.productType} stock={product.stock} isSale={product.isSale} />):
                  <NoRow message="No Products Found!" />
                 }
               </Table>

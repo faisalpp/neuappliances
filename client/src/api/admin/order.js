@@ -96,3 +96,44 @@ export const createAdminOrder = async (data) => {
     }
     return response;
 }
+
+export const addToCart = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/add-to-cart',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const incCart = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/increment-cart',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const decCart = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/decrement-cart',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const getCart = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/get-cart',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
