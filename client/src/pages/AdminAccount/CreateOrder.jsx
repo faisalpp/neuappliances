@@ -216,7 +216,7 @@ const CreateOrder = () => {
       const res = await searchCustomerWithEmail({email:query})
       if(res.status === 200){
         setCustLoader(false)
-        setUserList([{email:'Guest'},...res.data.customers])
+        setUserList([{email:'Guest'},...res?.data?.customers])
       }else{
         setCustLoader(false)
         Toast(res.data.message,'error',1000)
@@ -231,7 +231,7 @@ const CreateOrder = () => {
     },[query])
 
     const GetShippingAddress = async () => {
-      const res = await getCustomerShippingAddress({userId:selectedUser._id})
+      const res = await getCustomerShippingAddress({userId:selectedUser?._id})
       if(res.status === 200){
         if(res?.data?.shippingAddress){
           setShippingAddress({email:res.data.shippingAddress.email,firstName:res.data.shippingAddress.firstName,lastName:res.data.shippingAddress.lastName,address:res.data.shippingAddress.address,appartment:res.data.shippingAddress.appartment,city:res.data.shippingAddress.city,country:res.data.shippingAddress.country,state:res.data.shippingAddress.state,postalCode:res.data.shippingAddress.postalCode,phone:res.data.shippingAddress.phone})
@@ -297,7 +297,7 @@ const CreateOrder = () => {
       }
     }
 
-    const CART = useSelector((state)=>state.admin.cart.products);
+    const CART = useSelector((state)=>state?.admin?.cart?.products);
     const CART_ID = useSelector((state)=>state?.admin?.cart?._id);
     
     const GetCart1 = async () => {
