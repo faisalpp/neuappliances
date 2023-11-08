@@ -16,7 +16,7 @@ import UsStates from '../../services/states'
 import BtnLoader from '../../components/Loader/BtnLoader';
 import {createAdminOrder} from '../../api/admin/order'
 import { useDispatch, useSelector } from 'react-redux';
-import { DecrementCart, IncrementCart,GetCart } from '../../store/adminSlice';
+import { DecrementCart, IncrementCart,GetCart, resetCart } from '../../store/adminSlice';
 
 
 const CreateOrder = () => {
@@ -307,6 +307,7 @@ const CreateOrder = () => {
       if(res.payload.status === 200){
         Toast(res.payload.msg,'info',1000)
       }else if(res.payload.status === 404){
+        dispatch(resetCart())
         Toast(res.payload.data.message,'info',1000)
       }else{
         Toast(res.payload.data.message,'error',1000)
@@ -326,8 +327,10 @@ const CreateOrder = () => {
         sb = sb+stotal
       }
       setSubTotal(sb.toFixed(2))
+      setGrandTotal(tax.amount + shipping + sb)
     }else{
       setSubTotal(0)
+      setGrandTotal(0)
     }
     
     }

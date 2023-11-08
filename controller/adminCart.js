@@ -17,7 +17,8 @@ const adminCartController = {
       return res.status(500).json({status:500,message:'Product Out Of Stock!'})
     }
     let CART_ID = cartId;
-    const cartToken = JWTService.signAccessToken({ _id: CART_ID }, "10m");
+    // const cartToken = JWTService.signAccessToken({ _id: CART_ID }, "10m");
+    const cartToken = JWTService.signAccessToken({ _id: CART_ID }, "1m");
       
     if(!CART_ID){
       // Create new Cart 
@@ -168,37 +169,45 @@ const adminCartController = {
       }
     },
     async getCart(req, res, next) {
-      
       const {cartId} = req.body;
       // console.log(cartId)
       let CART;
+      let PRODUCTS;
       try{
        CART = await AdminCart.findOne({_id:cartId})
        if(!CART){
          return res.status(404).json({status:404,message:'Cart Not Found!'})
+       }else{
+        PRODUCTS = CART.products;
        }
       }catch(e){
         return res.status(500).json({status:500,message:'Internal Server Error!'})
       }
-
+      //  console.log(PRODUCTS)
       let id;
       try {
-      id = JWTService.verifyAccessToken(CART.expiry)._id;
+      id = JWTService.verifyAccessToken(CART.expiry);
       } catch (e) {
-        return res.status(404).json({status:404,message:'Cart Expired!'})
+        // try{
+          await AdminCart.findOneAndDelete({_id:cartId});
+          if(PRODUCTS?.length > 0){
+            for(let i=0;i<PRODUCTS.length;i++){
+             await Product.findOneAndUpdate({_id:PRODUCTS[i].pid},{ $inc: { stock: PRODUCTS[i].count } })
+            }
+            await AdminCart.findOneAndDelete({_id:cartId});
+            return res.status(404).json({status:404,message:'Cart Re-Stocked!'})
+          }else{
+            await AdminCart.findOneAndDelete({_id:cartId});
+            return res.status(404).json({status:404,message:'Cart Expired!'})
+          }
+        // }catch(e){
+        //   return res.status(500).json({status:500,message:'Internal Server Error!'})
+        // }
       }
-       console.log(id)
+
       if(id){
         return res.status(200).json({status:200,data:CART,msg:'Cart Found!'})
-      }else{
-        try{
-          await AdminCart.findOneAndDelete({_id:cartId});
-        }catch(e){
-          return res.status(500).json({status:500,message:'Internal Server Error!'})
-        }
       }
-
-
     }
 }
 
