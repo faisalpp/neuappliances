@@ -40,7 +40,7 @@ const CreateOrder = () => {
     const [grandTotal,setGrandTotal] = useState(0)
     const [shipping,setShipping] = useState(0)
     const [coupen,setCoupen] = useState(0)
-    const cartId = useSelector((state)=>state.admin.cart._id)
+    const cartId = useSelector((state)=>state?.admin?.cart?._id)
 
     const CalculateGrandTotal = () => {
       if(tax.type === 'percentage' && tax.amount > 0){
@@ -245,7 +245,7 @@ const CreateOrder = () => {
     }
 
     const GetBillingAddress = async () => {
-      const res = await getCustomerBillingAddress({userId:selectedUser._id})
+      const res = await getCustomerBillingAddress({userId:selectedUser?._id})
       console.log(res.data)
       if(res.status === 200){
         if(res?.data?.billingAddress){
@@ -298,7 +298,7 @@ const CreateOrder = () => {
     }
 
     const CART = useSelector((state)=>state.admin.cart.products);
-    const CART_ID = useSelector((state)=>state.admin.cart._id);
+    const CART_ID = useSelector((state)=>state?.admin?.cart?._id);
     
     const GetCart1 = async () => {
       if(CART_ID){
