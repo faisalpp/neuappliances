@@ -49,7 +49,7 @@ const OrderRow = ({id,orderNo,orderType,date,orderStatus,isArchived,paymentStatu
         <td className="whitespace-nowrap px-5 py-3 capitalize"><span className='bg-b7/20 text-b7 px-2 rounded-2xl py-1 font-semibold' >{orderType}</span></td>
         <td className="whitespace-nowrap px-5 py-3 capitalize">{date}</td>
         <td className="whitespace-nowrap px-5 py-3 capitalize">
-          <span className='bg-b6/20 text-b6 px-2 rounded-2xl py-1 font-semibold' >{orderStatus.replace(/\-/g,'')}</span>
+          <span className='bg-b6/20 text-b6 px-2 rounded-2xl py-1 font-semibold' >{orderStatus.replace(/\-/g,' ')}</span>
         </td>
         <td className="whitespace-nowrap  px-5 py-4 text-b6 font-semibold text-sm ">${total}</td>
         <td className="flex items-center justify-center whitespace-nowrap space-x-1 px-5 py-4">

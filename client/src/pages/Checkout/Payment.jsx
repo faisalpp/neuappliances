@@ -31,18 +31,17 @@ const Payment = () => {
     const dispatch = useDispatch()
     
     
-    const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
-    const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
+    const products = useSelector((state)=>state.cart?.cart.products)
 
     useEffect(()=>{
-      if(deliveryOrders?.length === 0 && pickupOrders?.length === 0){
+      if(products?.length === 0){
         Toast('Cart is Empty','error',1000)
         navigate('/mycart')
       }
      },[])
 
     const {email,address,postalCode,city,country,province} = useSelector((state)=>state.order.orderInfo) || {};
-    const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo)
+    const ordInfo = useSelector((state)=>state.cart?.cart.orderInfo)
 
     const Countrys = [
         { name: 'USA', value: 'us' },
@@ -115,8 +114,6 @@ const Payment = () => {
 
       const [billingErrors,setBillingErrors] = useState(false)
       const [newsEmail,setNewsEmail] = useState([])
-      const [orderType,setOrderType] = useState(deliveryOrders?.length > 0 ? 'delivery':'pickup')
-      
 
       const handleBillingAddress = async () => {
         try{
@@ -142,7 +139,7 @@ const Payment = () => {
       }
 
       const orderInfo = useSelector((state)=>state.order.orderInfo)
-      const cartId = useSelector((state)=>state.cart.cartId)
+      const cartId = useSelector((state)=>state.cart?.cart._id)
       const userId = useSelector((state)=>state.user._id)
       const isAuth = useSelector((state)=>state.user.auth)
       const orderErrors = useSelector((state)=>state.order.orderErrors)
@@ -304,7 +301,7 @@ const Payment = () => {
             billingAddress = {status:true,data:{...orderInfo}}
           }
           if(billingAddress.status){
-            const  data = {userId:userId,isAdmin:isAdmin2,isAuth:isAuth,cartId:cartId,orderType:orderType,shippingAddress:orderInfo,billingInfo:billingAddress.data,newsEmail:newsEmail}
+            const  data = {userId:userId,isAdmin:isAdmin2,isAuth:isAuth,cartId:cartId,shippingAddress:orderInfo,billingInfo:billingAddress.data,newsEmail:newsEmail}
            const res = await processOrder(data);
            console.log(res.data)
            if(res.status === 200){
@@ -346,8 +343,8 @@ const Payment = () => {
                     <hr />
                     <ReviewDetail title="Ship to" detail={`${address},${city} ,${province}, ${country},${postalCode}`} textStyle="font-medium" />
                     <hr />
-                    {deliveryOrders?.length > 0 ? <ReviewDetail title="Method" detail={`Home Delivery · $${deliveryInfo.shipping}`} subtitle="1 to 3 Business Days" textStyle="font-medium" />:null}
-                    {pickupOrders?.length > 0 ? <ReviewDetail title="Method" detail="Self Pickup · Free" subtitle="Always Ready!" textStyle="font-medium" />:null}
+                    {ordInfo.type === 'delivery' ? <ReviewDetail title="Method" detail={`Home Delivery · $${ordInfo.shipping}`} subtitle="2 to 3 Business Days" textStyle="font-medium" />:null}
+                    {ordInfo.type === 'pickup' ? <ReviewDetail title="Method" detail="Self Pickup · Free" subtitle="Always Ready!" textStyle="font-medium" />:null}
                 </div>
 
                 {/* Payment Method */}

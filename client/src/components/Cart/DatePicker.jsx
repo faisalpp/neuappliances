@@ -42,7 +42,7 @@ const DatePIcker = ({selectDate,setSelectDate,dates}) => {
 
     
 
-    const fromDate = new Date(dates[0].getFullYear(), dates[0].getMonth()+1, 1); // Example fromDate
+    const fromDate = new Date(dates[0]?.getFullYear(), dates[0]?.getMonth()+1, 1); // Example fromDate
     const toDate = new Date(dates[dates.length -1].getFullYear(), dates[dates.length -1].getMonth(), 31); // Example toDate
 
     return (

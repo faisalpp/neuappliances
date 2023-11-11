@@ -42,8 +42,8 @@ const Product = () => {
   const { slug } = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch();
-
-  const [orderInfo, setOrderInfo] = useState({type:'pickup',location:'Austin, Tx'});
+  const ordInfo = useSelector((state)=>state?.cart?.cart?.orderInfo)
+  const [orderInfo, setOrderInfo] = useState(ordInfo ? ordInfo :  {type:'pickup',location:'Georgetown, Tx',shipping:'Free'});
   const [zip, setZip] = useState('');
   const [changeZip, setChangeZip] = useState(true);
 
@@ -53,16 +53,16 @@ const Product = () => {
 
   const [product, setProduct] = useState([])
 
-  const cartId = useSelector((state)=>state.cart.cartId)
+  const cartId = useSelector((state)=>state?.cart?.cart?._id)
+  
+  const PRODUCTS = useSelector((state)=>state?.cart?.cart?.products) || [];
 
   const addToCart = async (e) => {
     e.preventDefault()
     setLoading2(true)
-    const data = {cartId:cartId ,productId: product._id, orderInfo: orderInfo, }
+    const data = {cartId:cartId ,productId: product._id, orderInfo: orderInfo }
     const res = await dispatch(AddToCart(data));
-    if(res.payload.status === 409){
-      Toast(res.payload.message,'error',1000)
-    }
+    console.log(res)
     if (res.payload.status === 200) {
       setProduct(res.payload.update)
       Toast(res.payload.msg,'success',1000)
@@ -380,7 +380,7 @@ const Product = () => {
               <div className='flex lg:flex-row flex-col lg:space-x-5 lg:space-y-0 space-y-3 w-full' >
 
                 <div className={`flex flex-col px-5 py-5 w-full rounded-lg border-2 ${orderInfo.type === 'pickup' ? 'border-b10' : 'border-gray-300'} `} >
-                  <div className='flex items-center space-x-3' ><BsShopWindow className='text-xl' /><h6 className='font-bold text-sm' >Pickup</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderInfo({type:'pickup',location:'Georgetown, Tx'})} className={`px-1 py-1 rounded-full cursor-pointer ${orderInfo.type === 'pickup' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderInfo.type === 'pickup' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
+                  <div className='flex items-center space-x-3' ><BsShopWindow className='text-xl' /><h6 className='font-bold text-sm' >Pickup</h6><div className='flex items-center justify-end w-full' ><span onClick={() =>{PRODUCTS?.length > 0 && ordInfo.type === 'delivery' ? Toast('One Type of Order is Allowd!','info',1000) : setOrderInfo({type:'pickup',location:'Georgetown, Tx'}) }} className={`px-1 py-1 rounded-full cursor-pointer ${orderInfo.type === 'pickup' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderInfo.type === 'pickup' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
                   <div className='flex flex-col space-y-2 mt-2 text-sm' >
                     <h6 className='text-b10' >Ready {date.day}, {date.month} {date.date} (EST).</h6>
                     <h6 className='text-gray-500' >Georgetown, Tx</h6>
@@ -389,10 +389,10 @@ const Product = () => {
                 </div>
 
                 <div className={`flex flex-col px-5 py-2 w-full rounded-lg border-2 ${orderInfo.type === 'delivery' ? 'border-b10' : 'border-gray-300'} `} >
-                  <div className='flex items-center space-x-2' ><BsTruck className='text-5xl' /><h6 className='font-bold text-sm' >Delivery&nbsp;<span>{changeZip ? null : zip}</span></h6><h6 onClick={() => setChangeZip(true)} className='text-xs w-max text-blue-400 hover:underline cursor-pointer' >Change&nbsp;ZIP</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderInfo({type:'delivery',location:zip})} className={`px-1 py-1 rounded-full cursor-pointer ${orderInfo.type === 'delivery' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderInfo.type === 'delivery' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
+                  <div className='flex items-center space-x-2' ><BsTruck className='text-5xl' /><h6 className='font-bold text-sm' >Delivery&nbsp;<span>{changeZip ? null : zip}</span></h6><h6 onClick={() =>{PRODUCTS?.length > 0 && ordInfo.type === 'pickup' ? Toast('One Type of Order is Allowd!','info',1000) : setChangeZip(true)}} className='text-xs w-max text-blue-400 hover:underline cursor-pointer' >Change&nbsp;ZIP</h6><div className='flex items-center justify-end w-full' ><span onClick={() => setOrderInfo({type:'delivery',location:zip})} className={`px-1 py-1 rounded-full cursor-pointer ${orderInfo.type === 'delivery' ? 'bg-b10/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderInfo.type === 'delivery' ? 'text-b10' : 'text-gray-200'} `} /></span></div></div>
 
                    <div className={` ${changeZip ? 'flex' : 'hidden'} flex-col justify-center items-center h-full text-sm`} >
-                    <div className='flex items-center bg-white border-[1px] px-2 py-1 rounded-lg space-x-2 w-10/12 ' ><AiOutlineSearch className='text-blue-400 text-lg' /><input type="search" readOnly={orderInfo.type === 'delivery'?false:true} value={zip} onChange={e => setZip(e.target.value)} placeholder='Enter ZIP Code' className="w-full text-xs outline-none" />{zipLoading ? <div className="flex w-fit h-full justify-center items-center" ><img src="/loader-bg.gif" className="w-4 h-4" /></div> :null}</div>
+                    <div className='flex items-center bg-white border-[1px] px-2 py-1 rounded-lg space-x-2 w-10/12 ' ><AiOutlineSearch className='text-blue-400 text-lg' /><input type="search" value={zip} onChange={e => setZip(e.target.value)} placeholder='Enter ZIP Code' className="w-full text-xs outline-none" />{zipLoading ? <div className="flex w-fit h-full justify-center items-center" ><img src="/loader-bg.gif" className="w-4 h-4" /></div> :null}</div>
                   </div>
 
                   <div className={` ${changeZip ? 'hidden' : 'flex'} flex-col space-y-2 text-sm`} >
@@ -406,7 +406,7 @@ const Product = () => {
 
               </div>
               {/* Buttons */}
-              <button type="button" disabled={product.stock >0 ? false : true} onClick={addToCart} className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><span className="flex items-center font-bold ml-2" >Add To Cart {loading2 ? <img src="/loader-bg.gif" className='w-4 h-4 ml-2' /> : null}</span></button>
+              <button type="button" disabled={error || product.stock === 0 ? true : false} onClick={addToCart} className='flex justify-center items-center bg-b7 text-sm text-white py-3 rounded-lg' ><AiOutlineShoppingCart className='text-lg' /><span className="flex items-center font-bold ml-2" >Add To Cart {loading2 ? <img src="/loader-bg.gif" className='w-4 h-4 ml-2' /> : null}</span></button>
               {product.category === 'washer-&-dryer' ? <button type='button' onClick={() => handleOpenModal("2")} className='flex justify-center items-center bg-b3 text-sm text-white py-3 rounded-lg' ><span className="font-bold ml-2" >Complete Your Laundry Set</span></button> : null}
 
               {/* Quicl FAQs */}

@@ -1,9 +1,5 @@
 import React,{useState} from 'react'
 import StockSvg from '../../svgs/StockSvg'
-import { Radio, Typography } from "@material-tailwind/react";
-import RadioSvg from '../../svgs/RadioSvg';
-import ShipmentSvg from '../../svgs/ShipmentSvg';
-import PickUpSvg from '../../svgs/PickUpSvg';
 import ToolTip from '../ToolTip'
 import { AiFillStar } from 'react-icons/ai';
 import { RiDeleteBin6Line } from 'react-icons/ri';
@@ -23,26 +19,7 @@ const CartCard = ({order,type,indx,changeType}) => {
       const dispatch = useDispatch()
       const cartId = useSelector((state)=>state.cart.cartId)
 
-      const handlePickupChange = async (e) => {
-        if(e.target.checked){
-            console.log('change form delivery to pickup')
-            const data = {cartId:cartId,objId:order._id,type:'delivery'};
-            const res = await dispatch(ChangeCartItemType(data))
-            if(res.payload.status === 200){
-                changeType()
-            }
-        }
-      }
 
-      const handleDeliveryChange = async (e) => {
-        if(e.target.checked){
-            const data = {cartId:cartId,objId:order._id,type:'pickup'};
-            const res = await dispatch(ChangeCartItemType(data))
-            if(res.payload.status === 200){
-                changeType()
-            }
-        }
-      }
 
       const total = useSelector((state)=>state.cart.total);
       const cartCount = useSelector((state)=>state.cart.cartCount);
@@ -89,12 +66,12 @@ const CartCard = ({order,type,indx,changeType}) => {
                             <span className='text-xl text-b3 font-semibold'>
                                 ${order.salePrice ? order.salePrice : order.regPrice}
                             </span>
-                            {order.salePrice ? <span className='text-lg text-b25'>
+                            {order.isSale ? <span className='text-lg text-b25'>
                                 <strike>
                                     ${order.regPrice}
                                 </strike>
                             </span>:null}
-                            {order.salePrice ? <span className='flex items-center whitespace-nowrap px-3 py-2 bg-b4 text-sm font-semibold rounded-full'>
+                            {order.isSale ? <span className='flex items-center whitespace-nowrap px-3 py-2 bg-b4 text-sm font-semibold rounded-full'>
                             - {(100 - (order.salePrice / order.regPrice) * 100).toFixed(0)}%
                             </span>:null}
                         </div>
@@ -112,27 +89,8 @@ const CartCard = ({order,type,indx,changeType}) => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex maxcosm:flex-col maxxs:justify-between sm:gap-10">
-                        <Radio id={`delivery-${type}-${indx}`} icon={<RadioSvg className="w-[18px] h-[18px]" />} className='border border-[#D9D9D9] bg-white p-0 w-[18px] h-[18px]' ripple={false} name={`delivery-${type}-${indx}`} label={
-                            <Typography className="font-medium text-sm text-b16 flex gap-4">
-                                <ShipmentSvg />
-                                <span>
-                                    Delivery
-                                </span>
-                            </Typography>
-                        } defaultChecked={type === 'delivery' ? true : false} onChange={(e)=>handleDeliveryChange(e)} />
-                        <Radio id={`pickup-${type}-${indx}`} icon={<RadioSvg className="w-[18px] h-[18px]" />} className='border border-[#D9D9D9] bg-white w-[18px] h-[18px] p-0' ripple={false} name={`delivery-${type}-${indx}`} label={
-                            <Typography className="font-medium text-sm text-b16 flex gap-4">
-                                <PickUpSvg />
-                                <span>
-                                    Pickup
-                                </span>
-                            </Typography>
-                        } defaultChecked={type === 'pickup' ? true : false} onChange={(e)=>handlePickupChange(e)} />
-                    </div>
-
                 </div>
-                <div>
+                <div className='flex w-full justify-end' >
                     {delLoading.index === indx && delLoading.type === type ? <button type='button' className='maxcosm:absolute top-4 right-4 z-10 flex items-center justify-center w-10 h-10 p-2 bg-b8 rounded-full'>
                         <RiDeleteBin6Line className='text-red-500 text-base' />
                     </button>:<button type='button' onClick={e=>RemoveCartItemData(e, indx,cartId,order.pid, order._id,type,PRICE,cartCount,total)} className='maxcosm:absolute top-4 right-4 z-10 flex items-center justify-center w-10 h-10 p-2 bg-b8 rounded-full'>

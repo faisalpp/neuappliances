@@ -7,9 +7,6 @@ import { useSelector } from 'react-redux';
 
 const SideCartCard = (props) => {
 
-    const total = useSelector((state)=>state.cart.total)
-    const cartCount = useSelector((state)=>state.cart.cartCount)
-
     const StarIconPrinter = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
             <AiFillStar key={index} className='text-b7 text-sm' /> // Render the star icon component for each iteration
@@ -18,7 +15,7 @@ const SideCartCard = (props) => {
         return <div className='flex mt-2 items-center' >{starIcons}</div>; // Render the array of star icons
     };
     
-    const [price,setPrice] = useState(props.item.salePrice ? props.item.salePrice : props.item.regPrice )
+    const [price,setPrice] = useState(props.item.isSale ? props.item.salePrice : props.item.regPrice )
     
     return (
         <div className='flex justify-start mt-3 gap-3 w-full' >
@@ -51,8 +48,8 @@ const SideCartCard = (props) => {
             </div>
             <div>
                 
-                <button type='button' onClick={(e) => props.RemoveFromCart(e,{index:props.indx,type:props.type},props.cartId ,props.item.pid,props.item._id, props.type,price,cartCount,total)} >
-                    {props.delState.index === props.indx && props.delState.type === props.type ? <RiDeleteBin6Line className='text-xl text-red-500 animate-pulse' /> : <RiDeleteBin6Line className='text-xl text-b3' />}
+                <button type='button' onClick={(e) => props.RemoveFromCart(e,props.indx,props.item.pid,price)} >
+                    {props.delState.index === props.indx ? <RiDeleteBin6Line className='text-xl text-red-500 animate-bounce' /> : <RiDeleteBin6Line className='text-xl text-b3' />}
                 </button>
             </div>
         </div>

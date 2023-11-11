@@ -2,15 +2,7 @@ import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import {addToCart,getCart,removeFromCart,changeCartItemType,UpdateTimeSlot,UpdatePickupLocation,UpdateDeliveryInfo,UpdateCartFinance} from '../api/cart'
 
 const initialState = {
-  cartId:false,
-  pickupOrders:[],
-  deliveryOrders:[],
-  deliveryInfo:{},
-  pickupInfo:{ type:'pickup',location:'Warehouse Georgetown,Tx'},
-  cartCount:0,
-  tax:0,
-  total:0,
-  grandTotal:0,
+  cart:{},
   sCart:false,
 }
 
@@ -127,16 +119,7 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     resetCart: (state, action) => {
-      state.cartId = false,
-      state.pickupOrders = [],
-      state.deliveryOrders = [],
-      state.total = 0,
-      state.grandTotal = 0,
-      state.tax = 0,
-      state.deliveryInfo = {},
-      state.pickupInfo = {},
-      state.cartCount = 0,
-      state.update = {}
+      state.cart = {}
     },
     showSCart: (state, action) => {
       state.sCart = true 
@@ -145,125 +128,74 @@ export const cartSlice = createSlice({
       state.sCart = false 
     },
     setTax: (state, action) => {
-      const data = action.payload;
-      state.tax =  data;
+      const data = action.payload
+      state.tax =  data
     },
     setTotal: (state, action) => {
       const data = action.payload;
-      state.total =  data;
+      state.total =  data
     },
     setGrandTotal: (state, action) => {
       const data = action.payload;
-      state.grandTotal =  data;
+      state.grandTotal =  data
     },
     resetDeliveryInfo: (state, action) => {
       const data = action.payload;
-      state.deliveryInfo =  {};
+      state.deliveryInfo =  {}
     },
   },
 
   extraReducers: (builder) => {
     builder
      .addCase(AddToCart.fulfilled, (state, action) => {
-      const { cart,update } = action.payload;
-      state.cartId = cart._id,
-      state.pickupOrders = cart.pickupOrders,
-      state.deliveryOrders = cart.deliveryOrders,
-      state.total = cart.total,
-      state.deliveryInfo = cart.deliveryInfo,
-      state.pickupInfo = cart.pickupInfo,
-      state.cartCount = cart.cartCount,
-      state.tax = cart.tax,
-      state.grandTotal = cart.grandTotal,
-      state.sCart = true,
-      state.update = update
+      const {cart} = action.payload;
+      console.log(cart)
+      if(cart){
+       state.cart = cart
+       state.sCart = true
+      }
     })
     .addCase(GetCart.fulfilled, (state, action) => {
       const { cart } = action.payload;
       if(cart){
-      state.cartId = cart._id,
-      state.pickupOrders = cart.pickupOrders,
-      state.deliveryOrders = cart.deliveryOrders,
-      state.total = cart.total,
-      state.deliveryInfo = cart.deliveryInfo,
-      state.pickupInfo = cart.pickupInfo,
-      state.cartCount = cart.cartCount,
-      state.tax = cart.tax,
-      state.grandTotal = cart.grandTotal
+      state.cart = cart
       }
     })
     .addCase(RemoveFromCart.fulfilled, (state, action) => {
       const { cart } = action.payload;
-      // console.log(cart)
-      state.cartId = cart._id,
-      state.pickupOrders = cart.pickupOrders,
-      state.deliveryOrders = cart.deliveryOrders,
-      state.total = cart.total,
-      state.deliveryInfo = cart.deliveryInfo,
-      state.pickupInfo = cart.pickupInfo,
-      state.cartCount = cart.cartCount,
-      state.tax = cart.tax,
-      state.grandTotal = cart.grandTotal
+      if(cart){
+        state.cart = cart
+      }
     })
     .addCase(ChangeCartItemType.fulfilled, (state, action) => {
       const { cart } = action.payload;
-      state.cartId = cart._id,
-      state.pickupOrders = cart.pickupOrders,
-      state.deliveryOrders = cart.deliveryOrders,
-      state.total = cart.total,
-      state.deliveryInfo = cart.deliveryInfo,
-      state.pickupInfo = cart.pickupInfo,
-      state.cartCount = cart.cartCount,
-      state.tax = cart.tax,
-      state.grandTotal = cart.grandTotal
+      if(cart){
+        state.cart = cart
+      }
     })
     .addCase(ChangeTimeSlot.fulfilled, (state, action) => {
       const { cart } = action.payload;
-      state.cartId = cart._id,
-      state.pickupOrders = cart.pickupOrders,
-      state.deliveryOrders = cart.deliveryOrders,
-      state.total = cart.total,
-      state.deliveryInfo = cart.deliveryInfo,
-      state.pickupInfo = cart.pickupInfo,
-      state.cartCount = cart.cartCount,
-      state.tax = cart.tax,
-      state.grandTotal = cart.grandTotal
+      if(cart){
+        state.cart = cart
+      }
     })
     .addCase(ChangePickupLocation.fulfilled, (state, action) => {
       const { cart } = action.payload;
-      state.cartId = cart._id,
-      state.pickupOrders = cart.pickupOrders,
-      state.deliveryOrders = cart.deliveryOrders,
-      state.total = cart.total,
-      state.deliveryInfo = cart.deliveryInfo,
-      state.pickupInfo = cart.pickupInfo,
-      state.cartCount = cart.cartCount,
-      state.tax = cart.tax,
-      state.grandTotal = cart.grandTotal
+      if(cart){
+        state.cart = cart
+      }
     })
     .addCase(ChangeDeliveryInfo.fulfilled, (state, action) => {
       const { cart } = action.payload;
-      state.cartId = cart._id,
-      state.pickupOrders = cart.pickupOrders,
-      state.deliveryOrders = cart.deliveryOrders,
-      state.total = cart.total,
-      state.deliveryInfo = cart.deliveryInfo,
-      state.pickupInfo = cart.pickupInfo,
-      state.cartCount = cart.cartCount,
-      state.tax = cart.tax,
-      state.grandTotal = cart.grandTotal
+      if(cart){
+        state = cart
+      }
     })
     .addCase(ChangeCartFinance.fulfilled, (state, action) => {
       const { cart } = action.payload;
-      state.cartId = cart._id,
-      state.pickupOrders = cart.pickupOrders,
-      state.deliveryOrders = cart.deliveryOrders,
-      state.total = cart.total,
-      state.deliveryInfo = cart.deliveryInfo,
-      state.pickupInfo = cart.pickupInfo,
-      state.cartCount = cart.cartCount,
-      state.tax = cart.tax,
-      state.grandTotal = cart.grandTotal
+      if(cart){
+        state.cart = cart
+      }
     });
   },
   

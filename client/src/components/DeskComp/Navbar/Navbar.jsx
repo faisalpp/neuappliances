@@ -27,7 +27,7 @@ const Navbar = () => {
   const UserfirstName = useSelector((state) => state.user.firstName);
   const AdminfirstName = useSelector((state) => state.admin.firstName);
 
-  const cartCount = useSelector((state) => state.cart.cartCount);
+  const cartCount = useSelector((state) => state?.cart?.cart?.cartCount) || 0;
   const sCart = useSelector((state) => state.cart.sCart);
 
 

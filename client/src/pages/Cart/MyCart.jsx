@@ -9,16 +9,16 @@ import { useDispatch,useSelector } from 'react-redux';
 import { GetCart,resetCart } from '../../store/cartSlice';
 import { resetOrder } from '../../store/orderSlice';
 import Loader2 from '../../components/Loader/Loader2';
+import Toast from '../../utils/Toast';
 
 
 const MyCart = () => {
 
-    const cartId = useSelector((state)=>state.cart.cartId)
-    const cartCount = useSelector((state)=>state.cart.cartCount)
-    const total = useSelector((state)=>state.cart.total)
-    const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
-    const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
-    const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo)
+    const cartId = useSelector((state)=>state.cart?.cart._id)
+    const cartCount = useSelector((state)=>state.cart?.cart.cartCount)
+    const total = useSelector((state)=>state.cart?.cart.subTotal)
+    const products = useSelector((state)=>state.cart?.cart.products) || [];
+    const orderInfo = useSelector((state)=>state.cart?.cart.orderInfo)
     const dispatch = useDispatch()
 
     const [loading,setLoading] = useState(false)
@@ -28,14 +28,13 @@ const MyCart = () => {
         const data = {cartId:cartId}
         const res = await dispatch(GetCart(data));
         if (res.payload.status === 200) {
-          if(!res.payload.cart){
-              dispatch(resetCart())
-              dispatch(resetOrder())
-          }
           setLoading(false)
+        }if(res.payload.status === 404){
+            Toast(res.payload.message,'error',1000)
+            dispatch(resetCart())
+            dispatch(resetOrder())
         }else {
-          dispatch(resetCart())
-          dispatch(resetOrder())
+          Toast(res.payload.message,'error',1000)
           setLoading(false)
         }
       }
@@ -58,12 +57,12 @@ const MyCart = () => {
                         My Cart
                     </h1>
                 </div>
-                {deliveryOrders?.length > 0 || pickupOrders?.length > 0 ? 
+                {products?.length > 0 ? 
                 <div className='pb-10 lg:pb-16 xl:pb-20 w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-120px mx-auto'>
                     <div className='grid grid-cols-1 coxxl:grid-cols-[1fr_360px] 3xl:grid-cols-[1fr_440px] gap-10'>
                         <div className='order-2 coxxl:order-none'>
-                            {deliveryOrders && deliveryOrders?.length > 0 ?<DeliveryOrder orders={deliveryOrders} refresh={GetCartData} />:null}
-                            {pickupOrders && pickupOrders?.length > 0 ? <PickUpOrder orders={pickupOrders} refresh={GetCartData} /> : null}
+                            {products?.length > 0 && orderInfo.type === 'delivery' ?<DeliveryOrder orders={products} refresh={GetCartData} />:null}
+                            {products?.length > 0 && orderInfo.type === 'pickup' ? <PickUpOrder orders={products} refresh={GetCartData} /> : null}
                             <hr className='my-6 border-[rgba(0,0,0,0.08)]' />
                             <div className='w-full flex justify-between items-center'>
                                 <span className='text-base sm:text-xl text-black font-semibold'>

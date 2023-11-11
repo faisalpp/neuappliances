@@ -7,7 +7,7 @@ const CartCard = (props) => {
             <div className='max-w-[64px] relative w-full'>
                 <img src={props.item.image} className='w-16 h-16 object-contain' alt='' />
                 <span className='absolute flex justify-center items-center text-xs font-medium w-5 h-5 rounded-full bg-b3 text-white -right-2 -top-2'>
-                    {props.count}
+                    {props.item.count}
                 </span>
             </div>
             <div className='flex items-center gap-14px' >

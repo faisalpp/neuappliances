@@ -49,32 +49,34 @@ const SideCart = () => {
 
   // Select Time Slot Data 
   const [selectedDate, setSelectedDate] = useState(new Date("2023/05/10"));
-  const [dates, setDates] = useState(null);
+  const [dates, setDates] = useState([]);
   const [timeSlot, setTimeSlot] = useState('')
 
-  const cartId = useSelector((state)=>state.cart.cartId)
-  const total = useSelector((state)=>state.cart.total)
-  const cartCount = useSelector((state)=>state.cart.cartCount)
-  const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
-  const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
-  const pickupInfo = useSelector((state)=>state.cart.pickupInfo)
-  const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo)
+  const cartId = useSelector((state)=>state?.cart?.cart?._id) || '';
+  const subTotal = useSelector((state)=>state?.cart?.cart?.subTotal)
+  const cartCount = useSelector((state)=>state?.cart?.cart?.cartCount) || 0;
+  const products = useSelector((state)=>state?.cart?.cart?.products) || [];
+  const orderInfo = useSelector((state)=>state?.cart?.cart?.orderInfo);
 
   // Zip Code Location
-  const [zip, setZip] = useState(deliveryInfo ? deliveryInfo?.location : '73301')
+  const [zip, setZip] = useState('')
 
   const GetCartData = async () => {
     setLoading(true)
-    const data = {cartId:cartId}
-    const res = await dispatch(GetCart(data));
+    const res = await dispatch(GetCart({cartId:cartId}));
     console.log(res)
-    if (res.payload.status === 200) {
-      if(!res.payload.cart){
-        dispatch(resetCart())
-        dispatch(resetOrder())
+    if(res.payload.status === 200){
+      if(orderInfo.type === 'delivery'){
+        setZip(orderInfo.location)
       }
       setLoading(false)
-    }else {
+    }else if (res.payload.status === 404) {
+      Toast(res.payload.message,'info',1000)
+      dispatch(resetCart())
+      dispatch(resetOrder())
+      setLoading(false)
+    }else{
+      Toast(res.payload.messsage,'error',1000)
       setLoading(false)
     }
   }
@@ -86,18 +88,18 @@ const SideCart = () => {
     }
   }, [sCart])
 
-  const [delLoading,setDelLoading] = useState({index:'',type:''})
+  const [delLoading,setDelLoading] = useState('')
 
-  const RemoveCartItemData = async (e, indx,cId,pId,oId ,type,pPrice,cCount,cTotal) => {
+  const RemoveCartItemData = async (e, indx,pId,price) => {
     e.preventDefault()
-    setDelLoading({index:indx,type:type})
-    const data = { cartId:cId ,pId,type,price:pPrice,count:cCount,total:cTotal,objId:oId}
+    setDelLoading(indx)
+    const data = { cartId:cartId ,productId:pId,price:price}
     const res = await dispatch(RemoveFromCart(data));
     if (res.payload.status === 200) {
-      setDelLoading({index:'',type:''})
+      setDelLoading('')
       Toast(res.payload.msg,'success',1000)
     }else {
-      setDelLoading({index:'',type:''})
+      setDelLoading('')
       Toast(res.payload.message,'error',1000)
     }
   }
@@ -109,7 +111,6 @@ const SideCart = () => {
   const [frames,setFrames] = useState([])
 
   const Submit = async () => {
-    console.log('m')
     setZipChange(true)
     const res = await GetZipWithSlots({zip:zip})
     if (res.status == 200) {
@@ -139,7 +140,8 @@ const SideCart = () => {
       })
       setDates(onlyDays)
       setFrames(timeFrames)
-      dispatch(ChangeDeliveryInfo({cartId:cartId,deliveryInfo:{...deliveryInfo,location:zip,shipping:res.data.zip.location.rate}}))
+      console.log(timeFrames)
+      dispatch(ChangeDeliveryInfo({cartId:cartId,orderInfo:{...orderInfo,location:zip,shipping:res.data.zip.location.rate}}))
     } else {
       setZipChange(false);
       setZipSuccess(false);
@@ -158,8 +160,7 @@ const SideCart = () => {
   const UpdatePickupLocation = async (e,loc) => {
     e.preventDefault()
     setLocLoading(true)
-    const data = { type:'pickup',location:loc}
-    const res = await dispatch(ChangePickupLocation({cartId:cartId,pickupInfo:data}));
+    const res = await dispatch(ChangePickupLocation({cartId:cartId,orderInfo:{ type:'pickup',location:loc,shipping:'Free'}}));
     if (res.payload.status === 200) {
       setLocLoading(false)
     }else {
@@ -181,8 +182,8 @@ const SideCart = () => {
         
         <button onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='maxlg:w-10 maxlg:h-10 bg-white maxlg:hover:bg-b3 maxlg:hover:text-white duration-200 maxlg:rounded-full absolute -top-14 right-0 lg:top-5 lg:right-6 z-40  xy-center'><AiOutlineClose className='text-xl' /></button>
         <div className='flex flex-col overflow-y-auto w-full h-full'>
-          <div className='flex items-center sticky top-0 bg-white maxlg:rounded-t-2xl py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4>{cartCount === 0 ? null : <span className='bg-b3 text-white rounded-full text-xs w-5 h-5 xy-center' >{cartCount}</span>}</div></div>
-          {loading ? <div className='xy-center h-full w-full' ><img src="/loader-bg.gif" className='w-10 h-10 ml-2' /></div> : pickupOrders?.length === 0 && deliveryOrders?.length === 0 ?
+          <div className='flex items-center sticky top-0 bg-white maxlg:rounded-t-2xl py-5 px-6 justify-between' ><div className='flex items-center gap-x-3' ><h4>My Cart</h4><span className='bg-b3 text-white rounded-full text-xs w-5 h-5 xy-center' >{cartCount}</span></div></div>
+          {loading ? <div className='xy-center h-full w-full' ><img src="/loader-bg.gif" className='w-10 h-10 ml-2' /></div> : products?.length === 0 ?
             <div className='flex flex-col px-2 space-y-5 w-full justify-center items-center h-full' >
               <img src="/bag.webp" />
               <h1 className='font-extrabold' >Your Cart is Empty</h1>
@@ -192,11 +193,15 @@ const SideCart = () => {
             :
             <>
               <div style={{ 'height': 'calc(100vh - 200px)' }} className='flex flex-col overflow-y-auto' >
-                {deliveryOrders?.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
+                {orderInfo?.type === 'delivery' && products?.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
                   <h4 className='font-semibold' >Delivery Orders</h4>
                   {/* Cart Product */}
                   <div className='flex flex-col gap-6 space-y-2 mb-3 w-full'>
-                    {deliveryOrders?.map((item, index) => <SideCartCard indx={index} key={index} cartId={cartId} item={item} RemoveFromCart={RemoveCartItemData} delState={delLoading} setDelState={setDelLoading} type="delivery" />)}
+                    {products?.map((item, pindex) => ( 
+                      Array.from({ length: item.count }).map((_, index) => (
+                        <SideCartCard indx={`${pindex}-${index}-delivery`} key={`${pindex}-${index}-delivery`} cartId={cartId} item={item} RemoveFromCart={RemoveCartItemData} delState={delLoading} setDelState={setDelLoading} type="delivery" />
+                      )) 
+                    ))}
                   </div>
                   {/* Cart Product End */}
                   
@@ -208,7 +213,7 @@ const SideCart = () => {
                       <div className='flex items-center space-x-1' ><FaDotCircle className='text-b3' /><HiOutlineTruck className='text-2xl' />
                         <h4 className='text-sm font-medium' >Delivering To</h4>
                       </div>
-                      <h4 className='text-b3 font-semibold' >${deliveryInfo?.shipping}</h4>
+                      <h4 className='text-b3 font-semibold' >${orderInfo?.shipping}</h4>
                     </div>
                     <div className='flex items-center p-[8px] rounded-md border-[1px]' >
                      <BiSearchAlt2 className='text-b6 mr-1' />
@@ -235,11 +240,16 @@ const SideCart = () => {
                 </div> : null}
 
 
-                {pickupOrders?.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
+                {orderInfo.type === 'pickup' && products?.length > 0 ? <div className='flex flex-col rounded-lg px-6 py-5 mx-5 mb-5 border border-gray-200 ' >
                   <h4 className='font-semibold' >Pickup Orders</h4>
                   {/* Cart Product */}
                   <div className='flex flex-col gap-6 space-y-2 mb-3'>
-                    {pickupOrders.map((item, index) => <SideCartCard type="pickup" indx={index} key={index} item={item} cartId={cartId} RemoveFromCart={RemoveCartItemData} delState={delLoading} setDelState={setDelLoading} />)}
+                    {products.map((item, pindex) => ( 
+                     Array.from({ length: item.count }).map((_, index) => (
+                      <SideCartCard indx={`${pindex}-${index}-pickup`} key={`${pindex}-${index}-pickup`} type="pickup" item={item} cartId={cartId} RemoveFromCart={RemoveCartItemData} delState={delLoading} setDelState={setDelLoading} />
+                    ))
+                    )
+                    )}
                   </div>
                   {/* Cart Product End */}
 
@@ -247,13 +257,13 @@ const SideCart = () => {
                     <div className='relative flex flex-col space-y-2' >
                       {locLoading ? <div className='absolute flex items-center justify-center bg-gray-500/50 w-full h-full' ><BiLoaderAlt className='animate-spin text-4xl' /></div>:null}
                       <div className='flex items-center px-2 space-x-2' >
-                        <div className='flex' ><button type="button" onClick={e=>UpdatePickupLocation(e,'Warehouse Georgetown,Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupInfo?.location === 'Georgetown Warehouse' || '' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${pickupInfo?.location === 'Georgetown Warehouse' ? 'text-b6' : 'text-gray-200'} `} /></button></div>
+                        <div className='flex' ><button type="button" onClick={e=>UpdatePickupLocation(e,'Georgetown, Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${orderInfo?.location === 'Georgetown, Tx' || '' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderInfo?.location === 'Georgetown, Tx' ? 'text-b6' : 'text-gray-200'} `} /></button></div>
                         <AiOutlineShop className='text-3xl text-gray-400' />
                         <h4 className='text-sm font-normal text-gray-400 w-full' >Pickup in the Warehouse Georgetown,Tx</h4>
                         <h4 className='text-sm font-normal text-gray-400' >Free</h4>
                       </div>
                       <div className='flex items-center px-2 pt-2 space-x-2 border-t-[1px] border-gray-200' >
-                        <div className='flex' ><button type="button" onClick={e=>UpdatePickupLocation(e,'Austin, Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${pickupInfo?.location === 'Austin, Tx' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${pickupInfo?.location === 'Austin, Tx' ? 'text-b6' : 'text-gray-200'} `} /></button></div>
+                        <div className='flex' ><button type="button" onClick={e=>UpdatePickupLocation(e,'Austin, Tx')} className={`px-[2px] py-[2px] rounded-full cursor-pointer ${orderInfo?.location === 'Austin, Tx' ? 'bg-b6/20' : 'bg-gray-100'} `} ><GoDotFill className={` ${orderInfo?.location === 'Austin, Tx' ? 'text-b6' : 'text-gray-200'} `} /></button></div>
                         <AiOutlineShop className='text-3xl text-gray-400' />
                         <h4 className='text-sm font-normal text-gray-400 w-full' >Pickup in the store Austin, Tx</h4>
                         <h4 className='text-sm font-normal text-gray-400' >Free</h4>
@@ -271,7 +281,7 @@ const SideCart = () => {
                     Order Total
                   </span>
                   <span className='font-bold'>
-                    ${total}
+                    ${subTotal}
                   </span>
                 </div>
 

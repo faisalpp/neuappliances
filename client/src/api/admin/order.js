@@ -90,7 +90,7 @@ export const createAdminOrder = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/create-order',data);
+        response = await AdminApi.post('/api/admin/create-order',data,{validateStatus: () => true});
     }catch (error){
         return error;
     }

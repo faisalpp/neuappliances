@@ -11,8 +11,7 @@ import { useNavigate } from 'react-router-dom';
 const Shipping = () => {
 
     const orderInfo = useSelector((state)=>state.order.orderInfo)
-    const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
-    const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
+    const products = useSelector((state)=>state.cart?.cart.products)
     
     const [shippingMethod,setShippingMethod] = useState({})
 
@@ -22,7 +21,7 @@ const Shipping = () => {
         setShippingMethod({_id:id,title:title,days:days,price:price,checked:checked})
     }
     useEffect(()=>{
-        if(deliveryOrders?.length === 0 && pickupOrders?.length === 0){
+        if(products?.length === 0){
           Toast('Cart is Empty','error',1000)
           navigate('/mycart')
         }

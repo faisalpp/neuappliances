@@ -188,10 +188,9 @@ const zipController = {
      const TOKEN=`Bearer ${POSTMAN_ZIP_CODE_API_KEY}`
      try{
        const res2 = await axios.get(url, { params, headers: {'Authorization': TOKEN} })
-      
-       res.status(200).send({zip:res2.data})
+       return res.status(200).json({status:200,zip:res2.data})
        }catch(error){
-        res.status(500).send({error:"No Zip Code Nearest Slote Found!"})
+       return res.status(500).json({status:500,message:"No Zip Code Nearest Slote Found!"})
       }   
     },
     async getZipSlots(req, res, next) {
@@ -218,9 +217,10 @@ const zipController = {
      const TOKEN=`Bearer ${POSTMAN_ZIP_CODE_API_KEY}`
      try{
        const res2 = await axios.get(url, { params, headers: {'Authorization': TOKEN} }) 
-       res.status(200).send({zip:res2.data})
+       console.log(res2)
+       return res.status(200).send({status:200,zip:res2.data})
        }catch(error){
-        res.status(500).send({error:"No Slotes Found thre Zip Code !"})
+        return res.status(500).send({status:500,message:"No Slotes Found thre Zip Code !"})
       }   
     },
 

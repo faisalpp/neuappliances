@@ -10,8 +10,6 @@ const TimeSlot = ({time,setTime,frames}) => {
     const [activeTab, setActiveTab] = useState(1);
     const [activeFrames, setActiveFrames] = useState([]);
 
-    const crYear = new Date('2023/05/10').getFullYear();
-
     useEffect(()=>{
      const crDate = new Date('2023/05/10');
      const crDay = crDate.getDate();
@@ -26,14 +24,14 @@ const TimeSlot = ({time,setTime,frames}) => {
     };
 
     const dispatch = useDispatch()
-    const cartId = useSelector((state)=>state.cart.cartId)
-    const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo)
+    const cartId = useSelector((state)=>state.cart.cart._id)
+    const orderInfo = useSelector((state)=>state.cart.cart.orderInfo)
     const [loading,setLoading] = useState(false)
 
     const UpdateTimeSlot = async (e) => {
     e.preventDefault()
     setLoading(true)
-     const data = {cartId:cartId,deliveryInfo:{...deliveryInfo,timeSlot:time,year:crYear}}
+     const data = {cartId:cartId,orderInfo:{...orderInfo,timeSlot:time}}
      const res = await dispatch(ChangeTimeSlot(data));
      if (res.payload.status === 200) {
         Toast(res.payload.msg,'success',1000)
@@ -54,7 +52,7 @@ const TimeSlot = ({time,setTime,frames}) => {
                             {item.timeFrame}
                         </span>
                     </Typography>
-                } defaultChecked={item.timeFrame === deliveryInfo.timeSlot?true:false} />
+                } defaultChecked={item.timeFrame === orderInfo?.timeSlot?true:false} />
             </label>):null}
 
             <div className='flex w-full justify-center'>

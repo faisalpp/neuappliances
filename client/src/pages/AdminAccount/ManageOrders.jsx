@@ -25,7 +25,7 @@ const ManageOrders = () => {
      setLoading(true)
      const params = { page: page, limit: limit };
      const res = await getOrders(params,{orderType:orderType});
-    //  console.log(res.data)
+     console.log(res.data)
      if(res.status === 200){
       setLoading(false)
       setOrders(res.data.orders)
@@ -45,7 +45,6 @@ const ManageOrders = () => {
     
 
     const SearchOrder = async (e) => {
-     console.log('searfch')
      e.preventDefault()
      setLoading(true)
      const res = await searchOrder({orderNo:search})

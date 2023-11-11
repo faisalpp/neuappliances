@@ -16,6 +16,8 @@ import Toast from '../../utils/Toast'
 import {CheckZip} from '../../api/frontEnd'
 import ExpressCheckout from '../../components/Checkout/ExpressCheckout'
 import {getCustomerShippingAddress} from '../../api/frontEnd'
+import {IoMdCheckmark} from 'react-icons/io'
+import {GoAlert} from 'react-icons/go'
 
 const Information = () => {
 
@@ -43,21 +45,20 @@ const Information = () => {
         phone: Yup.string().required('Phone is Required!'),
     });
 
-    const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
-    const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
+    const products = useSelector((state)=>state.cart?.cart.products)
     const orderInfo = useSelector((state)=>state.order.orderInfo)
     
     const navigate = useNavigate()
 
     useEffect(()=>{
-     if(deliveryOrders?.length === 0 && pickupOrders?.length === 0){
+     if(products?.length === 0){
        Toast('Cart is Empty','error',1000)
        navigate('/mycart')
      }
     },[])
 
 
-    const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo);
+    const ordInfo = useSelector((state)=>state.cart?.cart.orderInfo);
 
 
     const [email,setEmail] = useState('')
@@ -69,7 +70,7 @@ const Information = () => {
     const [city,setCity] = useState('')
     const [country,setCountry] = useState('usa')
     const [province,setProvince] = useState('alberta')
-    const [postalCode,setPostalCode] = useState('')
+    const [postalCode,setPostalCode] = useState(ordInfo.type === 'delivery' ? ordInfo.location : '')
     const [phone,setPhone] = useState('')
     const [saveAddress,setSaveAddress] = useState(false)
 
@@ -143,31 +144,37 @@ const Information = () => {
     }
 
     const [changeZip,setChangeZip] = useState(false)
+    const [zipSuccess,setZipSuccess] = useState(false)
+    const [zipError,setZipError] = useState(false)
 
-    const cartId = useSelector((state)=>state.cart.cartId)
+    const cartId = useSelector((state)=>state.cart?.cart._id)
 
     const Submit = async () => {
+        setZipSuccess(false);
+        setZipError(false);
         setChangeZip(true);
-        const res = await CheckZip({zip:postalCode})
-        if (res.status == 200) {   
-            const res2 = await dispatch(ChangeDeliveryInfo({cartId:cartId,deliveryInfo:{...deliveryInfo,location:postalCode,shipping:res.data.zip.location.rate}}))
-         if(res2?.payload?.status === 200){
+         const res = await CheckZip({zip:postalCode})
+         if(res.data.status === 500){
+            setZipError(true);
             setChangeZip(false);
-        }else{
-             setChangeZip(false);
+         }else if(res.status === 200) {   
+          setChangeZip(false);
+          const res2 = await dispatch(ChangeDeliveryInfo({cartId:cartId,orderInfo:{...ordInfo,location:postalCode,shipping:res.data.zip.location.rate}}))
+          if(res2.payload.status === 200){
+          setZipSuccess(true);
+          setChangeZip(false);
+         }else{
+          setZipError(true);
+          setChangeZip(false);
          }
-        } else {
-          const res3 = dispatch(ChangeDeliveryInfo({cartId:cartId,deliveryInfo:{...deliveryInfo,location:postalCode,shipping:false}}))
-          if(res3?.payload?.status === 200){
-            setChangeZip(false);
-          }else{
-              setChangeZip(false);
-          }
-        }
+        }else{        
+         setZipError(true);
+         setChangeZip(false);
+        } 
       };
     
       useEffect(() => {
-       if (postalCode?.length === 5 && deliveryOrders?.length > 0) {
+       if (postalCode?.length === 5 && ordInfo.type === 'delivery') {
          Submit();
        }
       }, [postalCode])
@@ -206,7 +213,9 @@ const Information = () => {
                                     <CustomSelect setState={setCountry} id="country_region" label="Country / region" Options={Countrys} />
                                     <CustomSelect setState={setProvince} id="province" label="Province" Options={Province} />
                                     <div className='relative  col-span-2 md:col-span-1 [&>*]:h-full'>
-                                     {changeZip?<div className='absolute z-40 flex rounded-lg items-center w-full justify-end px-2' ><img src="/loader-bg.gif" className='w-4 h-4' /></div>:null}
+                                     {changeZip?<div className='absolute z-40 flex right-0 rounded-lg items-center w-fit justify-end px-2' ><img src="/loader-bg.gif" className='w-4 h-4' /></div>:null}
+                                     {zipSuccess?<div className='absolute z-40 flex rounded-lg items-center w-fit right-0 justify-end px-2 text-xl text-green-500' ><IoMdCheckmark/></div>:null}
+                                     {zipError?<div className='absolute z-40 flex rounded-lg items-center w-fit justify-end px-2 right-1 text-xl text-red-500' ><GoAlert/></div>:null}
                                      <TextInput width="full" name="postalCode" title="" iscompulsory="false" type="text" value={postalCode} onChange={(e)=>setPostalCode(e.target.value)} error={errors && errors.includes('Postal Code is Required!') ? true : false} errormessage="Postal Code is Required!" placeholder="Postal Code" />
                                     </div>
                                 </div>

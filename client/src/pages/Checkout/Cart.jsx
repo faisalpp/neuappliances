@@ -10,42 +10,17 @@ import { useDispatch } from "react-redux";
 const Cart = () => {
     const dispatch = useDispatch()
 
-    const cartId = useSelector((state)=>state.cart.cartId)
-    const total = useSelector((state)=>state.cart.total)
-    const grandTotal = useSelector((state)=>state.cart.grandTotal)
-    const tax = useSelector((state)=>state.cart.tax)
-    const pickupOrders = useSelector((state)=>state.cart.pickupOrders)
-    const deliveryOrders = useSelector((state)=>state.cart.deliveryOrders)
-    const deliveryInfo = useSelector((state)=>state.cart.deliveryInfo)
-    const pickupInfo =useSelector((state)=>state.cart.pickupInfo)
-
-    function removeDuplicateObjectsAndGetCount(arr) {
-        let seen = new Set();
-        let uniqueArr = [];
-        let deletedDuplicates = new Set();
-        let deletedCount = 0;
-      
-        for (const item of arr) {
-          if (!seen.has(item.pid)) {
-            seen.add(item.pid);
-            uniqueArr.push(item);
-          } else {
-            deletedDuplicates.add(item.pid);
-            deletedCount++;
-          }
-        }
-        if(deletedCount >= 1){
-            deletedCount = deletedCount+1
-        }else{
-            deletedCount = 1
-        }
-        return { uniqueArr, deletedCount, deletedDuplicates };
-      }
-
-      const updatedPickupOrders = removeDuplicateObjectsAndGetCount(pickupOrders)
-      const updatedDeliveryOrders = removeDuplicateObjectsAndGetCount(deliveryOrders)
-      const orderInfo = useSelector((state)=>state.order.orderInfo)
-      const [loading,setLoading] = useState(false)
+    const cartId = useSelector((state)=>state.cart?.cart.cartId)
+    // const cart = useSelector((state)=>state.cart?.cart)
+    const subTotal = useSelector((state)=>state.cart?.cart.subTotal)
+    const tax = useSelector((state)=>state.cart?.cart.tax)
+    const products = useSelector((state)=>state.cart?.cart.products)
+    const orderInfo = useSelector((state)=>state.cart?.cart.orderInfo)
+    const coupon = useSelector((state)=>state.cart?.cart.coupon)
+ 
+    // const orderInfo = useSelector((state)=>state.order.orderInfo)
+    const [grandTotal,setGrandTotal] = useState((coupon ? coupon : 0)+(orderInfo.type === 'delivery' ? orderInfo.shipping : 0) + tax + subTotal)
+    const [loading,setLoading] = useState(false)
 
     const GetCartData = async () => {
         setLoading(true)
@@ -74,46 +49,27 @@ const Cart = () => {
         }
       }
 
-      const CalculateGrandTotal = () => {
-          const TAX = ((8.25/100) * total)
-          dispatch(setTax(TAX.toFixed(2)))
-        if(deliveryOrders?.length > 0 && pickupOrders?.length === 0){
-         const GRAND_TOTAL = total + TAX + deliveryInfo.shipping
-         dispatch(ChangeCartFinance({cartId:cartId,grandTotal:GRAND_TOTAL.toFixed(2),total:total,tax:TAX.toFixed(2)}))
-        }else{
-         dispatch(resetDeliveryInfo())
-         const GRAND_TOTAL = total + TAX
-         dispatch(ChangeCartFinance({cartId:cartId,grandTotal:GRAND_TOTAL.toFixed(2),total:total,tax:TAX.toFixed(2)}))
-        }
-      }
-
-      useEffect(()=>{
-        if(cartId){
-            CalculateGrandTotal()
-        }
-      },[])
-
     return (
         <>
             <div className='max-w-full w-full h-full px-4 sm:px-11 py-14 bg-[#F9F9F9]'>
                 <div className='max-w-[418px] 3xl:max-w-xl mr-auto w-full flex flex-col gap-5'>
 
-                {updatedDeliveryOrders?.uniqueArr?.length > 0 ?<div className='flex w-full flex-col gap-6 bg-white px-4 sm:px-6 py-4'>
-                        {updatedDeliveryOrders && updatedDeliveryOrders.uniqueArr.map((item, index) => <CartCard key={index} item={item} count={updatedDeliveryOrders.deletedCount} />)}
+                {orderInfo.type === 'delivery' ?<div className='flex w-full flex-col gap-6 bg-white px-4 sm:px-6 py-4'>
+                        {products?.length > 0 && products.map((item, index) => <CartCard key={index} item={item} />)}
                         <div className='border border-b31 text-b32 flex gap-2 items-center p-4 text-sm'>
                             <HiOutlineTruck className='text-xl text-b25 rounded-lg' />
                             <span>
-                                Delivering To {orderInfo?.email ? `${orderInfo.address}, ${orderInfo.city}, ${orderInfo.province}, ${orderInfo.country}, ${orderInfo.postalCode}` : deliveryInfo?.location}
+                                Delivering To {orderInfo?.email ? `${orderInfo.address}, ${orderInfo.city}, ${orderInfo.province}, ${orderInfo.country}, ${orderInfo.postalCode}` : orderInfo.location}
                             </span>
                         </div>
                     </div>:null}
 
-                    {updatedPickupOrders?.uniqueArr?.length > 0 ? <div className='bg-white px-6 py-4 flex flex-col gap-5'>
-                        {updatedPickupOrders && updatedPickupOrders.uniqueArr.map((item, index) => <CartCard key={index} item={item} count={updatedPickupOrders.deletedCount} />)}
+                    {orderInfo.type === 'pickup' ? <div className='bg-white px-6 py-4 flex flex-col gap-5'>
+                        {products?.length > 0 && products.map((item, index) => <CartCard key={index} item={item} />)}
                         <div className='border border-b31 text-b32 flex gap-2 items-center p-4 text-sm'>
                             <img src="/svgs/Pick-up.webp" alt="Pick-up" />
                             <span>
-                                Pick up in store {pickupInfo?.location}
+                                Pick up at {orderInfo?.location}
                             </span>
                         </div>
                     </div>:null}
@@ -132,7 +88,7 @@ const Cart = () => {
                                 Subtotal
                             </span>
                             <span className='text-b16 font-medium'>
-                                ${total}
+                                ${subTotal}
                             </span>
                         </div>
                         <div className='flex justify-between'>
@@ -140,8 +96,8 @@ const Cart = () => {
                                 Shipping
                             </span>
                             <span className='text-b16 font-medium'>
-                             {deliveryOrders?.length > 0 ? `$${deliveryInfo.shipping}`: pickupOrders?.length > 0 ?   'Free' :  'No Shipping Available!'}
-                             {/* {pickupOrders?.length > 0 && deliveryOrders?.length === 0 ? 'Free': null }/ */}
+                             {orderInfo.type === 'delivery' ? `$${orderInfo.shipping}`: null}
+                             {orderInfo.type === 'pickup' ? orderInfo.shipping : null }
                             </span>
                         </div>
                         <div className='flex justify-between'>

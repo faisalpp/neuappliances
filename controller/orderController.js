@@ -14,6 +14,8 @@ const ManageOrder = require('../services/ManageOrder')
 const EmailTemplates = require('../services/EmailTemplates')
 const Stripe = require('stripe')(STRIPE_PRIVATE_KEY)
 const crypto = require('crypto')
+const {Types} = require('mongoose');
+const Guest = require('../models/Guest');
 
 const orderController = {
 
@@ -25,7 +27,6 @@ const orderController = {
      cartId: Joi.string().required(),
      isAdmin: Joi.boolean().required(),
      isAuth: Joi.boolean().required(),
-     orderType: Joi.string().required(),
      shippingAddress:Joi.object().required(),
      billingInfo:Joi.object().required(),
      newsEmail:Joi.array().required(),
@@ -78,42 +79,27 @@ const orderController = {
     const getUser = await User.findOne({email:shippingAddress.email});
     oldUser = getUser; 
   }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})} 
-   if(oldUser){ 
-     USER = oldUser._id;
-   }else{
-      try{
-       const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$/;
-       const securePassword = new RandExp(regex).gen();
-       const newUserPass = await bcrypt.hash(securePassword, 10);
-       const createUser = new User({firstName:shippingAddress.firstName,lastName:shippingAddress.lastName,email:shippingAddress.email,password:newUserPass});
-       const getUsr = await createUser.save();
-       USER = getUsr._id
-       newUser = getUsr;
-       if(newUser){
-        const loginUrl = NODE_ENV === 'production' ?  `${WEBSITE_HOST_ADDRESS}/login` : 'http://localhost:5173/login'
-        const body = await EmailTemplates.NewAccountTemplate(`${newUser.firstName} ${newUser.lastName}`,newUser.email,loginUrl,securePassword)
-        SendMail.NodeMailer(body,`Your New Account Details for ${WEBSITE_NAME}`,newUser.email)
-       }
-      }catch(error){console.log(error)}
-   }
-  }
+}
 
+if(oldUser){ 
+  USER = oldUser._id;
+}else{
+   try{
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$/;
+    const securePassword = new RandExp(regex).gen();
+    const newUserPass = await bcrypt.hash(securePassword, 10);
+    const createUser = new User({firstName:shippingAddress.firstName,lastName:shippingAddress.lastName,email:shippingAddress.email,password:newUserPass});
+    const getUsr = await createUser.save();
+    USER = getUsr._id
+    newUser = getUsr;
+    if(newUser){
+     const loginUrl = NODE_ENV === 'production' ?  `${WEBSITE_HOST_ADDRESS}/login` : 'http://localhost:5173/login'
+     const body = await EmailTemplates.NewAccountTemplate(`${newUser.firstName} ${newUser.lastName}`,newUser.email,loginUrl,securePassword)
+     SendMail.NodeMailer(body,`Your New Account Details for ${WEBSITE_NAME}`,newUser.email)
+    }
+   }catch(error){console.log(error)}
+}
 
-  // Send New User Credential in mail
-  // console.log(newUser)
-  // if(newUser){
-
-  // }
-
-  
-
-  // 4. get order products from cart (orderType = 'delivery'?deliveryOrders:pickupOrders)
-  let orderProducts;
-  if(orderType === 'delivery'){
-    orderProducts = CART.deliveryOrders;
-  }else{
-    orderProducts = CART.pickupOrders;
-  }
 
   // 5. check entire shippingInfo object against orderAddress with type shipping and 
   //  if found do nothing else create new address with the userId.
@@ -155,17 +141,6 @@ const orderController = {
    }
   }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
 
-  // 7. get orders finance (total,tax,grandTotal)
-  const total = CART.total;
-  const tax = CART.tax;
-  const grandTotal = CART.grandTotal;
-  const cartCount = CART.cartCount;
-  let shipping;
-  if(orderType === 'delivery'){
-    shipping = CART.deliveryInfo.shipping;
-  }else{
-    shipping = CART.pickupInfo.location;
-  }
 
   async function bulkCreateNewsEmail(newsEmail) {
     try {
@@ -190,28 +165,30 @@ const orderController = {
 //   8. create new order and save it in database.
   const date = new Date();
   let orderNumber = `${crypto.randomBytes(2).toString('hex')}-D${date.getDay()}M${date.getMonth()}Y${date.getFullYear()}`;
-   try{
+  const shipping = CART.orderInfo.type === 'delivery' ? CART.orderInfo.shipping : 0;
+  let grandTotal = CART.subTotal + CART.tax + CART.coupon + shipping;
+  //  try{
    const createOrder = new Order({
      orderNo:orderNumber,
      customerId: USER,
      userType: USER_TYPE,
-     orders: orderProducts,
+     products: CART.products,
      shippingAddress: shippingAddressId,
      billingAddress:  billingAddressId,
-     shipping: shipping.toString(),
-     cartCount: cartCount,
-     tax: tax,
-     total: total,
+     shipping: CART.orderInfo,
+     cartCount: CART.cartCount,
+     coupon: CART.coupon,
+     tax: CART.tax,
+     total: CART.subTotal,
      grandTotal: grandTotal,
-     orderType: orderType,
     }
    );
   
    newOrder = await createOrder.save();
    return res.status(200).json({status: 200,orderNo:orderNumber});
-   }catch(error){
-    return res.status(500).json({status: 500,message:'Internal Server Error!'});
-   }
+  //  }catch(error){
+  //   return res.status(500).json({status: 500,message:'Internal Server Error!'});
+  //  }
 
   },
 
@@ -245,7 +222,7 @@ const orderController = {
     if(updateOrder){
       let ShippingAddress = `${updateOrder.shippingAddress.address} ${updateOrder.shippingAddress.city}, ${updateOrder.shippingAddress.state}, ${updateOrder.shippingAddress.postalCode} ${updateOrder.shippingAddress.country}`
       let BillingAddress = `${updateOrder.billingAddress.address}, ${updateOrder.billingAddress.city}, ${updateOrder.billingAddress.state}, ${updateOrder.billingAddress.postalCode} ${updateOrder.billingAddress.country}`
-      const ORDERS_TEMPLATE = EmailTemplates.NewOrderTemplate(updateOrder.orders,updateOrder.orderNo,HOST,ShippingAddress,BillingAddress,updateOrder.cartCount,updateOrder.grandTotal,updateOrder.createdAt)
+      const ORDERS_TEMPLATE = EmailTemplates.NewOrderTemplate(updateOrder.products,updateOrder.orderNo,HOST,ShippingAddress,BillingAddress,updateOrder.cartCount,updateOrder.grandTotal,updateOrder.createdAt)
        if(ORDERS_TEMPLATE){
        SendMail.NodeMailer(ORDERS_TEMPLATE,`Order Confirmation Email->${WEBSITE_NAME}`,updateOrder.shippingAddress.email)
        return res.status(200).json({status:200,msg:'Order Placed Successfully!'})
@@ -418,10 +395,10 @@ const orderController = {
   },
   
   async getOrderById(req, res, next) {
-    try{
+    // try{
      const order = await Order.findOne({orderNo:req.body.orderNo}).populate('shippingAddress').populate('billingAddress').populate('customerId');
      return res.status(200).json({status: 200,order:order});
-    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+    // }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!',error:error})}
   },
   async archiveOrderById(req, res, next) {
     const orderSchema = Joi.object({
@@ -559,10 +536,11 @@ const orderController = {
      billingAddress: Joi.object().required(),
      tax: Joi.object().required(),
      subTotal: Joi.number().required(),
-     shipping: Joi.number().required(),
-     coupen: Joi.number().required(),
-     grandTotal: Joi.object().required(),
-     selectedProducts: Joi.string().required(),
+     shipping: Joi.object().required(),
+     coupon: Joi.number().required(),
+     grandTotal: Joi.number().required(),
+     cartCount: Joi.number().required(),
+     products: Joi.array().required(),
      selectedUser: Joi.object().required(),
     });
     const { error } = orderSchema.validate(req.body);
@@ -572,59 +550,90 @@ const orderController = {
       return next(error)
     };
  
-    const {orderDate,orderStatus,orderType,transactionId,paymentMethod,shippingAddress,billingAddress,tax,subTotal,shipping,coupen,grandTotal,selectedProducts,selectedUser} = req.body;
-    console.log(orderDate,orderStatus,orderType,transactionId,paymentMethod,shippingAddress,billingAddress,tax,subTotal,shipping,coupen,grandTotal,selectedProducts,selectedUser)
+    const {orderDate,orderStatus,orderType,transactionId,paymentMethod,shippingAddress,billingAddress,tax,subTotal,shipping,coupon,grandTotal,products,selectedUser,cartCount} = req.body;
+    
+    let customerId;
+
+    if(selectedUser.email === 'Guest'){
+      const findGuest = await Guest.findOne({email:shippingAddress.email})
+      if(!findGuest){
+        const newGuest = new Guest({firstName: shippingAddress.firstName,lastName:shippingAddress.lastName ,email:shippingAddress.email,phone:shippingAddress.phone })
+        const getNewGuest = await newGuest.save();
+        customerId = getNewGuest._id;
+      }else{
+       customerId = findGuest._id;
+      }
+    }else{
+      customerId = selectedUser._id
+    }
+    
+    
+    
+    let shippingAddressId;
+    let isShippingAddress;
+    try{
+      isShippingAddress = await OrderAddress.findOne({userId:customerId,type:'shipping',email: shippingAddress.email,firstName:shippingAddress.firstName,lastName: shippingAddress.lastName,address: shippingAddress.address,appartment: shippingAddress.appartment,country: shippingAddress.country,state: shippingAddress.state,city: shippingAddress.city,postalCode: shippingAddress.postalCode,phone: shippingAddress.phone});
+    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+    try{
+     if(!isShippingAddress){
+       const newShippingAddress = new OrderAddress({userId:customerId,type:'shipping',email: shippingAddress.email,firstName:shippingAddress.firstName,lastName: shippingAddress.lastName,address: shippingAddress.address,appartment: shippingAddress.appartment,country: shippingAddress.country,state: shippingAddress.state,city: shippingAddress.city,postalCode: shippingAddress.postalCode,phone: shippingAddress.phone});
+        newShippingAddress = new OrderAddress({type:'shipping',email: shippingAddress.email,firstName:shippingAddress.firstName,lastName: shippingAddress.lastName,address: shippingAddress.address,appartment: shippingAddress.appartment,country: shippingAddress.country,state: shippingAddress.state,city: shippingAddress.city,postalCode: shippingAddress.postalCode,phone: shippingAddress.phone});
+       const getShippingAddress = await newShippingAddress.save();
+       shippingAddressId = getShippingAddress._id;
+      }else{
+      shippingAddressId = isShippingAddress._id;
+     }
+    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!',error:error})}
+
+
+    let billingAddressId;
+    let isBillingAddress;
+    try{
+     isBillingAddress = await OrderAddress.findOne({userId:customerId,type:'billing',email: billingAddress.email,firstName:billingAddress.firstName,lastName: billingAddress.lastName,address: billingAddress.address,appartment: billingAddress.appartment,country: billingAddress.country,state: billingAddress.state,city: billingAddress.city,postalCode: billingAddress.postalCode,phone: billingAddress.phone});
+     if(!isBillingAddress){
+      const newBillingAddress = new OrderAddress({userId:customerId,type:'billing',email: billingAddress.email,firstName: billingAddress.firstName,lastName: billingAddress.lastName,address: billingAddress.address,appartment: billingAddress.appartment,country: billingAddress.country,state: billingAddress.state,city: billingAddress.city,postalCode: billingAddress.postalCode,phone: billingAddress.phone});
+      const getBillingAddress = await newBillingAddress.save();
+      billingAddressId = getBillingAddress._id;
+     }else{
+      billingAddressId = isBillingAddress._id
+     }
+    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!',error:error})}
     
     let orderNumber;
+    let date = new Date();
     if(selectedUser.email === 'Guest'){
-      orderNumber = `${crypto.randomBytes(2).toString('hex')}-AG-D${date.getDay()}M${date.getMonth()}Y${date.getFullYear()}`;
+      orderNumber = `${crypto.randomBytes(2).toString('hex')}-GO-D${date.getDay()}M${date.getMonth()}Y${date.getFullYear()}`;
     }else{
-      orderNumber = `${crypto.randomBytes(2).toString('hex')}-AU-D${date.getDay()}M${date.getMonth()}Y${date.getFullYear()}`;
+      orderNumber = `${crypto.randomBytes(2).toString('hex')}-UO-D${date.getDay()}M${date.getMonth()}Y${date.getFullYear()}`;
     }
 
-    let cartCount=0;
     let ip = req?.ip;
-    const PRODUCTS = JSON.parse(selectedProducts)
 
-    for(let i=0;i<PRODUCTS.length;i++){
-      cartCount += PRODUCTS[i].count;
-    }
-
-    const result = await Product.updateMany(
-      { _id: { $in: PRODUCTS.pid } }, // Filter for documents with matching _id values
-      { $inc: { stock: -PRODUCTS.count } }, // Update the stock field with the new value
-      (err, result) => {
-        if (err) {
-          console.error('Error updating products:', err);
-        }
-      }
-    );
-
-    let customerId = selectedUser?._id ? selectedUser._id : '';
-
+    
     try{
-    const newOrder = new Order({
-      orderNo:orderNumber,
-      userType:selectedUser.email,
-      customerId:customerId,
-      orders: selectedProducts,
-      shippingAddress:shippingAddress,
-      billingAddress:billingAddress,
-      paymentInfo: {id:transactionId},
-      shipping: shipping,
-      tax: tax.amount,
-      total: subTotal,
-      grandTotal: grandTotal,
-      cartCount: cartCount,
-      orderType: orderType,
-      orderStatus: orderStatus,
-      customerIp: ip,
-    })
-
-    await newOrder.save()
-    return res.status(200).json({status: 200,msg:'Order Placed Successfully!'});
-  }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
-
+     const newOrder = new Order({
+       customerId:customerId,
+       orderNo:orderNumber,
+       userType:selectedUser.email,
+       products: products,
+       shippingAddress:shippingAddressId,
+       billingAddress:billingAddressId,
+       paymentInfo: {id:transactionId,name:paymentMethod,created:new Date()},
+       shipping: shipping,
+       tax: tax.amount,
+       total: subTotal,
+       coupon: coupon,
+       orderStatus: orderStatus,
+       grandTotal: grandTotal,
+       cartCount: cartCount,
+       orderType: orderType,
+       customerIp: ip,
+       createdAt: orderDate
+     })
+ 
+     await newOrder.save()
+     return res.status(200).json({status: 200,msg:'Order Placed Successfully!'});
+   }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!',error:error})}
   },
 
   async test(req, res, next) {

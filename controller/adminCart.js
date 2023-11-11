@@ -3,9 +3,21 @@ const Product = require('../models/product');
 const JWTService = require('../services/JwtService');
 
 const adminCartController = {
-    async addToCart(req, res, next) {
-    //    const CART = AdminCart.find({_id,})
+  async addToCart(req, res, next) {
      const {cartId,productId} = req.body;
+
+    let CART_ID = cartId;
+    
+    const cartToken = JWTService.signAccessToken({ _id: CART_ID }, "10m");
+    if(!CART_ID){
+      try{
+        const newCart = new AdminCart({expiry:cartToken});
+        await newCart.save();
+        CART_ID = newCart._id;
+      }catch(err){
+        return res.status(500).json({status:500,message:'Internal Server Error!'})
+      }
+    }
     
     let UPDATED_PRODUCT;
     const PRODUCT = await Product.findOne({_id:productId,stock:{$gt:0}})
@@ -16,37 +28,24 @@ const adminCartController = {
     }else{
       return res.status(500).json({status:500,message:'Product Out Of Stock!'})
     }
-    let CART_ID = cartId;
-    // const cartToken = JWTService.signAccessToken({ _id: CART_ID }, "10m");
-    const cartToken = JWTService.signAccessToken({ _id: CART_ID }, "1m");
-      
-    if(!CART_ID){
-      // Create new Cart 
-      try{
-        const newCart = new AdminCart({expiry:cartToken});
-        await newCart.save();
-        CART_ID = newCart._id;
-      }catch(err){
-        return res.status(500).json({status:500,msg:'Internal Server Error!'})
-      }
-    }
+
     
     const CART = await AdminCart.findOne({_id:CART_ID});
     
     if(CART){
       let prds = CART.products;
       const filt = prds.find((item)=>item.pid === productId)
-      // console.log(filt)
+      
       if(filt){
 
         const UPDATED_CART2 = await AdminCart.findOneAndUpdate(
           { _id: CART_ID, 'products.pid': UPDATED_PRODUCT._id },
           {
-              $inc: { 'products.$.count': 1 }
+              $inc: { 'products.$.count': 1,cartCount:1 }
           },
           { new: true }
        );
-      //  console.log(UPDATED_CART2)
+
        if(UPDATED_CART2){
         const GET_UPDATED_CART = await AdminCart.findOne({_id:cartId})
          return res.status(200).json({status:200,data:GET_UPDATED_CART})
@@ -62,24 +61,28 @@ const adminCartController = {
                 pid: UPDATED_PRODUCT._id,
                 title: UPDATED_PRODUCT.title,
                 image: UPDATED_PRODUCT.media.find(item=>item.file === 'image').data,
-                price: UPDATED_PRODUCT.isSale ? UPDATED_PRODUCT.salePrice : UPDATED_PRODUCT.regPrice,
+                isSale: UPDATED_PRODUCT.isSale,
+                salePrice:UPDATED_PRODUCT.salePrice,
+                regPrice:UPDATED_PRODUCT.regPrice,
                 rating: UPDATED_PRODUCT.rating,
+                modelNo: UPDATED_PRODUCT.modelNo,
                 count: 1,
                 type: UPDATED_PRODUCT.productType,
               }],
               $position: 0
             }
           },
+          $inc: { cartCount:1 }
           },
         { new: true }
       );  
     return res.status(200).json({status:200,data:UPDATED_CART})
      }catch(error){
-       return res.status(500).json({status:500,msg:'Internal Server Error!'})
+       return res.status(500).json({status:500,messge:'Internal Server Error!'})
      }
       }
     }else{
-      return res.status(500).json({status:500,msg:'Cart Not Found!'})
+      return res.status(500).json({status:500,mssage:'Cart Not Found!'})
     }
     
 
@@ -105,7 +108,7 @@ const adminCartController = {
         const UPDATED_CART2 = await AdminCart.findOneAndUpdate(
           { _id: cartId, 'products.pid': productId },
           {
-            $inc: { 'products.$.count': 1 }
+            $inc: { 'products.$.count': 1,cartCount:1 }
           },
           { new: true }
           );
@@ -139,7 +142,7 @@ const adminCartController = {
         const UPDATED_CART2 = await AdminCart.findOneAndUpdate(
           { _id: cartId, 'products.pid': productId },
           {
-            $inc: { 'products.$.count': -1 }
+            $inc: { 'products.$.count': -1,cartCount:-1 }
           },
           { new: true }
           );

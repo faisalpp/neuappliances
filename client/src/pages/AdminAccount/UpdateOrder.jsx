@@ -21,24 +21,8 @@ const UpdateOrder = () => {
   const [orderId,setOrderId] = useState('')
   const [order,setOrder] = useState({})
   const [products,setProducts] = useState([])
-  
 
-  const AddRedundentProductCount = (arr) => {
-    let i;
-    let uniqueOrders = [];
-    for(i=0;i<arr.length;i++){
-      const findIndex = uniqueOrders.findIndex(item => item.pid === arr[i].pid);
-      if (findIndex !== -1) {
-          uniqueOrders[findIndex].count += 1;
-      } else {
-          uniqueOrders.push({ ...arr[i], count: 1 });
-      }
-    }
-    
-    return uniqueOrders
-  }
-
-  const ordStatus = ['Pending Payment','Processing','On Hold','Completed','Failed','Cancelled','Refunded']
+  const ordStatus = ['pending-payment','processing','on-hold','completed','failed','cancelled','refunded']
   const [orderStatuses,setOrderStatuses] = useState([])
   const [orderStatus,setOrderStatus] = useState('')
   const [paymentInfo,setPaymentInfo] = useState('')
@@ -49,10 +33,11 @@ const UpdateOrder = () => {
 
   const GetOrder = async () => {
    const res = await getOrderById({orderNo:params.id})
+   console.log(res)
    if(res.status === 200){
      setOrderId(res.data.order._id)
      setOrder(res.data.order)
-     setProducts(AddRedundentProductCount(res.data.order.orders))
+     setProducts(res.data.order.products)
      setPaymentInfo(res.data.order.paymentInfo)
      const filt = ordStatus.filter((item)=>item !== res?.data?.order?.orderStatus)
      const filt2 = [res?.data?.order?.orderStatus,...filt]
@@ -80,12 +65,10 @@ const UpdateOrder = () => {
       Toast(res.data.msg,'success',1000)
       setOrderId(res.data.order._id)
       setOrder(res.data.order)
-      setProducts(AddRedundentProductCount(res.data.order.orders))
+      setProducts(res.data.order.products)
       setPaymentInfo(res.data.order.paymentInfo)
       const filt = ordStatus.filter((item)=>item !== res?.data?.order?.orderStatus)
       setOrderStatuses([res?.data?.order?.orderStatus,...filt])
-      const filt2 = pymStatus.filter((item)=>item !== res?.data?.order?.paymentStatus)
-      setPaymentStatuses([res?.data?.order?.paymentStatus,...filt2])
       setShippingAddress({id:res.data.order?.shippingAddress?._id,email:res.data.order?.shippingAddress?.email,firstName:res.data.order?.shippingAddress?.firstName,lastName:res.data.order?.shippingAddress?.lastName,address:res.data.order?.shippingAddress?.address,appartment:res.data.order?.shippingAddress?.appartment,city:res.data.order?.shippingAddress?.city,country:res.data.order?.shippingAddress?.country,state:res.data.order?.shippingAddress?.state,postalCode:res.data.order?.shippingAddress?.postalCode,phone:res.data.order?.shippingAddress?.phone})
       setBillingAddress({id:res.data.order?.billingAddress?._id,email:res.data.order?.billingAddress?.email,firstName:res.data.order?.billingAddress?.firstName,lastName:res.data.order?.billingAddress?.lastName,address:res.data.order?.billingAddress?.address,appartment:res.data.order?.billingAddress?.appartment,city:res.data.order?.billingAddress?.city,country:res.data.order?.billingAddress?.country,state:res.data.order?.billingAddress?.state,postalCode:res.data.order?.billingAddress?.postalCode,phone:res.data.order?.billingAddress?.phone})
     }else{
@@ -267,7 +250,7 @@ const UpdateOrder = () => {
 
         {/* Order Status */}
         <div className='flex space-x-2 mr-4 justify-center items-center' >
-         <span className='bg-b6/30 text-b6 px-2 rounded-md py-1 text-xs font-semibold' >{order.orderStatus}</span>
+         <span className='bg-b6/30 text-b6 px-2 rounded-md py-1 text-xs font-semibold capitalize w-max' >{order?.orderStatus?.replace(/\-/g,' ')}</span>
         </div>
       </div>
       
@@ -276,11 +259,14 @@ const UpdateOrder = () => {
        <div className='flex flex-col w-1/2' >
        <h3 className='text-sm font-semibold mb-2' >Order Details</h3>
         <div className='flex flex-col space-y-2 px-5 py-5 rounded-lg border-[1px]' >
-          <h3 className='text-xs text-gray-500' ><span className='text-black' >Order Type:&nbsp;</span><span className='capitalize' > {order.orderType}</span></h3>
-          {order.orderType === 'pickup' ? <h3 className='text-xs text-gray-500' ><span className='text-black' >Pickup Location:&nbsp;</span> {order?.shipping}</h3>:null}
-          {order.orderType === 'delivery' ? <h3 className='text-xs text-gray-500' ><span className='text-black' >Delivery Location:&nbsp;</span> {order?.shipping}</h3>:null}
+          <div className='flex space-x-5' >
+           <h3 className='text-xs text-gray-500' ><span className='text-black' >Order Type:&nbsp;</span><span className='capitalize' > {order?.shipping?.type}</span></h3>
+           <h3 className='text-xs text-gray-500' ><span className='text-black' >Location:&nbsp;</span><span className='capitalize' > {order?.shipping?.location}</span></h3>
+          </div>
+          <div className='flex space-x-5' >
           <h3 className='text-xs text-gray-500' ><span className='text-black' >Customer IP:&nbsp;</span>{order?.customerIp}</h3>
           <h3 className='text-xs text-gray-500' ><span className='text-black' >Placed On:&nbsp;</span>{moment(order.createdAt).format('DD MMMM YYYY')}</h3>
+          </div>
         <div className='border-[1px] px-2 py-2 rounded-lg space-y-1' >
            <div className='flex text-xs text-gray-500 w-full' ><span className='text-black w-full' >Customer:&nbsp;</span><div className='flex space-x-2' ><Link to={`/admin/update-customer/${order?.customerId?._id}`} className='underline text-b6 cursor-pointer' >Customer&nbsp;Profile</Link><a className='underline text-b6 cursor-pointer' >View&nbsp;Other&nbsp;Orders</a></div></div>
            <h3 className='text-xs text-gray-500' >{order?.customerId?.firstName} {order?.customerId?.lastName} ({order?.customerId?.email})</h3>
@@ -350,12 +336,12 @@ const UpdateOrder = () => {
       <div className='mt-5' >
         <h3 className='text-sm font-semibold' >Order Products</h3>
         <Table head={['Image','Title','Price','','QTY','Total']} >
-          {products && products?.map((product)=><Row image={product.image} title={product.title} price={product.salePrice ? product.salePrice : product.regPrice} quantity={product.count} />)}
+          {products && products?.map((product)=><Row image={product.image} title={product.title} price={product.isSale ? product.salePrice : product.regPrice} quantity={product.count} />)}
         </Table>
       </div>
       <div >
-        <Table head={['Sub Total','Coupen','Shipping','Tax','Grand Total']} >
-         <OrderFinance coupen='N/A' total={order.total} shipping={order.orderType === 'pickup' ? 'Free' : `$${order.shipping}`} tax={order.tax} grandTotal={order.grandTotal} />
+        <Table head={['Sub Total','Coupon','Shipping','Tax','Grand Total']} >
+         <OrderFinance coupen={order.coupon} total={order.total} shipping={order?.shipping?.shipping} tax={order.tax} grandTotal={order.grandTotal} />
         </Table>
       </div>
 
