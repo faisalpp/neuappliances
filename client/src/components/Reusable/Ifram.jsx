@@ -46,7 +46,8 @@ const Ifram = ({style,src,title,icon,frameId,divId,genState, setGenState,thumbna
   return (
     <div  id={divId} className={`relative ${style} rounded-2xl`} > 
       <div className={`relative ${isIframe || isIframeLoader ? 'flex items-center justify-center h-full w-full' : 'hidden'}`} >
-       {isIframe ? <AiFillPlayCircle onClick={()=>setTrigger(true)} className={`${icon ? icon : 'hidden'} absolute cursor-pointer ${icon} text-b6`} />:null}
+       <div className='absolute bg-black/70 rounded-xl w-full h-full flex z-[99px]' ></div>
+       {isIframe ? <AiFillPlayCircle onClick={()=>setTrigger(true)} className={`${icon ? icon : 'hidden'} absolute cursor-pointer ${icon} text-white`} />:null}
        {isIframeLoader ? <AiOutlineLoading3Quarters className={`absolute cursor-wait ${icon ? icon : 'hidden'} ${icon} text-b6 animate-spin`} />:null}
        {isIframeLoader || isIframe ? <img alt="thumbnail" title="thumbnail" src={thumbnail} className={`h-full w-full ${thumbRounded === 'false' ? null : 'rounded-2xl'}`} />:null}
       </div>

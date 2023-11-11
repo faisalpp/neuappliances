@@ -26,7 +26,7 @@ const TourSection = () => {
     <div id="tour">
       <div className='grid grid-cols-1 xl:grid-cols-2 gap-7 maincontainer py-10 lg:py-14 xl:py-24' >
         {!loopVideo ? <IframeSkelton src="w-full h-72 lg:h-96 xl:h-full rounded-[20px]" />:null}
-        {loopVideo && loopVideo.type === 'iframe' ? <Iframe thumbnail={loopVideo.thumbnail} frameId="tour-section-iframe" divId="tour-section-div" icon="text-8xl" style="w-full h-72 lg:h-96 xl:h-full rounded-[20px]" src={loopVideo.url} title={loopVideo.url} /> : null}
+        {loopVideo && loopVideo.type === 'iframe' ? <Iframe thumbnail={loopVideo.thumbnail} frameId="tour-section-iframe" divId="tour-section-div" icon="text-7xl" style="w-full h-72 lg:h-96 xl:h-full rounded-[20px]" src={loopVideo.url} title={loopVideo.url} /> : null}
         {loopVideo && loopVideo.type !== 'iframe' ? <video controls src={loopVideo.url} className='w-full object-cover h-72 lg:h-96 xl:h-full rounded-[20px]' /> : null}
         <div className='bg-white rounded-[20px] shadow-xl 2xl:h-[640px] xl:h-[540px] py-5 h-full xl:px-[80px] lg:px-10 px-5 flex flex-col gap-y-5 justify-center lg:mt-0 mt-5' >
           <h4 className='xl:text-3xl lg:text-2xl text-xl font-bold' >Tour Our Outlet Store</h4>
