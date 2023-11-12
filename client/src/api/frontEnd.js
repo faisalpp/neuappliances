@@ -10,6 +10,16 @@ const api = axios.create({
     },
 });
 
+export const MultiApi = axios.create({
+    baseURL: baseUrl,
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    maxContentLength: 10 * 1024 * 1024, // 10 megabytes (10MB)
+    maxBodyLength: 10 * 1024 * 1024, // 10 megabytes (10MB)
+});
+
 export const GetZipCords = async (params) => {
     let response;
 
@@ -281,6 +291,31 @@ export const getCustomerBillingAddress = async (data) => {
 
     try{
       response = await api.post('/api/user/customer-billing-address',data,{validationStatus:()=>true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+
+
+
+export const uploadUserMedia = async (data) => {
+    let response;
+
+    try{
+      response = await MultiApi.post('/api/user/upload-media',data,{validationStatus:()=>true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const deleteUserMedia = async (data) => {
+    let response;
+
+    try{
+      response = await api.post('/api/user/delete-media',data,{validationStatus:()=>true});
     }catch (error){
         return error;
     }

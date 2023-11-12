@@ -105,6 +105,8 @@ router.post('/api/admin/delete-faq',faqController.deleteFaq);
 // Asset Uploading Api's
 router.post('/api/admin/upload-media',adminAuth,uploadController.uploadImage);
 router.post('/api/admin/delete-media',adminAuth,uploadController.deleteMedia);
+router.post('/api/user/upload-media',uploadController.uploadUserMedia);
+router.post('/api/user/delete-media',uploadController.deleteUserMedia);
 // Blog Admin Api's
 router.post('/api/admin/create-blog',adminAuth,blogController.createBlog);
 router.post('/api/admin/delete-blog',adminAuth,blogController.DeleteBlog);
@@ -196,6 +198,8 @@ router.post('/api/newsletter-subscribe',newsLetterController.SubscribeToNewLette
 router.post('/api/refund-request',refundController.refundRequest);
 router.get('/api/get-refund-requests',adminAuth,refundController.getRefundRequests);
 router.post('/api/update-refund-request',adminAuth,refundController.updateRefund);
+router.post('/api/delete-refund-request',adminAuth,refundController.deleteRefund);
+router.post('/api/search-refund-request',adminAuth,refundController.searchRefund);
 
 
 

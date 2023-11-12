@@ -1,0 +1,1 @@
+import{j as t}from"./index-3053c656.js";const a=({descStyle:e,title:x,description:s})=>t.jsxs("div",{className:"mt-2",children:[t.jsx("h1",{className:"text-32px xl:text-[40px] maxmd:text-center font-bold mb-6 text-b16",children:x}),t.jsx("p",{className:`w-full md:w-2/3 maxmd:text-center text-b16 ${e||"3xl:w-[1135px]"}`,children:s})]});export{a as A};

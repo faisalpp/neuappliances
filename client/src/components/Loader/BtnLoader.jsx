@@ -2,7 +2,7 @@ import React from 'react'
 
 const BtnLoader = ({style}) => {
   return (
-    <div>
+    <div className='flex justify-center w-full' >
      <img src="/loader-bg.gif" className={style} />
     </div>
   )

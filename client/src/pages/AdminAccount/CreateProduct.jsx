@@ -21,6 +21,7 @@ import BlogEditor from '../../components/AdminDashboard/BlogEditor'
 import Popup from '../../components/AdminDashboard/Popup'
 import Accordion from '../../components/FaqAccordion2'
 import { useNavigate } from 'react-router-dom';
+import Toast from '../../utils/Toast'
 
 const CreateProduct = () => {
 

@@ -36,7 +36,6 @@ const Login = () => {
     const data = { email, password }
 
     const res = await dispatch(loginUser(data));
-    console.log(res)
     if (res.payload.code === 'ERR_BAD_REQUEST') {
       Toast('Invalid Credentials!','error',1000)
     }

@@ -1,1 +1,0 @@
-import{bc as r,be as s}from"./index-14c1cf57.js";const n="",c=r.create({baseURL:n,headers:{"Content-Type":"application/json"}}),p=async t=>{let e;try{e=await s.post("/api/admin/create-help-tab",t)}catch(a){return a}return e},i=async t=>{let e;try{e=await c.get("/api/get-help-tab",t)}catch(a){return a}return e};export{p as c,i as g};

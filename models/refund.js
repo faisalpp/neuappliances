@@ -10,7 +10,6 @@ const refundSchema = new mongoose.Schema({
   media: [{
     type:{type:String, required:true},
     data:{type:String, required:true},
-    thumbnail:{type:String},
   }],
 },{timestamps: true});
 

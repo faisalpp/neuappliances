@@ -2,40 +2,61 @@ import React, { useState} from 'react'
 import MainLayout from '../layout/MainLayout'
 import { BsArrowRightShort } from 'react-icons/bs'
 import { NavLink, useNavigate } from 'react-router-dom'
-import countries from '../services/countries';
 import { FiChevronDown } from 'react-icons/fi';
 import { Signup } from '../api/user/auth';
 import Toast from '../utils/Toast'
+import * as Yup from 'yup';
+import BtnLoader from '../components/Loader/BtnLoader'
 
 const Register = () => {
+const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$/;
+
+const registerSchema = Yup.object({
+  firstName: Yup.string().max(30).required(),
+  lastName: Yup.string().max(30).required(),
+  email: Yup.string().email().required(),
+  phone: Yup.string().required(),
+  country: Yup.string().required(),
+  password: Yup.string().matches(passwordPattern, 'Password must contain at least one lowercase letter, one uppercase letter, and one digit.').required(),
+  confirmPassword: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match"),
+});
+
 
   const navigate = useNavigate();
 
+  const [errors, setErrors] = useState([]);
+  const [loader, setLoader] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [country, setCountry] = useState(countries[0]);
+  const [country, setCountry] = useState('US');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [countryList, setCountryList] = useState(countries);
-
-  // useEffect(() => {
-  //   setCountryList(countries)
-  //   setCountry(countries[0].country)
-  // }, [])
-
-
+  const [countryList, setCountryList] = useState(['US']);
 
   const Submit = async (e) => {
     e.preventDefault()
-    const data = { firstName, lastName, email, country, phone, password, confirmPassword }
+    setLoader(true)
+    const data = { firstName:firstName, lastName:lastName, email:email, country:country, phone:phone, password:password, confirmPassword:confirmPassword }
+    try{
+      await registerSchema.validate(data, { abortEarly: false }); 
+    }catch(error){ 
+     setLoader(false)
+     if (error) {
+      let errors = error.errors;setErrors(errors)
+      errors.forEach((item)=>{Toast(item,'error',2000)})
+     } else {setErrors([])}
+    }
+
+
     const res = await Signup(data);
-    console.log(res)
     if (res.status === 200) {
+      setLoader(false)
       Toast('Signup Successfull!','success',1000)
       navigate('/login')
     } else {
+      setLoader(false)
       Toast(res.data.message,'error',1000)
     }
 
@@ -67,7 +88,7 @@ const Register = () => {
                 <div className='relative'>
                   
                   <select value={country} onChange={e => setCountry(e.target.value)} className='border border-[rgba(0,0,0,0.16)] rounded-lg h-10 text-sm px-4 w-full outline-none appearance-none'>
-                    {countryList.length > 0 ? countryList.map((country, index) => <option key={index} >{country}</option>) : <option>No Country Data Found!</option>}
+                    {countryList.length > 0 ? countryList.map((country, index) => <option key={index} value={country} >{country}</option>) : <option>No Country Data Found!</option>}
                   </select>
                   <FiChevronDown className='absolute right-4 top-3' />
                 </div>
@@ -85,7 +106,7 @@ const Register = () => {
               <h5 className='text-xs font-semibold' >Confirm Password</h5>
               <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className='text-sm outline-none border-[1px] border-gray-200 w-full px-4 py-3 rounded-md' placeholder='Password' />
             </div>
-            <button type='submit' className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><span className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create Account</span><BsArrowRightShort className='text-2xl' /></span></button>
+            <button type={loader ? 'button' : 'submit'} className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' >{loader? <BtnLoader style="w-5 py-1" />:<span className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create Account</span><BsArrowRightShort className='text-2xl' /></span>}</button>
             <div className='flex w-full justify-center' ><h5 className='text-sm' >Have an Account? <NavLink to="/login" ><span className='text-b3 hover:underline cursor-pointer' >Login</span></NavLink></h5></div>
           </form>
         </div>

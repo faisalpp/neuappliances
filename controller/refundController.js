@@ -54,6 +54,58 @@ const refundController = {
       }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
     },
 
+    async deleteRefund(req,res,next){
+
+      const {id} = req.body;
+
+      if(!id){
+       return res.status(500).json({status:500,message:'Internal Server Error!'})
+      }
+      
+      const refund = await Refund.findOne({_id:id}) 
+      
+      const media = refund.media;
+      let delMedia = [];
+
+      if(media?.length > 0){
+        for(let i=0;i<media.length;i++){
+          delMedia.push(media[i].data)
+          // console.log(delMedia[i].data)
+        }
+      }
+
+      if(delMedia.length > 0){
+        const {resp} = await AWS3.deleteMultiFiles(delMedia)
+        if(resp.$metadata.httpStatusCode === 200){
+          await Refund.findOneAndDelete({_id:id});
+          return res.status(200).json({status:200,msg:'Refund Deleted Successfully!'})
+        }else{
+          return res.status(500).json({message:'AWS Internal Server Error!'});
+        }
+      }else{
+       await Refund.findOneAndDelete({_id:id});
+       return res.status(200).json({status:200,msg:'Refund Deleted Successfully!'})
+      }
+    },
+
+    async searchRefund(req,res,next){
+        const orderSchema = Joi.object({
+         query: Joi.string().required(),
+        });
+        const { error } = orderSchema.validate(req.body);
+       
+        // 2. if error in validation -> return error via middleware
+        if (error) {
+          return next(error)
+        };
+     
+        const {query} = req.body;
+         try{
+         const result = await Refund.find({ orderNo: { $regex: query, $options: 'i' } })
+          return res.status(200).json({status: 200,refunds:result});
+         }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+    },
+
 }
 
 module.exports = refundController;

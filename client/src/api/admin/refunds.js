@@ -21,3 +21,25 @@ export const updateRefundRequest = async (data) => {
     }
     return response;
 }
+
+export const deleteRefundRequest = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/delete-refund-request',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
+export const searchRefundRequest = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/search-refund-request',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
