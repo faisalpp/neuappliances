@@ -11,7 +11,7 @@ const Table = ({children,head}) => {
           <thead
             className="border-b border-l border-b3 bg-b3 font-medium text-white">
             <tr>
-              {head.map((item)=><th scope="col" className="text-center px-6 py-2">{item}</th>)}
+              {head?.map((item)=><th scope="col" className="text-center px-6 py-2">{item}</th>)}
             </tr>
           </thead>
           <tbody>

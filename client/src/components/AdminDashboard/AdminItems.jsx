@@ -19,6 +19,10 @@ const AdminItems = ({ onClose, isItems }) => {
             title: 'Customers',
             link: '/admin/manage-customers',
         },
+        {
+            title: 'Refunds',
+            link: '/admin/manage-refunds',
+        },
         // {
         //     title: "Manage Tax",
         //     link: '/admin/manage-taxes',

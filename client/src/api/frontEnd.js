@@ -254,6 +254,17 @@ export const subscribeNewLetter = async (data) => {
     return response;
 }
 
+export const submitRefundRequest = async (data) => {
+    let response;
+
+    try{
+      response = await api.post('/api/refund-request',data,{validationStatus:()=>true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+
 export const getCustomerShippingAddress = async (data) => {
     let response;
 

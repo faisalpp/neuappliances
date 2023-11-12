@@ -360,7 +360,7 @@ if(oldUser){
      let orders;
      let totalCount;
      if(req.body.orderType === 'all-orders'){
-       orders = await Order.find().skip(skip).limit(limit);
+       orders = await Order.find({}).skip(skip).limit(limit);
        totalCount = await Order.countDocuments({});
      }else if (req.body.orderType === 'archived'){
        orders = await Order.find({isArchived:true}).skip(skip).limit(limit);

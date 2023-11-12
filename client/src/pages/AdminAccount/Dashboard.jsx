@@ -3,6 +3,7 @@ import AdminAccount from '../../layout/AdminAccount';
 import {CgSmartHomeWashMachine} from 'react-icons/cg'
 import {TbCategory} from 'react-icons/tb'
 import {BsBox} from 'react-icons/bs'
+import {RiRefund2Fill} from 'react-icons/ri'
 import Card from '../../components/AdminDashboard/Card'
 
 const Dashboard = () => {
@@ -15,6 +16,7 @@ const Dashboard = () => {
             <Card title="PRODUCTS" count={1} icon={<CgSmartHomeWashMachine className='text-4xl text-b7' />} />
             <Card title="CATEGORIES" count={1} icon={<TbCategory className='text-4xl text-b7' />} />
             <Card title="ORDERS" count={1} icon={<BsBox className='text-4xl text-b7' />} />
+            <Card title="REFUNDS" count={1} icon={<RiRefund2Fill className='text-4xl text-b7' />} />
          </div>
         </AdminAccount>
         </>

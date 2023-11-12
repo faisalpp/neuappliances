@@ -27,6 +27,7 @@ const uploader = require('express-fileupload');
 const favoriteController = require('../controller/favoriteController');
 const newsLetterController = require('../controller/newsLetterController');
 const adminCartController = require('../controller/adminCart');
+const refundController = require('../controller/refundController');
 
 const router = express.Router();
 
@@ -191,6 +192,10 @@ router.post('/api/user/check-favorite',favoriteController.CheckFavorite);
 
 // News Letter Subscribtion
 router.post('/api/newsletter-subscribe',newsLetterController.SubscribeToNewLetter);
+// Refund Form Api's
+router.post('/api/refund-request',refundController.refundRequest);
+router.get('/api/get-refund-requests',adminAuth,refundController.getRefundRequests);
+router.post('/api/update-refund-request',adminAuth,refundController.updateRefund);
 
 
 

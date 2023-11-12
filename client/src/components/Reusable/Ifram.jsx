@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import {AiFillPlayCircle,AiOutlineLoading3Quarters} from 'react-icons/ai'
+import {AiFillPlayCircle} from 'react-icons/ai'
+import {TbLoader3} from 'react-icons/tb'
 
 const Ifram = ({style,src,title,icon,frameId,divId,genState, setGenState,thumbnail,thumbRounded}) => {
 
@@ -48,7 +49,7 @@ const Ifram = ({style,src,title,icon,frameId,divId,genState, setGenState,thumbna
       <div className={`relative ${isIframe || isIframeLoader ? 'flex items-center justify-center h-full w-full' : 'hidden'}`} >
        <div className='absolute bg-black/70 rounded-xl w-full h-full flex z-[99px]' ></div>
        {isIframe ? <AiFillPlayCircle onClick={()=>setTrigger(true)} className={`${icon ? icon : 'hidden'} absolute cursor-pointer ${icon} text-white`} />:null}
-       {isIframeLoader ? <AiOutlineLoading3Quarters className={`absolute cursor-wait ${icon ? icon : 'hidden'} ${icon} text-b6 animate-spin`} />:null}
+       {isIframeLoader ? <TbLoader3 className={`absolute cursor-wait ${icon ? icon : 'hidden'} ${icon} text-white animate-spin`} />:null}
        {isIframeLoader || isIframe ? <img alt="thumbnail" title="thumbnail" src={thumbnail} className={`h-full w-full ${thumbRounded === 'false' ? null : 'rounded-2xl'}`} />:null}
       </div>
     </div>

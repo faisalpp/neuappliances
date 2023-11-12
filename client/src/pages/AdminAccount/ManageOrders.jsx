@@ -25,7 +25,6 @@ const ManageOrders = () => {
      setLoading(true)
      const params = { page: page, limit: limit };
      const res = await getOrders(params,{orderType:orderType});
-     console.log(res.data)
      if(res.status === 200){
       setLoading(false)
       setOrders(res.data.orders)

@@ -105,6 +105,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import CreateOrder from './pages/AdminAccount/CreateOrder';
 import CreateCoupon from './pages/AdminAccount/CreateCoupon';
 import SearchProducts from './pages/SearchProducts';
+import ManageRefunds from './pages/AdminAccount/ManageRefunds';
 const ManageCopons = lazy(() => import('./pages/AdminAccount/ManageCopons'));
 const UpdateShippingZone = lazy(() => import('./pages/AdminAccount/UpdateShippingZone'));
 const ManageZipCods = lazy(() => import('./pages/AdminAccount/ManageZipCods'));
@@ -275,6 +276,8 @@ function App() {
           <Route path="/admin/manage-customers" element={<ProtectedAdmin><ManageCustomers /></ProtectedAdmin>} />
           {/* Admin Update Customer */}
           <Route path="/admin/update-customer/:id" element={<ProtectedAdmin><UpdateCustomer /></ProtectedAdmin>} />
+          {/* Manage Refunds */}
+          <Route path="/admin/manage-refunds" element={<ProtectedAdmin><ManageRefunds /></ProtectedAdmin>} />
           {/* Admin Update Customer */}
           <Route path="/admin/manage-zip-cordinates" element={<ProtectedAdmin><ManageZipCordinates /></ProtectedAdmin>} />
 

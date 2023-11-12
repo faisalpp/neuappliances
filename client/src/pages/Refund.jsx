@@ -3,19 +3,39 @@ import MainLayout from '../layout/MainLayout';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { BiCamera } from 'react-icons/bi';
 import BackHome from '../components/BackHome';
+import {submitRefundRequest} from '../api/frontEnd'
+import Toast from '../utils/Toast';
 
 const Refund = () => {
-    const [file, setFile] = useState(null);
+
+    const [orderNo, setOrderNo] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [amount, setAmount] = useState('');
+    const [media, setMedia] = useState([]);
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
-
         if (selectedFile) {
-            setFile(selectedFile);
-        } else {
-            // setFile(null);
+         setMedia([selectedFile,...media]);
         }
     };
+
+
+    const HandleRefund = async (e) => {
+     e.preventDefault()
+     const data = {orderNo:orderNo,email:email,name:name,phone:phone,amount:amount,media:media};
+     const res = await submitRefundRequest(data);
+     console.log(res)
+     if(res.status === 200){
+      setOrderNo('');setName('');setEmail('');setPhone('');setAmount('');setMedia([]);
+      Toast(res.data.msg,'success',1000)
+     }else{
+      Toast(res.data.message,'error',1000)
+     }
+    }
+
     return (
         <MainLayout>
             <div className='py-10 lg:py-16 xl:py-20 maincontainer' >
@@ -42,57 +62,39 @@ const Refund = () => {
                         <h3 className='text-b18 text-xl font-semibold mb-8'>Order Details</h3>
                         <div className='mb-5'>
                             <label htmlFor="order_id" className='block text-xs text-b18/50 mb-2 font-bold'>Order ID</label>
-                            <input type="text" name='order_id' className='w-full bg-white h-10 rounded-lg text-black px-4 text-xs outline-none' placeholder='Full name' />
+                            <input type="text" value={orderNo} onChange={(e)=>setOrderNo(e.target.value)} name='order_id' className='w-full bg-white h-10 rounded-lg text-black px-4 text-xs outline-none' placeholder='fq34-D10M02Y2023' />
                         </div>
                         <div className='mb-5'>
                             <label htmlFor="name" className='block text-xs text-b18/50 mb-2 font-bold'>Name</label>
-                            <input type="text" name='name' className='w-full bg-white h-10 rounded-lg text-black px-4 text-xs outline-none' placeholder='Full name' />
+                            <input type="text" value={name} onChange={(e)=>setName(e.target.value)} name='name' className='w-full bg-white h-10 rounded-lg text-black px-4 text-xs outline-none' placeholder='Full name' />
                         </div>
                         <div className='mb-5'>
                             <label htmlFor="email_adress" className='block text-xs text-b18/50 mb-2 font-bold'>Email Address</label>
-                            <input type="email" name='email_adress' className='w-full bg-white h-10 rounded-lg text-black px-4 text-xs outline-none' placeholder='yourusername@email.com' />
+                            <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} name='email_adress' className='w-full bg-white h-10 rounded-lg text-black px-4 text-xs outline-none' placeholder='yourusername@email.com' />
                         </div>
                         <div className='mb-5'>
                             <label htmlFor="phone_no" className='block text-xs text-b18/50 mb-2 font-bold'>Phone Number</label>
-                            <input type="text" name='phone_no' className='w-full bg-white h-10 rounded-lg text-black px-4 text-xs outline-none' placeholder='yourusername@email.com' />
+                            <input type="number" value={phone} onChange={(e)=>setPhone(e.target.value)} name='phone_no' className='w-full bg-white h-10 rounded-lg text-black px-4 text-xs outline-none' placeholder='yourusername@email.com' />
                         </div>
                         <div className='mb-5'>
                             <label htmlFor="refund_amount" className='block text-xs text-b18/50 mb-2 font-bold'>Enter Refund Amount</label>
-                            <input type="text" name='refund_amount' className='w-full bg-white h-10 rounded-lg text-black px-4 text-xs outline-none' placeholder='yourusername@email.com' />
+                            <input type="number" value={amount} onChange={(e)=>setAmount(e.target.value)} name='refund_amount' className='w-full bg-white h-10 rounded-lg text-black px-4 text-xs outline-none' placeholder='$35' />
                         </div>
                         <div className='mb-10'>
-                            <div className='block text-xs text-b18/50 mb-2 font-bold'>Upload a Photo or Video (optional)</div>
-                            {file ?
-                                <div className='w-full'>
-                                    <div className='h-[208px] w-full'>
-                                        {file.type.startsWith('image/') ? (
-                                            <img src={URL.createObjectURL(file)} alt="Preview" className="w-full rounded-lg object-cover h-full" />
-                                        ) : (
-                                            <video className="w-full h-full" key={file.name} loop muted>
-                                                <source src={URL.createObjectURL(file)} type={file.type} />
-                                                Your browser does not support the video tag.
-                                            </video>
-                                        )}
-                                    </div>
-                                    <label htmlFor="fileInput" className='w-full block mt-5 px-3 py-2 rounded-lg bg-b3 text-white text-center'>Change</label>
-                                </div>
-                                : <label htmlFor="fileInput" className='image_video_section cursor-pointer w-full h-[208px] bg-white rounded-lg xy-center flex-col gap-3'>
-                                    <div className='w-16 h-16 rounded-full xy-center bg-b3/10'>
-                                        <BiCamera className='h-8 w-8 text-b3 ' />
-                                    </div>
-                                    <span className='text-b18 text-xs'>Select a picture or video to upload</span>
-                                </label>
-                            }
-                            <input
-                                id="fileInput"
-                                hidden
-                                type="file"
-                                accept="image/*, video/*"
-                                onChange={handleFileChange}
-                                className="mb-2"
-                            />
+                         <div className='block text-xs text-b18/50 mb-2 font-bold'>Upload a Photo or Video (optional)</div>
+
+                         <div className='grid grid-cols-6 gap-x-2 h-52 px-2 w-full py-4 overflow-x-hidden overflow-y-scroll rounded-xl bg-white' >
+
+                          <img src="/p1.webp" className='w-24 bg-gray-100 rounded-md' />
+                          <img src="/p1.webp" className='w-24 bg-gray-100 rounded-md' />
+                          <img src="/p1.webp" className='w-24 bg-gray-100 rounded-md' />
+                          <video src="/videos/sample.mp4" controls className='w-62' />
+
+                         </div>
+                          
+                          <input id="fileInput" hidden type="file" accept="image/*, video/*" onChange={handleFileChange} className="mb-2"/>
                         </div>
-                        <button className='px-4 py-3 text-xs font-medium text-white bg-b3 w-full rounded-lg'>Submit</button>
+                        <button type="button" onClick={e=>HandleRefund(e)} className='px-4 py-3 text-xs font-medium text-white bg-b3 w-full rounded-lg'>Submit</button>
                     </div>
                 </div>
             </div>
@@ -101,3 +103,9 @@ const Refund = () => {
 }
 
 export default Refund
+
+
+{/* <label htmlFor="fileInput" className='image_video_section cursor-pointer w-full h-[208px] bg-white rounded-lg xy-center flex-col gap-3'>
+                              <span className='w-16 h-16 rounded-full xy-center bg-b3/10'><BiCamera className='h-8 w-8 text-b3 ' /></span>
+                              <span className='text-b18 text-xs'>Select a picture or video to upload</span>
+                          </label> */}

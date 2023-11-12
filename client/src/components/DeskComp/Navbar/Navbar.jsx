@@ -152,10 +152,10 @@ const Navbar = () => {
                 <div className='flex flex-col space-y-4 text-xs font-medium mt-4 text-white/80' >
                   <Link to="/how-it-works/what-we-sell">What We Sell</Link>
                   <Link to="/how-it-works/rating-system">Rating System</Link>
-                  <Link to="/how-it-works/testing-process">Testing Process</Link>
-                  <Link to="/how-it-works/product-photos">Product Photos</Link>
+                  <Link to="/how-it-works/testing-process">Testing&nbsp;Process</Link>
+                  <Link to="/how-it-works/product-photos">Product&nbsp;Photos</Link>
                   <Link to="/how-it-works/delivery">Delivery</Link>
-                  <Link to="/how-it-works/hassle-free">Warranty & Return</Link>
+                  <Link to="/how-it-works/hassle-free">Warranty&nbsp;&&nbsp;Return</Link>
                 </div>
               </div>
 
@@ -175,7 +175,7 @@ const Navbar = () => {
                 <div className='flex flex-col space-y-4 text-xs mt-4 font-medium text-white/80' >
                   <Link to="/our-story">Our Story</Link>
                   <Link to="/our-showroom">Our Outlet</Link>
-                  <Link to="/our-companies">Our Companies</Link>
+                  <Link to="/our-companies">Our&nbsp;Companies</Link>
                   <Link to="/faqs">FAQ</Link>
                 </div>
               </div>
@@ -185,7 +185,7 @@ const Navbar = () => {
                 <div className='flex flex-col space-y-4 text-xs mt-4 font-medium text-white/80' >
                   <Link to="/help-and-support">Help Placing an Order Us</Link>
                   <Link to="">Returns and Exchange</Link>
-                  <Link to="">Contact Us</Link>
+                  <Link to="/contact-us">Contact Us</Link>
                 </div>
               </div>
 
