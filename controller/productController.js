@@ -18,8 +18,6 @@ const productController = {
           fuelType: Joi.allow(null).empty(''),
           regPrice: Joi.string().required(),
           salePrice: Joi.allow(null).empty(''),
-          lowPrice: Joi.string().required(),
-          highPrice: Joi.string().required(),
           rating: Joi.string().required(),
           stock: Joi.string().required(),
           modelNo: Joi.string().required(),
@@ -28,6 +26,7 @@ const productController = {
           keyFeatures:Joi.string().required(),
           threeSixty: Joi.string().required(),
           media: Joi.string().required(),
+          bulletDescription: Joi.string().required(),
           tags: Joi.string().required(),
           description: Joi.string().required(),
           specification: Joi.string().required(),
@@ -43,7 +42,7 @@ const productController = {
         return next(error)
       }
       // 3. if email or username is already registered -> return an error
-      const { productType, title, slug, category, feature, type, color, brand, fuelType, regPrice, salePrice, lowPrice, highPrice, rating, stock, modelNo , itemId, keyFeatures, featureVideo, threeSixty, media, tags, description, specification, deliveryInfo, metaTitle, metaDescription, metaKeywords} = req.body;
+      const { productType, title, slug, category, feature, type, color, brand, fuelType, regPrice, salePrice, rating, stock, modelNo , itemId, keyFeatures, featureVideo, threeSixty, media, tags, description, specification, deliveryInfo, metaTitle, metaDescription, metaKeywords,bulletDescription} = req.body;
       
       const titleInUse = await Product.exists({ title });        
       if (titleInUse) {
@@ -69,8 +68,6 @@ const productController = {
           fuelType, 
           regPrice,
           salePrice, 
-          lowPrice,
-          highPrice,
           rating,
           stock,
           modelNo,
@@ -79,6 +76,7 @@ const productController = {
           featureVideo:JSON.parse(featureVideo),
           threeSixty:JSON.parse(threeSixty),
           media:JSON.parse(media),
+          bulletDescription:JSON.parse(bulletDescription),
           tags:JSON.parse(tags),
           description,
           specification,
@@ -109,8 +107,6 @@ const productController = {
           fuelType: Joi.allow(null).empty(''),
           regPrice: Joi.number().required(),
           salePrice: Joi.number().empty(''),
-          lowPrice: Joi.number().required(),
-          highPrice: Joi.number().required(),
           rating: Joi.number().required(),
           stock: Joi.number().required(),
           modelNo: Joi.string().required(),
@@ -119,6 +115,7 @@ const productController = {
           keyFeatures:Joi.string().required(),
           threeSixty: Joi.string().required(),
           media: Joi.string().required(),
+          bulletDescription: Joi.string().required(),
           tags: Joi.string().required(),
           description: Joi.string().required(),
           specification: Joi.string().required(),
@@ -134,7 +131,7 @@ const productController = {
         return next(error)
       }
       // 3. if email or username is already registered -> return an error
-      const { pSlug,productType, title, slug, category, feature, type, color, brand, fuelType, regPrice, salePrice, lowPrice, highPrice, rating, stock, modelNo , itemId, keyFeatures, featureVideo, threeSixty, media, tags, description, specification, deliveryInfo, metaTitle, metaDescription, metaKeywords} = req.body;
+      const { pSlug,productType, title, slug, category, feature, type, color, brand, fuelType, regPrice, salePrice, bulletDescription, rating, stock, modelNo , itemId, keyFeatures, featureVideo, threeSixty, media, tags, description, specification, deliveryInfo, metaTitle, metaDescription, metaKeywords} = req.body;
       
       const isProduct = await Product.find({slug:pSlug});        
       if (!isProduct) {
@@ -161,8 +158,6 @@ const productController = {
           fuelType, 
           regPrice,
           salePrice, 
-          lowPrice,
-          highPrice,
           rating,
           stock,
           modelNo,
@@ -171,6 +166,7 @@ const productController = {
           featureVideo:JSON.parse(featureVideo),
           threeSixty:JSON.parse(threeSixty),
           media:JSON.parse(media),
+          bulletDescription:JSON.parse(bulletDescription),
           tags:JSON.parse(tags),
           description,
           specification,
@@ -193,15 +189,6 @@ const productController = {
       
       try{
         const products = await Product.find({});
-        
-        // const productDto = new ProductDto(products)
-        // let productsDTOs=[];
-        // productDto.forEach((product) => {
-        //   const productDTO = new ProductDto(product);
-        //   productsDTOs.push(productDTO);
-        // });
-        // console.log(productsDTOs)
-
         return res.status(200).json({status:200,products:products});
       }catch(error){
         return next(error)
@@ -289,8 +276,6 @@ const productController = {
         fuelType:product.fuelType, 
         regPrice:product.regPrice,
         salePrice:product.salePrice, 
-        lowPrice:product.lowPrice,
-        highPrice:product.highPrice,
         rating:product.rating,
         stock:product.stock,
         modelNo:product.modelNo,
@@ -299,6 +284,7 @@ const productController = {
         featureVideo:newFeatureVideo,
         threeSixty:product.threeSixty,
         media:newMedia,
+        bulletDescription:product.bulletDescription,
         tags:product.tags,
         description:product.description,
         specification:product.specification,

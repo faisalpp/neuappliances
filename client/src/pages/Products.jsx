@@ -100,7 +100,7 @@ const Products = () => {
 
             <div className={`grid ${isGrid ? 'lg:grid-cols-3 grid-cols-1 lg:gap-x-2' : 'grid-cols-1'} gap-y-5 mb-10 w-full`} >
                {loading ? <div className='flex items-center justify-center w-full' ><img src="/loader2.gif" className="w-20 h-20" /></div> :null}
-               {products?.length === 0 ? <div className='flex items-center justify-center w-full' ><img src="/not-found.webp" className='w-40 h-40' /></div> : null}
+               {products?.length > 0 ? null : <div className='flex items-center justify-center w-full' ><img src="/not-found.webp" className='w-40 h-40' /></div>}
                {products?.length > 0 && !loading ? products.map((product, index) => <ProductCard3 key={index} product={product} isGrid={isGrid} />) :null}
 
             </div>

@@ -28,6 +28,7 @@ const favoriteController = require('../controller/favoriteController');
 const newsLetterController = require('../controller/newsLetterController');
 const adminCartController = require('../controller/adminCart');
 const refundController = require('../controller/refundController');
+const dashboardController = require('../controller/dashboardController');
 
 const router = express.Router();
 
@@ -255,5 +256,10 @@ router.post('/api/search-appliance',applianceController.SearchAppliance);
 
 
 router.get('/affirm',adminController.affirm)
+
+
+// Admin Dashboard Data Api's
+router.get('/admin/dashboard-data',adminAuth,dashboardController.GetDashboardData)
+
 
 module.exports = router;

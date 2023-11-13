@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import MainLayout from '../layout/MainLayout';
 import ApplianceDetail from '../components/Appliances/ApplianceDetail';
 import { RiArrowDropRightLine } from 'react-icons/ri';
@@ -14,6 +14,10 @@ const ContactUs = () => {
         { icon: Clock, title: 'Office hours', description: 'Monday - Friday <br/> 8:00am to 5:00pm' },
         { icon: Contact, title: 'Contact Info', description: 'youremail@gmail.com <br/> + 234 888 8888 88' },
     ]
+
+    const [name,setName] = useState('')
+    const [email,setEmail] = useState('')
+    const [message,setMessage] = useState('')
 
     return (
         <>

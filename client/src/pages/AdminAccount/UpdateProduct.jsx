@@ -17,7 +17,7 @@ import TextInputSuggestion from '../../components/TextInput/TextInputSuggestion'
 import SelectInput from '../../components/TextInput/SelectInput'
 import TextArea from '../../components/TextInput/TextAreaInput'
 import Iframe from '../../components/Reusable/Ifram'
-import ContentEditor from '../../components/AdminDashboard/ContentEditor'
+import BlogEditor from '../../components/AdminDashboard/BlogEditor'
 import Popup from '../../components/AdminDashboard/Popup'
 import Accordion from '../../components/FaqAccordion2'
 import { useNavigate,useParams } from 'react-router-dom';
@@ -36,8 +36,11 @@ const UpdateProduct = () => {
   const [loader,setLoader] = useState(false)
   const query = useParams()
   const [pSlug,setPslug] = useState(query.slug)
-  const [values,setValues] = useState({productType:'parent',title:'',slug:'',category:'',feature:'',type:'',color:'',brand:'',fuelType:'',regPrice:'',salePrice:'',lowPrice:'',highPrice:'',rating:'3',stock:'',modelNo:'',itemId:'',keyFeatures:[],featureVideo:{type:'',data:''},threeSixty:{type:'',data:''},media:[],description:'',specification:'',deliveryInfo:'',metaTitle:'',metaDescription:'',metaKeywords:[],tags:''})
-  
+  const [values,setValues] = useState({productType:'parent',title:'',slug:'',category:'',feature:'',type:'',color:'',brand:'',fuelType:'',regPrice:'',salePrice:'',rating:'3',stock:'',modelNo:'',itemId:'',keyFeatures:[],featureVideo:{type:'',data:''},threeSixty:{type:'',data:''},media:[],metaTitle:'',metaDescription:'',metaKeywords:[],tags:''})
+  const [description,setDescription] = useState('')
+  const [specification,setSpecification] = useState('')
+  const [deliveryInfo,setDeliveryInfo] = useState('')
+
   const [productTypes,setProductTypes] = useState(['Parent','Variant'])
 
   // Form States Start
@@ -412,47 +415,7 @@ const UpdateProduct = () => {
     e.preventDefault()
     setSubmit(true)
     try{
-     const data = {
-      pSlug,
-      productType:values.productType,
-      title:values.title,
-      slug:values.slug,
-      category:values.category,
-      feature:values.feature,
-      type:values.type,
-      color:values.color,
-      brand:values.brand,
-      fuelType:values.fuelType,
-      regPrice:parseFloat(values.regPrice),
-      salePrice:parseFloat(values.salePrice),
-      lowPrice:parseFloat(values.lowPrice),
-      highPrice:parseFloat(values.highPrice),
-      rating:parseFloat(values.rating),
-      stock:parseFloat(values.stock),
-      modelNo:values.modelNo,
-      itemId:values.itemId,
-      metaKeywords:JSON.stringify(values.metaKeywords),
-      keyFeatures:JSON.stringify(values.keyFeatures),
-      featureVideo:JSON.stringify(values.featureVideo),
-      threeSixty:JSON.stringify(values.threeSixty),
-      media:JSON.stringify(values.media),
-      tags:JSON.stringify(values.tags),
-      description:values.description,
-      specification:values.specification,
-      deliveryInfo:values.deliveryInfo,
-      metaTitle:values.metaTitle,
-      metaDescription:values.metaDescription,
-    }
-     await updateProductSchema.validate(values, { abortEarly: false }); 
-     const res = await updateProduct(data)
-     if(res.status === 200){
-      setSubmit(false)
-      Toast(res.data.msg,'success',1000)
-      navigate('/admin/manage-products')
-     }else{
-      setSubmit(false)
-      Toast(res.data.message,'error',1000)
-     }
+      await updateProductSchema.validate({...values,description:description,specification:specification,deliveryInfo:deliveryInfo}, { abortEarly: false }); 
     }catch(error){
       if (error) {
         let errors = error.errors;
@@ -464,6 +427,18 @@ const UpdateProduct = () => {
         setErrors([])
       }
     }
+    
+     const data = {pSlug,productType:values.productType,title:values.title,slug:values.slug,category:values.category,feature:values.feature,type:values.type,color:values.color,brand:values.brand,fuelType:values.fuelType,regPrice:parseFloat(values.regPrice),salePrice:parseFloat(values.salePrice),lowPrice:parseFloat(values.lowPrice),highPrice:parseFloat(values.highPrice),rating:parseFloat(values.rating),stock:parseFloat(values.stock),modelNo:values.modelNo,itemId:values.itemId,metaKeywords:JSON.stringify(values.metaKeywords),keyFeatures:JSON.stringify(values.keyFeatures),featureVideo:JSON.stringify(values.featureVideo),threeSixty:JSON.stringify(values.threeSixty),media:JSON.stringify(values.media),bulletDescription:JSON.stringify(values.bullets),tags:JSON.stringify(values.tags),description:description,specification:specification,deliveryInfo:deliveryInfo,metaTitle:values.metaTitle,metaDescription:values.metaDescription}
+     const res = await updateProduct(data)
+     if(res.status === 200){
+      setSubmit(false)
+      Toast(res.data.msg,'success',1000)
+      navigate('/admin/manage-products')
+     }else{
+      setSubmit(false)
+      Toast(res.data.message,'error',1000)
+     }
+    
  }
 
 
@@ -482,6 +457,22 @@ const handleTitle = (e) => {
   title: e.target.value, // Update the property based on the input's 'name' attribute
   slug: e.target.value.toLowerCase().replace(/\s/g,'-')
 });
+}
+
+const [bullet,setBullet] = useState('')
+
+const HandleBullets = (e) => {
+ e.preventDefault()
+ if(bullet?.length > 0){
+   setValues({...values,bullets:[...values.bullets,bullet]})
+   setBullet('')
+ }
+}
+
+const RemoveBullet = (e,indx) => {
+ e.preventDefault()
+   const newArray = [...values.bullets?.slice(0, indx), ...values.bullets?.slice(indx + 1)];
+   setValues({...values,bullets:newArray})
 }
 
   return (
@@ -555,15 +546,24 @@ const handleTitle = (e) => {
      <div className="flex items-center space-x-5 w-full" >
       <TextInput name="regPrice" title="Regular Price" iscompulsory="true" type="text" value={values.regPrice} onChange={(e) =>handleInputChange(e,'regPrice')} error={errors && errors.includes('Regular Price is Required!') ? true : false} errormessage="Regular Price is Required!" placeholder="Regular Price is Required!" />
       <TextInput name="salePrice" title="Sale Price" iscompulsory="false" type="text" value={values.salePrice} onChange={(e) =>handleInputChange(e,'salePrice')} error={errors && errors.includes('Sale Price is Required!') ? true : false} errormessage="Sale Price is Required!" placeholder="Sale Price is Required!" />
-      <TextInput name="lowPrice" title="Lower Installment" iscompulsory="true" type="text" value={values.lowPrice} onChange={(e) =>handleInputChange(e,'lowPrice')} error={errors && errors.includes('Lower Installment Price is Required!') ? true : false} errormessage="Lower Installment Price is Required!" placeholder="Enter Lower Installment" />
-      <TextInput name="highPrice" title="Higher Installment" iscompulsory="true" type="text" value={values.highPrice} onChange={(e) =>handleInputChange(e,'highPrice')} error={errors && errors.includes('Higher Installment Price is Required!') ? true : false} errormessage="Higher Installment Price is Required!" placeholder="Enter Higher Installment" />
+      <TextInput name="stock" title="Stock" iscompulsory="true" type="text" value={values.stock} onChange={(e) =>handleInputChange(e,'stock')} error={errors && errors.includes('Stock is Required!') ? true : false} errormessage="Stock is Required!" placeholder="Total Stock: 12" />
+      <SelectInput name="categor" title="Rating" iscompulsory="true" onChange={e =>handleInputChange(e,'rating')} options={['3','4','5']} />
      </div>
      <div className="flex items-center space-x-5 w-full" >
-      <SelectInput name="categor" title="Rating" iscompulsory="true" onChange={e =>handleInputChange(e,'rating')} options={['3','4','5']} />
-      <TextInput name="stock" title="Stock" iscompulsory="true" type="text" value={values.stock} onChange={(e) =>handleInputChange(e,'stock')} error={errors && errors.includes('Stock is Required!') ? true : false} errormessage="Stock is Required!" placeholder="Total Stock: 12" />
       <TextInputSuggestion state={values.modelNo} setState={setValues} values={values} suggestionList={allModelNos} iscompulsory="true" title="Model No" placeholder="#12334" />
       <TextInput name="item-id" title="Item Id" iscompulsory="true" type="text" value={values.itemId} onChange={(e) =>handleInputChange(e,'itemId')} error={errors && errors.includes('Item Id is Required!') ? true : false} errormessage="Item Id is Required!" placeholder="Item Id: 234532455" />
      </div>
+
+     <Accordion title="Bullet Description" answer={
+      <div className='flex flex-col w-full' >
+       <div className='flex space-x-5 items-center mb-2' ><input value={bullet} onChange={(e)=>setBullet(e.target.value)} type="text" className='outline-none border-[1px] rounded-lg border-b31 w-full px-2 text-sm py-1' placeholder="Write Bullet Description" /><button type="button" className="bg-b6 text-white px-4 rounded-md text-sm py-1" onClick={e=>HandleBullets(e)} >Add&nbsp;Bullet</button></div>
+       <div className='w-full h-52 overflow-x-hidden overflow-y-scroll px-2 py-2  border-[1px] border-[rgba(0,0,0,0.15)] rounded-lg' >
+        <ul className="flex flex-col list-disc space-y-2 px-2 py-2" >
+         {values.bullets?.length > 0 ? values.bullets?.map((bullet,index)=> <li key={index} className='flex flex-wrap px-2 py-1 text-sm w-full bg-b31/30 rounded-md space-x-5 items-center'  ><span>{bullet}</span><AiFillCloseCircle onClick={e=>RemoveBullet(e,index)} className='cursor-pointer text-red-500 text-sm' /> </li> ):<h3 className='text-red-400 text-sm font-medium' >No Bullet Description Added!</h3>}
+        </ul>
+       </div>
+      </div>
+      } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
 
      {values.productType === 'parent' ? <Accordion title="Main Key Features" answer={
       <div className='flex flex-col border-[1px] border-[0,0,0,0,0.15] rounded-md h-96 overflow-x-hidden overflow-y-scroll w-full' >
@@ -678,19 +678,19 @@ const handleTitle = (e) => {
 
       {/* Product Description Start */}
       <Accordion title="Description" answer={
-       <ContentEditor state={values} setState={setValues} property="description" />
+       <BlogEditor state={description} setState={setDescription} property="description" />
       } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Product Description End */}
 
       {/* Product Specification Start */}
       <Accordion title="Specification" answer={
-       <ContentEditor state={values} setState={setValues} property="specification"/>
+       <BlogEditor state={specification} setState={setSpecification} property="specification"/>
       } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Product Specification End */}
 
       {/* Product DeliveryInfo Start */}
       <Accordion title="Delivery Info" answer={
-       <ContentEditor state={values} setState={setValues} property="deliveryInfo" />
+       <BlogEditor state={deliveryInfo} setState={setDeliveryInfo} property="deliveryInfo" />
       } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Product DeliveryInfo End */}
 

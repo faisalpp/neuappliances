@@ -57,6 +57,7 @@ const applianceController = {
     async GetApplianceBySectionType(req,res,next){
       // console.log(req.body)
       let query = {};
+      let sort = {};
       // console.log(prop + ': ' + data[prop]);
       const data = req.body;
       Object.keys(data).forEach(prop => {
@@ -88,23 +89,28 @@ const applianceController = {
         case 'category':
          query.category = data[prop];
         break;
+        case 'brand':
+         query.brand = data[prop];
+        break;
+        case 'sort':
+         sort.createdAt = data[prop];
+        break;
       }
       });
 
-      console.log(query)
       let products;
       try{
         if(req.body.salePrice){
-          products = await Product.find({...query,$and: [{ salePrice: { $lte: req?.body?.salePrice?.max } },{ salePrice: { $gte: req?.body?.salePrice?.min } }]});
+          products = await Product.find({...query,$and: [{ salePrice: { $lte: req?.body?.salePrice?.max } },{ salePrice: { $gte: req?.body?.salePrice?.min } }]}).sort(sort);
         }else if(req.body.regPrice){
-          products = await Product.find({...query,$and: [{ regPrice: { $lte: req?.body?.regPrice?.max } },{ regPrice: { $gte: req?.body?.regPrice?.min } }]});
+          products = await Product.find({...query,$and: [{ regPrice: { $lte: req?.body?.regPrice?.max } },{ regPrice: { $gte: req?.body?.regPrice?.min } }]}).sort(sort);
         }else{
-          products = await Product.find(query);
+          products = await Product.find(query).sort(sort);
         }
       }catch(error){
         return next(error)
       }      
-      console.log(products)
+
       return res.status(200).json({status:200,products:products});
            
     },

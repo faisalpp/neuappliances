@@ -7,8 +7,6 @@ import {GoVideo} from 'react-icons/go'
 import {TiTick} from 'react-icons/ti'
 import {Tb360View} from 'react-icons/tb'
 import { useState } from 'react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { getCategoryData,createProduct,getModelNos,uploadMedia,deleteMedia,getAllModelNos} from '../../api/admin'
 import {GetCategories} from '../../api/admin/category'
 import createProductSchema from '../../schemas/createProductSchema';
@@ -27,7 +25,10 @@ const CreateProduct = () => {
 
   const [submit,setSubmit] = useState(false)
 
-  const [values,setValues] = useState({productType:'parent',title:'',slug:'',category:'',feature:'',type:'',color:'',brand:'',fuelType:'',regPrice:'',salePrice:'',lowPrice:'',highPrice:'',rating:'3',stock:'',modelNo:'',itemId:'',keyFeatures:[],featureVideo:{type:'',data:''},threeSixty:{type:'',data:''},media:[],description:'',specification:'',deliveryInfo:'',metaTitle:'',metaDescription:'',metaKeywords:[],tags:''})
+  const [values,setValues] = useState({productType:'parent',title:'',slug:'',category:'',feature:'',type:'',color:'',brand:'',fuelType:'',regPrice:'',salePrice:'',rating:'3',stock:'',modelNo:'',itemId:'',keyFeatures:[],featureVideo:{type:'',data:''},threeSixty:{type:'',data:''},media:[],metaTitle:'',metaDescription:'',metaKeywords:[],tags:'',bullets:[]})
+  const [description,setDescription] = useState('')
+  const [specification,setSpecification] = useState('')
+  const [deliveryInfo,setDeliveryInfo] = useState('')
 
   // Form States Start
    const [errors,setErrors] = useState([])
@@ -74,16 +75,7 @@ const CreateProduct = () => {
          }else{
           setImageMediaLoader(false)
           setImageField('')
-          toast.error(res.data.message, {
-            position: "top-right",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          Toast(res.data.message,'error',1000)
         }
        }
        }else{
@@ -115,16 +107,7 @@ const CreateProduct = () => {
          }else{
           setImageMediaLoader(false)
           setVideoField('')
-          toast.error(res.data.message, {
-            position: "top-right",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          Toast(res.data.message,'error',1000)
         }
          }
       }
@@ -140,28 +123,10 @@ const CreateProduct = () => {
      if(res.status === 200){
       setValues({...values,media:[...updatedMedia]})
       setMediaDelLoader('')
-      toast.success(res.data.msg, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.msg,'success',1000);
     }else{
       setMediaDelLoader('')
-      toast.error(res.data.message, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.message,'error',1000);
     }
    }else{
     setValues({...values,media:[...updatedMedia]})
@@ -256,28 +221,10 @@ const CreateProduct = () => {
      if(res.status === 200){
       setValues({...values,featureVideo:emptyObj})
       setDelFeatureVideoLoader(false)
-      toast.success(res.data.msg, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.msg,'success',1000);
     }else{
       setDelFeatureVideoLoader(false)
-      toast.error(res.data.message, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.message,'error',1000);
     }
   }
 }
@@ -301,16 +248,7 @@ const CreateProduct = () => {
         }else{
           setFeatureVideoLoader(false)
           setFeatureVideoField('')
-          toast.error(res.data.message, {
-            position: "top-right",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          Toast(res.data.message,'error',1000);
         }
       }
     }else if(type === 'url'){
@@ -445,16 +383,7 @@ const CreateProduct = () => {
       }else{
         setKeyFeatureUpload(false)
         setFpopup(false)
-        toast.error(res.data.message, {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        Toast(res.data.message,'error',1000);
       }
     }else{
       const data = {title:fTitle,description:fDescription,media:{...fMedia}}
@@ -477,27 +406,9 @@ const CreateProduct = () => {
       const res = await deleteMedia({url:delData[0].media.data})
       if(res.status === 200){
         setValues({...values,keyFeatures:[...data]})
-        toast.success(res.data.msg, {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        Toast(res.data.msg,'success',1000);
       }else{
-        toast.error(res.data.message, {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        Toast(res.data.message,'error',1000);
       }
     }
   }
@@ -562,84 +473,28 @@ const CreateProduct = () => {
     e.preventDefault()
     try{
       setSubmit(true)
-     const data = {
-      productType:values.productType,
-      title:values.title,
-      slug:values.slug,
-      category:values.category,
-      feature:values.feature,
-      type:values.type,
-      color:values.color,
-      brand:values.brand,
-      fuelType:values.fuelType,
-      regPrice:parseFloat(values.regPrice).toFixed(2),
-      salePrice:parseFloat(values.salePrice).toFixed(2),
-      lowPrice:parseFloat(values.lowPrice).toFixed(2),
-      highPrice:parseFloat(values.highPrice).toFixed(2),
-      rating:parseInt(values.rating),
-      stock:parseInt(values.stock),
-      modelNo:values.modelNo,
-      itemId:values.itemId,
-      metaKeywords:JSON.stringify(values.metaKeywords),
-      keyFeatures:JSON.stringify(values.keyFeatures),
-      featureVideo:JSON.stringify(values.featureVideo),
-      threeSixty:JSON.stringify(values.threeSixty),
-      media:JSON.stringify(values.media),
-      tags:values.tags,
-      description:values.description,
-      specification:values.specification,
-      deliveryInfo:values.deliveryInfo,
-      metaTitle:values.metaTitle,
-      metaDescription:values.metaDescription,
-    }
-     await createProductSchema.validate(values, { abortEarly: false }); 
-     const res = await createProduct(data)
-     if(res.status === 200){
-      setSubmit(false)
-      toast.success(res.data.msg, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      navigate('/admin/manage-products')
-     }else{
-      setSubmit(false)
-      toast.error(res.data.message, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-     }
+     await createProductSchema.validate({...values,description:description,specification:specification,deliveryInfo:deliveryInfo}, { abortEarly: false }); 
     }catch(error){
       if (error) {
         let errors = error.errors;
         setErrors(errors)
         errors.forEach((item)=>{
-          toast.error(item, {
-            position: "top-right",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          Toast(item,'error',1000)
         })
       } else {
         setErrors([])
       }
     }
+    const data = {productType:values.productType,title:values.title,slug:values.slug,category:values.category,feature:values.feature,type:values.type,color:values.color,brand:values.brand,fuelType:values.fuelType,regPrice:parseFloat(values.regPrice).toFixed(2),salePrice:parseFloat(values.salePrice).toFixed(2),lowPrice:parseFloat(values.lowPrice).toFixed(2),highPrice:parseFloat(values.highPrice).toFixed(2),rating:parseInt(values.rating),stock:parseInt(values.stock),modelNo:values.modelNo,itemId:values.itemId,metaKeywords:JSON.stringify(values.metaKeywords),keyFeatures:JSON.stringify(values.keyFeatures),featureVideo:JSON.stringify(values.featureVideo),threeSixty:JSON.stringify(values.threeSixty),media:JSON.stringify(values.media),tags:values.tags,description:description,specification:specification,deliveryInfo:deliveryInfo,metaTitle:values.metaTitle,metaDescription:values.metaDescription,bulletDescription:JSON.stringify(values.bullets)}
+     const res = await createProduct(data)
+     if(res.status === 200){
+      setSubmit(false)
+      Toast(res.data.msg,'success',1000);
+      navigate('/admin/manage-products')
+     }else{
+      setSubmit(false)
+      Toast(res.data.message,'error',1000);
+     }
  }
 
 //  Capitalize first Character
@@ -673,6 +528,22 @@ const handleTitle = (e) => {
   slug: e.target.value.toLowerCase().replace(/\s/g,'-')
 });
 }
+
+ const [bullet,setBullet] = useState('')
+
+ const HandleBullets = (e) => {
+  e.preventDefault()
+  if(bullet?.length > 0){
+    setValues({...values,bullets:[...values.bullets,bullet]})
+    setBullet('')
+  }
+ }
+
+ const RemoveBullet = (e,indx) => {
+  e.preventDefault()
+    const newArray = [...values.bullets?.slice(0, indx), ...values.bullets?.slice(indx + 1)];
+    setValues({...values,bullets:newArray})
+ }
 
   return (
    <>
@@ -750,21 +621,29 @@ const handleTitle = (e) => {
      <div className="flex items-center space-x-5 w-full" >
       <TextInput name="regPrice" title="Regular Price" iscompulsory="true" type="text" value={values.regPrice} onChange={(e) =>handleInputChange(e,'regPrice')} error={errors && errors.includes('Regular Price is Required!') ? true : false} errormessage="Regular Price is Required!" placeholder="Regular Price is Required!" />
       <TextInput name="salePrice" title="Sale Price" iscompulsory="false" type="text" value={values.salePrice} onChange={(e) =>handleInputChange(e,'salePrice')} error={errors && errors.includes('Sale Price is Required!') ? true : false} errormessage="Sale Price is Required!" placeholder="Sale Price is Required!" />
-      <TextInput name="lowPrice" title="Lower Installment" iscompulsory="true" type="text" value={values.lowPrice} onChange={(e) =>handleInputChange(e,'lowPrice')} error={errors && errors.includes('Lower Installment Price is Required!') ? true : false} errormessage="Lower Installment Price is Required!" placeholder="Enter Lower Installment" />
-      <TextInput name="highPrice" title="Higher Installment" iscompulsory="true" type="text" value={values.highPrice} onChange={(e) =>handleInputChange(e,'highPrice')} error={errors && errors.includes('Higher Installment Price is Required!') ? true : false} errormessage="Higher Installment Price is Required!" placeholder="Enter Higher Installment" />
+      <TextInput name="stock" title="Stock" iscompulsory="true" type="text" value={values.stock} onChange={(e) =>handleInputChange(e,'stock')} error={errors && errors.includes('Stock is Required!') ? true : false} errormessage="Stock is Required!" placeholder="Total Stock: 12" />
+      <SelectInput name="categor" title="Rating" iscompulsory="true" onChange={e =>handleInputChange(e,'rating')} options={['3','4','5']} />
      </div>
      <div className="flex items-center space-x-5 w-full" >
-      <SelectInput name="categor" title="Rating" iscompulsory="true" onChange={e =>handleInputChange(e,'rating')} options={['3','4','5']} />
-      <TextInput name="stock" title="Stock" iscompulsory="true" type="text" value={values.stock} onChange={(e) =>handleInputChange(e,'stock')} error={errors && errors.includes('Stock is Required!') ? true : false} errormessage="Stock is Required!" placeholder="Total Stock: 12" />
       <TextInputSuggestion state={values.modelNo} setState={setValues} values={values} suggestionList={allModelNos} iscompulsory="true" title="Model No" placeholder="#12334" />
       <TextInput name="item-id" title="Item Id" iscompulsory="true" type="text" value={values.itemId} onChange={(e) =>handleInputChange(e,'itemId')} error={errors && errors.includes('Item Id is Required!') ? true : false} errormessage="Item Id is Required!" placeholder="Item Id: 234532455" />
      </div>
+     <Accordion title="Bullet Description" answer={
+      <div className='flex flex-col w-full' >
+       <div className='flex space-x-5 items-center mb-2' ><input value={bullet} onChange={(e)=>setBullet(e.target.value)} type="text" className='outline-none border-[1px] rounded-lg border-b31 w-full px-2 text-sm py-1' placeholder="Write Bullet Description" /><button type="button" className="bg-b6 text-white px-4 rounded-md text-sm py-1" onClick={e=>HandleBullets(e)} >Add&nbsp;Bullet</button></div>
+       <div className='w-full h-52 overflow-x-hidden overflow-y-scroll px-2 py-2  border-[1px] border-[rgba(0,0,0,0.15)] rounded-lg' >
+        <ul className="flex flex-col list-disc space-y-2 px-2 py-2" >
+         {values.bullets?.length > 0 ? values.bullets?.map((bullet,index)=> <li key={index} className='flex flex-wrap px-2 py-1 text-sm w-full bg-b31/30 rounded-md space-x-5 items-center'  ><span>{bullet}</span><AiFillCloseCircle onClick={e=>RemoveBullet(e,index)} className='cursor-pointer text-red-500 text-sm' /> </li> ):<h3 className='text-red-400 text-sm font-medium' >No Bullet Description Added!</h3>}
+        </ul>
+       </div>
+      </div>
+      } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
 
      {values.productType === 'parent' ? <Accordion title="Main Key Features" answer={
       <div className='flex flex-col border-[1px] border-[0,0,0,0,0.15] rounded-md h-96 overflow-x-hidden overflow-y-scroll w-full' >
       <div className='grid grid-cols-3 mt-2 gap-x-2 gap-y-2 justify-center w-full' >
        {/* Card Start */}
-       {values.keyFeatures.length > 0 ? values.keyFeatures.map((item,index)=><div key={index} className='flex flex-col  py-2 items-center h-60  bg-b5 ml-2 rounded-md w-11/12' >
+       {values.keyFeatures?.length > 0 ? values.keyFeatures.map((item,index)=><div key={index} className='flex flex-col  py-2 items-center h-60  bg-b5 ml-2 rounded-md w-11/12' >
          <div className='flex items-center justify-center border-[1px] border-[0,0,0,0,0.15] w-11/12 h-32 px-2 py-2 rounded-md' >
          {/* {item.media.file} */}
            {item.media.file === 'image' ? <img src={item.media.data} className='h-28 rounded-md' />:null }
@@ -795,12 +674,12 @@ const handleTitle = (e) => {
              <div className='flex items-center justify-center space-x-2' >
             <div className="flex flex-col justify-center items-center py-3 border-[1px] border-[0,0,0,0,0.15] rounded-md w-1/2" >
              <h5 className='text-center font-bold text-xs mb-2' >Upload Features Video</h5>
-              {values.featureVideo.type === 'url' ? <Iframe thumbnail={values.featureVideo.prevImg} title={values.featureVideo.data} icon="text-5xl" frameId={`feature-video-wrapper-${values.featureVideo.type}`} divId={`feature-video-${values.featureVideo.type}`} src={values.featureVideo.data} style='h-52 w-11/12 rounded-md' />:null}
-              {values.featureVideo.type === 'upload' ? <video src={values.featureVideo.data} controls className=' w-11/12 rounded-xl' /> :null}
-              {values.featureVideo.type === '' && values.featureVideo.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' >{featureVideoLoader ? <img src="/file-loader.gif" className='w-32' /> : <FaPhotoVideo className='text-7xl' />}</div>:null}
+              {values.featureVideo?.type === 'url' ? <Iframe thumbnail={values.featureVideo?.prevImg} title={values.featureVideo?.data} icon="text-5xl" frameId={`feature-video-wrapper-${values.featureVideo.type}`} divId={`feature-video-${values.featureVideo.type}`} src={values.featureVideo.data} style='h-52 w-11/12 rounded-md' />:null}
+              {values.featureVideo?.type === 'upload' ? <video src={values.featureVideo?.data} controls className=' w-11/12 rounded-xl' /> :null}
+              {values.featureVideo?.type === '' && values.featureVideo?.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' >{featureVideoLoader ? <img src="/file-loader.gif" className='w-32' /> : <FaPhotoVideo className='text-7xl' />}</div>:null}
               <div className='flex items-center justify-center pt-3 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
                   <input  type="file" accept='video/*' ref={featureVideoRef} onChange={e=>handleFeatureVideo(e,'upload')} className='hidden' />
-                  {values.featureVideo.data !== '' ? <>{delFeatureVideoLoader?<button type='button' className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><img src='/loader-bg.gif' className='w-3' /></a></button>:<button type='button' onClick={e=>deleteFeatureVideo(e)} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-sm' /></a></button>}</>
+                  {values.featureVideo?.data !== '' ? <>{delFeatureVideoLoader?<button type='button' className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><img src='/loader-bg.gif' className='w-3' /></a></button>:<button type='button' onClick={e=>deleteFeatureVideo(e)} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-sm' /></a></button>}</>
                   :<><input type="text" value={featureVideoField} onChange={e=>setFeatureVideoField(e.target.value)} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url' /><button  onClick={e=>handleFeatureVideo(e,'url')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-sm' /></a></button>    
                      <>{featureVideoLoader?<button type='button' onClick={()=>featureVideoRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><img src='/loader-bg.gif' className='w-3' /></a></button>:<button type='button' onClick={()=>featureVideoRef.current.click()} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><GoVideo className='text-sm' /></a></button>}</></>      
                      }
@@ -808,10 +687,10 @@ const handleTitle = (e) => {
             </div>
             <div className="flex flex-col justify-center items-center py-3 border-[1px] border-[0,0,0,0,0.15] rounded-md w-1/2" >
              <h5 className='text-center font-bold text-xs mb-2' >Insert 360 Iframe</h5>
-              {values.threeSixty.type === 'url' ? <Iframe icon="text-5xl" thumbnail={values.threeSixty.prevImg} title={values.threeSixty.data} divId={`360-wrapper-${values.threeSixty.type}`} frameId={`360-video-${values.threeSixty.type}`} src={values.threeSixty.data} style='h-52 w-11/12 rounded-md' />:null}
-              {values.threeSixty.type === '' && values.threeSixty.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' ><Tb360View className='text-7xl' /></div>:null}
+              {values.threeSixty?.type === 'url' ? <Iframe icon="text-5xl" thumbnail={values.threeSixty.prevImg} title={values.threeSixty.data} divId={`360-wrapper-${values.threeSixty.type}`} frameId={`360-video-${values.threeSixty.type}`} src={values.threeSixty.data} style='h-52 w-11/12 rounded-md' />:null}
+              {values.threeSixty?.type === '' && values.threeSixty?.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' ><Tb360View className='text-7xl' /></div>:null}
               <div className='flex items-center justify-center pt-3 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
-                  {values.threeSixty.data !== '' ? <><button type='button' onClick={()=> setValues({...values,threeSixty:{type:'',data:''}})} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-sm' /></a></button></>
+                  {values.threeSixty?.data !== '' ? <><button type='button' onClick={()=> setValues({...values,threeSixty:{type:'',data:''}})} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-sm' /></a></button></>
                   :<><input type="text" value={threeSixtyField} onChange={e=>setThreeSixtyField(e.target.value)} className='outline-none border-[1px] border-b6 rounded-lg px-2 text-xs h-6' placeholder='Enter Iframe Url' /><button  onClick={e=>handleThreeSixty(e,'url')} type="button" className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-b3' ><a className='flex items-center text-center  w-fit px-2 py-1 rounded-md text-white font-semibold' ><TiTick className='text-sm' /></a></button></>      
                      }
               </div>
@@ -839,9 +718,9 @@ const handleTitle = (e) => {
        
        </div>
        {/* Media Data Placeholder Start */}
-       <div className={`px-2 py-2 ${values.media.length > 0 ? 'flex flex-wrap gap-x-2 gap-y-2' : 'flex items-center justify-center'} h-full overflow-x-hidden overflow-y-scroll`} >
+       <div className={`px-2 py-2 ${values.media?.length > 0 ? 'flex flex-wrap gap-x-2 gap-y-2' : 'flex items-center justify-center'} h-full overflow-x-hidden overflow-y-scroll`} >
         {/* Image Container Start */}
-        {values.media.length > 0 ? values.media.map((item,index)=> (<div key={index} className='relative px-1 py-1 rounded-lg h-fit w-fit border-[1px] border-[rgba(0,0,0,0.15)]' >
+        {values.media?.length > 0 ? values.media.map((item,index)=> (<div key={index} className='relative px-1 py-1 rounded-lg h-fit w-fit border-[1px] border-[rgba(0,0,0,0.15)]' >
          {mediaDelLoader === index ? <div className='relative w-32 h-32' ><div className='absolute w-32 h-32 bg-black/40' ></div><img src="/del-loader.gif" /></div>:
          <>
          <div className='absolute -right-1 -top-2' ><div onClick={e=>DeleteMedia(e,index)} className='flex justify-end w-full bg-white rounded-full' ><AiFillPlusCircle className='text-red-500 text-lg shadow-xl rounded-full cursor-pointer' /></div></div>
@@ -870,22 +749,22 @@ const handleTitle = (e) => {
        </div>
       } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Product Tags End */}
-
       {/* Product Description Start */}
+      {description}
       <Accordion title="Description" answer={
-       <BlogEditor state={values} setState={setValues} property="description" />
+       <BlogEditor state={description} setState={setDescription} />
       } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Product Description End */}
 
       {/* Product Specification Start */}
       <Accordion title="Specification" answer={
-       <BlogEditor state={values} setState={setValues} property="specification"/>
+       <BlogEditor state={specification} setState={setSpecification} />
       } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Product Specification End */}
 
       {/* Product DeliveryInfo Start */}
-      <Accordion title="Delivery Info" answer={
-       <BlogEditor state={values} setState={setValues} property="deliveryInfo" />
+      <Accordion  title="Delivery Info" answer={
+       <BlogEditor state={deliveryInfo} setState={setDeliveryInfo} />
       } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
       {/* Product DeliveryInfo End */}
 
@@ -898,7 +777,7 @@ const handleTitle = (e) => {
         <h5 className='text-xs font-semibold' >Meta Keywords</h5>
         <div className='flex flex-wrap w-full py-3 px-2 rounded-xl border-[1px] borders-[0,0,0,0,0.15]' >
         <div className="flex flex-wrap gap-y-2 items-center gap-x-2 w-full h-auto " >
-         {values.metaKeywords.map((item,index)=><span key={index} className="flex items-center bg-b6 text-sm px-2 py-1 text-white rounded-2xl" >{item}<AiFillCloseCircle onClick={e=>deleteKeyword(e,index)} className='text-white bg-red-500 ml-1 text-xs cursor-pointer rounded-full' /></span>)}
+         {values.metaKeywords?.map((item,index)=><span key={index} className="flex items-center bg-b6 text-sm px-2 py-1 text-white rounded-2xl" >{item}<AiFillCloseCircle onClick={e=>deleteKeyword(e,index)} className='text-white bg-red-500 ml-1 text-xs cursor-pointer rounded-full' /></span>)}
         <div/>
         <input ref={keywordRef} placeholder='Hit Space To Insert' value={keywordField} onKeyDown={e => handleEnterKey(e)} onChange={e=>setKeywordField(e.target.value)} className='border-none outline-none mx-5 text-sm' />
        </div>
