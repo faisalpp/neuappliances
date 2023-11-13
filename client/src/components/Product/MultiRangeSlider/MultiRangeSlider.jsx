@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import "./multiRangeSlider.css";
 import DropDown from "../../DeskComp/Filter/DropDown";
 
-const MultiRangeSlider = ({ min, max,setFilt,tquery,filt }) => {
+const MultiRangeSlider = ({ min, max,setFilt,filt }) => {
     const defaultMinval = 200;
     const defaultMaxval = 8000;
     const [minVal, setMinVal] = useState(defaultMinval);
@@ -20,40 +20,41 @@ const MultiRangeSlider = ({ min, max,setFilt,tquery,filt }) => {
     );
 
     // Set width of the range to decrease from the left side
-    useEffect(() => {
-        if (maxValRef.current) {
-            const minPercent = getPercent(minVal);
-            const maxPercent = getPercent(+maxValRef.current.value); // Preceding with '+' converts the value from type string to type number
+    // useEffect(() => {
+    //     if (maxValRef.current) {
+    //         const minPercent = getPercent(minVal);
+    //         const maxPercent = getPercent(+maxValRef.current.value); // Preceding with '+' converts the value from type string to type number
 
-            if (range.current) {
-                range.current.style.left = `${minPercent}%`;
-                range.current.style.width = `${maxPercent - minPercent}%`;
-            }
-        }
-    }, [minVal, getPercent]);
+    //         if (range.current) {
+    //             range.current.style.left = `${minPercent}%`;
+    //             range.current.style.width = `${maxPercent - minPercent}%`;
+    //         }
+    //     }
+    // }, [minVal, getPercent]);
 
     // Set width of the range to decrease from the right side
-    useEffect(() => {
-        if (minValRef.current) {
-            const minPercent = getPercent(+minValRef.current.value);
-            const maxPercent = getPercent(maxVal);
+    // useEffect(() => {
+    //     if (minValRef.current) {
+    //         const minPercent = getPercent(+minValRef.current.value);
+    //         const maxPercent = getPercent(maxVal);
 
-            if (range.current) {
-                range.current.style.width = `${maxPercent - minPercent}%`;
-            }
-        }
-    }, [maxVal, getPercent]);
+    //         if (range.current) {
+    //             range.current.style.width = `${maxPercent - minPercent}%`;
+    //         }
+    //     }
+    // }, [maxVal, getPercent]);
 
     // Get min and max values when their state changes
-    useEffect(() => {
-       setTimeout(()=>{
-        if(filt.isSale){
-            setFilt(prev=>{return {...prev,salePrice:{min:minVal,max:maxVal},...tquery}})
-        }else{
-            setFilt(prev=>{return {...prev,regPrice:{min:minVal,max:maxVal},...tquery}})
-        }
-       },1500)
-    }, [minVal,maxVal]);
+    // useEffect(() => {
+    //     console.log('ranges')
+    //    setTimeout(()=>{
+    //     if(filt.isSale){
+    //         setFilt(prev=>{return {...prev,salePrice:{min:minVal,max:maxVal}}})
+    //     }else{
+    //         setFilt(prev=>{return {...prev,regPrice:{min:minVal,max:maxVal}}})
+    //     }
+    //    },1500)
+    // }, [minVal,maxVal]);
 
     return (
         <DropDown title="Price">

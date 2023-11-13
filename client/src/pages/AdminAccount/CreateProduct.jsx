@@ -25,7 +25,7 @@ const CreateProduct = () => {
 
   const [submit,setSubmit] = useState(false)
 
-  const [values,setValues] = useState({productType:'parent',title:'',slug:'',category:'',feature:'',type:'',color:'',brand:'',fuelType:'',regPrice:'',salePrice:'',rating:'3',stock:'',modelNo:'',itemId:'',keyFeatures:[],featureVideo:{type:'',data:''},threeSixty:{type:'',data:''},media:[],metaTitle:'',metaDescription:'',metaKeywords:[],tags:'',bullets:[]})
+  const [values,setValues] = useState({productType:'parent',title:'',slug:'',category:'',feature:'',type:'',color:'',brand:'',fuelType:'',regPrice:'',salePrice:'',rating:'3',stock:'',modelNo:'',itemId:'',keyFeatures:[],featureVideo:{type:'',data:''},threeSixty:{type:'',data:''},media:[],metaTitle:'',metaDescription:'',metaKeywords:[],tags:'',bulletDescription:[]})
   const [description,setDescription] = useState('')
   const [specification,setSpecification] = useState('')
   const [deliveryInfo,setDeliveryInfo] = useState('')
@@ -485,7 +485,7 @@ const CreateProduct = () => {
         setErrors([])
       }
     }
-    const data = {productType:values.productType,title:values.title,slug:values.slug,category:values.category,feature:values.feature,type:values.type,color:values.color,brand:values.brand,fuelType:values.fuelType,regPrice:parseFloat(values.regPrice).toFixed(2),salePrice:parseFloat(values.salePrice).toFixed(2),lowPrice:parseFloat(values.lowPrice).toFixed(2),highPrice:parseFloat(values.highPrice).toFixed(2),rating:parseInt(values.rating),stock:parseInt(values.stock),modelNo:values.modelNo,itemId:values.itemId,metaKeywords:JSON.stringify(values.metaKeywords),keyFeatures:JSON.stringify(values.keyFeatures),featureVideo:JSON.stringify(values.featureVideo),threeSixty:JSON.stringify(values.threeSixty),media:JSON.stringify(values.media),tags:values.tags,description:description,specification:specification,deliveryInfo:deliveryInfo,metaTitle:values.metaTitle,metaDescription:values.metaDescription,bulletDescription:JSON.stringify(values.bullets)}
+    const data = {productType:values.productType,title:values.title,slug:values.slug,category:values.category,feature:values.feature,type:values.type,color:values.color,brand:values.brand,fuelType:values.fuelType,regPrice:parseFloat(values.regPrice).toFixed(2),salePrice:parseFloat(values.salePrice).toFixed(2),rating:parseInt(values.rating),stock:parseInt(values.stock),modelNo:values.modelNo,itemId:values.itemId,metaKeywords:JSON.stringify(values.metaKeywords),keyFeatures:JSON.stringify(values.keyFeatures),featureVideo:JSON.stringify(values.featureVideo),threeSixty:JSON.stringify(values.threeSixty),media:JSON.stringify(values.media),tags:values.tags,description:description,specification:specification,deliveryInfo:deliveryInfo,metaTitle:values.metaTitle,metaDescription:values.metaDescription,bulletDescription:JSON.stringify(values.bulletDescription)}
      const res = await createProduct(data)
      if(res.status === 200){
       setSubmit(false)
@@ -534,15 +534,15 @@ const handleTitle = (e) => {
  const HandleBullets = (e) => {
   e.preventDefault()
   if(bullet?.length > 0){
-    setValues({...values,bullets:[...values.bullets,bullet]})
+    setValues({...values,bulletDescription:[...values.bulletDescription,bullet]})
     setBullet('')
   }
  }
 
  const RemoveBullet = (e,indx) => {
   e.preventDefault()
-    const newArray = [...values.bullets?.slice(0, indx), ...values.bullets?.slice(indx + 1)];
-    setValues({...values,bullets:newArray})
+    const newArray = [...values.bulletDescription?.slice(0, indx), ...values.bulletDescription?.slice(indx + 1)];
+    setValues({...values,bulletDescription:newArray})
  }
 
   return (
@@ -633,7 +633,7 @@ const handleTitle = (e) => {
        <div className='flex space-x-5 items-center mb-2' ><input value={bullet} onChange={(e)=>setBullet(e.target.value)} type="text" className='outline-none border-[1px] rounded-lg border-b31 w-full px-2 text-sm py-1' placeholder="Write Bullet Description" /><button type="button" className="bg-b6 text-white px-4 rounded-md text-sm py-1" onClick={e=>HandleBullets(e)} >Add&nbsp;Bullet</button></div>
        <div className='w-full h-52 overflow-x-hidden overflow-y-scroll px-2 py-2  border-[1px] border-[rgba(0,0,0,0.15)] rounded-lg' >
         <ul className="flex flex-col list-disc space-y-2 px-2 py-2" >
-         {values.bullets?.length > 0 ? values.bullets?.map((bullet,index)=> <li key={index} className='flex flex-wrap px-2 py-1 text-sm w-full bg-b31/30 rounded-md space-x-5 items-center'  ><span>{bullet}</span><AiFillCloseCircle onClick={e=>RemoveBullet(e,index)} className='cursor-pointer text-red-500 text-sm' /> </li> ):<h3 className='text-red-400 text-sm font-medium' >No Bullet Description Added!</h3>}
+         {values.bulletDescription?.length > 0 ? values.bulletDescription?.map((bullet,index)=> <li key={index} className='flex flex-wrap px-2 py-1 text-sm w-full bg-b31/30 rounded-md space-x-5 items-center'  ><span>{bullet}</span><AiFillCloseCircle onClick={e=>RemoveBullet(e,index)} className='cursor-pointer text-red-500 text-sm' /> </li> ):<h3 className='text-red-400 text-sm font-medium' >No Bullet Description Added!</h3>}
         </ul>
        </div>
       </div>
@@ -687,7 +687,7 @@ const handleTitle = (e) => {
             </div>
             <div className="flex flex-col justify-center items-center py-3 border-[1px] border-[0,0,0,0,0.15] rounded-md w-1/2" >
              <h5 className='text-center font-bold text-xs mb-2' >Insert 360 Iframe</h5>
-              {values.threeSixty?.type === 'url' ? <Iframe icon="text-5xl" thumbnail={values.threeSixty.prevImg} title={values.threeSixty.data} divId={`360-wrapper-${values.threeSixty.type}`} frameId={`360-video-${values.threeSixty.type}`} src={values.threeSixty.data} style='h-52 w-11/12 rounded-md' />:null}
+              {values.threeSixty?.type === 'url' ? <iframe title={values.threeSixty.data} id={`360-wrapper-${values.threeSixty.type}`} src={values.threeSixty.data} className='h-52 w-11/12 rounded-md' />:null}
               {values.threeSixty?.type === '' && values.threeSixty?.data === '' ? <div className='flex items-center justify-center w-11/12 h-52 border-2 border-black rounded-lg' ><Tb360View className='text-7xl' /></div>:null}
               <div className='flex items-center justify-center pt-3 space-x-2 w-full mt-2 border-t-[1px] border-[0,0,0,0,0.15]' >
                   {values.threeSixty?.data !== '' ? <><button type='button' onClick={()=> setValues({...values,threeSixty:{type:'',data:''}})} className='flex justify-center self-center items-center cursor-pointer rounded-md w-3/2 bg-red-500' ><a className='flex items-center text-center  w-fit px-1 py-1 rounded-md text-white font-semibold' ><BsFillTrashFill className='text-sm' /></a></button></>

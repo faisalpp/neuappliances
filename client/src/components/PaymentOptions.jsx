@@ -1,13 +1,13 @@
 import React from 'react'
 
-const PaymentOptions = ({ salePrice,regPrice }) => {
+const PaymentOptions = ({ price }) => {
   return (
     <div className='grid grid-cols-1 lg:grid-cols-2 items-center gap-5 justify-center w-full' >
       <div className='h-full flex justify-center lg:justify-end'>
         <div className='flex flex-col gap-5 px-12 py-9 bg-white rounded-2xl w-full max-w-[400px] lg:w-[400px]' >
           <div className='flex flex-col gap-y-3 items-center justify-center w-full' >
             <h6 className='text-lg xl:text-xl 2xl:text-2xl font-bold' >Pay Once</h6>
-            <h6 className='text-xl lg:text-2xl 2xl:text-[32px] font-bold text-b3' >${salePrice ? salePrice : regPrice}</h6>
+            <h6 className='text-xl lg:text-2xl 2xl:text-[32px] font-bold text-b3' >${price}</h6>
             <h6 className='text-xs font-medium text-gray-500' >One time payment</h6>
           </div>
           <div className='flex flex-col gap-y-4 text-b15' >

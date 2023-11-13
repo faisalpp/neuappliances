@@ -7,7 +7,7 @@ import { IoBagCheckOutline, IoCloseOutline } from 'react-icons/io5';
 import { GoDotFill } from 'react-icons/go';
 import { BsTruck,BsShopWindow,BsStarHalf,BsArrowRightShort } from 'react-icons/bs';
 import { useState } from 'react'
-import { CheckZip } from '../api/frontEnd'
+import { CheckZip, getSliderAppliances } from '../api/frontEnd'
 import OtherProductCard from '../components/OtherProductCard'
 import FaqAccordion from '../components/FaqAccordion'
 import HiwSection from '../components/HiwSection'
@@ -36,13 +36,14 @@ import Toast from '../utils/Toast'
 import DateFormat from '../utils/DateFormat'
 import axios from 'axios'
 import { format, getDay, getDate, getMonth, getYear } from 'date-fns';
+import Popup from '../components/AdminDashboard/Popup'
 
 const Product = () => {
   // Get slug form url
   const { slug } = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const ordInfo = useSelector((state)=>state?.cart?.cart?.orderInfo)
+  const ordInfo = useSelector((state)=>state.cart?.cart?.orderInfo)
   const [orderInfo, setOrderInfo] = useState(ordInfo ? ordInfo :  {type:'pickup',location:'Georgetown, Tx',shipping:'Free'});
   const [zip, setZip] = useState('');
   const [changeZip, setChangeZip] = useState(true);
@@ -52,17 +53,19 @@ const Product = () => {
   const [loading2, setLoading2] = useState(false)
 
   const [product, setProduct] = useState([])
+  const [threeStar, setThreeStar] = useState([])
+  const [fourStar, setFourStar] = useState([])
+  const [fiveStar, setFiveStar] = useState([])
 
-  const cartId = useSelector((state)=>state?.cart?.cart?._id)
+  const cartId = useSelector((state)=>state.cart?.cart?._id)
   
-  const PRODUCTS = useSelector((state)=>state?.cart?.cart?.products) || [];
+  const PRODUCTS = useSelector((state)=>state.cart?.cart?.products) || [];
 
   const addToCart = async (e) => {
     e.preventDefault()
     setLoading2(true)
     const data = {cartId:cartId ,productId: product._id, orderInfo: orderInfo }
     const res = await dispatch(AddToCart(data));
-    console.log(res)
     if (res.payload.status === 200) {
       setProduct(res.payload.update)
       Toast(res.payload.msg,'success',1000)
@@ -89,9 +92,10 @@ const Product = () => {
       return;
     }else{
      const res = await checkFavorite({pid:product._id,userId:uId})
-     console.log(res)
      if(res.status === 200){
-       setIsFav(true)   
+      setIsFav(true)   
+    }else{
+       setIsFav(false)   
      }
     }
    }
@@ -102,6 +106,9 @@ const Product = () => {
     const res = await GetAppliancesBySlug(data);
     if (res.status === 200) {
       setProduct(res.data.product)
+      setThreeStar(res.data.threeStar)
+      setFourStar(res.data.fourStar)
+      setFiveStar(res.data.fiveStar)
       setMediaViewer({file:res.data.product.media[0].file,type:res.data.product.media[0].type,data:res.data.product.media[0].data,thumbnail:res.data.product.media[0].preview })
       CheckFavorite()
       setLoading(false)
@@ -256,13 +263,38 @@ const Product = () => {
       }
      }
 
+    const [isBulletPopup,setIsBulletPopup] = useState(false)
 
-     
+    const [relatedProducts,setRelatedProducts] = useState([])
 
+    const GetRecentAppliances = async () => {
+        const res = await getSliderAppliances({category:product.category.toLowerCase().replace(/\s/,'-'),sort:1})
+        if(res.status === 200){
+          setRelatedProducts(res.data.products)
+        }
+    }
+
+    useEffect(()=>{
+     if(product.length > 0){
+      GetRecentAppliances()
+     }
+    },[product])
   
 
   return (
     <>
+      <Popup state={isBulletPopup} setState={setIsBulletPopup} >
+       <div className="w-full" >
+        <div className='flex w-full justify-center' ><h3 className="text-center font-semibold" >Description</h3></div>
+        <div className='flex w-full px-5 h-52 overflow-x-hidden overflow-y-scroll' >
+        <ul className='flex flex-col mt-5 space-y-2 text-sm list-disc' >
+        {product.bulletDescription?.length > 0 ?
+         product.bulletDescription?.map((bullet)=><li className="font-normal text-base" >{bullet}</li>)
+         :null}
+        </ul>
+      </div>
+      </div> 
+      </Popup>
       {loading ? <Loader /> :
         <MainLayout>
           {/* StickyNavabr */}
@@ -331,11 +363,11 @@ const Product = () => {
               </div>
               <div className='flex maxsm:flex-col sm:items-center gap-5 whitespace-nowrap' >
                 <div className='flex items-center gap-5'>
-                  <h4 className='font-bold lg:text-3xl text-xl text-b3 ' >${product.salePrice ? product.salePrice : product.regPrice}</h4>
-                  {product.salePrice ? <strike className="text-lg" >${product.regPrice}</strike> : null}
+                  <h4 className='font-bold lg:text-3xl text-xl text-b3 ' >${product.isSale ? product.salePrice : product.regPrice}</h4>
+                  {product.isSale ? <strike className="text-lg" >${product.regPrice}</strike> : null}
                 </div>
                 <div className='flex items-center sm:justify-between sm:w-full gap-5 lg:flex-wrap'>
-                  {product.salePrice ? <span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >${product.regPrice - product.salePrice} Savings</span> : null}
+                  {product.isSale ? <span className='flex bg-b4 lg:text-xs text-[10px] text-black px-3 py-2 font-semibold rounded-2xl' >${product.regPrice - product.salePrice} Savings</span> : null}
                   {isFav ? <button onClick={e=>removeFavorite(e)} className="flex justify-end items-center hover:underline text-b3" ><AiFillHeart className={`${favLoad ?  'animate-bounce':null}`} /><span>Favorite</span></button>:<button onClick={e=>handleFavorites(e)} className="flex justify-end items-center hover:underline text-b3" ><AiOutlineHeart className={`${favLoad ?  'animate-bounce':null}`} /><span>Add to favorites</span></button>}
                 </div>
               </div>
@@ -350,20 +382,19 @@ const Product = () => {
                 </div>
                 <img src="/affirm.webp" alt="affirm" className='w-[70px]' />
               </div>
-              <ul className='flex flex-col mt-5 space-y-2 text-sm' >
-                <li>. {product.bullet1}</li>
-                <li>. {product.bullet2}</li>
-                <li>. {product.bullet3}</li>
-                <li>. {product.bullet4}</li>
+              <ul className='flex flex-col mt-5 space-y-2 text-sm list-disc ml-5' >
+                {product.bulletDescription?.length > 0 ?
+                 product.bulletDescription?.slice(0, 4)?.map((bullet)=><li className="font-normal text-base" >{bullet}</li>)
+                :null}
               </ul>
-              <Link to='' className='text-xs font-bold hover:underline cursor-pointer underline' >+ View more</Link>
+              {product.bulletDescription?.length > 0 ? <span onClick={()=>setIsBulletPopup(true)} className='text-xs font-bold cursor-pointer underline w-fit' >+ View more</span>:null}
               <div className='flex items-center lg:space-x-5 space-x-5 lg:mt-4 mt-2' >
                 <div className='flex items-center gap-1' >
                   <h4 className='lg:text-sm text-xs font-semibold w-max text-black/50' >Cosmetic Rating</h4><ToolTip color="text-b3" />
                 </div>
                 <div className='flex items-center' ><StarIconPrinter numberOfTimes={product.rating} /> </div>
               </div>
-              {product.salePrice ?
+              {product.isSale ?
                 <div className='lg:flex hidden items-center gap-4 mt-2' >
                   <div className='flex font-semibold text-sm text-black/50' ><h4>Discount</h4></div>
                   <div className='w-52 bg-gray-200 rounded-lg' ><span className='flex rounded-lg bg-gradient-to-r from-b4 to-b7 w-40 h-3' ></span></div>
@@ -450,9 +481,9 @@ const Product = () => {
               <div className=' rounded-lg bg-[#F8F8F8] p-5'>
                 <div class="flex justify-between items-center mb-3" ><h6 className="font-bold" >Other Product Options</h6><Link to="/buying-optionsv1" className="flex items-center hover:underline text-sm text-b3" >View All <BsArrowRightShort /></Link></div>
                 <div className='lg:grid grid-cols-3 flex flex-col items-center lg:mt-0 mt-4 lg:space-y-0 space-y-4 lg:gap-x-5' >
-                  <OtherProductCard  rating={3} />
-                  <OtherProductCard rating={4} />
-                  <OtherProductCard disabled="true" rating={5} />
+                  {threeStar ? <OtherProductCard  rating={3} />:<OtherProductCard disabled="true" rating={3} />}
+                  {fourStar ? <OtherProductCard  rating={4} />:<OtherProductCard disabled="true" rating={4} />}
+                  {fiveStar ? <OtherProductCard  rating={5} />:<OtherProductCard disabled="true" rating={5} />}
                 </div>
               </div>
 
@@ -473,8 +504,8 @@ const Product = () => {
             <div id='360-view' className='flex flex-col gap-5 items-center py-10 lg:py-14 xl:py-20 maincontainer ' >
               <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' >360° View of This Appliance</h4>
               <div className='mt-5 relative flex justify-center w-full mb-5' >
-                {product.threeSixty ? <iframe className="w-[17rem] mx-auto" src={product.threeSixty.data} title="Modal Video"   />:null}
-                <div className='absolute -bottom-10 left-0 right-0'>
+                {product.threeSixty ? <iframe className="rounded-md w-72 h-72 mx-auto" src={product.threeSixty.data} title="Modal Video"   />:null}
+                <div className='absolute bottom-10 left-0 right-0'>
                   <img src="/360angle.webp" alt='product' className='w-72 mx-auto' />
                 </div>
               </div>
@@ -510,7 +541,7 @@ const Product = () => {
           <div className='bg-b8'>
             <div className='flex flex-col py-10 md:py-14 xl:py-20 maincontainer' >
               <h4 className='font-bold text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-center mb-10 md:mb-14 xl:mb-20' >Payment Options</h4>
-              <PaymentOptions salePrice={product ? product.salePrice : null} regPrice={product ? product.regPrice : null} />
+              <PaymentOptions price={product.isSale ? product.salePrice : product.regPrice} />
             </div>
           </div>
 
@@ -557,7 +588,7 @@ const Product = () => {
             <div className='flex flex-col items-center' >
               <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold' >Related Products</h4>
             </div>
-            <CosmaticSlider />
+            <CosmaticSlider products={relatedProducts} />
           </div>
 
         </MainLayout >}

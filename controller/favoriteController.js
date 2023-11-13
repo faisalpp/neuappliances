@@ -90,8 +90,11 @@ const favoriteController = {
 
      try{
       const favorites = await FavoriteProduct.findOne({userId:userId,pid:pid});
-      // console.log(favorites)
-      return res.status(200).json({ status: 200,favrites:favorites });
+      if(favorites){
+        return res.status(200).json({ status: 200,favrites:favorites });
+      }else{
+        return res.status(404).json({ status: 404});
+      }
       }catch(error){
        return res.status(500).json({ status: 500, message:'Internal Server Error!' });
       }

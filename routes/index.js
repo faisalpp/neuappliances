@@ -253,6 +253,8 @@ router.post('/api/appliance-sections',applianceController.GetApplianceSections);
 router.get('/api/get-appliances-filters',applianceController.GetAppliancesFilters);
 // Search Product
 router.post('/api/search-appliance',applianceController.SearchAppliance);
+// Home Page Rating Products
+router.get('/api/slider-appliances',applianceController.GetSliderAppliances);
 
 
 router.get('/affirm',adminController.affirm)

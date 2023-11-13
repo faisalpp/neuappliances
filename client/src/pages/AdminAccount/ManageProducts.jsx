@@ -18,12 +18,9 @@ const ManageProducts = () => {
     const GetProducts = async () => {
         setLoading(true)
         const res = await getProducts();
-        console.log(res)
         if(res.status === 200){
          setLoading(false)
          setProducts(res.data.products)
-        }else{
-            console.log("No Products Found!")
         }
     }
 
@@ -41,8 +38,14 @@ const ManageProducts = () => {
            <NavLink to="/admin/create-product" className='border border-b3 text-b3 text-xs px-2 rounded-md cursor-pointer py-1' >Search</NavLink>
           </div>
          </div>
-         {products.length > 0 ? 
-         <ProductTable data={products}  getProducts={GetProducts} />:<div className='flex items-center justify-center w-full' ><img src="/loader-bg.gif" className='w-10 h-10' /></div>}
+         {loading ? <div className='flex items-center justify-center w-full' >
+                   <img src="/loader-bg.gif" className='w-10 h-10' />
+                   </div>
+          :products.length > 0 ? <ProductTable data={products}  getProducts={GetProducts} />:
+          <div className='flex items-center justify-center w-full' >
+                   <img src="/not-found.webp" className='w-32 h-32' />
+                   </div>
+          }
          {/* <Pagination2 page={1} totalPages={10} /> */}
          
          </AdminAccount>

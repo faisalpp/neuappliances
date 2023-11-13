@@ -121,6 +121,17 @@ export const GetAppliancesBySlug = async (data) => {
     }
     return response;
 }
+export const getSliderAppliances = async (data) => {
+    let response;
+    console.log(data)
+
+    try{
+        response = await api.get(`/api/slider-appliances/?rating=${data.rating}&category=${data.category}&sort=${data.sort}&isSale=${data.isSale}`);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 
 export const getVideoMediaAll = async (params,data) => {
     let response;

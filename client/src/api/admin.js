@@ -170,7 +170,7 @@ export const createProduct = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/create-product',data);
+        response = await AdminApi.post('/api/admin/create-product',data,{validateStatus:()=> true});
     }catch (error){
         return error;
     }
@@ -181,7 +181,7 @@ export const updateProduct = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/update-product',data);
+        response = await AdminApi.post('/api/admin/update-product',data,{validateStatus:()=> true});
     }catch (error){
         return error;
     }
@@ -191,7 +191,7 @@ export const deleteProduct = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/delete-product',data);
+        response = await AdminApi.post('/api/admin/delete-product',data,{validateStatus:()=> true});
     }catch (error){
         return error;
     }
@@ -201,7 +201,7 @@ export const duplicateProduct = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/duplicate-product',data);
+        response = await AdminApi.post('/api/admin/duplicate-product',data,{validateStatus:()=> true});
     }catch (error){
         return error;
     }

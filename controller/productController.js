@@ -18,8 +18,8 @@ const productController = {
           fuelType: Joi.allow(null).empty(''),
           regPrice: Joi.string().required(),
           salePrice: Joi.allow(null).empty(''),
-          rating: Joi.string().required(),
-          stock: Joi.string().required(),
+          rating: Joi.number().required(),
+          stock: Joi.number().required(),
           modelNo: Joi.string().required(),
           itemId: Joi.string().required(),
           featureVideo: Joi.string().required(),
@@ -44,6 +44,7 @@ const productController = {
       // 3. if email or username is already registered -> return an error
       const { productType, title, slug, category, feature, type, color, brand, fuelType, regPrice, salePrice, rating, stock, modelNo , itemId, keyFeatures, featureVideo, threeSixty, media, tags, description, specification, deliveryInfo, metaTitle, metaDescription, metaKeywords,bulletDescription} = req.body;
       
+      const IS_SALE = salePrice ? true : false;
       const titleInUse = await Product.exists({ title });        
       if (titleInUse) {
         const error = {
@@ -68,6 +69,7 @@ const productController = {
           fuelType, 
           regPrice,
           salePrice, 
+          isSale:IS_SALE,
           rating,
           stock,
           modelNo,
@@ -133,6 +135,7 @@ const productController = {
       // 3. if email or username is already registered -> return an error
       const { pSlug,productType, title, slug, category, feature, type, color, brand, fuelType, regPrice, salePrice, bulletDescription, rating, stock, modelNo , itemId, keyFeatures, featureVideo, threeSixty, media, tags, description, specification, deliveryInfo, metaTitle, metaDescription, metaKeywords} = req.body;
       
+      const IS_SALE = salePrice ? true : false;
       const isProduct = await Product.find({slug:pSlug});        
       if (!isProduct) {
         const error = {
@@ -158,6 +161,7 @@ const productController = {
           fuelType, 
           regPrice,
           salePrice, 
+          isSale:IS_SALE,
           rating,
           stock,
           modelNo,
@@ -179,7 +183,7 @@ const productController = {
       );
         return res.status(200).json({status: 200, msg:'Product Updated Successfully!'});
        }catch(err){
-         const error = {status:500,massage:"Internaql Server Error!"}
+         const error = {status:500,massage:"Internal Server Error!"}
          return next(error)
        }
 
@@ -262,7 +266,7 @@ const productController = {
 
     const uTitle = product.title + ' (duplicate)';
     const uSlug = uTitle.toLowerCase().replace(/\s/g,'-');
-
+    const IS_SALE = product.salePrice ? true : false;
     try{
       const ProductToCreate = new Product({
         productType:product.productType, 
@@ -276,6 +280,7 @@ const productController = {
         fuelType:product.fuelType, 
         regPrice:product.regPrice,
         salePrice:product.salePrice, 
+        isSale:IS_SALE, 
         rating:product.rating,
         stock:product.stock,
         modelNo:product.modelNo,

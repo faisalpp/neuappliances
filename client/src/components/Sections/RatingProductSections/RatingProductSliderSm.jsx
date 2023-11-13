@@ -5,7 +5,7 @@ import 'pure-react-carousel/dist/react-carousel.es.css';
 import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs';
 
 
-const RatingProductSliderSm = ({ stars }) => {
+const RatingProductSliderSm = ({items, stars }) => {
   return (
     <>
       <CarouselProvider

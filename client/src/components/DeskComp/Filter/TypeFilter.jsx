@@ -8,6 +8,7 @@ const TypeFilter = ({filters,setFilt,filt}) => {
 
   const handleType = (e,cat) => {
    e.preventDefault()
+   console.log('category')
    if(cat === 'all'){
      delete filt.category
      setFilt(prev=>{return {...prev}})

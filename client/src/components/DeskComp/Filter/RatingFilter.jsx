@@ -10,9 +10,9 @@ const TypeFilter = ({filters,setFilt,filt}) => {
   const [f3,setF3] = useState()
   
 
-  const [check1,setCheck1] = useState(filt.rating === 3 ? true : false);
-  const [check2,setCheck2] = useState(filt.rating === 4 ? true : false);
-  const [check3,setCheck3] = useState(filt.rating === 5 ? true : false);
+  const [check1,setCheck1] = useState(filt?.rating === 3 ? true : false);
+  const [check2,setCheck2] = useState(filt?.rating === 4 ? true : false);
+  const [check3,setCheck3] = useState(filt?.rating === 5 ? true : false);
 
   const getRatingProducts = async (check,rating) => {
     if(check){

@@ -47,15 +47,41 @@ const applianceController = {
     },
     async GetApplianceBySlug(req,res,next){
       const {slug} = req.body;
+
+      let product;
       try{
-        const product = await Product.findOne({slug:slug});
-        return res.status(200).json({status:200,product:product});
+        product = await Product.findOne({slug:slug});
       }catch(error){
         return next(error)
-      }      
+      }
+      
+      let threeStar;
+      let fourStar;
+      let fiveStar;
+      if(product){
+        try{
+          threeStar = await Product.findOne({productType:{$ne:'parent'},modelNo:product.modelNo,rating:3}).sort({ createdAt: 1 }).select('title').select('slug').select('rating').select('isSale').select('salePrice').select('regPrice').select('media');
+        }catch(error){
+          return next(error)
+        }
+        try{
+          fourStar = await Product.findOne({productType:{$ne:'parent'},modelNo:product.modelNo,rating:4}).sort({ createdAt: 1 }).select('title').select('slug').select('rating').select('isSale').select('salePrice').select('regPrice').select('media');
+        }catch(error){
+          return next(error)
+        }
+        try{
+          fiveStar = await Product.findOne({productType:{$ne:'parent'},modelNo:product.modelNo,rating:5}).sort({ createdAt: 1 }).select('title').select('slug').select('rating').select('isSale').select('salePrice').select('regPrice').select('media');
+        }catch(error){
+          return next(error)
+        }
+
+        return res.status(200).json({status:200,product:product,threeStar:threeStar,fourStar:fourStar,fiveStar:fiveStar});
+      }else{
+        return res.status(404).json({status:404,msg:"Product Not Found!"});
+      }
     },
     async GetApplianceBySectionType(req,res,next){
-      // console.log(req.body)
+      console.log(req.body)
       let query = {};
       let sort = {};
       // console.log(prop + ': ' + data[prop]);
@@ -100,21 +126,45 @@ const applianceController = {
 
       let products;
       try{
-        if(req.body.salePrice){
-          products = await Product.find({...query,$and: [{ salePrice: { $lte: req?.body?.salePrice?.max } },{ salePrice: { $gte: req?.body?.salePrice?.min } }]}).sort(sort);
-        }else if(req.body.regPrice){
-          products = await Product.find({...query,$and: [{ regPrice: { $lte: req?.body?.regPrice?.max } },{ regPrice: { $gte: req?.body?.regPrice?.min } }]}).sort(sort);
+        if(req.body.isSale){
+          products = await Product.find({...query,$and: [{ salePrice: { $lte: req.body.salePrice.max } },{ salePrice: { $gte: req.body.salePrice.min } }]}).sort(sort);
+        }else if(!req.body.isSale){
+          products = await Product.find({...query,$and: [{ regPrice: { $lte: req.body.regPrice.max } },{ regPrice: { $gte: req.body.regPrice.min } }]}).sort(sort);
         }else{
           products = await Product.find(query).sort(sort);
         }
       }catch(error){
         return next(error)
       }      
-
+      // console.log(products)
       return res.status(200).json({status:200,products:products});
            
     },
 
+    async GetSliderAppliances(req,res,next){
+      let data = req.query;
+      
+      let query = {}
+      Object.keys(data).forEach(prop => {
+       switch(req.query){
+        case 'rating':
+         query.rating = parseInt(data[prop])
+         break;
+        case 'category':
+         query.category = data[prop]
+         break;
+        case 'isSale':
+         query.isSale = Boolean(data[prop])
+         break;
+       }
+      })
+      try{
+       const products = await Product.find(query).sort({ createdAt: req.query.sort }).select('slug').select('title').select('media').select('isSale').select('salePrice').select('regPrice').select('rating');
+       return res.status(200).json({status:200,products:products});
+      }catch(error){
+        return next(error)
+      }      
+    },
     async GetApplianceByFilter(req,res,next){
       try{
       //  console.log(req.body)

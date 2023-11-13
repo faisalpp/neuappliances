@@ -23,9 +23,9 @@ const Products = () => {
   const [loading, setLoading] = useState(false);
 
   const location = useLocation();
-  const [params, setParams] = useState({isSale:true,salePrice: { min: 200,max:8000 } })
-  
-  useEffect(()=>{
+  const [params, setParams] = useState([])
+
+  const GetQueryParams = () => {
     // Create a URLSearchParams object from the query string
     const queryParams = new URLSearchParams(location.search);
     // Create an object to store the query parameters
@@ -34,19 +34,16 @@ const Products = () => {
     // Iterate through the query parameters and store them in the object
     for (const [key, value] of queryParams.entries()) {
       queryParamsObject[key] = value;
-    }
-    
-    setParams({...params,...queryParamsObject})
-  },[location.search])
-  
-  
-  useEffect(() => {
-     getAppliancesBySection()
-  }, [params])
+    }     
 
-  const getAppliancesBySection = async () => {
+    return {isSale:true,salePrice:{min:200,max:8000},...queryParamsObject}
+  }
+  
+  const [filterLoading,setFilterLoading] = useState(true)
+
+    const getAppliancesBySection = async (PARAM) => {
     setLoading(true)
-    const res = await GetAppliancesBySection(params)
+    const res = await GetAppliancesBySection(PARAM)
     if (res.status === 200) {
       setProducts(res.data.products)
       setLoading(false)
@@ -56,10 +53,10 @@ const Products = () => {
     }
   }
 
-
+  
   useEffect(() => {
     GetAppliancesFilter()
-  }, [params])
+  }, [])
 
   const GetAppliancesFilter = async () => {
     const res = await getAppliancesFilters()
@@ -68,9 +65,13 @@ const Products = () => {
       setCategoriesFilters(res.data.categoryFilters)
       setSaleFilter(res.data.saleFilter)
       setRegularFilter(res.data.regularFilter)
-    } else {
-      setRatingFilters([]);
-      setCategoriesFilters([]);
+      setFilterLoading(false)
+      const PARAMS = GetQueryParams();
+      if(PARAMS){
+        getAppliancesBySection(PARAMS)
+      }
+    }else{
+      setFilterLoading(false)
     }
   }
 
@@ -95,7 +96,7 @@ const Products = () => {
           <div className='flex justify-center gap-12 xl:gap-x-60px maincontainer' >
 
             {/* Filters Start */}
-            <ProductFilter query={params} setQuery={setParams} saleFilter={saleFilter} regularFilter={regularFilter} categoriesFilters={categoriesFilters} ratingFilters={ratingFilters} onClose={handleCloseFilter} isFilter={isFilter} />
+            <ProductFilter loading={filterLoading} query={params} setQuery={setParams} saleFilter={saleFilter} regularFilter={regularFilter} categoriesFilters={categoriesFilters} ratingFilters={ratingFilters} onClose={handleCloseFilter} isFilter={isFilter} />
             {/* Filters End */}
 
             <div className={`grid ${isGrid ? 'lg:grid-cols-3 grid-cols-1 lg:gap-x-2' : 'grid-cols-1'} gap-y-5 mb-10 w-full`} >
