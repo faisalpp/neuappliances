@@ -52,10 +52,13 @@ const cartController = {
       const CART = await Cart.findOne({_id:CART_ID});
       const POS_PRICE = CART.subTotal + PRODUCT_PRICE
       let TAX;
-      if(orderInfo.type === 'delivery'){
-        TAX = (((8.25/100) * POS_PRICE) + orderInfo.shipping)
+      let GRAND_TOTAL;
+      if(orderInfo.type === 'delivery' && orderInfo.shipping !== 'Free'  ){
+        TAX = ((8.25/100) * (POS_PRICE + orderInfo.shipping))
+        GRAND_TOTAL = POS_PRICE + TAX + orderInfo.shipping;
       }else{
         TAX = ((8.25/100) * POS_PRICE)
+        GRAND_TOTAL = POS_PRICE + TAX;
       }
       
       if(CART){
@@ -69,6 +72,7 @@ const cartController = {
               expiry: cartToken,
               subTotal:  POS_PRICE.toFixed(2),
               tax:  TAX.toFixed(2),
+              grandTotal: GRAND_TOTAL.toFixed(2),
             },
             { new: true }
          );
@@ -102,6 +106,7 @@ const cartController = {
             expiry: cartToken,
             subTotal: POS_PRICE.toFixed(2),
             tax:  TAX.toFixed(2),
+            grandTotal: GRAND_TOTAL.toFixed(2),
             },
           { new: true }
         );  
@@ -230,13 +235,27 @@ async removeFromCart(req, res, next) {
  }else{
    return res.status(500).json({status:500,message:'Product Out Of Stock!'})
  }
+ 
+ const NEG_PRICE = CART.subTotal - price
+ let TAX;
+ let GRAND_TOTAL;
+ if(CART.orderInfo.type === 'delivery' && CART.orderInfo.shipping !== 'Free'  ){
+   TAX = ((8.25/100) * (NEG_PRICE + CART.orderInfo.shipping))
+   GRAND_TOTAL = NEG_PRICE + TAX + CART.orderInfo.shipping;
+ }else{
+   TAX = ((8.25/100) * NEG_PRICE)
+   GRAND_TOTAL = NEG_PRICE + TAX;
+ }
 
 if(count >= 2){
  try{
    const UPDATED_CART2 = await Cart.findOneAndUpdate(
      { _id: cartId, 'products.pid': productId },
      {
-       $inc: { 'products.$.count': -1,subTotal: -price,cartCount:1 },
+       $inc: { 'products.$.count': -1,cartCount:-1 },
+       tax:TAX.toFixed(2),
+       subTotal:NEG_PRICE.toFixed(2),
+       grandTotal:GRAND_TOTAL.toFixed(2)
      },
      { new: true }
      );
@@ -252,7 +271,10 @@ if(count >= 2){
  const result = await Cart.updateOne(
     { _id: cartId }, // Match the cart based on its _id
     { $pull: { products: { pid: productId } },
-    $inc: { subTotal:-price,cartCount:-1 },
+    $inc: {cartCount:-1 },
+    tax:TAX.toFixed(2),
+    subTotal:NEG_PRICE.toFixed(2),
+    grandTotal:GRAND_TOTAL.toFixed(2)
    }
   );
   if(result.modifiedCount === 1){

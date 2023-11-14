@@ -25,6 +25,7 @@ const CreateCoupon = () => {
     code: Yup.string().required('Coupon Code is Required!'),
     expiry: Yup.string().required('Expiry Date is Required!'),
     type: Yup.string().required('Coupon Type is Required!'),
+    maxCount: Yup.string().required('Coupon Count is Required!'),
   });
 
   const [errors,setErrors] = useState([])
@@ -37,6 +38,7 @@ const CreateCoupon = () => {
   const [description,setDescription] = useState('')
   const [min,setMin] = useState('')
   const [max,setMax] = useState('')
+  const [maxCount,setMaxCount] = useState('')
   const [singleUse,setSingleUse] = useState(false)
   const [excSale,setExcSale] = useState(false)
 
@@ -55,10 +57,10 @@ const CreateCoupon = () => {
     setLoader(true)
     try{
       if(type === 'free-shipping'){
-       const data = {code: code,expiry: expiry,type:type}
+       const data = {code: code,expiry: expiry,type:type,maxCount:maxCount}
         await singleValidationSchema.validate(data, { abortEarly: false }); 
       }else{
-        const data2 = {code: code,amount: amount,expiry: expiry,type:type}
+        const data2 = {code: code,amount: amount,expiry: expiry,type:type,maxCount:maxCount}
         await dualValidationSchema.validate(data2, { abortEarly: false }); 
       }
    }catch(error){ 
@@ -73,7 +75,7 @@ const CreateCoupon = () => {
         }
    }
 
-    const res = await createCoupon({code:code,description:description,expiry:expiry,amount:amount,type:type,min:min,max:max,singleUse:singleUse,excSale:excSale})
+    const res = await createCoupon({code:code,description:description,expiry:expiry,amount:amount,type:type,min:min,max:max,singleUse:singleUse,excSale:excSale,maxCount:maxCount})
     if(res.status === 200){
       setLoader(false)
       navigate('/admin/manage-copons')
@@ -93,15 +95,16 @@ const CreateCoupon = () => {
     <FaqAccordion2 isExpand="true" title="General" answer={
        <div className='flex flex-col space-y-2 mt-2 w-full' >
        <div className='flex space-x-5 ' >
-        <TextInput value={code} onChange={(e)=>setCode(e.target.value)} width="full" title="Coupon Code" iscompulsory="false" type="text" error={errors && errors.includes('Date is Required!') ? true : false} errormessage="Date is Required!" placeholder="Write Coupon Code" />
+        <TextInput value={code} onChange={(e)=>setCode(e.target.value)} width="full" title="Coupon Code" iscompulsory="true" type="text" error={errors && errors.includes('Date is Required!') ? true : false} errormessage="Date is Required!" placeholder="Write Coupon Code" />
         <button type="button" onClick={e=>GenerateCoupon(e)} className='font-medium bg-b6 px-2 text-white text-xs h-10 mt-6 rounded-lg' >Generate</button>
        </div>
        <div className='flex space-x-5 ' >
-       <TextInput value={expiry} onChange={(e)=>setExpiry(e.target.value)} width="full" title="Coupon Expiry" iscompulsory="false" type="date" error={errors && errors.includes('Date is Required!') ? true : false} errormessage="Date is Required!" placeholder="Write Coupon Code" />
+       <TextInput value={expiry} onChange={(e)=>setExpiry(e.target.value)} width="full" title="Coupon Expiry" iscompulsory="true" type="date" error={errors && errors.includes('Date is Required!') ? true : false} errormessage="Date is Required!" placeholder="Write Coupon Code" />
        <SelectInput onChange={(e)=>setType(e.target.value)} widthFull="true" title="Coupon Type" options={['Percentage Discount','Flat Discount','Free Shipping']} />
        </div>
        <div className='flex space-x-5 ' >
        <TextInput value={amount} onChange={(e)=>setAmount(e.target.value)} width="full" title="Coupon Amount" iscompulsory="false" type="text" error={errors && errors.includes('Date is Required!') ? true : false} errormessage="Date is Required!" placeholder="Percentage Or Flat Rate (Leave Blank For Free Shipping)" />
+       <TextInput value={maxCount} onChange={(e)=>setMaxCount(e.target.value)} width="full" title="Coupon Count" iscompulsory="true" type="text" error={errors && errors.includes('Coupon Count is Required!') ? true : false} errormessage="Coupon Count is Required!" placeholder="Coupon Count Per User!" />
        </div>
        <TextAreaInput value={description} onChange={(e)=>setDescription(e.target.value)} width="full" title="Coupon Description" iscompulsory="false" type="text" error={errors && errors.includes('Date is Required!') ? true : false} errormessage="Date is Required!" placeholder="Coupon Description (Optional)"></TextAreaInput>
       </div>
@@ -122,7 +125,7 @@ const CreateCoupon = () => {
         <h3 className='text-xs font-semibold' >Exclude Sale Items</h3>
         <div className='flex items-center' >
          <Checkbox checked={excSale} onChange={(e)=>setExcSale(e.target.checked)} />
-         <p className='text-xs' >Check this box if the coupon should not apply to items on sale. Per-item coupons will only work if the item is not on sale. Per-cart coupons will only work if there are items in the cart that are not on sale.</p>
+         <p className='text-xs' >Check this box if the coupon should not apply to items on sale. Coupon will only work if there is no sale products in the cart.</p>
         </div>
        </div>
       </div>

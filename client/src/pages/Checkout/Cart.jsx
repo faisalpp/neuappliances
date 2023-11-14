@@ -3,7 +3,7 @@ import CustomInput from '../../components/Reusable/CustomInput';
 import CartCard from '../../components/Checkout/CartCard';
 import { HiOutlineTruck } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
-import { GetCart,ApplyCoupon} from '../../store/cartSlice'
+import { GetCart,ApplyCoupon,RemoveCoupon} from '../../store/cartSlice'
 import { useDispatch } from "react-redux";
 import Toast from '../../utils/Toast'
 
@@ -15,9 +15,9 @@ const Cart = () => {
     const tax = useSelector((state)=>state.cart?.cart.tax)
     const products = useSelector((state)=>state.cart?.cart.products)
     const orderInfo = useSelector((state)=>state.cart?.cart.orderInfo)
-    const coupon = useSelector((state)=>state.cart?.cart.coupon)
+    const coupons = useSelector((state)=>state.cart?.cart.coupons)
     const grandTotal = useSelector((state)=>state.cart?.cart.grandTotal)
-
+    
     const [loading,setLoading] = useState(false)
 
     const GetCartData = async () => {
@@ -44,7 +44,6 @@ const Cart = () => {
         e.preventDefault()
         if(coupen.length > 4){
          const res = await dispatch(ApplyCoupon({cartId:cartId,code:coupen}))
-         console.log(res)
          if(res.payload.status === 200){
             Toast(res.payload.msg,'success',1000)
          }else{
@@ -53,22 +52,37 @@ const Cart = () => {
         }
       }
 
+      const removeCoupen = async (e,id) => {
+        e.preventDefault()
+         const filt = coupons.find((item)=>item._id === id)
+         if(!filt){
+          Toast('Coupon Not Found!','error',1000)
+         }else{
+         const res = await dispatch(RemoveCoupon({coupon:filt,cartId:cartId}))
+          if(res.payload.status === 200){
+           Toast(res.payload.msg,'success',1000)
+          }else{
+           Toast(res.payload.message,'error',1000)
+          }
+         }
+      }
+
     return (
         <>
             <div className='max-w-full w-full h-full px-4 sm:px-11 py-14 bg-[#F9F9F9]'>
                 <div className='max-w-[418px] 3xl:max-w-xl mr-auto w-full flex flex-col gap-5'>
          
-                {orderInfo.type === 'delivery' ?<div className='flex w-full flex-col gap-6 bg-white px-4 sm:px-6 py-4'>
+                {orderInfo?.type === 'delivery' ?<div className='flex w-full flex-col gap-6 bg-white px-4 sm:px-6 py-4'>
                         {products?.length > 0 && products.map((item, index) => <CartCard key={index} item={item} />)}
                         <div className='border border-b31 text-b32 flex gap-2 items-center p-4 text-sm'>
                             <HiOutlineTruck className='text-xl text-b25 rounded-lg' />
                             <span>
-                                Delivering To {orderInfo?.email ? `${orderInfo.address}, ${orderInfo.city}, ${orderInfo.province}, ${orderInfo.country}, ${orderInfo.postalCode}` : orderInfo.location}
+                                Delivering To {orderInfo?.email ? `${orderInfo?.address}, ${orderInfo?.city}, ${orderInfo?.province}, ${orderInfo?.country}, ${orderInfo?.postalCode}` : orderInfo?.location}
                             </span>
                         </div>
                     </div>:null}
 
-                    {orderInfo.type === 'pickup' ? <div className='bg-white px-6 py-4 flex flex-col gap-5'>
+                    {orderInfo?.type === 'pickup' ? <div className='bg-white px-6 py-4 flex flex-col gap-5'>
                         {products?.length > 0 && products.map((item, index) => <CartCard key={index} item={item} />)}
                         <div className='border border-b31 text-b32 flex gap-2 items-center p-4 text-sm'>
                             <img src="/svgs/Pick-up.webp" alt="Pick-up" />
@@ -95,13 +109,24 @@ const Cart = () => {
                                 ${subTotal}
                             </span>
                         </div>
+                        {coupons?.length > 0 ? coupons.map((coupon)=>(<>
+                        <hr />
+                        <div className='flex justify-between'>
+                            <span className='text-b32'>
+                                Coupon: <span className='text-xs' >{coupon.code}</span>
+                            </span>
+                            <span className='text-b16 font-medium text-xs'>
+                              ({coupon.type === 'percentage-discount' ?  `-${coupon.amount}% / -$${coupon?.previous?.amount}` : coupon.amount })<span onClick={(e)=>removeCoupen(e,coupon._id)} className='ml-1 text-[10px] underline text-b6 cursor-pointer' >Remove</span>
+                            </span>
+                        </div></>)):null}
+                        <hr/>
                         <div className='flex justify-between'>
                             <span className='text-b32'>
                                 Shipping
                             </span>
                             <span className='text-b16 font-medium'>
-                             {orderInfo.type === 'delivery' ? `$${orderInfo.shipping}`: null}
-                             {orderInfo.type === 'pickup' ? orderInfo.shipping : null }
+                             {orderInfo?.type === 'delivery' ? `$${orderInfo.shipping}`: null}
+                             {orderInfo?.type === 'pickup' ? orderInfo.shipping : null }
                             </span>
                         </div>
                         <div className='flex justify-between'>

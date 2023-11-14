@@ -5,12 +5,13 @@ const couponSchema = new mongoose.Schema({
   description: {type: String},
   type: {type: String, required:true},
   amount: {type: Number},
-  isFreeShipping: {type: Boolean,required:false},
+  maxCount: {type: Number,required:true},
+  isFreeShipping: {type: Boolean,default:false},
   expiry: {type: Object,required:false},
   min: {type: Object},
   max: {type: Object},
-  singleUse: {type: Object,required:false},
-  excSale: {type: Object,required:false},
+  singleUse: {type: Object,default:false},
+  excSale: {type: Object,default:false},
 },{timestamps: true});
 
 module.exports = mongoose.model('Coupon',couponSchema,'coupons');

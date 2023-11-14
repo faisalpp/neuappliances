@@ -189,6 +189,7 @@ router.post('/api/user/change-delivery-info',cartController.updateDeliveryInfo);
 router.post('/api/user/change-cart-finance',cartController.updateCartFinance);
 router.post('/api/user/get-cart',cartController.getCart);
 router.post('/api/user/apply-coupon',couponController.applyCoupon);
+router.post('/api/user/remove-coupon',couponController.removeCoupon);
 // Usr Favorite
 router.post('/api/user/add-favorite',favoriteController.AddToFavorite);
 router.post('/api/user/get-favorite',favoriteController.GetFavorites);

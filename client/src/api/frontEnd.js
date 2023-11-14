@@ -24,7 +24,17 @@ export const applyCoupon = async (data) => {
     let response;
 
     try{
-        response = await api.post('/api/user/apply-coupon',data);
+        response = await api.post('/api/user/apply-coupon',data,{validateStatus:()=>true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const deleteCoupon = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/user/remove-coupon',data,{validateStatus:()=>true});
     }catch (error){
         return error;
     }

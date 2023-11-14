@@ -70,7 +70,7 @@ const Information = () => {
     const [city,setCity] = useState('')
     const [country,setCountry] = useState('usa')
     const [province,setProvince] = useState('alberta')
-    const [postalCode,setPostalCode] = useState(ordInfo.type === 'delivery' ? ordInfo.location : '')
+    const [postalCode,setPostalCode] = useState(ordInfo?.type === 'delivery' ? ordInfo.location : '')
     const [phone,setPhone] = useState('')
     const [saveAddress,setSaveAddress] = useState(false)
 

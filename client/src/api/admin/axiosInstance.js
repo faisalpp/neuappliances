@@ -56,10 +56,9 @@ AdminApi.interceptors.response.use(
           await axios.get(refreshUrl, {
             withCredentials: true,
           });
-  
-          console.log('mm')
           return AdminApi.request(originalReq);
         } catch (error) {
+          console.log(error)
           return error;
         }
       }
