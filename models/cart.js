@@ -18,7 +18,7 @@ const cartSchema = new mongoose.Schema({
   cartCount:{type: Number,default:0},
   expiry: {type:String,required:true},
   tax:{type: Number,default:0},
-  coupon:{type: Object,default:0},
+  coupon:{type: Object,default:null},
   subTotal:{type: Number,default:0},
   grandTotal:{type: Number,default:0},
 },{timestamps: true});

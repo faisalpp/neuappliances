@@ -20,6 +20,16 @@ export const MultiApi = axios.create({
     maxBodyLength: 10 * 1024 * 1024, // 10 megabytes (10MB)
 });
 
+export const applyCoupon = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/user/apply-coupon',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const GetZipCords = async (params) => {
     let response;
 
@@ -30,6 +40,7 @@ export const GetZipCords = async (params) => {
     }
     return response;
 }
+
 export const CheckZip = async (data) => {
     let response;
 

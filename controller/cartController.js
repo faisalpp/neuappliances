@@ -50,7 +50,13 @@ const cartController = {
 
       
       const CART = await Cart.findOne({_id:CART_ID});
-      const POS_PRICE = CART.subTotal + PRODUCT_PRICE 
+      const POS_PRICE = CART.subTotal + PRODUCT_PRICE
+      let TAX;
+      if(orderInfo.type === 'delivery'){
+        TAX = (((8.25/100) * POS_PRICE) + orderInfo.shipping)
+      }else{
+        TAX = ((8.25/100) * POS_PRICE)
+      }
       
       if(CART){
         let prds = CART.products;
@@ -62,6 +68,7 @@ const cartController = {
               $inc: { 'products.$.count': 1,cartCount:1 },
               expiry: cartToken,
               subTotal:  POS_PRICE.toFixed(2),
+              tax:  TAX.toFixed(2),
             },
             { new: true }
          );
@@ -94,6 +101,7 @@ const cartController = {
             $inc: { cartCount : 1 },
             expiry: cartToken,
             subTotal: POS_PRICE.toFixed(2),
+            tax:  TAX.toFixed(2),
             },
           { new: true }
         );  

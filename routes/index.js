@@ -29,6 +29,7 @@ const newsLetterController = require('../controller/newsLetterController');
 const adminCartController = require('../controller/adminCart');
 const refundController = require('../controller/refundController');
 const dashboardController = require('../controller/dashboardController');
+const couponController = require('../controller/couponController');
 
 const router = express.Router();
 
@@ -187,6 +188,7 @@ router.post('/api/user/change-pickup-location',cartController.updatePickupLocati
 router.post('/api/user/change-delivery-info',cartController.updateDeliveryInfo);
 router.post('/api/user/change-cart-finance',cartController.updateCartFinance);
 router.post('/api/user/get-cart',cartController.getCart);
+router.post('/api/user/apply-coupon',couponController.applyCoupon);
 // Usr Favorite
 router.post('/api/user/add-favorite',favoriteController.AddToFavorite);
 router.post('/api/user/get-favorite',favoriteController.GetFavorites);
@@ -221,6 +223,11 @@ router.post('/api/admin/add-to-cart',adminAuth,adminCartController.addToCart);
 router.post('/api/admin/increment-cart',adminAuth,adminCartController.incCart);
 router.post('/api/admin/decrement-cart',adminAuth,adminCartController.decCart);
 router.post('/api/admin/get-cart',adminAuth,adminCartController.getCart);
+// Coupon Api's
+router.get('/api/admin/get-coupons',adminAuth,couponController.getCoupons);
+router.post('/api/admin/create-coupon',adminAuth,couponController.createCoupon);
+router.post('/api/admin/delete-coupon',adminAuth,couponController.deleteCoupon);
+
 
 
 

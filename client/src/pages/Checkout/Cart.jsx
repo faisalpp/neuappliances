@@ -3,23 +3,21 @@ import CustomInput from '../../components/Reusable/CustomInput';
 import CartCard from '../../components/Checkout/CartCard';
 import { HiOutlineTruck } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
-import { GetCart,setTotal,setTax,setGrandTotal,resetDeliveryInfo,ChangeCartFinance } from '../../store/cartSlice'
+import { GetCart,ApplyCoupon} from '../../store/cartSlice'
 import { useDispatch } from "react-redux";
-
+import Toast from '../../utils/Toast'
 
 const Cart = () => {
     const dispatch = useDispatch()
 
-    const cartId = useSelector((state)=>state.cart?.cart.cartId)
-    // const cart = useSelector((state)=>state.cart?.cart)
+    const cartId = useSelector((state)=>state.cart?.cart._id)
     const subTotal = useSelector((state)=>state.cart?.cart.subTotal)
     const tax = useSelector((state)=>state.cart?.cart.tax)
     const products = useSelector((state)=>state.cart?.cart.products)
     const orderInfo = useSelector((state)=>state.cart?.cart.orderInfo)
     const coupon = useSelector((state)=>state.cart?.cart.coupon)
- 
-    // const orderInfo = useSelector((state)=>state.order.orderInfo)
-    const [grandTotal,setGrandTotal] = useState((coupon ? coupon : 0)+(orderInfo.type === 'delivery' ? orderInfo.shipping : 0) + tax + subTotal)
+    const grandTotal = useSelector((state)=>state.cart?.cart.grandTotal)
+
     const [loading,setLoading] = useState(false)
 
     const GetCartData = async () => {
@@ -42,10 +40,16 @@ const Cart = () => {
 
       const [coupen,setCoupen] = useState('')
 
-      const handleCoupen = () => {
-        if(coupen === 'c12'){
-         const data = parseFloat(total)-20;
-         dispatch(setTotal(data))
+      const handleCoupen = async (e) => {
+        e.preventDefault()
+        if(coupen.length > 4){
+         const res = await dispatch(ApplyCoupon({cartId:cartId,code:coupen}))
+         console.log(res)
+         if(res.payload.status === 200){
+            Toast(res.payload.msg,'success',1000)
+         }else{
+            Toast(res.payload.message,'error',1000)
+         }
         }
       }
 
@@ -53,7 +57,7 @@ const Cart = () => {
         <>
             <div className='max-w-full w-full h-full px-4 sm:px-11 py-14 bg-[#F9F9F9]'>
                 <div className='max-w-[418px] 3xl:max-w-xl mr-auto w-full flex flex-col gap-5'>
-
+         
                 {orderInfo.type === 'delivery' ?<div className='flex w-full flex-col gap-6 bg-white px-4 sm:px-6 py-4'>
                         {products?.length > 0 && products.map((item, index) => <CartCard key={index} item={item} />)}
                         <div className='border border-b31 text-b32 flex gap-2 items-center p-4 text-sm'>
@@ -77,7 +81,7 @@ const Cart = () => {
                     <hr />
                     <div className='flex gap-14px items-center w-full'>
                         <CustomInput type="text" state={coupen} setState={setCoupen} colorStyle="border-b31 placeholder:text-b25" placeholder="Discount code" />
-                        <button onClick={handleCoupen} type='buttton' className='px-4 p-3 bg-b3 text-sm text-white font-medium rounded-lg'>
+                        <button onClick={e=>handleCoupen(e)} type='buttton' className='px-4 p-3 bg-b3 text-sm text-white font-medium rounded-lg'>
                             Apply
                         </button>
                     </div>

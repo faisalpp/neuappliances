@@ -1,5 +1,6 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import {addToCart,getCart,removeFromCart,changeCartItemType,UpdateTimeSlot,UpdatePickupLocation,UpdateDeliveryInfo,UpdateCartFinance} from '../api/cart'
+import {applyCoupon} from '../api/frontEnd'
 
 const initialState = {
   cart:{},
@@ -114,6 +115,19 @@ export const ChangeCartFinance = createAsyncThunk("cart/change-finance", async (
   }
 });
 
+export const ApplyCoupon = createAsyncThunk("cart/apply-coupon", async (data) => {
+  try{
+    const response = await applyCoupon(data); // Call your login API with the provided data
+    if(response.data.status === 200){
+      return response.data; // Assuming your API response contains the user data
+    }else{
+      return response.data
+    }
+  }catch(error){
+    return { payload: error.response?.data, error: true };
+  }
+});
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -192,6 +206,12 @@ export const cartSlice = createSlice({
       }
     })
     .addCase(ChangeCartFinance.fulfilled, (state, action) => {
+      const { cart } = action.payload;
+      if(cart){
+        state.cart = cart
+      }
+    })
+    .addCase(ApplyCoupon.fulfilled, (state, action) => {
       const { cart } = action.payload;
       if(cart){
         state.cart = cart
