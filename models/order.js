@@ -29,7 +29,7 @@ const orderSchema = new mongoose.Schema({
   billingAddress:  {type: mongoose.SchemaTypes.ObjectId, ref: 'OrderAddress',required:true},
   paymentInfo: { type: Object},
   shipping: { type: Object, required: true },
-  coupon: { type: Number, required: true },
+  coupons: { type: Object },
   tax: { type: Number, required: true },
   total: { type: Number, required: true },
   grandTotal: { type: Number, required: true },

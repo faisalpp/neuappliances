@@ -116,18 +116,22 @@ export const adminSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loginAdmin.fulfilled, (state, action) => {
       const { admin, auth } = action.payload;
+      if(admin){
       state._id = admin._id;
       state.email = admin.email;
       state.firstName = admin.firstName;
       state.lastName = admin.lastName;
       state.auth = auth;
+      }
     }).addCase(RefreshAdmin.fulfilled, (state, action) => {
       const { admin, auth } = action.payload;
+      if(admin){
       state._id = admin._id;
       state.email = admin.email;
       state.firstName = admin.firstName;
       state.lastName = admin.lastName;
       state.auth = auth;
+      }
     }).addCase(AddToCart.fulfilled, (state, action) => {
       const {data} = action.payload;
       if(data?.products?.length > 0){
@@ -135,13 +139,11 @@ export const adminSlice = createSlice({
       }
     }).addCase(IncrementCart.fulfilled, (state, action) => {
       const {data} = action.payload;
-      console.log(data)
       if(data.products?.length > 0){
         state.cart = data;
       }
     }).addCase(DecrementCart.fulfilled, (state, action) => {
       const {data} = action.payload;
-      console.log(data)
       if(data?.products){
         state.cart = data;
       }

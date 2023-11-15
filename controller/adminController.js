@@ -117,20 +117,12 @@ const adminController = {
     try{
       admin = await Admin.findOne({email});
       if(!admin){
-         const error = {
-          status: 401,
-          message: "Invalid Credentials!"
-         }
-         return next(error);
-        }
+        return res.status(401).json({status:401,message:'Invalid Credentials!'})
+      }
 
          const match = await bcrypt.compare(password,admin.password);
          if(!match){
-          const error = {
-            status: 401,
-            message: "Invalid Credentials!"
-           } 
-           return next(error);
+          return res.status(401).json({status:401,message:'Invalid Credentials!'})
          }    
 
     }catch(error){

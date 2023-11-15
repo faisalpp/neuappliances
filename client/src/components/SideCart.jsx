@@ -62,9 +62,11 @@ const SideCart = () => {
   const [zip, setZip] = useState('')
 
   const GetCartData = async () => {
+    if(!cartId){
+      return
+    }
     setLoading(true)
     const res = await dispatch(GetCart({cartId:cartId}));
-    console.log(res)
     if(res.payload.status === 200){
       if(orderInfo.type === 'delivery'){
         setZip(orderInfo.location)

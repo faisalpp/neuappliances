@@ -31,7 +31,7 @@ const ShippingMethod = ({radioOnChange}) => {
         <div className='space-y-14px mt-8'>
             <h3 className='text-lg font-medium text-b16'>Shipping method</h3>
             <div className='[&>*]:border-b [&>*]:border-b31 [&>*:last-child]:border-0 border border-b31 rounded-md'>
-             {orderInfo.type === 'delivery'  ? <ShippingRadio handleChange={radioOnChange} id="home_delivery" title="Home Delivery" subtitle="1 to 3 Business Days" price={`$${orderInfo.shipping}`} checked={true} />:null}
+             {orderInfo.type === 'delivery'  ? <ShippingRadio handleChange={radioOnChange} id="home_delivery" title="Home Delivery" subtitle="2 to 3 Business Days" price={`$${orderInfo.shipping}`} checked={true} />:null}
              {orderInfo.type === 'pickup' ? <ShippingRadio handleChange={radioOnChange} id="home_delivery" title="Free Pickup" subtitle="Always Ready!" price={orderInfo.shipping} checked={true} />:null}
             </div>
         </div>

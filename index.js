@@ -8,6 +8,8 @@ const cookieParser = require('cookie-parser')
 const path = require('path');
 const compression = require('compression')
 const app = express();
+const CartCron = require('./cron/index')
+const { isMainThread} = require('worker_threads');
 
 const corsOptions = {
   credentials: true,
@@ -40,5 +42,6 @@ app.use(errorHandler);
 dbconnect().then(()=>{
   app.listen(PORT,()=>{
     console.log(`Server Started on port: ${PORT}`)
+      CartCron.CheckCartExpiry()
   });
 })

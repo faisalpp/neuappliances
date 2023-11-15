@@ -35,6 +35,11 @@ const cartController = {
         }catch(err){
           return res.status(500).json({status:500,message:'Internal Server Error!'})
         }
+      }else{
+        const find = await Cart.findOne({_id:CART_ID})
+        if(!find){
+          return res.status(404).json({status:404,message:'Cart Expired!'})
+        }
       }
 
       let PRODUCT_PRICE;
@@ -160,9 +165,7 @@ const cartController = {
   async getCart(req, res, next) {
    try{
      const {cartId} = req.body;
-     if(!cartId){
-       return res.status(404).json({status: 404,cart:false,message:'Cart is Expired!'});
-     }
+     
      const cart = await Cart.findOne({_id:cartId})
      if(!cart){
        return res.status(404).json({status: 404,cart:false,message:'Cart is Expired!'});

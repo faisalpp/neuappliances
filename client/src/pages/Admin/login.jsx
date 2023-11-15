@@ -37,12 +37,11 @@ const Login = () => {
     const data = { email, password }
 
     const res = await dispatch(loginAdmin(data));
-
+    console.log(res)
     if (res.payload.status === 200) {
       Toast(res.payload.msg,'success',1000)
       navigate('/admin/dashboard');
-    }
-    if (res.payload.code === 'ERR_BAD_REQUEST') {
+    }else{
       Toast('Invalid Credentials!','error',1000)
     }
 

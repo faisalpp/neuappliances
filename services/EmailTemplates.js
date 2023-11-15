@@ -44,7 +44,7 @@ class EmailTemplates{
    </head>
    <body style="font-family: Arial, sans-serif; line-height: 1.6;">
        <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-           <h2>Your New Account Details for [Ecommerce Store Name]</h2>
+           <h2>Your New Account Details for ${WEBSITE_NAME}</h2>
            <p>Dear ${fullName},</p>
            <p>Thank you for shopping with us at ${WEBSITE_NAME}. We have created a new account for you based on your recent purchase. Below are the details you will need to access your account:</p>
            <p><strong>Email:</strong> ${email}<br>

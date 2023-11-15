@@ -92,12 +92,28 @@ const UpdateOrder = () => {
     )
   }
 
-  const OrderFinance = ({total,shipping,tax,grandTotal,coupen }) => {
+  const OrderFinance = ({total,shipping,tax,grandTotal,coupons }) => {
     return (
       <><tr className='border-b border-l border-r border-b6 text-xs' >
+        <td className='px-2 py-3 font-semibold' >
+          <div className='flex px-2 border-[1px]' >
+           {coupons?.map((coupon)=>
+              <>
+              {coupon.type === 'free-shipping'?
+              <div className='flex justify-between w-full py-1 text-xs' ><span>{coupon.code}</span><span>-${coupon.previous.shipping}</span></div>
+              :null}
+              {coupon.type === 'percentage-discount'?
+              <div className='flex justify-between w-full py-1 text-xs' ><span>{coupon.code}</span><span>-${coupon.previous.amount}</span></div>
+              :null}
+              {coupon.type === 'flat-discount'?
+              <div className='flex justify-between w-full py-1 text-xs' ><span>{coupon.code}</span><span>-${coupon.previous.amount}</span></div>
+              :null}
+              </>
+           )}
+          </div>
+        </td>
         <td className='px-2 py-3 font-semibold' >${total}</td>
-        <td className='px-2 py-3 font-semibold' >{coupen}</td>
-        <td className='px-2 py-3 font-semibold' >{shipping}</td>
+        <td className='px-2 py-3 font-semibold' >${shipping}</td>
         <td className='px-2 py-3 font-semibold' >${tax}</td>
         <td className='px-2 py-3 font-semibold' >${grandTotal}</td>
       </tr>
@@ -340,8 +356,8 @@ const UpdateOrder = () => {
         </Table>
       </div>
       <div >
-        <Table head={['Sub Total','Coupon','Shipping','Tax','Grand Total']} >
-         <OrderFinance coupen={order.coupon} total={order.total} shipping={order?.shipping?.shipping} tax={order.tax} grandTotal={order.grandTotal} />
+        <Table head={['Coupon','Sub Total','Shipping','Tax','Grand Total']} >
+         <OrderFinance coupons={order.coupons} total={order.total} shipping={order?.shipping?.shipping} tax={order.tax} grandTotal={order.grandTotal} />
         </Table>
       </div>
 

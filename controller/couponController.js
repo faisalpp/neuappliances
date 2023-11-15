@@ -226,7 +226,6 @@ const couponController = {
       return res.status(404).json({status:404,message:'Cart Not Found!'})  
     }
     let subTotal = 0;
-    let grandTotal = 0;
     // 4. check coupon type if coupon is type percentage calculate percentage else if type is flat discount then just
     // normally minus the subtotal from coupon amount else the coupon is free then we can add isFreeShipping in coupon object.
     if(coupon.type === 'free-shipping'){
@@ -263,7 +262,7 @@ const couponController = {
       return res.status(200).json({status:200,cart:UPDATED_CART,msg:'Coupon Code Applied!'})        
      // }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
     }else{
-     const subTotal2 = subTotal + coupon.amount;
+     const subTotal2 = getCart.subTotal + coupon.amount;
      let grandTotal2;
      if(getCart.orderInfo.type === 'pickup'){
        grandTotal2 = subTotal2 + getCart.tax;

@@ -60,7 +60,7 @@ const ProductRow = ({data,getProductss}) => {
 
   return (
     <tr className="border-b border-l border-r border-b6 text-xs">
-        <td className="py-3 capitalize"><img src={firstImg.data} className='h-32' /></td>
+        <td className="py-3 capitalize"><img src={firstImg?.data} className='w-32' /></td>
         <td className=" px-2 capitalize">{data.title}</td>
         <td className=" px-5 py-4 font-medium">${data.salePrice}</td>
         <td className=" px-5 py-4 font-medium"><strike>${data.regPrice}</strike></td>

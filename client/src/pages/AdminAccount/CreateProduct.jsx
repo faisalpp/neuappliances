@@ -31,7 +31,7 @@ const CreateProduct = () => {
   const [deliveryInfo,setDeliveryInfo] = useState('')
 
   // Form States Start
-   const [errors,setErrors] = useState([])
+   const [errors,setErrors] = useState([]);
    // Form States End
    
    // Controller States Start
@@ -534,7 +534,7 @@ const handleTitle = (e) => {
  const HandleBullets = (e) => {
   e.preventDefault()
   if(bullet?.length > 0){
-    setValues({...values,bulletDescription:[...values.bulletDescription,bullet]})
+    setValues({...values,bulletDescription:[...values?.bulletDescription,bullet]})
     setBullet('')
   }
  }

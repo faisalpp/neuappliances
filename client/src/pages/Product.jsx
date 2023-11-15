@@ -31,7 +31,8 @@ import { AddToFavorite,RemoveFromFavorite,checkFavorite } from '../api/user/favo
 import Loader from '../components/Loader/Loader'
 import { useDispatch, useSelector } from "react-redux";
 import Iframe from '../components/Reusable/Ifram'
-import {AddToCart} from '../store/cartSlice'
+import {AddToCart,resetCart} from '../store/cartSlice'
+import {resetOrder} from '../store/orderSlice'
 import Toast from '../utils/Toast'
 import DateFormat from '../utils/DateFormat'
 import axios from 'axios'
@@ -70,7 +71,12 @@ const Product = () => {
       setProduct(res.payload.update)
       Toast(res.payload.msg,'success',1000)
       setLoading2(false)
-    }else {
+    }else if(res.payload.status === 404) {
+      dispatch(resetCart())
+      dispatch(resetOrder())
+      setLoading2(false)
+      Toast(res.payload.message,'info',1000)
+    }else{
       setLoading2(false)
       Toast(res.payload.message,'error',1000)
     }

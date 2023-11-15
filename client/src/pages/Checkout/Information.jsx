@@ -189,9 +189,9 @@ const Information = () => {
                 {/* Bread Crumbs Start */}
                 <BreadCrumb />
                 {/* Bread Crumbs End */}
-                <ExpressCheckout/>
+                {/* <ExpressCheckout/> */}
                 {/* Bread Crumbs End */}
-                <div className='text_between_line my-8'>OR</div>
+                {/* <div className='text_between_line my-8'>OR</div> */}
                 <form onSubmit={SubmitInformation} >
                     {/* Conatct Information */}
                     <div className='space-y-14px [&>*]:text-b16 [&>*]:text-sm'>

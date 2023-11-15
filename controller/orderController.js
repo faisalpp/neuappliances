@@ -16,6 +16,7 @@ const Stripe = require('stripe')(STRIPE_PRIVATE_KEY)
 const crypto = require('crypto')
 const {Types} = require('mongoose');
 const Guest = require('../models/Guest');
+const JWT = require('../services/JwtService')
 
 const orderController = {
 
@@ -165,9 +166,7 @@ if(oldUser){
 //   8. create new order and save it in database.
   const date = new Date();
   let orderNumber = `${crypto.randomBytes(2).toString('hex')}-D${date.getDay()}M${date.getMonth()}Y${date.getFullYear()}`;
-  const shipping = CART.orderInfo.type === 'delivery' ? CART.orderInfo.shipping : 0;
-  let grandTotal = CART.subTotal + CART.tax + CART.coupon + shipping;
-  //  try{
+   try{
    const createOrder = new Order({
      orderNo:orderNumber,
      customerId: USER,
@@ -177,18 +176,18 @@ if(oldUser){
      billingAddress:  billingAddressId,
      shipping: CART.orderInfo,
      cartCount: CART.cartCount,
-     coupon: CART.coupon,
+     coupons: CART.coupons,
      tax: CART.tax,
      total: CART.subTotal,
-     grandTotal: grandTotal,
+     grandTotal: CART.grandTotal,
     }
    );
   
    newOrder = await createOrder.save();
    return res.status(200).json({status: 200,orderNo:orderNumber});
-  //  }catch(error){
-  //   return res.status(500).json({status: 500,message:'Internal Server Error!'});
-  //  }
+   }catch(error){
+    return res.status(500).json({status: 500,message:'Internal Server Error!'});
+   }
 
   },
 
@@ -637,7 +636,24 @@ if(oldUser){
   },
 
   async test(req, res, next) {
-    console.log(req.ip)
+    const Carts = await Cart.find({}).select('products').select('expiry');
+    if(Carts.length > 0){
+     for(let i=0;i<Carts.length;i++){
+      let id = Carts[i]._id;
+      try{
+       JWT.verifyAccessToken(Carts[i].expiry)._id
+      }catch(error){
+       let products = Carts[i].products;
+       for(let j=0;j<products.length;j++){
+        const c = await Product.findOneAndUpdate({_id:products[j].pid},{$inc:{stock: products[j].count}},{new:true})
+        if(c){
+          await Cart.findOneAndDelete({_id:id})
+        }
+       } 
+      }
+      
+     }
+    }
   }
 
 }

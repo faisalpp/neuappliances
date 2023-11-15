@@ -192,7 +192,7 @@ const productController = {
     async GetProducts(req,res,next){
       
       try{
-        const products = await Product.find({});
+        const products = await Product.find({})
         return res.status(200).json({status:200,products:products});
       }catch(error){
         return next(error)
@@ -264,7 +264,8 @@ const productController = {
      }
     }
 
-    const uTitle = product.title + ' (duplicate)';
+    const randomPart = Math.random().toString(36).slice(2, 8).toUpperCase();
+    const uTitle = product.title + `${randomPart}`;
     const uSlug = uTitle.toLowerCase().replace(/\s/g,'-');
     const IS_SALE = product.salePrice ? true : false;
     try{
