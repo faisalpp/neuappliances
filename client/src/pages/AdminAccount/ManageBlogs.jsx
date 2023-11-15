@@ -19,8 +19,6 @@ const ManageBlogs = () => {
   const [totalCount, setTotalCount] = useState(0)
 
   const [loading, setLoading] = useState(false)
-  const [delLoading, setDelLoading] = useState(false)
-  const [dupLoading, setDupLoading] = useState(false)
 
   const [category, setCategory] = useState('all-categories')
   const [search, setSearch] = useState('')
@@ -97,7 +95,7 @@ const ManageBlogs = () => {
         {loading ? <div className='flex items-center justify-center w-full' ><img src="/loader-bg.gif" className='w-10 h-10' /></div> : blogs.length > 0 ? <BlogTable setPage={setPage} getBlog={GetBlog} data={blogs} /> : <div className='flex justify-center w-full h-full' >
           <img src="/not-found.webp" className='w-36 h-36' />
         </div>}
-        {blogs.length > limit ? <Pagination2 page={page} setPage={setPage} totalPages={totalCount} /> : null}
+        {blogs.length > 0 ? <Pagination2 page={page} setPage={setPage} totalPages={totalCount} />:null}
       </AdminAccount>
     </>
   )

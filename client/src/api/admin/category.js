@@ -55,6 +55,16 @@ export const GetCategories = async () => {
     }
     return response;
 }
+export const GetBlogBySlugWithCategories = async (data) => {
+    let response;
+
+    try{
+        response = await AdminApi.post('/api/admin/get-blog-with-categories',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 
 export const updateCategoriesIndex = async (data) => {
     let response;

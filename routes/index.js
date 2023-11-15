@@ -66,6 +66,7 @@ router.get('/api/admin/refresh', adminController.refresh);
 router.post('/api/admin/change-password', adminAuth,adminController.changePassword);
 // Categories Related Routes
 router.get('/api/admin/get-categories',adminAuth,categoryController.GetCategories);
+router.post('/api/admin/get-blog-with-categories',adminAuth,categoryController.GetBlogBySlugWithCategories);
 router.post('/api/admin/category-by-id',adminAuth,categoryController.GetCategoryById);
 router.post('/api/admin/create-category',adminAuth,categoryController.CreateCategory);
 router.post('/api/admin/update-category',adminAuth,categoryController.UpdateCategory);

@@ -29,17 +29,19 @@ const authController = {
     // 3. if email or username is already registered -> return an error
     const {firstName, lastName, email, phone,country,password } = req.body;
 
+    try{
+    const emailInUse = await User.exists({ email });
+     if (emailInUse) {
+       const error = {
+         status: 409,
+         message: "Account With This Email Already Exits!",
+       };
+       return next(error);
+     }
+    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+
+
     try {
-      const emailInUse = await User.exists({ email });
-
-      if (emailInUse) {
-        const error = {
-          status: 409,
-          message: "Email Already Exits!",
-        };
-        return next(error);
-      }
-
     // 4. password hash
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -54,11 +56,11 @@ const authController = {
 
       await userToRegister.save();
 
+      return res.status(200).json({ status: 200,msg:"Signup Successfull!" });
     } catch (error) {
-      return res.status(500).json({ status: 500,msg:"Internal Server Error!" });
+      return res.status(500).json({ status: 500,message:"Internal Server Error!" });
     }
 
-    return res.status(200).json({ status: 200,msg:"Signup Successfull!" });
   },
 
   async login(req,res,next){

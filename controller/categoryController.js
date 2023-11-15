@@ -1,4 +1,5 @@
 const Category = require("../models/category");
+const Blog = require("../models/blog");
 const categorySection = require("../models/categorySection");
 const sectionItem = require("../models/sectionItem");
 const Joi = require("joi");
@@ -207,6 +208,23 @@ const categoryController = {
       }catch(error){
         return next(error)
       }
+    },
+    async GetBlogBySlugWithCategories(req,res,next){
+
+
+      let blog = {}
+      let categories = []
+      try{
+        categories = await Category.find({}).select('title').select('slug');
+      }catch(error){
+        return next(error)
+      }
+      try{
+        blog = await Blog.findOne({slug:req.body.slug});
+      }catch(error){
+        return next(error)
+      }
+      return res.status(200).json({status:200,categories:categories,blog:blog});
     },
     async GetCategoryById(req,res,next){
       const {id} = req.body;

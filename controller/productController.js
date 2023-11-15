@@ -263,9 +263,7 @@ const productController = {
        }
      }
     }
-
-    const randomPart = Math.random().toString(36).slice(2, 8).toUpperCase();
-    const uTitle = product.title + `${randomPart}`;
+    const uTitle = product.title + '(duplicate)';
     const uSlug = uTitle.toLowerCase().replace(/\s/g,'-');
     const IS_SALE = product.salePrice ? true : false;
     try{
@@ -356,7 +354,7 @@ const productController = {
       await Product.findByIdAndDelete(product._id)
       return res.status(200).json({status:200,msg:'Product Deleted!'});
     }else{
-      return res.status(500).json({message:'AWS Internal Server Error!'});
+      return res.status(500).json({status:500,message:'AWS Internal Server Error!'});
     }
   }else{
     await Product.findByIdAndDelete(product._id)

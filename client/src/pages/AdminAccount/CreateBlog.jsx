@@ -2,15 +2,18 @@ import { useEffect } from 'react';
 import AdminAccount from '../../layout/AdminAccount';
 import { BsArrowRightShort } from 'react-icons/bs'
 import { useState } from 'react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {   createBlog } from '../../api/admin'
+import { createBlog } from '../../api/admin'
 import {GetCategories} from '../../api/admin/category'
 import BlogEditor from '../../components/AdminDashboard/BlogEditor';
 import TextInput from '../../components/TextInput/TextInput';
+import TextArea from '../../components/TextInput/TextAreaInput';
 import { useRef } from 'react';
 import SelectInput from '../../components/TextInput/SelectInput';
 import * as Yup from 'yup';
+import Toast from '../../utils/Toast'
+import Accordion from '../../components/FaqAccordion2'
+import {AiFillCloseCircle} from 'react-icons/ai'
+import { useNavigate } from 'react-router-dom';
 
 
 const CreateBlog = () => {
@@ -22,75 +25,93 @@ const CreateBlog = () => {
     thumbnail: Yup.string().nullable(true),
     category: Yup.string().required('Blog Category is required'),
     content: Yup.string().required('Blog Content is required'),
+    metaTitle: Yup.string().nullable(true),
+    metaDescription: Yup.string().nullable(true),
+    metaKeywords: Yup.string().nullable(true),
   });
 
   const [errors, setErrors] = useState([]);
   const [categories, setCategories] = useState([])
   const thumbnailRef = useRef()
+  const navigate = useNavigate()
   const [submit, setSubmit] = useState(false)
 
   const [title, setTitle] = useState('');
+  const [metaTitle, setMetaTitle] = useState('');
+  const [metaDescription, setMetaDescription] = useState('');
+  const [keywords, setKeywords] = useState([]);
   const [slug, setSlug] = useState('');
   const [thumbnail, setThumbnail] = useState('');
   const [tempImg, setTempImg] = useState('');
   const [category, setCategory] = useState('');
   const [content, setContent] = useState('');
 
+  // Product Seo
+  const [keywordField,setKeywordField] = useState('')
+  const keywordRef = useRef()
+
+  const handleEnterKey = (e) => {
+    if (e.key === ' ' && keywordField.length > 0) {
+      setKeywords([...keywords,keywordField])
+      setTimeout(() => {
+        setKeywordField('')
+        keywordRef.current.focus();
+        keywordRef.current.setSelectionRange(0, 0);
+      }, 0);
+    }
+  }
+
+  const deleteKeyword = (e,index) => {
+    e.preventDefault()
+     const updateMetaKeywords = keywords.filter((item,indx)=> indx !== index)
+     setKeywords(updateMetaKeywords)
+  }
+
   const CreateBlog = async (e) => {
     e.preventDefault()
     setSubmit(true)
     try {
-      const data = { title, slug, thumbnail, category, content }
+      const data = { title, slug, thumbnail, category, content,metaTitle,metaDescription,metaKeywords:JSON.stringify(keywords)}
+      await blogCreationValidationSchema.validate(data, { abortEarly: false });
+    } catch (error) {
+      if (error) {
+        let errors = error.errors;
+        setErrors(errors)
+        errors.forEach((item)=>{
+          Toast(item,'error',1000)
+        })
+      } else {
+        setErrors([])
+      }
+    }
       const formData = new FormData()
       formData.set('title', title);
       formData.set('slug', slug);
       formData.set('thumbnail', thumbnail);
       formData.set('category', category);
       formData.set('content', content);
-      await blogCreationValidationSchema.validate(data, { abortEarly: false });
+      formData.set('metaTitle', metaTitle);
+      formData.set('metaDescription', metaDescription);
+      formData.set('metaKeywords', JSON.stringify(keywords));
       const res = await createBlog(formData);
-      console.log(res)
       if (res.status === 200) {
         setSubmit(false)
-        toast.success(res.data.msg, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
         setTitle('');
         setSlug('');
         setContent('');
+        setMetaTitle('');
+        setMetaDescription('');
+        setKeywords('');
+        navigate('/admin/manage-blogs')
+        Toast(res.data.msg,'success',1000)
       } else {
         setSubmit(false)
-        toast.error(res.data.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        Toast(res.data.message,'error',1000)
       }
-    } catch (error) {
-      console.log(error)
-      setSubmit(false)
-      if (error) {
-        setErrors(error.errors)
-      } else {
-        setErrors([])
-      }
-    }
+    
   }
 
   useEffect(() => {
-    // Fetch data for the category field
     fetchDataForCategory();
   }, []);
 
@@ -115,7 +136,6 @@ const CreateBlog = () => {
   };
 
   const handleThumbnailClick = () => {
-    // Simulate a click event on the input file element
     thumbnailRef.current.click();
   };
 
@@ -141,6 +161,26 @@ const CreateBlog = () => {
             </div>
           </div>
           <BlogEditor state={content} setState={setContent} />
+
+
+                {/* Seo Start */}
+      <Accordion title="Blog Seo" answer={
+       <div className='flex flex-col space-y-2 w-full' > 
+         <TextInput width="full" name="title" title="Meta Title" type="text" value={metaTitle} onChange={e =>setMetaTitle(e.target.value)} placeholder="Enter Meta Title" />
+         <TextArea width="full" title="Meta Description" value={metaDescription} onChange={e =>setMetaDescription(e.target.value)} placeholder="Write Meta Description Here.." /> 
+        {/* Seo Keyword */}
+        <h5 className='text-xs font-semibold' >Meta Keywords</h5>
+        <div className='flex flex-wrap w-full py-3 px-2 rounded-xl border-[1px] borders-[0,0,0,0,0.15]' >
+        <div className="flex flex-wrap gap-y-2 items-center gap-x-2 w-full h-auto " >
+         {keywords?.map((item,index)=><span key={index} className="flex items-center bg-b6 text-sm px-2 py-1 text-white rounded-2xl" >{item}<AiFillCloseCircle onClick={e=>deleteKeyword(e,index)} className='text-white bg-red-500 ml-1 text-xs cursor-pointer rounded-full' /></span>)}
+        <div/>
+        <input ref={keywordRef} placeholder='Hit Space To Insert' value={keywordField} onKeyDown={e => handleEnterKey(e)} onChange={e=>setKeywordField(e.target.value)} className='border-none outline-none mx-5 text-sm' />
+       </div>
+       </div>
+      </div>
+      } parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='justify-center w-full [&>p]:text-sm !mt-0' />
+      {/* Seo End */}
+
           <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a>}</button>
         </form>
       </AdminAccount>

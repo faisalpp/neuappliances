@@ -11,6 +11,9 @@ const blogController = {
             thumbnail: Joi.allow(null).empty(''),
             category: Joi.string().required(),
             content: Joi.string().required(),
+            metaTitle: Joi.allow(null).empty(''),
+            metaDescription: Joi.allow(null).empty(''),
+            metaKeywords: Joi.allow(null).empty(''),
           });
           const { error } = blogSchema.validate(req.body);
           
@@ -20,33 +23,35 @@ const blogController = {
           }
           
           // 3. if email or username is already registered -> return an error
-          const {title,slug,thumbnail,category,content } = req.body;
+          const {title,slug,category,content,metaTitle,metaDescription,metaKeywords } = req.body;
           
-          const titleInUse = await Blog.exists({ title });        
-          if (titleInUse) {
+          const slugInUse = await Blog.exists({ slug });        
+          if (slugInUse) {
             const error = {
               status: 409, message:'Blog Already Exist!'
             }
             return next(error)
           }
           
-             const {response,updateImg} = await AWSService.uploadFile({name:req.files.thumbnail.name,data:req.files.thumbnail.data},'blog/')
-             if(response.$metadata.httpStatusCode === 200){
-               try{
-                const BlogToCreate = new Blog({title,slug,thumbnail:updateImg,category,content});
-                const blog = await BlogToCreate.save();
-                return res.status(200).json({status: 200, msg:'Blog Created Successuly!'});
-               }catch(err){
-                 const error = {status:500,massage:"Internal Server Error!"}
-                 return next(error)
-               }
-             }else{
-              const error = {
-                status: 500,
-                message: "AWS S3 Internal Server Error!"
-              }
-              return next(error)
-             }
+          let img='';
+          if(req.files?.thumbnail){
+            const {response,updateImg} = await AWSService.uploadFile({name:req.files.thumbnail.name,data:req.files.thumbnail.data},'blog/')
+           if(response.$metadata.httpStatusCode === 200){
+            img = updateImg;
+           }else{
+             const error = {status: 500,message: "AWS S3 Internal Server Error!"}
+             return next(error)
+           }
+         }
+
+         try{
+          const BlogToCreate = new Blog({title,slug,thumbnail:img,category,content,metaTitle,metaDescription,metaKeywords});
+          await BlogToCreate.save();
+          return res.status(200).json({status: 200, msg:'Blog Created Successuly!'});
+         }catch(err){
+           const error = {status:500,massage:"Internal Server Error!"}
+           return next(error)
+         }
     },
     async duplicateBlog(req, res, next) {
       const blogSchema = Joi.object({
@@ -58,27 +63,31 @@ const blogController = {
         if (error) {
           return next(error)
         }
-        
+        // 
         // 3. if email or username is already registered -> return an error
         const {slug} = req.body;
         
+        let img ='';
         const blog = await Blog.findOne({ slug });  
         if (blog) {
+         if(blog.thumbnail){
           const {resp,updateImg} = await AWSService.duplicateFile(blog.thumbnail,'blog/')
           if(resp.$metadata.httpStatusCode === 200){
-            const title = blog.title + '(Duplicate)';
-            const slug = title.toLocaleLowerCase().replace(/\s/g,'-');
-            try{
-              const BlogToCreate = new Blog({title:title,slug:slug,thumbnail:updateImg,category:blog.category,content:blog.content});
-              await BlogToCreate.save();
-              return res.status(200).json({status: 200, msg:'Blog Duplicate Created!'});
-            }catch(err){
-              const error = {status:500,message:"Internal Server Error!"}
-              return next(error)
-            }
+           img = updateImg;
           }else{
             return res.status(500).json({status: 500, message:'AWS Cloud Internal Server Error!'});
           }
+         }
+         const title = blog.title + '(duplicate)';
+         const slug = title.toLocaleLowerCase().replace(/\s/g,'-');
+         try{
+           const BlogToCreate = new Blog({title:title,slug:slug,thumbnail:img,category:blog.category,content:blog.content,metaTitle:blog.metaTitle,metaDescription:blog.metaDescription,metaKeywords:blog.metaKeywords});
+           await BlogToCreate.save();
+           return res.status(200).json({status: 200, msg:'Blog Duplicate Created!'});
+         }catch(err){
+           const error = {status:500,message:"Internal Server Error!"}
+           return next(error)
+         }
         }else{
           return res.status(404).json({status: 404, message:'Blog Does Not Exist!'});
         }  
@@ -88,10 +97,14 @@ const blogController = {
           id: Joi.string().required(),
           title: Joi.string().required(),
           slug: Joi.string().required(),
-          thumbnail: Joi.string().required() ,
+          thumbnail: Joi.string().allow(null).empty(''),
           tempImg: Joi.string().allow(null).empty(''),
           category: Joi.string().required(),
+          isImg: Joi.boolean().required(),
           content: Joi.string().required(),
+          metaTitle: Joi.string().allow(null).empty(''),
+          metaDescription: Joi.string().allow(null).empty(''),
+          metaKeywords: Joi.string().allow(null).empty(''),
         });
         const { error } = blogSchema.validate(req.body);
         
@@ -101,8 +114,7 @@ const blogController = {
         }
         
         // 3. if email or username is already registered -> return an error
-        const {id,title,slug,thumbnail,tempImg,category,content } = req.body;
-        
+        const {id,title,slug,thumbnail,tempImg,isImg,category,content,metaTitle,metaDescription,metaKeywords } = req.body;
         const inUse = await Blog.exists({ _id:id });        
         if (!inUse) {
           const error = {
@@ -111,46 +123,32 @@ const blogController = {
           return next(error)
         }
 
-        if(tempImg === ''){
-          try {
-              const updatedBlog = await Blog.findByIdAndUpdate(
-                id,
-                {title,slug,thumbnail,category,content},
-                { new: true }
-              );
-      
-              return res.status(200).json({status:200,msg:'Blog Updated Successfully!'});
-          
-              } catch (error) {
-                const err = {status:500,message:"Internal Server Error!"}
-                return next(err);
-              }
-        }else{
-          try{
-            const {resp} = await AWSService.deleteFile(thumbnail)
-           if(resp.$metadata.httpStatusCode === 200){
-             try{
-               const {response,updateImg} = await AWSService.uploadFile({name:req.files.thumbnail.name,data:req.files.thumbnail.data},'blog/')
-               if(response.$metadata.httpStatusCode === 200){
-                try{
-                  const BlogToCreate = new Blog({title,slug,thumbnail:updateImg,category,content});
-                  const blog = await BlogToCreate.save();
-                  return res.status(200).json({status: 200, msg:'Blog Updated Successuly!'});
-                 }catch(err){
-                   const error = {status:500,message:"Internal Server Error!"}
-                   return next(error)
-                 }
-               }
-             }catch(error){
-               const err = {status:500,message:"Cloud Internal Server Server!"} 
-               return next(err)
-             }
 
-           }
-          }catch(error){
-           const err = {status:500,message:"Cloud Internal Server Server!"} 
-           return next(err)
+        let img = thumbnail;
+        if(isImg === 'true'){
+         if(tempImg){
+          const {resp} = await AWSService.deleteFile(tempImg)
+          if(resp.$metadata.httpStatusCode !== 200){
+            const err = {status:500,message:"Cloud Internal Server Server!"};return next(err)
           }
+         }else{
+          const {response,updateImg} = await AWSService.uploadFile({name:req.files.thumbnail.name,data:req.files.thumbnail.data},'blog/')
+          if(response.$metadata.httpStatusCode === 200){
+           img = updateImg;
+          }else{
+            const err = {status:500,message:"Cloud Internal Server Server!"};return next(err)
+          }
+         }
+        }
+
+        try {
+        await Blog.findByIdAndUpdate(
+          {_id:id},
+          {title,slug,thumbnail:img,category,content,metaTitle,metaDescription,metaKeywords},);
+         return res.status(200).json({status:200,msg:'Blog Updated Successfully!'});
+        } catch (error) {
+          const err = {status:500,message:"Internal Server Error!"}
+          return next(err);
         }
   },
     async GetRecentBlogs(req, res, next) {
@@ -190,7 +188,7 @@ const blogController = {
       const {slug} = req.body;
 
       try{
-        const blog = await Blog.find({slug:slug});        
+        const blog = await Blog.findOne({slug:slug});        
         return res.status(200).json({status: 200, blog:blog});
       }catch(error){
         return next(error)
@@ -240,26 +238,31 @@ async DeleteBlog(req, res, next) {
     }
 
     const {id} = req.body;
-    
-    try{
-     const blog = await Blog.findByIdAndDelete(id);
-     
-     if(!blog){
-       return res.status(500).json({status: 500, message:'Internal Server Errora!'});
-     }
 
-       try{
-         const {resp} = await AWSService.deleteFile(blog.thumbnail)
-         if(resp.$metadata.httpStatusCode === 200){
-           return res.status(200).json({status: 200, msg:'Blog Deleted Successfully!'});    
-         }
-        }catch(error){
-         const err = {status:500,message:"Cloud Internal Server Server!"} 
-         return next(err)
-        }
-      }catch(error){
-       return next(error)
+
+    let blog;
+    try{
+     blog = await Blog.findOne({_id:id});
+    }catch(error){return res.status(500).json({status: 500, message:'Internal Server Server!'})}
+    
+    if(!blog){
+      return res.status(404).json({status:404,message:'Blog Not Found!'});     
+    }
+
+  
+    if(blog.thumbnail){
+     const {resp} = await AWSService.deleteFile(blog.thumbnail)
+     if(resp.$metadata.httpStatusCode === 204){
+      try{
+        await Blog.findByIdAndDelete(id);
+        return res.status(200).json({status: 200, msg:'Blog Deleted Successfully!'});     
+       }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})} 
+      }else{
+        return res.status(500).json({status: 500, message:'Cloud Internal Server Server!'});
       }
+    }
+
+
 },
 async GetBlogBySearch(req, res, next) {
   const blogSchema = Joi.object({

@@ -4,7 +4,7 @@ export const Signup = async (data) => {
     let response;
 
     try{
-        response = await regApi.post('/api/register',data);
+        response = await regApi.post('/api/register',data,{validateStatus: () => true});
     }catch (error){
         return error;
     }

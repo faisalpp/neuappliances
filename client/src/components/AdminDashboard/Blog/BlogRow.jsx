@@ -5,6 +5,7 @@ import {HiOutlineDocumentDuplicate} from 'react-icons/hi'
 import {duplicateBlog,deleteBlog} from '../../../api/admin'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Toast from '../../../utils/Toast'
 
 const BlogRow = ({img,title,category,id,slug,getBlog,setPage}) => {
 
@@ -20,28 +21,10 @@ const BlogRow = ({img,title,category,id,slug,getBlog,setPage}) => {
      if(res.status === 200){
        setDupLoading(false)
        getBlog();
-       toast.success(res.data.msg, {
-         position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+       Toast(res.data.msg,'success',1000)
     }else{
       setDupLoading(false)
-      toast.error(res.data.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+      Toast(res.daa.message,'error',1000)
     }
   }
 
@@ -51,31 +34,14 @@ const BlogRow = ({img,title,category,id,slug,getBlog,setPage}) => {
      setDelLoading(true)
      const data = {id:id}
      const res = await deleteBlog(data);
+     console.log(res)
      if(res.status === 200){
        setDelLoading(false)
        getBlog(1)
-       toast.success(res.data.msg, {
-         position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+       Toast(res.data.msg,'success',1000)
     }else{
       setDelLoading(false)
-      toast.error(res.data.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+      Toast(res.data.message,'error',1000)
     }
   }
 

@@ -347,7 +347,7 @@ export const createBlog = async (data) => {
     let response;
     
     try{
-        response = await AdminMultiApi.post('/api/admin/create-blog',data);
+        response = await AdminMultiApi.post('/api/admin/create-blog',data,{validateStatus:()=>true});
     }catch (error){
         return error;
     }
@@ -357,7 +357,7 @@ export const updateBlog = async (data) => {
     let response;
     
     try{
-        response = await AdminMultiApi.post('/api/admin/update-blog',data);
+        response = await AdminMultiApi.post('/api/admin/update-blog',data,{validateStatus:()=>true});
     }catch (error){
         return error;
     }
