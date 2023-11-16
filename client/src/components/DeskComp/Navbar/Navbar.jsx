@@ -74,7 +74,7 @@ const Navbar = () => {
       if (res.status === 200) {
         let data = [];
         if (res.data.categories.length > 0) {
-          const filt = await res.data.categories.map((item) => data.push({ name: item.title, url: '/' + item.slug }))
+          const filt = await res.data.categories.map((item) => data.push({ name: item.title, url: '/appliances/' + item.slug }))
           setApplianceTypes([...data, { name: 'View All Categories', url: '/applianceTypes' }]);
         }
         setLoading(false)

@@ -142,9 +142,29 @@ export const GetAppliancesBySlug = async (data) => {
     }
     return response;
 }
+export const GetApplianceWithBuyingOptions = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/get-product-wiht-buying-options',data,{validateStatus:()=>true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const GetApplianceBuyingOptions = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/get-product-buying-options',data,{validateStatus:()=>true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const getSliderAppliances = async (data) => {
     let response;
-    console.log(data)
+    // console.log(data)
 
     try{
         response = await api.get(`/api/slider-appliances/?rating=${data.rating}&category=${data.category}&sort=${data.sort}&isSale=${data.isSale}`);

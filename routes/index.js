@@ -255,6 +255,8 @@ router.post('/api/stripe/create-payment-intent',orderController.createPaymentInt
 router.post('/api/get-product-by-section',applianceController.GetApplianceBySectionType);
 router.post('/api/get-product-by-filter',applianceController.GetApplianceByFilter);
 router.post('/api/get-product-by-slug',applianceController.GetApplianceBySlug);
+router.post('/api/get-product-wiht-buying-options',applianceController.GetApplianceWithBuyingOptions);
+router.post('/api/get-product-buying-options',applianceController.GetApplianceBuyingOptions);
 router.get('/api/get-appliances',applianceController.GetAppliances);
 router.get('/api/get-navbar-appliances',applianceController.GetNavbarAppliances);
 router.post('/api/appliance-sections',applianceController.GetApplianceSections);

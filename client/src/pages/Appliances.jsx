@@ -10,7 +10,7 @@ import NewsLetterSection from '../components/NewsLetterSection';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { GetApplianceSections } from '../api/frontEnd';
 import { useParams } from 'react-router-dom';
-import Loader from '../components/Loader/Loader'
+import Loader from '../components/Loader/Loader2'
 
 const Appliances = () => {
 
@@ -19,7 +19,7 @@ const Appliances = () => {
   const [catTitle, setCatTitle] = useState('');
   const { categorySlug } = useParams();
 
-  const [loading, isLoading] = useState(true);
+  const [loading, isLoading] = useState(false);
 
 
 
@@ -70,6 +70,7 @@ const Appliances = () => {
   }, [sections])
 
   const getAppliances = async () => {
+    isLoading(true)
     const data = { slug: categorySlug };
     const res = await GetApplianceSections(data);
     if (res.status === 200) {
@@ -82,12 +83,14 @@ const Appliances = () => {
 
   useEffect(() => {
     getAppliances();
-  }, [])
+  }, [categorySlug])
 
   return (
     <>
-      {loading ? <Loader /> : (
         <MainLayout>
+      {loading ?      <div style={{height:'calc(100vh - 130px)'}} className='flex items-center justify-center top-0 w-full h-screen z-40 bg-white/80' >
+        <img src='/loader2.gif' className='h-12' />
+      </div>  : (<>
           <div className='py-16 xl:py-20 maincontainer' >
             {/* Bread Crumbs Start */}
             <div className='flex items-center' >
@@ -108,7 +111,9 @@ const Appliances = () => {
           <SatisfiedSection apiSectionName="categories-page" title="Join Thousands of our Satisfied Customers." />
 
           <NewsLetterSection backimage="/Newsletter.webp" />
-        </MainLayout>)}
+          </>
+          )}
+        </MainLayout>
     </>
   )
 }

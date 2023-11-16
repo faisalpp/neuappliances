@@ -81,13 +81,82 @@ const applianceController = {
          keyFeatures = prd.keyFeatures;
         }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
       }
-      console.log(keyFeatures)
       return res.status(200).json({status:200,product:product,threeStar:threeStar,fourStar:fourStar,fiveStar:fiveStar,keyFeatures:keyFeatures});
      
     }else{
       return res.status(404).json({status:404,msg:"Product Not Found!"});
     }
     
+    
+    },
+    async GetApplianceWithBuyingOptions(req,res,next){
+      // console.log(req.body)
+      let query = req.body;
+      
+      if(!query.modelNo){
+        console.log('not found')
+        return res.status(404).json({status:404});
+      }
+      
+      let product;
+      try{
+       product = await Product.findOne({modelNo:query.modelNo,productType:'parent'}).select('title').select('modelNo').select('bulletDescription').select('media').select('rating');
+       if(!product){
+         return res.status(404).json({status:404});
+       } 
+      }catch(error){
+        return next(error)
+      }
+
+      let threeStarCount;
+      let threeStarProduct;
+      try{
+       threeStarProduct = await Product.findOne({modelNo:query.modelNo,productType:'variant',rating:3}).select('isSale').select('salePrice').select('regPrice').select('rating')
+       threeStarCount = await Product.countDocuments({modelNo:query.modelNo,productType:'variant',rating:3})    
+      }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+      let fourStarCount;
+      let fourStarProduct;
+      try{
+       fourStarProduct = await Product.findOne({modelNo:query.modelNo,productType:'variant',rating:4}).select('isSale').select('salePrice').select('regPrice').select('rating')
+       fourStarCount = await Product.countDocuments({modelNo:query.modelNo,productType:'variant',rating:4})
+      }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+      let fiveStarCount;
+      let fiveStarProduct;
+      try{
+       fiveStarProduct = await Product.findOne({modelNo:query.modelNo,productType:'variant',rating:5}).select('isSale').select('salePrice').select('regPrice').select('rating')
+       fiveStarCount = await Product.countDocuments({modelNo:query.modelNo,productType:'variant',rating:5})    
+      }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+
+      return res.status(200).json({status:200,product:product,threeStarProduct,fourStarProduct,fiveStarProduct,threeStarCount,fourStarCount,fiveStarCount});
+    
+    },
+    async GetApplianceBuyingOptions(req,res,next){
+      const data = req.body;
+      
+      if(!data.modelNo){
+        return res.status(404).json({status:404});
+      }
+
+      let query = {}
+      if(data.filter !== 'all'){
+       query.rating = data.filter;
+       query.productType = 'variant';
+       query.modelNo = data.modelNo
+      }else{
+        query.productType = 'variant';
+        query.modelNo = data.modelNo
+      }
+      
+      
+      let products = [];
+      try{
+       products = await Product.find(query).select('slug').select('modelNo').select('itemId').select('rating').select('isSale').select('salePrice').select('regPrice').select('media') 
+       return res.status(200).json({status:200,products:products});
+      }catch(error){
+        return next(error)
+      }
+
+
     
     },
     async GetApplianceBySectionType(req,res,next){
