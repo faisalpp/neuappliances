@@ -1,15 +1,18 @@
 import React from 'react'
 import ModelBuyingOptionCard from './ModelBuyingOptionCard'
+import ModelBuyingOptionCardDisabled from './ModelBuyingOptionCardDisabled'
 import { AiFillStar, AiOutlineDollarCircle } from 'react-icons/ai'
 import { FaFire } from 'react-icons/fa'
 import { FiLink2 } from 'react-icons/fi'
+import { NavLink, useParams } from 'react-router-dom'
 
-const ModelBuyingOptionsSection = () => {
+const ModelBuyingOptionsSection = ({threeStar,fourStar,fiveStar,modelNo,title,disabledImg}) => {
+
   return (
     <>
 
       <div id='compare' className='py-14 xl:py-20 items-center w-full 3xl:max-w-1680px px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-[180px] mx-auto' >
-        <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center' >Buying Options for Model Number WF45B6300AC</h4>
+        <h4 className='text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center' >Buying Options for Model Number {modelNo}</h4>
 
 
         <div>
@@ -38,13 +41,13 @@ const ModelBuyingOptionsSection = () => {
               <div className='flex flex-col border border-t-0 border-r-0 border-b-0 w-full border-gray-200' >
 
                 <div className='py-3'>
-                  <div className='flex justify-center text-[#111010] text-sm w-full font-semibold' ><h5>White GE 1.7 cu. ft. Over the Range Microwave with Convenience Cooking Controls for long text</h5></div>
+                  <div className='flex justify-center text-[#111010] text-sm w-full font-semibold' ><h5>{title}</h5></div>
                 </div>
 
                 <div className='flex maxlg:flex-wrap justify-center border-t' >
-                  <ModelBuyingOptionCard rating={3} active="bg-b8" cosmaticcondition="Moderate Cosmetic Damage" bestValue={<span className='flex items-center bg-b9 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><AiOutlineDollarCircle className='mr-1' /> Best Value</span>} />
-                  <ModelBuyingOptionCard rating={4} cosmaticcondition="Minor Cosmetic Damage" bestValue={<span className='flex items-center bg-b3 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><FaFire className='mr-1' />Most Popular</span>} />
-                  <ModelBuyingOptionCard rating={5} cosmaticcondition="Very Minor- No Cosmetic" bestValue={<span className='flex items-center bg-b7 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><AiFillStar className='mr-1 text-white' />Premium Condition</span>} />
+                  {threeStar ? <ModelBuyingOptionCard image={threeStar.media} slugg={threeStar.slug} price={threeStar.isSale ? threeStar.salePrice : threeStar.regPrice} modelNo={threeStar.modelNo} itemId={threeStar.itemId} rating={threeStar.rating} cosmaticcondition="Moderate Cosmetic Damage" bestValue={<span className='flex items-center bg-b9 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><AiOutlineDollarCircle className='mr-1' /> Best Value</span>} />:<ModelBuyingOptionCardDisabled image={disabledImg} price={600} modelNo={123456} itemId={654321} rating={3} cosmaticcondition="Moderate Cosmetic Damage" bestValue={<span className='flex items-center bg-b32/60 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><AiOutlineDollarCircle className='mr-1' /> Best Value</span>} />}
+                  {fourStar ?<ModelBuyingOptionCard image={fourStar.media} slugg={fourStar.slug} price={fourStar.isSale ? fourStar.salePrice : fourStar.regPrice} modelNo={fourStar.modelNo} itemId={fourStar.itemId} rating={threeStar.rating} cosmaticcondition="Minor Cosmetic Damage" bestValue={<span className='flex items-center bg-b3 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><FaFire className='mr-1' />Most Popular</span>} />:<ModelBuyingOptionCardDisabled image={disabledImg} price={800} modelNo={123456} itemId={654321} rating={4} cosmaticcondition="Minor Cosmetic Damage" bestValue={<span className='flex items-center bg-b32/60 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><FaFire className='mr-1' />Most Popular</span>} />}
+                  {fiveStar ?<ModelBuyingOptionCard image={fiveStar.media} slugg={fiveStar.slug} price={fiveStar.isSale ? fiveStar.salePrice : fiveStar.regPrice} modelNo={fiveStar.modelNo} itemId={fiveStar.itemId} rating={fiveStar.rating} cosmaticcondition="Very Minor- No Cosmetic" bestValue={<span className='flex items-center bg-b7 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><AiFillStar className='mr-1 text-white' />Premium Condition</span>} />: <ModelBuyingOptionCardDisabled image={disabledImg} price={1200} modelNo={123456} itemId={654321} rating={5} cosmaticcondition="Very Minor- No Cosmetic" bestValue={<span className='flex items-center bg-b32/60 rounded-2xl px-4 py-1 text-xs xl:text-sm' ><AiFillStar className='mr-1 text-white' />Premium Condition</span>} /> }
                 </div>
 
 
@@ -53,7 +56,7 @@ const ModelBuyingOptionsSection = () => {
             </div>
           </div>
         </div>
-        <div className='py-5 text-center' ><button type='button' className='text-b7 font-semibold mt-5 flex items-center justify-center mx-auto gap-1'><FiLink2 stroke-width="3" /> View More Buying Options</button></div>
+        <div className='py-5 text-center' ><NavLink to={`/products/buying-options/${modelNo}`} className='text-b7 font-semibold mt-5 flex items-center justify-center mx-auto gap-1'><FiLink2 stroke-width="3" /> View More Buying Options</NavLink></div>
       </div>
     </>
   )

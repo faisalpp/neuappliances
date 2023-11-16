@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, NavLink, useNavigate, useParams } from 'react-router-dom'
 import MainLayout from '../layout/MainLayout'
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { AiFillStar, AiOutlineQuestionCircle,AiOutlineDollarCircle, AiOutlineSearch, AiFillCloseCircle, AiOutlineShoppingCart, AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
@@ -105,7 +105,7 @@ const Product = () => {
      }
     }
    }
-
+  const [childKeyFeatures,setChildKeyFeatures] = useState({})
   const GetProduct = async () => {
     const data = { slug }
     setLoading(true)
@@ -115,6 +115,7 @@ const Product = () => {
       setThreeStar(res.data.threeStar)
       setFourStar(res.data.fourStar)
       setFiveStar(res.data.fiveStar)
+      setChildKeyFeatures(res.data.keyFeatures)
       setMediaViewer({file:res.data.product.media[0].file,type:res.data.product.media[0].type,data:res.data.product.media[0].data,thumbnail:res.data.product.media[0].preview })
       CheckFavorite()
       setLoading(false)
@@ -359,7 +360,7 @@ const Product = () => {
             <div className='lg:col-span-7 flex flex-col lg:px-0 px-1 space-y-5 lg:mt-0 mt-4' >
               <h2 className='text-2xl md:text-3xl xl:text-[2rem] leading-8 font-bold lg:w-full' >{product.title}</h2>
               <div className='flex items-center' >
-                <Link to="/buying-optionsv1" className='lg:text-sm text-xs lg:w-80 underline text-b3 font-bold cursor-pointer' >View More Buying Options</Link><div className='flex justify-end w-full' >
+                <Link to={`/products/buying-options/${product.modelNo}`} className='lg:text-sm text-xs lg:w-80 underline text-b3 font-bold cursor-pointer' >View More Buying Options</Link><div className='flex justify-end w-full' >
                   {product.stock > 0 ? <span className='flex items-center bg-b13 text-white text-xs px-3 rounded-full py-2' >
                     <IoBagCheckOutline className='text-sm mr-1' />In Stock</span> :
                     <span className='flex items-center bg-red-500 text-white text-xs px-3 rounded-full py-2' >
@@ -393,7 +394,7 @@ const Product = () => {
                  product.bulletDescription?.slice(0, 4)?.map((bullet)=><li className="font-normal text-base" >{bullet}</li>)
                 :null}
               </ul>
-              {product.bulletDescription?.length > 0 ? <span onClick={()=>setIsBulletPopup(true)} className='text-xs font-bold cursor-pointer underline w-fit' >+ View more</span>:null}
+              {product.bulletDescription?.length > 4 ? <span onClick={()=>setIsBulletPopup(true)} className='text-xs font-bold cursor-pointer underline w-fit' >+ View more</span>:null}
               <div className='flex items-center lg:space-x-5 space-x-5 lg:mt-4 mt-2' >
                 <div className='flex items-center gap-1' >
                   <h4 className='lg:text-sm text-xs font-semibold w-max text-black/50' >Cosmetic Rating</h4><ToolTip color="text-b3" />
@@ -485,11 +486,11 @@ const Product = () => {
 
               {/* Other Product Section */}
               <div className=' rounded-lg bg-[#F8F8F8] p-5'>
-                <div class="flex justify-between items-center mb-3" ><h6 className="font-bold" >Other Product Options</h6><Link to="/buying-optionsv1" className="flex items-center hover:underline text-sm text-b3" >View All <BsArrowRightShort /></Link></div>
+                <div class="flex justify-between items-center mb-3" ><h6 className="font-bold" >Other Product Options</h6><NavLink to={`/products/buying-options/${product.modelNo}`} className="flex items-center hover:underline text-sm text-b3" >View All <BsArrowRightShort /></NavLink></div>
                 <div className='lg:grid grid-cols-3 flex flex-col items-center lg:mt-0 mt-4 lg:space-y-0 space-y-4 lg:gap-x-5' >
-                  {threeStar ? <OtherProductCard  rating={3} />:<OtherProductCard disabled="true" rating={3} />}
-                  {fourStar ? <OtherProductCard  rating={4} />:<OtherProductCard disabled="true" rating={4} />}
-                  {fiveStar ? <OtherProductCard  rating={5} />:<OtherProductCard disabled="true" rating={5} />}
+                  {threeStar ? <OtherProductCard product={threeStar} rating={3} />:<OtherProductCard disabled="true" disabledImg={moreImg} rating={3} />}
+                  {fourStar ? <OtherProductCard product={fourStar} rating={4} />:<OtherProductCard disabled="true" disabledImg={moreImg} rating={4} />}
+                  {fiveStar ? <OtherProductCard product={fiveStar} rating={5} />:<OtherProductCard disabled="true" disabledImg={moreImg} rating={5} />}
                 </div>
               </div>
 
@@ -497,7 +498,8 @@ const Product = () => {
 
           </div>
           {/* New Product Cards */}
-          <NewProductCards keyFeatures={product.keyFeatures} />
+          {product.keyFeatures?.length > 0 ? <NewProductCards keyFeatures={product.keyFeatures} />:null}
+          {childKeyFeatures?.length > 0 ? <NewProductCards keyFeatures={childKeyFeatures} />:null}
           {/* Faq Accrodions */}
           <div className='flex flex-col items-center mb-5 justify-center pt-14 xl:pt-10 gap-y-3 maincontainer' >
             {product.description ? <FaqAccordion parser="true" title="Appliance Description" parent='w-full [&>div]:py-4 [&>div]:px-6 [&>div]:border [&>div]:border-b33 [&>div]:rounded-xl h-auto border-0' icon='text-xl' textStyle='font-bold text-sm' child='[&>p]:text-sm !mt-0' answer={product.description} chevrown />:null}
@@ -584,8 +586,7 @@ const Product = () => {
           <InspectionScoreSection />
 
           {/* Model Buying Options */}
-          <ModelBuyingOptionsSection />
-
+          <ModelBuyingOptionsSection disabledImg={moreImg} threeStar={threeStar} fourStar={fourStar} fiveStar={fiveStar} modelNo={product?.modelNo} title={product?.title} />
           {/* Faq Section */}
           <ProductFaqSection />
 

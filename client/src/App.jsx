@@ -147,7 +147,7 @@ function App() {
           <Route path="/terms" element={<Terms />} />
 
 
-          <Route path="/buying-optionsv1" element={<BuyingOptionsV1 />} />
+          <Route path="/products/buying-options/:modelNo" element={<BuyingOptionsV1 />} />
           {/* ===== */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

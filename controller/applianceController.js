@@ -58,27 +58,37 @@ const applianceController = {
       let threeStar;
       let fourStar;
       let fiveStar;
+      let keyFeatures = {};
       if(product){
         try{
-          threeStar = await Product.findOne({productType:{$ne:'parent'},modelNo:product.modelNo,rating:3}).sort({ createdAt: 1 }).select('title').select('slug').select('rating').select('isSale').select('salePrice').select('regPrice').select('media');
+          threeStar = await Product.findOne({productType:{$ne:'parent'},modelNo:product.modelNo,rating:3}).sort({ createdAt: 1 }).select('title').select('slug').select('rating').select('isSale').select('salePrice').select('regPrice').select('media').select('modelNo').select('itemId');
         }catch(error){
           return next(error)
         }
         try{
-          fourStar = await Product.findOne({productType:{$ne:'parent'},modelNo:product.modelNo,rating:4}).sort({ createdAt: 1 }).select('title').select('slug').select('rating').select('isSale').select('salePrice').select('regPrice').select('media');
+          fourStar = await Product.findOne({productType:{$ne:'parent'},modelNo:product.modelNo,rating:4}).sort({ createdAt: 1 }).select('title').select('slug').select('rating').select('isSale').select('salePrice').select('regPrice').select('media').select('modelNo').select('itemId');
         }catch(error){
           return next(error)
         }
         try{
-          fiveStar = await Product.findOne({productType:{$ne:'parent'},modelNo:product.modelNo,rating:5}).sort({ createdAt: 1 }).select('title').select('slug').select('rating').select('isSale').select('salePrice').select('regPrice').select('media');
+          fiveStar = await Product.findOne({productType:{$ne:'parent'},modelNo:product.modelNo,rating:5}).sort({ createdAt: 1 }).select('title').select('slug').select('rating').select('isSale').select('salePrice').select('regPrice').select('media').select('modelNo').select('itemId');
         }catch(error){
           return next(error)
         }
-
-        return res.status(200).json({status:200,product:product,threeStar:threeStar,fourStar:fourStar,fiveStar:fiveStar});
-      }else{
-        return res.status(404).json({status:404,msg:"Product Not Found!"});
+      if(product.productType === 'variant'){
+        try{
+         const prd = await Product.findOne({modelNo:product.modelNo,productType:'parent'}).select('keyFeatures')
+         keyFeatures = prd.keyFeatures;
+        }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
       }
+      console.log(keyFeatures)
+      return res.status(200).json({status:200,product:product,threeStar:threeStar,fourStar:fourStar,fiveStar:fiveStar,keyFeatures:keyFeatures});
+     
+    }else{
+      return res.status(404).json({status:404,msg:"Product Not Found!"});
+    }
+    
+    
     },
     async GetApplianceBySectionType(req,res,next){
       console.log(req.body)
