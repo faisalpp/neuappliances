@@ -2,7 +2,7 @@ import React from 'react'
 import TickSvg from '../../svgs/TickSvg'
 
 const PriceRangeCard = ({ title, items }) => {
-    // console.log(items);
+    
     return (
         <div className='p-7 sm:p-10 bg-white rounded-3xl'>
             <h3 className='font-bold text-b3 text-xl mb-6'>{title}</h3>

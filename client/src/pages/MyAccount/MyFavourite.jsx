@@ -14,7 +14,7 @@ const MyFavourite = () => {
     const GetFavorite = async () => {
         setFavLoader(true)
         const res = await GetFavorites({userId:userId})
-        console.log(res.data)
+        
         if(res.status === 200){
         setFavLoader(false)
         setFavorites(res.data.favorites)

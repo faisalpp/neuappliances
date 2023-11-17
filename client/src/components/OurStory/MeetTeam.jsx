@@ -9,7 +9,7 @@ const AboutCeo = () => {
     const GetMembers = async () => {
         setLoading(true)
         const res = await GetTeamMember();
-        console.log(res)
+        
         if (res.status === 200) {
             setLoading(false)
             setMembers(res.data.members)

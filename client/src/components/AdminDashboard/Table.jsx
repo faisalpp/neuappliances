@@ -9,7 +9,7 @@ import {toast} from 'react-toastify'
 const Table = ({ getSections,sections,setSections,pop }) => {
 
   const handleDragEnd = (result) => {
-    // console.log(result)
+    
     const items = Array.from(sections)
     const [recordedItem] = items.splice(result.source.index,1)
     items.splice(result.destination.index,0,recordedItem)
@@ -17,7 +17,7 @@ const Table = ({ getSections,sections,setSections,pop }) => {
       ...item,
       index: index+1 // Add the index property
   }));
-  // console.log(updatedItems)
+  
   setSections(updatedItems);
   }
 

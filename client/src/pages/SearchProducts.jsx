@@ -35,7 +35,7 @@ const SearchProducts = () => {
     for (const [key, value] of queryParams.entries()) {
       queryParamsObject[key] = value;
     }
-     console.log(queryParamsObject)
+     
     const isSale = {isSale:false}
     setParams({...isSale,...queryParamsObject})
   },[])

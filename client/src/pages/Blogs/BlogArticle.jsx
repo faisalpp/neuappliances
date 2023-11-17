@@ -24,7 +24,7 @@ const BlogArticle = () => {
         setLoading(true)
         const data = { slug: slug }
         const res = await GetBlogBySlug(data)
-        // console.log(res)
+        
         if (res.status === 200) {
             setBlog(res.data.blog)
             setLoading(false)

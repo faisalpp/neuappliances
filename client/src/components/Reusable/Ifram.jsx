@@ -45,7 +45,8 @@ const Ifram = ({style,src,title,icon,frameId,divId,genState, setGenState,thumbna
   },[trigger,genState])
 
   return (
-    <div  id={divId} className={`relative ${style} rounded-2xl`} > 
+    <div className={`relative ${style} rounded-2xl`} > 
+      <div id={divId} ></div>
       <div className={`relative ${isIframe || isIframeLoader ? 'flex items-center justify-center h-full w-full' : 'hidden'}`} >
        <div className='absolute bg-black/70 rounded-xl w-full h-full flex z-[99px]' ></div>
        {isIframe ? <AiFillPlayCircle onClick={()=>setTrigger(true)} className={`${icon ? icon : 'hidden'} absolute cursor-pointer ${icon} text-white`} />:null}

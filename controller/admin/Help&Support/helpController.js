@@ -148,7 +148,7 @@ const helpController = {
           let page = Number(req.query.page)
           let limit = Number(req.query.limit)
           let skip = (page - 1) * limit;
-          // console.log(category)
+          
           if(category !== 'all-categories'){
             const helps = await Help.find({category:category}).skip(skip).limit(limit);     
             const totalCount = await Help.countDocuments({category:category});
@@ -200,7 +200,7 @@ const helpController = {
             const helps = await Help.find(queryObject).skip(skip).limit(limit); 
             
             const totalCount = await Help.countDocuments();
-            // console.log(totalCount)
+            
             return res.status(200).json({status: 200, helps:helps,totalCount:totalCount});
           }catch(error){
             return next(error)

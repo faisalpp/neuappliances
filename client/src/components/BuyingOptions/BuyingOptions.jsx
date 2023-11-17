@@ -5,6 +5,7 @@ import { AiFillStar, AiOutlineArrowRight } from 'react-icons/ai'
 import ToolTip from '../ToolTip'
 import {GetApplianceBuyingOptions} from '../../api/frontEnd'
 import { NavLink } from 'react-router-dom'
+import Pagination from '../../components/Pagination/Pagination2'
 
 const BuyingOptions = ({rating,modelNo,threeStarCount,fourStarCount,fiveStarCount}) => {
     const [isGrid, setIsGrid] = useState(true);
@@ -16,16 +17,21 @@ const BuyingOptions = ({rating,modelNo,threeStarCount,fourStarCount,fiveStarCoun
         return <div className='flex items-center' >{starIcons}</div>; // Render the array of star icons
     };
 
-    const [filter,setFilter] = useState(rating)
+    const [filter,setFilter] = useState('all')
     const [options,setOptions] = useState([])
     const [loading,setLoading] = useState(false)
+
+    const [page,setPage] = useState(1)
+    const [limit,setLimit] = useState(8)
+    const [totalCount,setTotalCount] = useState(1)
 
 
     const GetBuyingOptions = async () => {
         setLoading(true)
-     const res = await GetApplianceBuyingOptions({modelNo:modelNo,filter:filter})
+     const res = await GetApplianceBuyingOptions({modelNo:modelNo,filter:filter,page:page,limit:limit})
      if(res.status === 200){
          setOptions(res.data.products)
+         setTotalCount(Math.ceil(res.data.productCount/limit))
         setLoading(false)
      }else{
       setOptions([])
@@ -35,7 +41,7 @@ const BuyingOptions = ({rating,modelNo,threeStarCount,fourStarCount,fiveStarCoun
 
     useEffect(()=>{
         GetBuyingOptions()
-    },[filter])
+    },[filter,page])
 
     return (
         <div className='my-60px'>
@@ -46,14 +52,14 @@ const BuyingOptions = ({rating,modelNo,threeStarCount,fourStarCount,fiveStarCoun
             <div className='my-10 flex gap-8 items-center'>
                 <h3>Filter by Cosmetic Ratings</h3>
                 <div className='flex items-center gap-10px'>
-                 <button onClick={()=>setFilter('all')} className={`px-5 py-4 rounded-full border ${filter === 'all' ? 'shadow-xl border-b32':'shadow-sm'} hover:shadow-md border-b33 text-sm font-semibold`}>Show All</button>
-                 {fiveStarCount > 0 ?<button onClick={()=>setFilter(5)} className={`flex gap-10px items-center justify-center px-5 py-4 rounded-full border border-b33 text-sm font-semibold ${filter === 5 ? 'shadow-xl border-b32':null} hover:shadow-md shadow-sm `}>5 Star rating <StarIconPrinter numberOfTimes={5} /></button>:<div className={`flex gap-10px items-center justify-center px-5 py-4 rounded-full border border-b33 bg-b31/30 cursor-not-allowed text-sm font-semibold  hover:shadow-md shadow-sm `}>5 Star rating <StarIconPrinter numberOfTimes={5} color="text-b31" /></div>}
-                 {fourStarCount > 0 ? <button onClick={()=>setFilter(4)} className={`flex gap-10px items-center justify-center px-5 py-4 rounded-full border border-b33 text-sm font-semibold ${filter === 4 ? 'shadow-xl border-b32':null} hover:shadow-md shadow-sm `}>4 Star rating <StarIconPrinter numberOfTimes={4} /></button>:<div className={`flex gap-10px items-center justify-center px-5 py-4 rounded-full border border-b33 bg-b31/30 cursor-not-allowed text-sm font-semibold hover:shadow-md shadow-sm `}>4 Star rating <StarIconPrinter numberOfTimes={4} color="text-b31" /></div>}
-                 {threeStarCount > 0 ? <button onClick={()=>setFilter(3)} className={`flex gap-10px items-center justify-center px-5 py-4 rounded-full border border-b33 text-sm font-semibold ${filter === 3 ? 'shadow-xl border-b32':null} hover:shadow-md shadow-sm `}>3 Star rating <StarIconPrinter numberOfTimes={3} /></button>:<div className={`flex gap-10px items-center justify-center px-5 py-4 rounded-full border border-b33 bg-b31/30 cursor-not-allowed text-sm font-semibold hover:shadow-md shadow-sm `}>3 Star rating <StarIconPrinter numberOfTimes={3} color="text-b31" /></div>}
+                 <button onClick={()=>setFilter('all')} className={`px-5 py-4 rounded-full border hover:shadow-md border-b33 text-sm font-semibold`}>Show All</button>
+                 {fiveStarCount > 0 ?<button onClick={()=>setFilter(5)} className={`flex gap-10px items-center justify-center px-5 py-4 rounded-full border border-b33 text-sm font-semibold hover:shadow-md shadow-sm `}>5 Star rating <StarIconPrinter numberOfTimes={5} /></button>:<div className={`flex gap-10px items-center justify-center px-5 py-4 rounded-full border border-b33 bg-b31/20 cursor-not-allowed text-sm font-semibold  hover:shadow-md shadow-sm `}>5 Star rating <StarIconPrinter numberOfTimes={5} color="text-b31" /></div>}
+                 {fourStarCount > 0 ? <button onClick={()=>setFilter(4)} className={`flex gap-10px items-center justify-center px-5 py-4 rounded-full border border-b33 text-sm font-semibold hover:shadow-md shadow-sm `}>4 Star rating <StarIconPrinter numberOfTimes={4} /></button>:<div className={`flex gap-10px items-center justify-center px-5 py-4 rounded-full border border-b33 bg-b31/20 cursor-not-allowed text-sm font-semibold hover:shadow-md shadow-sm `}>4 Star rating <StarIconPrinter numberOfTimes={4} color="text-b31" /></div>}
+                 {threeStarCount > 0 ? <button onClick={()=>setFilter(3)} className={`flex gap-10px items-center justify-center px-5 py-4 rounded-full border border-b33 text-sm font-semibold hover:shadow-md shadow-sm `}>3 Star rating <StarIconPrinter numberOfTimes={3} /></button>:<div className={`flex gap-10px items-center justify-center px-5 py-4 rounded-full border border-b33 bg-b31/20 cursor-not-allowed text-sm font-semibold hover:shadow-md shadow-sm `}>3 Star rating <StarIconPrinter numberOfTimes={3} color="text-b31" /></div>}
                 </div>
             </div>
             {/* Product Card */}
-            {loading ? <div style={{height:"calc(100vh - 100px)"}} className="w-full flex justify-center items-center" ><img src='/loader2.gif' className='h-18' /></div> :  options?.length > 0 ? 
+            {loading ? <div style={{height:"calc(100vh - 100px)"}} className="w-full flex justify-center items-center" ><img src='/loader2.gif' className='h-18' /></div> :  options?.length > 0 ? <>
             <div className={`grid gap-6 ${isGrid ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4' : 'grid-cols-1'}`}>
                 {options.map((item, index) => (
                     <div key={index} className={`border border-b14 rounded-2xl p-6 ${isGrid ? '' : 'flex gap-4 items-center'}`}>
@@ -82,24 +88,12 @@ const BuyingOptions = ({rating,modelNo,threeStarCount,fourStarCount,fiveStarCoun
                         </div>
                     </div>
                 ))}
-            </div>:<div style={{height:"calc(100vh - 100px)"}} className="w-full flex justify-center items-center" ><img src='/not-found.webp' className='w-32' /></div>}
+            </div>
+            <Pagination page={page} setPage={setPage} totalPages={totalCount} />
+            </>
+            :<div style={{height:"calc(100vh - 100px)"}} className="w-full flex justify-center items-center" ><img src='/not-found.webp' className='w-32' /></div>}
         </div>
     )
 }
-const tabButtons = [
-    { title: '5 Star rating', rating: 5 },
-    { title: '4 Star rating', rating: 4 },
-    { title: '3 Star rating', rating: 3 },
-]
 
-const productCards = [
-    { image: '', idno: '', modelno: '', rating: '', price: '', discountprice: '', discount: '' },
-    { image: '', idno: '', modelno: '', rating: '', price: '', discountprice: '', discount: '' },
-    { image: '', idno: '', modelno: '', rating: '', price: '', discountprice: '', discount: '' },
-    { image: '', idno: '', modelno: '', rating: '', price: '', discountprice: '', discount: '' },
-    { image: '', idno: '', modelno: '', rating: '', price: '', discountprice: '', discount: '' },
-    { image: '', idno: '', modelno: '', rating: '', price: '', discountprice: '', discount: '' },
-    { image: '', idno: '', modelno: '', rating: '', price: '', discountprice: '', discount: '' },
-    { image: '', idno: '', modelno: '', rating: '', price: '', discountprice: '', discount: '' }
-]
 export default BuyingOptions

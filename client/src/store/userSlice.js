@@ -15,14 +15,14 @@ const initialState = {
 export const loginUser = createAsyncThunk("user/login", async (data) => {
     try{
       const response = await Signin(data); // Call your login API with the provided data
-      console.log(response)
+      
       if(response.status === 200){
         return response.data; // Assuming your API response contains the user data
       }else{
         return response.data
       }
     }catch(error){
-      console.log(error)
+      
       Toast(error.response.message,'error',1000)
       return { payload: error.response?.data, error: true };
     }
@@ -33,7 +33,7 @@ export const refreshUser = createAsyncThunk("user/refresh", async () => {
     const url = isDev ? `${import.meta.env.VITE_APP_INTERNAL_PATH}/api/user/refresh` : "/api/user/refresh";
     try{
     const response = await axios.get(url,{withCredentials: true});
-    console.log(response)
+    
     if(response.status === 200){
       return response.data;
     }else{
@@ -81,7 +81,7 @@ export const userSlice = createSlice({
     })
     .addCase(refreshUser.fulfilled, (state, action) => {
       const {user,auth} = action.payload;
-      //  console.log(`slice ${user}`)
+      
        state._id = user._id;
       state.email = user.email;
       state.firstName = user.firstName;

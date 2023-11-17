@@ -46,7 +46,7 @@ const ChangePasswordData = () => {
      const data = {password,confirmPassword}
      await changePasswordSchema.validate(data, { abortEarly: false });
      const res = await changePassword({...data,userId:userId})
-     console.log(res)
+     
       if(res.status === 200){
        setLoading(false)
        Toast(res.data.msg,'success',1000)

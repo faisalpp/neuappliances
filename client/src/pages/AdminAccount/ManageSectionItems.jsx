@@ -18,7 +18,6 @@ const ManageSectionItem = () => {
   const data = { sectionId }
   const getSectionItem = async () => {
     const res = await getSectionItems(data);
-    // console.log(res)
     if (res.status === 200) {
       setSectionItems(res.data.sectionItems);
     }
@@ -166,7 +165,6 @@ const ManageSectionItem = () => {
 
 
   const handleDragEnd = (result) => {
-    // console.log(result)
     const items = Array.from(sectionItems)
     const [recordedItem] = items.splice(result.source.index, 1)
     items.splice(result.destination.index, 0, recordedItem)
@@ -174,7 +172,6 @@ const ManageSectionItem = () => {
       ...item,
       index: index + 1 // Add the index property
     }));
-    // console.log(updatedItems)
     setSectionItems(updatedItems);
   }
 

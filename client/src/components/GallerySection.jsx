@@ -14,13 +14,12 @@ const GallerySection = () => {
 
   const GetLoopMedia = async () => {
     const res = await getGalleryImages({ page: page, limit: limit });
-    console.log(res)
+    
     if (res.status === 200) {
       setMedia(prev => [...prev, ...res.data.gallery])
       setImg(res.data.gallery[0].url)
       setTotalPages(Math.ceil(res.data.totalCount / limit))
       setLoading(false)
-      // console.log(res.data.totalCount)
     } else {
       setLoading(false)
       setMedia([])

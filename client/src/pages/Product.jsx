@@ -360,7 +360,7 @@ const Product = () => {
             <div className='lg:col-span-7 flex flex-col lg:px-0 px-1 space-y-5 lg:mt-0 mt-4' >
               <h2 className='text-2xl md:text-3xl xl:text-[2rem] leading-8 font-bold lg:w-full' >{product.title}</h2>
               <div className='flex items-center' >
-                <Link to={`/products/buying-options/?modelNo=${product.modelNo}&rating=${product.rating}`} className='lg:text-sm text-xs lg:w-80 underline text-b3 font-bold cursor-pointer' >View More Buying Options</Link><div className='flex justify-end w-full' >
+                <Link to={`/products/buying-options/?modelNo=${product.modelNo}`} className='lg:text-sm text-xs lg:w-80 underline text-b3 font-bold cursor-pointer' >View More Buying Options</Link><div className='flex justify-end w-full' >
                   {product.stock > 0 ? <span className='flex items-center bg-b13 text-white text-xs px-3 rounded-full py-2' >
                     <IoBagCheckOutline className='text-sm mr-1' />In Stock</span> :
                     <span className='flex items-center bg-red-500 text-white text-xs px-3 rounded-full py-2' >
@@ -486,7 +486,7 @@ const Product = () => {
 
               {/* Other Product Section */}
               <div className=' rounded-lg bg-[#F8F8F8] p-5'>
-                <div class="flex justify-between items-center mb-3" ><h6 className="font-bold" >Other Product Options</h6><NavLink to={`/products/buying-options/?modelNo=${product.modelNo}&rating=${product.rating}`} className="flex items-center hover:underline text-sm text-b3" >View All <BsArrowRightShort /></NavLink></div>
+                <div class="flex justify-between items-center mb-3" ><h6 className="font-bold" >Other Product Options</h6><NavLink to={`/products/buying-options/?modelNo=${product.modelNo}`} className="flex items-center hover:underline text-sm text-b3" >View All <BsArrowRightShort /></NavLink></div>
                 <div className='lg:grid grid-cols-3 flex flex-col items-center lg:mt-0 mt-4 lg:space-y-0 space-y-4 lg:gap-x-5' >
                   {threeStar ? <OtherProductCard product={threeStar} rating={3} />:<OtherProductCard disabled="true" disabledImg={moreImg} rating={3} />}
                   {fourStar ? <OtherProductCard product={fourStar} rating={4} />:<OtherProductCard disabled="true" disabledImg={moreImg} rating={4} />}

@@ -48,7 +48,7 @@ const CreateFaq = () => {
 
     const GetFaqs = async () => {
             const res = await getFaqs({slug:slug});
-            console.log(res)
+            
             if(res.status === 200){
                 setFaqs(res.data.faqs)
             }

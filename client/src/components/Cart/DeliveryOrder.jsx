@@ -10,6 +10,7 @@ import PickUpSvg from '../../svgs/PickUpSvg';
 import {ChangeCartItemType, resetCart} from '../../store/cartSlice'
 import { resetOrder } from '../../store/orderSlice';
 import Toast from '../../utils/Toast'
+import Popup from '../../components/AdminDashboard/Popup'
 
 const DeliveryOrder = ({orders,refresh,loading}) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -81,41 +82,50 @@ const DeliveryOrder = ({orders,refresh,loading}) => {
         }
       }, [])
 
-      const handlePickupChange = async (e) => {
-        if(e.target.checked){
-            const data = {cartId:cartId,orderInfo:{type:'pickup',location:'Georgetown, Tx',shipping:'Free'}};
-            const res = await dispatch(ChangeCartItemType(data))
-            if(res.payload.status === 200){
-              refresh()
-              Toast(res.payload.msg,'success',1000)
-             }else if(res.payload.status === 404) {
-               dispatch(resetCart())
-               dispatch(resetOrder())
-              Toast(res.payload.message,'error',1000)
-             }else{
-              Toast(res.payload.message,'error',1000)
-             }
-        }
-      }
 
-      const handleDeliveryChange = async (e) => {
-        if(e.target.checked){
-            const data = {cartId:cartId,orderInfo:{type:'delivery',location:'73301',shipping:45}};
-            const res = await dispatch(ChangeCartItemType(data))
-            if(res.payload.status === 200){
-             refresh()
-             Toast(res.payload.msg,'success',1000)
-            }else if(res.payload.status === 404) {
-              dispatch(resetCart())
-              dispatch(resetOrder())
-             Toast(res.payload.message,'error',1000)
-            }else{
-             Toast(res.payload.message,'error',1000)
-            }
+      const [pickPopup,setPickPopup] = useState(false)
+      const [location,setLocation] = useState(orderInfo.type == 'pickup' ? orderInfo.location : 'Austin, Tx')
+          const HandlePickupLocation = (e) => {
+         if(e.target.name === 'georgetown'){
+            setLocation('Georgetown, Tx')
+         }else{
+            setLocation('Austin, Tx')
+         }
         }
+
+      const handlePickupChange = async () => {
+       // e.prevenDefault()
+       const data = {cartId:cartId,orderInfo:{type:'pickup',location:location,shipping:'Free'}};
+       const res = await dispatch(ChangeCartItemType(data))
+       if(res.payload.status === 200){
+        refresh()
+        Toast(res.payload.msg,'success',1000)
+       }else if(res.payload.status === 404) {
+         dispatch(resetCart())
+         dispatch(resetOrder())
+        Toast(res.payload.message,'error',1000)
+       }else{
+        Toast(res.payload.message,'error',1000)
+       }
       }
 
     return (
+       <>
+                {/* Pickup Location Popup */}
+                <Popup width="w-4/12" state={pickPopup} setState={setPickPopup} style="left-0" >
+          <div className='flex flex-col items-center space-y-5 w-full' >
+          <h3 className='font-semibold' >Change Pickup Location</h3>
+          <div className="flex space-x-5 w-full justify-center">
+            <Radio name="austin" id={`delivery2`} icon={<RadioSvg className="w-[18px] h-[18px]" />} className='border border-[#D9D9D9] bg-white p-0 w-[18px] h-[18px]' ripple={false} label={
+                <Typography className="font-medium text-sm text-b16 flex gap-4"><ShipmentSvg /><span>Austin, Tx</span></Typography>
+            } checked={location === 'Austin, Tx'?true:false} onChange={(e)=>HandlePickupLocation(e)} />
+            <Radio name="georgetown" id={`pickup-2`} icon={<RadioSvg className="w-[18px] h-[18px]" />} className='border border-[#D9D9D9] bg-white w-[18px] h-[18px] p-0' ripple={false} label={
+             <Typography className="font-medium text-sm text-b16 flex gap-4"><PickUpSvg /><span>Georgetown, Tx</span></Typography>
+            } checked={location === 'Georgetown, Tx'?true:false} onChange={(e)=>HandlePickupLocation(e)} />
+         </div>
+          <button type='button' onClick={handlePickupChange} className='bg-b6 text-white px-2 text-sm py-1 rounded-lg' >Change</button>
+         </div>
+         </Popup>
         <div className='border border-b26 rounded p-4 sm:p-5 md:p-10 grid grid-cols-1 gap-8'>
          <h2 className='text-b16 font-bold text-xl maxmd:text-center'>Delivery Orders</h2>
           {orders.map((item,indx)=><CartCard chk={loading} key={indx} indx={indx} order={item} type="delivery" changeType={refresh} />)}
@@ -137,10 +147,10 @@ const DeliveryOrder = ({orders,refresh,loading}) => {
             <div className="flex border-l-[1px]">
               <Radio id={`delivery2`} icon={<RadioSvg className="w-[18px] h-[18px]" />} className='border border-[#D9D9D9] bg-white p-0 w-[18px] h-[18px]' ripple={false} name={`delivery-2`} label={
                   <Typography className="font-medium text-sm text-b16 flex gap-4"><ShipmentSvg /><span>Delivery</span></Typography>
-              } defaultChecked={orderInfo.type === 'delivery' ? true : false} onChange={(e)=>handleDeliveryChange(e)} />
+              } defaultChecked={orderInfo.type === 'delivery' ? true : false} />
               <Radio id={`pickup-2`} icon={<RadioSvg className="w-[18px] h-[18px]" />} className='border border-[#D9D9D9] bg-white w-[18px] h-[18px] p-0' ripple={false} name={`delivery-2`} label={
                <Typography className="font-medium text-sm text-b16 flex gap-4"><PickUpSvg /><span>Pickup</span></Typography>
-              } defaultChecked={orderInfo.type === 'pickup' ? true : false} onChange={(e)=>handlePickupChange(e)} />
+              } defaultChecked={orderInfo.type === 'pickup' ? true : false} onChange={(e)=>setPickPopup(true)} />
              </div>
           </div>  
 
@@ -149,9 +159,8 @@ const DeliveryOrder = ({orders,refresh,loading}) => {
             </div>
           
           </div>  
-            
-            
         </div>
+        </>
     )
 }
 

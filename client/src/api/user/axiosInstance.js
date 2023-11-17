@@ -41,7 +41,6 @@ api.interceptors.response.use(
   
           return api.request(originalReq);
         } catch (error) {
-          console.log(error)
           return error;
         }
       }

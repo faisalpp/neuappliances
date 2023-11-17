@@ -11,19 +11,19 @@ const RatingProductSection = () => {
   const [fiveStar,setFiveStar] = useState([])
 
   const GetThreeStarAppliances = async () => {
-    const res = await getSliderAppliances({rating:3})
+    const res = await getSliderAppliances({rating:3,sort:1})
     if(res.status === 200){
       setThreeStar(res.data.products)
     }
   }
   const GetFourStarAppliances = async () => {
-    const res = await getSliderAppliances({rating:4})
+    const res = await getSliderAppliances({rating:4,sort:1})
     if(res.status === 200){
       setFourStar(res.data.products)
     }
   }
   const GetFiveStarAppliances = async () => {
-    const res = await getSliderAppliances({rating:5})
+    const res = await getSliderAppliances({rating:5,sort:1})
     if(res.status === 200){
       setFiveStar(res.data.products)
     }

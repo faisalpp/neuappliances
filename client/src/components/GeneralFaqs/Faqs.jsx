@@ -25,13 +25,11 @@ const Faqs = () => {
     useEffect(() => {
         const GetFaqTabs = async () => {
             const res = await getFaqTab();
-            console.log(res)
+            
             if (res.status === 200) {
                 setFaqTabs(res.data.faqTabs)
                 setActiveTab(res.data.faqTabs[0]._id)
                 setSlug(res.data.faqTabs[0].slug)
-            } else {
-                console.log(res)
             }
         }
         GetFaqTabs()
@@ -46,7 +44,7 @@ const Faqs = () => {
                 }
             } catch (error) {
                 setFaqs([])
-                console.log(error)
+                
             }
         }
         GetFaqs()

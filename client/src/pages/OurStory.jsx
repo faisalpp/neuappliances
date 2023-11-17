@@ -20,7 +20,7 @@ const OurStory = () => {
         const GetSingleVideoMedia = async () => {
             const data = { section: "our-story-page-video" }
             const res = await getSingleVideoMedia(data);
-            console.log(res)
+            
             if (res.status === 200) {
                 setVideo(res.data.media[0])
             }

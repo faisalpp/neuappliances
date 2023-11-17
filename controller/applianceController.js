@@ -90,14 +90,14 @@ const applianceController = {
     
     },
     async GetApplianceWithBuyingOptions(req,res,next){
-      // console.log(req.body)
-      let query = req.body;
+      
+      let query = req.body
       
       if(!query.modelNo){
-        console.log('not found')
+        
         return res.status(404).json({status:404});
       }
-      
+
       let product;
       try{
        product = await Product.findOne({modelNo:query.modelNo,productType:'parent'}).select('title').select('modelNo').select('bulletDescription').select('media').select('rating');
@@ -147,23 +147,23 @@ const applianceController = {
         query.modelNo = data.modelNo
       }
       
+      let page = Number(req.body.page)
+      let limit = Number(req.body.limit)
+      let skip = (page - 1) * limit
       
-      let products = [];
       try{
-       products = await Product.find(query).select('slug').select('modelNo').select('itemId').select('rating').select('isSale').select('salePrice').select('regPrice').select('media') 
-       return res.status(200).json({status:200,products:products});
+       const products = await Product.find(query).skip(skip).limit(limit).select('slug').select('modelNo').select('itemId').select('rating').select('isSale').select('salePrice').select('regPrice').select('media') 
+       const productCount = await Product.countDocuments(query)
+       return res.status(200).json({status:200,products:products,productCount:productCount});
       }catch(error){
         return next(error)
       }
-
-
     
     },
     async GetApplianceBySectionType(req,res,next){
-      console.log(req.body)
+      
       let query = {};
       let sort = {};
-      // console.log(prop + ': ' + data[prop]);
       const data = req.body;
       Object.keys(data).forEach(prop => {
        switch(prop){
@@ -185,6 +185,9 @@ const applianceController = {
         case 'brands':
          query.brand = data[prop];
         break;
+        case 'brand':
+         query.brand = data[prop];
+        break;
         case 'fuel-types':
          query.fuelType = data[prop];
         break;
@@ -202,30 +205,39 @@ const applianceController = {
         break;
       }
       });
+      console.log(query)
+      let page = Number(req.body.page)
+      let limit = Number(req.body.limit)
+      let skip = (page - 1) * limit
 
       let products;
+      let totalProducts;
       try{
         if(req.body.isSale){
-          products = await Product.find({...query,$and: [{ salePrice: { $lte: req.body.salePrice.max } },{ salePrice: { $gte: req.body.salePrice.min } }]}).sort(sort);
+          products = await Product.find({...query,$and: [{ salePrice: { $lte: req.body.salePrice.max } },{ salePrice: { $gte: req.body.salePrice.min } }]}).sort(sort).skip(skip).limit(limit);
+          totalProducts = await Product.countDocuments({...query,$and: [{ salePrice: { $lte: req.body.salePrice.max } },{ salePrice: { $gte: req.body.salePrice.min } }]})
         }else if(!req.body.isSale){
-          products = await Product.find({...query,$and: [{ regPrice: { $lte: req.body.regPrice.max } },{ regPrice: { $gte: req.body.regPrice.min } }]}).sort(sort);
+          products = await Product.find({...query,$and: [{ regPrice: { $lte: req.body.regPrice.max } },{ regPrice: { $gte: req.body.regPrice.min } }]}).sort(sort).skip(skip).limit(limit);
+          totalProducts = await Product.countDocuments({...query,$and: [{ regPrice: { $lte: req.body.regPrice.max } },{ regPrice: { $gte: req.body.regPrice.min } }]})
         }else{
-          products = await Product.find(query).sort(sort);
+          products = await Product.find(query).sort(sort).skip(skip).limit(limit);
+          totalProducts = await Product.countDocuments(query)
         }
       }catch(error){
         return next(error)
       }      
-      // console.log(products)
-      return res.status(200).json({status:200,products:products});
+      
+      return res.status(200).json({status:200,products:products,totalProducts:totalProducts});
            
     },
 
     async GetSliderAppliances(req,res,next){
-      let data = req.query;
+      let data = req.body;
+      
       
       let query = {}
       Object.keys(data).forEach(prop => {
-       switch(req.query){
+       switch(prop){
         case 'rating':
          query.rating = parseInt(data[prop])
          break;
@@ -237,8 +249,10 @@ const applianceController = {
          break;
        }
       })
+     
+
       try{
-       const products = await Product.find(query).sort({ createdAt: req.query.sort }).select('slug').select('title').select('media').select('isSale').select('salePrice').select('regPrice').select('rating');
+       const products = await Product.find(query).sort({ createdAt: parseInt(req.query.sort) }).select('slug').select('title').select('media').select('isSale').select('salePrice').select('regPrice').select('rating');
        return res.status(200).json({status:200,products:products});
       }catch(error){
         return next(error)
@@ -246,10 +260,10 @@ const applianceController = {
     },
     async GetApplianceByFilter(req,res,next){
       try{
-      //  console.log(req.body)
+      
        const products = await Product.find(req.body);
-       console.log(products)
-      //  console.log(products)
+       
+      
        return res.status(200).json({status:200,products:products});
       }catch(error){
         return next(error)

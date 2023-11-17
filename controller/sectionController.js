@@ -320,7 +320,6 @@ const sectionController = {
             }
       
             const {sectionItems} = req.body;
-            //  console.log(sectionItems)
              // Create an array of update operations
              const updateOperations = sectionItems.map(({ _id, index }) => ({
                updateOne: {
@@ -384,7 +383,6 @@ const sectionController = {
 
     async GetCategorySections(req,res,next){
       const {slug} = req.body;
-      // console.log(slug)
   
       try{
         const categorySections = await categorySection.find({categorySlug: slug}).sort({ index: 1 });

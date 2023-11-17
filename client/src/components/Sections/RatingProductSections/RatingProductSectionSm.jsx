@@ -2,6 +2,7 @@ import React from 'react'
 import RatingProductSliderSm from './RatingProductSliderSm'
 import { AiFillStar } from 'react-icons/ai'
 import { BsArrowRightShort } from 'react-icons/bs'
+import { Link } from 'react-router-dom'
 
 const RatingProductSectionSm = ({ products,stars, title }) => {
   const StarIconPrinter = ({ numberOfTimes }) => {
@@ -22,7 +23,7 @@ const RatingProductSectionSm = ({ products,stars, title }) => {
         <div className=' relative px-4 md:px-10 w-full mt-3' >
           <RatingProductSliderSm items={products} stars={stars} />
         </div>
-        <div className='flex justify-center mt-5' ><a href='' className='flex items-center border-[1px] border-b3 w-fit px-4 py-1 xl:py-2 rounded-md text-b3 font-semibold' ><span className='lg:text-sm xl:text-[16px] text-xs' >Shop All {stars} Star Cosmetic Rating Appliances</span><BsArrowRightShort className='text-2xl' /></a></div>
+        <div className='flex justify-center mt-5' ><Link to={`/appliances/?rating=${stars}`} className='flex items-center border-[1px] border-b3 w-fit px-4 py-1 xl:py-2 rounded-md text-b3 font-semibold' ><span className='lg:text-sm xl:text-[16px] text-xs' >Shop All {stars} Star Cosmetic Rating Appliances</span><BsArrowRightShort className='text-2xl' /></Link></div>
       </div>
     </>
   )

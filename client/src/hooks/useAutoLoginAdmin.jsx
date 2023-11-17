@@ -14,7 +14,7 @@ function useAutoLoginAdmin() {
 
   const autoLoginApiCall = async () => {
     const res = await dispatch(RefreshAdmin())
-    // console.log(res)
+    
     if(res.payload.auth){
       setLoading(false);
     }else{

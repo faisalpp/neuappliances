@@ -46,7 +46,6 @@ const ReviewEXSlider = ({ clientreviews, icon, dots }) => {
       </div>
     </button>
   );
-  // console.log(color)
   return (
     <div className='reviewslider-wrapper'>
       {clientreviews.length > 0 ? <Slider {...settings} prevArrow={<PrevButton />} nextArrow={<NextButton />} className='relative maxmd:mb-10'>

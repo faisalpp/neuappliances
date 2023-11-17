@@ -33,7 +33,7 @@ const UpdateOrder = () => {
 
   const GetOrder = async () => {
    const res = await getOrderById({orderNo:params.id})
-   console.log(res)
+   
    if(res.status === 200){
      setOrderId(res.data.order._id)
      setOrder(res.data.order)
@@ -135,7 +135,7 @@ const UpdateOrder = () => {
     phone: Yup.string().required('Phone is Required!'),
   });
 
-  // console.log(window)
+  
 
   const [errors,setErrors] = useState([])
   const [sLoading,setSloading] = useState(false)

@@ -5,7 +5,7 @@ import {CSS} from '@dnd-kit/utilities';
 const TeamCard = ({team,updateSelection}) => {
 
  const {attributes,listeners,setNodeRef,transform,transition} = useSortable({id:team._id})
-//   console.log(team._id)
+
   const style = {
     transition,
     transform: CSS.Transform.toString(transform)

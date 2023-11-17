@@ -265,7 +265,7 @@ router.get('/api/get-appliances-filters',applianceController.GetAppliancesFilter
 // Search Product
 router.post('/api/search-appliance',applianceController.SearchAppliance);
 // Home Page Rating Products
-router.get('/api/slider-appliances',applianceController.GetSliderAppliances);
+router.post('/api/slider-appliances',applianceController.GetSliderAppliances);
 
 
 router.get('/affirm',adminController.affirm)

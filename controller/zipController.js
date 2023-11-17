@@ -217,7 +217,6 @@ const zipController = {
      const TOKEN=`Bearer ${POSTMAN_ZIP_CODE_API_KEY}`
      try{
        const res2 = await axios.get(url, { params, headers: {'Authorization': TOKEN} }) 
-       console.log(res2)
        return res.status(200).send({status:200,zip:res2.data})
        }catch(error){
         return res.status(500).send({status:500,message:"No Slotes Found thre Zip Code !"})

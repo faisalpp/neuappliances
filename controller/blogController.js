@@ -282,7 +282,7 @@ async GetBlogBySearch(req, res, next) {
     try{
       let page = Number(req.query.page)
       let limit = Number(req.query.limit)
-      let skip = (page - 1) * limit;
+      let skip = (page - 1) * limit
       if(title){
         queryObject.title = {$regex:title,$options:"i"}
       }

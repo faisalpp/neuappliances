@@ -48,7 +48,6 @@ const ManageHelpSupport = () => {
     }
     const data = { category: category }
     const res = await GetHelpByCateogry(data, params)
-    // console.log(res)
     if (res.status === 200) {
       setLoading(false)
       setBlogs(res.data.helps)
@@ -110,7 +109,6 @@ const ManageHelpSupport = () => {
   const GetHelpTabs = async () => {
     setTabLoading(true)
     const res = await getHelpTabs()
-    // console.log(res)
     if (res.status === 200) {
       setTabLoading(false)
       setHelpTabs(res.data.helpTabs)

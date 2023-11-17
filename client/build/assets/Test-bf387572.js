@@ -1,1 +1,0 @@
-import{j as r}from"./index-20f4f930.js";const e=()=>r.jsx(r.Fragment,{children:r.jsx("iframe",{src:"https://drive.google.com/drive/folders/1UsgAPquI7qdel2uMiOmfwzWT5HjkmOUT?usp=sharing"})});export{e as default};

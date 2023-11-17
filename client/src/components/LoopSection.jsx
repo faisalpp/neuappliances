@@ -3,7 +3,7 @@ import StayLoopSlider from './StayLoopSlider'
 import { BsArrowRightShort } from 'react-icons/bs'
 import { getVideoMedia } from '../api/admin/videoMedia'
 import { Link } from 'react-router-dom'
-import Iframe from '../components/Reusable/Ifram';
+import Iframe2 from '../components/Reusable/Iframe2';
 import IframeSkelton from '../components/Reusable/IframeSkelton';
 
 
@@ -26,7 +26,6 @@ const LoopSection = () => {
       const data = { section: 'stay-in-loop-videos' }
       const params = { page: page, limit: limit }
       const res = await getVideoMedia(params, data);
-      // console.log(res)
       if (res.status === 200) {
         setLoopVideo(res.data.media)
         setVideo({url:res.data.media[0].url,thumb:res.data.media[0].thumbnail})
@@ -36,6 +35,8 @@ const LoopSection = () => {
     }
     GetSingleVideoMedia()
   }, [page]);
+
+  const [isIframe,setIsIframe] = useState(true)
 
   return (
     // <div className='flex flex-col mt-12 3xl:max-w-1680px px-120px mx-auto' >
@@ -48,9 +49,9 @@ const LoopSection = () => {
       <div className='py-10 lg:py-16 lg:mb-0' >
         {loopVideo.length === 0 ? <IframeSkelton style="col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]" /> : null}
         {loopVideo.length > 0 && type !== 'iframe' ? <video controls className='col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]' src={video} /> : null}
-          {loopVideo.length > 0 && type === 'iframe' ? <Iframe thumbnail={video.thumb} genState={genFrame} setGenState={setGenFrame} divId="main-loop-div" frameId="loop-main-frame" icon="text-8xl" style="col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]" src={video.url} title={video.url} /> : null}
+          {loopVideo.length > 0 && type === 'iframe' ? <Iframe2 isIframe={isIframe} setIsIframe={setIsIframe} thumbnail={video.thumb} genState={genFrame} setGenState={setGenFrame} divId="main-loop-div" frameId="loop-main-frame" icon="text-8xl" style="col-start-1 col-end-6 object-cover w-full rounded-2xl 2xl:w-full xl:h-[651px] xl:w-full lg:w-full h-72 lg:h-[480px] md:w-full md:h-[400px]" src={video.url} title={video.url} /> : null}
         <div>
-          <StayLoopSlider setGenState={setGenFrame} page={page} setPage={setPage} totalPages={totalPages} loopVideo={loopVideo} setLoopVideo={setLoopVideo} setVideo={setVideo} video={video} />
+          <StayLoopSlider isIframe={isIframe} setIsIframe={setIsIframe} parentId="main-loop-div" child="loop-main-frame" setGenState={setGenFrame} page={page} setPage={setPage} totalPages={totalPages} loopVideo={loopVideo} setLoopVideo={setLoopVideo} setVideo={setVideo} video={video} />
         </div>
         <div className='flex justify-center mt-10 lg:mt-16' ><Link to='/stay-in-loop' className='flex items-center border-[1px] border-b3 w-fit px-4 py-2 rounded-md text-b3 font-semibold' ><span className='text-sm' >View All Videos</span><BsArrowRightShort className='text-2xl' /></Link></div>
       </div>

@@ -19,43 +19,6 @@ const MultiRangeSlider = ({ min, max,setFilt,filt }) => {
         [min, max]
     );
 
-    // Set width of the range to decrease from the left side
-    // useEffect(() => {
-    //     if (maxValRef.current) {
-    //         const minPercent = getPercent(minVal);
-    //         const maxPercent = getPercent(+maxValRef.current.value); // Preceding with '+' converts the value from type string to type number
-
-    //         if (range.current) {
-    //             range.current.style.left = `${minPercent}%`;
-    //             range.current.style.width = `${maxPercent - minPercent}%`;
-    //         }
-    //     }
-    // }, [minVal, getPercent]);
-
-    // Set width of the range to decrease from the right side
-    // useEffect(() => {
-    //     if (minValRef.current) {
-    //         const minPercent = getPercent(+minValRef.current.value);
-    //         const maxPercent = getPercent(maxVal);
-
-    //         if (range.current) {
-    //             range.current.style.width = `${maxPercent - minPercent}%`;
-    //         }
-    //     }
-    // }, [maxVal, getPercent]);
-
-    // Get min and max values when their state changes
-    // useEffect(() => {
-    //     console.log('ranges')
-    //    setTimeout(()=>{
-    //     if(filt.isSale){
-    //         setFilt(prev=>{return {...prev,salePrice:{min:minVal,max:maxVal}}})
-    //     }else{
-    //         setFilt(prev=>{return {...prev,regPrice:{min:minVal,max:maxVal}}})
-    //     }
-    //    },1500)
-    // }, [minVal,maxVal]);
-
     return (
         <DropDown title="Price">
             <div className="w-full pb-8 relative" id="priceSlider">

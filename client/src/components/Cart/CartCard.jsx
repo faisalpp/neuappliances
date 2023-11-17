@@ -28,10 +28,9 @@ const CartCard = ({order,type,indx,changeType}) => {
 
       const RemoveCartItemData = async (e, index,cId,pId,oId, typ,pPrice,cCount,cTotal) => {
         e.preventDefault()
-        console.log('test')
+        
         setDelLoading({index:index,type:typ})
         const data = { cartId:cId ,pId,type:typ,price:pPrice,count:cCount,total:cTotal,objId:oId}
-        console.log(data)
         const res = await dispatch(RemoveFromCart(data));
         if (res.payload.status === 200) {
           setDelLoading({index:'',type:''})

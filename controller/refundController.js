@@ -70,7 +70,7 @@ const refundController = {
       if(media?.length > 0){
         for(let i=0;i<media.length;i++){
           delMedia.push(media[i].data)
-          // console.log(delMedia[i].data)
+          
         }
       }
 

@@ -33,6 +33,7 @@ const MyCart = () => {
             Toast(res.payload.message,'error',1000)
             dispatch(resetCart())
             dispatch(resetOrder())
+            setLoading(false)
         }else {
           Toast(res.payload.message,'error',1000)
           setLoading(false)
@@ -63,7 +64,7 @@ const MyCart = () => {
                         <div className='order-2 coxxl:order-none'>
                             {products?.length > 0 && orderInfo.type === 'delivery' ?<DeliveryOrder orders={products} refresh={GetCartData} />:null}
                             {products?.length > 0 && orderInfo.type === 'pickup' ? <PickUpOrder orders={products} refresh={GetCartData} /> : null}
-                            <hr className='my-6 border-[rgba(0,0,0,0.08)]' />
+                            <hr className='my-6 border-[hsla(0,0%,0%,0)]' />
                             <div className='w-full flex justify-between items-center'>
                                 <span className='text-base sm:text-xl text-black font-semibold'>
                                     Subtotal ({cartCount} Items):

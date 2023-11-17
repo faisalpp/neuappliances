@@ -466,7 +466,6 @@ AdminApi.interceptors.response.use(
   
           return AdminApi.request(originalReq);
         } catch (error) {
-          console.log('jwt issue')
           return error;
         }
       }
@@ -494,7 +493,6 @@ AdminApi.interceptors.response.use(
   
           return AdminMultiApi.request(originalReq);
         } catch (error) {
-            console.log('jwt issue')
           return error;
         }
       }

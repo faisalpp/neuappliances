@@ -84,7 +84,7 @@ const Payment = () => {
     const Submit = async () => {
         setChangeZip(true);
         const res = await CheckZip({zip:bpostalCode})
-        console.log(res)
+        
         if (res.status == 200) {
           setChangeZip(false);
         } else {
@@ -219,7 +219,7 @@ const Payment = () => {
       const ConfirmOrder = async (intent,ordNo) => {
        if(orderErrors.confirm || !orderStatus.confirm){
         const res = await confirmOrder({orderNo:ordNo,intent:intent,cartId:cartId})
-        console.log(res)
+        
         if(res.status === 200){
           setOrderErrors({confirm:false})
           setOrderStatus({confirm:true})
@@ -267,7 +267,7 @@ const Payment = () => {
           PAYMENT_INTENT = await handleAffirmPayment();
             break;
         }
-        console.log(PAYMENT_INTENT)
+        
         if(PAYMENT_INTENT?.error){
           dispatch(setOrderErrors({payment:true}))
           dispatch(setOrderStatus({payment:false}))
@@ -303,7 +303,7 @@ const Payment = () => {
           if(billingAddress.status){
             const  data = {userId:userId,isAdmin:isAdmin2,isAuth:isAuth,cartId:cartId,shippingAddress:orderInfo,billingInfo:billingAddress.data,newsEmail:newsEmail}
            const res = await processOrder(data);
-           console.log(res.data)
+           
            if(res.status === 200){
             dispatch(setOrderErrors({order:false}))
             dispatch(setOrderStatus({order:true}))

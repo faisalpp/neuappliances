@@ -6,7 +6,6 @@ import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs';
 
 
 const ProductSlider = ({ image, products }) => {
-  // console.log(import.meta.env.REACT_APP_INTERNAL_PATH)
   const settings = {
     dots: false,
     infinite: false,

@@ -37,7 +37,7 @@ const adminController = {
         if (response.status === 200) {
           const data = response.data;
           // Extract and process installment pricing data from the response
-          // console.log(data);
+          
         } else {
           console.error('Error:', response.status);
         }

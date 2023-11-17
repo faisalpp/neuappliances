@@ -34,7 +34,7 @@ const ManageMedia = () => {
     formData.set('section', section);
     formData.set('type', type);
     const res = await uploadVideoMedia(formData)
-    // console.log(res)
+    
     if (res.status === 200) {
       toast.success(res.data.msg, {
         position: "top-right",
@@ -78,7 +78,7 @@ const ManageMedia = () => {
     const params = { page: page, limit: limit };
     const data = { section: selectedSection }
     const res = await getVideoMedia(params, data);
-    // console.log(res)
+    
     if (res.status === 200) {
       setMedia(res.data.media)
       setTotalPages(Math.ceil(res.data.totalCount / limit))

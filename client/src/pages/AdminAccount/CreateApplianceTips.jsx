@@ -49,7 +49,7 @@ const CreateApplianceTips = () => {
       formData.set('content', content);
       await blogCreationValidationSchema.validate(data, { abortEarly: false });
       const res = await createTip(formData);
-      console.log(res)
+      
       if (res.status === 200) {
         setSubmit(false)
         toast.success(res.data.msg, {
@@ -79,7 +79,7 @@ const CreateApplianceTips = () => {
         });
       }
     } catch (error) {
-      console.log(error)
+      
       setSubmit(false)
       if (error) {
         setErrors(error.errors)

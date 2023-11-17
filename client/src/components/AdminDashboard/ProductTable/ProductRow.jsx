@@ -22,10 +22,10 @@ const ProductRow = ({data,getProductss}) => {
 
     const firstImg = data.media.find(item => item.file === 'image');
     
-    const DeleteProduct = async (e,slug) => {
+    const DeleteProduct = async (e,id) => {
      setDelLoading(true)
      try{
-       const res = await deleteProduct({pSlug:slug})
+       const res = await deleteProduct({pId:id})
        if(res.status === 200){
        Toast(res.data.msg,'success',1000)
        getProductss()
@@ -40,10 +40,10 @@ const ProductRow = ({data,getProductss}) => {
      }
     }
 
-    const DuplicateProduct = async (e,slug) => {
+    const DuplicateProduct = async (e,id) => {
       setDupLoading(true)
      try{
-       const res = await duplicateProduct({pSlug:slug})
+       const res = await duplicateProduct({pId:id})
        if(res.status === 200){
        Toast(res.data.msg,'success',1000)
        getProductss()
@@ -68,9 +68,9 @@ const ProductRow = ({data,getProductss}) => {
         <td className=" px-5 py-4 text-b6 font-medium"><StarIconPrinter numberOfTimes={data.rating} /></td>
         <td className="px-5 py-4 space-y-1">
          <NavLink title="Update Product" to={`/admin/update-product/${data.slug}`} className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-sm px-2 w-fit rounded-full cursor-pointer py-2' ><BsPencil className="text-base" /></NavLink>
-         <span title="Delete Product" onClick={e=>{!delLoading ? DeleteProduct(e,data.slug):null}} className='flex items-center justify-center bg-red-500/30 text-red-500 hover:bg-white hover:text-red-500 border-2 border-white hover:border-red-500 text-sm px-2 w-fit rounded-full cursor-pointer py-2' >{delLoading ? <img src="/loader-bg.gif" className='w-4 h-4' />:<BsFillTrashFill className="text-base" />}</span>
+         <span title="Delete Product" onClick={e=>{!delLoading ? DeleteProduct(e,data._id):null}} className='flex items-center justify-center bg-red-500/30 text-red-500 hover:bg-white hover:text-red-500 border-2 border-white hover:border-red-500 text-sm px-2 w-fit rounded-full cursor-pointer py-2' >{delLoading ? <img src="/loader-bg.gif" className='w-4 h-4' />:<BsFillTrashFill className="text-base" />}</span>
          {/* {data.productType === 'parent' ? null :<span title="Duplicate Product" onClick={e=>{!dupLoading ? DuplicateProduct(e,data.slug) : null}} className='flex items-center justify-center bg-b7 text-white hover:bg-white hover:text-b7 border-2 border-white hover:border-b7 text-sm px-2 w-fit rounded-full cursor-pointer py-2' >{dupLoading ? <img src="/loader-bg.gif" className='w-4 h-4' />:<HiOutlineDocumentDuplicate className="text-lg" />}</span>} */}
-         <span title="Duplicate Product" onClick={e=>{!dupLoading ? DuplicateProduct(e,data.slug) : null}} className='flex items-center justify-center bg-b7 text-white hover:bg-white hover:text-b7 border-2 border-white hover:border-b7 text-sm px-2 w-fit rounded-full cursor-pointer py-2' >{dupLoading ? <img src="/loader-bg.gif" className='w-4 h-4' />:<HiOutlineDocumentDuplicate className="text-lg" />}</span>
+         <span title="Duplicate Product" onClick={e=>{!dupLoading ? DuplicateProduct(e,data._id) : null}} className='flex items-center justify-center bg-b7 text-white hover:bg-white hover:text-b7 border-2 border-white hover:border-b7 text-sm px-2 w-fit rounded-full cursor-pointer py-2' >{dupLoading ? <img src="/loader-bg.gif" className='w-4 h-4' />:<HiOutlineDocumentDuplicate className="text-lg" />}</span>
         </td>
       </tr>
   )

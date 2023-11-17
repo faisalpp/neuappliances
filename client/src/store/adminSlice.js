@@ -28,7 +28,7 @@ export const loginAdmin = createAsyncThunk("admin/login", async (data) => {
 export const RefreshAdmin = createAsyncThunk("admin/refresh", async () => {
   try{
   const response = await refreshAdmin();
-    // console.log(response)
+    
     if(response.status === 200){
       return response.data;
     }else{

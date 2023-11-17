@@ -34,13 +34,11 @@ const ManageGallery = () => {
   const UploadImage = async (e) => {
     e.preventDefault()
     setIsSubmit(true)
-    // console.log(images)
     const formData = new FormData();
     images.forEach((imageFile, index) => {
       formData.append(`image_${index}`, imageFile);
     });
     const res = await uploadGalleryImage(formData)
-    // console.log(res)
     if (res.status === 200) {
       GetLoopMedia()
       setIsSubmit(false)
@@ -77,7 +75,6 @@ const ManageGallery = () => {
     setIsLoading(true)
     const params = { page: page, limit: limit };
     const res = await getGalleryImages(params);
-    console.log(res)
     if (res.status === 200) {
       setIsLoading(false)
       setMedia(res.data.gallery)
@@ -94,10 +91,8 @@ const ManageGallery = () => {
 
   const DeleteMedia = async (e, id) => {
     e.preventDefault()
-    console.log(id)
     setDelLoading(true)
     const res = await deleteGalleryImage({ id });
-    console.log(res)
     if (res.status === 200) {
       toast.success(res.data.msg, {
         position: "top-right",
@@ -127,9 +122,7 @@ const ManageGallery = () => {
   }
 
   const HandleImage = (e) => {
-    console.log(e.target.files)
     setImages(prev => [...prev, ...e.target.files])
-    console.log(images)
   }
 
   const deleteImg = (e, indx) => {

@@ -176,7 +176,7 @@ export const cartSlice = createSlice({
     builder
      .addCase(AddToCart.fulfilled, (state, action) => {
       const {cart} = action.payload;
-      console.log(cart)
+      
       if(cart){
        state.cart = cart
        state.sCart = true

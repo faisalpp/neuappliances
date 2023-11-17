@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AiOutlineArrowRight } from "react-icons/ai"
 
 const ProductsTypeCard = ({ productstype }) => {
-    // console.log(`${import.meta.env.REACT_APP_INTERNAL_PATH}/storage/categories/1687645353244-Refrigerators.webp`)
+    
     return (
         <>
             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8'>

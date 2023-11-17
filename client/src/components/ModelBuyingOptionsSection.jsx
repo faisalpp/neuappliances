@@ -56,7 +56,7 @@ const ModelBuyingOptionsSection = ({threeStar,fourStar,fiveStar,modelNo,title,di
             </div>
           </div>
         </div>
-        <div className='py-5 text-center' ><NavLink to={`/products/buying-options/?modelNo=${modelNo}&rating=${rating}`} className='text-b7 font-semibold mt-5 flex items-center justify-center mx-auto gap-1'><FiLink2 stroke-width="3" /> View More Buying Options</NavLink></div>
+        <div className='py-5 text-center' ><NavLink to={`/products/buying-options/?modelNo=${modelNo}`} className='text-b7 font-semibold mt-5 flex items-center justify-center mx-auto gap-1'><FiLink2 stroke-width="3" /> View More Buying Options</NavLink></div>
       </div>
     </>
   )

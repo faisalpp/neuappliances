@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 import { GetAppliancesBySection, getAppliancesFilters,GetAppliancesByFilter } from '../api/frontEnd'
 import Loader from '../components/Loader/Loader'
 import Toast from '../utils/Toast'
+import Pagination from '../components/Pagination/Pagination2'
 
 const Products = () => {
 
@@ -25,6 +26,10 @@ const Products = () => {
   const location = useLocation();
   const [params, setParams] = useState([])
 
+  const [page,setPage] = useState(1)
+  const [totalPages,setTotalPages] = useState(10)
+  const [limit,setLimit] = useState(6)
+
   const GetQueryParams = () => {
     // Create a URLSearchParams object from the query string
     const queryParams = new URLSearchParams(location.search);
@@ -36,16 +41,17 @@ const Products = () => {
       queryParamsObject[key] = value;
     }     
 
-    return {isSale:true,salePrice:{min:200,max:8000},...queryParamsObject}
+    setParams({isSale:true,salePrice:{min:200,max:8000},...queryParamsObject})
   }
   
   const [filterLoading,setFilterLoading] = useState(true)
 
-    const getAppliancesBySection = async (PARAM) => {
+    const getAppliancesBySection = async () => {
     setLoading(true)
-    const res = await GetAppliancesBySection(PARAM)
+    const res = await GetAppliancesBySection({...params,page:page,limit:limit})
     if (res.status === 200) {
       setProducts(res.data.products)
+      setTotalPages(Math.ceil(res.data.totalProducts / limit))
       setLoading(false)
     } else {
       setLoading(false)
@@ -53,8 +59,13 @@ const Products = () => {
     }
   }
 
+  useEffect(()=>{
+   getAppliancesBySection()
+  },[params,page])
+
   
   useEffect(() => {
+    GetQueryParams()
     GetAppliancesFilter()
   }, [])
 
@@ -66,10 +77,6 @@ const Products = () => {
       setSaleFilter(res.data.saleFilter)
       setRegularFilter(res.data.regularFilter)
       setFilterLoading(false)
-      const PARAMS = GetQueryParams();
-      if(PARAMS){
-        getAppliancesBySection(PARAMS)
-      }
     }else{
       setFilterLoading(false)
     }
@@ -102,7 +109,8 @@ const Products = () => {
             <div className={`grid ${isGrid ? 'lg:grid-cols-3 grid-cols-1 lg:gap-x-2' : 'grid-cols-1'} gap-y-5 mb-10 w-full`} >
                {loading ? <div className='flex items-center justify-center w-full' ><img src="/loader2.gif" className="w-20 h-20" /></div> :null}
                {products?.length > 0 ? null : <div className='flex items-center justify-center w-full' ><img src="/not-found.webp" className='w-40 h-40' /></div>}
-               {products?.length > 0 && !loading ? products.map((product, index) => <ProductCard3 key={index} product={product} isGrid={isGrid} />) :null}
+               {products?.length > 0 ? <>{ products.map((product, index) => <ProductCard3 key={index} product={product} isGrid={isGrid} />)}<Pagination page={page} setPage={setPage} totalPages={totalPages} /></> :null}
+               
 
             </div>
 

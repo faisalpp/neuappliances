@@ -86,7 +86,7 @@ const UpdateProduct = () => {
       setSpecification(res.data.product.specification)
       setDeliveryInfo(res.data.product.deliveryInfo)
       setValues(data);
-      console.log(data)
+      
       setLoader(false)
     }else{
       setLoader(false)

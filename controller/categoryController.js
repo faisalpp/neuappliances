@@ -83,7 +83,7 @@ const categoryController = {
      },
 
     async UpdateCategory(req,res,next){
-      //  console.log(req.body.inMenu)
+      
       // 1. validate user input
       const categoryUpdateSchema = Joi.object({
           id: Joi.string().required(),
@@ -102,7 +102,7 @@ const categoryController = {
         }
   
         const {title,image,oldImage,inMenu,slug,description,id} = req.body;
-        // console.log(oldImage)
+        
         if(oldImage === ''){
           try {
               await Category.findByIdAndUpdate(
@@ -120,7 +120,7 @@ const categoryController = {
         }else{
           try{
             const {resp} = await AWSService.deleteFile(oldImage)
-            // console.log(resp.$metadata.httpStatusCode)
+            
            if(resp.$metadata.httpStatusCode === 204){
              try{
                const {response,updateImg} = await AWSService.uploadFile({name:req.files.image.name,data:req.files.image.data},'category/')
@@ -171,7 +171,7 @@ const categoryController = {
       if(category){
         delImgs.push(category.image)
       }
-      console.log(delImgs)
+      
       try{
         sectionItems = await categorySection.findOne({categorySlug:category.slug}).populate('sectionItemsId').exec()
       }catch(err){

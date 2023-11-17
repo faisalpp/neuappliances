@@ -142,7 +142,7 @@ const SideCart = () => {
       })
       setDates(onlyDays)
       setFrames(timeFrames)
-      console.log(timeFrames)
+      
       dispatch(ChangeDeliveryInfo({cartId:cartId,orderInfo:{...orderInfo,location:zip,shipping:res.data.zip.location.rate}}))
     } else {
       setZipChange(false);

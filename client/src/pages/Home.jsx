@@ -29,50 +29,17 @@ const Home = () => {
          <HomeImagesSection />
          <CosmaticStarSection />
          <HiwSection />
-         
           <AustinLoveSection />
-         
-         
-         
           <D3CardSection />
-         
-         
-         
           <ReviewSection />
-         
-         
-         
           <LoopSection />
-         
-         
-         
           <ApplianceSection />
-         
-         
-         
           <MapSection />
-         
-         
-         
           <RatingProductSection />
-         
-         
-         
           <TourSection />
-         
-         
-         
           <GallerySection />
-         
-         
-         
           <SatisfiedSection apiSectionName="home-page-footer-review" title="Join Thousands of our Satisfied Customers." />
-         
-         
-         
           <NewsLetterSection backimage="new.webp" />
-         
-      
       </MainLayout>
     </>
   )

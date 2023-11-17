@@ -34,8 +34,6 @@ const ManageFaq = () => {
         const res = await getFaqTab();
         if(res.status === 200){
             setFaqTabs(res.data.faqTabs)
-        }else{
-            console.log(res)
         }
     }
     useEffect(() => {
@@ -85,7 +83,7 @@ const ManageFaq = () => {
        try{
         const data = {title:updatedFaqTabTitle,_id:updatedFaqTabId}
         await updateFaqTabValidationSchema.validate(data, { abortEarly: false });
-        console.log(data)
+        
         const res = await updateFaqTab(data);
         if(res.status === 200){
             GetFaqTabs()

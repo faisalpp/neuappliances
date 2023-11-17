@@ -5,7 +5,7 @@ import {BsFillStopCircleFill} from 'react-icons/bs'
 import Iframe from '../components/Reusable/Ifram'
 
 
-const StayLoopSlider = ({page,setPage,totalPages,video,loopVideo,setLoopVideo,setVideo,setGenState}) => {
+const StayLoopSlider = ({isIframe,setIsIframe,parentId,child,page,setPage,totalPages,video,loopVideo,setLoopVideo,setVideo,setGenState}) => {
  useEffect(() => {
    let box = document.getElementById('id3');
    setBox(box);
@@ -23,6 +23,19 @@ const StayLoopSlider = ({page,setPage,totalPages,video,loopVideo,setLoopVideo,se
     Box.scrollLeft = Box.scrollLeft + width;
   }
 
+  const HandleParentChange = (e,data) => {
+    e.preventDefault()
+   const parent = document.getElementById(parentId)
+   const child2 = document.getElementById(child)
+  //  console.log(parent)
+   if(parent && child2){
+     child2.remove()
+   }
+  //  setGenState(true);
+  setIsIframe(true)
+  setVideo(data)
+  }
+
   return (
     <>
     <div className='relative my-8' >
@@ -31,10 +44,12 @@ const StayLoopSlider = ({page,setPage,totalPages,video,loopVideo,setLoopVideo,se
      <div id="id3" className='flex overflow-x-hidden space-x-3 scroll-smooth' >
      
       {loopVideo.length > 0 ? loopVideo.map((item,index)=> <div className='relative' >
-       <div onClick={()=>{setGenState(true);setVideo({url:item.url,thumb:item.thumbnail})}} className="absolute flex items-center justify-center cursor-pointer bg-black/50 z-40 rounded-2xl xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 " >
-        {video === item.url ? <BsFillStopCircleFill className="text-gray-300 text-4xl" /> :<AiFillPlayCircle className="text-gray-300 text-4xl" />}</div>
-         {item.type === 'iframe' ? <Iframe thumbnail={item.thumbnail} divId={`loop-div-${index}`} frameId={`${index}-loop-slider`} style="xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 rounded-2xl" src={item.url} title={item.url} />:null}
-         {item.type !== 'iframe' ? <video className='xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 rounded-2xl ' src={item.url} /> : null}
+       {/* <div onClick={e=>HandleParentChange(e,{url:item.url,thumb:item.thumbnail})} className="absolute flex items-center justify-center cursor-pointer z-40 rounded-2xl xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 " > */}
+       {/* <div onClick={()=>{}} className="absolute flex items-center justify-center cursor-pointer z-40 rounded-2xl xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 " > */}
+      {/* </div> */}
+         {item.type === 'iframe' ? <div className='relative' ><div onClick={e=>HandleParentChange(e,{url:item.url,thumb:item.thumbnail})} className='absolute bg-black/70 cursor-pointer rounded-xl w-full h-full flex z-[99px] justify-center  items-center' >{video === item.url ?<BsFillStopCircleFill className="text-gray-300 text-4xl" />:<AiFillPlayCircle className="text-gray-300 text-4xl" />}</div><img src={item.thumbnail} className='xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 rounded-2xl' /></div>:null}
+         {item.type !== 'iframe' ? <div className='relative' ><div onClick={e=>HandleParentChange(e,{url:item.url,thumb:item.thumbnail})} className='absolute bg-black/70 cursor-pointer rounded-xl w-full h-full flex z-[99px] justify-center  items-center' >{video === item.url ?<BsFillStopCircleFill className="text-gray-300 text-4xl" />:<AiFillPlayCircle className="text-gray-300 text-4xl" />}</div><video className='xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 rounded-2xl ' src={item.url} /></div>:null}
+         {/* {item.type !== 'iframe' ? <video className='xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 rounded-2xl ' src={item.url} /> : null} */}
       </div>):null}
      
      </div>

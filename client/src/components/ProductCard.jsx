@@ -65,10 +65,10 @@ const ProductCard = ({ title, dicount, type, stars, discount, codmetics, customS
               </div>
             </div>
             <div className='flex items-center gap-x-3' ><span className='font-semibold text-[16px]' >Cosmetic Damage</span><span className='grow text-center text-[rgba(17,16,16,0.64)] justify-center flex items-center px-3 py-2 border border-[#22A6AB] rounded-full bg-[#F2FFFF] text-xs md:text-'>{codmetics}</span></div>
-            <div className='flex gap-x-5' >
+            <div className='flex gap-x-4' >
               <div className='text-sm flex flex-col gap-y-2' >
                 <div className='flex' ><span>Class</span></div>
-                <div className='flex' ><span>Mechanical Test</span></div>
+                <div className='flex' ><span>Mechanical&nbsp;Test</span></div>
                 <div className='flex' ><span>Inspection</span></div>
                 <div className='flex' ><span>Warranty</span></div>
               </div>
@@ -79,7 +79,7 @@ const ProductCard = ({ title, dicount, type, stars, discount, codmetics, customS
                 <div className='flex gap-x-1 items-center' ><img src="/nueshield.webp" className='w-4 h-4' alt="nueshield" /><span>1 Year Warranty</span></div>
               </div>
             </div>
-            <Link to="" className='flex items-center justify-center gap-x-2 text-white text-base bg-b7 h-10 rounded-md hover:underline' ><span>Shop {stars} Star Products</span><IoIosArrowForward className='text-xl' /></Link>
+            <Link to={`/appliances/?rating=${stars}`} className='flex items-center justify-center gap-x-2 text-white text-base bg-b7 h-10 rounded-md hover:underline' ><span>Shop {stars} Star Products</span><IoIosArrowForward className='text-xl' /></Link>
           </div>
         </div>
       </div>

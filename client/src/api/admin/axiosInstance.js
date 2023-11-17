@@ -58,7 +58,6 @@ AdminApi.interceptors.response.use(
           });
           return AdminApi.request(originalReq);
         } catch (error) {
-          console.log(error)
           return error;
         }
       }

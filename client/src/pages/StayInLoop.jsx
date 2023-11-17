@@ -20,7 +20,7 @@ const StayInLoop = () => {
             const params = { page: page, limit: limit };
             const data = { section: 'stay-in-loop-videos' }
             const res = await getVideoMediaAll(params, data);
-            console.log(res.data.media)
+            
             if (res.status === 200) {
                 setIsLoading(false)
                 setMedia(res.data.media)

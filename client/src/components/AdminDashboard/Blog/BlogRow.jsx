@@ -34,7 +34,7 @@ const BlogRow = ({img,title,category,id,slug,getBlog,setPage}) => {
      setDelLoading(true)
      const data = {id:id}
      const res = await deleteBlog(data);
-     console.log(res)
+     
      if(res.status === 200){
        setDelLoading(false)
        getBlog(1)

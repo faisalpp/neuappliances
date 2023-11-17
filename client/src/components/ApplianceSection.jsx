@@ -15,9 +15,7 @@ const ApplianceSection = () => {
       if (res.status === 200) {
         setApplianceTypes(res.data.categories);
         setLoading(false)
-      } else {
-        console.log(res)
-      }
+      } 
     }
     getAppliances();
   }, [])

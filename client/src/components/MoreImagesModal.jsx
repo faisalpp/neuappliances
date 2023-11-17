@@ -6,10 +6,6 @@ const MoreImagesModal = ({ state, setState, medias }) => {
   const frstImg = medias ? medias.find(item => item.file === 'image') : null;
   const [image, setImage] = useState(frstImg ? {file:frstImg.file,data:frstImg.data} : {})
 
-  useEffect(()=>{
-    console.log(image)
-  },[image])
-
   return (
     <div className={`fixed ${state ? 'flex' : 'hidden'} items-center justify-center top-0 z-50 h-screen bg-black/50 w-full`} >
       <div className='relative flex justify-center w-10/12'>

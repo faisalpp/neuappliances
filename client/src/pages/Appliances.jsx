@@ -36,10 +36,6 @@ const Appliances = () => {
     let cardType;
     let menuItems = [];
     sections.forEach(item => {
-      // console.log(item.type)
-      if(item.type === 'types'){
-        console.log('types')
-      }
       sectType = item.cardStyle;
       cardType = item.type;
       let menuItem = [];

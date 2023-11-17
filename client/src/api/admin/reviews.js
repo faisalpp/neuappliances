@@ -47,7 +47,7 @@ export const duplicateReview = async (data) => {
 // CREATE REVIEW
 export const getReviews = async (params,data) => {
     let response;
-    console.log(params)
+    
     try{
       response = await AdminApi.post(`/api/admin/get-reviews/?page=${params.page}&limit=${params.limit}`,data,{validateStatus: () => true});
     }catch (error){

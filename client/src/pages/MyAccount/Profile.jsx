@@ -6,11 +6,10 @@ import countries from '../../services/countries';
 import { FiChevronDown } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import { resetUser } from '../../store/userSlice'
 import { GetUserProfile } from '../../api/user/profile'
+import Toast from '../../utils/Toast'
 
 
 const Profile = () => {
@@ -70,27 +69,9 @@ const ProfileData = () => {
         const res = await response.json();
 
         if (res.status === 200) {
-            toast.success('Profile Updated!', {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
+            Toast('Profile Updated!','success',1000)
         } else {
-            toast.error(res.message, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
+            Toast(res.data.message,'success',1000)
         }
 
     }

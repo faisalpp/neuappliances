@@ -41,7 +41,7 @@ useEffect(()=>{
     try{
       await forgotPasswordSchema.validate({email:email}, { abortEarly: false });
       const res = await forgotPassword({email:email})
-      console.log(res)
+      
       if(res.status === 200){
         setLoading(false)
         Toast(res.data.msg,'success',1000)

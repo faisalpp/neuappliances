@@ -16,7 +16,7 @@ const CreateZone = ({popup,setPopup}) => {
     const zipRef = useRef()
   
     const handleEnterKey = (e) => {
-      console.log(zips)
+      
       if (e.key === ' ' && zipField.length > 0) {
         setZips(prev=>{return [...prev,zipField]})
         setTimeout(() => {
@@ -35,7 +35,7 @@ const CreateZone = ({popup,setPopup}) => {
 
     const CreateZone = async (e) => {
      e.preventDefault()
-     console.log({title:zoneName,description:description,zipCodes:zips})
+     
      const res = await createZone({title:zoneName,description:description,zipCodes:zips})
     }
 

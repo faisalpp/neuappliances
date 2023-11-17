@@ -32,7 +32,7 @@ const ManageCategories = () => {
   const UpdateCategoriesIndex = async () => {
     setIloading(true)
     const res = await updateCategoriesIndex(categories);
-    console.log(res)
+    
     if (res.status === 200) {
       setIloading(false)
       toast.success(res.data.msg, {

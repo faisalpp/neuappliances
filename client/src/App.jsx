@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'react'
-import { Routes, Route, useNavigate, NavLink } from "react-router-dom";
+import { lazy, Suspense, useLayoutEffect } from 'react'
+import { Routes, Route, useNavigate, NavLink, useLocation } from "react-router-dom";
 
 const Home = lazy(() => import("./pages/Home"))
 const Landing = lazy(() => import('./pages/Landing'));
@@ -127,11 +127,20 @@ function App() {
     return loading ? <Loader /> : <>{children}</>;
   }
 
+  const Wrapper = ({children}) => {
+    const location = useLocation();
+    useLayoutEffect(() => {
+      document.documentElement.scrollTo(0, 0);
+    }, [location.pathname]);
+    return children
+  } 
+
 
   return (
     <>
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
       <Suspense fallback={<Loader />} >
+        <Wrapper/>
         <Routes>
           <Route path="/" element={<Home />} />
           {/* landing Page */}

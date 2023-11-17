@@ -17,7 +17,7 @@ const Dashboard = () => {
     
     const GetDashboardData = async () => {
      const res = await getDashboardData()
-     console.log(res)
+     
       if(res.status === 200){
        setProductcount(res.data.dashboard.productCount)
        setCategorycount(res.data.dashboard.categoryCount)

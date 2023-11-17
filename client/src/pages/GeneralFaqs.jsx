@@ -17,7 +17,7 @@ const GeneralFaqs = () => {
     const GetSingleVideoMedia = async () => {
       const data = { section: "faq's-page-video" }
       const res = await getSingleVideoMedia(data);
-      console.log(res)
+      
       if (res.status === 200) {
         setVideo(res.data.media[0])
       }

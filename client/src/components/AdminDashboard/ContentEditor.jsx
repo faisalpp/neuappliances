@@ -48,7 +48,7 @@ const ContentEditor = ({ state, setState,property }) => {
           editor.ui.view.editable.element.style.minHeight = "300px";
         }}
         onBlur={(event, editor) => {
-          console.log(event)
+          
           editor.ui.view.editable.element.style.minHeight = '300px';
         }}
         onFocus={(event, editor) => {

@@ -35,7 +35,7 @@ class JWTService{
             await newToken.save();
         }
         catch(error){
-            // console.log( error);
+          return res.status(500).json({status:500,message:'Internal Server Error!'})
         }
     }
 

@@ -9,7 +9,7 @@ const SatisfiedSection = ({ apiSectionName, title, dots, SectionStyle }) => {
   const GetLoopMedia = async () => {
     const data = { pageType: apiSectionName }
     const res = await getReviews(data);
-    // console.log(res)
+    
     if (res.status === 200) {
       setReviews(res.data.reviews)
     } else {

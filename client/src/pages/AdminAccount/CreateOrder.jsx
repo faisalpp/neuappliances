@@ -102,7 +102,7 @@ const billingValidationSchema = Yup.object().shape({
     const IncQty = async (e,id) => {
         e.preventDefault()
        const res = await dispatch(IncrementCart({cartId:cartId,productId:id}))
-      //  console.log(res)
+      
        if(res.payload.status === 200){
         Toast('Product Quantity Incremented!','success',1000)
        }else if(res.payload.status === 500){
@@ -115,7 +115,7 @@ const billingValidationSchema = Yup.object().shape({
     const DecQty = async (e, id,quantity) => {
         e.preventDefault();
         const res = await dispatch(DecrementCart({cartId:cartId,productId:id,count:quantity}))
-      //  console.log(res)
+      
        if(res.payload.status === 200){
         Toast('Product Quantity Decremented!','success',1000)
        }else if(res.payload.status === 500){

@@ -21,7 +21,7 @@ const JWT = require('../services/JwtService')
 const orderController = {
 
  async processOrder(req, res, next) {
-  // console.log(req.body)
+  
   // 1. validate user input
    const orderSchema = Joi.object({
      userId: Joi.string().allow('').allow(null),
@@ -151,7 +151,6 @@ if(oldUser){
         });
 
         await Promise.all(promises);
-        // console.log("Bulk creation successful.");
     } catch (error) {
         // console.error("Already Exist!");
     }
@@ -231,7 +230,7 @@ if(oldUser){
 
   async getStripePublishableKey(req, res, next) {
     const stripePublishKey = STRIPE_PUBLISHABLE_KEY;
-    // console.log(stripePublishKey)
+    
     return res.status(200).json({stripePublishKey:stripePublishKey})
   },
 
@@ -296,7 +295,7 @@ if(oldUser){
         inclusive: false
       });
 
-    // console.log(lineItems)
+
 
     const line_items = lineItems.map((order)=>({
       price_data: {
@@ -310,7 +309,7 @@ if(oldUser){
       tax_rates:[taxRate.id]
     }));
 
-    // console.log(line_items)
+    
 
 
     if(line_items.length > 0){   
@@ -373,7 +372,6 @@ if(oldUser){
   },
 
   async searchOrder(req, res, next) {
-     console.log(req.body)
      // 1. validate user input
      const orderSchema = Joi.object({
       orderNo: Joi.string().required(),
@@ -387,7 +385,6 @@ if(oldUser){
 
     try{
      const orders = await Order.find({ orderNo: { $regex: req.body.orderNo, $options: 'i' } })
-    //  console.log(orders)
      const totalCount = orders.length;
      return res.status(200).json({status: 200,orders:orders,totalCount:totalCount});
     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
@@ -524,7 +521,7 @@ if(oldUser){
   },
 
   async creatAdminOrder(req, res, next) {
-    console.log(req.body)
+    
     const orderSchema = Joi.object({
      orderDate: Joi.string().required(),
      orderStatus: Joi.string().required(),

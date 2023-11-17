@@ -230,7 +230,7 @@ const SavedAddress = () => {
         const data = {userId:userId,email:uemail,firstName:ufirstName,lastName:ulastName,address:uaddress,appartment:uappartment,city:ucity,country:ucountry,state:uprovince,postalCode:upostalCode,phone:uphone}
         await createShippingSchema.validate(data, { abortEarly: false });
         const res = await updateShippingAddress({...data,id:uiD})
-        // console.log(res)
+        
         if(res.status === 200){
          getShippingAddresses()
          setUPopup(false)
@@ -241,7 +241,6 @@ const SavedAddress = () => {
          Toast(res.data.message,'error',1000)
         }
        }catch(error){ 
-        // console.log(error)
         setuSloading(false)
         if (error) {
          let errors = error.errors;

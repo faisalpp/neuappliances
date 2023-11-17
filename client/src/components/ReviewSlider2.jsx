@@ -53,7 +53,6 @@ const ReviewSlider2 = ({ color, clientreviews, icon }) => {
             </div>
         </button>
     );
-    // console.log(color)
 
     const StarIconPrinter = ({ numberOfTimes }) => {
         const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (

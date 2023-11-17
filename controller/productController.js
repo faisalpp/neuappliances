@@ -201,7 +201,7 @@ const productController = {
 
     async DuplicateProduct(req,res,next){
       const productSchema = Joi.object({
-       pSlug: Joi.string().required(),
+       pId: Joi.string().required(),
      });
     const { error } = productSchema.validate(req.body);
     
@@ -210,9 +210,9 @@ const productController = {
       return next(error)
     }
     // 3. if email or username is already registered -> return an error
-    const { pSlug} = req.body;
+    const { pId} = req.body;
     
-    const product = await Product.findOne({slug:pSlug});        
+    const product = await Product.findOne({_id:pId});        
     if (!product) {
       const error = {
         status: 409, message:'Product Not Found!'
@@ -236,33 +236,33 @@ const productController = {
        }else{
         newKeyFeatures.push(keyFeatures[i])
        }
-      }
- 
-      if(product.featureVideo.type === 'upload'){
-       const {resp,updateImg} = await AWS3.duplicateFile(product.featureVideo.data,`product/${product.featureVideo.type}s/`)
-       if(resp.$metadata.httpStatusCode === 200){
-        newFeatureVideo.type = product.featureVideo.type
-        newFeatureVideo.data = updateImg
-        newFeatureVideo.prevImg = ''
-       }
-      }else{
-       newFeatureVideo = product.featureVideo
-      }
-
-     const medias = product.media
-     for(let j=0;j < medias.length;j++){
-       if(medias[j].type === 'upload'){
-        const {resp,updateImg} = await AWS3.duplicateFile(medias[j].data,`product/${medias[j].file}s/`)
-        if(resp.$metadata.httpStatusCode === 200){
-          newMedia.push({file:medias[j].file,type:medias[j].type,data:updateImg})
-        }else{
-         return res.status(500).json({message:'AWS Internal Server Error!'});
-        }
-       }else{
-        newMedia.push(medias[j])
-       }
-     }
+      } 
     }
+    
+    if(product.featureVideo.type === 'upload'){
+     const {resp,updateImg} = await AWS3.duplicateFile(product.featureVideo.data,`product/${product.featureVideo.type}s/`)
+     if(resp.$metadata.httpStatusCode === 200){
+      newFeatureVideo.type = product.featureVideo.type
+      newFeatureVideo.data = updateImg
+      newFeatureVideo.prevImg = ''
+     }
+    }else{
+     newFeatureVideo = product.featureVideo
+    }
+
+   const medias = product.media
+   for(let j=0;j < medias.length;j++){
+     if(medias[j].type === 'upload'){
+      const {resp,updateImg} = await AWS3.duplicateFile(medias[j].data,`product/${medias[j].file}s/`)
+      if(resp.$metadata.httpStatusCode === 200){
+        newMedia.push({file:medias[j].file,type:medias[j].type,data:updateImg})
+      }else{
+       return res.status(500).json({message:'AWS Internal Server Error!'});
+      }
+     }else{
+      newMedia.push(medias[j])
+     }
+   }
     const uTitle = product.title + '(duplicate)';
     const uSlug = uTitle.toLowerCase().replace(/\s/g,'-');
     const IS_SALE = product.salePrice ? true : false;
@@ -307,7 +307,7 @@ const productController = {
 
   async DeleteProduct(req,res,next){
     const productSchema = Joi.object({
-     pSlug: Joi.string().required(),
+     pId: Joi.string().required(),
    });
   const { error } = productSchema.validate(req.body);
   
@@ -316,9 +316,9 @@ const productController = {
     return next(error)
   }
   // 3. if email or username is already registered -> return an error
-  const { pSlug} = req.body;
+  const { pId} = req.body;
   
-  const product = await Product.findOne({slug:pSlug});        
+  const product = await Product.findOne({_id:pId});        
   if (!product) {
     const error = {
       status: 409, message:'Product Not Found!'
@@ -335,7 +335,7 @@ const productController = {
        delMedia.push(keyFeatures[i].media.data)
      }
    }
-  //  console.log(product)
+  
    if(product.featureVideo.type === 'upload'){
      delMedia.push(product.featureVideo.data)
    }

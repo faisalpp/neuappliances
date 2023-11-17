@@ -42,7 +42,7 @@ const UpdateHelp = () => {
   const GetBlogbySlug = async () => {
     const data = {slug:query.slug}
     const res = await getHelpBySlug(data)
-    // console.log(res.data.help)
+    
     setId(res.data.help[0]._id)
     setTitle(res.data.help[0].title)
     setSlug(res.data.help[0].slug)
@@ -92,7 +92,7 @@ const UpdateHelp = () => {
         });
     }
   } catch (error) {
-    // console.log(error)
+  
     setSubmit(false)
     if(error){
       setErrors(error.errors)
@@ -110,10 +110,10 @@ const UpdateHelp = () => {
 
   const fetchDataForCategory = async () => {
     const res = await getHelpTabs();
-    // console.log(res.data.helpTabs)
+    
     if(res.status === 200){
         const filteredCategories = res.data.helpTabs.filter(cat => cat.slug !== category)
-        // console.log(filteredCategories)
+        
         const catTitle = category[0].toUpperCase() + category.slice(1)
         const finalCategories = [{title:catTitle,slug:category}, ...filteredCategories];
         setCategories(finalCategories)

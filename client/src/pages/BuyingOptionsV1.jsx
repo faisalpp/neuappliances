@@ -25,7 +25,7 @@ const BuyingOptionsV1 = () => {
 
     const GetAppliancewithBuyingOptions = async (param) => {
         const res = await GetApplianceWithBuyingOptions(param)
-        console.log(res)
+        
         if(res.status === 200){
          setProduct(res.data.product)
          setThreeStarProduct(res.data.threeStarProduct)
@@ -59,11 +59,10 @@ const BuyingOptionsV1 = () => {
         queryParamsObject[key] = value;
       }     
         if(queryParamsObject.modelNo){
-         console.log(queryParamsObject)
+         
          GetAppliancewithBuyingOptions(queryParamsObject)
         }
-        // setParams(queryParamsObject)
-    //   console.log(queryParamsObject)
+
     }
 
     useEffect(()=>{

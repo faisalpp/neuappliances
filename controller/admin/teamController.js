@@ -58,7 +58,7 @@ const teamController = {
           
       // 2. if error in validation -> return error via middleware
       if (error) {
-        // console.log(error)
+        
         return next(error)
       }
 
@@ -78,7 +78,7 @@ const teamController = {
         }
       }else{
         const {resp} = await AWSService.deleteFile(oldImg)
-        // console.log(resp)
+        
         if(resp.$metadata.httpStatusCode !== 204){
           const error = {
             status: 500,
@@ -120,14 +120,13 @@ const teamController = {
           
       // 2. if error in validation -> return error via middleware
       if (error) {
-        // console.log(error)
         return next(error)
       }
 
       const { id } = req.body;
 
       const isMember = await Team.findOne({_id:id});
-      // console.log(isMember)
+      
       if(!isMember){
         const error = {status:500,messge:"Team Member Not Found!"}
         return next(error)

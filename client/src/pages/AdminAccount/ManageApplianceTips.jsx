@@ -38,7 +38,7 @@ const ManageApplianceTips = () => {
     }
     const data = { category: category }
     const res = await GetTipByCateogry(data, params)
-    console.log(res)
+    
     if (res.status === 200) {
       setLoading(false)
       setBlogs(res.data.tips)
@@ -74,7 +74,7 @@ const ManageApplianceTips = () => {
 
   const fetchDataForCategory = async () => {
     const res = await GetCategories();
-    console.log(res)
+    
     if (res.status === 200) {
       setCategories([{ title: 'All Categories' }, ...res.data.categories]);
     }

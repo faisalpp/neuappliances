@@ -12,7 +12,6 @@ const ReviewSection = ({ buttonactive }) => {
 
   const gg = async () => {
     const res = await GetGoogleReviews();
-    console.log(res.data.reviews)
     if (res.status === 200) {
       setReviews(res.data.reviews);
     } else {
@@ -28,7 +27,6 @@ const ReviewSection = ({ buttonactive }) => {
   const [yelpReviews, setYelpReviews] = useState([]);
   const fetchYelpReviews = async () => {
     const res = await getYelpReviews();
-    console.log(res)
     if (res.status === 200) {
       setYelpReviews(res.data.reviews)
     } else {

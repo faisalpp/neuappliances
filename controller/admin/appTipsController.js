@@ -213,7 +213,7 @@ async getTipByCategory(req, res, next) {
     }
 
     const {category} = req.body;
-    console.log(category)
+    
     try{
       let page = Number(req.query.page)
       let limit = Number(req.query.limit)

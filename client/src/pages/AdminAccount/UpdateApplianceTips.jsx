@@ -105,7 +105,7 @@ const UpdateApplianceTips = () => {
         });
     }
   } catch (error) {
-    // console.log(error)
+    
     setSubmit(false)
     if(error){
       setErrors(error.errors)
@@ -123,7 +123,7 @@ const UpdateApplianceTips = () => {
 
   const fetchDataForCategory = async () => {
     const res = await GetCategories();
-    // console.log(category)
+    
     if(res.status === 200){
         const filteredCategories = res.data.categories.filter(cat => cat.slug !== category)
         const catTitle = category[0].toUpperCase() + category.slice(1)

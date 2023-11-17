@@ -382,7 +382,7 @@ if (error) {
 
 async updateCartFinance(req, res, next) {
   // 1. validate user input
-  // console.log(req.body)
+  
   const getCartSchema = Joi.object({
    cartId: Joi.string().required(),
    total: Joi.number().required(),

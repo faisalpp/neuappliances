@@ -211,7 +211,7 @@ try {
             },
           }
         );
-        // console.log(response.status)
+        
         if (response.status === 200) {
           res.status(200).json({ reviews:response.data.reviews });
         } else {

@@ -191,7 +191,7 @@ const ManageTeam = () => {
 
   const updateSelection = (e, name, desg, img, id) => {
     e.preventDefault()
-    console.log(img)
+    
     setId(id)
     setUname(name)
     setUdesignation(desg)
@@ -202,7 +202,7 @@ const ManageTeam = () => {
   }
 
   const handleDragEnd = (result) => {
-    console.log(result)
+    
     const items = Array.from(members)
     const [recordedItem] = items.splice(result.source.index, 1)
     items.splice(result.destination.index, 0, recordedItem)
@@ -210,13 +210,12 @@ const ManageTeam = () => {
       ...item,
       index: index + 1 // Add the index property
     }));
-    // console.log(updatedItems)
+    
     setMembers(updatedItems);
   }
 
   const UpdateMemberIndex = async () => {
     const res = await updateMemberIndex(members);
-    // console.log(res)
     if (res.status === 200) {
       setIloading(false)
       toast.success(res.data.msg, {

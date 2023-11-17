@@ -159,7 +159,7 @@ const adminCartController = {
          { _id: cartId }, // Match the cart based on its _id
          { $pull: { products: { pid: productId } } } // Remove the order from the deliveryOrders array
        );
-       console.log(result)
+       
        if(result.modifiedCount === 1){
         const GET_UPDATED_CART = await AdminCart.findOne({_id:cartId})
          return res.status(200).json({status:200,data:GET_UPDATED_CART})
@@ -173,7 +173,7 @@ const adminCartController = {
     },
     async getCart(req, res, next) {
       const {cartId} = req.body;
-      // console.log(cartId)
+      
       let CART;
       let PRODUCTS;
       try{
@@ -186,7 +186,7 @@ const adminCartController = {
       }catch(e){
         return res.status(500).json({status:500,message:'Internal Server Error!'})
       }
-      //  console.log(PRODUCTS)
+      
       let id;
       try {
       id = JWTService.verifyAccessToken(CART.expiry);

@@ -12,7 +12,7 @@ const TourSection = () => {
     const GetSingleVideoMedia = async () => {
       const data = { section: 'home-page-tour-section' }
       const res = await getSingleVideoMedia(data);
-      console.log(res)
+      
       if (res.status === 200) {
         setLoopVideo(res.data.media[0])
       }else{

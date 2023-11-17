@@ -17,7 +17,7 @@ const OurShowroom = () => {
         const GetSingleVideoMedia = async () => {
             const data = { section: "our-showroom-page-video" }
             const res = await getSingleVideoMedia(data);
-            console.log(res)
+            
             if (res.status === 200) {
                 setVideo(res.data.media[0])
             }

@@ -16,11 +16,11 @@ const SearchProduct = ({sstate,setsState,SelectProduct}) => {
         
         const dispatch = useDispatch()
         const cartId = useSelector((state)=>state?.admin?.cart?._id)
-        // console.log(cartId)
+        
         const AddProduct = async (e) => {
          e.preventDefault()
           const res = await dispatch(AddToCart({cartId:cartId,productId:id}))
-          console.log(res)
+          
           if(res.payload.status === 200){
             Toast('Product Added!','success',1000)
             setSearchResult([])
