@@ -402,6 +402,7 @@ const UpdateProduct = () => {
 
    const handleAllModelNos = async () => {
      const res = await getAllModelNos({category:values.category});
+     console.log(res)
       if(res.status === 200){
         setAllModelNos(res.data.allModelNos)
       }

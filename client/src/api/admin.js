@@ -208,11 +208,11 @@ export const duplicateProduct = async (data) => {
     return response;
 }
 
-export const getProducts = async () => {
+export const getProducts = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.get('/api/admin/get-products');
+        response = await AdminApi.post('/api/admin/get-products',data,{validateStatus:()=>true});
     }catch (error){
         return error;
     }

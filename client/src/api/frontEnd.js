@@ -142,6 +142,16 @@ export const GetAppliancesBySlug = async (data) => {
     }
     return response;
 }
+export const GetWasherOrDryer = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/admin/get-washer-or-dryer',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const GetApplianceWithBuyingOptions = async (data) => {
     let response;
 

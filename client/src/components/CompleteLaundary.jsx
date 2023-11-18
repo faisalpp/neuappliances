@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { FaPlus } from 'react-icons/fa'
 import { IoCloseOutline } from 'react-icons/io5'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
@@ -9,6 +9,13 @@ import Filter from './Product/CompleteLaundry/Filter'
 import { Link } from 'react-router-dom'
 
 const CompleteLaundary = ({ closeModal }) => {
+
+    const [washer,setWasher] = useState({})
+    const [dryer,setDryer] = useState({})
+    const [products,setProducts] = useState([])
+    const [type,setType] = useState([])
+    const [filter,setFilter] = useState({})
+
     return (
         <div className='fixed top-0 left-0 right-0 bottom-0 w-full overflow-y-auto h-screen bg-black/40 z-50 !m-0 px-12 lg:px-20'>
             <div className='max-w-[1440px] mx-auto my-10 bg-white rounded-3xl'>

@@ -14,9 +14,9 @@ const ProductTable = ({data,getProducts}) => {
             <tr>
               <th scope="col" className="px-6 py-4"><BsImage/></th>
               <th scope="col" className="px-6 py-4">Title</th>
-              <th scope="col" className="px-6 py-4">Sale Price</th>
-              <th scope="col" className="px-6 py-4">Reguler Price</th>
-              <th scope="col" className="px-6 py-4">Product Type</th>
+              <th scope="col" className="px-6 py-4">Sale&nbsp;Price</th>
+              <th scope="col" className="px-6 py-4">Reguler&nbsp;Price</th>
+              <th scope="col" className="px-6 py-4">Product&nbsp;Type</th>
               <th scope="col" className="px-6 py-4">Rating</th>
               <th scope="col" className="px-6 py-4">Action</th>
             </tr>

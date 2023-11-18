@@ -37,7 +37,7 @@ const ProductSection = ({ menu, data, category }) => {
                         {section.cardStyle === 'rating-card' ? <div>
                             <h3 className='font-bold mt-10 lg:font-semibold text-b18 text-2xl lg:text-base maxlg:text-center'>{section.title}</h3>
                             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-8'>
-                                {section.sectionItemsId.map((product, index) => <NavLink key={index} to={`/appliances/?category=${category.toLowerCase()}&rating=${product.rating}`} ><ProductCard key={product.title} title={product.title} image={product.image} rating={product.rating} /></NavLink>)}
+                                {section.sectionItemsId.map((product, index) => <NavLink key={index} to={`/appliances/?category=${category.toLowerCase().replace(/\s/g,'-').replace('&','%26')}&rating=${product.rating}`} ><ProductCard key={product.title} title={product.title} image={product.image} rating={product.rating} /></NavLink>)}
                             </div>
                         </div> : null}
 

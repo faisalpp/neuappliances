@@ -25,7 +25,7 @@ const CreateProduct = () => {
 
   const [submit,setSubmit] = useState(false)
 
-  const [values,setValues] = useState({productType:'parent',title:'',slug:'',category:'',feature:'',type:'',color:'',brand:'',fuelType:'',regPrice:'',salePrice:'',rating:'3',stock:'',modelNo:'',itemId:'',keyFeatures:[],featureVideo:{type:'',data:''},threeSixty:{type:'',data:''},media:[],metaTitle:'',metaDescription:'',metaKeywords:[],tags:'',bulletDescription:[]})
+  const [values,setValues] = useState({productType:'parent',title:'',slug:'',category:'',subCategory:'',feature:'',type:'',color:'',brand:'',fuelType:'',regPrice:'',salePrice:'',rating:'3',stock:'',modelNo:'',itemId:'',keyFeatures:[],featureVideo:{type:'',data:''},threeSixty:{type:'',data:''},media:[],metaTitle:'',metaDescription:'',metaKeywords:[],tags:'',bulletDescription:[]})
   const [description,setDescription] = useState('')
   const [specification,setSpecification] = useState('')
   const [deliveryInfo,setDeliveryInfo] = useState('')
@@ -286,11 +286,12 @@ const CreateProduct = () => {
 
   const GetCategoriess = async () => {
     const res = await GetCategories();
+    console.log(res)
     if(res.status === 200){
-      let cat = res.data.categories[0].slug;
+      let cat = res.data.categories[0].title.toLowerCase().replace(/\s/g,'-');
       setCategories(res.data.categories);
       setValues({...values,category:cat})
-      setParentCategory(res.data.categories[0].slug)
+      setParentCategory(res.data.categories[0].title.toLowerCase().replace(/\s/g,'-'))
     }else{
       setCategories([])
     }
@@ -447,22 +448,41 @@ const CreateProduct = () => {
      setIsModelNos(true)
      const res = await getModelNos({category:parentCategory});
       if(res.status === 200){
-        setIsModelNos(false)
         setParentModels(res.data.modelNos)
         setParentModel(res.data.modelNos[0])
+        setIsModelNos(false)
+      }else{
+        setIsModelNos(false)
+      }
+   }
+   const GetModelNos = async () => {
+     setIsModelNos(true)
+     const res = await getModelNos({category:parentCategory});
+      if(res.status === 200){
+        setParentModels(res.data.modelNos)
+        setParentModel(res.data.modelNos[0])
+        setIsModelNos(false)
+      }else{
         setIsModelNos(false)
       }
    }
 
+   useEffect(()=>{
+    if(parentCategory){
+      GetModelNos()
+    }
+   },[parentCategory])
+
    const handleAllModelNos = async () => {
      const res = await getAllModelNos({category:values.category});
+     console.log(res)
       if(res.status === 200){
         setAllModelNos(res.data.allModelNos)
       }
    }
 
    useEffect(()=>{
-     if(values.category !== ''){
+     if(values.category){
        handleAllModelNos()
       }
    },[values.category])
@@ -485,7 +505,7 @@ const CreateProduct = () => {
         setErrors([])
       }
     }
-    const data = {productType:values.productType,title:values.title,slug:values.slug,category:values.category,feature:values.feature,type:values.type,color:values.color,brand:values.brand,fuelType:values.fuelType,regPrice:parseFloat(values.regPrice).toFixed(2),salePrice:parseFloat(values.salePrice).toFixed(2),rating:parseInt(values.rating),stock:parseInt(values.stock),modelNo:values.modelNo,itemId:values.itemId,metaKeywords:JSON.stringify(values.metaKeywords),keyFeatures:JSON.stringify(values.keyFeatures),featureVideo:JSON.stringify(values.featureVideo),threeSixty:JSON.stringify(values.threeSixty),media:JSON.stringify(values.media),tags:values.tags,description:description,specification:specification,deliveryInfo:deliveryInfo,metaTitle:values.metaTitle,metaDescription:values.metaDescription,bulletDescription:JSON.stringify(values.bulletDescription)}
+    const data = {productType:values.productType,title:values.title,slug:values.slug,category:values.category,subCategory:values.subCategory ,feature:values.feature,type:values.type,color:values.color,brand:values.brand,fuelType:values.fuelType,regPrice:parseFloat(values.regPrice).toFixed(2),salePrice:parseFloat(values.salePrice).toFixed(2),rating:parseInt(values.rating),stock:parseInt(values.stock),modelNo:values.modelNo,itemId:values.itemId,metaKeywords:JSON.stringify(values.metaKeywords),keyFeatures:JSON.stringify(values.keyFeatures),featureVideo:JSON.stringify(values.featureVideo),threeSixty:JSON.stringify(values.threeSixty),media:JSON.stringify(values.media),tags:values.tags,description:description,specification:specification,deliveryInfo:deliveryInfo,metaTitle:values.metaTitle,metaDescription:values.metaDescription,bulletDescription:JSON.stringify(values.bulletDescription)}
      const res = await createProduct(data)
      if(res.status === 200){
       setSubmit(false)
@@ -545,6 +565,15 @@ const handleTitle = (e) => {
     setValues({...values,bulletDescription:newArray})
  }
 
+ useEffect(()=>{
+   if(values.category === 'washer-&-dryer'){
+     console.log(values.subCategory)
+     setValues({...values,subCategory:'washer'})
+    }else{
+     setValues({...values,subCategory:''})
+   }
+ },[values.category])
+
   return (
    <>
     <Popup state={fPopup} setState={setFpopup} >
@@ -596,7 +625,7 @@ const handleTitle = (e) => {
     </Popup>
     <Popup state={initPopup} >
       <div className="flex flex-col space-y-2" >
-       <h5 className="font-bold" >Select Product Type</h5>
+       <h5 className="font-bold" >Select Product Type{values.category}</h5>
        <SelectInput widthFull="true" name="categor" title="Product Type" iscompulsory="true" onChange={e =>handleProductType(e) } options={['Parent','Variant']} />
        {values.productType === 'variant'? <SelectInput widthFull="true" name="categor" title="Product Category" iscompulsory="true" onChange={e => setParentCategory(e.target.value)} options={categories} /> :null}
        {values.productType === 'variant' ? <div className='flex items-center space-x-3 w-full' ><SelectInput widthFull="true" name="categor" title="Model #" iscompulsory="true" onChange={e => setParentModel(e.target.value)} options={parentModels} />{isModelNos ? <img src='/loader-bg.gif' className='w-5 mt-5' />:null}</div>:null}
@@ -604,12 +633,14 @@ const handleTitle = (e) => {
       </div>
     </Popup>
     <AdminAccount>
+      {values.subCategory}
     <form onSubmit={CreateProduct} encType='multipart/form-data' className='flex flex-col justify-center space-y-5 w-full py-10' >
      <h5 className="font-semibold text-center text-2xl" >{Cap1Char(values.productType)} Product</h5>
      <div className="flex items-center space-x-5 w-full" >
       <TextInput name="title" title="Title" iscompulsory="true" type="text" value={values.title} onChange={(e)=>handleTitle(e)} error={errors && errors.includes('Title is Required!') ? true : false} errormessage="Title is Required!" placeholder="Enter Product Title" />
       <TextInput name="slug" readOnly title="Slug" iscompulsory="true" type="text" value={values.slug} error={errors && errors.includes('Product Slug is Required!') ? true : false} errormessage="Slug is Required!" placeholder="Slug is Required!" />
       <SelectInput name="categor" title="Product Category" iscompulsory="true" onChange={e =>handleInputChange(e,'category')} options={categories} />
+      {values.category === 'washer-&-dryer'?<SelectInput title="Product Sub Category" iscompulsory="true" onChange={e =>handleInputChange(e,'subCategory')} options={['Washer','Dryer']} />:null}
      </div>
      <div className="flex space-x-5 items-center w-full" >
       {features.length > 0 ? <SelectInput name="categor" title="Product Feature" iscompulsory="true" onChange={e =>handleInputChange(e,'feature')} options={features} />:null}

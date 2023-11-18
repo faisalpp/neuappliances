@@ -65,7 +65,7 @@ router.get('/api/admin/logout',adminAuth, adminController.logout);
 router.get('/api/admin/refresh', adminController.refresh);
 router.post('/api/admin/change-password', adminAuth,adminController.changePassword);
 // Categories Related Routes
-router.get('/api/admin/get-categories',adminAuth,categoryController.GetCategories);
+router.get('/api/admin/get-categories',categoryController.GetCategories);
 router.post('/api/admin/get-blog-with-categories',adminAuth,categoryController.GetBlogBySlugWithCategories);
 router.post('/api/admin/category-by-id',adminAuth,categoryController.GetCategoryById);
 router.post('/api/admin/create-category',adminAuth,categoryController.CreateCategory);
@@ -91,10 +91,11 @@ router.post('/api/admin/create-product',adminAuth,productController.CreateProduc
 router.post('/api/admin/update-product',adminAuth,productController.UpdateProduct);
 router.post('/api/admin/delete-product',adminAuth,productController.DeleteProduct);
 router.post('/api/admin/duplicate-product',adminAuth,productController.DuplicateProduct);
-router.get('/api/admin/get-products',adminAuth,productController.GetProducts);
+router.post('/api/admin/get-products',adminAuth,productController.GetProducts);
 router.post('/api/admin/get-category-data',adminAuth,productController.GetCategoryData);
 router.post('/api/admin/get-model-nos',adminAuth,productController.GetParentModelNumbers);
 router.post('/api/admin/get-all-model-nos',adminAuth,productController.GetAllModelNumbers);
+router.post('/api/admin/get-washer-or-dryer',adminAuth,productController.GetLaundaryProducts);
 // Faq Tab's Api's
 router.post('/api/admin/create-faq-tab',adminAuth,faqController.createFaqTab);
 router.get('/api/admin/get-faq-tab',faqController.getFaqTab);

@@ -331,7 +331,7 @@ const Product = () => {
                     </div>
                     </>
                   ) : null}
-                  <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+4</div><img src={moreImg ? moreImg.data : null} className='w-10 h-16 2xl:w-20' alt='product' /></div>
+                  {product.media?.length > 4 ? <div className='relative border-[1px] border-blue-400 rounded-lg px-2 py-1 w-fit cursor-pointer' ><div onClick={() => setImgModal(true)} className='absolute flex justify-center items-center cursor-pointer left-0 top-0 rounded-lg w-full h-full bg-b3/70 font-semibold text-white' >+4</div><img src={moreImg ? moreImg.data : null} className='w-10 h-16 2xl:w-20' alt='product' /></div>:null}
                 </div>
                 <div className='flex relative justify-center px-2 py-10 items-center border-[1px] border-gray-300 rounded-lg lg:h-96 2xl:h-auto 2xl:py-14 w-full' >
                   {mediaViewer.file === 'image' ? <img  src={mediaViewer.data} alt='' className='w-48' />:null}
@@ -577,7 +577,7 @@ const Product = () => {
           {product.featureVideo ? <ProductFeatures video={product.featureVideo} />:null}
 
           {/* Complete Your Laundery Set */}
-          {product.category === 'washer-&-dryer' ? <LaunderySet /> : null}
+          {/* {product.category === 'washer-&-dryer' ? <LaunderySet /> : null} */}
 
           {/* Map Section */}
           <MapSection />

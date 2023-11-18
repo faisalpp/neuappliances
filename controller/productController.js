@@ -2,7 +2,8 @@ const Category = require("../models/category");
 const categorySection = require("../models/categorySection");
 const Product = require("../models/product");
 const Joi = require("joi");
-const AWS3 = require('../services/S3Upload')
+const AWS3 = require('../services/S3Upload');
+const TitleDuplicateProcessor = require("../services/TitleDuplicateProcessor");
 
 const productController = {
     async CreateProduct(req,res,next){
@@ -11,6 +12,7 @@ const productController = {
           title: Joi.string().required(),
           slug: Joi.string().required(),
           category: Joi.string().required(),
+          subCategory: Joi.allow(null).empty(''),
           feature: Joi.allow(null).empty(''),
           type: Joi.allow(null).empty(''),
           color: Joi.allow(null).empty(''),
@@ -42,7 +44,7 @@ const productController = {
         return next(error)
       }
       // 3. if email or username is already registered -> return an error
-      const { productType, title, slug, category, feature, type, color, brand, fuelType, regPrice, salePrice, rating, stock, modelNo , itemId, keyFeatures, featureVideo, threeSixty, media, tags, description, specification, deliveryInfo, metaTitle, metaDescription, metaKeywords,bulletDescription} = req.body;
+      const { productType, title, slug, category,subCategory, feature, type, color, brand, fuelType, regPrice, salePrice, rating, stock, modelNo , itemId, keyFeatures, featureVideo, threeSixty, media, tags, description, specification, deliveryInfo, metaTitle, metaDescription, metaKeywords,bulletDescription} = req.body;
       
       const IS_SALE = salePrice ? true : false;
       const titleInUse = await Product.exists({ title });        
@@ -62,6 +64,7 @@ const productController = {
           title, 
           slug, 
           category,
+          subCategory,
           feature, 
           type,
           color, 
@@ -102,6 +105,7 @@ const productController = {
           title: Joi.string().required(),
           slug: Joi.string().required(),
           category: Joi.string().required(),
+          subCategory: Joi.allow(null).empty(''),
           feature: Joi.allow(null).empty(''),
           type: Joi.allow(null).empty(''),
           color: Joi.allow(null).empty(''),
@@ -133,7 +137,7 @@ const productController = {
         return next(error)
       }
       // 3. if email or username is already registered -> return an error
-      const { pSlug,productType, title, slug, category, feature, type, color, brand, fuelType, regPrice, salePrice, bulletDescription, rating, stock, modelNo , itemId, keyFeatures, featureVideo, threeSixty, media, tags, description, specification, deliveryInfo, metaTitle, metaDescription, metaKeywords} = req.body;
+      const { pSlug,productType, title, slug, category,subCategory, feature, type, color, brand, fuelType, regPrice, salePrice, bulletDescription, rating, stock, modelNo , itemId, keyFeatures, featureVideo, threeSixty, media, tags, description, specification, deliveryInfo, metaTitle, metaDescription, metaKeywords} = req.body;
       
       const IS_SALE = salePrice ? true : false;
       const isProduct = await Product.find({slug:pSlug});        
@@ -154,6 +158,7 @@ const productController = {
           title, 
           slug, 
           category,
+          subCategory,
           feature, 
           type,
           color, 
@@ -189,11 +194,42 @@ const productController = {
 
     },
 
-    async GetProducts(req,res,next){
-      
+    async GetLaundaryProducts(req,res,next){
+
+      let query = req.body || {}
+
+      let page = Number(req.body.page)
+      let limit = Number(req.body.limit)
+      let skip = (page - 1) * limit
       try{
-        const products = await Product.find({})
-        return res.status(200).json({status:200,products:products});
+        const products = await Product.find(query).skip(skip).limit(limit)
+        const productCount = await Product.countDocuments(query)
+        return res.status(200).json({status:200,products:products,productCount:productCount});
+      }catch(error){
+        return next(error)
+      }
+    },
+    async GetProducts(req,res,next){
+
+      let query = {};
+      Object.keys(req.body).forEach(prop => {
+      switch(prop){
+        case 'category':
+          query.category = req.body[prop];
+          break
+        case 'search':
+           query.title = {$regex:req.body[prop],$options:"i"}
+          break;
+        }
+      })
+      console.log(req.body)
+      let page = Number(req.body.page)
+      let limit = Number(req.body.limit)
+      let skip = (page - 1) * limit
+      try{
+        const products = await Product.find(query).skip(skip).limit(limit)
+        const productCount = await Product.countDocuments(query)
+        return res.status(200).json({status:200,products:products,productCount:productCount});
       }catch(error){
         return next(error)
       }
@@ -263,7 +299,9 @@ const productController = {
       newMedia.push(medias[j])
      }
    }
-    const uTitle = product.title + '(duplicate)';
+    // const findDupSerial =/  product.title.match(/\(duplicate (\d+)\)/)
+    const uTitle = TitleDuplicateProcessor(product.title)
+    console.log(uTitle)
     const uSlug = uTitle.toLowerCase().replace(/\s/g,'-');
     const IS_SALE = product.salePrice ? true : false;
     try{
@@ -272,6 +310,7 @@ const productController = {
         title:uTitle, 
         slug:uSlug, 
         category:product.category,
+        subCategory:product.subCategory,
         feature:product.feature, 
         type:product.type,
         color:product.color, 
@@ -365,7 +404,8 @@ const productController = {
     async GetCategories(req,res,next){
       
       try{
-        const categories = await Category.find({});
+        const categories = await Category.find({}).select('title');
+        console.log(categories)
         return res.status(200).json({status:200,categories:categories});
       }catch(error){
         return next(error)

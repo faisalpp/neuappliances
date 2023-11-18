@@ -6,12 +6,12 @@ import { Link } from 'react-router-dom'
 
 const LaundryCard = () => {
     return (
-        <div className='border grid grid-cols-1 sm:grid-cols-[150px_1fr] md:grid-cols-[240px_1fr] gap-5 border-b14 rounded-xl py-10 px-5'>
-            <div className=''>
-                <img src="/drayer.webp" className='w-40 h-40 sm:w-full sm:h-full md:w-60 md:h-60 object-contain' alt="" />
+        <div className='border grid grid-cols-1 sm:grid-cols-[150px_1fr] md:grid-cols-[240px_1fr] xl:grid-cols-[200px_1fr] xl:gap-0 gap-5 border-b14 rounded-xl py-10 xl:px-2 px-5'>
+            <div className='w-fit' >
+                <img src="/drayer.webp" className='w-40 h-40 sm:w-full sm:h-full md:w-60 md:h-60 xl:w-48 object-contain' alt="" />
             </div>
             <div className='space-y-4'>
-                <h3 className='line-clamp-2 text-lg md:text-xl font-semibold leading-6'>White GE 1.7 cu. ft. Over the Range Microwave with Convenience Cooking Controls for long text</h3>
+                <h3 className='line-clamp-2 text-lg md:text-xl xl:text-sm font-semibold leading-6'>White GE 1.7 cu. ft. Over the Range Microwave with Convenience Cooking Controls for long text</h3>
                 <div className='flex items-center gap-6' >
                     <span className='font-semibold text-xl text-b3' >$279.00</span>
                     <div className='flex items-center gap-2 flex-wrap'>
@@ -21,14 +21,14 @@ const LaundryCard = () => {
                 </div>
                 <div className='flex items-center gap-5' >
                     <div className='flex items-center gap-1' >
-                        <h4 className='lg:text-sm text-xs font-semibold w-max text-b15' >Cosmetic <br /> Rating</h4>
+                        <h4 className='lg:text-sm text-xs font-semibold w-max text-b15' >Cosmetic&nbsp;Rating</h4>
                         <ToolTip color="text-b15/80" />
                     </div>
                     <div className='flex items-center'>
-                        <AiFillStar className='text-b7 lg:text-2xl text-xs' /><AiFillStar className='text-b7 lg:text-2xl text-xs' /><AiFillStar className='text-b7 lg:text-2xl text-xs' />
+                        <AiFillStar className='text-b7 lg:text-2xl xl:text-xl text-xs' /><AiFillStar className='text-b7 lg:text-2xl xl:text-xl text-xs' /><AiFillStar className='text-b7 lg:text-2xl xl:text-xl text-xs' />
                     </div>
                 </div>
-                <div className='lg:flex hidden items-center gap-x-14' >
+                <div className='lg:flex hidden items-center  2xl:gap-x-14 xl:gap-x-10' >
                     <div className='flex font-semibold text-sm text-b15' ><h4>Discount</h4>&nbsp;%</div>
                     <div className='w-full bg-gray-100 rounded-lg' ><span className='flex rounded-lg bg-gradient-to-r from-b4 to-b7 w-32 h-2' ></span></div>
                 </div>
