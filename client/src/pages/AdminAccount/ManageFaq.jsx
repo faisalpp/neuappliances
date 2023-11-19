@@ -8,6 +8,7 @@ import TextInput from '../../components/TextInput/TextInput';
 import {BsArrowRightShort} from 'react-icons/bs'
 import {createFaqTab,getFaqTab,updateFaqTab} from '../../api/admin'
 import { ToastContainer, toast } from 'react-toastify';
+import Toast from '../../utils/Toast'
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
 
@@ -48,29 +49,11 @@ const ManageFaq = () => {
         await faqTabValidationSchema.validate(data, { abortEarly: false });
         const res = await createFaqTab(data);
         if(res.status === 200){
-            setFaqPopup(false)
-            toast.success(res.msg, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
+         setFaqPopup(false)
+         Toast(res.data.msg,'success',1000)
         }else{
-            setFaqPopup(false)
-            toast.error(res.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
+         setFaqPopup(false)
+         Toast(res.data.message,'error',1000)
         }
     } catch (error) {
         console.error('Validation errors:', error.errors);
@@ -83,37 +66,27 @@ const ManageFaq = () => {
        try{
         const data = {title:updatedFaqTabTitle,_id:updatedFaqTabId}
         await updateFaqTabValidationSchema.validate(data, { abortEarly: false });
+       } catch (error) {
+        if (error) {
+            let errors = error.errors;
+            setErrors(errors)
+            errors.forEach((item)=>{
+              Toast(item,'error',1000)
+            })
+          } else {
+            setErrors([])
+          }
+       }
         
-        const res = await updateFaqTab(data);
+        const res = await updateFaqTab({title:updatedFaqTabTitle,_id:updatedFaqTabId});
         if(res.status === 200){
             GetFaqTabs()
             setUpdateFaqPopup(false)
-            toast.success(res.msg, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
+            Toast(res.data.msg,'success',1000)
         }else{
             setUpdateFaqPopup(false)
-            toast.error(res.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
+            Toast(res.data.message,'error',1000)
         }
-    } catch (error) {
-        console.log('Error message:', error);
-      }
     }
 
     return (
@@ -136,12 +109,10 @@ const ManageFaq = () => {
             <div className='flex mb-5 py-3 rounded-3xl px-10 w-full' >
               <div className='flex w-full justify-end space-x-3' >
                <AiFillPlusCircle onClick={()=>setFaqPopup(true)} className='text-b3 text-3xl shadow-xl rounded-full cursor-pointer' />
-               
               </div>
              </div>
                 {/* Products Operations */}
                <div className="grid grid-cols-3 gap-x-3 " >
-                
                 {faqTabs.length > 0 ? faqTabs.map((tab,index)=><div key={index} className="tab-buttons maxlg:order-2 w-full flex flex-col gap-2 mb-2">
                  <div className='p-2 xl:p-3 xl:text-sm font-semibold flex justify-between items-center text-left border border-[rgba(0,0,0,0.15)] rounded-2xl text-b23'>
                   <span className='w-96' >{tab.title}</span>

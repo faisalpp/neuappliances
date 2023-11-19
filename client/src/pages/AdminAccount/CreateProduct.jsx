@@ -567,7 +567,6 @@ const handleTitle = (e) => {
 
  useEffect(()=>{
    if(values.category === 'washer-&-dryer'){
-     console.log(values.subCategory)
      setValues({...values,subCategory:'washer'})
     }else{
      setValues({...values,subCategory:''})
@@ -625,7 +624,7 @@ const handleTitle = (e) => {
     </Popup>
     <Popup state={initPopup} >
       <div className="flex flex-col space-y-2" >
-       <h5 className="font-bold" >Select Product Type{values.category}</h5>
+       <h5 className="font-bold" >Select Product Type</h5>
        <SelectInput widthFull="true" name="categor" title="Product Type" iscompulsory="true" onChange={e =>handleProductType(e) } options={['Parent','Variant']} />
        {values.productType === 'variant'? <SelectInput widthFull="true" name="categor" title="Product Category" iscompulsory="true" onChange={e => setParentCategory(e.target.value)} options={categories} /> :null}
        {values.productType === 'variant' ? <div className='flex items-center space-x-3 w-full' ><SelectInput widthFull="true" name="categor" title="Model #" iscompulsory="true" onChange={e => setParentModel(e.target.value)} options={parentModels} />{isModelNos ? <img src='/loader-bg.gif' className='w-5 mt-5' />:null}</div>:null}
@@ -633,7 +632,6 @@ const handleTitle = (e) => {
       </div>
     </Popup>
     <AdminAccount>
-      {values.subCategory}
     <form onSubmit={CreateProduct} encType='multipart/form-data' className='flex flex-col justify-center space-y-5 w-full py-10' >
      <h5 className="font-semibold text-center text-2xl" >{Cap1Char(values.productType)} Product</h5>
      <div className="flex items-center space-x-5 w-full" >

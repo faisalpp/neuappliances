@@ -3,9 +3,11 @@ import AdminAccount from '../../layout/AdminAccount';
 import { AiFillEye, AiFillStar } from 'react-icons/ai'
 import { BsPencil, BsFillTrashFill } from 'react-icons/bs'
 import { NavLink } from 'react-router-dom';
-import { GetCategories, updateCategoriesIndex, deleteCategory } from '../../api/admin/category'
+import { GetAllCategories, updateCategoriesIndex, deleteCategory } from '../../api/admin/category'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { toast } from 'react-toastify';
+import { MdMenuOpen } from "react-icons/md";
+
 const ManageCategories = () => {
 
   const [categories, setCategories] = useState([]);
@@ -14,7 +16,8 @@ const ManageCategories = () => {
 
   const Categories = async () => {
     setLoading(true)
-    const res = await GetCategories();
+    const res = await GetAllCategories();
+    console.log(res)
     if (res.status === 200) {
       setLoading(false)
       setCategories(res.data.categories);
@@ -45,7 +48,7 @@ const ManageCategories = () => {
         progress: undefined,
         theme: "light",
       });
-      GetMembers()
+      Categories()
     } else {
       setIloading(false)
       toast.error(res.data.message, {
@@ -154,10 +157,10 @@ const ManageCategories = () => {
                         {(provided) => (
 
                           <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className='populerbrands'>
-                            <div className='rounded-2xl border border-gray-300 p-3 h-fit w-fit flex flex-col justify-center items-center'>
+                            <div className='relative rounded-2xl border border-gray-300 p-3 h-fit w-fit flex flex-col justify-center items-center'>
+                            {category.inMenu ?<span title="In Navbar Menu" className='cursor-help hover:shadow-lg absolute bg-b6/80 right-3 top-2 text-white px-1 py-1 rounded-full' ><MdMenuOpen /></span>:null}
                               <img src={category.image} className='max-w-full h-[133px] object-contain' alt={category.title} />
-                              <h3 className='font-semibold px-3 text-center text-xs'>{hyphenToCamelCase(category.title)}</h3>
-                              <h3 className='font-semibold px-3 text-center text-xs'><StarIconPrinter numberOfTimes={category.rating} /></h3>
+                              <h3 className='font-semibold px-3 text-center text-xs'>{hyphenToCamelCase(category.title)} ({category.productCount})</h3>
                               <div className='flex space-x-2 mt-2' >
                                 <NavLink to={`/admin/update-category/${category._id}`} title="Edit Category" className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-sm px-2 rounded-full cursor-pointer py-2' ><BsPencil className="text-base" /></NavLink>
                                 <span onClick={(e) => DeleteCategory(e, category._id)} title="Delete Category" className='flex items-center justify-center bg-red-500/30 text-red-500 hover:bg-white hover:text-red-500 border-2 border-white hover:border-red-500 text-sm px-2 w-fit rounded-full cursor-pointer py-2' >{delLoading === category._id ? <img src="/loader-bg.gif" className='w-4 h-4' /> : <BsFillTrashFill className="text-base" />}</span>

@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import AdminAccount from '../../layout/AdminAccount';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Popup from '../../components/AdminDashboard/Popup';
 import { BsArrowRightShort, BsFillTrashFill } from 'react-icons/bs'
 import { AiFillPlusCircle } from 'react-icons/ai'
 import SelectInput from '../../components/TextInput/SelectInput';
 import TextInput from '../../components/TextInput/TextInput';
 import { uploadVideoMedia, getVideoMedia, deleteVideoMedia } from '../../api/admin/videoMedia'
-
+import Iframe from '../../components/Reusable/Ifram'
 import Pagination2 from '../../components/Pagination/Pagination2';
-
+import Toast from '../../utils/Toast'
+import { IoMdCloseCircle } from "react-icons/io";
 
 const ManageMedia = () => {
 
@@ -36,32 +35,14 @@ const ManageMedia = () => {
     const res = await uploadVideoMedia(formData)
     
     if (res.status === 200) {
-      toast.success(res.data.msg, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.msg,'success',1000)
       setUploadMedia(section)
       setSelectedSection()
       GetLoopMedia()
       setIsSubmit(false)
       setMediaPopup(false)
     } else {
-      toast.error(res.data.amessage, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.message,'error',1000)
       setIsSubmit(false)
       setMediaPopup(false)
     }
@@ -92,49 +73,31 @@ const ManageMedia = () => {
     GetLoopMedia()
   }, [selectedSection, page])
 
-  const [delLoading, setDelLoading] = useState(false)
+  const [delLoading, setDelLoading] = useState('')
 
-  const DeleteVideo = async (e, id, type, url) => {
+  const DeleteVideo = async (e, id) => {
     e.preventDefault()
-    setDelLoading(true)
-    const res = await deleteVideoMedia({ id, type, url })
+    setDelLoading(id)
+    const res = await deleteVideoMedia({ id:id})
     if (res.status === 200) {
-      toast.success(res.data.msg, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.msg,'success',1000)
       GetLoopMedia()
-      setDelLoading(false)
+      setDelLoading('')
     } else {
-      toast.error(res.data.message, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      setDelLoading(false)
+      Toast(res.data.message)
+      setDelLoading('')
     }
   }
 
 
   return (
     <>
-      <Popup state={mediaPopup} setState={setMediaPopup}>
+      <Popup state={mediaPopup} setState={setMediaPopup} zindex="z-[99]">
         <form onSubmit={Submit} className='flex flex-col space-y-3' >
           <h1 className="font-semibold" >Upload Loop Media</h1>
           <SelectInput widthFull="true" name="type" title="Upload Type" iscompulsory="true" onChange={e => setType(e.target.value)} options={['Upload', 'Link', 'Iframe']} />
           <SelectInput widthFull="true" name="section" title="Select Page Section" iscompulsory="true" onChange={e => setSection(e.target.value)} options={['Home Page Hero Section', 'Home Page Tour Section', 'Stay In Loop Videos', "Faq's Page Video", 'Our Story Page Video', 'Our Showroom Page Video', 'Our Compnies Page Video']} />
-          {type === 'upload' ? <div className='flex items-end space-x-3'><TextInput name="uploadUrl" title="Video File" iscompulsory="true" type="file" accept="video/*" onChange={e => setUploadMedia(e.target.files[0])} /><a className='flex items-center justify-center text-center  w-14 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Upload</span> </a></div> : null}
+          {type === 'upload' ? <div className='flex items-end space-x-3'><TextInput width="full" name="uploadUrl" title="Video File" iscompulsory="true" type="file" accept="video/*" onChange={e => setUploadMedia(e.target.files[0])} /><a className='flex items-center justify-center text-center  w-14 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Upload</span> </a></div> : null}
           {type === 'link' || type === 'iframe' ? <TextInput width="full" name="mediaUrl" title="Media Link" iscompulsory="true" type="text" onChange={e => setUploadMedia(e.target.value)} placeholder="Enter Media Url" /> : null}
           {/* <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' ><a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Submit</span><BsArrowRightShort className='text-2xl' /> </a></button> */}
           <button type="submit" className='flex justify-center items-center cursor-pointer rounded-md py-1 w-full bg-b3' >{isSubmit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Create</span><BsArrowRightShort className='text-2xl' /></a>}</button>
@@ -147,19 +110,20 @@ const ManageMedia = () => {
             <AiFillPlusCircle onClick={() => setMediaPopup(true)} className='text-b3 text-3xl shadow-xl rounded-full cursor-pointer' />
           </div>
         </div>
-        {isLoading ? <div className='flex mt-32 justify-center w-full h-full' >
-          <img src="/loader-bg.gif" className='w-24 h-24' />
-        </div> : media ? <><div className="grid grid-cols-4 gap-x-2 gap-y-5 w-full">
-          {media.map((item, index) => <><div className="relative  w-full" >
-            {item.section === 'stay-in-loop-videos' ? <div className="absolute right-2 bg-transparent h-10 w-10" ><div className="flex  justify-end  w-10 h-10 mt-1 " ><span title="Delete Video" onClick={e => DeleteVideo(e, item._id, item.type, item.url)} className='flex items-center justify-center bg-red-500 text-white hover:bg-white hover:text-red-500 hover:border-red-500 text-xs w-8 h-8 rounded-full cursor-pointer ' >{delLoading ? <img src="/loader-bg.gif" className='w-4 h-4' /> : <BsFillTrashFill className="text-sm" />}</span></div></div> : null}
-            {item.type === "upload" || item.type === "link" ? <video key={index} controls className='object-cover rounded-2xl xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 ' src={item.url} /> : null}
-            {item.type === 'iframe' ? <iframe onLoad={() => setVload(false)} className='object-cover rounded-2xl xl:h-[150px] xl:w-[180px] lg:w-[200px] lg:h-32 w-32 h-32 ' src={item.url} title="#885 Liquidation Half Truckload of 25 Scratch &amp; Dent Kitchen and Laundry Appliances South Carolina" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ></iframe> : null}
+        {isLoading ? <div className='flex justify-center w-full h-full' >
+          <img src="/loader-bg.gif" className='w-12' />
+        </div> : media.length > 0 ? <><div className="grid grid-cols-4 gap-x-2 gap-y-5 w-full">
+          {media.map((item, indx) => <><div className="relative  w-full" >
+            {/* <span className='absolute right-0 -top-2 z-30 bg-white w-fit text-xs h-fit rounded-full ' ><IoMdCloseCircle className='text-xl text-red-500' /></span> */}
+            {item.section === 'stay-in-loop-videos' ? <div className="absolute right-3 bg-transparent z-30 h-8 w-8" ><div className="flex  justify-end  w-10 h-10 mt-1 " ><span title="Delete Video" onClick={e => DeleteVideo(e, item._id)} className='flex items-center justify-center bg-red-500 text-white hover:bg-white hover:text-red-500 hover:border-red-500 text-xs w-7 h-7 rounded-full cursor-pointer ' >{delLoading === item._id ? <img src="/loader-bg.gif" className='w-4 h-4' /> : <BsFillTrashFill className="text-sm" />}</span></div></div> : null}
+            {item.type === "upload" || item.type === "link" ? <video key={indx} controls className='object-cover rounded-2xl xl:h-[150px] xl:w-[200px] lg:w-[200px] lg:h-32 w-32 h-32 ' src={item.url} /> : null}
+            {item.type === 'iframe' ? <Iframe style="h-32 w-full rounded-2xl" src={item.url} divId={`videos-manage-ifram-div-${indx}`} frameId={`videos-manage-ifram-${indx}`} thumbnail={item.thumbnail} icon="text-5xl" /> : null}
           </div></>)}
         </div>
           <Pagination2 page={page} setPage={setPage} totalPages={totalPages} />
         </>
           :
-          <div className='flex mt-32 justify-center w-full h-full' >
+          <div className='flex justify-center items-center w-full h-full' >
             <img src="/not-found.webp" className='w-36 h-36' />
           </div>
         }

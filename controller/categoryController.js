@@ -200,6 +200,21 @@ const categoryController = {
         return res.status(500).json({message:"Cloud Internal Server Server!"})
       }
     },
+    async GetAllCategories(req,res,next){
+      
+      try{
+        // const categories = await Category.find({}).select('title').select('image').select('inMenu').select('index');
+        const categories = await Category.aggregate([
+          {$lookup: {from: 'products', localField: 'slug',foreignField: 'category', as: 'products'}},
+          {$addFields: {productCount: { $size: '$products' }}},
+          {$project: {title: 1,image: 1,inMenu: 1,index: 1,productCount: 1}}
+        ]);
+        
+        return res.status(200).json({status:200,categories:categories});
+      }catch(error){
+        return next(error)
+      }
+    },
     async GetCategories(req,res,next){
       
       try{

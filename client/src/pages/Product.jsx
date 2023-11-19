@@ -571,13 +571,13 @@ const Product = () => {
           </div>
 
           {/* Reviews Section */}
-          <SatisfiedSection title="Our Customers LOVE our Scratch and Dent Discounts!" dots={true} />
+          {/* <SatisfiedSection title="Our Customers LOVE our Scratch and Dent Discounts!" dots={true} /> */}
 
           {/* Prodcut Features */}
           {product.featureVideo ? <ProductFeatures video={product.featureVideo} />:null}
 
           {/* Complete Your Laundery Set */}
-          {/* {product.category === 'washer-&-dryer' ? <LaunderySet /> : null} */}
+          {product.category === 'washer-&-dryer' ? <LaunderySet /> : null}
 
           {/* Map Section */}
           <MapSection />

@@ -23,9 +23,9 @@ const Filter = ({ loading,onClose,isFilter, categoriesFilters, ratingFilters,sal
                     <p className='text-base font-bold'>
                         Filters
                     </p>
-                    {/* <span onClick={()=>setQuery({salePrice: { '$gte': 200 }, regPrice: { '$lte': 8000 } })} className='cursor-pointer text-sm lg:text-xs text-[#22A6AB] hover:underline'>
+                    <span onClick={()=>{delete query.category;delete query.query;setQuery({salePrice: { '$gte': 200,'$lte':8000 }})}} className='cursor-pointer text-sm lg:text-xs text-[#22A6AB] hover:underline'>
                         Reset Filters
-                    </span> */}
+                    </span>
                     <button onClick={onClose} className='text-sm font-semibold lg:hidden px-2 py-1 hover:bg-black/5 rounded duration-300'>
                         Close
                     </button>

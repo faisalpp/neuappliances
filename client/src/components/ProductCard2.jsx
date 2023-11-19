@@ -18,7 +18,7 @@ const ProductCard2 = ({ sliderstyle, stars,product }) => {
       <div className={`relative group flex flex-col border-2 border-gray-100 rounded-2xl bg-white ${sliderstyle ? sliderstyle : 'sm:mx-2'} overflow-hidden`} >
         <span className='absolute top-0 right-0 bg-b4 rounded-2xl mt-2 mr-1 px-4 py-2 text-xs font-bold z-20' >{(100 - (product?.salePrice / product?.regPrice) * 100).toFixed(0)}% Off</span>
         <div className='flex w-full justify-center relative xl:px-5 lg:px-5 px-3 pt-10' >
-          <img src={product?.media?.find((item)=>item.file === 'image').data} className=' xl:w-54 lg:w-52 w-[160px] h-60' alt='refrigrator' />
+          <img src={product?.media?.find((item)=>item.file === 'image')?.data} className=' xl:w-54 lg:w-52 w-[160px] h-60' alt='refrigrator' />
           <div className='absolute top-0 left-0 right-0 bottom-0 bg-b3/50 flex items-center justify-center scale-0 opacity-0 pointer-events-none group-hover:scale-100 group-hover:opacity-100 group-hover:pointer-events-auto duration-300'>
             <Link to={`/product/${product?.slug}`} className='duration-300 px-5 py-2 rounded-lg bg-white text-black font-semibold'>View Details</Link>
           </div>

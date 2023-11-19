@@ -36,7 +36,7 @@ const UpdateProduct = () => {
   const [loader,setLoader] = useState(false)
   const query = useParams()
   const [pSlug,setPslug] = useState(query.slug)
-  const [values,setValues] = useState({productType:'parent',title:'',slug:'',category:'',feature:'',type:'',color:'',brand:'',fuelType:'',regPrice:'',salePrice:'',rating:'3',stock:'',modelNo:'',itemId:'',keyFeatures:[],featureVideo:{type:'',data:''},threeSixty:{type:'',data:''},media:[],metaTitle:'',metaDescription:'',metaKeywords:[],tags:'',bulletDescription:[]})
+  const [values,setValues] = useState({productType:'parent',title:'',slug:'',category:'',subCategory:'',feature:'',type:'',color:'',brand:'',fuelType:'',regPrice:'',salePrice:'',rating:'3',stock:'',modelNo:'',itemId:'',keyFeatures:[],featureVideo:{type:'',data:''},threeSixty:{type:'',data:''},media:[],metaTitle:'',metaDescription:'',metaKeywords:[],tags:'',bulletDescription:[]})
   const [description,setDescription] = useState('')
   const [specification,setSpecification] = useState('')
   const [deliveryInfo,setDeliveryInfo] = useState('')
@@ -72,7 +72,7 @@ const UpdateProduct = () => {
         setData(setFuelTypes, res3.data.fuelTypes,'fuelType',res.data.product.fuelType);
       }
       
-      const categoriesFilter = res2.data.categories.filter((item)=> item.slug !== res.data.product.category )
+      const categoriesFilter = res2.data.categories.filter((item)=> item.title.toLowerCase().replace(/\s/g,'-') !== res.data.product.category )
       const updatedCategories = [TxtTransform.Cap1Char(res.data.product.category),...categoriesFilter]
       setCategories(updatedCategories);
 
@@ -81,7 +81,7 @@ const UpdateProduct = () => {
       setProductTypes(updatedProductTypes)
       
       const metaKeywordsArray = res.data.product.metaKeywords.split(', ').map(keyword => keyword.trim());
-      const data = {productType:res.data.product.productType,title:res.data.product.title,slug:res.data.product.slug,category:res.data.product.category,feature:res.data.product.feature,type:res.data.product.type,color:res.data.product.color,brand:res.data.product.brand,fuelType:res.data.product.fuelType,regPrice:res.data.product.regPrice,salePrice:res.data.product.salePrice,lowPrice:res.data.product.lowPrice,highPrice:res.data.product.highPrice,rating:res.data.product.rating,stock:res.data.product.stock,modelNo:res.data.product.modelNo,itemId:res.data.product.itemId,keyFeatures:res.data.product.keyFeatures,featureVideo:res.data.product.featureVideo,threeSixty:res.data.product.threeSixty,media:res.data.product.media,description:res.data.product.description,specification:res.data.product.specification,deliveryInfo:res.data.product.deliveryInfo,metaTitle:res.data.product.metaTitle,metaDescription:res.data.product.metaDescription,metaKeywords:metaKeywordsArray,tags:res.data.product.tags,bulletDescription:res.data.product.bulletDescription}
+      const data = {subCategory:res.data.product.subCategory,productType:res.data.product.productType,title:res.data.product.title,slug:res.data.product.slug,category:res.data.product.category,feature:res.data.product.feature,type:res.data.product.type,color:res.data.product.color,brand:res.data.product.brand,fuelType:res.data.product.fuelType,regPrice:res.data.product.regPrice,salePrice:res.data.product.salePrice,lowPrice:res.data.product.lowPrice,highPrice:res.data.product.highPrice,rating:res.data.product.rating,stock:res.data.product.stock,modelNo:res.data.product.modelNo,itemId:res.data.product.itemId,keyFeatures:res.data.product.keyFeatures,featureVideo:res.data.product.featureVideo,threeSixty:res.data.product.threeSixty,media:res.data.product.media,description:res.data.product.description,specification:res.data.product.specification,deliveryInfo:res.data.product.deliveryInfo,metaTitle:res.data.product.metaTitle,metaDescription:res.data.product.metaDescription,metaKeywords:metaKeywordsArray,tags:res.data.product.tags,bulletDescription:res.data.product.bulletDescription}
       setDescription(res.data.product.description)
       setSpecification(res.data.product.specification)
       setDeliveryInfo(res.data.product.deliveryInfo)
@@ -433,7 +433,7 @@ const UpdateProduct = () => {
       }
     }
     
-     const data = {pSlug,productType:values.productType,title:values.title,slug:values.slug,category:values.category,feature:values.feature,type:values.type,color:values.color,brand:values.brand,fuelType:values.fuelType,regPrice:parseFloat(values.regPrice),salePrice:parseFloat(values.salePrice),rating:parseFloat(values.rating),stock:parseFloat(values.stock),modelNo:values.modelNo,itemId:values.itemId,metaKeywords:JSON.stringify(values.metaKeywords),keyFeatures:JSON.stringify(values.keyFeatures),featureVideo:JSON.stringify(values.featureVideo),threeSixty:JSON.stringify(values.threeSixty),media:JSON.stringify(values.media),bulletDescription:JSON.stringify(values.bulletDescription),tags:JSON.stringify(values.tags),description:description,specification:specification,deliveryInfo:deliveryInfo,metaTitle:values.metaTitle,metaDescription:values.metaDescription}
+     const data = {pSlug,productType:values.productType,title:values.title,slug:values.slug,category:values.category,subCategory:values.subCategory,feature:values.feature,type:values.type,color:values.color,brand:values.brand,fuelType:values.fuelType,regPrice:parseFloat(values.regPrice),salePrice:parseFloat(values.salePrice),rating:parseFloat(values.rating),stock:parseFloat(values.stock),modelNo:values.modelNo,itemId:values.itemId,metaKeywords:JSON.stringify(values.metaKeywords),keyFeatures:JSON.stringify(values.keyFeatures),featureVideo:JSON.stringify(values.featureVideo),threeSixty:JSON.stringify(values.threeSixty),media:JSON.stringify(values.media),bulletDescription:JSON.stringify(values.bulletDescription),tags:JSON.stringify(values.tags),description:description,specification:specification,deliveryInfo:deliveryInfo,metaTitle:values.metaTitle,metaDescription:values.metaDescription}
      const res = await updateProduct(data)
      if(res.status === 200){
       setSubmit(false)
@@ -479,6 +479,14 @@ const RemoveBullet = (e,indx) => {
    const newArray = [...values.bulletDescription?.slice(0, indx), ...values.bulletDescription?.slice(indx + 1)];
    setValues({...values,bulletDescription:newArray})
 }
+
+useEffect(()=>{
+  if(values.category === 'washer-&-dryer'){
+    setValues({...values,subCategory:'washer'})
+   }else{
+    setValues({...values,subCategory:''})
+  }
+},[values.category])
 
   return (
    <>
@@ -529,17 +537,20 @@ const RemoveBullet = (e,indx) => {
           </div>
         </div>
     </Popup>
-    {loader ? <Loader2/> :
     <AdminAccount>
+    {loader ?      <div className='flex items-center justify-center w-full h-screen z-40 bg-white' >
+        <img src='/loading.gif' className='h-12' />
+      </div>  :
     <form onSubmit={UpdateProduct} encType='multipart/form-data' className='flex flex-col justify-center space-y-5 w-full py-10' >
      <h5 className="font-semibold text-center text-2xl" >{TxtTransform.Cap1Char(values.productType)} Product</h5>     
      <div className="flex items-center space-x-5 w-full" >
       <TextInput name="title" title="Title" iscompulsory="true" type="text" value={values.title} onChange={(e)=>handleTitle(e)} error={errors && errors.includes('Title is Required!') ? true : false} errormessage="Title is Required!" placeholder="Enter Product Title" />
       <TextInput name="slug" readOnly title="Slug" iscompulsory="true" type="text" value={values.slug} error={errors && errors.includes('Product Slug is Required!') ? true : false} errormessage="Slug is Required!" placeholder="Slug is Required!" />
-     </div>
+     </div>{values.subCategory}
      <div className='flex space-x-5' >
       <SelectInput name="categor" title="Product Type" iscompulsory="true" onChange={e =>handleInputChange(e,'productType') } options={productTypes} />   
       <SelectInput name="categor" title="Product Category" iscompulsory="true" onChange={e =>handleInputChange(e,'category')} options={categories} />
+      {values.category === 'washer-&-dryer'?<SelectInput title="Product Sub Category" iscompulsory="true" onChange={e =>handleInputChange(e,'subCategory')} options={['Washer','Dryer']} />:null}
      </div>
      <div className="flex space-x-5 items-center w-full" >
       {features.length > 0 ? <SelectInput name="categor" title="Product Feature" iscompulsory="true" onChange={e =>handleInputChange(e,'feature')} options={features} />:null}
@@ -718,8 +729,8 @@ const RemoveBullet = (e,indx) => {
       
       <button type="submit" className='flex justify-center self-center items-center cursor-pointer rounded-md py-1 w-3/2 bg-b3' >{submit ? <img src='/loader-bg.gif' className='w-8' /> : <a className='flex items-center text-center  w-fit px-4 py-1 rounded-md text-white font-semibold' ><span className='text-xs' >Update</span><BsArrowRightShort className='text-2xl' /></a>}</button>
      
-     </form>
-    </AdminAccount>}
+     </form>}
+    </AdminAccount>
    </>
   )
 }

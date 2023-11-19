@@ -5,6 +5,7 @@ const updateProductSchema = yup.object().shape({
   title: yup.string().required("Title is Required!"),
   slug: yup.string().required("Slug is Required!"),
   category: yup.string().required("Category is Required!"),
+  subCategory: yup.string(),
   feature: yup.string(),
   type: yup.string(),
   color: yup.string(),

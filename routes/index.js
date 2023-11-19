@@ -65,6 +65,7 @@ router.get('/api/admin/logout',adminAuth, adminController.logout);
 router.get('/api/admin/refresh', adminController.refresh);
 router.post('/api/admin/change-password', adminAuth,adminController.changePassword);
 // Categories Related Routes
+router.get('/api/admin/get-all-categories',categoryController.GetAllCategories);
 router.get('/api/admin/get-categories',categoryController.GetCategories);
 router.post('/api/admin/get-blog-with-categories',adminAuth,categoryController.GetBlogBySlugWithCategories);
 router.post('/api/admin/category-by-id',adminAuth,categoryController.GetCategoryById);

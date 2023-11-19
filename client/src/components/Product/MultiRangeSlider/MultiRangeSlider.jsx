@@ -19,6 +19,16 @@ const MultiRangeSlider = ({ min, max,setFilt,filt }) => {
         [min, max]
     );
 
+    useEffect(() => {
+      setTimeout(()=>{
+       if(filt.isSale){
+           setFilt({...filt,salePrice:{$gte:minVal,$lte:maxVal}})
+       }else{
+           setFilt({...filt,regPrice:{$gte:minVal,$lte:maxVal}})
+       }
+      },1500)
+     }, [minVal,maxVal]);
+
     return (
         <DropDown title="Price">
             <div className="w-full pb-8 relative" id="priceSlider">
@@ -26,7 +36,6 @@ const MultiRangeSlider = ({ min, max,setFilt,filt }) => {
                     <input type="number" value={minVal} onKeyDown={(event) => {
                         const value = Math.min(Math.max(+event.target.value, min), max);
                         setMinVal(value);
-                        setFilt(prev=>{return {...prev,range:{min:value}}})
                     }} className="w-[45%] m-0 rounded-md text-b16 px-4 py-2 outline-none border border-[#C9C9C9]" />
                     <span>-</span>
                     <input type="number" value={maxVal} onKeyDown={(event) => {
@@ -38,7 +47,7 @@ const MultiRangeSlider = ({ min, max,setFilt,filt }) => {
                     type="range"
                     min={min}
                     max={max}
-                    step={5}
+                    step={10}
                     value={minVal}
                     ref={minValRef}
                     onChange={(event) => {

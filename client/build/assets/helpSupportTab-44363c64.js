@@ -1,0 +1,1 @@
+import{bc as r}from"./index-fce464d2.js";const s="",o=r.create({baseURL:s,headers:{"Content-Type":"application/json"}}),p=async t=>{let e;try{e=await o.get("/api/get-help-tab",t)}catch(a){return a}return e};export{p as g};

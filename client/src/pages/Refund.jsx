@@ -5,10 +5,11 @@ import { BiCamera } from 'react-icons/bi';
 import BackHome from '../components/BackHome';
 import {submitRefundRequest} from '../api/frontEnd'
 import Toast from '../utils/Toast';
-import {uploadUserMedia} from '../api/frontEnd'
+import {uploadUserMedia,deleteUserMedia} from '../api/frontEnd'
 import {AiOutlinePlusSquare} from 'react-icons/ai'
 import * as Yup from 'yup';
 import BtnLoader from '../components/Loader/BtnLoader'
+import {IoIosCloseCircle} from 'react-icons/io'
 
 const Refund = () => {
 
@@ -30,6 +31,25 @@ const Refund = () => {
     const [medias, setMedias] = useState([]);
 
     const [mediaLoader,setMediaLoader] = useState(false)
+    const [delLoader,setDelLoader] = useState('')
+
+    const DeleteMedia = async (e,id,url) => {
+      e.preventDefault()
+      console.log(url)
+      let delUrl = url;
+      setDelLoader(id)
+      const res = await deleteUserMedia({url:delUrl})
+      console.log(res)
+      if(res.status === 200){
+        const filt = medias.filter((item)=>item.data !== delUrl)
+        setMedias(filt)
+        setDelLoader('')
+        Toast('Media Removed!','success',1000)
+      }else{
+        setDelLoader('')
+        Toast(res.data.message,'error',1000)
+      }
+    }
 
     const handleFileChange = async (e) => {
      const selectedFile = e.target.files[0];
@@ -67,7 +87,7 @@ const Refund = () => {
      e.preventDefault()
      setLoader(true)
      try{
-        await refundValidationSchema.validate(shippingAddress, { abortEarly: false }); 
+        await refundValidationSchema.validate({orderNo:orderNo,name:name,email:email,phone:phone,amount:amount,medias:medias}, { abortEarly: false }); 
      }catch(error){ 
       setLoader(false)
       if (error) {
@@ -135,16 +155,19 @@ const Refund = () => {
                         </div>
                         <div className='mb-5'>
                          <div className='block text-xs text-b18/50 mb-2 font-bold'>Upload a Photo or Video (optional)</div>
-                         <div className='flex bg-white rounded-xl w-full h-80' >
+                         <div className='relative flex bg-white rounded-xl w-full h-80' >
                           
                           {medias.length > 0 || mediaLoader  ? 
                            <div className='flex flex-wrap gap-x-10 gap-y-5 px-5 mr-1 w-full py-5 h-80 overflow-x-hidden overflow-y-scroll' >
-                             {medias.map((media)=>
-                             (media.type === 'images' ?
+                             {medias.map((media)=><div className='relative' >
+                             <span onClick={e=>DeleteMedia(e,media._id,media.data)} className='absolute cursor-pointer right-0 -top-1' ><IoIosCloseCircle className='text-red-500' /></span>
+                             {delLoader === media.data ? <div className='absolute flex justify-center items-center h-24 w-24 py-2' ><img src="/del-loader.gif" className='w-32 rounded-md h-24' /></div>:null}
+                             {media.type === 'images' ?
                              <div className='border-[1px] border-b31 px-2 py-2 rounded-xl h-fit w-fit' ><img src={media.data} className='w-20 h-20' /></div>
                              :<video src={media.data} className='w-40 rounded-xl h-[90px]' controls ></video>
-                             ))}
+                             }</div>)}
                              {/* Media Loader */}
+                             
                              {mediaLoader ? <div className='flex justify-center items-center h-24 w-24 border-[1px] rounded-md border-blue-500 px-2 py-2' ><img src="/file-loader.gif" className='w-12 h-12' /></div>:null}
                              <div onClick={()=>mediaRef.current.click()} className='cursor-pointer flex justify-center items-center border-[1px] rounded-md border-b6 w-24 h-24 px-2 py-2' ><AiOutlinePlusSquare className='text-b6 text-5xl' /></div>
                            </div>

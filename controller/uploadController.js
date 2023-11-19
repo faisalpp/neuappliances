@@ -19,15 +19,15 @@ const uploadController = {
 
     const {url} = req.body
 
-   //  try{
+    try{
      const {resp} = await AWSService.deleteFile(url)
      if(resp.$metadata.httpStatusCode === 204){
        return res.status(200).json({status: 200, msg:'Media Deleted Successfully!'});    
      }
-   //  }catch(error){
-   //   const err = {status:500,message:"AWS Internal Server Server!"} 
-   //   return next(err)
-   //  }
+    }catch(error){
+     const err = {status:500,message:"AWS Internal Server Server!"} 
+     return next(err)
+    }
    },
 
    async uploadUserMedia(req,res,next){
@@ -47,6 +47,7 @@ const uploadController = {
    async deleteUserMedia(req,res,next){
 
     const {url} = req.body
+    console.log(req.body)
 
     try{
      const {resp} = await AWSService.deleteFile(url)

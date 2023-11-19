@@ -7,10 +7,9 @@ import { BsArrowRightShort, BsPencil } from 'react-icons/bs'
 import { createTeamMember, updateTeamMember, updateMemberIndex, deleteTeamMember } from '../../api/admin'
 import { GetTeamMember } from '../../api/frontEnd'
 import * as Yup from 'yup';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { Link } from 'react-router-dom';
+import Toast from '../../utils/Toast'
 
 const ManageTeam = () => {
 
@@ -102,18 +101,10 @@ const ManageTeam = () => {
       }
     }
     const res = await createTeamMember(formData);
+    console.log(res)
     if (res.status === 200) {
       setSubmit(false)
-      toast.success(res.data.msg, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.msg,'success',1000)
       GetMembers()
       setPopup(false)
       setName('');
@@ -122,16 +113,7 @@ const ManageTeam = () => {
       setTempImg('');
     } else {
       setSubmit(false)
-      toast.error(res.data.message, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.message,'error',1000)
     }
   }
 
@@ -157,16 +139,7 @@ const ManageTeam = () => {
     const res = await updateTeamMember(formData);
     if (res.status === 200) {
       setUsubmit(false)
-      toast.success(res.data.msg, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.msg,'success',1000)
       GetMembers()
       setId();
       setUpopup(false)
@@ -176,16 +149,7 @@ const ManageTeam = () => {
       setUtempImg('');
     } else {
       setUsubmit(false)
-      toast.error(res.data.message, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.message,'error',1000)
     }
   }
 
@@ -218,29 +182,11 @@ const ManageTeam = () => {
     const res = await updateMemberIndex(members);
     if (res.status === 200) {
       setIloading(false)
-      toast.success(res.data.msg, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.msg,'success',1000)
       GetMembers()
     } else {
       setIloading(false)
-      toast.error(res.data.message, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.message,'success',1000)
     }
   }
 
@@ -252,29 +198,11 @@ const ManageTeam = () => {
     const res = await deleteTeamMember({ id: id });
     if (res.status === 200) {
       setDelLoading(null)
-      toast.success(res.data.msg, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.msg,'success',1000)
       GetMembers()
     } else {
       setDelLoading(null)
-      toast.error(res.data.message, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.message,'error',1000)
     }
   }
 

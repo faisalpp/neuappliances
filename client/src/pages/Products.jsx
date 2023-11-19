@@ -40,8 +40,8 @@ const Products = () => {
     for (const [key, value] of queryParams.entries()) {
       queryParamsObject[key] = value;
     }     
-
-    setParams({isSale:true,salePrice:{min:200,max:8000},...queryParamsObject})
+    console.log(queryParamsObject)
+    setParams({isSale:true,salePrice:{$gte:200,$lte:8000},sort:1,...queryParamsObject})
   }
   
   const [filterLoading,setFilterLoading] = useState(true)
@@ -60,6 +60,7 @@ const Products = () => {
   }
 
   useEffect(()=>{
+   console.log('s')
    getAppliancesBySection()
   },[params,page])
 
@@ -67,7 +68,7 @@ const Products = () => {
   useEffect(() => {
     GetQueryParams()
     GetAppliancesFilter()
-  }, [])
+  }, [location.search])
 
   const GetAppliancesFilter = async () => {
     const res = await getAppliancesFilters()
@@ -107,11 +108,9 @@ const Products = () => {
             {/* Filters End */}
 
             <div className={`grid ${isGrid ? 'lg:grid-cols-3 grid-cols-1 lg:gap-x-2' : 'grid-cols-1'} gap-y-5 mb-10 w-full`} >
-               {loading ? <div className='flex items-center justify-center w-full' ><img src="/loader2.gif" className="w-20 h-20" /></div> :null}
-               {products?.length > 0 ? null : <div className='flex items-center justify-center w-full' ><img src="/not-found.webp" className='w-40 h-40' /></div>}
-               {products?.length > 0 ? <>{ products.map((product, index) => <ProductCard3 key={index} product={product} isGrid={isGrid} />)}<Pagination page={page} setPage={setPage} totalPages={totalPages} /></> :null}
-               
-
+               {loading ? <div className='flex items-center justify-center w-full' ><img src="/loader2.gif" className="w-20 h-20" /></div> :
+                products?.length > 0 ? <>{ products.map((product, index) => <ProductCard3 key={index} product={product} isGrid={isGrid} />)}<Pagination page={page} setPage={setPage} totalPages={totalPages} /></> :
+                <div className='flex items-center justify-center w-full' ><img src="/not-found.webp" className='w-40 h-40' /></div>}          
             </div>
 
           </div>

@@ -45,6 +45,16 @@ export const getCategoryById = async (data) => {
     return response;
 }
 
+export const GetAllCategories = async () => {
+    let response;
+
+    try{
+        response = await AdminApi.get('/api/admin/get-all-categories');
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const GetCategories = async () => {
     let response;
 

@@ -161,7 +161,6 @@ const applianceController = {
     
     },
     async GetApplianceBySectionType(req,res,next){
-      
       let query = {};
       let sort = {};
       const data = req.body;
@@ -194,6 +193,12 @@ const applianceController = {
         case 'isSale':
          query.isSale = data[prop];
         break;
+        case 'salePrice':
+          query.salePrice = data[prop]
+        break;
+        case 'regPrice':
+         query.regPrice = data[prop];
+        break;
         case 'category':
          query.category = data[prop];
         break;
@@ -205,29 +210,17 @@ const applianceController = {
         break;
       }
       });
-      console.log(query)
       let page = Number(req.body.page)
       let limit = Number(req.body.limit)
       let skip = (page - 1) * limit
-
-      let products;
-      let totalProducts;
       try{
-        if(req.body.isSale){
-          products = await Product.find({...query,$and: [{ salePrice: { $lte: req.body.salePrice.max } },{ salePrice: { $gte: req.body.salePrice.min } }]}).sort(sort).skip(skip).limit(limit);
-          totalProducts = await Product.countDocuments({...query,$and: [{ salePrice: { $lte: req.body.salePrice.max } },{ salePrice: { $gte: req.body.salePrice.min } }]})
-        }else if(!req.body.isSale){
-          products = await Product.find({...query,$and: [{ regPrice: { $lte: req.body.regPrice.max } },{ regPrice: { $gte: req.body.regPrice.min } }]}).sort(sort).skip(skip).limit(limit);
-          totalProducts = await Product.countDocuments({...query,$and: [{ regPrice: { $lte: req.body.regPrice.max } },{ regPrice: { $gte: req.body.regPrice.min } }]})
-        }else{
-          products = await Product.find(query).sort(sort).skip(skip).limit(limit);
-          totalProducts = await Product.countDocuments(query)
-        }
+      const products = await Product.find(query).sort(sort).skip(skip).limit(limit);
+      const totalProducts = await Product.countDocuments(query)
+       return res.status(200).json({status:200,products:products,totalProducts:totalProducts});
       }catch(error){
         return next(error)
       }      
       
-      return res.status(200).json({status:200,products:products,totalProducts:totalProducts});
            
     },
 

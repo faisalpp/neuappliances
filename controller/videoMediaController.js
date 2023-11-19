@@ -161,8 +161,6 @@ const videoMediaController = {
     async deleteVideoMedia(req,res,next){
       const deleteLoopSchema = Joi.object({
         id: Joi.string().required(),
-        type: Joi.string().required(),
-        url: Joi.string().required(),
       });
       const { error } = deleteLoopSchema.validate(req.body);
        // 2. if error in validation -> return error via middleware
@@ -170,27 +168,29 @@ const videoMediaController = {
         return next(error)
       }
 
-      const {id,type,url} = req.body;
-      try{
-        const media = await VideoMedia.findByIdAndDelete(id);
-        if(!media){
-          return res.status(500).json({status: 500, message:'Internal Server Error!'});
-        }
-        if(type === 'upload'){
-          const {resp} = await AWSService.deleteFile(url)
-          if(resp.$metadata.httpStatusCode === 204 ){
-            return res.status(200).json({status:200,msg:"Video Media Deleted!"})
-          }else{
-            const error = {status:500,message:"Cloud Internal Server Error!"}
-            return next(error)
-          }
-        }
-        return res.status(200).json({status:200,msg:"Video Media Deleted!"})
-      }catch(error){
-        return next(error)
-      }
-      
+      const {id} = req.body;
 
+      let media;
+      try{
+       media = await VideoMedia.findOne({_id:id});
+       if(!media){
+        return res.status(404).json({status:404,message:'Media Not Found!'})
+       }
+      }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+
+      
+      if(media.type === 'upload'){
+        const {resp} = await AWSService.deleteFile(media.url)
+        if(resp.$metadata.httpStatusCode !== 204 ){
+          const error = {status:500,message:"Cloud Internal Server Error!"}
+          return next(error)
+        }
+      }
+
+      try{
+        await VideoMedia.findOneAndDelete({_id:id});
+        return res.status(200).json({status:200,msg:"Video Media Deleted!"})
+       }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}      
     },
 }
 
