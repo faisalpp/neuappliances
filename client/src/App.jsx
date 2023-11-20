@@ -177,7 +177,7 @@ function App() {
           <Route path="/appliance-repair" element={<ApplianceRepair />} />
           <Route path="/measuring-guide" element={<MeasuringGuide />} />
           <Route path="/helpful-appliances-tips" element={<HelpfulApliancesTips />} />
-          <Route path="/tips-forregerators-and-freezers" element={<AppliancesTipsDetail />} />
+          <Route path="/helpful-appliances-tips/blog/:slug" element={<AppliancesTipsDetail />} />
           <Route path="/financing" element={<Financing />} />
           {/* Blogs */}
           <Route path="/blogs" element={<Blogs />} />

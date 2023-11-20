@@ -11,6 +11,9 @@ const helpController = {
             shortDescription: Joi.string().required(),
             category: Joi.string().required(),
             content: Joi.string().required(),
+            metaTitle: Joi.string(),
+            metaDescription: Joi.string(),
+            metaKeywords: Joi.string(),
           });
           const { error } = helpSchema.validate(req.body);
           
@@ -20,7 +23,7 @@ const helpController = {
           }
           
           // 3. if email or username is already registered -> return an error
-          const {title,slug,shortDescription,category,content } = req.body;
+          const {title,slug,shortDescription,category,content,metaTitle,metaDescription,metaKeywords } = req.body;
           
           const titleInUse = await Help.exists({ title });        
           if (titleInUse) {
@@ -30,17 +33,18 @@ const helpController = {
             return next(error)
           }
 
-          try{
-            const HelpToCreate = new Help({title,slug,shortDescription,category,content});
+          // try{
+            const HelpToCreate = new Help({title,slug,shortDescription,category,content,metaTitle,metaDescription,metaKeywords:JSON.parse(metaKeywords)});
              await HelpToCreate.save();
             return res.status(200).json({status: 200, msg:'Help & Support Created Successfuly!'});
-           }catch(err){
-             const error = {status:500,msg:"Internal Server Error!"}
-             return next(error)
-           }
+          //  }catch(err){
+          //    const error = {status:500,msg:"Internal Server Error!"}
+          //    return next(error)
+          //  }
     },
 
     async updateHelp(req,res,next){
+      console.log(req.body)
         const helpSchema = Joi.object({
             id: Joi.string().required(),
             title: Joi.string().required(),
@@ -50,7 +54,7 @@ const helpController = {
             content: Joi.string().required(),
             metaTitle: Joi.string().required(),
             metaDescription: Joi.string().required(),
-            metaKeywords: Joi.array().required(),
+            metaKeywords: Joi.string().required(),
           });
           const { error } = helpSchema.validate(req.body);
           
@@ -65,7 +69,7 @@ const helpController = {
         try {
            await Help.findByIdAndUpdate(
            id,
-           {title,slug,shortDescription,category,content,metaTitle,metaDescription,metaKeywords}
+           {title,slug,shortDescription,category,content,metaTitle,metaDescription,metaKeywords:JSON.parse(metaKeywords)}
          );
          return res.status(200).json({status:200,msg:'Help & Support Updated Successfully!'});
         } catch (error) {
@@ -144,15 +148,9 @@ const helpController = {
           let skip = (page - 1) * limit;
           
           if(category !== 'all-categories'){
-            const helps = await Help.find({category:category}).skip(skip).limit(limit);     
+            const helps = await Help.find({category:category}).skip(skip).limit(limit).select('title').select('slug').select('shortDescription').select('category');     
             const totalCount = await Help.countDocuments({category:category});
-            
-            let blogsDTOs=[];
-            helps.forEach((blog) => {
-              const blogDto = new BlogDTO(blog);
-              blogsDTOs.push(blogDto);
-            });
-            return res.status(200).json({status: 200, helps:blogsDTOs,totalCount:totalCount});
+            return res.status(200).json({status: 200, helps:helps,totalCount:totalCount});
           }else{
             const helps2 = await Help.find({}).skip(skip).limit(limit); 
             const totalCount2 = await Help.countDocuments();
@@ -181,17 +179,12 @@ const helpController = {
           }
       
           const {title} = req.body;
-      
-          let queryObject = {};
           
           try{
             let page = Number(req.query.page)
             let limit = Number(req.query.limit)
             let skip = (page - 1) * limit;
-            if(title){
-              queryObject.title = {$regex:title,$options:"i"}
-            }
-            const helps = await Help.find(queryObject).skip(skip).limit(limit); 
+            const helps = await Help.find({title: { $regex:title , $options:"i"}}).skip(skip).limit(limit); 
             
             const totalCount = await Help.countDocuments();
             
@@ -204,7 +197,7 @@ const helpController = {
 
       async getHelpBySlug(req, res, next) {
         const helpSchema = Joi.object({
-            id: Joi.string().required(),
+            slug: Joi.string().required(),
           });
           const { error } = helpSchema.validate(req.body);
           
@@ -213,16 +206,17 @@ const helpController = {
             return next(error)
           }
     
-          const {id} = req.body;
+          const {slug} = req.body;
     
           try{
-            const help = await Help.findOne({_id:id});        
+            const help = await Help.findOne({slug:slug});      
+            console.log(help)  
             return res.status(200).json({status: 200, help:help});
           }catch(error){
             return next(error)
           }
     
-    }
+    },
       
 }
 

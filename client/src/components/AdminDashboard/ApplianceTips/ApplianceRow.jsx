@@ -5,6 +5,7 @@ import {HiOutlineDocumentDuplicate} from 'react-icons/hi'
 import {duplicateTip,deleteTip} from '../../../api/admin/applianceTips'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Toast from '../../../utils/Toast'
 
 const ApplianceRow = ({img,title,category,id,slug,getBlog,setPage}) => {
 
@@ -20,28 +21,10 @@ const ApplianceRow = ({img,title,category,id,slug,getBlog,setPage}) => {
      if(res.status === 200){
        setDupLoading(false)
        getBlog();
-       toast.success(res.data.msg, {
-         position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }else{
-      setDupLoading(false)
-      toast.error(res.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+       Toast(res.data.msg,'success',1000)
+      }else{
+        setDupLoading(false)
+        Toast(res.data.message,'error',1000)
     }
   }
 
@@ -54,28 +37,10 @@ const ApplianceRow = ({img,title,category,id,slug,getBlog,setPage}) => {
      if(res.status === 200){
        setDelLoading(false)
        getBlog(1)
-       toast.success(res.data.msg, {
-         position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }else{
-      setDelLoading(false)
-      toast.error(res.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+       Toast(res.data.msg,'success',1000)
+      }else{
+        setDelLoading(false)
+        Toast(res.data.message,'error',1000)
     }
   }
 
@@ -89,7 +54,7 @@ const ApplianceRow = ({img,title,category,id,slug,getBlog,setPage}) => {
         <td className="px-2 py-3 w-52 overflow-hidden">{title.substr(0,50)}...</td>
         <td className="whitespace-nowrap  px-5 py-4 font-medium capitalize">{category.replace(/-/g,' ')}</td>
         <td className="flex items-center justify-center mt-3 space-x-1 px-5 py-4">
-         <NavLink title="Update blog" to={`/admin/update-blog/${slug}`} className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-sm px-2 w-fit rounded-full cursor-pointer py-2' ><BsPencil className="text-base" /></NavLink>
+         <NavLink title="Update blog" to={`/admin/update-appliance-tips/${slug}`} className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-sm px-2 w-fit rounded-full cursor-pointer py-2' ><BsPencil className="text-base" /></NavLink>
          <span title="Duplicate Blog" onClick={e=>DuplicateBlog(e,slug)} className='flex items-center justify-center bg-b7 text-white hover:bg-white hover:text-b7 border-2 border-white hover:border-b7 text-sm px-2 w-fit rounded-full cursor-pointer py-2' >{dupLoading ? <img src="/loader-bg.gif" className='w-4 h-4' />:<HiOutlineDocumentDuplicate className="text-lg" />}</span>
          <span title="Delete Blog" onClick={e=>DeleteBlog(e,id)} className='flex items-center justify-center bg-red-500/30 text-red-500 hover:bg-white hover:text-red-500 border-2 border-white hover:border-red-500 text-sm px-2 w-fit rounded-full cursor-pointer py-2' >{delLoading ? <img src="/loader-bg.gif" className='w-4 h-4' />: <BsFillTrashFill className="text-base" />}</span>
         </td>

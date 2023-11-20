@@ -136,6 +136,7 @@ router.post('/api/get-blog-by-cateogry',blogController.GetBlogByCategory);
  router.post('/api/admin/duplicate-help',adminAuth,helpController.duplicateHelp);
  router.post('/api/admin/delete-help',adminAuth,helpController.deleteHelp);
  router.post('/api/admin/search-help',adminAuth,helpController.getHelpBySearch);
+ router.post('/api/search-help',helpController.getHelpBySearch);
  router.post('/api/get-help-by-category',helpController.getHelpByCategory);
  router.post('/api/get-help-by-slug',helpController.getHelpBySlug);
 // Help & Support Tab Admin Api's
@@ -150,6 +151,8 @@ router.post('/api/get-blog-by-cateogry',blogController.GetBlogByCategory);
  router.post('/api/admin/search-tip',tipsController.getTipBySearch);
  router.post('/api/get-tip-by-category',tipsController.getTipByCategory);
  router.post('/api/get-tip-by-slug',tipsController.getTipBySlug);
+ router.get('/api/get-four-tips',tipsController.getFourTips);
+ router.post('/api/get-tip-by-slug-with-cateogries',tipsController.GetTipBySlugWithCategories);
 
 // Loop Media Api's
 router.post('/api/admin/upload-video-media',adminAuth,videoMediaController.uploadVideoMedia);

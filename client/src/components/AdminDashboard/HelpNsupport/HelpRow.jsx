@@ -44,8 +44,8 @@ const HelpRow = ({desc,title,category,id,slug,getBlog,setPage}) => {
 
   return (
     <tr className="border-b border-l border-r border-b6 text-xs">
-        <td className="px-2 py-3 w-52 overflow-hidden">{title.substr(0,50)}...</td>
-        <td className="px-2 py-3 w-52 overflow-hidden">{desc.substr(0,50)}...</td>
+        <td className="px-2 py-3 w-52 overflow-hidden">{title?.substr(0,50)}...</td>
+        <td className="px-2 py-3 w-52 overflow-hidden">{desc?.substr(0,50)}...</td>
         <td className="whitespace-nowrap  px-5 py-4 font-medium capitalize">{category.replace(/-/g,' ')}</td>
         <td className="flex items-center justify-center mt-3 space-x-1 px-5 py-4">
          <NavLink title="Update blog" to={`/admin/update-help/${id}`} className='flex items-center justify-center bg-b3 text-white hover:bg-white hover:text-b3 border-2 border-white hover:border-b3 text-sm px-2 w-fit rounded-full cursor-pointer py-2' ><BsPencil className="text-base" /></NavLink>

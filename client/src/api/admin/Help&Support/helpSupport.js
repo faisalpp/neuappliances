@@ -16,7 +16,7 @@ export const createHelp = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/create-help',data);
+        response = await AdminApi.post('/api/admin/create-help',data,{validateStatus:()=>true});
     }catch (error){
         return error;
     }
@@ -26,7 +26,7 @@ export const updateHelp = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/update-help',data);
+        response = await AdminApi.post('/api/admin/update-help',data,{validateStatus:()=>true});
     }catch (error){
         return error;
     }
@@ -36,7 +36,7 @@ export const duplicateHelp = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/duplicate-help',data);
+        response = await AdminApi.post('/api/admin/duplicate-help',data,{validateStatus:()=>true});
     }catch (error){
         return error;
     }
@@ -46,7 +46,17 @@ export const deleteHelp = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/delete-help',data);
+        response = await AdminApi.post('/api/admin/delete-help',data,{validateStatus:()=>true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const searchHelp = async (data,params) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post(`/api/admin/search-help/?page=${params.page}&limit=${params.limit}`,data,{validateStatus:()=>true});
     }catch (error){
         return error;
     }

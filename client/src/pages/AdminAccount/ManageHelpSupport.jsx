@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import AdminAccount from '../../layout/AdminAccount';
 import { NavLink } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Pagination2 from '../../components/Pagination/Pagination2'
-import { GetHelpByCateogry } from '../../api/admin/Help&Support/helpSupport'
-import { searchBlog } from '../../api/admin'
+import { GetHelpByCateogry,searchHelp } from '../../api/admin/Help&Support/helpSupport'
 import { createHelpTab, getHelpTabs,updateHelpTab } from '../../api/admin/Help&Support/helpSupportTab'
 import SelectInput from '../../components/TextInput/SelectInput'
-import { AiFillPlusCircle } from 'react-icons/ai'
 import TextInput from '../../components/TextInput/TextInput';
 import { BsArrowRightShort } from 'react-icons/bs'
 import Popup from '../../components/AdminDashboard/Popup';
-import * as Yup from 'yup';
 import HelpTable from '../../components/AdminDashboard/HelpNsupport/HelpTable';
 import Toast from '../../utils/Toast'
-import { FaRegTrashCan } from "react-icons/fa6";
 import HelpTabCreator from '../../components/AdminDashboard/HelpNsupport/HelpTabCreator';
 
 
@@ -64,11 +58,12 @@ const ManageHelpSupport = () => {
     e.preventDefault()
     const data = { title: search }
     const params = { page: 1, limit: limit }
-    const res = await searchBlog(data, params)
+    const res = await searchHelp(data, params)
+    console.log(res)
     if (res.status === 200) {
-      setLoading(false)
-      setBlogs(res.data.blogs)
+      setBlogs(res.data.helps)
       setTotalCount(Math.ceil(res.data.totalCount / limit))
+      setLoading(false)
     } else {
       setBlogs([])
       setLoading(false)
@@ -196,7 +191,7 @@ const ManageHelpSupport = () => {
           </div>
         </div>
        <h3 className='font-semibold  mt-5 mb-2 text-center text-xl' >Help & Support Blogs</h3>
-        {loading ? <div className='flex items-center justify-center w-full' ><img src="/loader-bg.gif" className='w-10 h-10' /></div> : blogs.length > 0 ? <><HelpTable setPage={setPage} getBlog={GetBlog} data={blogs} /><Pagination2 page={page} setPage={setPage} totalPages={totalCount} /></> : <div className='flex justify-center w-full h-full' >
+        {loading ? <div className='flex items-center justify-center w-full' ><img src="/loader-bg.gif" className='w-10 h-10' /></div> : blogs?.length > 0 ? <><HelpTable setPage={setPage} getBlog={GetBlog} data={blogs} /><Pagination2 page={page} setPage={setPage} totalPages={totalCount} /></> : <div className='flex justify-center w-full h-full' >
           <img src="/not-found.webp" className='w-24 h-24' />
         </div>}
 

@@ -21,8 +21,11 @@ const UpdateHelp = () => {
     id: Yup.string().required('Id is required'),
     title: Yup.string().required('Title is required'),
     slug: Yup.string().required('Slug is required'),
-    category: Yup.string().required('Blog Category is required'),
-    content: Yup.string().required('Blog Content is required'),
+    category: Yup.string().required('Category is required'),
+    content: Yup.string().required('Content is required'),
+    metaTitle: Yup.string(),
+    metaDescription: Yup.string(),
+    metaKeywords: Yup.string(),
   });
 
   const {id} = useParams()
@@ -32,7 +35,6 @@ const UpdateHelp = () => {
   const [categories,setCategories] = useState([])
   const [submit,setSubmit] = useState(false)
   
-  const [hId,sethId] = useState(id);
   const [title,setTitle] = useState('');
   const [slug,setSlug] = useState('');
   const [shortDescription,setShortDescription] = useState('');
@@ -44,25 +46,16 @@ const UpdateHelp = () => {
 
   const [keywordField,setKeywordField] = useState('')
     const keywordRef = useRef()
-
-
-    const fetchDataForCategory = async () => {
-      const res = await getHelpTabs();
-      if(res.status === 200){
-          const filteredCategories = res.data.helpTabs.filter(cat => cat.title.toLowerCase() !== category)
-          const catTitle = category[0].toUpperCase() + category.slice(1)
-          const finalCategories = [catTitle, ...filteredCategories];
-          setCategories(finalCategories)
-      }
-    }
-    useEffect(() => {
-      fetchDataForCategory();
-    }, []);
     
   
     const handleEnterKey = (e) => {
+      // e.preventDefault()
       if (e.key === ' ' && keywordField.length > 0) {
-        setMetaKeywords([...keywords,keywordField])
+        if(metaKeywords?.length > 0){
+          setMetaKeywords([...metaKeywords,keywordField])
+        }else{
+          setMetaKeywords([keywordField])
+        }
         setTimeout(() => {
           setKeywordField('')
           keywordRef.current?.focus();
@@ -73,14 +66,13 @@ const UpdateHelp = () => {
   
     const deleteKeyword = (e,index) => {
       e.preventDefault()
-       const updateMetaKeywords = keywords.filter((item,indx)=> indx !== index)
+       const updateMetaKeywords = metaKeywords.filter((item,indx)=> indx !== index)
        setMetaKeywords(updateMetaKeywords)
     }
 
   const GetBlogbySlug = async () => {
     const res = await getHelpBySlug({id:id})
     if(res.status === 200){
-      sethId(res.data.help._id)
       setTitle(res.data.help.title)
     setSlug(res.data.help.slug)
     setContent(res.data.help.content)
@@ -96,11 +88,26 @@ const UpdateHelp = () => {
      GetBlogbySlug()
   },[])
 
+  const fetchDataForCategory = async () => {
+    const res = await getHelpTabs();
+    if(res.status === 200){
+      const filteredCategories = res.data.helpTabs.filter(cat => cat.title.toLowerCase() !== category)
+      const catTitle = category[0].toUpperCase() + category.slice(1)
+        const finalCategories = [catTitle, ...filteredCategories];
+        setCategories(finalCategories)
+    }
+  }
+  useEffect(() => {
+    if(category.length > 0){
+      fetchDataForCategory();
+    }
+  }, [category]);
+
   const navigate = useNavigate()
   const UpdateBlog = async (e) => {
     e.preventDefault()
     setSubmit(true)
-    const data = {id,title,slug,category,shortDescription,content,metaTitle,metaDescription,metaKeywords}
+    const data = {id:id,title:title,slug:slug,category:category,shortDescription:shortDescription,content:content,metaTitle:metaTitle,metaDescription:metaDescription,metaKeywords:JSON.stringify(metaKeywords)}
     try{
     await blogCreationValidationSchema.validate(data, { abortEarly: false });
     } catch (error) {
@@ -146,9 +153,8 @@ const UpdateHelp = () => {
              <TextAreaInput width="full" name="description" title="Description" iscompulsory="true" type="text" value={shortDescription} onChange={(e)=>setShortDescription(e.target.value)} error={errors && errors.includes('Short Description is required') ? true : false} errormessage="Short Description is required" placeholder="Enter Product Description"  />
             </div>
            </div> 
-          </div>
+          </div>{metaDescription}
             <BlogEditor state={content} setState={setContent} />
-            
                       {/* Seo Start */}
       <FaqAccordion2 title="Blog Seo" answer={
        <div className='flex flex-col space-y-2 w-full' > 

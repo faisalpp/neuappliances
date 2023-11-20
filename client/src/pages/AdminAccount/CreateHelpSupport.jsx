@@ -24,6 +24,9 @@ const CreateHelpSupport = () => {
     shortDescription: Yup.string().required('Short Description is required'),
     category: Yup.string().required('Help Category is required'),
     content: Yup.string().required('Help Content is required'),
+    metaTitle: Yup.string(),
+    metaDescription: Yup.string(),
+    metaKeywords: Yup.string(),
   });
 
   const navigate = useNavigate()
@@ -44,7 +47,11 @@ const CreateHelpSupport = () => {
   
     const handleEnterKey = (e) => {
       if (e.key === ' ' && keywordField.length > 0) {
-        setKeywords([...keywords,keywordField])
+        if(keywords?.length > 0){
+          setKeywords([...metaKeywords,keywordField])
+        }else{
+          setKeywords([keywordField])
+        }
         setTimeout(() => {
           setKeywordField('')
           keywordRef.current.focus();
@@ -62,8 +69,8 @@ const CreateHelpSupport = () => {
   const CreateHelpSupport = async (e) => {
     e.preventDefault()
     setSubmit(true)
+    const data = {title,slug,shortDescription,category,content,metaDescription,metaKeywords:JSON.stringify(keywords)}
     try{
-     const data = {title,slug,shortDescription,category,content}
      await blogCreationValidationSchema.validate(data, { abortEarly: false });
     } catch (error) {
       if (error) {
@@ -74,20 +81,14 @@ const CreateHelpSupport = () => {
         })
       }
     }
-    const formData = new FormData()
-    formData.set('title',title);
-    formData.set('slug',slug);
-    formData.set('shortDescription',shortDescription);
-    formData.set('category',category);
-    formData.set('content',content);
-    const res = await createHelp(formData);
+    const res = await createHelp(data);
     if(res.status === 200){
       setSubmit(false)
       navigate('/admin/manage-help-support')
       Toast(res.data.msg,'success',1000)
     }else{
       setSubmit(false)
-      Toast(res.data.message,'success',1000)
+      Toast(res.data.message,'error',1000)
     }
   
   }

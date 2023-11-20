@@ -9,7 +9,6 @@ const SatisfiedSection = ({ apiSectionName, title, dots, SectionStyle }) => {
   const GetLoopMedia = async () => {
     const data = { pageType: apiSectionName }
     const res = await getReviews(data);
-    
     if (res.status === 200) {
       setReviews(res.data.reviews)
     } else {
@@ -22,6 +21,8 @@ const SatisfiedSection = ({ apiSectionName, title, dots, SectionStyle }) => {
 
 
   return (
+    <>
+    {reviews?.length > 0 ?
     <div className={`flex flex-col justify-center maincontainer py-10 lg:py-16 xl:py-20 2xl:py-120px ${SectionStyle} ${dots ? 'mb-7' : ''}`} >
       {
         title ?
@@ -31,7 +32,8 @@ const SatisfiedSection = ({ apiSectionName, title, dots, SectionStyle }) => {
       <div className="relative" >
         <ReviewExSlider clientreviews={reviews} dots={dots} />
       </div>
-    </div>
+    </div>:null}
+    </>
   )
 }
 

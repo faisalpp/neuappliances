@@ -73,6 +73,17 @@ export const getTipBySlug = async (data) => {
   }
   return response;
 }
+export const getTipBySlugWithCategories = async (data) => {
+  let response;
+
+  try{
+    response = await api.post('/api/get-tip-by-slug-with-cateogries',data);
+  }catch (error){
+      return error;
+  }
+  return response;
+}
+
 export const getTipBySearch = async (data) => {
   let response;
 

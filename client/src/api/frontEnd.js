@@ -20,6 +20,26 @@ export const MultiApi = axios.create({
     maxBodyLength: 10 * 1024 * 1024, // 10 megabytes (10MB)
 });
 
+export const getFourTips = async () => {
+    let response;
+    
+    try{
+        response = await api.get('/api/get-four-tips');
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const searchHelp = async (data,params) => {
+    let response;
+    
+    try{
+        response = await api.post(`/api/search-help/?page=${params.page}&limit=${params.limit}`,data,{validateStatus:()=>true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const applyCoupon = async (data) => {
     let response;
 

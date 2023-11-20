@@ -16,7 +16,7 @@ const AppliancesTipsDetail = () => {
 
                 <SatisfiedSection title="Testimonials" />
 
-                <NewsLetterSection backimage="Newsletter.webp" />
+                <NewsLetterSection backimage="/Newsletter.webp" />
             </MainLayout>
         </>
     )

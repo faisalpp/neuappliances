@@ -6,6 +6,10 @@ const applianceTipsSchema = new mongoose.Schema({
     thumbnail: {type:String},
     category: {type:String,required:true},
     content: {type:String,required:true},
+    count: {type:String},
+    metaTitle: {type:String},
+    metaDescription: {type:String},
+    metaKeywords: {type:Array},
 },{timestamps: true});
 
 module.exports = mongoose.model('ApplianceTips',applianceTipsSchema,'applianceTips');
