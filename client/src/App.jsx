@@ -249,7 +249,7 @@ function App() {
         {/* Admin Help and Support Routes */}
         <Route path="/admin/manage-help-support" element={<ProtectedAdmin><ManageHelpSupport /></ProtectedAdmin>} />
         <Route path="/admin/create-help-support" element={<ProtectedAdmin><CreateHelpSupport /></ProtectedAdmin>} />
-        <Route path="/admin/update-help/:slug" element={<ProtectedAdmin><UpdateHelp /></ProtectedAdmin>} />
+        <Route path="/admin/update-help/:id" element={<ProtectedAdmin><UpdateHelp /></ProtectedAdmin>} />
         {/* Admin Hellpful Appliance Tips Routes */}
         <Route path="/admin/manage-appliance-tips" element={<ProtectedAdmin><ManageApplianceTips /></ProtectedAdmin>} />
         <Route path="/admin/create-appliance-tips" element={<ProtectedAdmin><CreateApplianceTips /></ProtectedAdmin>} />

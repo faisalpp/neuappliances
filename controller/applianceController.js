@@ -45,16 +45,39 @@ const applianceController = {
       });
 
     },
+    async GetLaundarySetAppliances(req,res,next){
+
+      let page = Number(req.body.page)
+      let limit = Number(req.body.limit)
+      let skip = (page - 1) * limit
+
+      try{
+       const products = await Product.find({category:'washer-&-dryer',subCategory:req.body.subCategory}).skip(skip).limit(limit).select('title').select('isSale').select('salePrice').select('regPrice').select('rating').select('media').select('tags').select('bulletDescription').select('brand');
+       const productsCount = await Product.countDocuments({category:'washer-&-dryer',subCategory:req.body.subCategory})
+       return res.status(200).json({status:200,products:products,productsCount:productsCount});
+      }catch(error){
+        return next(error)
+      }
+    },
+    async GetApplianceWithSlug(req,res,next){
+      const {slug} = req.body;
+      try{
+       const product = await Product.findOne({slug:slug});
+       return res.status(200).json({status:200,product:product})
+      }catch(error){
+        return next(error)
+      }
+    },
     async GetApplianceBySlug(req,res,next){
       const {slug} = req.body;
-
+      
       let product;
       try{
         product = await Product.findOne({slug:slug});
       }catch(error){
         return next(error)
       }
-      
+      // console.log(product)
       let threeStar;
       let fourStar;
       let fiveStar;
@@ -78,7 +101,9 @@ const applianceController = {
       if(product.productType === 'variant'){
         try{
          const prd = await Product.findOne({modelNo:product.modelNo,productType:'parent'}).select('keyFeatures')
-         keyFeatures = prd.keyFeatures;
+         if(prd){
+           keyFeatures = prd.keyFeatures;
+         }
         }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
       }
       return res.status(200).json({status:200,product:product,threeStar:threeStar,fourStar:fourStar,fiveStar:fiveStar,keyFeatures:keyFeatures});

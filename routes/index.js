@@ -140,6 +140,7 @@ router.post('/api/get-blog-by-cateogry',blogController.GetBlogByCategory);
  router.post('/api/get-help-by-slug',helpController.getHelpBySlug);
 // Help & Support Tab Admin Api's
  router.post('/api/admin/create-help-tab',adminAuth,helpTabController.createHelpTab);
+ router.post('/api/admin/update-help-tab',adminAuth,helpTabController.updateHelpTab);
  router.get('/api/get-help-tab',helpTabController.getHelpTabs);
  // Appliance Tips Admin Api's
  router.post('/api/admin/create-tip',adminAuth,tipsController.createTip);
@@ -257,6 +258,7 @@ router.post('/api/stripe/create-payment-intent',orderController.createPaymentInt
 router.post('/api/get-product-by-section',applianceController.GetApplianceBySectionType);
 router.post('/api/get-product-by-filter',applianceController.GetApplianceByFilter);
 router.post('/api/get-product-by-slug',applianceController.GetApplianceBySlug);
+router.post('/api/admin/get-product-by-slug',adminAuth,applianceController.GetApplianceWithSlug);
 router.post('/api/get-product-wiht-buying-options',applianceController.GetApplianceWithBuyingOptions);
 router.post('/api/get-product-buying-options',applianceController.GetApplianceBuyingOptions);
 router.get('/api/get-appliances',applianceController.GetAppliances);
@@ -268,6 +270,8 @@ router.get('/api/get-appliances-filters',applianceController.GetAppliancesFilter
 router.post('/api/search-appliance',applianceController.SearchAppliance);
 // Home Page Rating Products
 router.post('/api/slider-appliances',applianceController.GetSliderAppliances);
+// Washer & Dryer Appliances api
+router.post('/api/get-laundary-appliances',applianceController.GetLaundarySetAppliances);
 
 
 router.get('/affirm',adminController.affirm)

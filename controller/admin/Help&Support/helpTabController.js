@@ -16,7 +16,7 @@ const helpTabController = {
       
       const {title} = req.body;
       
-      const titleInUse = await HelpTab.exists({ title });        
+      const titleInUse = await HelpTab.exists({ title:title });        
       if (titleInUse) {
         const error = {
           status: 409, message:'Help & Support Tab Already Exist!'
@@ -25,10 +25,31 @@ const helpTabController = {
       }
 
       try{
-        const slug = title.toLowerCase().replace(/\s/g,'-');
-        const HelpTabCreate = new HelpTab({title,slug});
+        const HelpTabCreate = new HelpTab({title:title});
          await HelpTabCreate.save();
         return res.status(200).json({status: 200, msg:'Help & Support Tab Created!'});
+       }catch(err){
+         const error = {status:500,msg:"Internal Server Error!"}
+         return next(error)
+       }
+    },
+    async updateHelpTab(req, res, next) {
+    const helpSchema = Joi.object({
+        title: Joi.string().required(),
+        id: Joi.string().required(),
+      });
+      const { error } = helpSchema.validate(req.body);
+      
+      // 2. if error in validation -> return error via middleware
+      if (error) {
+        return next(error)
+      }
+      
+      const {id,title} = req.body;
+
+      try{
+       await HelpTab.findByIdAndUpdate(id,{title:title});
+        return res.status(200).json({status: 200, msg:'Help & Support Tab Updated!'});
        }catch(err){
          const error = {status:500,msg:"Internal Server Error!"}
          return next(error)
@@ -43,6 +64,7 @@ const helpTabController = {
         return next(error)
       }
     }
+
 }
 
 module.exports = helpTabController

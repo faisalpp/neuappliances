@@ -102,6 +102,16 @@ export const getNabarAppliances = async () => {
     return response;
 }
 
+export const GetLaundarySetAppliances = async (data) => {
+    let response;
+
+    try{
+        response = await api.post('/api/get-laundary-appliances',data);
+    }catch (error){
+        return error;
+    }
+    return response;
+}
 export const GetApplianceSections = async (data) => {
     let response;
 

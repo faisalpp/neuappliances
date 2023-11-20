@@ -95,15 +95,15 @@ const SideCart = () => {
   const RemoveCartItemData = async (e, indx,pId,price) => {
     e.preventDefault()
     setDelLoading(indx)
-    const data = { cartId:cartId ,productId:pId,price:price}
-    const res = await dispatch(RemoveFromCart(data));
-    if (res.payload.status === 200) {
-      setDelLoading('')
-      Toast(res.payload.msg,'success',1000)
-    }else {
-      setDelLoading('')
-      Toast(res.payload.message,'error',1000)
-    }
+      const data = { cartId:cartId ,productId:pId,price:price}
+      const res = await dispatch(RemoveFromCart(data));
+      if (res.payload.status === 200) {
+        setDelLoading('')
+        Toast(res.payload.msg,'success',1000)
+      }else {
+        setDelLoading('')
+        Toast(res.payload.message,'error',1000)
+      }
   }
 
   const [zipChange,setZipChange] = useState(false)

@@ -1,8 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { FiChevronDown } from 'react-icons/fi'
-import LaundryCard from './LaundryCard'
+import LaundryDryerCard from './LaundryDryerCard'
+import LaundryWasherCard from './LaundaryWasherCard'
+import {GetLaundarySetAppliances} from '../../../api/frontEnd'
+import BtnLoader from '../../Loader/BtnLoader'
+import Pagination from '../../Pagination/Pagination2'
 
-const Filter = () => {
+const Filter = ({type}) => {
+
+    const [products,setProducts] = useState([])
+    const [filter,setFilter] = useState({})
+    const [loading,setLoading] = useState(false)
+
+    const [page,setPage] = useState(1)
+    const [limit,setLimit] = useState(4)
+    const [totalCount,setTotalCount] = useState(1)
+
+    const GetLaundaryAppliances = async () => {
+     setLoading(true)
+     const res = await GetLaundarySetAppliances({subCategory:type==='washer'?'dryer':'washer',page:page,limit:limit})
+     if(res.status === 200){
+      setProducts(res.data.products)
+      setTotalCount(Math.ceil(res.data.productsCount/limit))
+      setLoading(false)
+     }else{
+      setLoading(false)
+     }
+    }
+
+    useEffect(()=>{
+        GetLaundaryAppliances()
+    },[type,page])
 
     
     const LaundaryFilter = ({id,title,filters}) => {
@@ -33,12 +61,11 @@ const Filter = () => {
                     <LaundaryFilter id="4" title="Popular Brands" filters={[{title:'3 Star Rating',link:'/products/?rating=3'},{title:'4 Star Rating',link:'/products/?rating=4'},{title:'5 Star Rating',link:'/products/?rating=5'}]} />            
                 </div>
             </div>
-            <div className='grid grid-cols-1 2xl:grid-cols-2 xl:grid-cols-2 gap-4'>
-                <LaundryCard />
-                <LaundryCard />
-                <LaundryCard />
-                <LaundryCard />
-            </div>
+            {loading ? <div className='flex flex-col items-center justify-center w-full h-80' ><BtnLoader/></div> : products.length > 0 ?<div className='grid grid-cols-1 2xl:grid-cols-2 xl:grid-cols-2 gap-4'>
+              {type === 'dryer' ? products.map((product)=><LaundryWasherCard data={product} />):null}
+              {type === 'washer' ? products.map((product)=><LaundryDryerCard data={product} />):null}
+            </div>:<div className='flex items-center justify-center w-full h-80' ><img src="/not-found.webp" className='w-32' /></div>}
+            {products.length > 0 ?<Pagination page={page} setPage={setPage} totalPages={totalCount} />:null}
         </div>
     )
 }

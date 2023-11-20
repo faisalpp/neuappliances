@@ -38,6 +38,7 @@ import DateFormat from '../utils/DateFormat'
 import axios from 'axios'
 import { format, getDay, getDate, getMonth, getYear } from 'date-fns';
 import Popup from '../components/AdminDashboard/Popup'
+import {setWasher,setDryer,resetDryer,resetWasher} from '../store/laundarySlice'
 
 const Product = () => {
   // Get slug form url
@@ -107,9 +108,9 @@ const Product = () => {
    }
   const [childKeyFeatures,setChildKeyFeatures] = useState({})
   const GetProduct = async () => {
-    const data = { slug }
     setLoading(true)
-    const res = await GetAppliancesBySlug(data);
+    const res = await GetAppliancesBySlug({ slug:slug });
+    console.log(res)
     if (res.status === 200) {
       setProduct(res.data.product)
       setThreeStar(res.data.threeStar)
@@ -117,6 +118,16 @@ const Product = () => {
       setFiveStar(res.data.fiveStar)
       setChildKeyFeatures(res.data.keyFeatures)
       setMediaViewer({file:res.data.product.media[0].file,type:res.data.product.media[0].type,data:res.data.product.media[0].data,thumbnail:res.data.product.media[0].preview })
+      const laundaryItem = {id:res.data.product._id,title:res.data.product.title,isSale:res.data.product.isSale,salePrice:res.data.product.salePrice,regPrice:res.data.product.regPrice,rating:res.data.product.rating,bulletDescription:res.data.product.bulletDescription,brand:res.data.product.brand,tags:res.data.product.tags,media:res.data.product.media.find((item)=>item.file === 'image')?.data}
+      if(res.data.product.subCategory === 'washer'){
+        dispatch(resetWasher())
+        dispatch(resetDryer())
+        dispatch(setWasher(laundaryItem))
+      }else if(res.data.product.subCategory === 'dryer'){
+        dispatch(resetDryer())
+        dispatch(resetWasher())
+        dispatch(setDryer(laundaryItem))
+      }
       CheckFavorite()
       setLoading(false)
     } else {
@@ -311,7 +322,7 @@ const Product = () => {
           <MoreImagesModal medias={product.media} state={imgModal} setState={setImgModal} />
 
           {/* All Modal */}
-          <CustomModal openmodal={openModal} closeModal={handleCloseModal} />
+          <CustomModal subCategory={product.subCategory} openmodal={openModal} closeModal={handleCloseModal} />
           {/* End */}
           {/* Bread Crumbs Start */}
           <div className='flex items-center py-10 maincontainer' >

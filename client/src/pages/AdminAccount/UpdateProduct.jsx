@@ -21,10 +21,11 @@ import BlogEditor from '../../components/AdminDashboard/BlogEditor'
 import Popup from '../../components/AdminDashboard/Popup'
 import Accordion from '../../components/FaqAccordion2'
 import { useNavigate,useParams } from 'react-router-dom';
-import {GetAppliancesBySlug} from '../../api/frontEnd'
+import {getProductBySlug} from '../../api/admin'
 import TxtTransform from '../../utils/TextTransform'
 
 const UpdateProduct = () => {
+  const [subCategories,setSubCategories] = useState(['Washer','Dryer'])
   const [categories,setCategories] = useState([])
   const [brands,setBrands] = useState([])
   const [features,setFeatures] = useState([])
@@ -58,9 +59,9 @@ const UpdateProduct = () => {
   };
   
    useEffect(()=>{
-    const getProductBySlug = async () => {
+    const GetProductBySlug = async () => {
       setLoader(true)  
-      const res = await GetAppliancesBySlug({slug:pSlug})
+      const res = await getProductBySlug({slug:pSlug})
       const res2 = await GetCategories();
       if(res.status === 200 && res2.status === 200){
       const res3 = await getCategoryData({categorySlug:res.data.product.category})
@@ -81,7 +82,10 @@ const UpdateProduct = () => {
       setProductTypes(updatedProductTypes)
       
       const metaKeywordsArray = res.data.product.metaKeywords.split(', ').map(keyword => keyword.trim());
+      const subCategoryFilt = subCategories.filter((item)=>item.toLocaleLowerCase() !== res.data.product.subCategory)
+      
       const data = {subCategory:res.data.product.subCategory,productType:res.data.product.productType,title:res.data.product.title,slug:res.data.product.slug,category:res.data.product.category,feature:res.data.product.feature,type:res.data.product.type,color:res.data.product.color,brand:res.data.product.brand,fuelType:res.data.product.fuelType,regPrice:res.data.product.regPrice,salePrice:res.data.product.salePrice,lowPrice:res.data.product.lowPrice,highPrice:res.data.product.highPrice,rating:res.data.product.rating,stock:res.data.product.stock,modelNo:res.data.product.modelNo,itemId:res.data.product.itemId,keyFeatures:res.data.product.keyFeatures,featureVideo:res.data.product.featureVideo,threeSixty:res.data.product.threeSixty,media:res.data.product.media,description:res.data.product.description,specification:res.data.product.specification,deliveryInfo:res.data.product.deliveryInfo,metaTitle:res.data.product.metaTitle,metaDescription:res.data.product.metaDescription,metaKeywords:metaKeywordsArray,tags:res.data.product.tags,bulletDescription:res.data.product.bulletDescription}
+      setSubCategories([TxtTransform.Cap1Char(res.data.product.subCategory),...subCategoryFilt])
       setDescription(res.data.product.description)
       setSpecification(res.data.product.specification)
       setDeliveryInfo(res.data.product.deliveryInfo)
@@ -92,7 +96,7 @@ const UpdateProduct = () => {
       setLoader(false)
     }
    }
-   getProductBySlug()
+   GetProductBySlug()
   },[])
 
    
@@ -546,11 +550,11 @@ useEffect(()=>{
      <div className="flex items-center space-x-5 w-full" >
       <TextInput name="title" title="Title" iscompulsory="true" type="text" value={values.title} onChange={(e)=>handleTitle(e)} error={errors && errors.includes('Title is Required!') ? true : false} errormessage="Title is Required!" placeholder="Enter Product Title" />
       <TextInput name="slug" readOnly title="Slug" iscompulsory="true" type="text" value={values.slug} error={errors && errors.includes('Product Slug is Required!') ? true : false} errormessage="Slug is Required!" placeholder="Slug is Required!" />
-     </div>{values.subCategory}
+     </div>
      <div className='flex space-x-5' >
       <SelectInput name="categor" title="Product Type" iscompulsory="true" onChange={e =>handleInputChange(e,'productType') } options={productTypes} />   
       <SelectInput name="categor" title="Product Category" iscompulsory="true" onChange={e =>handleInputChange(e,'category')} options={categories} />
-      {values.category === 'washer-&-dryer'?<SelectInput title="Product Sub Category" iscompulsory="true" onChange={e =>handleInputChange(e,'subCategory')} options={['Washer','Dryer']} />:null}
+      {values.category === 'washer-&-dryer'?<SelectInput title="Product Sub Category" iscompulsory="true" onChange={e =>handleInputChange(e,'subCategory')} options={subCategories} />:null}
      </div>
      <div className="flex space-x-5 items-center w-full" >
       {features.length > 0 ? <SelectInput name="categor" title="Product Feature" iscompulsory="true" onChange={e =>handleInputChange(e,'feature')} options={features} />:null}

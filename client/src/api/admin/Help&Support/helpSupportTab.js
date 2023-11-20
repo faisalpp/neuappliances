@@ -17,7 +17,17 @@ export const createHelpTab = async (data) => {
     let response;
     
     try{
-        response = await AdminApi.post('/api/admin/create-help-tab',data);
+        response = await AdminApi.post('/api/admin/create-help-tab',data,{validateStatus:() => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}
+export const updateHelpTab = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/update-help-tab',data,{validateStatus:() => true});
     }catch (error){
         return error;
     }

@@ -7,6 +7,7 @@ import { GetAllCategories, updateCategoriesIndex, deleteCategory } from '../../a
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { toast } from 'react-toastify';
 import { MdMenuOpen } from "react-icons/md";
+import Toast from '../../utils/Toast'
 
 const ManageCategories = () => {
 
@@ -17,7 +18,6 @@ const ManageCategories = () => {
   const Categories = async () => {
     setLoading(true)
     const res = await GetAllCategories();
-    console.log(res)
     if (res.status === 200) {
       setLoading(false)
       setCategories(res.data.categories);
@@ -38,39 +38,13 @@ const ManageCategories = () => {
     
     if (res.status === 200) {
       setIloading(false)
-      toast.success(res.data.msg, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.msg,'success',1000)
       Categories()
     } else {
       setIloading(false)
-      toast.error(res.data.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.message,'error',1000)
     }
   }
-
-  const StarIconPrinter = ({ numberOfTimes }) => {
-    const starIcons = Array.from({ length: numberOfTimes }, (_, index) => (
-      <AiFillStar key={index} className='text-b7' /> // Render the star icon component for each iteration
-    ));
-
-    return <div className='flex items-center' >{starIcons}</div>; // Render the array of star icons
-  };
 
   const hyphenToCamelCase = (str) => {
     if (str) {
@@ -101,33 +75,15 @@ const ManageCategories = () => {
   const DeleteCategory = async (e, id) => {
     e.preventDefault()
     setDelLoading(id)
-    const data = { id: id }
-    const res = await deleteCategory(data);
+    const res = await deleteCategory({ id: id });
+    console.log(res)
     if (res.status === 200) {
-      setDelLoading(false)
+      Toast(res.data.msg,'success',1000)
+      setDelLoading('')
       Categories()
-      toast.success(res.data.msg, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
     } else {
       setDelLoading('')
-      toast.error(res.data.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      Toast(res.data.message,'error',1000)
     }
   }
 

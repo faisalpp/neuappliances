@@ -22,8 +22,8 @@ const CreateHelpSupport = () => {
     title: Yup.string().required('Title is required'),
     slug: Yup.string().required('Slug is required'),
     shortDescription: Yup.string().required('Short Description is required'),
-    category: Yup.string().required('Blog Category is required'),
-    content: Yup.string().required('Blog Content is required'),
+    category: Yup.string().required('Help Category is required'),
+    content: Yup.string().required('Help Content is required'),
   });
 
   const navigate = useNavigate()
@@ -115,8 +115,8 @@ const CreateHelpSupport = () => {
           <form onSubmit={CreateHelpSupport} className='flex flex-col space-y-5 w-full py-5 bg-white' >
           <div className='flex w-full' >
            <div className='flex flex-col space-y-10 w-1/2' >
-            <TextInput width="full" name="title" title="Blog Title" iscompulsory="true" type="text" value={title} onChange={(e)=>{setTitle(e.target.value);setSlug(e.target.value.toLowerCase().replace(/\s/g,'-').replace(/\./g, ''))}} error={errors && errors.includes('Title is required') ? true : false} errormessage="Title is required" placeholder="Enter Blog Title" />
-            <TextInput width="full" name="slug" title="Blog Slug" readOnly iscompulsory="true" type="text" value={slug} error={errors && errors.includes('Slug is required') ? true : false} errormessage="Slug is required" placeholder="Enter Blog Slug" />
+            <TextInput width="full" name="title" title="Help Title" iscompulsory="true" type="text" value={title} onChange={(e)=>{setTitle(e.target.value);setSlug(e.target.value.toLowerCase().replace(/\s/g,'-').replace(/\./g, ''))}} error={errors && errors.includes('Title is required') ? true : false} errormessage="Title is required" placeholder="Enter Help Title" />
+            <TextInput width="full" name="slug" title="Help Slug" readOnly iscompulsory="true" type="text" value={slug} error={errors && errors.includes('Slug is required') ? true : false} errormessage="Slug is required" placeholder="Enter Help Slug" />
            </div>
            <div className="flex flex-col space-y-8 items-center w-1/2" >
             <div className='flex flex-col items-center space-x-5 w-72' >
@@ -130,7 +130,7 @@ const CreateHelpSupport = () => {
             <BlogEditor state={content} setState={setContent} />
 
                             {/* Seo Start */}
-      <Accordion title="Blog Seo" answer={
+      <Accordion title="Help Seo" answer={
        <div className='flex flex-col space-y-2 w-full' > 
          <TextInput width="full" name="title" title="Meta Title" type="text" value={metaTitle} onChange={e =>setMetaTitle(e.target.value)} placeholder="Enter Meta Title" />
          <TextArea width="full" title="Meta Description" value={metaDescription} onChange={e =>setMetaDescription(e.target.value)} placeholder="Write Meta Description Here.." /> 

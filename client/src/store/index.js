@@ -3,6 +3,7 @@ import userReducer from "./userSlice";
 import cartReducer from "./cartSlice";
 import adminReducer from "./adminSlice";
 import orderReducer from "./orderSlice";
+import laundaryReducer from "./laundarySlice";
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
@@ -13,6 +14,7 @@ const reducers = combineReducers({
   cart: cartReducer,
   admin: adminReducer,
   order: orderReducer,
+  laundary: laundaryReducer,
 });
 
 const persistConfig = {

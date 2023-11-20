@@ -4,8 +4,10 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import Popup from '../Popup'
 import TextInput from '../../TextInput/TextInput';
 import { BsArrowRightShort } from 'react-icons/bs'
+import BtnLoader from '../../Loader/BtnLoader'
 
-const HelpTabCreator = ({title,state,setState}) => {
+
+const HelpTabCreator = ({setState,tabs,handleUpdate,loading}) => {
 
   return (
     <>
@@ -16,12 +18,8 @@ const HelpTabCreator = ({title,state,setState}) => {
           </div>
           
           <div className='flex flex-wrap px-1 py-4 gap-x-2 gap-y-2 overflow-x-hidden overflow-y-scroll h-36 mx-1' >
-            <div className='flex  items-center bg-b31/20 border-[1px] px-3 text-sm rounded-2xl font-medium h-fit' ><span className='w-full py-2 pr-2 border-r-[1px] border-b31' >Delivery ( 2 Blogs )</span><div className='flex space-x-2 pl-2' ><span className='bg-b6 flex px-[6px] py-[6px] rounded-full' ><BsPencil className='text-white' /></span><span className='bg-red-500 flex px-[6px] py-[6px] rounded-full' ><FaRegTrashCan className='text-white' /></span></div></div>
-            <div className='flex  items-center bg-b31/20 border-[1px] px-3 text-sm rounded-2xl font-medium h-fit' ><span className='w-full py-2 pr-2 border-r-[1px] border-b31' >Delivery ( 2 Blogs )</span><div className='flex space-x-2 pl-2' ><span className='bg-b6 flex px-[6px] py-[6px] rounded-full' ><BsPencil className='text-white' /></span><span className='bg-red-500 flex px-[6px] py-[6px] rounded-full' ><FaRegTrashCan className='text-white' /></span></div></div>
-            <div className='flex  items-center bg-b31/20 border-[1px] px-3 text-sm rounded-2xl font-medium h-fit' ><span className='w-full py-2 pr-2 border-r-[1px] border-b31' >Delivery ( 2 Blogs )</span><div className='flex space-x-2 pl-2' ><span className='bg-b6 flex px-[6px] py-[6px] rounded-full' ><BsPencil className='text-white' /></span><span className='bg-red-500 flex px-[6px] py-[6px] rounded-full' ><FaRegTrashCan className='text-white' /></span></div></div>
-            <div className='flex  items-center bg-b31/20 border-[1px] px-3 text-sm rounded-2xl font-medium h-fit' ><span className='w-full py-2 pr-2 border-r-[1px] border-b31' >Delivery ( 2 Blogs )</span><div className='flex space-x-2 pl-2' ><span className='bg-b6 flex px-[6px] py-[6px] rounded-full' ><BsPencil className='text-white' /></span><span className='bg-red-500 flex px-[6px] py-[6px] rounded-full' ><FaRegTrashCan className='text-white' /></span></div></div>
-            <div className='flex  items-center bg-b31/20 border-[1px] px-3 text-sm rounded-2xl font-medium h-fit' ><span className='w-full py-2 pr-2 border-r-[1px] border-b31' >Delivery ( 2 Blogs )</span><div className='flex space-x-2 pl-2' ><span className='bg-b6 flex px-[6px] py-[6px] rounded-full' ><BsPencil className='text-white' /></span><span className='bg-red-500 flex px-[6px] py-[6px] rounded-full' ><FaRegTrashCan className='text-white' /></span></div></div>
-            <div className='flex  items-center bg-b31/20 border-[1px] px-3 text-sm rounded-2xl font-medium h-fit' ><span className='w-full py-2 pr-2 border-r-[1px] border-b31' >Delivery ( 2 Blogs )</span><div className='flex space-x-2 pl-2' ><span className='bg-b6 flex px-[6px] py-[6px] rounded-full' ><BsPencil className='text-white' /></span><span className='bg-red-500 flex px-[6px] py-[6px] rounded-full' ><FaRegTrashCan className='text-white' /></span></div></div>
+          
+           {loading ? <BtnLoader style="w-10 h-10 mt-10" /> : tabs.length > 0 ? tabs.map((tab)=> <div className='flex items-center bg-b31/20 border-[1px] px-3 text-sm rounded-2xl font-medium h-fit' ><span className='w-full py-2 pr-2 border-r-[1px] border-b31' >{tab.title}</span><div className='flex space-x-2 pl-2' ><span onClick={e=>handleUpdate(e,tab._id,tab.title)} className='bg-b6 flex px-[6px] py-[6px] rounded-full cursor-pointer' ><BsPencil className='text-white' /></span>{tab.title !== 'Uncategorized'?<span className='bg-red-500 flex px-[6px] py-[6px] rounded-full cursor-pointer' ><FaRegTrashCan className='text-white' /></span>:null}</div></div>):<h3 className='text-red-500 text-sm font-semibold' >No Tabs Found!</h3>}
           </div>
 
 

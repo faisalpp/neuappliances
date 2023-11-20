@@ -6,7 +6,7 @@ import MainLayout from '../layout/MainLayout';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { FaBars } from 'react-icons/fa';
 import { BsGrid, BsChevronDown } from 'react-icons/bs';
-import { useLocation } from 'react-router-dom';
+import { useLocation,useNavigate } from 'react-router-dom';
 import { GetAppliancesBySection, getAppliancesFilters,GetAppliancesByFilter } from '../api/frontEnd'
 import Loader from '../components/Loader/Loader'
 import Toast from '../utils/Toast'
@@ -40,7 +40,7 @@ const Products = () => {
     for (const [key, value] of queryParams.entries()) {
       queryParamsObject[key] = value;
     }     
-    console.log(queryParamsObject)
+    // console.log(queryParamsObject)
     setParams({isSale:true,salePrice:{$gte:200,$lte:8000},sort:1,...queryParamsObject})
   }
   

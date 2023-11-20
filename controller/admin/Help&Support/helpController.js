@@ -1,6 +1,7 @@
 const Help = require('../../../models/helpNsupport');
 const BlogDTO = require('../../../dto/admin/blog');
-const Joi = require('joi')
+const Joi = require('joi');
+const TitleDuplicateProcessor = require('../../../services/TitleDuplicateProcessor');
 
 const helpController = {
     async createHelp(req, res, next) {
@@ -47,6 +48,9 @@ const helpController = {
             shortDescription: Joi.string().required() ,
             category: Joi.string().required(),
             content: Joi.string().required(),
+            metaTitle: Joi.string().required(),
+            metaDescription: Joi.string().required(),
+            metaKeywords: Joi.array().required(),
           });
           const { error } = helpSchema.validate(req.body);
           
@@ -56,24 +60,14 @@ const helpController = {
           }
           
           // 3. if email or username is already registered -> return an error
-          const {id,title,slug,shortDescription,category,content } = req.body;
-          
-          const inUse = await Help.exists({ _id:id });        
-          if (!inUse) {
-            const error = {
-              status: 409, message:'Help & Support Not Found!'
-            }
-            return next(error)
-          }
+          const {id,title,slug,shortDescription,category,content,metaTitle,metaDescription,metaKeywords } = req.body;
 
         try {
-         const updatedBlog = await Help.findByIdAndUpdate(
+           await Help.findByIdAndUpdate(
            id,
-           {title,slug,shortDescription,category,content},
-           { new: true }
+           {title,slug,shortDescription,category,content,metaTitle,metaDescription,metaKeywords}
          );
          return res.status(200).json({status:200,msg:'Help & Support Updated Successfully!'});
-        
         } catch (error) {
            const err = {status:500,msg:"Internal Server Error!"}
            return next(err);
@@ -102,7 +96,7 @@ const helpController = {
 
     async duplicateHelp(req, res, next) {
       const blogSchema = Joi.object({
-          slug: Joi.string().required(),
+          id: Joi.string().required(),
         });
         const { error } = blogSchema.validate(req.body);
         
@@ -112,14 +106,14 @@ const helpController = {
         }
         
         // 3. if email or username is already registered -> return an error
-        const {slug} = req.body;
+        const {id} = req.body;
         
-        const blog = await Help.findOne({ slug });  
+        const blog = await Help.findOne({ _id:id });  
         if (blog) {
-            const title = blog.title + '(Duplicate)' + Date.now();
+            const title = TitleDuplicateProcessor(blog.title)
             const slug = title.toLocaleLowerCase().replace(/\s/g,'-');
             try{
-              const BlogToCreate = new Help({title:title,slug:slug,category:blog.category,shortDescription:blog.shortDescription,content:blog.content});
+              const BlogToCreate = new Help({tabId:blog._id,title:title,slug:slug,category:blog.category,shortDescription:blog.shortDescription,content:blog.content,metaTitle:blog.metaTitle,metaDescription:blog.metaDescription,metaKeywords:blog.metaKeywords});
               await BlogToCreate.save();
               return res.status(200).json({status: 200, msg:'Help & Support Duplicate Created!'});
             }catch(err){
@@ -210,7 +204,7 @@ const helpController = {
 
       async getHelpBySlug(req, res, next) {
         const helpSchema = Joi.object({
-            slug: Joi.string().required(),
+            id: Joi.string().required(),
           });
           const { error } = helpSchema.validate(req.body);
           
@@ -219,10 +213,10 @@ const helpController = {
             return next(error)
           }
     
-          const {slug} = req.body;
+          const {id} = req.body;
     
           try{
-            const help = await Help.find({slug:slug});        
+            const help = await Help.findOne({_id:id});        
             return res.status(200).json({status: 200, help:help});
           }catch(error){
             return next(error)

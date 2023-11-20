@@ -49,7 +49,7 @@ const SideCartCard = (props) => {
             <div>
                 
                 <button type='button' onClick={(e) => props.RemoveFromCart(e,props.indx,props.item.pid,price)} >
-                    {props.delState.index === props.indx ? <RiDeleteBin6Line className='text-xl text-red-500 animate-bounce' /> : <RiDeleteBin6Line className='text-xl text-b3' />}
+                    {props.delState === props.indx ? <RiDeleteBin6Line className='text-xl text-red-500 animate-bounce' /> : <RiDeleteBin6Line className='text-xl text-b3' />}
                 </button>
             </div>
         </div>

@@ -5,6 +5,7 @@ import HeaderFilter from '../../components/DeskComp/Filter/HeaderFilter';
 import SaleFilter from '../../components/DeskComp/Filter/SaleFilter';
 import MultiRangeSlider from './MultiRangeSlider/MultiRangeSlider';
 import Loader2 from '../../components/Loader/Loader2'
+import { redirect } from 'react-router-dom';
 
 const Filter = ({ loading,onClose,isFilter, categoriesFilters, ratingFilters,saleFilter,regularFilter,setQuery,query }) => {
     const handleFilterClick = (event) => {
@@ -23,7 +24,7 @@ const Filter = ({ loading,onClose,isFilter, categoriesFilters, ratingFilters,sal
                     <p className='text-base font-bold'>
                         Filters
                     </p>
-                    <span onClick={()=>{delete query.category;delete query.query;setQuery({salePrice: { '$gte': 200,'$lte':8000 }})}} className='cursor-pointer text-sm lg:text-xs text-[#22A6AB] hover:underline'>
+                    <span onClick={()=>{setQuery({isSale:true,salePrice:{$gte:200,$lte:8000},sort:1})}} className='cursor-pointer text-sm lg:text-xs text-[#22A6AB] hover:underline'>
                         Reset Filters
                     </span>
                     <button onClick={onClose} className='text-sm font-semibold lg:hidden px-2 py-1 hover:bg-black/5 rounded duration-300'>
