@@ -21,7 +21,7 @@ const adminCartController = {
     
     let UPDATED_PRODUCT;
     const PRODUCT = await Product.findOne({_id:productId,stock:{$gt:0}})
-    
+    const return_price = PRODUCT.isSale ? PRODUCT.salePrice : PRODUCT.regPrice;
     if(PRODUCT){
      const PRODUCT_STOCK = PRODUCT.stock - 1;
      UPDATED_PRODUCT = await Product.findOneAndUpdate({_id:productId},{stock:PRODUCT_STOCK},{ new: true })
@@ -76,7 +76,7 @@ const adminCartController = {
           },
         { new: true }
       );  
-    return res.status(200).json({status:200,data:UPDATED_CART})
+    return res.status(200).json({status:200,data:UPDATED_CART,price:return_price})
      }catch(error){
        return res.status(500).json({status:500,messge:'Internal Server Error!'})
      }

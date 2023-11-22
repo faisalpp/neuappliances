@@ -530,10 +530,10 @@ if(oldUser){
      paymentMethod: Joi.string().required(),
      shippingAddress: Joi.object().required(),
      billingAddress: Joi.object().required(),
-     tax: Joi.object().required(),
+     tax: Joi.number().required(),
      subTotal: Joi.number().required(),
      shipping: Joi.object().required(),
-     coupon: Joi.number().required(),
+     coupon: Joi.string().required(),
      grandTotal: Joi.number().required(),
      cartCount: Joi.number().required(),
      products: Joi.array().required(),
@@ -573,7 +573,7 @@ if(oldUser){
     try{
      if(!isShippingAddress){
        const newShippingAddress = new OrderAddress({userId:customerId,type:'shipping',email: shippingAddress.email,firstName:shippingAddress.firstName,lastName: shippingAddress.lastName,address: shippingAddress.address,appartment: shippingAddress.appartment,country: shippingAddress.country,state: shippingAddress.state,city: shippingAddress.city,postalCode: shippingAddress.postalCode,phone: shippingAddress.phone});
-        newShippingAddress = new OrderAddress({type:'shipping',email: shippingAddress.email,firstName:shippingAddress.firstName,lastName: shippingAddress.lastName,address: shippingAddress.address,appartment: shippingAddress.appartment,country: shippingAddress.country,state: shippingAddress.state,city: shippingAddress.city,postalCode: shippingAddress.postalCode,phone: shippingAddress.phone});
+        // newShippingAddress = new OrderAddress({type:'shipping',email: shippingAddress.email,firstName:shippingAddress.firstName,lastName: shippingAddress.lastName,address: shippingAddress.address,appartment: shippingAddress.appartment,country: shippingAddress.country,state: shippingAddress.state,city: shippingAddress.city,postalCode: shippingAddress.postalCode,phone: shippingAddress.phone});
        const getShippingAddress = await newShippingAddress.save();
        shippingAddressId = getShippingAddress._id;
       }else{
@@ -605,7 +605,6 @@ if(oldUser){
 
     let ip = req?.ip;
 
-    
     try{
      const newOrder = new Order({
        customerId:customerId,
@@ -616,9 +615,9 @@ if(oldUser){
        billingAddress:billingAddressId,
        paymentInfo: {id:transactionId,name:paymentMethod,created:new Date()},
        shipping: shipping,
-       tax: tax.amount,
+       tax: tax,
        total: subTotal,
-       coupon: coupon,
+       coupons: JSON.parse(coupon),
        orderStatus: orderStatus,
        grandTotal: grandTotal,
        cartCount: cartCount,

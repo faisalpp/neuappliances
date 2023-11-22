@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
 import cartReducer from "./cartSlice";
 import adminReducer from "./adminSlice";
+import adminCartReducer from "./adminCart";
 import orderReducer from "./orderSlice";
 import laundaryReducer from "./laundarySlice";
 import storage from 'redux-persist/lib/storage';
@@ -15,12 +16,14 @@ const reducers = combineReducers({
   admin: adminReducer,
   order: orderReducer,
   laundary: laundaryReducer,
+  adminCart:adminCartReducer
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  devTools:true
+  devTools:true,
+  blacklist: ['adminCart'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

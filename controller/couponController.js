@@ -36,12 +36,12 @@ const couponController = {
 
 
       const couponToken = JWTService.signAccessToken({ code:code  }, expiryTimestamp);
-
-      try{
-       const newCoupon = new Coupon({code:code,description:description,type:type,amount:parseInt(amount), expiry:{token:couponToken,date:expiry},min:{isMin:isMin,amount:parseInt(min)},max:{isMin:isMax,amount:parseInt(max)},singleUse:singleUse,excSale:excSale,isFreeShipping:isFreeShipping,maxCount:parseInt(maxCount)})
+      const AMOUNT = amount.length > 0 ? amount : 0;
+      // try{
+       const newCoupon = new Coupon({code:code,description:description,type:type,amount:Number(AMOUNT), expiry:{token:couponToken,date:expiry},min:{isMin:isMin,amount:parseInt(min)},max:{isMin:isMax,amount:parseInt(max)},singleUse:singleUse,excSale:excSale,isFreeShipping:isFreeShipping,maxCount:parseInt(maxCount)})
        await newCoupon.save()
        return res.status(200).json({status:200,msg:'Coupon Created Successfully!'})
-      }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!',error:error})}
+      // }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!',error:error})}
   },
 
   async getCoupons(req, res, next) {
@@ -269,7 +269,7 @@ const couponController = {
       }else{
        grandTotal2 = subTotal2 + getCart.orderInfo.shipping + getCart.tax;
       }
-     // try{
+     try{
      const UPDATED_CART = await Cart.findOneAndUpdate(
       { _id: cartId }, // Match the cart based on its _id
       { $pull: { coupons: { _id: coupon._id } },
@@ -278,11 +278,36 @@ const couponController = {
      },{new:true}
     );
      return res.status(200).json({status:200,cart:UPDATED_CART,msg:'Coupon Code Applied!'})        
-    // }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+    }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
 
     }
 
   },
+
+  async CheckCoupon(req, res, next) {
+    const couponSchema = Joi.object({
+      code: Joi.string().required(),
+    });
+    const { error } = couponSchema.validate(req.body);
+
+    // 2. if error in validation -> return error via middleware
+    if (error) {
+      return next(error)
+    }
+
+    
+    const { code} = req.body;
+
+    const COUPON = await Coupon.findOne({code:code})
+    if(COUPON){
+      return res.status(200).json({status:200,coupon:COUPON})      
+    }else{
+      return res.status(404).json({status:404})      
+    }
+
+  },
+
+
 
 }
 

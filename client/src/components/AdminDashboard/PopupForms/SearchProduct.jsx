@@ -9,6 +9,7 @@ import {searchOrderByTitleOrModel} from '../../../api/admin/order'
 import BtnLoader from '../../Loader/BtnLoader'
 import { useDispatch, useSelector } from 'react-redux'
 import {AddToCart} from '../../../store/adminSlice'
+import {setSubTotal} from '../../../store/adminCart'
 
 const SearchProduct = ({sstate,setsState,SelectProduct}) => {
   const [searchResult,setSearchResult] = useState([])
@@ -20,8 +21,9 @@ const SearchProduct = ({sstate,setsState,SelectProduct}) => {
         const AddProduct = async (e) => {
          e.preventDefault()
           const res = await dispatch(AddToCart({cartId:cartId,productId:id}))
-          
+          // console.log(res.payload.price)
           if(res.payload.status === 200){
+            dispatch(setSubTotal(res.payload.price))
             Toast('Product Added!','success',1000)
             setSearchResult([])
             setsState(false)
@@ -96,7 +98,7 @@ const SearchProduct = ({sstate,setsState,SelectProduct}) => {
 
           <div>
             <h3 className='font-semibold text-sm' >Search Results</h3>
-            <div className='flex flex-col px-2 border-[1px] border-b31 h-72 mt-1 rounded-md' >
+            <div className='flex flex-col px-2 border-[1px] border-b31 hf-72 overflow-x-hidden overflow-y-scroll mt-1 rounded-md' >
               {/* Seach Result Card Start */}
               <Table head={['Image','Title','Model #','Type','Sale Price','Regular Price','Stock','Action']} >
                 {searchResult?.length > 0 ? searchResult?.map((product)=><SearchRow rating={product.rating} id={product._id} image={product.media} title={product.title} model={product.modelNo} regularPrice={product.regPrice} salePrice={product.salePrice} type={product.productType} stock={product.stock} isSale={product.isSale} />):

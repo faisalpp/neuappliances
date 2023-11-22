@@ -137,3 +137,13 @@ export const getCart = async (data) => {
     }
     return response;
 }
+export const CheckCoupon = async (data) => {
+    let response;
+    
+    try{
+        response = await AdminApi.post('/api/admin/check-coupon',data,{validateStatus: () => true});
+    }catch (error){
+        return error;
+    }
+    return response;
+}

@@ -8,7 +8,7 @@ const initialState = {
   firstName: "",
   lastName: "",
   auth: false,
-  cart:{}
+  cart:{},
 };
 
 // Create an async thunk for the login action
@@ -111,7 +111,7 @@ export const adminSlice = createSlice({
     },
     resetCart: (state) => {
       state.cart = {};
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loginAdmin.fulfilled, (state, action) => {
