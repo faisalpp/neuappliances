@@ -10,11 +10,9 @@ const Product = require('../models/product')
 const bcrypt = require("bcryptjs");
 const RandExp = require('randexp');
 const SendMail = require('../services/NeuMailer')
-const ManageOrder = require('../services/ManageOrder')
 const EmailTemplates = require('../services/EmailTemplates')
 const Stripe = require('stripe')(STRIPE_PRIVATE_KEY)
 const crypto = require('crypto')
-const {Types} = require('mongoose');
 const Guest = require('../models/Guest');
 const JWT = require('../services/JwtService')
 
@@ -178,7 +176,7 @@ if(oldUser){
      coupons: CART.coupons,
      tax: CART.tax,
      total: CART.subTotal,
-     grandTotal: CART.grandTotal,
+     grandTotal: CART.grandTotal.toFixed(2),
     }
    );
   

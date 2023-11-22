@@ -150,7 +150,7 @@ const couponController = {
             }
           },
           orderInfo: {...getCart.orderInfo,shipping:'Free'},
-          grandTotal: grandTotal           
+          grandTotal: grandTotal    
         },
         );
       return res.status(200).json({status:200,cart:cart,msg:'Coupon Code Applied!'})        
@@ -171,7 +171,7 @@ const couponController = {
         grandTotal = subTotal + getCart.orderInfo.shipping + getCart.tax;
       }
     }
-
+    
     try{
      const UPDATED_CART = await Cart.findOneAndUpdate(
       {_id:cartId},
@@ -225,7 +225,6 @@ const couponController = {
     if(!getCart){
       return res.status(404).json({status:404,message:'Cart Not Found!'})  
     }
-    let subTotal = 0;
     // 4. check coupon type if coupon is type percentage calculate percentage else if type is flat discount then just
     // normally minus the subtotal from coupon amount else the coupon is free then we can add isFreeShipping in coupon object.
     if(coupon.type === 'free-shipping'){
@@ -245,25 +244,23 @@ const couponController = {
     }else if(coupon.type === 'percentage-discount'){
      
      const subTotal1 = getCart.subTotal + coupon.previous.amount;
-     let grandTotal1;
      if(getCart.orderInfo.type === 'pickup'){
        grandTotal1 = subTotal1 + getCart.tax;
       }else{
        grandTotal1 = subTotal1 + getCart.orderInfo.shipping + getCart.tax;
      }
-         // try{
+         try{
      const UPDATED_CART = await Cart.findOneAndUpdate(
        { _id: cartId }, // Match the cart based on its _id
        { $pull: { coupons: { _id: coupon._id } },
-       subTotal:subTotal1.toFixed(2),
-       grandTotal:grandTotal1.toFixed(2)
+       subTotal:subTotal1,
+       grandTotal:grandTotal1
       },{new:true}
      );
       return res.status(200).json({status:200,cart:UPDATED_CART,msg:'Coupon Code Applied!'})        
-     // }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
+     }catch(error){return res.status(500).json({status:500,message:'Internal Server Error!'})}
     }else{
-     const subTotal2 = getCart.subTotal + coupon.amount;
-     let grandTotal2;
+     const subTotal2 = getCart.subTotal + coupon.amount
      if(getCart.orderInfo.type === 'pickup'){
        grandTotal2 = subTotal2 + getCart.tax;
       }else{
@@ -273,8 +270,8 @@ const couponController = {
      const UPDATED_CART = await Cart.findOneAndUpdate(
       { _id: cartId }, // Match the cart based on its _id
       { $pull: { coupons: { _id: coupon._id } },
-      subTotal:subTotal2.toFixed(2),
-      grandTotal:grandTotal2.toFixed(2)
+      subTotal:subTotal2,
+      grandTotal:grandTotal2
      },{new:true}
     );
      return res.status(200).json({status:200,cart:UPDATED_CART,msg:'Coupon Code Applied!'})        

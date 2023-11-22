@@ -8,8 +8,8 @@ import TextInput from '../../components/TextInput/TextInput';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setOrder} from '../../store/orderSlice';
-import { ChangeDeliveryInfo } from '../../store/cartSlice';
+import { setOrder,resetOrder} from '../../store/orderSlice';
+import { ChangeDeliveryInfo,resetCart } from '../../store/cartSlice';
 import { Link} from 'react-router-dom'
 import LeftArrowSvg from '../../svgs/LeftArrowSvg'
 import Toast from '../../utils/Toast'
@@ -154,18 +154,27 @@ const Information = () => {
         setZipError(false);
         setChangeZip(true);
          const res = await CheckZip({zip:postalCode})
+         console.log(res)
          if(res.data.status === 500){
             setZipError(true);
             setChangeZip(false);
+            Toast('Shipping Not Available!','info',1000)
          }else if(res.status === 200) {   
-          setChangeZip(false);
           const res2 = await dispatch(ChangeDeliveryInfo({cartId:cartId,orderInfo:{...ordInfo,location:postalCode,shipping:res.data.zip.location.rate}}))
           if(res2.payload.status === 200){
           setZipSuccess(true);
           setChangeZip(false);
+         }else if(res2.payload.status === 404){
+          setZipError(true);
+          setChangeZip(false);
+          dispatch(resetOrder())
+          dispatch(resetCart())
+          navigate('/mycart')
+          Toast(res2.payload.message,'info',1000)
          }else{
           setZipError(true);
           setChangeZip(false);
+          Toast(res2.payload.message,'error',1000)
          }
         }else{        
          setZipError(true);

@@ -75,9 +75,9 @@ const cartController = {
             {
               $inc: { 'products.$.count': 1,cartCount:1 },
               expiry: cartToken,
-              subTotal:  POS_PRICE.toFixed(2),
-              tax:  TAX.toFixed(2),
-              grandTotal: GRAND_TOTAL.toFixed(2),
+              subTotal:  POS_PRICE,
+              tax:  TAX,
+              grandTotal: GRAND_TOTAL,
             },
             { new: true }
          );
@@ -109,9 +109,9 @@ const cartController = {
             orderInfo: orderInfo,
             $inc: { cartCount : 1 },
             expiry: cartToken,
-            subTotal: POS_PRICE.toFixed(2),
-            tax:  TAX.toFixed(2),
-            grandTotal: GRAND_TOTAL.toFixed(2),
+            subTotal: POS_PRICE,
+            tax:  TAX,
+            grandTotal: GRAND_TOTAL,
             },
           { new: true }
         );  
@@ -256,9 +256,9 @@ if(count >= 2){
      { _id: cartId, 'products.pid': productId },
      {
        $inc: { 'products.$.count': -1,cartCount:-1 },
-       tax:TAX.toFixed(2),
-       subTotal:NEG_PRICE.toFixed(2),
-       grandTotal:GRAND_TOTAL.toFixed(2)
+       tax:TAX,
+       subTotal:NEG_PRICE,
+       grandTotal:GRAND_TOTAL
      },
      { new: true }
      );
@@ -275,9 +275,9 @@ if(count >= 2){
     { _id: cartId }, // Match the cart based on its _id
     { $pull: { products: { pid: productId } },
     $inc: {cartCount:-1 },
-    tax:TAX.toFixed(2),
-    subTotal:NEG_PRICE.toFixed(2),
-    grandTotal:GRAND_TOTAL.toFixed(2)
+    tax:TAX,
+    subTotal:NEG_PRICE,
+    grandTotal:GRAND_TOTAL
    }
   );
   if(result.modifiedCount === 1){
@@ -365,19 +365,36 @@ if (error) {
 
  const { cartId,orderInfo } = req.body;
  
+  let CART;
   try{
-    const CART = await Cart.findOneAndUpdate(
-      { _id: cartId }, 
-      { orderInfo:orderInfo },
-      {new:true}
-    );
+    CART = await Cart.findOne({ _id: cartId });
     if(!CART){
-     return res.status(500).json({ status: 500,message:'Cart Expired!' });
+     return res.status(404).json({ status: 404,message:'Cart Expired!' });
     }
-    return res.status(200).json({ status: 200, cart:CART });
   }catch(error){
    return res.status(500).json({ status: 500, message:'Internal Server Error!' });
   }
+
+  let grandTotal=CART.grandTotal;
+  if(CART.orderInfo.shipping !== 'Free'){
+   grandTotal -= CART.orderInfo.shipping  
+   grandTotal += orderInfo.shipping  
+   try{
+    const CART = await Cart.findOneAndUpdate(
+      { _id: cartId }, 
+      { orderInfo:orderInfo,grandTotal:grandTotal },
+      {new:true}
+    );
+    return res.status(200).json({ status: 200, cart:CART });
+   }catch(error){
+    return res.status(500).json({ status: 500, message:'Internal Server Error!' });
+   }
+  }else{
+    return res.status(500).json({ status: 500,message:'Free Shipping Coupon is Present!' });
+  }
+  
+
+
 },
 
 async updateCartFinance(req, res, next) {

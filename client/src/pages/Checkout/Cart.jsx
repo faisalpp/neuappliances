@@ -106,7 +106,7 @@ const Cart = () => {
                                 Subtotal
                             </span>
                             <span className='text-b16 font-medium'>
-                                ${subTotal}
+                                ${subTotal.toFixed(2)}
                             </span>
                         </div>
                         {coupons?.length > 0 ? coupons.map((coupon)=>(<>
@@ -116,7 +116,7 @@ const Cart = () => {
                                 Coupon: <span className='text-xs' >{coupon.code}</span>
                             </span>
                             <span className='text-b16 font-medium text-xs'>
-                              ({coupon.type === 'percentage-discount' ?  `-${coupon.amount}% / -$${coupon?.previous?.amount}` : coupon.amount })<span onClick={(e)=>removeCoupen(e,coupon._id)} className='ml-1 text-[10px] underline text-b6 cursor-pointer' >Remove</span>
+                              ({coupon.type === 'percentage-discount' ?  `-${coupon.amount}% / -$${coupon?.previous?.amount.toFixed(2)}` : coupon.amount })<span onClick={(e)=>removeCoupen(e,coupon._id)} className='ml-1 text-[10px] underline text-b6 cursor-pointer' >Remove</span>
                             </span>
                         </div></>)):null}
                         <hr/>
@@ -134,7 +134,7 @@ const Cart = () => {
                                 Taxes
                             </span>
                             <span className='text-b16 font-medium'>
-                                ${tax}
+                                ${tax.toFixed(2)}
                             </span>
                         </div>
                     </div>
@@ -148,7 +148,7 @@ const Cart = () => {
                                 USD
                             </span>
                             <span className='text-b3 font-semibold tracking-032 text-2xl'>
-                                ${grandTotal}
+                                ${grandTotal.toFixed(2)}
                             </span>
                         </div>
                     </div>

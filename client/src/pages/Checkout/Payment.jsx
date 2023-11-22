@@ -302,7 +302,8 @@ const Payment = () => {
           }
           if(billingAddress.status){
             const  data = {userId:userId,isAdmin:isAdmin2,isAuth:isAuth,cartId:cartId,shippingAddress:orderInfo,billingInfo:billingAddress.data,newsEmail:newsEmail}
-           const res = await processOrder(data);
+            // console.log(data)
+             const res = await processOrder(data);
            
            if(res.status === 200){
             dispatch(setOrderErrors({order:false}))

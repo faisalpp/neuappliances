@@ -96,25 +96,15 @@ const UpdateOrder = () => {
     return (
       <><tr className='border-b border-l border-r border-b6 text-xs' >
         <td className='px-2 py-3 font-semibold' >
-          <div className='flex px-2 border-[1px]' >
+          <div className='flex flex-col justify-center items-center w-full px-2 border-[1px]' >
            {coupons?.map((coupon)=>
-              <>
-              {coupon.type === 'free-shipping'?
-              <div className='flex justify-between w-full py-1 text-xs' ><span>{coupon.code}</span><span>-${coupon.previous.shipping}</span></div>
-              :null}
-              {coupon.type === 'percentage-discount'?
-              <div className='flex justify-between w-full py-1 text-xs' ><span>{coupon.code}</span><span>-${coupon.previous.amount}</span></div>
-              :null}
-              {coupon.type === 'flat-discount'?
-              <div className='flex justify-between w-full py-1 text-xs' ><span>{coupon.code}</span><span>-${coupon.previous.amount}</span></div>
-              :null}
-              </>
+              <div className='flex justify-between w-fit py-1 text-xs space-x-2' ><span>{coupon.code}</span><span>${coupon.previous ? coupon.previous.amount : coupon.amount}</span></div>
            )}
           </div>
         </td>
-        <td className='px-2 py-3 font-semibold' >${total}</td>
+        <td className='px-2 py-3 font-semibold' >${total?.toFixed(2)}</td>
         <td className='px-2 py-3 font-semibold' >${shipping}</td>
-        <td className='px-2 py-3 font-semibold' >${tax}</td>
+        <td className='px-2 py-3 font-semibold' >${tax?.toFixed(2)}</td>
         <td className='px-2 py-3 font-semibold' >${grandTotal}</td>
       </tr>
       </>
