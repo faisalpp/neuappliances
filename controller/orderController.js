@@ -337,6 +337,7 @@ if(oldUser){
           payment_method_types: mode,
           description: description,
         });
+
         if(paymentIntent){
           return res.status(200).json({payIntent:paymentIntent})
         }

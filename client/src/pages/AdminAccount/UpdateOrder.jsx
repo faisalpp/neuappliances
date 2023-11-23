@@ -98,8 +98,7 @@ const UpdateOrder = () => {
         <td className='px-2 py-3 font-semibold' >
           <div className='flex flex-col justify-center items-center w-full px-2 border-[1px]' >
            {coupons?.map((coupon)=>
-             <div>-${coupon.amount}</div> 
-            //  : <div className='flex justify-between w-fit py-1 text-xs space-x-2' ><span>{coupon.code}</span></div>}
+             <div className='flex justify-between w-fit py-1 text-xs space-x-2' ><span>{coupon?.code}</span><span>-${coupon.amount}</span></div>
            )}
           </div>
         </td>

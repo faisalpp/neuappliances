@@ -81,7 +81,6 @@ const ProfileData = () => {
     }, [setFirstName, setLastName, setEmail, setPhone, setCountry])
     return (
         <>
-            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
             <form onSubmit={UpdateProfile} className='flex flex-col gap-6 lg:max-w-[432px] w-full'>
                 <CustomInput label="First name" state={firstName} setState={setFirstName} />
                 <CustomInput label="Last name" state={lastName} setState={setLastName} />
@@ -102,7 +101,6 @@ const ProfileData = () => {
                 {/*Submit Button */}
                 <CustomButton ButtonName="Save Changes" />
             </form>
-            <ToastContainer />
         </>
     )
 }

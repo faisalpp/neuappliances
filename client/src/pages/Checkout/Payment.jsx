@@ -160,29 +160,31 @@ const Payment = () => {
        const paymentIntent = await stripe.confirmAffirmPayment(
           getPayIntent.data.payIntent.client_secret,{
             payment_method: {
-              billing_details: {
-                email: orderInfo.email,
-                name:orderInfo.firstName,
-                address:{
-                  line1: orderInfo.address,
-                  city: orderInfo.city,
-                  state: orderInfo.state,
-                  postal_code: orderInfo.postalCode,
-                  country: 'US',
-                }
-              }
-            },
-            shipping:{
-              name:"Koner Doe",
-              address:{
-               line1: 'address line 1',
-               line2: 'address line 2',
-               city: 'city',
-               state: 'CA',
-               postal_code: '73301',
-               country: 'US',
-              }
-             },
+            // Billing information is optional but recommended to pass in.
+      billing_details: {
+        email: 'jenny@rosen.com',
+        name: 'Jenny Rosen',
+        address: {
+          line1: '1234 Main Street',
+          city: 'San Francisco',
+          state: 'CA',
+          country: 'US',
+          postal_code: '94111',
+        },
+      },
+    },
+
+    // Shipping information is optional but recommended to pass in.
+    shipping: {
+      name: 'Jenny Rosen',
+      address: {
+        line1: '1234 Main Street',
+        city: 'San Francisco',
+        state: 'CA',
+        country: 'US',
+        postal_code: '94111',
+      },
+    },
             return_url:'http://localhost:5173/mycart/payment/?callback=affirm'
           })
         return paymentIntent
