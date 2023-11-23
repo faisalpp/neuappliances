@@ -31,7 +31,7 @@ const CreateOrder = () => {
    const dispatch = useDispatch()
    const [coupenPopup,setCoupenPopup] = useState(false)
    const [taxPopup,setTaxPopup] = useState(false)
-   const [shippingPopup,setShippingPopup] = useState(true)
+   const [shippingPopup,setShippingPopup] = useState(false)
    
     // Form states
     const [errors,setErrors] = useState([])
@@ -69,31 +69,6 @@ const CreateOrder = () => {
          </tr>
         )
       }
-
-    const GetShippingFee = async () => {
-      setZipSuccess(false);
-      setZipError(false);
-      setChangeZip(true);
-       const res = await CheckZip({zip:shippingAddress.postalCode})
-       console.log(res)
-       if(res.data.status === 200){
-          dispatch(setShipping({type:'delivery',location:res.data.zip.location.zip,shipping:res.data.zip.location.rate}))
-          setZipError(false);
-          setChangeZip(false);
-          setZipSuccess(true);
-       }else{   
-        setZipSuccess(false);  
-        setZipError(true);
-        setChangeZip(false);
-      } 
-    };
-
-    useEffect(() => {
-      if (shippingAddress.postalCode?.length === 5 && shipping.type === 'delivery') {
-        GetShippingFee();
-      }
-     }, [shippingAddress.postalCode])
-
     // Customer Details
     const [selectedUser,setSelectedUser] = useState({email:'Guest'})
     const [selectUser,setSelectUser] = useState(false)
@@ -179,7 +154,6 @@ const CreateOrder = () => {
           }
      }
       const data = {orderDate:orderDate,orderStatus:orderStatus,orderType:orderType,transactionId:transactionId,paymentMethod:paymentMethod,shippingAddress:shippingAddress,billingAddress:billingAddress,tax:tax,subTotal:subTotal,shipping:shipping,coupon:JSON.stringify(coupon),grandTotal:grandTotal,products:CART,selectedUser:selectedUser,cartCount:CART_COUNT}
-      // console.log(data)
       const res = await createAdminOrder(data)
       if(res.status === 200){
         dispatch(resetCart())
@@ -246,7 +220,7 @@ const CreateOrder = () => {
         <Tax state={taxPopup} setState={setTaxPopup} />
         {/* Tax Popup End */}
         {/* Shipping Popup Start */}
-        <Shipping state={shippingPopup} setState={setShippingPopup} />
+        <Shipping state={shippingPopup} setState={setShippingPopup} shippingAddress={shippingAddress} />
         {/* Shipping Popup End */}
         {/* Add Product Form Popup */}
         <SearchProduct sstate={addProductPopup} setsState={setAddProductPopup} />

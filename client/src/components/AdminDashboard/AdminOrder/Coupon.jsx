@@ -21,7 +21,7 @@ const Coupon = ({state,setState}) => {
       Toast('Flat Rate Required!','error',1000)
     }else{
       const obj = {type:'flat',amount:parseInt(flat)}
-      dispatch(setCoupon(obj))
+      dispatch(applyCoupon(obj))
       setState(false)
       setFlat(0)
       Toast('Flat Rate Applied!','info',1000)
@@ -71,7 +71,7 @@ const Coupon = ({state,setState}) => {
     // normally minus the subtotal from coupon amount else the coupon is free then we can add isFreeShipping in coupon object.
     if(getCoupon.type === 'free-shipping'){
       dispatch(setShipping({...SHIPPING,shipping:'Free'}))
-      dispatch(applyCoupon({type:'free shipping',amount:getCoupon.amount}))
+      dispatch(applyCoupon({type:'free-shipping',code:couponCode,amount:getCoupon.amount}))
       setCouponCode('')
       setState(false)
       return Toast('Coupon Applied!','success',1000)
@@ -79,9 +79,9 @@ const Coupon = ({state,setState}) => {
 
     if(getCoupon.type === 'percentage-discount'){
       const coupon_amount = ((getCoupon.amount / 100) * SUB_TOTAL)
-      dispatch(applyCoupon({type:'percentage',amount:coupon_amount.toFixed(2),percentage:getCoupon.amount}))
+      dispatch(applyCoupon({type:'percentage',code:couponCode,amount:coupon_amount.toFixed(2),percentage:getCoupon.amount}))
     }else{
-      dispatch(applyCoupon({type:'flat rate',amount:getCoupon.amount}))
+      dispatch(applyCoupon({type:'flat-rate',code:couponCode,amount:getCoupon.amount}))
     }
     setCouponCode('')
     setState(false)

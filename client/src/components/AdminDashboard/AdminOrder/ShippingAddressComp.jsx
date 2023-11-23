@@ -26,9 +26,9 @@ const ShippingAddressComp = ({shippingAddress,setShippingAddress,errors,changeZi
          </div>
          <div className='flex space-x-5'>
           <div className='relative  col-span-2 md:col-span-1 [&>*]:h-full w-full'>
-           {changeZip?<div className='absolute z-40 flex right-0 rounded-lg items-center w-fit justify-end px-2' ><img src="/loader-bg.gif" className='w-4 h-4' /></div>:null}
+           {/* {changeZip?<div className='absolute z-40 flex right-0 rounded-lg items-center w-fit justify-end px-2' ><img src="/loader-bg.gif" className='w-4 h-4' /></div>:null}
            {zipSuccess?<div className='absolute z-40 flex rounded-lg items-center w-fit right-0 justify-end px-2 text-xl text-green-500' ><IoMdCheckmark/></div>:null}
-           {zipError?<div className='absolute z-40 flex rounded-lg items-center w-fit justify-end px-2 right-1 text-xl text-red-500' ><GoAlert/></div>:null}
+           {zipError?<div className='absolute z-40 flex rounded-lg items-center w-fit justify-end px-2 right-1 text-xl text-red-500' ><GoAlert/></div>:null} */}
            <TextInput width="full" name="postalCode" title="" iscompulsory="false" type="text" value={shippingAddress.postalCode} onChange={(e)=>setShippingAddress({...shippingAddress,postalCode:e.target.value})} error={errors && errors.includes('Shipping Address Postal Code is Required!') ? true : false} errormessage="Shipping Address Postal Code is Required!" placeholder="Postal Code" />
           </div>
           <TextInput width="full" name="phone" title="" iscompulsory="false" type="text" value={shippingAddress.phone} onChange={(e) =>setShippingAddress({...shippingAddress,phone:e.target.value})} error={errors && errors.includes('Shipping Address Phone is Required!') ? true : false} errormessage="Shipping Address Phone is Required!" placeholder="Phone" />

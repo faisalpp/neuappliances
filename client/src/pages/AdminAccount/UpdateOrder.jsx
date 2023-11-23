@@ -91,14 +91,15 @@ const UpdateOrder = () => {
     </tr>
     )
   }
-
   const OrderFinance = ({total,shipping,tax,grandTotal,coupons }) => {
+    console.log(coupons)
     return (
       <><tr className='border-b border-l border-r border-b6 text-xs' >
         <td className='px-2 py-3 font-semibold' >
           <div className='flex flex-col justify-center items-center w-full px-2 border-[1px]' >
            {coupons?.map((coupon)=>
-              <div className='flex justify-between w-fit py-1 text-xs space-x-2' ><span>{coupon.code}</span><span>${coupon.previous ? coupon.previous.amount : coupon.amount}</span></div>
+             <div>-${coupon.amount}</div> 
+            //  : <div className='flex justify-between w-fit py-1 text-xs space-x-2' ><span>{coupon.code}</span></div>}
            )}
           </div>
         </td>

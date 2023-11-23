@@ -167,8 +167,8 @@ const Information = () => {
          }else if(res2.payload.status === 404){
           setZipError(true);
           setChangeZip(false);
-          dispatch(resetOrder())
           dispatch(resetCart())
+          dispatch(resetOrder())
           navigate('/mycart')
           Toast(res2.payload.message,'info',1000)
          }else{

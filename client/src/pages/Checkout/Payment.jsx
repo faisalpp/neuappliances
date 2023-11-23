@@ -139,6 +139,7 @@ const Payment = () => {
       }
 
       const orderInfo = useSelector((state)=>state.order.orderInfo)
+      const grandTotal = useSelector((state)=>state.cart?.cart.grandTotal)
       const cartId = useSelector((state)=>state.cart?.cart._id)
       const userId = useSelector((state)=>state.user._id)
       const isAuth = useSelector((state)=>state.user.auth)
@@ -153,7 +154,7 @@ const Payment = () => {
         Toast('Paypal Transaction!','success',1000)
       }
       const handleAffirmPayment = async (e) => {
-        const getPayIntent = await createPaymentIntent({price:200*100,mode:['affirm'],currency:'usd',description:"Neuappliance Outlet Card Transaction"}) 
+        const getPayIntent = await createPaymentIntent({price:grandTotal.toFixed(2)*100,mode:['affirm'],currency:'usd',description:"Neuappliance Outlet Card Transaction"}) 
         // Redirects away from the client
         if(getPayIntent){
        const paymentIntent = await stripe.confirmAffirmPayment(
@@ -195,8 +196,8 @@ const Payment = () => {
          const CardNumber = elements.getElement(CardNumberElement)
          const CardExpiry = elements.getElement(CardExpiryElement)
          const CardCvc = elements.getElement(CardCvcElement)
-         const getPayIntent = await createPaymentIntent({price:200*100,mode:['card'],currency:'usd',description:"Neuappliance Outlet Card Transaction"}) 
-         
+         const getPayIntent = await createPaymentIntent({price:grandTotal.toFixed(2)*100,mode:['card'],currency:'usd',description:"Neuappliance Outlet Card Transaction"}) 
+         console.log(getPayIntent)
          if(getPayIntent){
            const paymentIntent =  await stripe.confirmCardPayment(getPayIntent.data.payIntent.client_secret,{
              payment_method:{
@@ -224,10 +225,10 @@ const Payment = () => {
           setOrderErrors({confirm:false})
           setOrderStatus({confirm:true})
           Toast(res.data.msg,'success',1000)
-          dispatch(resetCart())
-          dispatch(resetOrder())
-          setProcessing(false)
           navigate('/')
+          dispatch(resetCart())
+          setProcessing(false)
+          dispatch(resetOrder())
         }else{
           setOrderErrors({confirm:true})
           setOrderStatus({confirm:false})
