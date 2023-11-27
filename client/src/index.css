@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+.testimonialreviews .carousel__prev svg {
+  @apply text-black;
+}
+
+.loop-slider .slick-dots li {
+  margin: 0px !important;
+  width: 14px !important;
+}
+
 * {
   margin: 0;
   padding: 0;

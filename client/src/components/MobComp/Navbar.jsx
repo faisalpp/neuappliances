@@ -18,6 +18,9 @@ const Navbar = () => {
   const [productMenu, setProductMenu] = useState(false);
   const [brandMenu, setBrandMenu] = useState(false);
   const sCart = useSelector((state) => state.cart.sCart)
+  const cartCount = useSelector((state) => state.cart.cartCount)
+  const isUser = useSelector((state) => state.user.auth)
+  const isAdmin = useSelector((state) => state.admin.auth)
 
   const dispatch = useDispatch()
 
@@ -30,12 +33,13 @@ const Navbar = () => {
         </div>
         <div className='gap-8 flex items-center justify-end' >
           <AiOutlineSearch className='w-6 h-6' />
-          <div onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='relative items-center h-6 w-6 rounded-full text-white' ><AiOutlineShoppingCart className='h-6 w-6' /><span className='absolute -top-2 ml-3 bg-b3 rounded-full text-[8px] py-[3px] px-[7px] text-center' >2</span></div>
-          <NavLink to="/my-account" className='flex items-center bg-b2 h-6 w-6 rounded-full text-white' ><BiUserCircle className='w-6 h-6' /></NavLink>
+          <div onClick={() => { sCart ? dispatch(hideSCart()) : dispatch(showSCart()) }} className='relative items-center h-6 w-6 rounded-full text-white' ><AiOutlineShoppingCart className='h-6 w-6' /><span className='absolute -top-2 ml-3 bg-b3 rounded-full text-[10px] py-[2px] px-[6px] text-center' >{cartCount ? cartCount : 0 }</span></div>
+          {isUser ?<NavLink to='/my-account' className='flex items-center bg-b2 h-6 w-6 rounded-full text-white' ><BiUserCircle className='w-6 h-6' /></NavLink>:<NavLink to='/login' className='flex items-center bg-b2 h-6 w-6 rounded-full text-white' ><BiUserCircle className='w-6 h-6' /></NavLink>}
+          {/* {isAdmin ?<NavLink to='/my-account' className='flex items-center bg-b2 h-6 w-6 rounded-full text-white' ><BiUserCircle className='w-6 h-6' /></NavLink>:null} */}
         </div>
       </div>
 
-      <div style={{ height: `calc(100vh - 145px)` }} className={`${mobMenu ? 'fixed' : 'hidden'} lg:hidden right-0 bg-b1 w-2/3 overflow-y-scroll py-5 z-50`}>
+      <div style={{ height: `calc(100vh - 80px)` }} className={`${mobMenu ? 'fixed' : 'hidden'} lg:hidden top-16 left-0 bg-b1 w-2/3 overflow-y-scroll py-5 z-50`}>
         <div className='flex flex-col px-5 space-y-5 mt-2'>
           <NavLink to="/" ><div className='small___nav__item space-x-5 text-white' ><BiUserCircle className='text-2xl' /><h4>My Account</h4></div></NavLink>
           <NavLink to="/" ><div className='small___nav__item space-x-5 text-white' ><AiFillHome className='text-2xl' /><h4>Home</h4></div></NavLink>
