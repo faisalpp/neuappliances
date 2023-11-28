@@ -1,0 +1,1 @@
+import{j as e,M as s}from"./index-820351db.js";const a=()=>e.jsx(s,{children:e.jsx("div",{style:{height:"calc(100vh - 135px)"},className:"flex items-center justify-center w-full bg-white/80",children:e.jsx("img",{src:"/404.jpg",className:"w-6/12"})})});export{a as default};

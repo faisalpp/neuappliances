@@ -31,6 +31,8 @@ const Products = () => {
   const [limit,setLimit] = useState(6)
 
   const GetQueryParams = () => {
+    setInitLoad(true)
+    setLoading(true)
     // Create a URLSearchParams object from the query string
     const queryParams = new URLSearchParams(location.search);
     // Create an object to store the query parameters
@@ -45,9 +47,10 @@ const Products = () => {
   }
   
   const [filterLoading,setFilterLoading] = useState(true)
+  const [initLoad,setInitLoad] = useState(true)
 
     const getAppliancesBySection = async () => {
-    setLoading(true)
+      setLoading(true)
     const res = await GetAppliancesBySection({...params,page:page,limit:limit})
     if (res.status === 200) {
       setProducts(res.data.products)
@@ -60,8 +63,11 @@ const Products = () => {
   }
 
   useEffect(()=>{
-   console.log('s')
-   getAppliancesBySection()
+   if(!initLoad){
+     setTimeout(() => {
+       getAppliancesBySection()
+      }, 50);
+    }
   },[params,page])
 
   
@@ -78,7 +84,9 @@ const Products = () => {
       setSaleFilter(res.data.saleFilter)
       setRegularFilter(res.data.regularFilter)
       setFilterLoading(false)
+      setInitLoad(false)
     }else{
+      setInitLoad(false)
       setFilterLoading(false)
     }
   }

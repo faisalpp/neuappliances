@@ -1,1 +1,0 @@
-import{j as e,L as t,aM as o}from"./index-5dc18a3f.js";const r=({className:s})=>e.jsxs(t,{to:"/",className:"flex gap-2 font-semibold text-sm items-center text-b3 "+s,children:[e.jsx(o,{}),e.jsx("span",{children:"Back to Home"})]});export{r as B};
