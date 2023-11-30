@@ -3,12 +3,15 @@ import CustomInput from '../../components/Reusable/CustomInput';
 import CartCard from '../../components/Checkout/CartCard';
 import { HiOutlineTruck } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
-import { GetCart,ApplyCoupon,RemoveCoupon} from '../../store/cartSlice'
+import { GetCart,ApplyCoupon,RemoveCoupon,resetCart} from '../../store/cartSlice'
+import { resetOrder} from '../../store/orderSlice'
 import { useDispatch } from "react-redux";
 import Toast from '../../utils/Toast'
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const cartId = useSelector((state)=>state.cart?.cart._id)
     const subTotal = useSelector((state)=>state.cart?.cart.subTotal)
@@ -24,18 +27,25 @@ const Cart = () => {
         setLoading(true)
         const data = {cartId:cartId}
         const res = await dispatch(GetCart(data));
-        if (res.payload.status === 200) {
+        if(res.payload.status === 200){
           setLoading(false)
-        }else {
+        }else if (res.payload.status === 404) {
+          Toast(res.payload.message,'info',1000)
+          dispatch(resetCart())
+          dispatch(resetOrder())
           setLoading(false)
+          navigate('/')
+        }else{
+          Toast(res.payload.messsage,'error',1000)
+          setLoading(false)
+          navigate('/')
         }
+
       }
     
     
       useEffect(() => {
-        if (cartId) {
           GetCartData()
-        }
       }, [cartId])
 
       const [coupen,setCoupen] = useState('')
@@ -106,7 +116,7 @@ const Cart = () => {
                                 Subtotal
                             </span>
                             <span className='text-b16 font-medium'>
-                                ${subTotal.toFixed(2)}
+                                ${subTotal?.toFixed(2)}
                             </span>
                         </div>
                         {coupons?.length > 0 ? coupons.map((coupon)=>(<>
@@ -134,7 +144,7 @@ const Cart = () => {
                                 Taxes
                             </span>
                             <span className='text-b16 font-medium'>
-                                ${tax.toFixed(2)}
+                                ${tax?.toFixed(2)}
                             </span>
                         </div>
                     </div>
@@ -148,7 +158,7 @@ const Cart = () => {
                                 USD
                             </span>
                             <span className='text-b3 font-semibold tracking-032 text-2xl'>
-                                ${grandTotal.toFixed(2)}
+                                ${grandTotal?.toFixed(2)}
                             </span>
                         </div>
                     </div>

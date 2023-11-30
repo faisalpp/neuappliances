@@ -203,6 +203,7 @@ try {
     const apiKey = YELP_API_KEY
       const businessId = YELP_BUSINESS_ID; // Replace with the actual business ID
 
+      try{
         const response = await axios.get(
           `https://api.yelp.com/v3/businesses/${businessId}/reviews`,
           {
@@ -211,12 +212,10 @@ try {
             },
           }
         );
-        
-        if (response.status === 200) {
-          res.status(200).json({ reviews:response.data.reviews });
-        } else {
-          return res.status(500).json({ message: 'Error fetching reviews' });
-        }
+        res.status(200).json({ reviews:response.data.reviews });
+      }catch(err){
+        return res.status(500).json({ message: 'Error fetching reviews' });
+      }
 
   }
 

@@ -1,13 +1,13 @@
 import React from 'react'
 import {BsCheckCircle} from 'react-icons/bs'
 import MainLayout from '../../layout/MainLayout'
-import { Link } from 'react-router-dom'
+import { Link} from 'react-router-dom'
 
 
 const orderSuccess = () => {
   return (
     <MainLayout>
-    <div className='flex items-center justify-center w-full h-screen z-40 bg-white/80' >
+    <div style={{height:'calc(100vh - 135px)'}} className='flex items-center justify-center w-full z-40 bg-white/80' >
       <div className='flex flex-col space-y-5 items-center' >
         <BsCheckCircle className='text-7xl text-b6' />
         <h4 className='font-bold text-xl' >Your order has been placed!</h4>

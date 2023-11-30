@@ -22,7 +22,7 @@ import {GoAlert} from 'react-icons/go'
 const Information = () => {
 
     const Countrys = [
-        { name: 'USA', value: 'usa' },
+        { name: 'US', value: 'US' },
     ]
     const Province = [
         { name: 'Alberta', value: 'alberta' },

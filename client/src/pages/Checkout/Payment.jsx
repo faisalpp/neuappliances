@@ -4,7 +4,7 @@ import BreadCrumb from '../../components/Checkout/BreadCrumb';
 import ReviewDetail from '../../components/Checkout/Shipping/ReviewDetail';
 import PaymentMethod from '../../components/Checkout/Payment/PaymentMethod';
 import LeftArrowSvg from '../../svgs/LeftArrowSvg';
-import { Link ,useNavigate} from 'react-router-dom';
+import { Link ,useLocation,useNavigate} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ChkLoader from '../../components/Loader/chkLoader';
 import TextInput from '../../components/TextInput/TextInput';
@@ -15,30 +15,46 @@ import {FiAlertTriangle} from 'react-icons/fi'
 import * as Yup from 'yup';
 import Toast from '../../utils/Toast'
 import {processOrder,confirmOrder} from '../../api/order'
-import {resetOrder, setOrderNo,setOrderErrors,setPaymentIntent,setOrderStatus} from '../../store/orderSlice'
+import {resetOrder, setOrderNo,setOrderErrors,setPaymentIntent,setOrderStatus,setProcessing,setBillingAddress} from '../../store/orderSlice'
 import { resetCart } from '../../store/cartSlice';
 import { createPaymentIntent } from '../../api/order';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
 import {CardNumberElement,CardExpiryElement,CardCvcElement} from '@stripe/react-stripe-js'
 import isAdmin from '../../services/isAdmin'
-
+import useCheckout from '../../services/checkout';
 
 const Payment = () => {
-
-    const [isProcessing,setProcessing] = useState(false)
-
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    
-    
     const products = useSelector((state)=>state.cart?.cart.products)
 
-    useEffect(()=>{
-      if(products?.length === 0){
-        Toast('Cart is Empty','error',1000)
-        navigate('/mycart')
+    const {ConfirmOrder,handleCardPayment,handleAffirmPayment,handlePaypalPayment} = useCheckout();
+
+    const location = useLocation()
+
+    const GetQueryParams = () => {
+      // Create a URLSearchParams object from the query string
+      const queryParams = new URLSearchParams(location.search);
+      // Create an object to store the query parameters
+      const queryParamsObject = {};
+    
+      // Iterate through the query parameters and store them in the object
+      for (const [key, value] of queryParams.entries()) {
+        queryParamsObject[key] = value;
       }
-     },[])
+      
+      if(queryParamsObject.callback === 'affirm'){
+        dispatch(setProcessing(true))
+        ConfirmOrder(queryParamsObject.payment_intent,queryParamsObject.order_number)
+      }else{
+        dispatch(setProcessing(false))
+      }
+
+    }  
+
+    useEffect(()=>{
+      GetQueryParams()
+    },[])
 
     const {email,address,postalCode,city,country,province} = useSelector((state)=>state.order.orderInfo) || {};
     const ordInfo = useSelector((state)=>state.cart?.cart.orderInfo)
@@ -149,147 +165,45 @@ const Payment = () => {
       const elements = useElements()
       const stripe = useStripe()
 
-      const handlePaypalPayment = async (e) => {
-        // e.preventDefault()
-        Toast('Paypal Transaction!','success',1000)
-      }
-      const handleAffirmPayment = async (e) => {
-        const getPayIntent = await createPaymentIntent({price:grandTotal.toFixed(2)*100,mode:['affirm'],currency:'usd',description:"Neuappliance Outlet Card Transaction"}) 
-        // Redirects away from the client
-        if(getPayIntent){
-       const paymentIntent = await stripe.confirmAffirmPayment(
-          getPayIntent.data.payIntent.client_secret,{
-            payment_method: {
-            // Billing information is optional but recommended to pass in.
-      billing_details: {
-        email: 'jenny@rosen.com',
-        name: 'Jenny Rosen',
-        address: {
-          line1: '1234 Main Street',
-          city: 'San Francisco',
-          state: 'CA',
-          country: 'US',
-          postal_code: '94111',
-        },
-      },
-    },
-
-    // Shipping information is optional but recommended to pass in.
-    shipping: {
-      name: 'Jenny Rosen',
-      address: {
-        line1: '1234 Main Street',
-        city: 'San Francisco',
-        state: 'CA',
-        country: 'US',
-        postal_code: '94111',
-      },
-    },
-            return_url:'http://localhost:5173/mycart/payment/?callback=affirm'
-          })
-        return paymentIntent
-      }else{
-         Toast('Affirm Transaction!','error',1000)
-      }
-        // e.preventDefault()
-      }
-      const handleCardPayment = async (e) => {
-        // e.preventDefault()
-         const CardNumber = elements.getElement(CardNumberElement)
-         const CardExpiry = elements.getElement(CardExpiryElement)
-         const CardCvc = elements.getElement(CardCvcElement)
-         const getPayIntent = await createPaymentIntent({price:grandTotal.toFixed(2)*100,mode:['card'],currency:'usd',description:"Neuappliance Outlet Card Transaction"}) 
-         console.log(getPayIntent)
-         if(getPayIntent){
-           const paymentIntent =  await stripe.confirmCardPayment(getPayIntent.data.payIntent.client_secret,{
-             payment_method:{
-               card: CardNumber,
-               billing_details:{
-                name: `${orderInfo.firstName} ${orderInfo.lastName}`,
-                email:orderInfo.email,
-                address:{line1:orderInfo.address,city:orderInfo.city,country:'us',postal_code:orderInfo.postalCode,state:orderInfo.state}
-               },
-              },
-            })
-            return paymentIntent
-            
-         }else{
-            Toast('Payment Intent Error!','error',1000)
-         }
-      }
-      
-      // const orderNo = useSelector((state)=>state.order.orderNo)
-      const ConfirmOrder = async (intent,ordNo) => {
-       if(orderErrors.confirm || !orderStatus.confirm){
-        const res = await confirmOrder({orderNo:ordNo,intent:intent,cartId:cartId})
-        
-        if(res.status === 200){
-          setOrderErrors({confirm:false})
-          setOrderStatus({confirm:true})
-          Toast(res.data.msg,'success',1000)
-          navigate('/')
-          dispatch(resetCart())
-          setProcessing(false)
-          dispatch(resetOrder())
-        }else{
-          setOrderErrors({confirm:true})
-          setOrderStatus({confirm:false})
-          Toast(res.data.message,'error',1000)
-          setProcessing(false)
-        }
-      }else{
-        Toast('Order Already Complete!','success',1000)
-        dispatch(resetCart())
-        dispatch(resetOrder())
-        setProcessing(false)
-        navigate('/')
-       }
-      }
-
+      const orderNo = useSelector((state)=>state.order.orderNo)
       const paymentIntent = useSelector((state)=>state.order.paymentIntent)
+      const billingAddress = useSelector((state)=>state.order.billingAddress)
       
-      const handlePayment = async (oNo) => {
+      
+      const handlePayment = async (ordNo,bilAdr) => {
        if(orderErrors.payment || !orderStatus.payment ){
         if(!stripe && !elements){
          Toast('Stripe Not Loaded!','error',100)
          dispatch(setOrderErrors({payment:true}))
          dispatch(setOrderStatus({payment:false}))
-         setProcessing(false)
+         dispatch(setProcessing(false))
          return
         }
 
-        let PAYMENT_INTENT;
+        const CardNumber = elements.getElement(CardNumberElement)
+        const CardExpiry = elements.getElement(CardExpiryElement)
+        const CardCvc = elements.getElement(CardCvcElement)
+
         switch(paymentMod){
           case 'card':
-           PAYMENT_INTENT = await handleCardPayment();
+           handleCardPayment(CardNumber,CardExpiry,CardCvc,grandTotal.toFixed(2),orderInfo,ordNo);
             break;
           case 'paypal':
-            await handlePaypalPayment();
+           handlePaypalPayment();
             break;
           case 'affirm':
-          PAYMENT_INTENT = await handleAffirmPayment();
+            handleAffirmPayment(orderInfo,grandTotal.toFixed(2),ordNo);
             break;
         }
-        
-        if(PAYMENT_INTENT?.error){
-          dispatch(setOrderErrors({payment:true}))
-          dispatch(setOrderStatus({payment:false}))
-          setProcessing(false)
-          Toast(PAYMENT_INTENT.error.code,'error',1000)
-        }else{
-          dispatch(setOrderErrors({payment:false}))
-          dispatch(setOrderStatus({payment:true}))
-          dispatch(setPaymentIntent(PAYMENT_INTENT.paymentIntent))
-          ConfirmOrder(PAYMENT_INTENT.paymentIntent,oNo)
-        }
+      
        }else{
-        ConfirmOrder(paymentIntent)
+        ConfirmOrder(paymentIntent,orderNo)
        }
       }
 
       const HandleOrder = async (e) => {
         e.preventDefault()
-         setProcessing(true)
+         dispatch(setProcessing(true))
         if(orderErrors.order || !orderStatus.order){
          let billingAddress = {status:false};
          if(isBilling){
@@ -304,34 +218,36 @@ const Payment = () => {
             billingAddress = {status:true,data:{...orderInfo}}
           }
           if(billingAddress.status){
+            dispatch(setBillingAddress(billingAddress.data))
             const  data = {userId:userId,isAdmin:isAdmin2,isAuth:isAuth,cartId:cartId,shippingAddress:orderInfo,billingInfo:billingAddress.data,newsEmail:newsEmail}
             // console.log(data)
              const res = await processOrder(data);
-           
            if(res.status === 200){
             dispatch(setOrderErrors({order:false}))
             dispatch(setOrderStatus({order:true}))
             dispatch(setOrderNo(res.data.orderNo))
-            handlePayment(res.data.orderNo)
+            handlePayment(res.data.orderNo,billingAddress.data)
            }else{
             dispatch(setOrderErrors({order:true}))
             dispatch(setOrderStatus({order:false}))
             Toast(res.data.message,'error',1000)
-            setProcessing(false)
+            dispatch(setProcessing(false))
          }
         }else{
             Toast("Billing Address Not Found!",'error',1000)
-            setProcessing(false)
+            dispatch(setProcessing(false))
         }
        }else{
         Toast('Order Already Placed...','success',1000)
-         handlePayment()
+         handlePayment(orderNo)
        }
       }
 
+      const processing = useSelector((state)=>state.order.processing)
+
     return (
         <>  
-        {isProcessing ? <ChkLoader /> :null} 
+        {processing ? <ChkLoader /> :null} 
             <Checkout>
                 {/* Logo */}
                 <img src="/login_logo.webp" alt="" />
@@ -347,8 +263,8 @@ const Payment = () => {
                     <hr />
                     <ReviewDetail title="Ship to" detail={`${address},${city} ,${province}, ${country},${postalCode}`} textStyle="font-medium" />
                     <hr />
-                    {ordInfo.type === 'delivery' ? <ReviewDetail title="Method" detail={`Home Delivery · $${ordInfo.shipping}`} subtitle="2 to 3 Business Days" textStyle="font-medium" />:null}
-                    {ordInfo.type === 'pickup' ? <ReviewDetail title="Method" detail="Self Pickup · Free" subtitle="Always Ready!" textStyle="font-medium" />:null}
+                    {ordInfo?.type === 'delivery' ? <ReviewDetail title="Method" detail={`Home Delivery · $${ordInfo.shipping}`} subtitle="2 to 3 Business Days" textStyle="font-medium" />:null}
+                    {ordInfo?.type === 'pickup' ? <ReviewDetail title="Method" detail="Self Pickup · Free" subtitle="Always Ready!" textStyle="font-medium" />:null}
                 </div>
 
                 {/* Payment Method */}

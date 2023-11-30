@@ -5,7 +5,9 @@ const initialState = {
   orderInfo:null,
   orderStatus:{order:false,payment:false,confirm:false},
   orderErrors:{order:false,payment:false,confirm:false},
-  paymentIntent:null
+  paymentIntent:null,
+  processing:false,
+  billingAddress:null
 }
 
 export const orderSlice = createSlice({
@@ -32,16 +34,26 @@ export const orderSlice = createSlice({
      const data = action.payload;   
      state.orderInfo = data
    },
+   setProcessing: (state, action) => {
+     const data = action.payload;   
+     state.processing = data
+   },
+   setBillingAddress: (state, action) => {
+     const data = action.payload;   
+     state.billingAddress = data
+   },
    resetOrder: (state, action) => {
      state.orderInfo = null
      state.orderNo = null 
      state.orderStatus = {order:false,payment:false,confirm:false},
      state.orderErrors = {order:false,payment:false,confirm:false},
      state.paymentIntent = null
+     state.processing = false
+     state.billingAddress = null
    },
   }
 });
 
-export const { setOrder,setOrderStatus,resetOrder,setOrderNo,setOrderErrors,setPaymentIntent} = orderSlice.actions;
+export const { setOrder,setOrderStatus,resetOrder,setOrderNo,setOrderErrors,setPaymentIntent,setProcessing,setBillingAddress} = orderSlice.actions;
 
 export default orderSlice.reducer;
