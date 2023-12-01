@@ -45,6 +45,8 @@ const Payment = () => {
       
       if(queryParamsObject.callback === 'affirm'){
         dispatch(setProcessing(true))
+        dispatch(setOrderErrors({payment:true}))
+        dispatch(setOrderStatus({payment:false}))
         ConfirmOrder(queryParamsObject.payment_intent,queryParamsObject.order_number)
       }else{
         dispatch(setProcessing(false))
@@ -192,7 +194,7 @@ const Payment = () => {
            handlePaypalPayment();
             break;
           case 'affirm':
-            handleAffirmPayment(orderInfo,grandTotal.toFixed(2),ordNo);
+              handleAffirmPayment(orderInfo,grandTotal.toFixed(2),ordNo);
             break;
         }
       

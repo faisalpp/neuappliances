@@ -92,21 +92,38 @@ const handleAffirmPayment = async (orderInfo,grandTotal,ordNo) => {
   console.log(getPayIntent)
   if(getPayIntent){
    try{
-   const a= await stripe.confirmAffirmPayment(
+   const paymentIntent = await stripe.confirmAffirmPayment(
     getPayIntent.data.payIntent.client_secret,{
       payment_method: {
-       billing_details: {
+      // Billing information is optional but recommended to pass in.
+      billing_details: {
         email: billingAddress.email,
-        name: `${billingAddress.firstName} ${billingAddress.lastName}`,
-        address: {line1: billingAddress.address,city:billingAddress.city,state: billingAddress.state,country:'US',postal_code:billingAddress.postalCode},
-       },
+        name: 'mda dsaf',
+        address: {
+          line1: billingAddress.address,
+          city: billingAddress.city,
+          state: 'CA',
+          country: 'US',
+          postal_code: billingAddress.postalCode,
+        },
       },
-    shipping: {
-     name: `${orderInfo.firstName} ${orderInfo.lastName}`,
-     address: {line1: orderInfo.address,city: orderInfo.city,state: orderInfo.state,country:'US',postal_code: orderInfo.postalCode},
-    },
-    return_url: REDIRECT_URL})
-    console.log(a)
+      },
+
+      // Shipping information is optional but recommended to pass in.
+      shipping: {
+      name: 'mkf dafd',
+      address: {
+        line1: orderInfo.address,
+        city: orderInfo.city,
+        state: 'CA',
+        country: 'US',
+        postal_code: orderInfo.postalCode,
+      },
+      },
+      return_url:REDIRECT_URL
+    })  
+  
+  // console.log(a)
     // console.log(billingAddress)
    }catch(error){
     console.log(error)
