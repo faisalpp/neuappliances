@@ -96,11 +96,11 @@ const UpdateOrder = () => {
     return (
       <><tr className='border-b border-l border-r border-b6 text-xs' >
         <td className='px-2 py-3 font-semibold' >
-          <div className='flex flex-col justify-center items-center w-full px-2 border-[1px]' >
+          {coupons?.length > 0 ? <div className='flex flex-col justify-center items-center w-full px-2 border-[1px]' >
            {coupons?.map((coupon)=>
              <div className='flex justify-between w-fit py-1 text-xs space-x-2' ><span>{coupon?.code}</span><span>-${coupon.amount}</span></div>
            )}
-          </div>
+          </div>:'N/A'}
         </td>
         <td className='px-2 py-3 font-semibold' >${total?.toFixed(2)}</td>
         <td className='px-2 py-3 font-semibold' >${shipping}</td>
@@ -289,9 +289,9 @@ const UpdateOrder = () => {
        <div className='flex flex-col w-1/2' >
        <h3 className='text-sm font-semibold mb-2' >Payment Details</h3>
         <div className='flex flex-col space-y-2 px-5 py-5 rounded-lg border-[1px]' >
-          <h3 className='text-xs text-gray-500' ><span className='text-black' >Payment Method:&nbsp;</span>Card</h3>
+          <h3 className='text-xs text-gray-500' ><span className='text-black' >Payment Method:&nbsp;</span><span className='capitalize' >{paymentInfo && paymentInfo.payment_method_types[0]}</span></h3>
           {/* <h3 className='text-xs text-gray-500' ><span className='text-black' >Customer IP:&nbsp;</span>{order?.customerIp}</h3> */}
-          <h3 className='text-xs text-gray-500' ><span className='text-black' >Paid On:&nbsp;</span>{moment(moment.unix(paymentInfo?.created)).format('DD MMMM YYYY')}</h3>
+          <h3 className='text-xs text-gray-500' ><span className='text-black' >Paid On:&nbsp;</span>{paymentInfo && paymentInfo.payment_method_types[0] === 'affirm' ? moment(paymentInfo?.created).format('DD MMMM YYYY') : moment(paymentInfo?.created).format('DD MMMM YYYY')}</h3>
           <h3 className='text-xs text-gray-500' ><span className='text-black' >Payment Intent:&nbsp;</span><a target='_blank' href={`https://dashboard.stripe.com/test/payments/${paymentInfo?.id}`} className='underline text-b6 cursor-pointer ' >{paymentInfo?.id}</a></h3>
         </div>
        </div>

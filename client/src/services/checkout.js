@@ -20,6 +20,7 @@ const useCheckout = () => {
 
   const ConfirmOrder = async (intent,ordNo) => {
     if(orderErrors.confirm || !orderStatus.confirm){
+     console.log('confiremd1')
      const res = await confirmOrder({orderNo:ordNo,intent:intent,cartId:cartId})
      if(res.status === 200){
        Toast(res.data.msg,'success',1000)
@@ -35,13 +36,16 @@ const useCheckout = () => {
        setOrderStatus({confirm:false})
        dispatch(setProcessing(false))
      }
-   }else{
-     Toast('Order Already Complete!','success',1000)
-     dispatch(resetCart())
-     dispatch(resetOrder())
-     dispatch(setProcessing(false))
-     navigate('/mycart/order-success')
-    }
+     //  (223) 456-7893
+   }
+  //  else{
+  //   console.log('confiremd2')
+  //    Toast('Order Already Complete!','success',1000)
+  //    dispatch(resetCart())
+  //    dispatch(resetOrder())
+  //    dispatch(setProcessing(false))
+  //    navigate('/mycart/order-success')
+  //   }
    }
 
 
@@ -85,11 +89,12 @@ const useCheckout = () => {
 
 
 
-const handleAffirmPayment = async (orderInfo,grandTotal,ordNo) => {
-  const REDIRECT_URL = `http://localhost:5173/mycart/order-success/?callback=affirm&order_number=${ordNo}`;
-  // const REDIRECT_URL = `https://neuoutletapp-03ffb1b9719f.herokuapp.com/mycart/payment/?callback=affirm&order_number=${ordNo}`;
+const handleAffirmPayment = async (orderInfo,grandTotal,ordNo,billAdr) => {
+  // const REDIRECT_URL = `http://localhost:5173/mycart/payment/?callback=affirm&order_number=${ordNo}`;
+  const REDIRECT_URL = `https://neuoutletapp-03ffb1b9719f.herokuapp.com/mycart/payment/?callback=affirm&order_number=${ordNo}`;
   const getPayIntent = await createPaymentIntent({price:grandTotal*100,mode:['affirm'],currency:'usd',description:"Neuappliance Outlet Affirm Transaction"}) 
-  console.log(getPayIntent)
+  const shippingName = `${orderInfo.firstName} ${orderInfo.lastName}`;
+  const billingName = `${billAdr.firstName} ${billAdr.lastName}`;
   if(getPayIntent){
    try{
    const paymentIntent = await stripe.confirmAffirmPayment(
@@ -97,21 +102,21 @@ const handleAffirmPayment = async (orderInfo,grandTotal,ordNo) => {
       payment_method: {
       // Billing information is optional but recommended to pass in.
       billing_details: {
-        email: billingAddress.email,
-        name: 'mda dsaf',
+        email: billAdr.email,
+        name: billingName,
         address: {
-          line1: billingAddress.address,
-          city: billingAddress.city,
+          line1: billAdr.address,
+          city: billAdr.city,
           state: 'CA',
           country: 'US',
-          postal_code: billingAddress.postalCode,
+          postal_code: billAdr.postalCode,
         },
       },
       },
 
       // Shipping information is optional but recommended to pass in.
       shipping: {
-      name: 'mkf dafd',
+      name: shippingName,
       address: {
         line1: orderInfo.address,
         city: orderInfo.city,
@@ -142,12 +147,39 @@ const handleAffirmPayment = async (orderInfo,grandTotal,ordNo) => {
 }
 
 
-const handlePaypalPayment = async () => {
-  Toast('Paypal Transaction!','success',1000)
+const handlePaypalPayment = async (grandTotal,ordNo) => {
+  // const REDIRECT_URL = `http://localhost:5173/mycart/payment/?callback=paypal&order_number=${ordNo}`;
+  const REDIRECT_URL = `https://neuoutletapp-03ffb1b9719f.herokuapp.com/mycart/payment/?callback=paypal&order_number=${ordNo}`;
+  const getPayIntent = await createPaymentIntent({price:grandTotal*100,mode:['paypal'],currency:'usd',description:"Neuappliance Outlet Paypal Transaction"}) 
+  console.log(getPayIntent)
+  if(getPayIntent.data.status === 200){
+    const paymentIntent = await stripe.confirmPayPalPayment(
+      getPayIntent.data.payIntent.client_secret,
+      {
+        return_url: REDIRECT_URL,
+      }
+    );
+     console.log(paymentIntent)
+    // if(paymentIntent?.error){
+    //   dispatch(setOrderErrors({payment:true}))
+    //   dispatch(setOrderStatus({payment:false}))
+    //   dispatch(setProcessing(false))
+    //   Toast(paymentIntent.error.code,'error',1000)
+    // }else{
+    //   dispatch(setOrderErrors({payment:false}))
+    //   dispatch(setOrderStatus({payment:true}))
+    //   dispatch(setPaymentIntent(paymentIntent.paymentIntent))
+    //   ConfirmOrder(paymentIntent.paymentIntent,orderNo)
+    // }
+
+ }else{
+   Toast(getPayIntent.data.message,'error',1000)
+   dispatch(setProcessing(false))
+ }
 }
 
 return {handlePaypalPayment,handleAffirmPayment,ConfirmOrder,handleCardPayment  };
-
+  
 }
 
-export default useCheckout;
+export default useCheckout

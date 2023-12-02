@@ -330,7 +330,7 @@ if(oldUser){
 
   async createPaymentIntent(req, res, next) {
     const {price,mode,currency,description} = req.body;
-      // try{
+      try{
         const paymentIntent = await Stripe.paymentIntents.create({
           amount: price,
           currency: currency,
@@ -339,11 +339,11 @@ if(oldUser){
         });
 
         if(paymentIntent){
-          return res.status(200).json({payIntent:paymentIntent})
+          return res.status(200).json({status:200,payIntent:paymentIntent})
         }
-      // }catch(err){
-      //   return res.status(500).json({status:500,message:'Internal Server Error!'})
-      // }
+      }catch(err){
+        return res.status(500).json({status:500,message:'Payment Method Not Available!'})
+      }
   },
 
   async getOrders(req, res, next) {

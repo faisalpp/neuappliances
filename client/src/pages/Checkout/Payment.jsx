@@ -47,7 +47,7 @@ const Payment = () => {
         dispatch(setProcessing(true))
         dispatch(setOrderErrors({payment:true}))
         dispatch(setOrderStatus({payment:false}))
-        ConfirmOrder(queryParamsObject.payment_intent,queryParamsObject.order_number)
+        ConfirmOrder({id:queryParamsObject.payment_intent,created:Date.now(),payment_method_types:['affirm']},queryParamsObject.order_number)
       }else{
         dispatch(setProcessing(false))
       }
@@ -191,10 +191,10 @@ const Payment = () => {
            handleCardPayment(CardNumber,CardExpiry,CardCvc,grandTotal.toFixed(2),orderInfo,ordNo);
             break;
           case 'paypal':
-           handlePaypalPayment();
+           handlePaypalPayment(grandTotal.toFixed(2),ordNo);
             break;
           case 'affirm':
-              handleAffirmPayment(orderInfo,grandTotal.toFixed(2),ordNo);
+              handleAffirmPayment(orderInfo,grandTotal.toFixed(2),ordNo,billingAddress?.email ? billingAddress : bilAdr);
             break;
         }
       
