@@ -5,7 +5,7 @@ const RefreshToken = require('../models/token');
 const JWTService = require("../services/JwtService");
 const UserDTO = require('../dto/user')
 
-const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$/;
+const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,25}$/;
 
 const authController = {
   async register(req, res, next) {

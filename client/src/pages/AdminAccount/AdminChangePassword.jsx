@@ -9,13 +9,12 @@ import CustomButton from '../../components/Reusable/CustomButton';
 import Toast from '../../utils/Toast'
 
 const AdminChangePassword = () => {
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$/;
+  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,25}$/;
     const passUpdateSchema = Yup.object().shape({
         newPass: Yup.string()
           .matches(passwordPattern, 'Password must meet the required pattern')
           .required('New Password is required'),
         currentPass: Yup.string()
-          .matches(passwordPattern, 'Password must meet the required pattern')
           .required('Current Password is required'),
         confNewPass: Yup.string()
           .oneOf([Yup.ref('newPass'), null], 'Passwords must match')
@@ -45,6 +44,7 @@ const AdminChangePassword = () => {
         }
       }catch(error){
         if (error) {
+          console.log(error.errors)
           setLoading(false)
           let errors = error.errors;
           setErrors(errors)
@@ -82,6 +82,7 @@ const AdminChangePassword = () => {
                 <li>Contains at least one lowercase letter.</li>
                 <li>Contains at least one uppercase letter.</li>
                 <li>Contains at least one digit.</li>
+                <li>Contains at least one special character.</li>
                 <li>Uses only a combination of lowercase letters,<br/> uppercase letters, and digits.</li>
                 <li>Has a length between 6 and 25 characters.</li>
                 </ul>

@@ -7,7 +7,7 @@ const AdminDTO = require('../dto/admin')
 const mongoose = require('mongoose')
 const axios = require('axios')
 
-const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$/;
+const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,25}$/;
 
 const adminController = {
   async affirm(req, res, next) {
@@ -241,11 +241,11 @@ const adminController = {
     // 1. validate user input
     const userRegisterSchema = Joi.object({
       newPass: Joi.string().pattern(passwordPattern).required(),
-      currentPass: Joi.string().pattern(passwordPattern).required(),
+      currentPass: Joi.string().required(),
       confNewPass: Joi.ref("newPass"),
     });
     const { error } = userRegisterSchema.validate(req.body);
-
+    //  console.log(error)
     // 2. if error in validation -> return error via middleware
     if (error) {
       return next(error)
